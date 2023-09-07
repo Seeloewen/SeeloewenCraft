@@ -42,7 +42,7 @@ namespace SeeloewenCraft
                 if(Directory.Exists(string.Format("{0}/{1}", wndMenu.gameDirectory, tbWorldName.Text)) == false)
                 {
                     //Create a new world
-                    wndGame = new wndGame(tbWorldName.Text, true);
+                    wndGame = new wndGame(tbWorldName.Text, true, wndMenu.version);
                     wndGame.Show();
                     wndMenu.Owner = wndGame;
                     wndMenu.Close();

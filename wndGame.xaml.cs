@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,7 @@ namespace SeeloewenCraft
         public Point mousePosition;
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
         private string worldName;
+        public string version;
         public string worldDirectory = "";
         private bool goLeft = false;
         private bool goRight = false;
@@ -44,12 +46,13 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public wndGame(string worldName, bool isNew)
+        public wndGame(string worldName, bool isNew, string version)
         {
             InitializeComponent();
 
             //Set world name and create game
             this.worldName = worldName;
+            this.version = version;
             CreateGame(worldName, isNew);
         }
 
@@ -78,7 +81,7 @@ namespace SeeloewenCraft
             tmrMovement.Start();
 
             //Load the player inventory if the world is not new
-            if(isNew == false)
+            if (isNew == false)
             {
                 player.inventory.LoadInventory(worldDirectory, 0);
             }
@@ -175,9 +178,9 @@ namespace SeeloewenCraft
 
                 int amountInventoriesOpen = 0;
 
-                foreach(Inventory inventory in inventoryList)
+                foreach (Inventory inventory in inventoryList)
                 {
-                    if(inventory.isShown == true)
+                    if (inventory.isShown == true)
                     {
                         amountInventoriesOpen++;
                     }
@@ -186,7 +189,7 @@ namespace SeeloewenCraft
                 //Toggle inventory visibility
                 if (amountInventoriesOpen >= 1)
                 {
-                    foreach(Inventory inventory in inventoryList)
+                    foreach (Inventory inventory in inventoryList)
                     {
                         inventory.HideInventory();
                     }
@@ -244,7 +247,7 @@ namespace SeeloewenCraft
             }
             if (pressedKeys.Contains(Key.Escape)) //Num Key 9 (Not numpad)
             {
-                if(bdrMenu.IsVisible == true)
+                if (bdrMenu.IsVisible == true)
                 {
                     //Hide the game menu and disable it to avoid input
                     bdrMenu.Visibility = Visibility.Hidden;
@@ -294,6 +297,7 @@ namespace SeeloewenCraft
             //Set the new adjusted rectangles
             Rect adjustedCanvasRect = new Rect(canvasPosition.X, canvasPosition.Y, canvasHitbox.Width, canvasHitbox.Height);
             return adjustedCanvasRect;
+
         }
 
         public Rect GetRectangle(Border border)
@@ -310,10 +314,13 @@ namespace SeeloewenCraft
             //Set the new adjusted rectangles
             Rect adjustedBorderRect = new Rect(borderPosition.X, borderPosition.Y, borderHitbox.Width, borderHitbox.Height);
             return adjustedBorderRect;
+
         }
+
 
         public Rect GetRectangle(Grid grid)
         {
+
             //Set the non-adjusted rectangles
             Rect gridHitbox = new Rect(Canvas.GetLeft(grid), Canvas.GetTop(grid), grid.ActualWidth, grid.ActualHeight);
 
@@ -326,7 +333,10 @@ namespace SeeloewenCraft
             //Set the new adjusted rectangles
             Rect adjustedGridRect = new Rect(gridPosition.X, gridPosition.Y, gridHitbox.Width, gridHitbox.Height);
             return adjustedGridRect;
+
         }
+
+
 
         //-- Event Handlers --//
 
@@ -440,7 +450,7 @@ namespace SeeloewenCraft
             else if (tbDebug.Text == "/about")
             {
                 //Show 'About' message
-                MessageBox.Show(string.Format("You are running SeeloewenCraft Version {0} - This version is not meant to be publicly shared and shall only be used for private purposes.", ""), "/about");
+                MessageBox.Show(string.Format("You are running SeeloewenCraft Version {0} - This version is not meant to be publicly shared and shall only be used for private purposes.", version), "/about");
             }
             else if (tbDebug.Text == "/generateplayer")
             {
@@ -481,7 +491,7 @@ namespace SeeloewenCraft
             }
             else if (tbDebug.Text == "/changelog")
             {
-                MessageBox.Show("Changelog:\n\nAlpha 1.0.1 - 31.08.2023\r\n- Fixed blocks not loading when going into old chunks\r\n- Fixed chunks resetting when unloading them\n\nAlpha 1.0.0 - 31.08.2023\r\n- The project is now called SeeloewenCraft\r\n- Added the /changelog command\r\n- Made some code optimisations\r\n- Clicking on a hotbar slot now selects it\r\n- You will now also see a border when trying to place a block\r\n- Player hitbox now looks a little better (still no model though)\r\n- Player will now always spawn on the floor\r\n- Fixed diamond veins being too big\r\n- Possibly fixed camera breaking when glitching in walls", "/changelog");
+                MessageBox.Show("Changelog:\n\nAlpha 1.1.0 - 07.09.2023\r\n- Added Main Menu\r\n- Added Settings window\r\n- Added chests (not obtainable yet)\r\n- Added game menu when pressing escape\r\n- Worlds can now be saved and loaded\r\n- Inventory now gets saved\r\n- Game now checks if item has a block before placing (fixes NullPointer when placing items)\r\n- Fixed game window being resizable\n\nAlpha 1.0.1 - 31.08.2023\r\n- Fixed blocks not loading when going into old chunks\r\n- Fixed chunks resetting when unloading them\n\nAlpha 1.0.0 - 31.08.2023\r\n- The project is now called SeeloewenCraft\r\n- Added the /changelog command\r\n- Made some code optimisations\r\n- Clicking on a hotbar slot now selects it\r\n- You will now also see a border when trying to place a block\r\n- Player hitbox now looks a little better (still no model though)\r\n- Player will now always spawn on the floor\r\n- Fixed diamond veins being too big\r\n- Possibly fixed camera breaking when glitching in walls", "/changelog");
             }
             else if (tbDebug.Text == "/give chest")
             {
@@ -549,7 +559,7 @@ namespace SeeloewenCraft
         {
             //Get the current mouse position
             mousePosition = e.GetPosition(cvsGame);
-            foreach(Inventory inventory in inventoryList)
+            foreach (Inventory inventory in inventoryList)
             {
                 foreach (InventorySlot slot in inventory.slotList)
                 {
@@ -616,7 +626,7 @@ namespace SeeloewenCraft
             wndMenu = new wndMenu();
             wndMenu.Show();
             Owner = wndMenu;
-            Close();
+            //Close();
         }
     }
 }
