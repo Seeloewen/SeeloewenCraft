@@ -26,6 +26,8 @@ namespace SeeloewenCraft
         private System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
         public List<Chunk> chunkList = new List<Chunk>();
         public List<Inventory> inventoryList = new List<Inventory>();
+        public wndMenu wndMenu;
+        public wndSettings wndSettings;
         private HashSet<Key> pressedKeys = new HashSet<Key>();
         public Player player;
         public Point mousePosition;
@@ -239,6 +241,21 @@ namespace SeeloewenCraft
             {
                 //Select Hotbar Slot 9
                 player.inventory.hotbarSlotList[8].SelectSlot();
+            }
+            if (pressedKeys.Contains(Key.Escape)) //Num Key 9 (Not numpad)
+            {
+                if(bdrMenu.IsVisible == true)
+                {
+                    //Hide the game menu and disable it to avoid input
+                    bdrMenu.Visibility = Visibility.Hidden;
+                    bdrMenu.IsEnabled = false;
+                }
+                else
+                {
+                    //Show the game menu and enable it to allow input
+                    bdrMenu.Visibility = Visibility.Visible;
+                    bdrMenu.IsEnabled = true;
+                }
             }
         }
 
@@ -552,17 +569,6 @@ namespace SeeloewenCraft
             }
         }
 
-        private void btnSave_Click(object sender, RoutedEventArgs e)
-        {
-            //Dev, remove later - save chunks manually
-            foreach (Chunk chunk in chunkList)
-            {
-                chunk.SaveChunk();
-            }
-            //Save the inventory of the player
-            player.inventory.SaveInventory(worldDirectory);
-        }
-
         private void wndGame1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //If the setting to save worlds on closing is enabled
@@ -575,6 +581,42 @@ namespace SeeloewenCraft
                 }
                 player.inventory.SaveInventory(worldDirectory);
             }
+        }
+
+        private void btnBackToGame_Click(object sender, RoutedEventArgs e)
+        {
+            //Hide the game menu and disable it to avoid input
+            bdrMenu.Visibility = Visibility.Hidden;
+            bdrMenu.IsEnabled = false;
+        }
+
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            //Show settings window
+            wndSettings = new wndSettings { Owner = this };
+            wndSettings.ShowDialog();
+        }
+
+        private void btnSaveWorld_Click(object sender, RoutedEventArgs e)
+        {
+            //Save all chunks and the inventory of the player
+            foreach (Chunk chunk in chunkList)
+            {
+                chunk.SaveChunk();
+            }
+            player.inventory.SaveInventory(worldDirectory);
+
+            //Show confirmation
+            MessageBox.Show("Successfully saved the World!", "Save World", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void btnExitToMainMenu_Click(object sender, RoutedEventArgs e)
+        {
+            //Show the main menu window and close the game window
+            wndMenu = new wndMenu();
+            wndMenu.Show();
+            Owner = wndMenu;
+            Close();
         }
     }
 }
