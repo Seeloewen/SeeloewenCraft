@@ -80,6 +80,7 @@ namespace SeeloewenCraft
         {
             //Save the settings - WIP: Will get a rework later, currently resets when updating/reinstalling the app
             SaveSettings();
+            Close();
         }
     }
 }
