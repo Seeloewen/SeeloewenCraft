@@ -1,0 +1,23 @@
+﻿<Window x:Name="wndGame1" x:Class="SeeloewenCraft.wndGame"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="SeeloewenCraft World" Height="839" Width="1216" KeyDown="MainWindow_KeyDown" KeyUp="MainWindow_KeyUp" MouseMove="Window_MouseMove" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Closing="wndGame1_Closing">
+    <Canvas x:Name="cvsGame">
+        <ScrollViewer x:Name="svWorld" Height="839" Width="1218">
+            <Canvas x:Name="cvsWorld" Height="3785">
+            </Canvas>
+        </ScrollViewer>
+        <Button x:Name="btnPlayerRight" Canvas.ZIndex="1" Content="Player Right" Canvas.Left="1070" Canvas.Top="71" Width="104" Height="42" HorizontalAlignment="Left" VerticalAlignment="Center" Click="btnPlayerRight_Click" Visibility="Hidden"/>
+        <Button x:Name="btnPlayerLeft" Canvas.ZIndex="1" Content="Player Left" Canvas.Left="958" Canvas.Top="71" Width="104" Height="42" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnPlayerLeft_Click" Visibility="Hidden"/>
+        <Button x:Name="btnLeft" Canvas.ZIndex="1" Content="&lt;" Canvas.Left="1070" Canvas.Top="10" Height="41" Width="42" HorizontalAlignment="Left" VerticalAlignment="Center" Click="btnLeft_Click" Visibility="Hidden"/>
+        <Button x:Name="btnRight" Canvas.ZIndex="1" Content="&gt;" Canvas.Left="1130" Canvas.Top="10" Height="41" Width="44" HorizontalAlignment="Left" VerticalAlignment="Center" Click="btnRight_Click" Visibility="Hidden"/>
+        <Button x:Name="btnDebug" Canvas.ZIndex="1" Content="Send" Canvas.Left="1073" Canvas.Top="760" Height="28" Width="115" Click="btnDebug_Click" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Button x:Name="btnSave" Canvas.ZIndex="1" Content="Save" Canvas.Left="10" Canvas.Top="714" Height="28" Width="115" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnSave_Click"/>
+        <TextBox x:Name="tbDebug" Canvas.ZIndex="1" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="760" Width="1052" HorizontalAlignment="Center" VerticalAlignment="Top" Height="28" FontSize="15"/>
+        <Button x:Name="btnPlayerDown" Panel.ZIndex="1" Content="Player Down" Canvas.Left="958" Canvas.Top="131" Width="104" Height="42" Click="btnPlayerDown_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Hidden"/>
+        <Button x:Name="btnPlayerUp" Panel.ZIndex="1" Content="Player Up" Canvas.Left="1073" Canvas.Top="131" Width="104" Height="42" Click="btnPlayerUp_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"/>
+    </Canvas>
+</Window>

@@ -1,0 +1,20 @@
+﻿<Window x:Name="wndLoadWorld1" x:Class="SeeloewenCraft.wndLoadWorld"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SeeloewenCraft"
+        mc:Ignorable="d"
+        Title="Load World" Height="218" Width="418" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="Resources/Background.png" Stretch="None" TileMode="Tile"/>
+        </Grid.Background>
+        <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="20,18,0,0" TextWrapping="Wrap" Text="Load World" VerticalAlignment="Top" FontSize="28" FontWeight="DemiBold"/>
+        <Button x:Name="btnLoad" Content="Load" HorizontalAlignment="Left" Margin="194,121,0,0" VerticalAlignment="Top" Width="170" FontSize="16" Height="28" Click="btnLoad_Click"/>
+        <ComboBox x:Name="cbxWorld" HorizontalAlignment="Left" Margin="20,70,0,0" VerticalAlignment="Top" Width="344" FontSize="16"/>
+        <Button x:Name="btnCreateNewWorld" Content="Create new world
+" HorizontalAlignment="Left" Margin="20,121,0,0" VerticalAlignment="Top" Width="158" FontSize="16" Height="28" Click="btnCreateNewWorld_Click"/>
+
+    </Grid>
+</Window>
