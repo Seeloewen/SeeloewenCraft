@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Forms.VisualStyles;
 using System.IO;
 using System.Windows.Markup;
+using System.IO.Packaging;
 
 namespace SeeloewenCraft
 {
@@ -277,8 +278,8 @@ namespace SeeloewenCraft
             if (!Directory.Exists(string.Format("{0}/inventory{1}/", path, id)))
             {
                 Directory.CreateDirectory(string.Format("{0}/inventory{1}/", path, id));
-                inventoryDirectory = string.Format("{0}/inventory{1}/", path, id);
             }
+            inventoryDirectory = string.Format("{0}/inventory{1}/", path, id);
 
             //Go through each inventory slot
             foreach (InventorySlot slot in slotList)
@@ -294,61 +295,68 @@ namespace SeeloewenCraft
             }
         }
 
-        public void LoadInventory(string path)
+        public void LoadInventory(string path, int id)
         {
-            string[] files = Directory.GetFiles(path);
+            //Set the ID to map it to the correct block
+            this.id = id;
+            
+            //Get all inventory slot files from the inventory directory
+            string[] files = Directory.GetFiles(string.Format("{0}/Inventory{1}", path, id));
 
+            //Go through each inventory slot
             foreach (InventorySlot slot in slotList)
             {
+                //Go through each slot file
                 foreach(string file in files)
                 {
-                    file.Replace("path", "").Replace(".txt", "");
-
-                    string[] fileSplit = file.Split('-');
-                    if(slot.xPos == Convert.ToInt32(fileSplit[0]) && slot.yPos == Convert.ToInt32(fileSplit[1]))
+                    //Format the filename and check if the slot and filename match
+                    string f = file.Replace(string.Format("{0}/Inventory{1}", path, id), "").Replace(".txt", "").Replace("\\", "");
+                    string[] fileSplit = f.Split('-');
+                    if (slot.xPos == Convert.ToInt32(fileSplit[0]) && slot.yPos == Convert.ToInt32(fileSplit[1]))
                     {
+                        //Go through each line (=item) in the file and add it to the inventory
                         foreach(string item in File.ReadLines(file))
                         {
                             string[] itemSplit = item.Split(';');
                             if (itemSplit[0] == "GrassItem")
                             {
-                                slot.items.Add(new GrassItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new GrassItem(wndGame, Convert.ToInt32(fileSplit[1])));
                             }
                             else if (itemSplit[0] == "DirtItem")
                             {
-                                slot.items.Add(new DirtItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new DirtItem(wndGame, Convert.ToInt32(fileSplit[1])));
                             }
                             else if (itemSplit[0] == "StoneItem")
                             {
-                                slot.items.Add(new StoneItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new StoneItem(wndGame, Convert.ToInt32(fileSplit[1])));
                             }
                             else if (itemSplit[0] == "OakLogItem")
                             {
-                                slot.items.Add(new OakLogItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new OakLogItem(wndGame, Convert.ToInt32(fileSplit[1])));
                             }
                             else if (itemSplit[0] == "OakLeavesItem")
                             {
-                                slot.items.Add(new OakLeavesItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new OakLeavesItem(wndGame, Convert.ToInt32(fileSplit[1])));
                             }
                             else if (itemSplit[0] == "CoalOreItem")
                             {
-                                slot.items.Add(new CoalOreItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new CoalOreItem(wndGame, Convert.ToInt32(fileSplit[1])));
                             }
                             else if (itemSplit[0] == "IronOreItem")
                             {
-                                slot.items.Add(new IronOreItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new IronOreItem(wndGame, Convert.ToInt32(fileSplit[1])));
                             }
                             else if (itemSplit[0] == "DiamondOreItem")
                             {
-                                slot.items.Add(new DiamondOreItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new DiamondOreItem(wndGame, Convert.ToInt32(fileSplit[1])));
                             }
                             else if (itemSplit[0] == "ChestItem")
                             {
-                                slot.items.Add(new ChestItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new ChestItem(wndGame, Convert.ToInt32(fileSplit[1])));
                             }
                             else if (itemSplit[0] == "BedrockItem")
                             {
-                                slot.items.Add(new BedrockItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new BedrockItem(wndGame, Convert.ToInt32(fileSplit[1])));
                             }
                         }
                     }

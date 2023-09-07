@@ -55,14 +55,22 @@ namespace SeeloewenCraft
         }
 
         public void AddToSlot(Item item)
-        {
-            //If the slot already contains items of the same type
-            if (item.itemName == items[0].itemName)
+        {        
+            if(items.Count != 0)
             {
-                //Add the item to the slot and increase the amount
-                items.Add(item);
-                itemAmount++;
-                tblItemAmount.Text = itemAmount.ToString();
+                //Check if the slot already contains items of the same type
+                if (item.itemName == items[0].itemName)
+                {
+                    //Add the item to the slot and increase the amount
+                    items.Add(item);
+                    itemAmount++;
+                    tblItemAmount.Text = itemAmount.ToString();
+                }
+            }
+            else
+            {
+                //If the slot is empty, set the item
+                SetItem(item);
             }
         }
         public void ClearSlot()

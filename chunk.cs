@@ -41,7 +41,7 @@ namespace SeeloewenCraft
             File.WriteAllText(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index), "");
             foreach (Block block in blockList)
             {
-                if(block.hasInventory == true)
+                if (block.hasInventory == true)
                 {
                     block.blockInventory.SaveInventory(chunkDirectory);
                 }
@@ -102,9 +102,6 @@ namespace SeeloewenCraft
             }
             else
             {
-                //Load the inventories of the blocks in the chunk (like chests)
-                LoadInventories();
-
                 //Read the chunk from saved file
                 string[] blocks = File.ReadAllLines(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index));
 
@@ -116,7 +113,7 @@ namespace SeeloewenCraft
 
                     if (blockSplit[0] == "GrassBlock")
                     {
-                        blockList.Add(new GrassItem(wndGame,Convert.ToInt32(blockSplit[3])).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
+                        blockList.Add(new GrassItem(wndGame, Convert.ToInt32(blockSplit[3])).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
                     }
                     else if (blockSplit[0] == "DirtBlock")
                     {
@@ -132,7 +129,7 @@ namespace SeeloewenCraft
                     }
                     else if (blockSplit[0] == "BedrockBlock")
                     {
-                        blockList.Add(new BedrockItem(wndGame, Convert.ToInt32(blockSplit[3])   ).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
+                        blockList.Add(new BedrockItem(wndGame, Convert.ToInt32(blockSplit[3])).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
                     }
                     else if (blockSplit[0] == "DiamondOreBlock")
                     {
@@ -140,7 +137,7 @@ namespace SeeloewenCraft
                     }
                     else if (blockSplit[0] == "IronOreBlock")
                     {
-                        blockList.Add(new IronOreItem(wndGame, Convert.ToInt32(blockSplit[3])   ).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
+                        blockList.Add(new IronOreItem(wndGame, Convert.ToInt32(blockSplit[3])).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
                     }
                     else if (blockSplit[0] == "CoalOreBlock")
                     {
@@ -164,6 +161,9 @@ namespace SeeloewenCraft
                     }
                 }
 
+                //Load the inventories of the blocks in the chunk (like chests)
+                LoadInventories();
+
                 //Add all the blocks to the chunk
                 foreach (Block block in blockList)
                 {
@@ -186,17 +186,20 @@ namespace SeeloewenCraft
 
         public void LoadInventories()
         {
-            foreach (string dir in Directory.GetDirectories(chunkDirectory))
+
+            //Go through each block
+            foreach (Block block in blockList)
             {
-                foreach(Block block in blockList)
+                foreach (string dir in Directory.GetDirectories(chunkDirectory))
                 {
-                    if(block.item.id == Convert.ToInt32(dir.Replace("Inventory", "")))
+                    //Check for each directory if the inventory id matches the block id
+                    if (block.item.id == Convert.ToInt32(dir.Replace("inventory", "").Replace(chunkDirectory, "").Replace("\\", "")))
                     {
-                        MessageBox.Show("Für fortnite");
+                        block.blockInventory.LoadInventory(chunkDirectory, block.item.id);
                     }
                 }
             }
-        }   
+        }
 
         private void GenerateTerrain()
         {

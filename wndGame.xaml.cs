@@ -70,11 +70,16 @@ namespace SeeloewenCraft
             inventoryList.Add(player.inventory);
             player.inventory.hotbarSlotList[0].SelectSlot();
 
-
             //Start the main timer
             tmrMovement.Interval = 16;
             tmrMovement.Tick += tmrMovement_Tick;
             tmrMovement.Start();
+
+            //Load the player inventory if the world is not new
+            if(isNew == false)
+            {
+                player.inventory.LoadInventory(worldDirectory, 0);
+            }
         }
 
         public void CreatePlayer()
@@ -554,6 +559,7 @@ namespace SeeloewenCraft
             {
                 chunk.SaveChunk();
             }
+            //Save the inventory of the player
             player.inventory.SaveInventory(worldDirectory);
         }
 
