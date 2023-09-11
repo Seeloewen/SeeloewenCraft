@@ -215,8 +215,7 @@ namespace SeeloewenCraft
             cvsGravityHitbox.Margin = gravityMargin;
 
             //Scroll along to match the movement
-            wndGame.relativeSvPos -= 10;
-            wndGame.svWorld.ScrollToVerticalOffset(wndGame.relativeSvPos);
+            wndGame.svWorld.ScrollToVerticalOffset(wndGame.player.cvsPlayer.Margin.Top - 400);
 
             //Wait to allow UI update
             await Task.Delay(1);
@@ -239,8 +238,7 @@ namespace SeeloewenCraft
                             cvsGravityHitbox.Margin = gravityMargin;
 
                             //Scroll along to match movement
-                            wndGame.relativeSvPos += 10;
-                            wndGame.svWorld.ScrollToVerticalOffset(wndGame.relativeSvPos);
+                            wndGame.svWorld.ScrollToVerticalOffset(wndGame.player.cvsPlayer.Margin.Top - 400);
 
                             break;
                         }
@@ -263,8 +261,7 @@ namespace SeeloewenCraft
             cvsGravityHitbox.Margin = gravityMargin;
 
             //Scroll along to match movement
-            wndGame.relativeSvPos += 10;
-            wndGame.svWorld.ScrollToVerticalOffset(wndGame.relativeSvPos);
+            wndGame.svWorld.ScrollToVerticalOffset(wndGame.player.cvsPlayer.Margin.Top - 400);
 
             //Check blocks for collision
             foreach (Chunk chunk in getCurrentChunks())
@@ -284,8 +281,7 @@ namespace SeeloewenCraft
                             cvsGravityHitbox.Margin = gravityMargin;
 
                             //Scroll along to account for movement
-                            wndGame.relativeSvPos -= 10;
-                            wndGame.svWorld.ScrollToVerticalOffset(wndGame.relativeSvPos);
+                            wndGame.svWorld.ScrollToVerticalOffset(wndGame.player.cvsPlayer.Margin.Top - 400);
 
                             break;
                         }
@@ -317,7 +313,8 @@ namespace SeeloewenCraft
                     chunkList.Add(chunk);
                 }
             }
-            return chunkList;
+
+            return chunkList;      
         }
 
         private bool BoundingBoxCollision(Rect rectA, Rect rectB)

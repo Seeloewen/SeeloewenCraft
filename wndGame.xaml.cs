@@ -419,7 +419,7 @@ namespace SeeloewenCraft
             if (tbDebug.Text == "/help")
             {
                 //Show help message
-                MessageBox.Show("List of commands (For debug purposes only!):\n/help - Shows this page\n/showblockinfo - Shows Block info like coords or type\n/hideblockinfo - Hides the Block info\n/about - Shows about window\n/generateplayer - Runs the generation method of player\n/toggleinv - Opens or closes the inventory\n/showdevcontrols - Shows the controls only meant for developing\n/hidedevcontrols - Hides the development controls\n/give chest - Gives the player a chest item", "/help");
+                MessageBox.Show("List of commands (For debug purposes only!):\n/help - Shows this page\n/showblockinfo - Shows Block info like coords or type\n/hideblockinfo - Hides the Block info\n/about - Shows about window\n/generateplayer - Runs the generation method of player\n/toggleinv - Opens or closes the inventory\n/showdevcontrols - Shows the controls only meant for developing\n/hidedevcontrols - Hides the development controls\n/give chest - Gives the player a chest item\n/resetview - Reset the scrollviewer location", "/help");
             }
             else if (tbDebug.Text == "/showblockinfo")
             {
@@ -496,6 +496,10 @@ namespace SeeloewenCraft
             else if (tbDebug.Text == "/give chest")
             {
                 player.inventory.AddItem(new ChestItem(this, 0));
+            }
+            else if (tbDebug.Text == "/resetview")
+            {
+                svWorld.ScrollToVerticalOffset(player.cvsPlayer.Margin.Top - 400);
             }
             else
             {
