@@ -336,8 +336,6 @@ namespace SeeloewenCraft
 
         }
 
-
-
         //-- Event Handlers --//
 
         private void tmrMovement_Tick(object sender, EventArgs e)
@@ -543,12 +541,15 @@ namespace SeeloewenCraft
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             //Add pressed key to the collection if it isn't in there already
-            if (!pressedKeys.Contains(e.Key))
+            if(tbDebug.IsKeyboardFocused == false)
             {
-                pressedKeys.Add(e.Key);
+                if (!pressedKeys.Contains(e.Key))
+                {
+                    pressedKeys.Add(e.Key);
 
-                //Handle the key press events
-                HandleKeyPresses();
+                    //Handle the key press events
+                    HandleKeyPresses();
+                }
             }
         }
 
