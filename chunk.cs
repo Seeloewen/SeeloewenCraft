@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace SeeloewenCraft
 {
@@ -393,7 +394,7 @@ namespace SeeloewenCraft
                         if (block.xPos == xPos && block is GrassBlock)
                             yPos = block.yPos - 1;
                     }
-                    structureList.Add(new TreeStructure(wndGame, xPos, yPos, index, true, this, 0));
+                    structureList.Add(new TreeStructure(wndGame, xPos, yPos, index, true, this));
                 }
             }
         }
@@ -416,7 +417,7 @@ namespace SeeloewenCraft
                             yPos = rnd.Next(block.yPos + 5, 70);
                         }
                     }
-                    structureList.Add(new OreStructure(wndGame, xPos, yPos, index, true, this, 0));
+                    structureList.Add(new OreStructure(wndGame, xPos, yPos, index, true, this));
                 }
             }
         }
@@ -431,9 +432,7 @@ namespace SeeloewenCraft
                 {
                     if (structure.isCutOff)
                     {
-                        Type structureType = structure.GetType();
-                        Structure newStructure = (Structure)Activator.CreateInstance(structureType, new object[] { wndGame, 0, structure.yBase, index, false, this, structure.totalWidth - structure.widthRemaining });
-                        structureList.Add(newStructure);
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, 1, structure.yBase, index, true, this, structure.widthRemaining));
                     }
                 }
 
@@ -444,9 +443,7 @@ namespace SeeloewenCraft
                 {
                     if (structure.isCutOff)
                     {
-                        Type structureType = structure.GetType();
-                        Structure newStructure = (Structure)Activator.CreateInstance(structureType, new object[] { wndGame, 8, structure.yBase, index, false, this, structure.totalWidth - structure.widthRemaining });
-                        structureList.Add(newStructure);
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, structure.widthRemaining, structure.yBase, index, true, this, structure.widthRemaining));
                     }
                 }
             }

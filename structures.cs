@@ -1,25 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Runtime.Remoting;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 
 namespace SeeloewenCraft
 {
     public class Structure
     {
         public List<StructureComponent> structureComponents = new List<StructureComponent>();
+        public List<StructureComponent> cutOffComponents = new List<StructureComponent>();
         public List<Block> blockList = new List<Block>();
         public Random rnd = new Random(DateTime.Now.Millisecond);
         public Chunk chunk;
         wndGame wndGame;
+        public string direction = "";
         public int totalWidth;
         public int widthRemaining;
         public int xBase;
         public int yBase;
         public bool isCutOff;
+        public bool isNew;
 
         public Structure(wndGame wndGame, Chunk chunk)
         {
@@ -28,64 +35,64 @@ namespace SeeloewenCraft
             this.wndGame = wndGame;
         }
 
-        public void SetupStructure(int xBase, int yBase, string direction, int alreadyDone)
+        public void SetupStructure(int xBase, int yBase, string direction)
         {
-            //WIP - Continuation of structures doesn't work correctly yet
+            this.direction = direction;
 
             //Set the base coordinates
             this.xBase = xBase;
             this.yBase = yBase;
 
-            //Add blocks to the structure depending on the direction
-            if (direction == "left")
+            //Check if the structure will be cut off
+            if (isNew == true)
             {
-                //Check if the chunk would've been cut off
-                if (xBase - 3 < 0)
-                {
-                    //Calculate the remaining blocks
-                    isCutOff = true;
-                    widthRemaining = Math.Abs(xBase - 3);
-                }
-                else
-                {
-                    //Set the remaining width to 0
-                    isCutOff = false;
-                    widthRemaining = 0;
-                }
+                isCutOff = checkForCutoff();
 
-                //Add all the blocks to the structure
-                foreach (StructureComponent structureComponent in structureComponents)
+                if (isCutOff == true)
                 {
-                    AddBlock(xBase, yBase, structureComponent.xOffset + alreadyDone, structureComponent.yOffset, structureComponent.block);
-                }
-            }
-            else if (direction == "right")
-            {
-                //Check if the chunk would've been cut off
-                if (xBase + 3 > 8)
-                {
-                    //Calculate the remaining blocks
-                    isCutOff = true;
-                    widthRemaining = Math.Abs(xBase + 3 - 8);
-                }
-                else
-                {
-                    //Set the remaining width to 0
-                    isCutOff = false;
-                    widthRemaining = 0;
-                }
-
-                //Add all the blocks to the structure
-                foreach (StructureComponent structureComponent in structureComponents)
-                {
-                    AddBlock(xBase, yBase, structureComponent.xOffset - alreadyDone, structureComponent.yOffset, structureComponent.block);
+                    if (direction == "left")
+                    {
+                        widthRemaining = Math.Abs(xBase - totalWidth);
+                    }
+                    else if (direction == "right")
+                    {
+                        widthRemaining = xBase + totalWidth - 8;
+                    }
                 }
             }
 
+            foreach (StructureComponent structureComponent in structureComponents)
+            {
+                if (direction == "left")
+                {
+                    if (xBase - structureComponent.xOffset < 1)
+                    {
+                        structureComponent.xOffset = xBase - structureComponent.xOffset + 9;
+                        cutOffComponents.Add(structureComponent);
+                    }
+                    else
+                    {
+                        AddBlock(xBase, yBase, structureComponent.xOffset, structureComponent.yOffset, structureComponent.block);
+                    }
+                }
+                else if (direction == "right")
+                {
+                    if (xBase + structureComponent.xOffset > 8)
+                    {
+                        structureComponent.xOffset = xBase + structureComponent.xOffset - 9;
+                        cutOffComponents.Add(structureComponent);
+                    }
+                    else
+                    {
+                        AddBlock(xBase, yBase, structureComponent.xOffset, structureComponent.yOffset, structureComponent.block);
+                    }
+                }
+            }
         }
 
         public void GenerateStructure()
         {
+
             //Create a list of block that will need to be replaced
             List<Block> removeBlocks = new List<Block>();
 
@@ -109,59 +116,99 @@ namespace SeeloewenCraft
             //Add all blocks from the structure to the blocklist
             foreach (Block block in blockList)
             {
-                chunk.blockList.Add(block);
+                if (block.xPos > 0 && block.xPos < 9)
+                {
+                    chunk.blockList.Add(block);
+                }
             }
         }
 
         public void AddBlock(int xBase, int yBase, int xOffset, int yOffset, Block block)
         {
             //Add block to the structure blocklist
-            if (xBase + xOffset > 0 && xBase + xOffset < 9)
+            if (direction == "right")
             {
                 block.xPos = xBase + xOffset;
-                block.yPos = yBase - yOffset;
-                blockList.Add(block);
             }
+            else if (direction == "left")
+            {
+                block.xPos = xBase - xOffset;
+            }
+
+            block.yPos = yBase - yOffset;
+            blockList.Add(block);
+
         }
 
-        public void BeginGeneration(int x, int y, int index, bool isNew, int alreadyDone)
+        public void BeginGeneration(int x, int y, int index, bool isNew)
         {
-            //Begin generating the structure based on whether it's new or a contination
-            if (isNew == true)
+            this.isNew = isNew;
+            //Check which direction it's going to be built in
+            if (index >= 0)
             {
+                SetupStructure(x, y, "right");
+                GenerateStructure();
+            }
+            else
+            {
+                SetupStructure(x, y, "left");
+                GenerateStructure();
+            }
 
-                //Check which direction it's going to be built in
-                if (index >= 0)
+        }
+
+        public bool checkForCutoff()
+        {
+            if (direction == "left")
+            {
+                if (xBase - totalWidth < 0)
                 {
-                    SetupStructure(x, y, "right", 0);
-                    GenerateStructure();
+                    return true;
                 }
                 else
                 {
-                    SetupStructure(x, y, "left", 0);
-                    GenerateStructure();
+                    return false;
+                }
+            }
+            else if (direction == "right")
+            {
+                if (xBase + totalWidth > 9)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
             else
             {
-                //Check which direction it's going to be built in
-                if (index >= 0)
-                {
-                    SetupStructure(x, y, "right", alreadyDone);
-                    GenerateStructure();
-                }
-                else
-                {
-                    SetupStructure(x, y, "left", alreadyDone);
-                    GenerateStructure();
-                }
+                return false;
             }
+        }
+    }
+
+    public class ContinuationStructure : Structure
+    {
+        public ContinuationStructure(List<StructureComponent> structureList, wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, int remainingWidth) : base(wndGame, chunk)
+        {
+            totalWidth = remainingWidth;
+
+            //Add all structure components
+            foreach (StructureComponent structureComponent in structureList)
+            {
+                structureComponent.block.chunk = chunk;
+                structureComponents.Add(structureComponent);
+            }
+
+            //Begin generating structure
+            BeginGeneration(x, y, index, isNew);
         }
     }
 
     public class AlphaStructure : Structure
     {
-        public AlphaStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, int alreadyDone) : base(wndGame, chunk)
+        public AlphaStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk) : base(wndGame, chunk)
         {
             //Set the total width of the structure
             totalWidth = 3;
@@ -178,19 +225,19 @@ namespace SeeloewenCraft
             structureComponents.Add(new StructureComponent(wndGame, 2, 2, new BedrockItem(wndGame, 0).GenerateBlock(x, y, chunk)));
 
             //Begin generating the alpha structure - was only meant for development purposes and is no longer in the game
-            BeginGeneration(x, y, index, isNew, alreadyDone);
+            BeginGeneration(x, y, index, isNew);
         }
     }
 
     public class TreeStructure : Structure
     {
-        public TreeStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, int alreadyDone) : base(wndGame, chunk)
+        public TreeStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk) : base(wndGame, chunk)
         {
             //Set total width of the structure
             totalWidth = 5;
 
             //Layer 1
-            structureComponents.Add(new StructureComponent(wndGame, 2, 0, new OakLogItem(wndGame, 0 ).GenerateBlock(x, y, chunk)));
+            structureComponents.Add(new StructureComponent(wndGame, 2, 0, new OakLogItem(wndGame, 0).GenerateBlock(x, y, chunk)));
 
             //Layer 2
             structureComponents.Add(new StructureComponent(wndGame, 2, 1, new OakLogItem(wndGame, 0).GenerateBlock(x, y, chunk)));
@@ -214,14 +261,14 @@ namespace SeeloewenCraft
             structureComponents.Add(new StructureComponent(wndGame, 2, 5, new OakLeavesItem(wndGame, 0).GenerateBlock(x, y, chunk)));
 
             //Begin generating the trees
-            BeginGeneration(x, y, index, isNew, alreadyDone);
+            BeginGeneration(x, y, index, isNew);
 
         }
     }
 
     public class OreStructure : Structure
     {
-        public OreStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, int alreadyDone) : base(wndGame, chunk)
+        public OreStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk) : base(wndGame, chunk)
         {
             //Generate a random number between 0 and 29 to get the ore type
             //WIP - Split into seperate ore structures for getting appropriate heights
@@ -374,7 +421,7 @@ namespace SeeloewenCraft
                 }
             }
 
-            BeginGeneration(x, y, index, isNew, alreadyDone);
+            BeginGeneration(x, y, index, isNew);
 
         }
     }
