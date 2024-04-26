@@ -26,7 +26,6 @@ namespace SeeloewenCraft
         public bool isPlacable = false;
 
 
-
         public Item(wndGame wndGame, int id)
         {
             //Set the attributes

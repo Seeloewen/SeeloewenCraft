@@ -85,7 +85,7 @@ namespace SeeloewenCraft
                 GenerateTerrain();
                 ContinueStructureGeneration();
                 GenerateTrees();
-                GenerateOres();
+                //GenerateOres();
 
                 //Go through each block and add it to the chunk
                 foreach (Block block in blockList)
@@ -443,7 +443,7 @@ namespace SeeloewenCraft
                 {
                     if (structure.isCutOff)
                     {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, structure.widthRemaining, structure.yBase, index, true, this, structure.widthRemaining));
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, 8, structure.yBase, index, true, this, structure.widthRemaining));
                     }
                 }
             }

@@ -67,7 +67,7 @@ namespace SeeloewenCraft
                 {
                     if (xBase - structureComponent.xOffset < 1)
                     {
-                        structureComponent.xOffset = xBase - structureComponent.xOffset + 9;
+                        structureComponent.xOffset = structureComponent.xOffset - xBase;
                         cutOffComponents.Add(structureComponent);
                     }
                     else
@@ -145,12 +145,12 @@ namespace SeeloewenCraft
             this.isNew = isNew;
             //Check which direction it's going to be built in
             if (index >= 0)
-            {
+            {              
                 SetupStructure(x, y, "right");
                 GenerateStructure();
             }
             else
-            {
+            {                
                 SetupStructure(x, y, "left");
                 GenerateStructure();
             }
