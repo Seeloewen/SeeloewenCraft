@@ -8,11 +8,11 @@ using System.Windows;
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
 [assembly: AssemblyTitle("SeeloewenCraft")]
-[assembly: AssemblyDescription("Private 2D sandbox game")]
+[assembly: AssemblyDescription("Private 2D sandbox game, inspired by Minecraft")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SealCraft")]
-[assembly: AssemblyCopyright("Copyright © 2023 Seeloewen")]
+[assembly: AssemblyProduct("SeeloewenCraft")]
+[assembly: AssemblyCopyright("Copyright © 2024 Seeloewen")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,5 +51,5 @@ using System.Windows;
 // Sie können alle Werte angeben oder Standardwerte für die Build- und Revisionsnummern verwenden,
 // indem Sie "*" wie unten gezeigt eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.1.1.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
