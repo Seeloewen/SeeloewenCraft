@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Remoting;
 using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace SeeloewenCraft
 {
@@ -27,12 +29,14 @@ namespace SeeloewenCraft
         public int yBase;
         public bool isCutOff;
         public bool isNew;
+        public bool canFloat;
 
-        public Structure(wndGame wndGame, Chunk chunk)
+        public Structure(wndGame wndGame, Chunk chunk, bool canFloat)
         {
             //Set the attributes
             this.chunk = chunk;
             this.wndGame = wndGame;
+            this.canFloat = canFloat;
         }
 
         public void SetupStructure(int xBase, int yBase, string direction)
@@ -92,7 +96,6 @@ namespace SeeloewenCraft
 
         public void GenerateStructure()
         {
-
             //Create a list of block that will need to be replaced
             List<Block> removeBlocks = new List<Block>();
 
@@ -119,7 +122,23 @@ namespace SeeloewenCraft
                 if (block.xPos > 0 && block.xPos < 9)
                 {
                     chunk.blockList.Add(block);
+
+                    if (canFloat == false && block.yPos == yBase)
+                    {
+                        MakeBaseSolid(block);
+                    }
                 }
+            }
+        }
+
+        public void MakeBaseSolid(Block block)
+        {
+            if (chunk.GetBlock(block.xPos, block.yPos + 1).isSolid == false && block.isSolid == true)
+            {
+                Type itemType = block.item.GetType();
+                Item newItem = (Item)Activator.CreateInstance(itemType, wndGame, 0);
+                chunk.SetBlock(block.xPos, block.yPos + 1, newItem.GenerateBlock(block.xPos, block.yPos + 1, chunk));
+                MakeBaseSolid(chunk.GetBlock(block.xPos, block.yPos + 1));
             }
         }
 
@@ -142,19 +161,21 @@ namespace SeeloewenCraft
 
         public void BeginGeneration(int x, int y, int index, bool isNew)
         {
-            this.isNew = isNew;
-            //Check which direction it's going to be built in
-            if (index >= 0)
-            {              
-                SetupStructure(x, y, "right");
-                GenerateStructure();
+            if (y != 0)
+            {
+                this.isNew = isNew;
+                //Check which direction it's going to be built in
+                if (index > 0)
+                {
+                    SetupStructure(x, y, "right");
+                    GenerateStructure();
+                }
+                else if (index < 0)
+                {
+                    SetupStructure(x, y, "left");
+                    GenerateStructure();
+                }
             }
-            else
-            {                
-                SetupStructure(x, y, "left");
-                GenerateStructure();
-            }
-
         }
 
         public bool checkForCutoff()
@@ -190,7 +211,7 @@ namespace SeeloewenCraft
 
     public class ContinuationStructure : Structure
     {
-        public ContinuationStructure(List<StructureComponent> structureList, wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, int remainingWidth) : base(wndGame, chunk)
+        public ContinuationStructure(List<StructureComponent> structureList, wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, int remainingWidth, bool canFloat) : base(wndGame, chunk, canFloat)
         {
             totalWidth = remainingWidth;
 
@@ -208,7 +229,7 @@ namespace SeeloewenCraft
 
     public class AlphaStructure : Structure
     {
-        public AlphaStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk) : base(wndGame, chunk)
+        public AlphaStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
         {
             //Set the total width of the structure
             totalWidth = 3;
@@ -231,7 +252,7 @@ namespace SeeloewenCraft
 
     public class TreeStructure : Structure
     {
-        public TreeStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk) : base(wndGame, chunk)
+        public TreeStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
         {
             //Set total width of the structure
             totalWidth = 5;
@@ -268,7 +289,7 @@ namespace SeeloewenCraft
 
     public class OreStructure : Structure
     {
-        public OreStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk) : base(wndGame, chunk)
+        public OreStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
         {
             //Generate a random number between 0 and 29 to get the ore type
             //WIP - Split into seperate ore structures for getting appropriate heights

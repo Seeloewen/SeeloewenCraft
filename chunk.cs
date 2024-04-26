@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -85,18 +86,26 @@ namespace SeeloewenCraft
                 GenerateTerrain();
                 ContinueStructureGeneration();
                 GenerateTrees();
-                //GenerateOres();
+                GenerateOres();
 
                 //Go through each block and add it to the chunk
-                foreach (Block block in blockList)
+                try
                 {
-                    if (block.yPos - 1 >= 0 && block.xPos - 1 >= 0)
+                    foreach (Block block in blockList)
                     {
-                        grdChunk.Children.Add(block.bdrBlock);
-                        Grid.SetRow(block.bdrBlock, block.yPos - 1);
-                        Grid.SetColumn(block.bdrBlock, block.xPos - 1);
+                        if (block.yPos - 1 >= 0 && block.xPos - 1 >= 0)
+                        {
+                            grdChunk.Children.Add(block.bdrBlock);
+                            Grid.SetRow(block.bdrBlock, block.yPos - 1);
+                            Grid.SetColumn(block.bdrBlock, block.xPos - 1);
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error while loading chunk: {ex}");
+                }
+
 
                 //Save the chunk
                 SaveChunk();
@@ -185,6 +194,25 @@ namespace SeeloewenCraft
             }
         }
 
+        public Block GetBlock(int x, int y)
+        {
+            //Go through each block and return the block that matches the coords
+            foreach(Block block in blockList)
+            {
+                if(block.xPos == x && block.yPos == y)
+                {
+                    return block;
+                }
+            }
+            return null;
+        }
+
+        public void SetBlock(int x, int y, Block block)
+        {
+            //Remove the block that is currently there
+            blockList.Remove(GetBlock(x, y));
+            blockList.Add(block);
+        }
         public void LoadInventories()
         {
 
@@ -394,7 +422,7 @@ namespace SeeloewenCraft
                         if (block.xPos == xPos && block is GrassBlock)
                             yPos = block.yPos - 1;
                     }
-                    structureList.Add(new TreeStructure(wndGame, xPos, yPos, index, true, this));
+                    structureList.Add(new TreeStructure(wndGame, xPos, yPos, index, true, this, false));
                 }
             }
         }
@@ -417,7 +445,7 @@ namespace SeeloewenCraft
                             yPos = rnd.Next(block.yPos + 5, 70);
                         }
                     }
-                    structureList.Add(new OreStructure(wndGame, xPos, yPos, index, true, this));
+                    structureList.Add(new OreStructure(wndGame, xPos, yPos, index, true, this, true));
                 }
             }
         }
@@ -432,7 +460,7 @@ namespace SeeloewenCraft
                 {
                     if (structure.isCutOff)
                     {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, 1, structure.yBase, index, true, this, structure.widthRemaining));
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, 1, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat));
                     }
                 }
 
@@ -443,7 +471,7 @@ namespace SeeloewenCraft
                 {
                     if (structure.isCutOff)
                     {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, 8, structure.yBase, index, true, this, structure.widthRemaining));
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, 8, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat));
                     }
                 }
             }

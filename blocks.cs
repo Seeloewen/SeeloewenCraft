@@ -72,7 +72,7 @@ namespace SeeloewenCraft
         public void ShowBlockInfo()
         {
             //Show block info
-            cvsBlock.Children.Add(new TextBlock { Text = string.Format("x: {0} y:{1}\n{2}", xPos, yPos, GetType().ToString().Replace("SeeloewenCraft.", "").Replace("Block", "")) });
+            cvsBlock.Children.Add(new TextBlock { Text = string.Format("x: {0} y:{1}\n{2}\n{3}", xPos, yPos, GetType().ToString().Replace("SeeloewenCraft.", "").Replace("Block", ""), chunk.index) });
         }
 
         public void HideBlockInfo()
