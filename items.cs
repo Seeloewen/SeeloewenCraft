@@ -232,4 +232,20 @@ namespace SeeloewenCraft
             return block;
         }
     }
+
+    public class MagmaBlockItem : Item
+    {
+        public MagmaBlockItem(wndGame wndGame, int id) : base(wndGame, id)
+        {
+            isPlacable = true;
+            itemName = "Magma Block";
+            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "MagmaBlock.png");
+        }
+
+        override public Block GenerateBlock(int x, int y, Chunk chunk)
+        {
+            block = new MagmaBlock(wndGame, x, y, chunk, this);
+            return block;
+        }
+    }
 }

@@ -417,7 +417,7 @@ namespace SeeloewenCraft
             if (tbDebug.Text == "/help")
             {
                 //Show help message
-                MessageBox.Show("List of commands (For debug purposes only!):\n/help - Shows this page\n/showblockinfo - Shows Block info like coords or type\n/hideblockinfo - Hides the Block info\n/about - Shows about window\n/generateplayer - Runs the generation method of player\n/toggleinv - Opens or closes the inventory\n/showdevcontrols - Shows the controls only meant for developing\n/hidedevcontrols - Hides the development controls\n/give chest - Gives the player a chest item\n/resetview - Reset the scrollviewer location", "/help");
+                MessageBox.Show("List of commands (For debug purposes only!):\n/help - Shows this page\n/showblockinfo - Shows Block info like coords or type\n/hideblockinfo - Hides the Block info\n/about - Shows about window\n/generateplayer - Runs the generation method of player\n/toggleinv - Opens or closes the inventory\n/showdevcontrols - Shows the controls only meant for developing\n/hidedevcontrols - Hides the development controls\n/give chest - Gives the player a chest item\n/resetview - Reset the scrollviewer location\n/give magmablock - Gives the player a magma block", "/help");
             }
             else if (tbDebug.Text == "/showblockinfo")
             {
@@ -491,9 +491,13 @@ namespace SeeloewenCraft
             {
                 MessageBox.Show("Changelog:\n\nAlpha 1.1.0 - 07.09.2023\r\n- Added Main Menu\r\n- Added Settings window\r\n- Added chests (not obtainable yet)\r\n- Added game menu when pressing escape\r\n- Worlds can now be saved and loaded\r\n- Inventory now gets saved\r\n- Game now checks if item has a block before placing (fixes NullPointer when placing items)\r\n- Fixed game window being resizable\n\nAlpha 1.0.1 - 31.08.2023\r\n- Fixed blocks not loading when going into old chunks\r\n- Fixed chunks resetting when unloading them\n\nAlpha 1.0.0 - 31.08.2023\r\n- The project is now called SeeloewenCraft\r\n- Added the /changelog command\r\n- Made some code optimisations\r\n- Clicking on a hotbar slot now selects it\r\n- You will now also see a border when trying to place a block\r\n- Player hitbox now looks a little better (still no model though)\r\n- Player will now always spawn on the floor\r\n- Fixed diamond veins being too big\r\n- Possibly fixed camera breaking when glitching in walls", "/changelog");
             }
-            else if (tbDebug.Text == "/give chest")
+            else if (tbDebug.Text.Contains("/give chest"))
             {
                 player.inventory.AddItem(new ChestItem(this, 0));
+            }
+            else if (tbDebug.Text.Contains("/give magmablock"))
+            {
+                player.inventory.AddItem(new MagmaBlockItem(this, 0));
             }
             else if (tbDebug.Text == "/resetview")
             {

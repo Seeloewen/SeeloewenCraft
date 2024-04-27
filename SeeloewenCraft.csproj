@@ -144,6 +144,9 @@
     <Content Include="Resources\ChestBlock.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\MagmaBlock.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\PumpkinBlock.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

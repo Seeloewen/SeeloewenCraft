@@ -285,4 +285,12 @@ namespace SeeloewenCraft
             imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "ChestBlock.png");
         }
     }
+
+    public class MagmaBlock : Block
+    {
+        public MagmaBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
+        {
+            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "MagmaBlock.png");
+        }
+    }
 }

@@ -153,6 +153,16 @@ namespace SeeloewenCraft.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MagmaBlock {
+            get {
+                object obj = ResourceManager.GetObject("MagmaBlock", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap OakLeavesBlock {
             get {
                 object obj = ResourceManager.GetObject("OakLeavesBlock", resourceCulture);
