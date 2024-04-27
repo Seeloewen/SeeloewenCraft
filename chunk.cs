@@ -86,8 +86,9 @@ namespace SeeloewenCraft
                 GenerateTerrain();
                 ContinueStructureGeneration();
                 GenerateTrees();
+                GenerateCaves();
                 GenerateOres();
-                //GenerateCaves();
+
 
                 //Go through each block and add it to the chunk
                 try
@@ -455,23 +456,27 @@ namespace SeeloewenCraft
         {
             //Generate up to 1 cave
             //WIP - Structure Rework
-            for (int i = 0; i < 1; i++)
+            int random = rnd.Next(1, 9);
+            if(random == 1)
             {
-                int random = rnd.Next(2, 3);
-                if (random == 2)
+                for (int i = 0; i < 1; i++)
                 {
-                    int xPos = rnd.Next(0, 9);
-                    int yPos = 0;
-                    foreach (Block block in blockList)
+                    int random2 = rnd.Next(2, 3);
+                    if (random2 == 2)
                     {
-                        if (block.xPos == xPos && block is GrassBlock)
+                        int xPos = rnd.Next(0, 9);
+                        int yPos = 0;
+                        foreach (Block block in blockList)
                         {
-                            yPos = rnd.Next(block.yPos + 15, 70);
+                            if (block.xPos == xPos && block is GrassBlock)
+                            {
+                                yPos = rnd.Next(block.yPos + 15, 70);
+                            }
                         }
+                        structureList.Add(new Cave(wndGame, xPos, yPos, index, true, this, true));
                     }
-                    structureList.Add(new AlphaCave(wndGame, xPos, yPos, index, true, this, true));
                 }
-            }
+            }      
         }
 
         private void ContinueStructureGeneration()
