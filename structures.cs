@@ -771,22 +771,45 @@ namespace SeeloewenCraft
                     {
                         Console.WriteLine($"X: {structureComponent.xOffset} Y: {structureComponent.yOffset}");
 
-                        if (newDirection == "right")
+                        if(direction == "right")
                         {
-                            caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset + rnd.Next(-1,1), chunk, wndGame, newDirection, direction));
+                            if (newDirection == "right")
+                            {
+                                caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset + rnd.Next(-1, 1), chunk, wndGame, newDirection, direction));
+                            }
+                            else if (newDirection == "left")
+                            {
+                                caveComponents.Add(new CaveComponent(structureComponent.xOffset - 2, structureComponent.yOffset, chunk, wndGame, newDirection, direction));
+                            }
+                            else if (newDirection == "up")
+                            {
+                                caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset, chunk, wndGame, newDirection, direction));
+                            }
+                            else if (newDirection == "down")
+                            {
+                                caveComponents.Add(new CaveComponent(structureComponent.xOffset + rnd.Next(-2, 0), structureComponent.yOffset - 5, chunk, wndGame, newDirection, direction));
+                            }
                         }
-                        else if (newDirection == "left")
+                        else if(direction == "left")
                         {
-                            caveComponents.Add(new CaveComponent(structureComponent.xOffset - 2, structureComponent.yOffset, chunk, wndGame, newDirection, direction));
+                            if (newDirection == "right")
+                            {
+                                caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset + rnd.Next(-1, 1), chunk, wndGame, newDirection, direction));
+                            }
+                            else if (newDirection == "left")
+                            {
+                                caveComponents.Add(new CaveComponent(structureComponent.xOffset + 2, structureComponent.yOffset, chunk, wndGame, newDirection, direction));
+                            }
+                            else if (newDirection == "up")
+                            {
+                                caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset, chunk, wndGame, newDirection, direction));
+                            }
+                            else if (newDirection == "down")
+                            {
+                                caveComponents.Add(new CaveComponent(structureComponent.xOffset + rnd.Next(0, 2), structureComponent.yOffset - 5, chunk, wndGame, newDirection, direction));
+                            }
                         }
-                        else if (newDirection == "up")
-                        {
-                            caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset, chunk, wndGame, newDirection, direction));
-                        }
-                        else if (newDirection == "down")
-                        {
-                            caveComponents.Add(new CaveComponent(structureComponent.xOffset + rnd.Next(-2, 0), structureComponent.yOffset -5, chunk, wndGame, newDirection, direction));
-                        }
+
                     }
                 }
             }
