@@ -84,11 +84,10 @@ namespace SeeloewenCraft
 
                 //Generate terrain & structure
                 GenerateTerrain();
-                ContinueStructureGeneration();
                 GenerateTrees();
-                GenerateCaves();
                 GenerateOres();
-
+                GenerateCaves();
+                ContinueStructureGeneration();
 
                 //Go through each block and add it to the chunk
                 try
