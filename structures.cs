@@ -65,17 +65,20 @@ namespace SeeloewenCraft
                 }
             }
 
+            //Go through all the structure components
             foreach (StructureComponent structureComponent in structureComponents)
             {
                 if (direction == "left")
                 {
                     if (xBase - structureComponent.xOffset < 1)
                     {
+                        //If the component would be offscreen, move it to the cut off list and change the offset
                         structureComponent.xOffset = structureComponent.xOffset - xBase;
                         cutOffComponents.Add(structureComponent);
                     }
                     else
                     {
+                        //Place the block
                         AddBlock(xBase, yBase, structureComponent.xOffset, structureComponent.yOffset, structureComponent.block);
                     }
                 }
@@ -83,11 +86,13 @@ namespace SeeloewenCraft
                 {
                     if (xBase + structureComponent.xOffset > 8)
                     {
+                        //If the component would be offscreen, move it to the cut off list and change the offset
                         structureComponent.xOffset = xBase + structureComponent.xOffset - 9;
                         cutOffComponents.Add(structureComponent);
                     }
                     else
                     {
+                        //Place the block
                         AddBlock(xBase, yBase, structureComponent.xOffset, structureComponent.yOffset, structureComponent.block);
                     }
                 }
@@ -133,11 +138,14 @@ namespace SeeloewenCraft
 
         public void MakeBaseSolid(Block block)
         {
+            //Check if the block is solid and on structure ground level and the block below is not solid
             if (chunk.GetBlock(block.xPos, block.yPos + 1).isSolid == false && block.isSolid == true)
             {
+                //Create a new block of the same type and place it below the original block
                 Type itemType = block.item.GetType();
                 Item newItem = (Item)Activator.CreateInstance(itemType, wndGame, 0);
                 chunk.SetBlock(block.xPos, block.yPos + 1, newItem.GenerateBlock(block.xPos, block.yPos + 1, chunk));
+                //Repeat until floor is reached
                 MakeBaseSolid(chunk.GetBlock(block.xPos, block.yPos + 1));
             }
         }
@@ -161,7 +169,7 @@ namespace SeeloewenCraft
 
         public void BeginGeneration(int x, int y, int index, bool isNew)
         {
-            if (y != 0)
+            if (y != 0) //The game somehow tries to generate structures on y0 at some points. This is to prevent that
             {
                 this.isNew = isNew;
                 //Check which direction it's going to be built in
@@ -180,6 +188,7 @@ namespace SeeloewenCraft
 
         public bool checkForCutoff()
         {
+            //Check if the structure is cut off on left or right side
             if (direction == "left")
             {
                 if (xBase - totalWidth < 0)
@@ -444,6 +453,119 @@ namespace SeeloewenCraft
 
             BeginGeneration(x, y, index, isNew);
 
+        }
+    }
+
+    public class AlphaCave : Structure
+    {
+        public AlphaCave(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
+        {
+            //Generate first air block (base of cave)
+            List<StructureComponent> generatedComponents = new List<StructureComponent>();
+            structureComponents.Add(new StructureComponent(wndGame, 0, 0, new AirItem(wndGame, 0).GenerateBlock(x, y, chunk)));
+
+
+            //Go through all components
+            for (int i = 0; i < 6; i++)
+            {
+                List<StructureComponent> temporaryComponentList = new List<StructureComponent>();
+
+                foreach (StructureComponent structureComponent in structureComponents)
+                {
+                    int randomNorth = rnd.Next(1, 3);
+                    //North
+                    if (randomNorth == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
+                    {
+                        //Generate the new component and check if it's already in some list. If not, add it.
+                        StructureComponent newComponent = new StructureComponent(wndGame, structureComponent.xOffset, structureComponent.yOffset - 1, new AirItem(wndGame, 0).GenerateBlock(x, y, chunk));
+                        if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
+                        {
+                            temporaryComponentList.Add(newComponent);
+                        }
+                    }
+
+                    int randomEast = rnd.Next(1, 3);
+                    //East
+                    if (randomEast == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
+                    {
+                        //Generate the new component and check if it's already in some list. If not, add it.
+                        StructureComponent newComponent = new StructureComponent(wndGame, structureComponent.xOffset + 1, structureComponent.yOffset, new AirItem(wndGame, 0).GenerateBlock(x, y, chunk));
+                        if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
+                        {
+                            temporaryComponentList.Add(newComponent);
+
+                        }
+                    }
+
+                    int randomSouth = rnd.Next(1, 3);
+                    //South
+                    if (randomSouth == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
+                    {
+                        //Generate the new component and check if it's already in some list. If not, add it.
+                        StructureComponent newComponent = new StructureComponent(wndGame, structureComponent.xOffset, structureComponent.yOffset + 1, new AirItem(wndGame, 0).GenerateBlock(x, y, chunk));
+                        if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
+                        {
+                            temporaryComponentList.Add(newComponent);
+
+                        }
+                    }
+
+                    int randomWest = rnd.Next(1, 3);
+                    //West
+                    if (randomWest == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
+                    {
+                        //Generate the new component and check if it's already in some list. If not, add it.
+                        StructureComponent newComponent = new StructureComponent(wndGame, structureComponent.xOffset - 1, structureComponent.yOffset, new AirItem(wndGame, 0).GenerateBlock(x, y, chunk));
+                        if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
+                        {
+                            temporaryComponentList.Add(newComponent);
+
+                        }
+                    }
+
+                    generatedComponents.Add(structureComponent);
+                }
+
+                //Add all the just generated components to the final list
+                foreach (StructureComponent structureComponent in temporaryComponentList)
+                {
+                    structureComponents.Add(structureComponent);
+                    Console.WriteLine("Added component " + structureComponent.xOffset + " " + structureComponent.yOffset);
+                }
+                temporaryComponentList.Clear();
+                Console.WriteLine("Cleared List!");
+
+            }
+
+            Console.WriteLine("Structure Components Count: " + structureComponents.Count.ToString());
+
+            //Get width
+            List<int> handledX = new List<int>();
+            foreach (StructureComponent structureComponent in structureComponents)
+            {
+                if (!handledX.Contains(structureComponent.xOffset))
+                {
+                    handledX.Add(structureComponent.xOffset);
+                }
+            }
+            totalWidth = handledX.Count;
+            Console.WriteLine("Structure total width: " + totalWidth);
+
+            //Begin generating the alpha structure - was only meant for development purposes and is no longer in the game
+            BeginGeneration(x, y, index, isNew);
+        }
+
+        //I have no idea how I thought this is a good name of a method
+        public bool StructureComponentsListContainsStructureComponent(List<StructureComponent> structureComponentList, StructureComponent structureComponent)
+        {
+           foreach(StructureComponent entry in structureComponentList)
+            {
+                if(structureComponent.xOffset == entry.xOffset && structureComponent.yOffset == entry.yOffset)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
