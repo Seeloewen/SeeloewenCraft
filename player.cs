@@ -66,68 +66,114 @@ namespace SeeloewenCraft
             //Setup the jump timer
             tmrJump.Interval = 16; // Approximately 60 FPS
             tmrJump.Tick += tmrJump_Tick;
-        }    
+        }
 
         public async void MoveRight(int amount)
         {
-            //Move all chunks 5 to the left
-            foreach (Chunk chunk in wndGame.chunkList)
-            {
-                Canvas.SetLeft(chunk.grdChunk, Canvas.GetLeft(chunk.grdChunk) - amount);
-            }
+            List<Chunk> currentChunks = new List<Chunk>();
+            currentChunks = getCurrentChunks();
 
-            //Sort the chunklist to account for chunk movement
-            wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-
-            //Check if the chunk has moved too far
-            if (Canvas.GetLeft(wndGame.chunkList[2].grdChunk) == 0)
-            {
-                //Move the most left chunk all the way to the right
-                wndGame.GetChunk(wndGame.chunkList[0].index).SaveChunk();
-                wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[0].index));
-                wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[3].index + 1));
-                wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);
-                Canvas.SetLeft(wndGame.chunkList[4].grdChunk, 1200);
-
-                //Sort the chunklist again
-                wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-            }
-
-            //Wait to allow UI updates
-            await Task.Delay(1);
-
+            //Check which blocks the player is currently in
             //Check each block for collision
-            foreach (Chunk chunk in getCurrentChunks())
+            List<Block> currentBlocks = new List<Block>();
+            currentBlocks = getCurrentBlocks();
+
+            List<int> differentXCoordinates = new List<int>();
+
+            foreach (Block block in currentBlocks)
             {
-                foreach (Block block in chunk.blockList)
+                if (!differentXCoordinates.Contains(block.xPos))
                 {
-                    if (PresentationSource.FromVisual(block.bdrBlock) != null)
+                    differentXCoordinates.Add(block.xPos);
+                }
+            }
+
+            bool collisionDetected = false;
+            if (differentXCoordinates.Count == 1)
+            {
+                foreach (Block block in currentBlocks)
+                {
+                    if (block.xPos == 8)
                     {
-                        if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.bdrBlock)) && block.isSolid == true)
+                        if (wndGame.GetChunk(currentChunks[currentChunks.Count - 1].index + 1).GetBlock(1, block.yPos).isSolid == true)
                         {
-                            //Move all chunks 5 to the right to basically reset action done earlier
-                            foreach (Chunk chunk2 in wndGame.chunkList)
-                            {
-                                Canvas.SetLeft(chunk2.grdChunk, Canvas.GetLeft(chunk2.grdChunk) + amount);
-                            }
-
-                            //Sort the list to account for chunk movement
-                            wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-
-                            //If the canvas moved too far
-                            if (Canvas.GetLeft(wndGame.chunkList[2].grdChunk) == 0)
-                            {
-                                //Move the most right chunk all the way to the left
-                                wndGame.GetChunk(wndGame.chunkList[4].index).SaveChunk();
-                                wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[4].index));
-                                wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[3].index + 1));
-                                wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);
-                                Canvas.SetLeft(wndGame.chunkList[4].grdChunk, 1200);
-
-                                //Sort the list again
-                                wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-                            }
+                            collisionDetected = true;
                             break;
+                        }
+                    }
+                    else
+                    {
+                        if (currentChunks[currentChunks.Count - 1].GetBlock(block.xPos + 1, block.yPos).isSolid == true)
+                        {
+                            collisionDetected = true;
+                            break;
+                        }
+                    }
+
+                }
+            }
+
+            if (collisionDetected == false)
+            {
+                //Move all chunks 5 to the left
+                foreach (Chunk chunk in wndGame.chunkList)
+                {
+                    Canvas.SetLeft(chunk.grdChunk, Canvas.GetLeft(chunk.grdChunk) - amount);
+                }
+
+                //Sort the chunklist to account for chunk movement
+                wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+
+                //Check if the chunk has moved too far
+                if (Canvas.GetLeft(wndGame.chunkList[2].grdChunk) == 0)
+                {
+                    //Move the most left chunk all the way to the right
+                    wndGame.GetChunk(wndGame.chunkList[0].index).SaveChunk();
+                    wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[0].index));
+                    wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[3].index + 1));
+                    wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);
+                    Canvas.SetLeft(wndGame.chunkList[4].grdChunk, 1200);
+
+                    //Sort the chunklist again
+                    wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+                }
+
+                //Wait to allow UI updates
+                await Task.Delay(1);
+
+                //Check each block for collision
+                foreach (Chunk chunk in getCurrentChunks())
+                {
+                    foreach (Block block in chunk.blockList)
+                    {
+                        if (PresentationSource.FromVisual(block.bdrBlock) != null)
+                        {
+                            if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.bdrBlock)) && block.isSolid == true)
+                            {
+                                //Move all chunks 5 to the right to basically reset action done earlier
+                                foreach (Chunk chunk2 in wndGame.chunkList)
+                                {
+                                    Canvas.SetLeft(chunk2.grdChunk, Canvas.GetLeft(chunk2.grdChunk) + amount);
+                                }
+
+                                //Sort the list to account for chunk movement
+                                wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+
+                                //If the canvas moved too far
+                                if (Canvas.GetLeft(wndGame.chunkList[2].grdChunk) == 0)
+                                {
+                                    //Move the most right chunk all the way to the left
+                                    wndGame.GetChunk(wndGame.chunkList[4].index).SaveChunk();
+                                    wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[4].index));
+                                    wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[3].index + 1));
+                                    wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);
+                                    Canvas.SetLeft(wndGame.chunkList[4].grdChunk, 1200);
+
+                                    //Sort the list again
+                                    wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+                                }
+                                break;
+                            }
                         }
                     }
                 }
@@ -136,111 +182,233 @@ namespace SeeloewenCraft
 
         public async void MoveLeft(int amount)
         {
-            //Move all chunks 5 to the right
-            foreach (Chunk chunk in wndGame.chunkList)
-            {
-                Canvas.SetLeft(chunk.grdChunk, Canvas.GetLeft(chunk.grdChunk) + amount);
-            }
+            List<Chunk> currentChunks = new List<Chunk>();
+            currentChunks = getCurrentChunks();
 
-            //Sort the list to account for chunk movement
-            wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-
-            //If the chunk has moved too far
-            if (Canvas.GetLeft(wndGame.chunkList[2].grdChunk) == 800)
-            {
-                //Move the chunk on the right all the way to the left
-                wndGame.GetChunk(wndGame.chunkList[4].index).SaveChunk();
-                wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[4].index));
-                wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[0].index - 1));
-                wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);
-                Canvas.SetLeft(wndGame.chunkList[4].grdChunk, -400);
-
-                //Sort the list again
-                wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-            }
-
-            //Wait to allow UI update
-            await Task.Delay(1);
-
+            //Check which blocks the player is currently in
             //Check each block for collision
-            foreach (Chunk chunk in getCurrentChunks())
+            List<Block> currentBlocks = new List<Block>();
+            currentBlocks = getCurrentBlocks();
+
+            List<int> differentXCoordinates = new List<int>();
+
+            foreach (Block block in currentBlocks)
             {
-                foreach (Block block in chunk.blockList)
+                if (!differentXCoordinates.Contains(block.xPos))
                 {
-                    if (PresentationSource.FromVisual(block.bdrBlock) != null)
+                    differentXCoordinates.Add(block.xPos);
+                }
+            }
+
+            bool collisionDetected = false;
+            if (differentXCoordinates.Count == 1)
+            {
+                foreach (Block block in currentBlocks)
+                {
+                    if (block.xPos == 1)
                     {
-                        if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.bdrBlock)) && block.isSolid == true)
+                        if (wndGame.GetChunk(currentChunks[0].index - 1).GetBlock(8, block.yPos).isSolid == true)
                         {
-                            //Move all chunks to the left
-                            foreach (Chunk chunk2 in wndGame.chunkList)
+                            collisionDetected = true;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (currentChunks[0].GetBlock(block.xPos - 1, block.yPos).isSolid == true)
+                        {
+                            collisionDetected = true;
+                            break;
+                        }
+                    }
+
+                }
+            }
+
+            if (collisionDetected == false)
+            {
+                //Move all chunks 5 to the right
+                foreach (Chunk chunk in wndGame.chunkList)
+                {
+                    Canvas.SetLeft(chunk.grdChunk, Canvas.GetLeft(chunk.grdChunk) + amount);
+                }
+
+                //Sort the list to account for chunk movement
+                wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+
+                //If the chunk has moved too far
+                if (Canvas.GetLeft(wndGame.chunkList[2].grdChunk) == 800)
+                {
+                    //Move the chunk on the right all the way to the left
+                    wndGame.GetChunk(wndGame.chunkList[4].index).SaveChunk();
+                    wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[4].index));
+                    wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[0].index - 1));
+                    wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);
+                    Canvas.SetLeft(wndGame.chunkList[4].grdChunk, -400);
+
+                    //Sort the list again
+                    wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+                }
+
+                //Wait to allow UI update
+                await Task.Delay(1);
+
+                //Check each block for collision
+                foreach (Chunk chunk in getCurrentChunks())
+                {
+                    foreach (Block block in chunk.blockList)
+                    {
+                        if (PresentationSource.FromVisual(block.bdrBlock) != null)
+                        {
+                            if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.bdrBlock)) && block.isSolid == true)
                             {
-                                Canvas.SetLeft(chunk2.grdChunk, Canvas.GetLeft(chunk2.grdChunk) - amount);
-                            }
+                                //Move all chunks to the left
+                                foreach (Chunk chunk2 in wndGame.chunkList)
+                                {
+                                    Canvas.SetLeft(chunk2.grdChunk, Canvas.GetLeft(chunk2.grdChunk) - amount);
+                                }
 
-                            //Sort the list to account for the chunk movement
-                            wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-
-                            //If the chunk moved too far
-                            if (Canvas.GetLeft(wndGame.chunkList[2].grdChunk) == 800)
-                            {
-                                //Move the chunk on the right all the way to the left
-                                wndGame.GetChunk(wndGame.chunkList[0].index).SaveChunk();
-                                wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[0].index));
-                                wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[0].index - 1));
-                                wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);
-                                Canvas.SetLeft(wndGame.chunkList[4].grdChunk, -400);
-
-                                //Sort the list again
+                                //Sort the list to account for the chunk movement
                                 wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-                            }
 
+                                //If the chunk moved too far
+                                if (Canvas.GetLeft(wndGame.chunkList[2].grdChunk) == 800)
+                                {
+                                    //Move the chunk on the right all the way to the left
+                                    wndGame.GetChunk(wndGame.chunkList[0].index).SaveChunk();
+                                    wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[0].index));
+                                    wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[0].index - 1));
+                                    wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);
+                                    Canvas.SetLeft(wndGame.chunkList[4].grdChunk, -400);
+
+                                    //Sort the list again
+                                    wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+        public async void MoveUp(double amount)
+        {
+            List<Chunk> currentChunks = new List<Chunk>();
+            currentChunks = getCurrentChunks();
+
+            //Check which blocks the player is currently in
+            //Check each block for collision
+            List<Block> currentBlocks = new List<Block>();
+            currentBlocks = getCurrentBlocks();
+
+            List<int> differentXCoordinates = new List<int>();
+            foreach (Block block in currentBlocks)
+            {
+                if (!differentXCoordinates.Contains(block.xPos))
+                {
+                    differentXCoordinates.Add(block.xPos);
+                }
+            }
+
+            List<int> differentYCoordinates = new List<int>();
+            foreach (Block block in currentBlocks)
+            {
+                if (!differentYCoordinates.Contains(block.yPos))
+                {
+                    differentYCoordinates.Add(block.yPos);
+                }
+            }
+
+            bool collisionDetected = false;
+            if (differentYCoordinates.Count == 2)
+            {
+                foreach (Block block in currentBlocks)
+                {
+                    if(differentXCoordinates.Count > 1)
+                    {
+                        if ((differentXCoordinates[0] == 8 && differentXCoordinates[1] == 1) || (differentXCoordinates[0] == 1 && differentXCoordinates[1] == 8))
+                        {
+                            if(block.xPos == 8)
+                            {
+                                if (currentChunks[0].GetBlock(block.xPos, block.yPos - 1).isSolid == true)
+                                {
+                                    collisionDetected = true;
+                                    break;
+                                }
+                            }
+                            else if(block.xPos == 1)
+                            {
+                                if (currentChunks[1].GetBlock(block.xPos, block.yPos - 1).isSolid == true)
+                                {
+                                    collisionDetected = true;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (currentChunks[0].GetBlock(block.xPos, block.yPos - 1).isSolid == true)
+                            {
+                                collisionDetected = true;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (currentChunks[0].GetBlock(block.xPos, block.yPos - 1).isSolid == true)
+                        {
+                            collisionDetected = true;
                             break;
                         }
                     }
                 }
             }
-        }
 
-        public async void MoveUp(double amount)
-        {
-            //Change the margin of all character components
-            Thickness currentMargin = cvsPlayerHitbox.Margin;
-            currentMargin.Top -= amount;
-            cvsPlayerHitbox.Margin = currentMargin;
-            Thickness currentMarginPlayer = cvsPlayer.Margin;
-            currentMarginPlayer.Top -= amount;
-            cvsPlayer.Margin = currentMarginPlayer;
-            Thickness gravityMargin = cvsGravityHitbox.Margin;
-            gravityMargin.Top -= amount;
-            cvsGravityHitbox.Margin = gravityMargin;
-
-            //Scroll along to match the movement
-            wndGame.svWorld.ScrollToVerticalOffset(wndGame.player.cvsPlayer.Margin.Top - 400);
-
-            //Wait to allow UI update
-            await Task.Delay(1);
-
-            //Check each block for collision
-            foreach (Chunk chunk in getCurrentChunks())
+            if (collisionDetected == false)
             {
-                foreach (Block block in chunk.blockList)
+                //Change the margin of all character components
+                Thickness currentMargin = cvsPlayerHitbox.Margin;
+                currentMargin.Top -= amount;
+                cvsPlayerHitbox.Margin = currentMargin;
+                Thickness currentMarginPlayer = cvsPlayer.Margin;
+                currentMarginPlayer.Top -= amount;
+                cvsPlayer.Margin = currentMarginPlayer;
+                Thickness gravityMargin = cvsGravityHitbox.Margin;
+                gravityMargin.Top -= amount;
+                cvsGravityHitbox.Margin = gravityMargin;
+
+                //Scroll along to match the movement
+                wndGame.svWorld.ScrollToVerticalOffset(wndGame.player.cvsPlayer.Margin.Top - 400);
+
+                //Wait to allow UI update
+                await Task.Delay(1);
+
+                //Check each block for collision
+                foreach (Chunk chunk in getCurrentChunks())
                 {
-                    if (PresentationSource.FromVisual(block.bdrBlock) != null)
+                    foreach (Block block in chunk.blockList)
                     {
-                        if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.bdrBlock)) && block.isSolid == true)
+                        if (PresentationSource.FromVisual(block.bdrBlock) != null)
                         {
-                            //Reset previous movement
-                            currentMargin.Top += amount;
-                            cvsPlayerHitbox.Margin = currentMargin;
-                            currentMarginPlayer.Top += amount;
-                            cvsPlayer.Margin = currentMarginPlayer;
-                            gravityMargin.Top += amount;
-                            cvsGravityHitbox.Margin = gravityMargin;
+                            if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.bdrBlock)) && block.isSolid == true)
+                            {
+                                //Reset previous movement
+                                currentMargin.Top += amount;
+                                cvsPlayerHitbox.Margin = currentMargin;
+                                currentMarginPlayer.Top += amount;
+                                cvsPlayer.Margin = currentMarginPlayer;
+                                gravityMargin.Top += amount;
+                                cvsGravityHitbox.Margin = gravityMargin;
 
-                            //Scroll along to match movement
-                            wndGame.svWorld.ScrollToVerticalOffset(wndGame.player.cvsPlayer.Margin.Top - 400);
+                                //Scroll along to match movement
+                                wndGame.svWorld.ScrollToVerticalOffset(wndGame.player.cvsPlayer.Margin.Top - 400);
 
-                            break;
+                                break;
+                            }
                         }
                     }
                 }
@@ -314,7 +482,27 @@ namespace SeeloewenCraft
                 }
             }
 
-            return chunkList;      
+            return chunkList;
+        }
+
+        public List<Block> getCurrentBlocks()
+        {
+            List<Block> blockList = new List<Block>();
+            foreach (Chunk chunk in getCurrentChunks())
+            {
+                foreach (Block block in chunk.blockList)
+                {
+                    if (PresentationSource.FromVisual(block.bdrBlock) != null)
+                    {
+                        if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.bdrBlock)))
+                        {
+                            blockList.Add(block);
+                        }
+                    }
+                }
+            }
+
+            return blockList;
         }
 
         private bool BoundingBoxCollision(Rect rectA, Rect rectB)
