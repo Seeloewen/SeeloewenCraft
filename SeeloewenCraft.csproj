@@ -61,6 +61,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BlockContainer.cs" />
+    <Compile Include="blockContainerList.cs" />
     <Compile Include="blocks.cs" />
     <Compile Include="caveGeneration.cs" />
     <Compile Include="player.cs" />

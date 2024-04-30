@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +17,7 @@ namespace SeeloewenCraft
     {
         public List<Block> blockList = new List<Block>();
         public List<Structure> structureList = new List<Structure>();
+        public blockContainerList blockContainerList;
         public Grid grdChunk = new Grid();
         private Random rnd = new Random(DateTime.Now.Millisecond);
         wndGame wndGame;
@@ -27,10 +30,20 @@ namespace SeeloewenCraft
         {
             //Set the attributes
             this.wndGame = wndGame;
+            this.index = index;
 
             //Begin loading the chunk
             chunkDirectory = string.Format("{0}/chunk{1}", wndGame.worldDirectory, index);
-            LoadChunk(index);
+
+            LoadChunk();
+        }
+
+        public void SetBlock(Block block, int x, int y)
+        {
+            if(blockContainerList.GetContainer(x,y) != null)
+            {
+                blockContainerList.GetContainer(x, y).SetBlock(block);
+            }
         }
 
         public void SaveChunk()
@@ -55,7 +68,7 @@ namespace SeeloewenCraft
             File.WriteAllText(string.Format("{0}/chunk{1}/settings.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2}", index, floorHeightLeft, floorHeightRight));
         }
 
-        public void LoadChunk(int index)
+        public void LoadChunk()
         {
             //Clear the chunk
             grdChunk.Children.Clear();
@@ -75,11 +88,21 @@ namespace SeeloewenCraft
                 grdChunk.RowDefinitions.Add(new RowDefinition());
             }
 
+            //Get the container list
+            foreach (blockContainerList containerList in wndGame.blockContainerList)
+            {
+                if (containerList.IsAvailable())
+                {
+                    blockContainerList = containerList;
+                    blockContainerList.AssignToChunk(this);
+                    break;
+                }
+            }
+
             //Check if the chunk doesn't already exist
             if (!Directory.Exists(string.Format("{0}/chunk{1}", wndGame.worldDirectory, index)))
             {
                 //If it doesn't exist, create the file
-                this.index = index;
                 chunkDirectory = string.Format("{0}/chunk{1}", wndGame.worldDirectory, index);
 
                 //Generate terrain & structure
@@ -89,17 +112,13 @@ namespace SeeloewenCraft
                 GenerateCaves();
                 ContinueStructureGeneration();
 
+
                 //Go through each block and add it to the chunk
                 try
                 {
                     foreach (Block block in blockList)
                     {
-                        if (block.yPos - 1 >= 0 && block.xPos - 1 >= 0)
-                        {
-                            grdChunk.Children.Add(block.bdrBlock);
-                            Grid.SetRow(block.bdrBlock, block.yPos - 1);
-                            Grid.SetColumn(block.bdrBlock, block.xPos - 1);
-                        }
+                        SetBlock(block, block.xPos, block.yPos);
                     }
                 }
                 catch (Exception ex)
@@ -176,31 +195,31 @@ namespace SeeloewenCraft
                 LoadInventories();
 
                 //Add all the blocks to the chunk
-                foreach (Block block in blockList)
+                try
                 {
-                    if (block.yPos - 1 >= 0 && block.xPos - 1 >= 0)
+                    foreach (Block block in blockList)
                     {
-                        grdChunk.Children.Add(block.bdrBlock);
-                        Grid.SetRow(block.bdrBlock, block.yPos - 1);
-                        Grid.SetColumn(block.bdrBlock, block.xPos - 1);
+                        SetBlock(block, block.xPos, block.yPos);
                     }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error while loading chunk: {ex}");
                 }
 
                 //Read the chunk settings from the file
                 string[] settings = File.ReadAllText(string.Format("{0}/chunk{1}/settings.txt", wndGame.worldDirectory, index)).Split(';');
-                this.index = Convert.ToInt32(settings[0]);
+                index = Convert.ToInt32(settings[0]);
                 floorHeightLeft = Convert.ToInt32(settings[1]);
                 floorHeightRight = Convert.ToInt32(settings[2]);
-
             }
         }
-
         public Block GetBlock(int x, int y)
         {
             //Go through each block and return the block that matches the coords
-            foreach(Block block in blockList)
+            foreach (Block block in blockList)
             {
-                if(block.xPos == x && block.yPos == y)
+                if (block.xPos == x && block.yPos == y)
                 {
                     return block;
                 }
@@ -456,7 +475,7 @@ namespace SeeloewenCraft
             //Generate up to 1 cave
             //WIP - Structure Rework
             int random = rnd.Next(1, 9);
-            if(random == 1)
+            if (random == 1)
             {
                 for (int i = 0; i < 1; i++)
                 {
@@ -475,7 +494,7 @@ namespace SeeloewenCraft
                         structureList.Add(new Cave(wndGame, xPos, yPos, index, true, this, true));
                     }
                 }
-            }      
+            }
         }
 
         private void ContinueStructureGeneration()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -132,7 +133,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(int x, int y, Chunk chunk)
         {
-            block = new DiamondOreBlock(wndGame, x, y, chunk, this);
+            block = new DiamondOreBlock(wndGame, x, y, chunk, this  );
             return block;
         }
     }

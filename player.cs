@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Media3D;
@@ -146,9 +147,9 @@ namespace SeeloewenCraft
                 {
                     foreach (Block block in chunk.blockList)
                     {
-                        if (PresentationSource.FromVisual(block.bdrBlock) != null)
+                        if (PresentationSource.FromVisual(block.blockContainer.bdrBlock) != null)
                         {
-                            if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.bdrBlock)) && block.isSolid == true)
+                            if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.blockContainer.bdrBlock)) && block.isSolid == true)
                             {
                                 //Move all chunks 5 to the right to basically reset action done earlier
                                 foreach (Chunk chunk2 in wndGame.chunkList)
@@ -258,9 +259,9 @@ namespace SeeloewenCraft
                 {
                     foreach (Block block in chunk.blockList)
                     {
-                        if (PresentationSource.FromVisual(block.bdrBlock) != null)
+                        if (PresentationSource.FromVisual(block.blockContainer.bdrBlock) != null)
                         {
-                            if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.bdrBlock)) && block.isSolid == true)
+                            if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.blockContainer.bdrBlock)) && block.isSolid == true)
                             {
                                 //Move all chunks to the left
                                 foreach (Chunk chunk2 in wndGame.chunkList)
@@ -276,7 +277,7 @@ namespace SeeloewenCraft
                                 {
                                     //Move the chunk on the right all the way to the left
                                     wndGame.GetChunk(wndGame.chunkList[0].index).SaveChunk();
-                                    wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[0].index));
+                                    wndGame.GetChunk(wndGame.chunkList[0].index);
                                     wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[0].index - 1));
                                     wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);
                                     Canvas.SetLeft(wndGame.chunkList[4].grdChunk, -400);
@@ -327,11 +328,11 @@ namespace SeeloewenCraft
             {
                 foreach (Block block in currentBlocks)
                 {
-                    if(differentXCoordinates.Count > 1)
+                    if (differentXCoordinates.Count > 1)
                     {
                         if ((differentXCoordinates[0] == 8 && differentXCoordinates[1] == 1) || (differentXCoordinates[0] == 1 && differentXCoordinates[1] == 8))
                         {
-                            if(block.xPos == 8)
+                            if (block.xPos == 8)
                             {
                                 if (currentChunks[0].GetBlock(block.xPos, block.yPos - 1).isSolid == true)
                                 {
@@ -339,7 +340,7 @@ namespace SeeloewenCraft
                                     break;
                                 }
                             }
-                            else if(block.xPos == 1)
+                            else if (block.xPos == 1)
                             {
                                 if (currentChunks[1].GetBlock(block.xPos, block.yPos - 1).isSolid == true)
                                 {
@@ -392,9 +393,9 @@ namespace SeeloewenCraft
                 {
                     foreach (Block block in chunk.blockList)
                     {
-                        if (PresentationSource.FromVisual(block.bdrBlock) != null)
+                        if (PresentationSource.FromVisual(block.blockContainer.bdrBlock) != null)
                         {
-                            if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.bdrBlock)) && block.isSolid == true)
+                            if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.blockContainer.bdrBlock)) && block.isSolid == true)
                             {
                                 //Reset previous movement
                                 currentMargin.Top += amount;
@@ -436,9 +437,9 @@ namespace SeeloewenCraft
             {
                 foreach (Block block in chunk.blockList)
                 {
-                    if (PresentationSource.FromVisual(block.bdrBlock) != null)
+                    if (PresentationSource.FromVisual(block.blockContainer.bdrBlock) != null)
                     {
-                        if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.bdrBlock)) && block.isSolid == true)
+                        if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.blockContainer.bdrBlock)) && block.isSolid == true)
                         {
                             //Revert the previous movement
                             currentMargin.Top -= amount;
@@ -492,9 +493,9 @@ namespace SeeloewenCraft
             {
                 foreach (Block block in chunk.blockList)
                 {
-                    if (PresentationSource.FromVisual(block.bdrBlock) != null)
+                    if (PresentationSource.FromVisual(block.blockContainer.bdrBlock) != null)
                     {
-                        if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.bdrBlock)))
+                        if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.blockContainer.bdrBlock)))
                         {
                             blockList.Add(block);
                         }
@@ -526,14 +527,15 @@ namespace SeeloewenCraft
             {
                 foreach (Block block in chunk.blockList)
                 {
-                    if (PresentationSource.FromVisual(block.bdrBlock) != null)
+                    if (PresentationSource.FromVisual(block.blockContainer.bdrBlock) != null)
                     {
-                        if (wndGame.GetRectangle(cvsGravityHitbox).IntersectsWith(wndGame.GetRectangle(block.bdrBlock)))
+                        if (wndGame.GetRectangle(cvsGravityHitbox).IntersectsWith(wndGame.GetRectangle(block.blockContainer.bdrBlock)))
                         {
                             currentGroundBlocks.Add(block);
                         }
                     }
                 }
+
             }
 
             //Check for each ground block if it's solid to determine whether it's non-solid
@@ -563,9 +565,9 @@ namespace SeeloewenCraft
             {
                 foreach (Block block in chunk.blockList)
                 {
-                    if (PresentationSource.FromVisual(block.bdrBlock) != null)
+                    if (PresentationSource.FromVisual(block.blockContainer.bdrBlock) != null)
                     {
-                        if (wndGame.GetRectangle(cvsGravityHitbox).IntersectsWith(wndGame.GetRectangle(block.bdrBlock)))
+                        if (wndGame.GetRectangle(cvsGravityHitbox).IntersectsWith(wndGame.GetRectangle(block.blockContainer.bdrBlock)))
                         {
                             currentGroundBlocks.Add(block);
                         }

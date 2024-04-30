@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -42,6 +43,7 @@ namespace SeeloewenCraft
         public int goRightAmount = 10;
         public double relativeSvPos = 0;
         public double defaultSvPos = 0;
+        public List<blockContainerList> blockContainerList = new List<blockContainerList>();
 
 
         //-- Constructor --//
@@ -59,6 +61,14 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
+        public void GenerateBlockContainer()
+        {
+            for(int i = 0; i < 5; i++)
+            {
+                blockContainerList.Add(new blockContainerList(this));
+            }
+        }
+
         public void CreateGame(string worldName, bool isNew)
         {
             //Check if the world directory exists and create it otherwise
@@ -69,6 +79,7 @@ namespace SeeloewenCraft
             worldDirectory = string.Format("{0}/SeeloewenCraft/{1}", appData, worldName);
 
             //Create the game components
+            GenerateBlockContainer();
             GenerateChunks();
             CreatePlayer();
             player.inventory = new Inventory(this, 0, true);
@@ -416,7 +427,7 @@ namespace SeeloewenCraft
             //Perform an action based on the entered command
             if (tbDebug.Text == "/help")
             {
-                //Show help message
+                //Show help messaged
                 MessageBox.Show("List of commands (For debug purposes only!):\n/help - Shows this page\n/showblockinfo - Shows Block info like coords or type\n/hideblockinfo - Hides the Block info\n/about - Shows about window\n/generateplayer - Runs the generation method of player\n/toggleinv - Opens or closes the inventory\n/showdevcontrols - Shows the controls only meant for developing\n/hidedevcontrols - Hides the development controls\n/give chest - Gives the player a chest item\n/resetview - Reset the scrollviewer location\n/give magmablock - Gives the player a magma block", "/help");
             }
             else if (tbDebug.Text == "/showblockinfo")
@@ -545,7 +556,7 @@ namespace SeeloewenCraft
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             //Add pressed key to the collection if it isn't in there already
-            if(tbDebug.IsKeyboardFocused == false)
+            if (tbDebug.IsKeyboardFocused == false)
             {
                 if (!pressedKeys.Contains(e.Key))
                 {

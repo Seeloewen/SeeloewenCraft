@@ -16,8 +16,7 @@ namespace SeeloewenCraft
     {
         wndGame wndGame;
         public ImageBrush imageBrush = new ImageBrush();
-        public Border bdrBlock = new Border();
-        public Canvas cvsBlock = new Canvas();
+        public BlockContainer blockContainer;
         public Chunk chunk;
         public Item item;
         public Inventory blockInventory;
@@ -35,26 +34,24 @@ namespace SeeloewenCraft
             this.yPos = yPos;
             this.item = item;
             this.chunk = chunk;
-
-            //Setup the block canvas and border
-            bdrBlock.Width = 50;
-            bdrBlock.Height = 50;
-            bdrBlock.Child = cvsBlock;
-            cvsBlock.Background = imageBrush;
-            cvsBlock.MouseLeftButtonDown += cvsBlock_MouseLeftButtonDown;
-            cvsBlock.MouseRightButtonDown += cvsBlock_MouseRightButtonDown;
-            cvsBlock.MouseEnter += cvsBlock_MouseEnter;
-            cvsBlock.MouseLeave += cvsBlock_MouseLeave;
         }
 
-        
+        public void SetContainer(BlockContainer blockContainer)
+        {
+            this.blockContainer = blockContainer;
+            this.blockContainer.cvsBlock.Background = imageBrush;
+            this.blockContainer.cvsBlock.MouseLeftButtonDown += cvsBlock_MouseLeftButtonDown;
+            this.blockContainer.cvsBlock.MouseRightButtonDown += cvsBlock_MouseRightButtonDown;
+            this.blockContainer.cvsBlock.MouseEnter += cvsBlock_MouseEnter;
+            this.blockContainer.cvsBlock.MouseLeave += cvsBlock_MouseLeave;
+        }
 
         private bool isCollidingWithPlayer(object element)
         {
-            if(element is Canvas canvas)
+            if (element is Canvas canvas)
             {
                 //Check for collision
-                if (wndGame.GetRectangle(wndGame.player.cvsPlayerHitbox).IntersectsWith(wndGame.GetRectangle(cvsBlock)))
+                if (wndGame.GetRectangle(wndGame.player.cvsPlayerHitbox).IntersectsWith(wndGame.GetRectangle(blockContainer.cvsBlock)))
                 {
                     return true;
                 }
@@ -72,13 +69,13 @@ namespace SeeloewenCraft
         public void ShowBlockInfo()
         {
             //Show block info
-            cvsBlock.Children.Add(new TextBlock { Text = string.Format("x: {0} y:{1}\n{2}\n{3}", xPos, yPos, GetType().ToString().Replace("SeeloewenCraft.", "").Replace("Block", ""), chunk.index) });
+            blockContainer.cvsBlock.Children.Add(new TextBlock { Text = string.Format("x: {0} y:{1}\n{2}\n{3}", xPos, yPos, GetType().ToString().Replace("SeeloewenCraft.", "").Replace("Block", ""), chunk.index) });
         }
 
         public void HideBlockInfo()
         {
             //Hide the block info
-            cvsBlock.Children.Clear();
+            blockContainer.cvsBlock.Children.Clear();
         }
         public ImageSource GetImageSource(string assemblyName, string resourceName)
         {
@@ -91,7 +88,7 @@ namespace SeeloewenCraft
         {
             //Convert positions to screen coordinates
             Point playerScreenPoint = wndGame.player.cvsPlayer.PointToScreen(new Point(0, 0));
-            Point otherScreenPoint = bdrBlock.PointToScreen(new Point(0, 0));
+            Point otherScreenPoint = blockContainer.bdrBlock.PointToScreen(new Point(0, 0));
 
             //Convert to coordinates considering scrolling
             Point playerPosition = wndGame.svWorld.TranslatePoint(playerScreenPoint, wndGame.cvsWorld);
@@ -114,16 +111,16 @@ namespace SeeloewenCraft
             if (IsInRange() == true)
             {
                 //Show border that indicates that the block can be broken or placed a specific location
-                bdrBlock.BorderThickness = new Thickness(1, 1, 1, 1);
-                bdrBlock.BorderBrush = new SolidColorBrush(Colors.Black);
+                blockContainer.bdrBlock.BorderThickness = new Thickness(1, 1, 1, 1);
+                blockContainer.bdrBlock.BorderBrush = new SolidColorBrush(Colors.Black);
             }
         }
 
         private void cvsBlock_MouseLeave(object sender, EventArgs e)
         {
             //Remove the border from the block
-            bdrBlock.BorderThickness = new Thickness(0, 0, 0, 0);
-            bdrBlock.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            blockContainer.bdrBlock.BorderThickness = new Thickness(0, 0, 0, 0);
+            blockContainer.bdrBlock.BorderBrush = new SolidColorBrush(Colors.Transparent);
         }
 
         private void cvsBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -133,10 +130,9 @@ namespace SeeloewenCraft
             {
                 //Remove the block from the chunks blocklist and add an airblock
                 chunk.blockList.Remove(this);
-                chunk.blockList.Add(new AirItem(wndGame, 0).GenerateBlock(xPos, yPos, chunk));
-                chunk.grdChunk.Children.Add(chunk.blockList[chunk.blockList.Count - 1].bdrBlock);
-                Grid.SetRow(chunk.blockList[chunk.blockList.Count - 1].bdrBlock, chunk.blockList[chunk.blockList.Count - 1].yPos - 1);
-                Grid.SetColumn(chunk.blockList[chunk.blockList.Count - 1].bdrBlock, chunk.blockList[chunk.blockList.Count - 1].xPos - 1);
+                Block block = new AirItem(wndGame, 0).GenerateBlock(xPos, yPos, chunk);
+                chunk.blockList.Add(block);
+                chunk.SetBlock(block, block.xPos, block.yPos);
 
                 //Add the block's item to the inventory
                 wndGame.player.inventory.AddItem(item);
@@ -156,7 +152,7 @@ namespace SeeloewenCraft
                     {
                         if (slot.slot.items[slot.slot.items.Count - 1].block == null)
                         {
-                            slot.slot.items[slot.slot.items.Count - 1].block = slot.slot.items[slot.slot.items.Count - 1].GenerateBlock(0, 0, chunk) ;
+                            slot.slot.items[slot.slot.items.Count - 1].block = slot.slot.items[slot.slot.items.Count - 1].GenerateBlock(0, 0, chunk);
                         }
                         //Check if the slots item is placable
                         if (slot.slot.items[slot.slot.items.Count - 1].isPlacable == true)
@@ -169,12 +165,12 @@ namespace SeeloewenCraft
                             slot.slot.items[slot.slot.items.Count - 1].block.chunk = chunk;
 
                             //Remove the border from its parent
-                            wndGame.RemoveFromParent(slot.slot.items[slot.slot.items.Count - 1].block.bdrBlock);
+                            wndGame.RemoveFromParent(slot.slot.items[slot.slot.items.Count - 1].block.blockContainer.bdrBlock);
 
                             //Add the border to the chunk
-                            chunk.grdChunk.Children.Add(slot.slot.items[slot.slot.items.Count - 1].block.bdrBlock);
-                            Grid.SetRow(slot.slot.items[slot.slot.items.Count - 1].block.bdrBlock, slot.slot.items[slot.slot.items.Count - 1].block.yPos - 1);
-                            Grid.SetColumn(slot.slot.items[slot.slot.items.Count - 1].block.bdrBlock, slot.slot.items[slot.slot.items.Count - 1].block.xPos - 1);
+                            chunk.grdChunk.Children.Add(slot.slot.items[slot.slot.items.Count - 1].block.blockContainer.bdrBlock);
+                            Grid.SetRow(slot.slot.items[slot.slot.items.Count - 1].block.blockContainer.bdrBlock, slot.slot.items[slot.slot.items.Count - 1].block.yPos - 1);
+                            Grid.SetColumn(slot.slot.items[slot.slot.items.Count - 1].block.blockContainer.bdrBlock, slot.slot.items[slot.slot.items.Count - 1].block.xPos - 1);
 
                             //Remove the item from the inventory
                             wndGame.player.inventory.RemoveItem(slot.slot.items[slot.slot.items.Count - 1]);
@@ -182,13 +178,13 @@ namespace SeeloewenCraft
                     }
                 }
             }
-            else if(IsInRange() == true && isSolid == true && hasInventory == true)
+            else if (IsInRange() == true && isSolid == true && hasInventory == true)
             {
                 Canvas.SetTop(wndGame.player.inventory.grdInventory, -10);
                 wndGame.player.inventory.ShowInventory();
                 blockInventory.ShowInventory();
             }
-        }   
+        }
     }
 
     public class GrassBlock : Block
@@ -201,7 +197,7 @@ namespace SeeloewenCraft
 
     public class StoneBlock : Block
     {
-        public StoneBlock(wndGame wndGame,  int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
+        public StoneBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
             imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "StoneBlock.png");
         }

@@ -186,7 +186,7 @@ namespace SeeloewenCraft
                 {
                     if (potentialBorders[random2].x == structureComponent.xOffset && potentialBorders[random2].y == structureComponent.yOffset)
                     {
-                        Console.WriteLine($"X: {structureComponent.xOffset} Y: {structureComponent.yOffset}");
+                        //Console.WriteLine($"X: {structureComponent.xOffset} Y: {structureComponent.yOffset}");
 
                         if (direction == "right")
                         {
