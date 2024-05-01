@@ -44,6 +44,10 @@ namespace SeeloewenCraft
             {
                 blockContainerList.GetContainer(x, y).SetBlock(block);
             }
+            else
+            {
+                MessageBox.Show("Error: Could not find container");
+            }
         }
 
         public void SaveChunk()

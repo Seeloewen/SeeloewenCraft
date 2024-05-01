@@ -128,7 +128,6 @@ namespace SeeloewenCraft
                 //Check if the chunk has moved too far
                 if (Canvas.GetLeft(wndGame.chunkList[2].grdChunk) == 0)
                 {
-                    //Move the most left chunk all the way to the right
                     wndGame.GetChunk(wndGame.chunkList[0].index).SaveChunk();
                     wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[0].index));
                     wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[3].index + 1));
@@ -277,7 +276,7 @@ namespace SeeloewenCraft
                                 {
                                     //Move the chunk on the right all the way to the left
                                     wndGame.GetChunk(wndGame.chunkList[0].index).SaveChunk();
-                                    wndGame.GetChunk(wndGame.chunkList[0].index);
+                                    wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[0].index));
                                     wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[0].index - 1));
                                     wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);
                                     Canvas.SetLeft(wndGame.chunkList[4].grdChunk, -400);

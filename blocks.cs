@@ -46,6 +46,14 @@ namespace SeeloewenCraft
             this.blockContainer.cvsBlock.MouseLeave += cvsBlock_MouseLeave;
         }
 
+        public void RemoveHandlersFromContainer()
+        {
+            blockContainer.cvsBlock.MouseLeftButtonDown -= cvsBlock_MouseLeftButtonDown;
+            blockContainer.cvsBlock.MouseRightButtonDown -= cvsBlock_MouseRightButtonDown;
+            blockContainer.cvsBlock.MouseEnter -= cvsBlock_MouseEnter;
+            blockContainer.cvsBlock.MouseLeave -= cvsBlock_MouseLeave;
+        }
+
         private bool isCollidingWithPlayer(object element)
         {
             if (element is Canvas canvas)
@@ -129,10 +137,11 @@ namespace SeeloewenCraft
             if (isBreakable == true && IsInRange() == true)
             {
                 //Remove the block from the chunks blocklist and add an airblock
+                
                 chunk.blockList.Remove(this);
                 Block block = new AirItem(wndGame, 0).GenerateBlock(xPos, yPos, chunk);
                 chunk.blockList.Add(block);
-                chunk.SetBlock(block, block.xPos, block.yPos);
+                chunk.SetBlock(block, xPos, yPos);
 
                 //Add the block's item to the inventory
                 wndGame.player.inventory.AddItem(item);
@@ -164,13 +173,8 @@ namespace SeeloewenCraft
                             slot.slot.items[slot.slot.items.Count - 1].block.yPos = yPos;
                             slot.slot.items[slot.slot.items.Count - 1].block.chunk = chunk;
 
-                            //Remove the border from its parent
-                            wndGame.RemoveFromParent(slot.slot.items[slot.slot.items.Count - 1].block.blockContainer.bdrBlock);
-
                             //Add the border to the chunk
-                            chunk.grdChunk.Children.Add(slot.slot.items[slot.slot.items.Count - 1].block.blockContainer.bdrBlock);
-                            Grid.SetRow(slot.slot.items[slot.slot.items.Count - 1].block.blockContainer.bdrBlock, slot.slot.items[slot.slot.items.Count - 1].block.yPos - 1);
-                            Grid.SetColumn(slot.slot.items[slot.slot.items.Count - 1].block.blockContainer.bdrBlock, slot.slot.items[slot.slot.items.Count - 1].block.xPos - 1);
+                            chunk.SetBlock(slot.slot.items[slot.slot.items.Count - 1].block, xPos, yPos);
 
                             //Remove the item from the inventory
                             wndGame.player.inventory.RemoveItem(slot.slot.items[slot.slot.items.Count - 1]);
@@ -184,7 +188,9 @@ namespace SeeloewenCraft
                 wndGame.player.inventory.ShowInventory();
                 blockInventory.ShowInventory();
             }
+            MessageBox.Show("run!");
         }
+       
     }
 
     public class GrassBlock : Block

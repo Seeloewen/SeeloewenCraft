@@ -185,6 +185,7 @@ namespace SeeloewenCraft
                                 removeList.Add(item);
                                 slot.itemAmount--;
                                 slot.tblItemAmount.Text = slot.itemAmount.ToString();
+                                break;
                             }
                             else
                             {

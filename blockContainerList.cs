@@ -59,7 +59,7 @@ namespace SeeloewenCraft
             foreach (BlockContainer container in containerList)
             {
                 Console.WriteLine($"{container.xPos}, {container.yPos}");
-                container.Clear();
+                container.ClearFromChunk();
 
                 chunk.grdChunk.Children.Add(container.bdrBlock);
                 Grid.SetRow(container.bdrBlock, container.yPos - 1);
