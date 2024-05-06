@@ -28,6 +28,7 @@ namespace SeeloewenCraft
         private System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
         public List<Chunk> chunkList = new List<Chunk>();
         public List<Inventory> inventoryList = new List<Inventory>();
+        public images images = new images();
         public wndMenu wndMenu;
         public wndSettings wndSettings;
         private HashSet<Key> pressedKeys = new HashSet<Key>();

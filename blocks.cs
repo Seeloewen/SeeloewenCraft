@@ -15,7 +15,7 @@ namespace SeeloewenCraft
     public class Block
     {
         wndGame wndGame;
-        public ImageBrush imageBrush = new ImageBrush();
+        public ImageBrush image = new ImageBrush();
         public BlockContainer blockContainer;
         public Chunk chunk;
         public Item item;
@@ -39,7 +39,7 @@ namespace SeeloewenCraft
         public void SetContainer(BlockContainer blockContainer)
         {
             this.blockContainer = blockContainer;
-            this.blockContainer.cvsBlock.Background = imageBrush;
+            this.blockContainer.cvsBlock.Background = image;
             this.blockContainer.cvsBlock.MouseLeftButtonDown += cvsBlock_MouseLeftButtonDown;
             this.blockContainer.cvsBlock.MouseRightButtonDown += cvsBlock_MouseRightButtonDown;
             this.blockContainer.cvsBlock.MouseEnter += cvsBlock_MouseEnter;
@@ -84,12 +84,6 @@ namespace SeeloewenCraft
         {
             //Hide the block info
             blockContainer.cvsBlock.Children.Clear();
-        }
-        public ImageSource GetImageSource(string assemblyName, string resourceName)
-        {
-            //Get an image from an imagesource from a uri
-            Uri imageUri = new Uri(string.Format("pack://application:,,,/{0};component/Resources/{1}", assemblyName, resourceName), UriKind.Absolute);
-            return BitmapFrame.Create(imageUri);
         }
 
         public bool IsInRange()
@@ -197,7 +191,7 @@ namespace SeeloewenCraft
     {
         public GrassBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "GrassBlock.png");
+            image = wndGame.images.GrassBlock;
         }
     }
 
@@ -205,7 +199,7 @@ namespace SeeloewenCraft
     {
         public StoneBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "StoneBlock.png");
+            image = wndGame.images.StoneBlock;
         }
     }
 
@@ -213,7 +207,7 @@ namespace SeeloewenCraft
     {
         public DirtBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "DirtBlock.png");
+            image = wndGame.images.DirtBlock;
         }
     }
 
@@ -223,7 +217,7 @@ namespace SeeloewenCraft
         {
             isBreakable = false;
             isSolid = false;
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "AirBlock.png");
+            image = wndGame.images.AirBlock;
         }
     }
 
@@ -232,7 +226,7 @@ namespace SeeloewenCraft
         public BedrockBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
             isBreakable = false;
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "BedrockBlock.png");
+            image = wndGame.images.BedrockBlock;
         }
     }
 
@@ -240,7 +234,7 @@ namespace SeeloewenCraft
     {
         public CoalOreBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "CoalOreBlock.png");
+            image = wndGame.images.CoalOreBlock;
         }
     }
 
@@ -248,7 +242,7 @@ namespace SeeloewenCraft
     {
         public DiamondOreBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "DiamondOreBlock.png");
+            image = wndGame.images.IronOreBlock;
         }
     }
 
@@ -256,7 +250,7 @@ namespace SeeloewenCraft
     {
         public IronOreBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "IronOreBlock.png");
+            image = wndGame.images.IronOreBlock;
         }
     }
 
@@ -264,7 +258,7 @@ namespace SeeloewenCraft
     {
         public OakLogBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "OakLogBlock.png");
+            image = wndGame.images.OakLogBlock;
         }
     }
 
@@ -272,7 +266,7 @@ namespace SeeloewenCraft
     {
         public OakLeavesBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "OakLeavesBlock.png");
+            image = wndGame.images.OakLeavesBlock;
         }
     }
 
@@ -284,7 +278,7 @@ namespace SeeloewenCraft
             blockInventory = new Inventory(wndGame, item.id, false);
             Canvas.SetTop(blockInventory.grdInventory, 410);
             wndGame.inventoryList.Add(blockInventory);
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "ChestBlock.png");
+            image = wndGame.images.ChestBlock;
         }
     }
 
@@ -292,7 +286,7 @@ namespace SeeloewenCraft
     {
         public MagmaBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "MagmaBlock.png");
+            image = wndGame.images.MagmaBlock;
         }
     }
 }

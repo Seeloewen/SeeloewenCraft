@@ -15,7 +15,7 @@ namespace SeeloewenCraft
     public abstract class Item
     {
         public Canvas cvsItem = new Canvas();
-        public ImageBrush imageBrush = new ImageBrush();
+        public ImageBrush image;
         Random random = new Random(DateTime.Now.Millisecond);
         public wndGame wndGame;
         public InventorySlot slot;
@@ -35,7 +35,7 @@ namespace SeeloewenCraft
             //Setup the item canvas
             cvsItem.Width = 75;
             cvsItem.Height = 75;
-            cvsItem.Background = imageBrush;
+            cvsItem.Background = image;
 
             //Set the ID
             if(id == 0)
@@ -48,14 +48,6 @@ namespace SeeloewenCraft
             }
         }
 
-
-        public ImageSource GetImageSource(string assemblyName, string resourceName)
-        {
-            //Get an image source from a Uri
-            Uri imageUri = new Uri(string.Format("pack://application:,,,/{0};component/Resources/{1}", assemblyName, resourceName), UriKind.Absolute);
-            return BitmapFrame.Create(imageUri);
-        }
-
         public abstract Block GenerateBlock(int x, int y, Chunk chunk);
     }
 
@@ -65,7 +57,7 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Grass";
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "GrassBlock.png");
+            image = wndGame.images.GrassBlock;
         }
         override public Block GenerateBlock(int x, int y, Chunk chunk)
         {
@@ -80,7 +72,7 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Stone";
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "StoneBlock.png");
+            image = wndGame.images.StoneBlock;
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk)
@@ -96,7 +88,7 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Dirt";
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "DirtBlock.png");
+            image = wndGame.images.DirtBlock;
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk)
@@ -112,7 +104,7 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Coal Ore";
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "CoalOreBlock.png");
+            image = wndGame.images.CoalOreBlock;
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk)
@@ -128,7 +120,7 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Diamond Ore";
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "DiamondOreBlock.png");
+            image = wndGame.images.DiamondOreBlock;
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk)
@@ -144,7 +136,7 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Iron Ore";
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "IronOreBlock.png");
+            image = wndGame.images.IronOreBlock;
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk)
@@ -160,7 +152,7 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Oak Log";
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "OakLogBlock.png");
+            image = wndGame.images.OakLogBlock;
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk)
@@ -176,7 +168,7 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Oak Leaves";
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "OakLeavesBlock.png");
+            image = wndGame.images.OakLeavesBlock;
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk)
@@ -192,7 +184,7 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Bedrock";
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "BedrockBlock.png");
+            image = wndGame.images.BedrockBlock;
         }
 
         override  public Block GenerateBlock(int x, int y, Chunk chunk)
@@ -208,7 +200,7 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Air";
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "AirBlock.png");
+            image = wndGame.images.AirBlock;
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk)
@@ -224,7 +216,7 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Chest";
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "ChestBlock.png");
+            image = wndGame.images.ChestBlock;
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk)
@@ -240,7 +232,7 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Magma Block";
-            imageBrush.ImageSource = GetImageSource("SeeloewenCraft", "MagmaBlock.png");
+            image = wndGame.images.MagmaBlock;
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk)

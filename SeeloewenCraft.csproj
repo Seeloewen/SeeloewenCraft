@@ -65,6 +65,7 @@
     <Compile Include="blockContainerList.cs" />
     <Compile Include="blocks.cs" />
     <Compile Include="caveGeneration.cs" />
+    <Compile Include="images.cs" />
     <Compile Include="player.cs" />
     <Compile Include="chunk.cs" />
     <Compile Include="hotbarSlot.cs" />
@@ -183,9 +184,7 @@
     <Content Include="Resources\BedrockBlock.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\GrassBlock.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Resources\GrassBlock.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\IronOreBlock.png">
