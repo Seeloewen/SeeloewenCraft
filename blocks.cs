@@ -12,7 +12,7 @@ using System.Windows.Documents;
 
 namespace SeeloewenCraft
 {
-    public class Block
+    public abstract class Block
     {
         wndGame wndGame;
         public ImageBrush image = new ImageBrush();
@@ -32,8 +32,16 @@ namespace SeeloewenCraft
             this.wndGame = wndGame;
             this.xPos = xPos;
             this.yPos = yPos;
-            this.item = item;
             this.chunk = chunk;
+
+            if (item != null)
+            {
+                this.item = item;
+            }
+            else
+            {
+                this.item = null;
+            }
         }
 
         public void SetContainer(BlockContainer blockContainer)
@@ -131,13 +139,13 @@ namespace SeeloewenCraft
             if (isBreakable == true && IsInRange() == true)
             {
                 //Remove the block from the chunks blocklist and add an airblock
-                
                 chunk.blockList.Remove(this);
-                Block block = new AirItem(wndGame, 0).GenerateBlock(xPos, yPos, chunk);
+                Block block = new AirBlock(wndGame, xPos, yPos, chunk, null);
                 chunk.blockList.Add(block);
                 chunk.SetBlock(block, xPos, yPos);
 
                 //Add the block's item to the inventory
+                GenerateItem(wndGame, 0);
                 wndGame.player.inventory.AddItem(item);
             }
         }
@@ -157,6 +165,7 @@ namespace SeeloewenCraft
                         {
                             slot.slot.items[slot.slot.items.Count - 1].block = slot.slot.items[slot.slot.items.Count - 1].GenerateBlock(0, 0, chunk);
                         }
+
                         //Check if the slots item is placable
                         if (slot.slot.items[slot.slot.items.Count - 1].isPlacable == true)
                         {
@@ -182,9 +191,22 @@ namespace SeeloewenCraft
                 wndGame.player.inventory.ShowInventory();
                 blockInventory.ShowInventory();
             }
-            MessageBox.Show("run!");
         }
-       
+
+        public abstract void GenerateItem(wndGame wndGame, int id);
+
+        public Item GetItem()
+        {
+            if (item == null)
+            {
+                GenerateItem(wndGame, 0);
+                return item;
+            }
+            else
+            {
+                return item;
+            }
+        }
     }
 
     public class GrassBlock : Block
@@ -192,6 +214,11 @@ namespace SeeloewenCraft
         public GrassBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
             image = wndGame.images.GrassBlock;
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = new GrassItem(wndGame, id, this);
         }
     }
 
@@ -201,6 +228,11 @@ namespace SeeloewenCraft
         {
             image = wndGame.images.StoneBlock;
         }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = new StoneItem(wndGame, id, this);
+        }
     }
 
     public class DirtBlock : Block
@@ -208,6 +240,11 @@ namespace SeeloewenCraft
         public DirtBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
             image = wndGame.images.DirtBlock;
+        }
+
+        override public void GenerateItem   (wndGame wndGame, int id)
+        {
+            item = new DirtItem(wndGame, id, this);
         }
     }
 
@@ -219,6 +256,11 @@ namespace SeeloewenCraft
             isSolid = false;
             image = wndGame.images.AirBlock;
         }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = new AirItem(wndGame, id, this);
+        }
     }
 
     public class BedrockBlock : Block
@@ -228,6 +270,11 @@ namespace SeeloewenCraft
             isBreakable = false;
             image = wndGame.images.BedrockBlock;
         }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = new BedrockItem(wndGame, id, this);
+        }
     }
 
     public class CoalOreBlock : Block
@@ -235,6 +282,11 @@ namespace SeeloewenCraft
         public CoalOreBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
             image = wndGame.images.CoalOreBlock;
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = new CoalOreItem(wndGame, id, this);
         }
     }
 
@@ -244,6 +296,11 @@ namespace SeeloewenCraft
         {
             image = wndGame.images.IronOreBlock;
         }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = new DiamondOreItem(wndGame, id, this);
+        }
     }
 
     public class IronOreBlock : Block
@@ -252,6 +309,12 @@ namespace SeeloewenCraft
         {
             image = wndGame.images.IronOreBlock;
         }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = new IronOreItem(wndGame, id, this);
+        }
+
     }
 
     public class OakLogBlock : Block
@@ -260,6 +323,11 @@ namespace SeeloewenCraft
         {
             image = wndGame.images.OakLogBlock;
         }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = new OakLogItem(wndGame, id, this );
+        }
     }
 
     public class OakLeavesBlock : Block
@@ -267,6 +335,11 @@ namespace SeeloewenCraft
         public OakLeavesBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
             image = wndGame.images.OakLeavesBlock;
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = new OakLeavesItem(wndGame, id, this);
         }
     }
 
@@ -280,6 +353,11 @@ namespace SeeloewenCraft
             wndGame.inventoryList.Add(blockInventory);
             image = wndGame.images.ChestBlock;
         }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = new ChestItem(wndGame, id, this);
+        }
     }
 
     public class MagmaBlock : Block
@@ -287,6 +365,11 @@ namespace SeeloewenCraft
         public MagmaBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
             image = wndGame.images.MagmaBlock;
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = new MagmaBlockItem(wndGame, id, this);
         }
     }
 }

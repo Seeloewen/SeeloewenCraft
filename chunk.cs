@@ -66,7 +66,7 @@ namespace SeeloewenCraft
                 }
 
                 //Write all blocks in the chunks blocklist into a file
-                File.AppendAllText(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2};{3}\n", block.GetType().ToString().Replace("SeeloewenCraft.", ""), block.xPos, block.yPos, block.item.id));
+                File.AppendAllText(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2};{3}\n", block.GetType().ToString().Replace("SeeloewenCraft.", ""), block.xPos, block.yPos, 0));
             }
             //Write the chunk settings into a file
             File.WriteAllText(string.Format("{0}/chunk{1}/settings.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2}", index, floorHeightLeft, floorHeightRight));
@@ -147,51 +147,51 @@ namespace SeeloewenCraft
 
                     if (blockSplit[0] == "GrassBlock")
                     {
-                        blockList.Add(new GrassItem(wndGame, Convert.ToInt32(blockSplit[3])).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
+                        blockList.Add(new GrassBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null));
                     }
                     else if (blockSplit[0] == "DirtBlock")
                     {
-                        blockList.Add(new DirtItem(wndGame, Convert.ToInt32(blockSplit[3])).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
+                        blockList.Add(new DirtBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null));
                     }
                     else if (blockSplit[0] == "StoneBlock")
                     {
-                        blockList.Add(new StoneItem(wndGame, Convert.ToInt32(blockSplit[3])).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
+                        blockList.Add(new StoneBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null));
                     }
                     else if (blockSplit[0] == "AirBlock")
                     {
-                        blockList.Add(new AirItem(wndGame, Convert.ToInt32(blockSplit[3])).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
+                        blockList.Add(new AirBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null));
                     }
                     else if (blockSplit[0] == "BedrockBlock")
                     {
-                        blockList.Add(new BedrockItem(wndGame, Convert.ToInt32(blockSplit[3])).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
+                        blockList.Add(new BedrockBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null));
                     }
                     else if (blockSplit[0] == "DiamondOreBlock")
                     {
-                        blockList.Add(new DiamondOreItem(wndGame, Convert.ToInt32(blockSplit[3])).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
+                        blockList.Add(new DiamondOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null));
                     }
                     else if (blockSplit[0] == "IronOreBlock")
                     {
-                        blockList.Add(new IronOreItem(wndGame, Convert.ToInt32(blockSplit[3])).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
+                        blockList.Add(new IronOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null));
                     }
                     else if (blockSplit[0] == "CoalOreBlock")
                     {
-                        blockList.Add(new CoalOreItem(wndGame, Convert.ToInt32(blockSplit[3])).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
+                        blockList.Add(new CoalOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null));
                     }
                     else if (blockSplit[0] == "OakLogBlock")
                     {
-                        blockList.Add(new OakLogItem(wndGame, Convert.ToInt32(blockSplit[3])).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
+                        blockList.Add(new OakLogBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null));
                     }
                     else if (blockSplit[0] == "OakLeavesBlock")
                     {
-                        blockList.Add(new OakLeavesItem(wndGame, Convert.ToInt32(blockSplit[3])).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
+                        blockList.Add(new OakLeavesBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null));
                     }
                     else if (blockSplit[0] == "ChestBlock")
                     {
-                        blockList.Add(new ChestItem(wndGame, Convert.ToInt32(blockSplit[3])).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
+                        blockList.Add(new ChestBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null));
                     }
                     else
                     {
-                        blockList.Add(new AirItem(wndGame, Convert.ToInt32(blockSplit[3])).GenerateBlock(Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this));
+                        blockList.Add(new AirBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null));
                     }
                 }
 
@@ -299,7 +299,7 @@ namespace SeeloewenCraft
                         if (y == floorHeight)
                         {
                             //If the block is exactly on floor height add a grass block
-                            blockList.Add(new GrassItem(wndGame, 0).GenerateBlock(x, y, this));
+                            blockList.Add(new GrassBlock(wndGame, x, y, this, null));
 
                             //If it's at one of the corners, set the left or right floor height variable
                             if (x == 1)
@@ -314,7 +314,7 @@ namespace SeeloewenCraft
                         else if (y == floorHeight + 1 || y == floorHeight + 2)
                         {
                             //If it's 1 or 2 blocks below the floor height, add dirt
-                            blockList.Add(new DirtItem(wndGame, 0).GenerateBlock(x, y, this));
+                            blockList.Add(new DirtBlock(wndGame, x, y, this, null));
                         }
                         else if (y == floorHeight + 3)
                         {
@@ -322,27 +322,27 @@ namespace SeeloewenCraft
                             int random = rnd.Next(1, 3);
                             if (random == 1)
                             {
-                                blockList.Add(new DirtItem(wndGame, 0).GenerateBlock(x, y, this));
+                                blockList.Add(new DirtBlock(wndGame, x, y, this, null));
                             }
                             else
                             {
-                                blockList.Add(new StoneItem(wndGame, 0).GenerateBlock(x, y, this));
+                                blockList.Add(new StoneBlock(wndGame, x, y, this, null));
                             }
                         }
                         else if (y > floorHeight + 3 && y < 75)
                         {
                             //If it's 3 blocks below floor height and above y 75, set stone blocks
-                            blockList.Add(new StoneItem(wndGame, 0).GenerateBlock(x, y, this));
+                            blockList.Add(new StoneBlock(wndGame, x, y, this, null));
                         }
                         else if (y < floorHeight)
                         {
                             //If it's above floor height, generate air
-                            blockList.Add(new AirItem(wndGame, 0).GenerateBlock(x, y, this));
+                            blockList.Add(new AirBlock(wndGame, x, y, this, null));
                         }
                         else if (y == 75)
                         {
                             //If it's exactly at bottom layer y 75, set bedrock block
-                            blockList.Add(new BedrockItem(wndGame, 0).GenerateBlock(x, y, this));
+                            blockList.Add(new BedrockBlock(wndGame, x, y, this, null));
                         }
                     }
                 }
@@ -379,7 +379,7 @@ namespace SeeloewenCraft
                         if (y == floorHeight)
                         {
                             //If the block is exactly on floor height add a grass block
-                            blockList.Add(new GrassItem(wndGame, 0).GenerateBlock(x, y, this));
+                            blockList.Add(new GrassBlock(wndGame, x, y, this, null));
 
                             //If it's at one of the corners, set the left or right floor height variable
                             if (x == 1)
@@ -394,7 +394,7 @@ namespace SeeloewenCraft
                         else if (y == floorHeight + 1 || y == floorHeight + 2)
                         {
                             //If it's 1 or 2 blocks below the floor height, add dirt
-                            blockList.Add(new DirtItem(wndGame, 0).GenerateBlock(x, y, this));
+                            blockList.Add(new DirtBlock(wndGame, x, y, this, null));
                         }
                         else if (y == floorHeight + 3)
                         {
@@ -402,27 +402,27 @@ namespace SeeloewenCraft
                             int random = rnd.Next(1, 3);
                             if (random == 1)
                             {
-                                blockList.Add(new DirtItem(wndGame, 0).GenerateBlock(x, y, this));
+                                blockList.Add(new DirtBlock(wndGame,x, y, this, null));
                             }
                             else
                             {
-                                blockList.Add(new StoneItem(wndGame, 0).GenerateBlock(x, y, this));
+                                blockList.Add(new DirtBlock(wndGame, x, y, this, null));
                             }
                         }
                         else if (y > floorHeight + 3 && y < 75)
                         {
                             //If it's 3 blocks below floor height and above y 75, set stone blocks
-                            blockList.Add(new StoneItem(wndGame, 0).GenerateBlock(x, y, this));
+                            blockList.Add(new StoneBlock(wndGame, x, y, this, null));
                         }
                         else if (y < floorHeight)
                         {
                             //If it's above floor height, generate air
-                            blockList.Add(new AirItem(wndGame, 0).GenerateBlock(x, y, this));
+                            blockList.Add(new AirBlock(wndGame, x, y, this, null));
                         }
                         else if (y == 75)
                         {
                             //If it's exactly at bottom layer y 75, set bedrock block
-                            blockList.Add(new BedrockItem(wndGame, 0).GenerateBlock(x, y, this));
+                            blockList.Add(new BedrockBlock(wndGame, x, y, this, null));
                         }
                     }
                 }

@@ -29,18 +29,18 @@ namespace SeeloewenCraft
 
 
             //structureComponents.Add(new StructureComponent(wndGame, xOffset * dirSpecificXfactor, yOffset * dirSpecificYfactor, new BedrockItem(wndGame, 0).GenerateBlock(xOffset, yOffset, chunk)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset * dirSpecificXfactor, yOffset + (1 * dirSpecificYfactor), new AirItem(wndGame, 0).GenerateBlock(xOffset, yOffset, chunk)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset * dirSpecificXfactor, yOffset + (2 * dirSpecificYfactor), new AirItem(wndGame, 0).GenerateBlock(xOffset, yOffset, chunk)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + (1 * dirSpecificXfactor), yOffset + (1 * dirSpecificYfactor), new AirItem(wndGame, 0).GenerateBlock(xOffset, yOffset, chunk)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + (1 * dirSpecificXfactor), yOffset * dirSpecificYfactor, new AirItem(wndGame, 0).GenerateBlock(xOffset, yOffset, chunk)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + (1 * dirSpecificXfactor), yOffset + (2 * dirSpecificYfactor), new AirItem(wndGame, 0).GenerateBlock(xOffset, yOffset, chunk)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + (1 * dirSpecificXfactor), yOffset + (3 * dirSpecificYfactor), new AirItem(wndGame, 0).GenerateBlock(xOffset, yOffset, chunk)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + (2 * dirSpecificXfactor), yOffset * dirSpecificYfactor, new AirItem(wndGame, 0).GenerateBlock(xOffset, yOffset, chunk)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + (2 * dirSpecificXfactor), yOffset + (1 * dirSpecificYfactor), new AirItem(wndGame, 0).GenerateBlock(xOffset, yOffset, chunk)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + (2 * dirSpecificXfactor), yOffset + (2 * dirSpecificYfactor), new AirItem(wndGame, 0).GenerateBlock(xOffset, yOffset, chunk)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + (2 * dirSpecificXfactor), yOffset + (3 * dirSpecificYfactor), new AirItem(wndGame, 0).GenerateBlock(xOffset, yOffset, chunk)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + (3 * dirSpecificXfactor), yOffset + (1 * dirSpecificYfactor), new AirItem(wndGame, 0).GenerateBlock(xOffset, yOffset, chunk)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + (3 * dirSpecificXfactor), yOffset + (2 * dirSpecificYfactor), new AirItem(wndGame, 0).GenerateBlock(xOffset, yOffset, chunk)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset * dirSpecificXfactor, yOffset + (1 * dirSpecificYfactor), new AirBlock(wndGame, xOffset, yOffset, chunk, null)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset * dirSpecificXfactor, yOffset + (2 * dirSpecificYfactor), new AirBlock(wndGame, xOffset, yOffset, chunk, null)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + (1 * dirSpecificXfactor), yOffset + (1 * dirSpecificYfactor), new AirBlock(wndGame, xOffset, yOffset, chunk, null)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + (1 * dirSpecificXfactor), yOffset * dirSpecificYfactor, new AirBlock(wndGame, xOffset, yOffset, chunk, null)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + (1 * dirSpecificXfactor), yOffset + (2 * dirSpecificYfactor), new AirBlock(wndGame, xOffset, yOffset, chunk, null)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + (1 * dirSpecificXfactor), yOffset + (3 * dirSpecificYfactor), new AirBlock(wndGame, xOffset, yOffset, chunk, null)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + (2 * dirSpecificXfactor), yOffset * dirSpecificYfactor, new AirBlock(wndGame, xOffset, yOffset, chunk, null)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + (2 * dirSpecificXfactor), yOffset + (1 * dirSpecificYfactor), new AirBlock(wndGame, xOffset, yOffset, chunk, null)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + (2 * dirSpecificXfactor), yOffset + (2 * dirSpecificYfactor), new AirBlock(wndGame, xOffset, yOffset, chunk, null)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + (2 * dirSpecificXfactor), yOffset + (3 * dirSpecificYfactor), new AirBlock(wndGame, xOffset, yOffset, chunk, null)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + (3 * dirSpecificXfactor), yOffset + (1 * dirSpecificYfactor), new AirBlock(wndGame, xOffset, yOffset, chunk, null)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + (3 * dirSpecificXfactor), yOffset + (2 * dirSpecificYfactor), new AirBlock(wndGame, xOffset, yOffset, chunk, null)));
 
             borderComponents.Add(new BorderComponent("left", xOffset * dirSpecificXfactor, yOffset + (1 * dirSpecificYfactor)));
             borderComponents.Add(new BorderComponent("left", xOffset * dirSpecificXfactor, yOffset + (2 * dirSpecificYfactor)));
@@ -84,7 +84,7 @@ namespace SeeloewenCraft
                 direction = "left";
             }
 
-            structureComponents.Add(new StructureComponent(wndGame, 0, 0, new OakLogItem(wndGame, 0).GenerateBlock(x, y, chunk)));
+            structureComponents.Add(new StructureComponent(wndGame, 0, 0, new OakLogBlock(wndGame, x, y, chunk, null)));
 
 
             List<CaveComponent> caveComponents = new List<CaveComponent>();

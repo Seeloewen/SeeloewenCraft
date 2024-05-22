@@ -321,43 +321,43 @@ namespace SeeloewenCraft
                             string[] itemSplit = item.Split(';');
                             if (itemSplit[0] == "GrassItem")
                             {
-                                slot.AddToSlot(new GrassItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new GrassItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
                             }
                             else if (itemSplit[0] == "DirtItem")
                             {
-                                slot.AddToSlot(new DirtItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new DirtItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
                             }
                             else if (itemSplit[0] == "StoneItem")
                             {
-                                slot.AddToSlot(new StoneItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new StoneItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
                             }
                             else if (itemSplit[0] == "OakLogItem")
                             {
-                                slot.AddToSlot(new OakLogItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new OakLogItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
                             }
                             else if (itemSplit[0] == "OakLeavesItem")
                             {
-                                slot.AddToSlot(new OakLeavesItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new OakLeavesItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
                             }
                             else if (itemSplit[0] == "CoalOreItem")
                             {
-                                slot.AddToSlot(new CoalOreItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new CoalOreItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
                             }
                             else if (itemSplit[0] == "IronOreItem")
                             {
-                                slot.AddToSlot(new IronOreItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new IronOreItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
                             }
                             else if (itemSplit[0] == "DiamondOreItem")
                             {
-                                slot.AddToSlot(new DiamondOreItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new DiamondOreItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
                             }
                             else if (itemSplit[0] == "ChestItem")
                             {
-                                slot.AddToSlot(new ChestItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new ChestItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
                             }
                             else if (itemSplit[0] == "BedrockItem")
                             {
-                                slot.AddToSlot(new BedrockItem(wndGame, Convert.ToInt32(fileSplit[1])));
+                                slot.AddToSlot(new BedrockItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
                             }
                         }
                     }
