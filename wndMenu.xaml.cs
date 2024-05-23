@@ -23,7 +23,7 @@ namespace SeeloewenCraft
         private wndLoadWorld wndLoadWorld;
         private wndSettings wndSettings;
         private int splashTextSize = 0;
-        public string version = "Alpha 1.1.1";
+        public string version = "Alpha 1.1.2";
         public string gameDirectory;
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
 
