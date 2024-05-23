@@ -52,7 +52,7 @@ namespace SeeloewenCraft
 
             //Setup the character hitbox
             cvsPlayerHitbox.Margin = new Thickness(x, y + 1, 0, 0);
-            cvsPlayerHitbox.Width = 40;
+            cvsPlayerHitbox.Width = 50;
             cvsPlayerHitbox.Height = 89;
             cvsPlayerHitbox.Background = new SolidColorBrush(Colors.Purple);
             cvsPlayerHitbox.Visibility = Visibility.Hidden;
@@ -65,63 +65,24 @@ namespace SeeloewenCraft
             cvsGravityHitbox.Visibility = Visibility.Hidden;
 
             //Setup the gravity timer
-            tmrGravity.Interval = 16; // Approximately 60 FPS
+            tmrGravity.Interval = 16; //Approximately 60 FPS
             tmrGravity.Tick += tmrGravity_Tick;
             tmrGravity.Start();
 
             //Setup the jump timer
-            tmrJump.Interval = 16; // Approximately 60 FPS
+            tmrJump.Interval = 16; //Approximately 60 FPS
             tmrJump.Tick += tmrJump_Tick;
         }
 
-        public async void MoveRight(int amount)
+        public void MoveRight(int amount)
         {
-            List<Chunk> currentChunks = new List<Chunk>();
-            currentChunks = getCurrentChunks();
+            //Check for collision
+            bool collisionDetected = DoesCollideWithBlocks(amount, "right");
 
-            //Check which blocks the player is currently in
-            //Check each block for collision
-            List<Block> currentBlocks = new List<Block>();
-            currentBlocks = getCurrentBlocks();
-
-            List<int> differentXCoordinates = new List<int>();
-
-            foreach (Block block in currentBlocks)
-            {
-                if (!differentXCoordinates.Contains(block.xPos))
-                {
-                    differentXCoordinates.Add(block.xPos);
-                }
-            }
-
-            bool collisionDetected = false;
-            if (differentXCoordinates.Count == 1)
-            {
-                foreach (Block block in currentBlocks)
-                {
-                    if (block.xPos == 8)
-                    {
-                        if (wndGame.GetChunk(currentChunks[currentChunks.Count - 1].index + 1).GetBlock(1, block.yPos).isSolid == true)
-                        {
-                            collisionDetected = true;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        if (currentChunks[currentChunks.Count - 1].GetBlock(block.xPos + 1, block.yPos).isSolid == true)
-                        {
-                            collisionDetected = true;
-                            break;
-                        }
-                    }
-
-                }
-            }
-
+            //If no collision was detected, do movement
             if (collisionDetected == false)
             {
-                //Move all chunks 5 to the left
+                //Move all chunks the specified amount to the left
                 foreach (Chunk chunk in wndGame.chunkList)
                 {
                     Canvas.SetLeft(chunk.grdChunk, Canvas.GetLeft(chunk.grdChunk) - amount);
@@ -133,6 +94,7 @@ namespace SeeloewenCraft
                 //Check if the chunk has moved too far
                 if (Canvas.GetLeft(wndGame.chunkList[2].grdChunk) == 0)
                 {
+                    //Save the chunk that has moved to far and remove it. Add a new one at the opposite site.
                     wndGame.GetChunk(wndGame.chunkList[0].index).SaveChunk();
                     wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[0].index));
                     wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[3].index + 1));
@@ -142,93 +104,12 @@ namespace SeeloewenCraft
                     //Sort the chunklist again
                     wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
                 }
-
-                //Wait to allow UI updates
-                await Task.Delay(1);
-
-                //Check each block for collision
-                foreach (Chunk chunk in getCurrentChunks())
-                {
-                    foreach (Block block in chunk.blockList)
-                    {
-                        if (PresentationSource.FromVisual(block.blockContainer.bdrBlock) != null)
-                        {
-                            if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.blockContainer.bdrBlock)) && block.isSolid == true)
-                            {
-                                //Move all chunks 5 to the right to basically reset action done earlier
-                                foreach (Chunk chunk2 in wndGame.chunkList)
-                                {
-                                    Canvas.SetLeft(chunk2.grdChunk, Canvas.GetLeft(chunk2.grdChunk) + amount);
-                                }
-
-                                //Sort the list to account for chunk movement
-                                wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-
-                                //If the canvas moved too far
-                                if (Canvas.GetLeft(wndGame.chunkList[2].grdChunk) == 0)
-                                {
-                                    //Move the most right chunk all the way to the left
-                                    wndGame.GetChunk(wndGame.chunkList[4].index).SaveChunk();
-                                    wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[4].index));
-                                    wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[3].index + 1));
-                                    wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);
-                                    Canvas.SetLeft(wndGame.chunkList[4].grdChunk, 1200);
-
-                                    //Sort the list again
-                                    wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-                                }
-                                break;
-                            }
-                        }
-                    }
-                }
             }
         }
 
-        public async void MoveLeft(int amount)
+        public void MoveLeft(int amount)
         {
-            List<Chunk> currentChunks = new List<Chunk>();
-            currentChunks = getCurrentChunks();
-
-            //Check which blocks the player is currently in
-            //Check each block for collision
-            List<Block> currentBlocks = new List<Block>();
-            currentBlocks = getCurrentBlocks();
-
-            List<int> differentXCoordinates = new List<int>();
-
-            foreach (Block block in currentBlocks)
-            {
-                if (!differentXCoordinates.Contains(block.xPos))
-                {
-                    differentXCoordinates.Add(block.xPos);
-                }
-            }
-
-            bool collisionDetected = false;
-            if (differentXCoordinates.Count == 1)
-            {
-                foreach (Block block in currentBlocks)
-                {
-                    if (block.xPos == 1)
-                    {
-                        if (wndGame.GetChunk(currentChunks[0].index - 1).GetBlock(8, block.yPos).isSolid == true)
-                        {
-                            collisionDetected = true;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        if (currentChunks[0].GetBlock(block.xPos - 1, block.yPos).isSolid == true)
-                        {
-                            collisionDetected = true;
-                            break;
-                        }
-                    }
-
-                }
-            }
+            bool collisionDetected = DoesCollideWithBlocks(amount, "left");
 
             if (collisionDetected == false)
             {
@@ -254,124 +135,153 @@ namespace SeeloewenCraft
                     //Sort the list again
                     wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
                 }
-
-                //Wait to allow UI update
-                await Task.Delay(1);
-
-                //Check each block for collision
-                foreach (Chunk chunk in getCurrentChunks())
-                {
-                    foreach (Block block in chunk.blockList)
-                    {
-                        if (PresentationSource.FromVisual(block.blockContainer.bdrBlock) != null)
-                        {
-                            if (BoundingBoxCollision(wndGame.GetRectangle(cvsPlayerHitbox), wndGame.GetRectangle(block.blockContainer.bdrBlock)) && block.isSolid == true)
-                            {
-                                //Move all chunks to the left
-                                foreach (Chunk chunk2 in wndGame.chunkList)
-                                {
-                                    Canvas.SetLeft(chunk2.grdChunk, Canvas.GetLeft(chunk2.grdChunk) - amount);
-                                }
-
-                                //Sort the list to account for the chunk movement
-                                wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-
-                                //If the chunk moved too far
-                                if (Canvas.GetLeft(wndGame.chunkList[2].grdChunk) == 800)
-                                {
-                                    //Move the chunk on the right all the way to the left
-                                    wndGame.GetChunk(wndGame.chunkList[0].index).SaveChunk();
-                                    wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[0].index));
-                                    wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[0].index - 1));
-                                    wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);
-                                    Canvas.SetLeft(wndGame.chunkList[4].grdChunk, -400);
-
-                                    //Sort the list again
-                                    wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-                                }
-
-                                break;
-                            }
-                        }
-                    }
-                }
             }
 
         }
 
-        public async void MoveUp(double amount)
+        public bool DoesCollideWithBlocks(int amount, string direction)
         {
+            //Check which chunks the player is currently in
             List<Chunk> currentChunks = new List<Chunk>();
             currentChunks = getCurrentChunks();
 
             //Check which blocks the player is currently in
-            //Check each block for collision
             List<Block> currentBlocks = new List<Block>();
             currentBlocks = getCurrentBlocks();
 
-            List<int> differentXCoordinates = new List<int>();
-            foreach (Block block in currentBlocks)
+            if (direction == "right" || direction == "left")
             {
-                if (!differentXCoordinates.Contains(block.xPos))
-                {
-                    differentXCoordinates.Add(block.xPos);
-                }
-            }
 
-            List<int> differentYCoordinates = new List<int>();
-            foreach (Block block in currentBlocks)
-            {
-                if (!differentYCoordinates.Contains(block.yPos))
-                {
-                    differentYCoordinates.Add(block.yPos);
-                }
-            }
-
-            bool collisionDetected = false;
-            if (differentYCoordinates.Count == 2)
-            {
+                //Get the amount of different X coordinates that the player occupies
+                List<int> differentXCoordinates = new List<int>();
                 foreach (Block block in currentBlocks)
                 {
-                    if (differentXCoordinates.Count > 1)
+                    if (!differentXCoordinates.Contains(block.xPos))
                     {
-                        if ((differentXCoordinates[0] == 8 && differentXCoordinates[1] == 1) || (differentXCoordinates[0] == 1 && differentXCoordinates[1] == 8))
+                        differentXCoordinates.Add(block.xPos);
+                    }
+                }
+
+                //Only do the collision check when the player stands on exactly one block.
+                if (differentXCoordinates.Count == 1)
+                {
+                    //Check if the player collides with a block by comparing his position with the blocks at that position
+                    foreach (Block block in currentBlocks)
+                    {
+                        if (direction == "right")
                         {
+                            //When on a chunk border, also consider the neighbouring chunk to the right
                             if (block.xPos == 8)
                             {
-                                if (currentChunks[0].GetBlock(block.xPos, block.yPos - 1).isSolid == true)
+                                if (wndGame.GetChunk(currentChunks[currentChunks.Count - 1].index + 1).GetBlock(1, block.yPos).isSolid == true)
                                 {
-                                    collisionDetected = true;
-                                    break;
+                                    return true;
                                 }
                             }
-                            else if (block.xPos == 1)
+                            else
                             {
-                                if (currentChunks[1].GetBlock(block.xPos, block.yPos - 1).isSolid == true)
+                                if (currentChunks[currentChunks.Count - 1].GetBlock(block.xPos + 1, block.yPos).isSolid == true)
                                 {
-                                    collisionDetected = true;
-                                    break;
+                                    return true;
                                 }
                             }
                         }
+                        else if (direction == "left")
+                        {
+                            //When on a chunk border, also consider the neighbouring chunk to the left
+                            if (block.xPos == 1)
+                            {
+                                if (wndGame.GetChunk(currentChunks[0].index - 1).GetBlock(8, block.yPos).isSolid == true)
+                                {
+                                    return true;
+                                }
+                            }
+                            else
+                            {
+                                if (currentChunks[0].GetBlock(block.xPos - 1, block.yPos).isSolid == true)
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (direction == "up")
+            {
+                //Get the different X coordinates that the player is on
+                List<int> differentXCoordinates = new List<int>();
+                foreach (Block block in currentBlocks)
+                {
+                    if (!differentXCoordinates.Contains(block.xPos))
+                    {
+                        differentXCoordinates.Add(block.xPos);
+                    }
+                }
+
+                //Get the different Y coordinates that the player is on
+                List<int> differentYCoordinates = new List<int>();
+                foreach (Block block in currentBlocks)
+                {
+                    if (!differentYCoordinates.Contains(block.yPos))
+                    {
+                        differentYCoordinates.Add(block.yPos);
+                    }
+                }
+
+                //Only do the collision check if the player is exactly inside two blocks
+                if (differentYCoordinates.Count == 2)
+                {
+                    //Check if the player collides with a block by comparing his position with the blocks at that position
+                    foreach (Block block in currentBlocks)
+                    {
+                        if (differentXCoordinates.Count > 1)
+                        {
+                            if ((differentXCoordinates[0] == 8 && differentXCoordinates[1] == 1) || (differentXCoordinates[0] == 1 && differentXCoordinates[1] == 8))
+                            {
+                                //Also consider chunk borders to the left and right
+                                if (block.xPos == 8)
+                                {
+                                    if (currentChunks[0].GetBlock(block.xPos, block.yPos - 1).isSolid == true)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (block.xPos == 1)
+                                {
+                                    if (currentChunks[1].GetBlock(block.xPos, block.yPos - 1).isSolid == true)
+                                    {
+                                        return true;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (currentChunks[0].GetBlock(block.xPos, block.yPos - 1).isSolid == true)
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                        //Optimal case, if he is on exactly on X coordinate
                         else
                         {
                             if (currentChunks[0].GetBlock(block.xPos, block.yPos - 1).isSolid == true)
                             {
-                                collisionDetected = true;
-                                break;
+                                return true;
                             }
-                        }
-                    }
-                    else
-                    {
-                        if (currentChunks[0].GetBlock(block.xPos, block.yPos - 1).isSolid == true)
-                        {
-                            collisionDetected = true;
-                            break;
                         }
                     }
                 }
             }
+            return false;
+        }
+
+
+        public async void MoveUp(int amount)
+        {
+            //Check for collision
+            bool collisionDetected = DoesCollideWithBlocks(amount, "up");
 
             if (collisionDetected == false)
             {
@@ -420,7 +330,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public void MoveDown(double amount)
+        public void MoveDown(double amount) //Needs a rework
         {
             //Move all player components down
             Thickness currentMargin = cvsPlayerHitbox.Margin;
@@ -463,7 +373,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public void Jump()
+        public void Jump() //Needs a rework
         {
             //Stop the gravity
             tmrGravity.Stop();
@@ -523,7 +433,7 @@ namespace SeeloewenCraft
             }
         }
 
-        private void DoGravity()
+        private void DoGravity() //Needs a rework
         {
             //Create a list of current ground blocks by checking which blocks the gravity hitbox collides with
             List<Block> currentGroundBlocks = new List<Block>();
