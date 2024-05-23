@@ -44,7 +44,7 @@ namespace SeeloewenCraft
         public int goRightAmount = 10;
         public double relativeSvPos = 0;
         public double defaultSvPos = 0;
-        public List<blockContainerList> blockContainerList = new List<blockContainerList>();
+        public List<BlockContainerList> blockContainerList = new List<BlockContainerList>();
 
 
         //-- Constructor --//
@@ -66,7 +66,7 @@ namespace SeeloewenCraft
         {
             for(int i = 0; i < 5; i++)
             {
-                blockContainerList.Add(new blockContainerList(this));
+                blockContainerList.Add(new BlockContainerList(this));
             }
         }
 

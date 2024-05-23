@@ -20,6 +20,9 @@ namespace SeeloewenCraft
         public int xPos;
         public bool isSelected;
 
+
+        //-- Constructor --//
+
         public HotbarSlot(wndGame wndGame, int xPos, InventorySlot slot)
         {
             //Set the hotbar slot attributes
@@ -30,7 +33,7 @@ namespace SeeloewenCraft
             //Create the hotbar slot border, canvas and textblock
             bdrSlot.Height = 75;
             bdrSlot.Width = 75;
-            bdrSlot.BorderThickness = new System.Windows.Thickness(3, 3, 3, 3);
+            bdrSlot.BorderThickness = new Thickness(3, 3, 3, 3);
             bdrSlot.Background = new SolidColorBrush(Colors.DarkGray);
             bdrSlot.Child = cvsSlot;
             cvsSlot.Margin = new Thickness(0, 0, 0, 0);
@@ -43,17 +46,19 @@ namespace SeeloewenCraft
             bdrSlot.MouseDown += bdrSlot_MouseDown;
         }
 
+        //-- Custom Methods --//
+
         public void SelectSlot()
         {
             //Select the slot
             foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
             {
                 slot.bdrSlot.BorderBrush = new SolidColorBrush(Colors.Transparent);
-                slot.bdrSlot.BorderThickness = new System.Windows.Thickness(3, 3, 3, 3);
+                slot.bdrSlot.BorderThickness = new Thickness(3, 3, 3, 3);
                 slot.isSelected = false;
             }
             bdrSlot.BorderBrush = new SolidColorBrush(Color.FromArgb(100, 18, 18, 18));
-            bdrSlot.BorderThickness = new System.Windows.Thickness(5, 5, 5, 5);
+            bdrSlot.BorderThickness = new Thickness(5, 5, 5, 5);
             isSelected = true;
         }
 

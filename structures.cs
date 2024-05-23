@@ -34,6 +34,8 @@ namespace SeeloewenCraft
         public bool isNew;
         public bool canFloat;
 
+        //-- Constructor --//
+
         public Structure(wndGame wndGame, Chunk chunk, bool canFloat)
         {
             //Set the attributes
@@ -42,13 +44,14 @@ namespace SeeloewenCraft
             this.canFloat = canFloat;
         }
 
+        //-- Custom Methods --//
+
         public void SetupStructure(int xBase, int yBase, string direction)
         {
-            this.direction = direction;
-
-            //Set the base coordinates
+            //Set the base coordinates and direction
             this.xBase = xBase;
             this.yBase = yBase;
+            this.direction = direction;
 
             //Check if the structure will be cut off
             if (isNew == true)
@@ -167,12 +170,11 @@ namespace SeeloewenCraft
 
             block.yPos = yBase - yOffset;
             blockList.Add(block);
-
         }
 
         public void BeginGeneration(int x, int y, int index, bool isNew)
         {
-            if (y != 0) //The game somehow tries to generate structures on y0 at some points. This is to prevent that
+            if (y != 0) //The game somehow tries to generate structures on y0 at some points. This is to prevent that. An actual fix may follow later.
             {
                 this.isNew = isNew;
                 //Check which direction it's going to be built in
@@ -221,7 +223,9 @@ namespace SeeloewenCraft
         }
     }
 
-    public class ContinuationStructure : Structure
+    //-- Structures --//
+
+    public class ContinuationStructure : Structure //This is not a normal structure. Its component list is made up of components that originally belonged to another structure but were cut off. This serves as a continuation.
     {
         public ContinuationStructure(List<StructureComponent> structureList, wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, int remainingWidth, bool canFloat) : base(wndGame, chunk, canFloat)
         {
@@ -239,7 +243,7 @@ namespace SeeloewenCraft
         }
     }
 
-    public class AlphaStructure : Structure
+    public class AlphaStructure : Structure //Not currently used, was only in the game for debugging
     {
         public AlphaStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
         {
@@ -459,7 +463,7 @@ namespace SeeloewenCraft
         }
     }
 
-    public class AlphaCave : Structure
+    public class AlphaCave : Structure //This was a test implementation of caves. It works partially, but has many issues and doesn't look good. Not used anymore.
     {
         public AlphaCave(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
         {
@@ -533,14 +537,9 @@ namespace SeeloewenCraft
                 foreach (StructureComponent structureComponent in temporaryComponentList)
                 {
                     structureComponents.Add(structureComponent);
-                    Console.WriteLine("Added component " + structureComponent.xOffset + " " + structureComponent.yOffset);
                 }
                 temporaryComponentList.Clear();
-                Console.WriteLine("Cleared List!");
-
             }
-
-            Console.WriteLine("Structure Components Count: " + structureComponents.Count.ToString());
 
             //Get width
             List<int> handledX = new List<int>();
@@ -552,15 +551,15 @@ namespace SeeloewenCraft
                 }
             }
             totalWidth = handledX.Count;
-            Console.WriteLine("Structure total width: " + totalWidth);
 
-            //Begin generating the alpha structure - was only meant for development purposes and is no longer in the game
+            //Begin generating the cave
             BeginGeneration(x, y, index, isNew);
         }
 
-        //I have no idea how I thought this is a good name of a method
+        //I have no idea how I thought this is a good name for a method
         public bool StructureComponentsListContainsStructureComponent(List<StructureComponent> structureComponentList, StructureComponent structureComponent)
         {
+            //Check if the structure component list already contains a structure component with the same coordinates
             foreach (StructureComponent entry in structureComponentList)
             {
                 if (structureComponent.xOffset == entry.xOffset && structureComponent.yOffset == entry.yOffset)
@@ -572,6 +571,7 @@ namespace SeeloewenCraft
         }
     }
 
+    //Components that tell the structure which blocks to place at which position
     public class StructureComponent
     {
         public Block block;

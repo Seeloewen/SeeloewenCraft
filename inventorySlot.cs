@@ -20,6 +20,8 @@ namespace SeeloewenCraft
         public int itemAmount;
         public bool isSelected;
 
+        //-- Constructor --//
+
         public InventorySlot(wndGame wndGame, int xPos, int yPos)
         {
             //Set the attributes
@@ -39,6 +41,8 @@ namespace SeeloewenCraft
             Canvas.SetLeft(tblItemAmount, 50);
             Canvas.SetTop(tblItemAmount, 45);
         }
+
+        //-- Custom Methods --//
 
         public void SetItem(Item item)
         {
@@ -81,6 +85,8 @@ namespace SeeloewenCraft
             itemAmount = 0;
             tblItemAmount.Text = "";
         }
+
+        //-- Event Handlers --//
 
         private void bdrSlot_MouseDown(object sender, EventArgs e)
         {

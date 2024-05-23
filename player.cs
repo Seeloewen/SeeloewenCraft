@@ -28,6 +28,8 @@ namespace SeeloewenCraft
         private int halfedJumpCount;
         public bool isJumping;
 
+        //-- Constructor --//
+
         public Player(wndGame wndGame, int x, int y)
         {
             //Set the attributes
@@ -36,6 +38,9 @@ namespace SeeloewenCraft
             //Generate the player
             GeneratePlayer(x, y);
         }
+
+
+        //-- Custom Methods --//
 
         public void GeneratePlayer(int x, int y)
         {

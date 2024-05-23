@@ -16,15 +16,17 @@ namespace SeeloewenCraft
 {
     public class Inventory
     {
+        wndGame wndGame;
         public List<InventorySlot> slotList = new List<InventorySlot>();
         public List<HotbarSlot> hotbarSlotList = new List<HotbarSlot>();
         public Grid grdInventory = new Grid();
         public Grid grdHotbar = new Grid();
-        wndGame wndGame;
         public string inventoryDirectory;
         public bool isShown = false;
         public bool hasHotbar = false;
         public int id = 0;
+
+        //-- Constructuror --//
 
         public Inventory(wndGame wndGame, int id, bool hasHotbar)
         {
@@ -111,6 +113,8 @@ namespace SeeloewenCraft
                 }
             }
         }
+
+        //-- Custom Methods --//
 
         public void AddItem(Item item)
         {
@@ -358,6 +362,10 @@ namespace SeeloewenCraft
                             else if (itemSplit[0] == "BedrockItem")
                             {
                                 slot.AddToSlot(new BedrockItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
+                            }
+                            else if (itemSplit[0] == "MagmaBlockItem")
+                            {
+                                slot.AddToSlot(new MagmaBlockItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
                             }
                         }
                     }

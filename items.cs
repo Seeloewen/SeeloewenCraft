@@ -27,6 +27,8 @@ namespace SeeloewenCraft
         public bool isPlacable = false;
 
 
+        //-- Constructor --//
+
         public Item(wndGame wndGame, int id, Block block)
         {
             //Set the attributes
@@ -53,15 +55,20 @@ namespace SeeloewenCraft
             }
         }
 
+        //-- Custom Methods --//
+
         public void SetTexture(ImageBrush texture)
         {
+            //Set the texture of the block on the canvas
             image = texture;
             cvsItem.Background = image;
         }
 
+        //This is currently required, but may be changed in the future if items that don't have blocks are added
         public abstract Block GenerateBlock(int x, int y, Chunk chunk);
-
     }
+
+    //-- Items --//
 
     public class GrassItem : Item
     {
