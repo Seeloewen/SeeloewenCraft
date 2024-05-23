@@ -37,7 +37,7 @@ namespace Random_2D_Terrain_Generator_2._0
 
                     if (Directory.Exists(string.Format("{0}/{1}", gameDirectory, "debug")))
                     {
-                        Directory.Delete(string.Format("{0}/{1}", gameDirectory, "debug"));
+                        Directory.Delete(string.Format("{0}/{1}", gameDirectory, "debug"), true);
                     }
 
 
