@@ -25,18 +25,18 @@ namespace SeeloewenCraft
             this.yOffset = yOffset;
 
             //Add all structurecomponents to the list
-            structureComponents.Add(new StructureComponent(wndGame, xOffset, yOffset + 1, new AirBlock(wndGame, xOffset, yOffset, chunk, null, false    )));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset, yOffset + 2, new AirBlock(wndGame, xOffset, yOffset, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 1, yOffset + 1, new AirBlock(wndGame, xOffset, yOffset, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 1, yOffset, new AirBlock(wndGame, xOffset, yOffset, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 1, yOffset + 2, new AirBlock(wndGame, xOffset, yOffset, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 1, yOffset + 3, new AirBlock(wndGame, xOffset, yOffset, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 2, yOffset, new AirBlock(wndGame, xOffset, yOffset, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 2, yOffset + 1, new AirBlock(wndGame, xOffset, yOffset, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 2, yOffset + 2, new AirBlock(wndGame, xOffset, yOffset, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 2, yOffset + 3, new AirBlock(wndGame, xOffset, yOffset, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 3, yOffset + 1, new AirBlock(wndGame, xOffset, yOffset, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 3, yOffset + 2, new AirBlock(wndGame, xOffset, yOffset, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset, yOffset + 1, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true    )));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset, yOffset + 2, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + 1, yOffset + 1, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + 1, yOffset, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + 1, yOffset + 2, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + 1, yOffset + 3, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + 2, yOffset, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + 2, yOffset + 1, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + 2, yOffset + 2, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + 2, yOffset + 3, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + 3, yOffset + 1, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset + 3, yOffset + 2, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
 
             //Add the bordercomponents to the list
             borderComponents.Add(new BorderComponent("left", xOffset, yOffset + 1));
