@@ -36,7 +36,8 @@ namespace SeeloewenCraft
         public Point mousePosition;
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
         private string worldName;
-        public string version;
+        public int worldVersion;
+        public string gameVersion;
         public string worldDirectory = "";
         private bool goLeft = false;
         private bool goRight = false;
@@ -44,27 +45,63 @@ namespace SeeloewenCraft
         public int goRightAmount = 10;
         public double relativeSvPos = 0;
         public double defaultSvPos = 0;
+        public bool finishedLoading = false;
         public List<BlockContainerList> blockContainerList = new List<BlockContainerList>();
 
 
         //-- Constructor --//
 
-        public wndGame(string worldName, bool isNew, string version)
+        public wndGame(string worldName, bool isNew, int worldVersion, string gameVersion)
         {
             InitializeComponent();
 
             //Set world name and create game
             this.worldName = worldName;
-            this.version = version;
-            CreateGame(worldName, isNew);
+            this.worldVersion = worldVersion;
+            this.gameVersion = gameVersion;
+
+            if (!isNew && GetWorldVersion(worldName) < worldVersion)
+            {
+                MessageBoxResult result = MessageBox.Show("You are trying to load an outdated world. This may lead to corruption or other issues. You have been warned! Do you wish to continue?", "Load outdated world", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        CreateGame(worldName, isNew);
+                        break;
+                }
+            }
+            else
+            {
+                CreateGame(worldName, isNew);
+            }
         }
 
 
         //-- Custom Methods --//
 
+        public int GetWorldVersion(string worldName)
+        {
+            //Check if the world settings file exists
+            if (File.Exists(string.Format("{0}/SeeloewenCraft/{1}/settings.txt", appData, worldName)))
+            {
+                try
+                {
+                    string[] fileContent = File.ReadAllLines(string.Format("{0}/SeeloewenCraft/{1}/settings.txt", appData, worldName));
+                    int worldVersion = Convert.ToInt32(fileContent[1].Replace("worldVersion=", ""));
+                    return worldVersion;
+                }
+                catch 
+                {
+                    Console.WriteLine("[Error] Could not read worldVersion from settings file.");
+                }
+            }
+            return 0;
+        }
+
         public void GenerateBlockContainer()
         {
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 blockContainerList.Add(new BlockContainerList(this));
             }
@@ -78,6 +115,17 @@ namespace SeeloewenCraft
                 Directory.CreateDirectory(string.Format("{0}/SeeloewenCraft/{1}", appData, worldName));
             }
             worldDirectory = string.Format("{0}/SeeloewenCraft/{1}", appData, worldName);
+
+            //Check if the world settings file exists and create it otherwise
+            if (!File.Exists($"{worldDirectory}/settings.txt"))
+            {
+                List<string> worldSettings = new List<string>
+                {
+                    $"#SeeloewenCraft World Settings",
+                    $"worldVersion={worldVersion}"
+                };
+                File.WriteAllLines($"{worldDirectory}/settings.txt", worldSettings);
+            }
 
             //Create the game components
             GenerateBlockContainer();
@@ -102,6 +150,8 @@ namespace SeeloewenCraft
                 //Give the player a hammer -- !! Only temporary until Crafting is implemented !!
                 player.inventory.AddItem(new HammerItem(this, 0, null));
             }
+
+            finishedLoading = true;
         }
 
         public void CreatePlayer()
@@ -465,7 +515,7 @@ namespace SeeloewenCraft
             else if (tbDebug.Text == "/about")
             {
                 //Show 'About' message
-                MessageBox.Show(string.Format("You are running SeeloewenCraft Version {0} - This version is not meant to be publicly shared and shall only be used for private purposes.", version), "/about");
+                MessageBox.Show(string.Format("You are running SeeloewenCraft Version {0} - This version is not meant to be publicly shared and shall only be used for private purposes.", gameVersion), "/about");
             }
             else if (tbDebug.Text == "/generateplayer")
             {
@@ -608,14 +658,17 @@ namespace SeeloewenCraft
         private void wndGame1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //If the setting to save worlds on closing is enabled
-            if (Properties.Settings.Default.saveWorldOnClose == true)
+            if (finishedLoading)
             {
-                //Save all chunks and the inventory of the player
-                foreach (Chunk chunk in chunkList)
+                if (Properties.Settings.Default.saveWorldOnClose == true)
                 {
-                    chunk.SaveChunk();
+                    //Save all chunks and the inventory of the player
+                    foreach (Chunk chunk in chunkList)
+                    {
+                        chunk.SaveChunk();
+                    }
+                    player.inventory.SaveInventory(worldDirectory);
                 }
-                player.inventory.SaveInventory(worldDirectory);
             }
         }
 

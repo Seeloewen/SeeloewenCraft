@@ -56,10 +56,13 @@ namespace SeeloewenCraft
         {
             if(string.IsNullOrEmpty(cbxWorld.Text) == false)
             {
-                wndGame = new wndGame(cbxWorld.Text, false, wndMenu.version);
-                wndGame.Show();
-                wndMenu.Owner = wndGame;
-                wndMenu.Close();
+                wndGame = new wndGame(cbxWorld.Text, false, wndMenu.worldVersion, wndMenu.gameVersion);
+                if (wndGame.finishedLoading)
+                {
+                    wndGame.Show();
+                    wndMenu.Owner = wndGame;
+                    wndMenu.Close();
+                }
             }
             else
             {

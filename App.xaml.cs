@@ -19,11 +19,11 @@ namespace Random_2D_Terrain_Generator_2._0
         private void Application_Startup(object sender, StartupEventArgs e)
         {
 
+            wndMenu wndMenu = new wndMenu();
 
             switch (e.Args.Length)
             {
                 case 0:
-                    wndMenu wndMenu = new wndMenu();
                     wndMenu.Show();
                     break;
                 case 1:
@@ -40,8 +40,8 @@ namespace Random_2D_Terrain_Generator_2._0
                         Directory.Delete(string.Format("{0}/{1}", gameDirectory, "debug"), true);
                     }
 
-
-                    wndGame wndGame = new wndGame("debug", true, "currently unused");
+                    wndGame wndGame = new wndGame("debug", true, wndMenu.worldVersion, wndMenu.gameVersion);
+                    wndMenu.Owner = wndGame;
                     wndGame.Show();
 
                     break;
