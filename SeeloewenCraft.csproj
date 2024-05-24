@@ -61,7 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BlockContainer.cs" />
+    <Compile Include="blockContainer.cs" />
     <Compile Include="blockContainerList.cs" />
     <Compile Include="blocks.cs" />
     <Compile Include="caveGeneration.cs" />
@@ -142,64 +142,38 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Background.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\ChestBlock.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\MagmaBlock.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\PumpkinBlock.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Resources\Background.png" />
+    <Resource Include="Resources\ChestBlock.png" />
+    <Resource Include="Resources\MagmaBlock.png" />
+    <Resource Include="Resources\PumpkinBlock.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\StoneBlock.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Resources\StoneBlock.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\AirBlock.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Resources\AirBlock.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\CoalOreBlock.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Resources\CoalOreBlock.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\DiamondOreBlock.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Resources\DiamondOreBlock.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\DirtBlock.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Resources\DirtBlock.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\BedrockBlock.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Resources\BedrockBlock.png" />
     <Resource Include="Resources\GrassBlock.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\IronOreBlock.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Resources\IronOreBlock.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\OakLeavesBlock.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Resources\OakLeavesBlock.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\OakLogBlock.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Resources\OakLogBlock.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

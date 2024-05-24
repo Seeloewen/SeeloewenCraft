@@ -20,11 +20,14 @@ namespace SeeloewenCraft
         public Chunk chunk;
         public Item item;
         public Inventory blockInventory;
+        public string name;
         public int xPos;
         public int yPos;
         public bool isSolid = true;
         public bool isBreakable = true;
         public bool hasInventory = false;
+
+        //-- Constructor --//
 
         public Block(wndGame wndGame, int xPos, int yPos, Chunk chunk, Item item)
         {
@@ -44,8 +47,11 @@ namespace SeeloewenCraft
             }
         }
 
+        //-- Custom Methods --//
+
         public void SetContainer(BlockContainer blockContainer)
         {
+            //Add image and events to the container
             this.blockContainer = blockContainer;
             this.blockContainer.cvsBlock.Background = image;
             this.blockContainer.cvsBlock.MouseLeftButtonDown += cvsBlock_MouseLeftButtonDown;
@@ -56,15 +62,16 @@ namespace SeeloewenCraft
 
         public void RemoveHandlersFromContainer()
         {
+            //Remove the events from the container
             blockContainer.cvsBlock.MouseLeftButtonDown -= cvsBlock_MouseLeftButtonDown;
             blockContainer.cvsBlock.MouseRightButtonDown -= cvsBlock_MouseRightButtonDown;
             blockContainer.cvsBlock.MouseEnter -= cvsBlock_MouseEnter;
             blockContainer.cvsBlock.MouseLeave -= cvsBlock_MouseLeave;
         }
 
-        private bool isCollidingWithPlayer(object element)
+        private bool IsCollidingWithPlayer(object element)
         {
-            if (element is Canvas canvas)
+            if (element is Canvas)
             {
                 //Check for collision
                 if (wndGame.GetRectangle(wndGame.player.cvsPlayerHitbox).IntersectsWith(wndGame.GetRectangle(blockContainer.cvsBlock)))
@@ -85,6 +92,7 @@ namespace SeeloewenCraft
         public void ShowBlockInfo()
         {
             //Show block info
+            blockContainer.cvsBlock.Children.Clear();
             blockContainer.cvsBlock.Children.Add(new TextBlock { Text = string.Format("x: {0} y:{1}\n{2}\n{3}", xPos, yPos, GetType().ToString().Replace("SeeloewenCraft.", "").Replace("Block", ""), chunk.index) });
         }
 
@@ -114,6 +122,21 @@ namespace SeeloewenCraft
                 return false;
             }
         }
+
+        //Create the item that corresponds to the block
+        public abstract void GenerateItem(wndGame wndGame, int id);
+
+        public Item GetItem()
+        {
+            //Generate a new item if necessary and return the item
+            if (item == null)
+            {
+                GenerateItem(wndGame, 0);
+            }
+            return item;
+        }
+
+        //-- Event Handlers --//
 
         private void cvsBlock_MouseEnter(object sender, EventArgs e)
         {
@@ -153,7 +176,7 @@ namespace SeeloewenCraft
         private void cvsBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             //Check if the block is in range, not solid and doesn't collide with the player
-            if (IsInRange() == true && isSolid == false && isCollidingWithPlayer(sender) == false)
+            if (IsInRange() == true && isSolid == false && IsCollidingWithPlayer(sender) == false)
             {
                 //Go through each hotbar slot
                 foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
@@ -187,33 +210,22 @@ namespace SeeloewenCraft
             }
             else if (IsInRange() == true && isSolid == true && hasInventory == true)
             {
+                //If the block has an inventory, open it as well as the players inventory
                 Canvas.SetTop(wndGame.player.inventory.grdInventory, -10);
                 wndGame.player.inventory.ShowInventory();
                 blockInventory.ShowInventory();
             }
         }
-
-        public abstract void GenerateItem(wndGame wndGame, int id);
-
-        public Item GetItem()
-        {
-            if (item == null)
-            {
-                GenerateItem(wndGame, 0);
-                return item;
-            }
-            else
-            {
-                return item;
-            }
-        }
     }
+
+    //-- Blocks --//
 
     public class GrassBlock : Block
     {
         public GrassBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
             image = wndGame.images.GrassBlock;
+            name = "Grass Block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -227,6 +239,7 @@ namespace SeeloewenCraft
         public StoneBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
             image = wndGame.images.StoneBlock;
+            name = "Stone Block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -240,6 +253,7 @@ namespace SeeloewenCraft
         public DirtBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
             image = wndGame.images.DirtBlock;
+            name = "Dirt";
         }
 
         override public void GenerateItem   (wndGame wndGame, int id)
@@ -255,6 +269,7 @@ namespace SeeloewenCraft
             isBreakable = false;
             isSolid = false;
             image = wndGame.images.AirBlock;
+            name = "Air";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -269,6 +284,7 @@ namespace SeeloewenCraft
         {
             isBreakable = false;
             image = wndGame.images.BedrockBlock;
+            name = "Bedrock";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -282,6 +298,7 @@ namespace SeeloewenCraft
         public CoalOreBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
             image = wndGame.images.CoalOreBlock;
+            name = "Coal Ore";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -295,6 +312,7 @@ namespace SeeloewenCraft
         public DiamondOreBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
             image = wndGame.images.IronOreBlock;
+            name = "Diamond Ore";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -308,6 +326,7 @@ namespace SeeloewenCraft
         public IronOreBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
             image = wndGame.images.IronOreBlock;
+            name = "Iron Ore";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -322,6 +341,7 @@ namespace SeeloewenCraft
         public OakLogBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
             image = wndGame.images.OakLogBlock;
+            name = "Oak Log";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -335,6 +355,7 @@ namespace SeeloewenCraft
         public OakLeavesBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
             image = wndGame.images.OakLeavesBlock;
+            name = "Oak Leaves";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -352,6 +373,7 @@ namespace SeeloewenCraft
             Canvas.SetTop(blockInventory.grdInventory, 410);
             wndGame.inventoryList.Add(blockInventory);
             image = wndGame.images.ChestBlock;
+            name = "Chest";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -365,6 +387,7 @@ namespace SeeloewenCraft
         public MagmaBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
         {
             image = wndGame.images.MagmaBlock;
+            name = "Magma Block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)

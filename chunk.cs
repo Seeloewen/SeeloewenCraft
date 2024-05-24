@@ -17,7 +17,7 @@ namespace SeeloewenCraft
     {
         public List<Block> blockList = new List<Block>();
         public List<Structure> structureList = new List<Structure>();
-        public blockContainerList blockContainerList;
+        public BlockContainerList blockContainerList;
         public Grid grdChunk = new Grid();
         private Random rnd = new Random(DateTime.Now.Millisecond);
         wndGame wndGame;
@@ -25,6 +25,8 @@ namespace SeeloewenCraft
         public int floorHeightRight;
         public int floorHeightLeft;
         string chunkDirectory;
+
+        //-- Constructor --//
 
         public Chunk(wndGame wndGame, int index)
         {
@@ -34,19 +36,21 @@ namespace SeeloewenCraft
 
             //Begin loading the chunk
             chunkDirectory = string.Format("{0}/chunk{1}", wndGame.worldDirectory, index);
-
             LoadChunk();
         }
 
+        //-- Custom Methods --//
+
         public void SetBlock(Block block, int x, int y)
         {
-            if(blockContainerList.GetContainer(x,y) != null)
+            //Check if the coordinate has a container and place the block into that container if possible
+            if (blockContainerList.GetContainer(x, y) != null)
             {
                 blockContainerList.GetContainer(x, y).SetBlock(block);
             }
             else
             {
-                MessageBox.Show("Error: Could not find container");
+                Console.WriteLine($"[Error] Could not find container at x{x} y{y} for block {block.name}");
             }
         }
 
@@ -93,7 +97,7 @@ namespace SeeloewenCraft
             }
 
             //Get the container list
-            foreach (blockContainerList containerList in wndGame.blockContainerList)
+            foreach (BlockContainerList containerList in wndGame.blockContainerList)
             {
                 if (containerList.IsAvailable())
                 {
@@ -116,7 +120,6 @@ namespace SeeloewenCraft
                 GenerateCaves();
                 ContinueStructureGeneration();
 
-
                 //Go through each block and add it to the chunk
                 try
                 {
@@ -127,9 +130,8 @@ namespace SeeloewenCraft
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error while loading chunk: {ex}");
+                    Console.WriteLine($"[Error] Could not load chunk: {ex}");
                 }
-
 
                 //Save the chunk
                 SaveChunk();
@@ -189,6 +191,10 @@ namespace SeeloewenCraft
                     {
                         blockList.Add(new ChestBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null));
                     }
+                    else if (blockSplit[0] == "MagmaBlock")
+                    {
+                        blockList.Add(new MagmaBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null));
+                    }
                     else
                     {
                         blockList.Add(new AirBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null));
@@ -208,7 +214,7 @@ namespace SeeloewenCraft
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error while loading chunk: {ex}");
+                    Console.WriteLine($"[Error] Could not load chunk: {ex}");
                 }
 
                 //Read the chunk settings from the file
@@ -239,7 +245,6 @@ namespace SeeloewenCraft
         }
         public void LoadInventories()
         {
-
             //Go through each block
             foreach (Block block in blockList)
             {
@@ -402,7 +407,7 @@ namespace SeeloewenCraft
                             int random = rnd.Next(1, 3);
                             if (random == 1)
                             {
-                                blockList.Add(new DirtBlock(wndGame,x, y, this, null));
+                                blockList.Add(new DirtBlock(wndGame, x, y, this, null));
                             }
                             else
                             {
@@ -433,7 +438,6 @@ namespace SeeloewenCraft
         private void GenerateTrees()
         {
             //Generate up to 3 trees
-            //WIP - Structure Rework
             for (int i = 0; i < 3; i++)
             {
                 int random = rnd.Next(0, 3);
@@ -454,7 +458,6 @@ namespace SeeloewenCraft
         private void GenerateOres()
         {
             //Generate up to 15 ores
-            //WIP - Structure Rework
             for (int i = 0; i < 15; i++)
             {
                 int random = rnd.Next(0, 3);
@@ -477,34 +480,28 @@ namespace SeeloewenCraft
         private void GenerateCaves()
         {
             //Generate up to 1 cave
-            //WIP - Structure Rework
             int random = rnd.Next(1, 9);
             if (random == 1)
             {
                 for (int i = 0; i < 1; i++)
                 {
-                    int random2 = rnd.Next(2, 3);
-                    if (random2 == 2)
+                    int xPos = rnd.Next(0, 9);
+                    int yPos = 0;
+                    foreach (Block block in blockList)
                     {
-                        int xPos = rnd.Next(0, 9);
-                        int yPos = 0;
-                        foreach (Block block in blockList)
+                        if (block.xPos == xPos && block is GrassBlock)
                         {
-                            if (block.xPos == xPos && block is GrassBlock)
-                            {
-                                yPos = rnd.Next(block.yPos + 15, 70);
-                            }
+                            yPos = rnd.Next(block.yPos + 15, 70);
                         }
-                        structureList.Add(new Cave(wndGame, xPos, yPos, index, true, this, true));
                     }
+                    structureList.Add(new Cave(wndGame, xPos, yPos, index, true, this, true));
                 }
             }
         }
 
         private void ContinueStructureGeneration()
         {
-            //Continue Structure Generation
-            //WIP - Structure Rework
+            //Continue Structure Generation by adding a continuation strucutre, which contains the structure components that were previously cut off
             if (index > 0)
             {
                 foreach (Structure structure in wndGame.GetChunk(index - 1).structureList)
@@ -514,7 +511,6 @@ namespace SeeloewenCraft
                         structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, 1, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat));
                     }
                 }
-
             }
             else if (index < 0)
             {

@@ -64,6 +64,7 @@ namespace SeeloewenCraft
 
         public void Clear()
         {
+            //Remove the link between container and block
             if (block != null)
             {
                 block.blockContainer = null;
