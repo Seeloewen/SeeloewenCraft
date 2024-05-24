@@ -274,13 +274,13 @@ namespace SeeloewenCraft
             totalWidth = 5;
 
             //Layer 1
-            structureComponents.Add(new StructureComponent(wndGame, 2, 0, new OakLogBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(wndGame, 2, 0, new OakLogBlock(wndGame, x, y, chunk, null, true)));
 
             //Layer 2
-            structureComponents.Add(new StructureComponent(wndGame, 2, 1, new OakLogBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(wndGame, 2, 1, new OakLogBlock(wndGame, x, y, chunk, null, true)));
 
             //Layer 3
-            structureComponents.Add(new StructureComponent(wndGame, 2, 2, new OakLogBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(wndGame, 2, 2, new OakLogBlock(wndGame, x, y, chunk, null, true)));
 
             //Layer 4
             structureComponents.Add(new StructureComponent(wndGame, 1, 3, new OakLeavesBlock(wndGame, x, y, chunk, null, false)));
