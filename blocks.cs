@@ -24,18 +24,21 @@ namespace SeeloewenCraft
         public int xPos;
         public int yPos;
         public bool isSolid = true;
+        public bool isInBackground = false;
+        public bool hasFixedSolidState = false;
         public bool isBreakable = true;
         public bool hasInventory = false;
 
         //-- Constructor --//
 
-        public Block(wndGame wndGame, int xPos, int yPos, Chunk chunk, Item item)
+        public Block(wndGame wndGame, int xPos, int yPos, Chunk chunk, Item item, bool isInBackground)
         {
             //Set the attributes
             this.wndGame = wndGame;
             this.xPos = xPos;
             this.yPos = yPos;
             this.chunk = chunk;
+            this.isInBackground = isInBackground;
 
             if (item != null)
             {
@@ -51,13 +54,28 @@ namespace SeeloewenCraft
 
         public void SetContainer(BlockContainer blockContainer)
         {
-            //Add image and events to the container
             this.blockContainer = blockContainer;
             this.blockContainer.cvsBlock.Background = image;
             this.blockContainer.cvsBlock.MouseLeftButtonDown += cvsBlock_MouseLeftButtonDown;
             this.blockContainer.cvsBlock.MouseRightButtonDown += cvsBlock_MouseRightButtonDown;
             this.blockContainer.cvsBlock.MouseEnter += cvsBlock_MouseEnter;
             this.blockContainer.cvsBlock.MouseLeave += cvsBlock_MouseLeave;
+            //Add image and events to the container
+            if (!hasFixedSolidState)
+            {
+                if (isInBackground)
+                {
+                    MoveToBackground();
+                }
+                else
+                {
+                    MoveToForeground();
+                }
+            }
+            else
+            {
+                this.blockContainer.HideDarkRectangle();
+            }
         }
 
         public void RemoveHandlersFromContainer()
@@ -100,6 +118,20 @@ namespace SeeloewenCraft
         {
             //Hide the block info
             blockContainer.cvsBlock.Children.Clear();
+        }
+
+        public void MoveToBackground()
+        {
+            isInBackground = true;
+            isSolid = false;
+            blockContainer.ShowDarkRectangle();
+        }
+
+        public void MoveToForeground()
+        {
+            isInBackground = false;
+            isSolid = true;
+            blockContainer.HideDarkRectangle();
         }
 
         public bool IsInRange()
@@ -163,11 +195,12 @@ namespace SeeloewenCraft
             {
                 //Remove the block from the chunks blocklist and add an airblock
                 chunk.blockList.Remove(this);
-                Block block = new AirBlock(wndGame, xPos, yPos, chunk, null);
+                Block block = new AirBlock(wndGame, xPos, yPos, chunk, null, false);
                 chunk.blockList.Add(block);
                 chunk.SetBlock(block, xPos, yPos);
 
                 //Add the block's item to the inventory
+                MoveToForeground();
                 GenerateItem(wndGame, 0);
                 wndGame.player.inventory.AddItem(item);
             }
@@ -175,18 +208,42 @@ namespace SeeloewenCraft
 
         private void cvsBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
+            //If the player is holding a hammer, move the item to the background or foreground (if possible)
+            if (!hasFixedSolidState)
+            {
+                foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
+                {
+                    //Check if the slot is selected and has an item
+                    if (slot.isSelected == true && slot.slot.items.Count > 0)
+                    {
+                        //Check if the item is a hammer
+                        if (slot.slot.items[slot.slot.items.Count - 1].itemName == "Hammer")
+                        {
+                            if (isInBackground)
+                            {
+                                MoveToForeground();
+                            }
+                            else
+                            {
+                                MoveToBackground();
+                            }
+                        }
+                    }
+                }
+
+            }
             //Check if the block is in range, not solid and doesn't collide with the player
-            if (IsInRange() == true && isSolid == false && IsCollidingWithPlayer(sender) == false)
+            else if (IsInRange() == true && isSolid == false && IsCollidingWithPlayer(sender) == false)
             {
                 //Go through each hotbar slot
                 foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
                 {
-                    //Check if the slot is selected annd has an item
+                    //Check if the slot is selected and has an item
                     if (slot.isSelected == true && slot.slot.items.Count > 0)
                     {
                         if (slot.slot.items[slot.slot.items.Count - 1].block == null)
                         {
-                            slot.slot.items[slot.slot.items.Count - 1].block = slot.slot.items[slot.slot.items.Count - 1].GenerateBlock(0, 0, chunk);
+                            slot.slot.items[slot.slot.items.Count - 1].block = slot.slot.items[slot.slot.items.Count - 1].GenerateBlock(0, 0, chunk, false);
                         }
 
                         //Check if the slots item is placable
@@ -222,7 +279,7 @@ namespace SeeloewenCraft
 
     public class GrassBlock : Block
     {
-        public GrassBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
+        public GrassBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             image = wndGame.images.GrassBlock;
             name = "Grass Block";
@@ -236,7 +293,7 @@ namespace SeeloewenCraft
 
     public class StoneBlock : Block
     {
-        public StoneBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
+        public StoneBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             image = wndGame.images.StoneBlock;
             name = "Stone Block";
@@ -250,13 +307,13 @@ namespace SeeloewenCraft
 
     public class DirtBlock : Block
     {
-        public DirtBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
+        public DirtBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             image = wndGame.images.DirtBlock;
             name = "Dirt";
         }
 
-        override public void GenerateItem   (wndGame wndGame, int id)
+        override public void GenerateItem(wndGame wndGame, int id)
         {
             item = new DirtItem(wndGame, id, this);
         }
@@ -264,10 +321,11 @@ namespace SeeloewenCraft
 
     public class AirBlock : Block
     {
-        public AirBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
+        public AirBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             isBreakable = false;
             isSolid = false;
+            hasFixedSolidState = true;
             image = wndGame.images.AirBlock;
             name = "Air";
         }
@@ -280,9 +338,10 @@ namespace SeeloewenCraft
 
     public class BedrockBlock : Block
     {
-        public BedrockBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
+        public BedrockBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             isBreakable = false;
+            hasFixedSolidState = true;
             image = wndGame.images.BedrockBlock;
             name = "Bedrock";
         }
@@ -295,7 +354,7 @@ namespace SeeloewenCraft
 
     public class CoalOreBlock : Block
     {
-        public CoalOreBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
+        public CoalOreBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             image = wndGame.images.CoalOreBlock;
             name = "Coal Ore";
@@ -309,7 +368,7 @@ namespace SeeloewenCraft
 
     public class DiamondOreBlock : Block
     {
-        public DiamondOreBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
+        public DiamondOreBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             image = wndGame.images.IronOreBlock;
             name = "Diamond Ore";
@@ -323,7 +382,7 @@ namespace SeeloewenCraft
 
     public class IronOreBlock : Block
     {
-        public IronOreBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
+        public IronOreBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             image = wndGame.images.IronOreBlock;
             name = "Iron Ore";
@@ -338,7 +397,7 @@ namespace SeeloewenCraft
 
     public class OakLogBlock : Block
     {
-        public OakLogBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
+        public OakLogBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             image = wndGame.images.OakLogBlock;
             name = "Oak Log";
@@ -346,13 +405,13 @@ namespace SeeloewenCraft
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
-            item = new OakLogItem(wndGame, id, this );
+            item = new OakLogItem(wndGame, id, this);
         }
     }
 
     public class OakLeavesBlock : Block
     {
-        public OakLeavesBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
+        public OakLeavesBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             image = wndGame.images.OakLeavesBlock;
             name = "Oak Leaves";
@@ -366,7 +425,7 @@ namespace SeeloewenCraft
 
     public class ChestBlock : Block
     {
-        public ChestBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
+        public ChestBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             hasInventory = true;
             blockInventory = new Inventory(wndGame, item.id, false);
@@ -384,7 +443,7 @@ namespace SeeloewenCraft
 
     public class MagmaBlock : Block
     {
-        public MagmaBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item) : base(wndGame, x, y, chunk, item)
+        public MagmaBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             image = wndGame.images.MagmaBlock;
             name = "Magma Block";

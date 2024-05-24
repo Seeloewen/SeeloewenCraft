@@ -34,5 +34,8 @@ namespace SeeloewenCraft
         public ImageBrush OakLeavesBlock = new ImageBrush { ImageSource = GetImageSource("SeeloewenCraft", "OakLeavesBlock.png") };
         public ImageBrush ChestBlock = new ImageBrush { ImageSource = GetImageSource("SeeloewenCraft", "ChestBlock.png") };
         public ImageBrush MagmaBlock = new ImageBrush { ImageSource = GetImageSource("SeeloewenCraft", "MagmaBlock.png") };
+        public ImageBrush MissingTexture = new ImageBrush { ImageSource = GetImageSource("SeeloewenCraft", "MissingTexture.png") };
+        public ImageBrush Hammer = new ImageBrush { ImageSource = GetImageSource("SeeloewenCraft", "Hammer.png") };
+
     }
 }

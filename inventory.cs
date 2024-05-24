@@ -367,6 +367,10 @@ namespace SeeloewenCraft
                             {
                                 slot.AddToSlot(new MagmaBlockItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
                             }
+                            else if (itemSplit[0] == "HammerItem")
+                            {
+                                slot.AddToSlot(new HammerItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
+                            }
                         }
                     }
                 }

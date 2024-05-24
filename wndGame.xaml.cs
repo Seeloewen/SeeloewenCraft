@@ -93,9 +93,14 @@ namespace SeeloewenCraft
             tmrMovement.Start();
 
             //Load the player inventory if the world is not new
-            if (isNew == false)
+            if (!isNew)
             {
                 player.inventory.LoadInventory(worldDirectory, 0);
+            }
+            else
+            {
+                //Give the player a hammer -- !! Only temporary until Crafting is implemented !!
+                player.inventory.AddItem(new HammerItem(this, 0, null));
             }
         }
 

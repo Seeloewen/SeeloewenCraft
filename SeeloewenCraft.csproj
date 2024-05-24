@@ -176,7 +176,10 @@
     <Resource Include="Resources\OakLogBlock.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MissingTexture.png" />
+    <Resource Include="Resources\MissingTexture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Hammer.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
