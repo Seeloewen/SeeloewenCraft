@@ -209,7 +209,7 @@ namespace SeeloewenCraft
         private void cvsBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             //If the player is holding a hammer, move the item to the background or foreground (if possible)
-            if (!hasFixedSolidState)
+            if (!hasFixedSolidState && IsInRange() == true)
             {
                 foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
                 {
