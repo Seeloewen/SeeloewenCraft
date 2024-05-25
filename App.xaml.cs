@@ -41,8 +41,8 @@ namespace Random_2D_Terrain_Generator_2._0
                     }
 
                     wndGame wndGame = new wndGame("debug", true, wndMenu.worldVersion, wndMenu.gameVersion);
-                    wndMenu.Owner = wndGame;
                     wndGame.Show();
+                    wndMenu.Owner = wndGame;
 
                     break;
             }
