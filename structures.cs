@@ -130,7 +130,7 @@ namespace SeeloewenCraft
             //Add all blocks from the structure to the blocklist
             foreach (Block block in blockList)
             {
-                if (block.xPos > 0 && block.xPos < 9)
+                if (block.xPos > 0 && block.xPos < 9 && block.yPos > 0 && block.yPos < 76)
                 {
                     chunk.blockList.Add(block);
 
