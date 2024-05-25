@@ -343,6 +343,14 @@ namespace SeeloewenCraft
                             {
                                 slot.AddToSlot(new OakLeavesItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
                             }
+                            else if (itemSplit[0] == "SpruceLogItem")
+                            {
+                                slot.AddToSlot(new SpruceLogItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
+                            }
+                            else if (itemSplit[0] == "SpruceLeavesItem")
+                            {
+                                slot.AddToSlot(new SpruceLeavesItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
+                            }
                             else if (itemSplit[0] == "CoalOreItem")
                             {
                                 slot.AddToSlot(new CoalOreItem(wndGame, Convert.ToInt32(fileSplit[1]), null));

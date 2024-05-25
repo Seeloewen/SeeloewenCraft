@@ -187,6 +187,14 @@ namespace SeeloewenCraft
                     {
                         blockList.Add(new OakLeavesBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
                     }
+                    else if (blockSplit[0] == "SpruceLogBlock")
+                    {
+                        blockList.Add(new SpruceLogBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                    }
+                    else if (blockSplit[0] == "SpruceLeavesBlock")
+                    {
+                        blockList.Add(new SpruceLeavesBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                    }
                     else if (blockSplit[0] == "ChestBlock")
                     {
                         blockList.Add(new ChestBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
@@ -450,7 +458,18 @@ namespace SeeloewenCraft
                         if (block.xPos == xPos && block is GrassBlock)
                             yPos = block.yPos - 1;
                     }
-                    structureList.Add(new TreeStructure(wndGame, xPos, yPos, index, true, this, false));
+
+                    //Decide which tree to generate, mostly generate oak trees, rarely spruce
+                    int random2 = rnd.Next(0, 6);
+                    if (random2 == 0)
+                    {
+                        structureList.Add(new SpruceTreeStructure(wndGame, xPos, yPos, index, true, this, false));
+                    }
+                    else
+                    {
+                        structureList.Add(new OakTreeStructure(wndGame, xPos, yPos, index, true, this, false));
+                    }
+
                 }
             }
         }
@@ -480,7 +499,7 @@ namespace SeeloewenCraft
         private void GenerateCaves()
         {
             //Generate up to 1 cave
-            int random = rnd.Next(1, 2);
+            int random = rnd.Next(1, 9);
             if (random == 1)
             {
                 for (int i = 0; i < 1; i++)

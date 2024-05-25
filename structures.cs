@@ -305,9 +305,9 @@ namespace SeeloewenCraft
         }
     }
 
-    public class TreeStructure : Structure
+    public class OakTreeStructure : Structure
     {
-        public TreeStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
+        public OakTreeStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
         {
             canReplaceSolidBlocks = true;
 
@@ -337,6 +337,53 @@ namespace SeeloewenCraft
 
             //Layer 6
             structureComponents.Add(new StructureComponent(wndGame, 2, 5, new OakLeavesBlock(wndGame, x, y, chunk, null, false)));
+
+            //Begin generating the trees
+            BeginGeneration(x, y, index, isNew);
+
+        }
+    }
+
+    public class SpruceTreeStructure : Structure
+    {
+        public SpruceTreeStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
+        {
+            canReplaceSolidBlocks = true;
+
+            //Set total width of the structure
+            totalWidth = 5;
+
+            //Layer 1
+            structureComponents.Add(new StructureComponent(wndGame, 2, 0, new SpruceLogBlock(wndGame, x, y, chunk, null, true)));
+
+            //Layer 2
+            structureComponents.Add(new StructureComponent(wndGame, 2, 1, new SpruceLogBlock(wndGame, x, y, chunk, null, true)));
+
+            //Layer 3
+            structureComponents.Add(new StructureComponent(wndGame, 2, 2, new SpruceLogBlock(wndGame, x, y, chunk, null, true)));
+
+            //Layer 4
+            structureComponents.Add(new StructureComponent(wndGame, 1, 3, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(wndGame, 2, 3, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(wndGame, 3, 3, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(wndGame, 4, 3, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(wndGame, 0, 3, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
+
+            //Layer 5
+            structureComponents.Add(new StructureComponent(wndGame, 1, 4, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(wndGame, 2, 4, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(wndGame, 3, 4, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
+
+            //Layer 6
+            structureComponents.Add(new StructureComponent(wndGame, 1, 5, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(wndGame, 2, 5, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(wndGame, 3, 5, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
+
+            //Layer 7
+            structureComponents.Add(new StructureComponent(wndGame, 2, 6, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
+
+            //Layer 8
+            structureComponents.Add(new StructureComponent(wndGame, 2, 7, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
 
             //Begin generating the trees
             BeginGeneration(x, y, index, isNew);

@@ -423,6 +423,34 @@ namespace SeeloewenCraft
         }
     }
 
+    public class SpruceLogBlock : Block
+    {
+        public SpruceLogBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            image = wndGame.images.SpruceLogBlock;
+            name = "Spruce Log";
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = new SpruceLogItem(wndGame, id, this);
+        }
+    }
+
+    public class SpruceLeavesBlock : Block
+    {
+        public SpruceLeavesBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            image = wndGame.images.SpruceLeavesBlock;
+            name = "Spruce Leaves";
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = new SpruceLeavesItem(wndGame, id, this);
+        }
+    }
+
     public class ChestBlock : Block
     {
         public ChestBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
