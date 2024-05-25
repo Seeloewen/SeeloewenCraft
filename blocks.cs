@@ -168,6 +168,23 @@ namespace SeeloewenCraft
             return item;
         }
 
+        public bool IsHolding(string itemName)
+        {
+            foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
+            {
+                //Check if the slot is selected and has an item
+                if (slot.isSelected == true && slot.slot.items.Count > 0)
+                {
+                    //Check if the item is the one that is being searched
+                    if (slot.slot.items[slot.slot.items.Count - 1].itemName == itemName)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         //-- Event Handlers --//
 
         private void cvsBlock_MouseEnter(object sender, EventArgs e)
@@ -209,28 +226,16 @@ namespace SeeloewenCraft
         private void cvsBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             //If the player is holding a hammer, move the item to the background or foreground (if possible)
-            if (!hasFixedSolidState && IsInRange() == true)
+            if (!hasFixedSolidState && IsInRange() && IsHolding("Hammer"))
             {
-                foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
+                if (isInBackground)
                 {
-                    //Check if the slot is selected and has an item
-                    if (slot.isSelected == true && slot.slot.items.Count > 0)
-                    {
-                        //Check if the item is a hammer
-                        if (slot.slot.items[slot.slot.items.Count - 1].itemName == "Hammer")
-                        {
-                            if (isInBackground)
-                            {
-                                MoveToForeground();
-                            }
-                            else
-                            {
-                                MoveToBackground();
-                            }
-                        }
-                    }
+                    MoveToForeground();
                 }
-
+                else
+                {
+                    MoveToBackground();
+                }
             }
             //Check if the block is in range, not solid and doesn't collide with the player
             else if (IsInRange() == true && isSolid == false && IsCollidingWithPlayer(sender) == false)

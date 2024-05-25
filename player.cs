@@ -441,12 +441,22 @@ namespace SeeloewenCraft
             {
                 foreach (Block block in chunk.blockList)
                 {
-                    if (PresentationSource.FromVisual(block.blockContainer.bdrBlock) != null)
+                    try
                     {
-                        if (wndGame.GetRectangle(cvsGravityHitbox).IntersectsWith(wndGame.GetRectangle(block.blockContainer.bdrBlock)))
+                        if(block.blockContainer == null)
                         {
-                            currentGroundBlocks.Add(block);
+                            Console.WriteLine($"[Error] Error while checking collision between player and block {block.name} at x{block.xPos} y{block.yPos}.");
                         }
+                        else if (PresentationSource.FromVisual(block.blockContainer.bdrBlock) != null)
+                        {
+                            if (wndGame.GetRectangle(cvsGravityHitbox).IntersectsWith(wndGame.GetRectangle(block.blockContainer.bdrBlock)))
+                            {
+                                currentGroundBlocks.Add(block);
+                            }
+                        }
+                    }
+                    catch (Exception ex) {
+                        Console.WriteLine($"[Error] Error while checking collision between player and block {block.name} at x{block.xPos} y{block.yPos}: {ex.Message}");
                     }
                 }
 
