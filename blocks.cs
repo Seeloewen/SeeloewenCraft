@@ -109,15 +109,51 @@ namespace SeeloewenCraft
 
         public void ShowBlockInfo()
         {
+            List<UIElement> removalList = new List<UIElement>();
+
+            //Check for existing block info
+            foreach(UIElement uiElement in blockContainer.cvsBlock.Children)
+            {
+                if(uiElement is TextBlock textBlock)
+                {
+                    if (textBlock.Tag.ToString() == "BlockInfo")
+                    {
+                        removalList.Add(uiElement);
+                    }
+                }
+            }
+
+            //Remove the existing block info
+            foreach (UIElement uiElement in removalList)
+            {
+                blockContainer.cvsBlock.Children.Remove(uiElement);
+            }
+
             //Show block info
-            blockContainer.cvsBlock.Children.Clear();
-            blockContainer.cvsBlock.Children.Add(new TextBlock { Text = string.Format("x: {0} y:{1}\n{2}\n{3}", xPos, yPos, GetType().ToString().Replace("SeeloewenCraft.", "").Replace("Block", ""), chunk.index) });
+            blockContainer.cvsBlock.Children.Add(new TextBlock { Text = string.Format("x: {0} y:{1}\n{2}\n{3}", xPos, yPos, GetType().ToString().Replace("SeeloewenCraft.", "").Replace("Block", ""), chunk.index), Tag = "BlockInfo" });
         }
 
         public void HideBlockInfo()
         {
-            //Hide the block info
-            blockContainer.cvsBlock.Children.Clear();
+            List<UIElement> removalList = new List<UIElement>();
+
+            //Check for existing block info
+            foreach (UIElement uiElement in blockContainer.cvsBlock.Children)
+            {
+                if (uiElement is TextBlock textBlock)
+                {
+                    if (textBlock.Tag.ToString() == "BlockInfo")
+                    {
+                        removalList.Add(uiElement);
+                    }
+                }
+            }
+
+            //Remove the existing block info
+            foreach (UIElement uiElement in removalList)
+            {
+                blockContainer.cvsBlock.Children.Remove(uiElement);
+            }
         }
 
         public void MoveToBackground()
