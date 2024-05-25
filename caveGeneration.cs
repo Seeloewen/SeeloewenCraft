@@ -74,6 +74,8 @@ namespace SeeloewenCraft
     {
         public Cave(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
         {
+            canReplaceSolidBlocks = false;
+
             //Determine the generation direction
             string direction = "";
             if (index >= 0)

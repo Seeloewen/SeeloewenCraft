@@ -480,7 +480,7 @@ namespace SeeloewenCraft
         private void GenerateCaves()
         {
             //Generate up to 1 cave
-            int random = rnd.Next(1, 9);
+            int random = rnd.Next(1, 2);
             if (random == 1)
             {
                 for (int i = 0; i < 1; i++)
@@ -508,7 +508,7 @@ namespace SeeloewenCraft
                 {
                     if (structure.isCutOff)
                     {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, 1, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat));
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, 1, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks));
                     }
                 }
             }
@@ -518,7 +518,7 @@ namespace SeeloewenCraft
                 {
                     if (structure.isCutOff)
                     {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, 8, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat));
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, 8, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks));
                     }
                 }
             }

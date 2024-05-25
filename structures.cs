@@ -33,6 +33,7 @@ namespace SeeloewenCraft
         public bool isCutOff;
         public bool isNew;
         public bool canFloat;
+        public bool canReplaceSolidBlocks;
 
         //-- Constructor --//
 
@@ -109,6 +110,7 @@ namespace SeeloewenCraft
         {
             //Create a list of block that will need to be replaced
             List<Block> removeBlocks = new List<Block>();
+            List<Block> nevermindBlocks = new List<Block>();
 
             foreach (Block block in blockList)
             {
@@ -121,24 +123,59 @@ namespace SeeloewenCraft
                 }
             }
 
-            //Remove the blocks from the list
-            foreach (Block block in removeBlocks)
-            {
-                chunk.blockList.Remove(block);
-            }
 
             //Add all blocks from the structure to the blocklist
             foreach (Block block in blockList)
             {
                 if (block.xPos > 0 && block.xPos < 9 && block.yPos > 0 && block.yPos < 76)
                 {
-                    chunk.blockList.Add(block);
-
-                    if (canFloat == false && block.yPos == yBase)
+                    foreach (Block blockRem in removeBlocks)
                     {
-                        MakeBaseSolid(block);
+                        //Compare each block in the structure list to the block that's already at that position; if it has a fixed solid state, don't replace it
+                        if (block.xPos == blockRem.xPos && block.yPos == blockRem.yPos)
+                        {
+                            if(!canReplaceSolidBlocks)
+                            {
+                                if (!blockRem.hasFixedSolidState)
+                                {
+                                    chunk.blockList.Add(block);
+
+                                    if (canFloat == false && block.yPos == yBase)
+                                    {
+                                        MakeBaseSolid(block);
+                                    }
+                                }
+                                else
+                                {
+                                    nevermindBlocks.Add(blockRem);
+                                }
+                            }
+                            else
+                            {
+                                chunk.blockList.Add(block);
+
+                                if (canFloat == false && block.yPos == yBase)
+                                {
+                                    MakeBaseSolid(block);
+                                }
+                            }
+
+                        }
                     }
+
                 }
+            }
+
+            //Go through the blocks that shouldn't be removed afterall
+            foreach (Block block in nevermindBlocks)
+            {
+                removeBlocks.Remove(block);
+            }
+
+            //Remove the blocks from the list
+            foreach (Block block in removeBlocks)
+            {
+                chunk.blockList.Remove(block);
             }
         }
 
@@ -227,9 +264,10 @@ namespace SeeloewenCraft
 
     public class ContinuationStructure : Structure //This is not a normal structure. Its component list is made up of components that originally belonged to another structure but were cut off. This serves as a continuation.
     {
-        public ContinuationStructure(List<StructureComponent> structureList, wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, int remainingWidth, bool canFloat) : base(wndGame, chunk, canFloat)
+        public ContinuationStructure(List<StructureComponent> structureList, wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, int remainingWidth, bool canFloat, bool canReplaceSolidBlocks) : base(wndGame, chunk, canFloat)
         {
             totalWidth = remainingWidth;
+            this.canReplaceSolidBlocks = canReplaceSolidBlocks;
 
             //Add all structure components
             foreach (StructureComponent structureComponent in structureList)
@@ -249,6 +287,7 @@ namespace SeeloewenCraft
         {
             //Set the total width of the structure
             totalWidth = 3;
+            canReplaceSolidBlocks = true;
 
             //Add all structure components - It's meant to look like a bedrock pyramid
             structureComponents.Add(new StructureComponent(wndGame, 0, 0, new BedrockBlock(wndGame, x, y, chunk, null, false)));
@@ -270,6 +309,8 @@ namespace SeeloewenCraft
     {
         public TreeStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
         {
+            canReplaceSolidBlocks = true;
+
             //Set total width of the structure
             totalWidth = 5;
 
@@ -307,6 +348,8 @@ namespace SeeloewenCraft
     {
         public OreStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
         {
+            canReplaceSolidBlocks = false;
+
             //Generate a random number between 0 and 29 to get the ore type
             //WIP - Split into seperate ore structures for getting appropriate heights
             int random1 = rnd.Next(0, 30);
@@ -469,7 +512,7 @@ namespace SeeloewenCraft
         {
             //Generate first air block (base of cave)
             List<StructureComponent> generatedComponents = new List<StructureComponent>();
-            structureComponents.Add(new StructureComponent(wndGame, 0, 0, new AirBlock(wndGame, x, y, chunk, null, false        )));
+            structureComponents.Add(new StructureComponent(wndGame, 0, 0, new AirBlock(wndGame, x, y, chunk, null, false)));
 
 
             //Go through all components
@@ -587,5 +630,5 @@ namespace SeeloewenCraft
             this.yOffset = yOffset;
             this.block = block;
         }
-    }  
+    }
 }
