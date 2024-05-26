@@ -35,9 +35,9 @@ namespace Random_2D_Terrain_Generator_2._0
                     }
                     string gameDirectory = string.Format("{0}/SeeloewenCraft/", appData);
 
-                    if (Directory.Exists(string.Format("{0}/{1}", gameDirectory, "debug")))
+                    if (Directory.Exists(string.Format("{0}/worlds/{1}", gameDirectory, "debug")))
                     {
-                        Directory.Delete(string.Format("{0}/{1}", gameDirectory, "debug"), true);
+                        Directory.Delete(string.Format("{0}/worlds/{1}", gameDirectory, "debug"), true);
                     }
 
                     wndGame wndGame = new wndGame(wndMenu, "debug", true, wndMenu.worldVersion, wndMenu.gameVersion);
