@@ -40,12 +40,12 @@ namespace SeeloewenCraft
         private void LoadWorlds()
         {
             //Get all worlds
-            string[] worlds = Directory.GetDirectories(wndMenu.gameDirectory);
+            string[] worlds = Directory.GetDirectories($"{wndMenu.gameDirectory}worlds/");
 
             //List the worlds in the combobox
             foreach(string world in worlds)
             {
-                cbxWorld.Items.Add(world.Replace(wndMenu.gameDirectory, ""));
+                cbxWorld.Items.Add(world.Replace($"{wndMenu.gameDirectory}worlds/", ""));
             }
         }
 

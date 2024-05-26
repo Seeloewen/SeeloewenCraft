@@ -108,11 +108,11 @@ namespace SeeloewenCraft
         public int GetWorldVersion(string worldName)
         {
             //Check if the world settings file exists
-            if (File.Exists(string.Format("{0}/SeeloewenCraft/{1}/settings.txt", appData, worldName)))
+            if (File.Exists(string.Format("{0}/SeeloewenCraft/worlds/{1}/settings.txt", appData, worldName)))
             {
                 try
                 {
-                    string[] fileContent = File.ReadAllLines(string.Format("{0}/SeeloewenCraft/{1}/settings.txt", appData, worldName));
+                    string[] fileContent = File.ReadAllLines(string.Format("{0}/SeeloewenCraft/worlds/{1}/settings.txt", appData, worldName));
                     int worldVersion = Convert.ToInt32(fileContent[1].Replace("worldVersion=", ""));
                     return worldVersion;
                 }
@@ -135,11 +135,11 @@ namespace SeeloewenCraft
         public void CreateGame(string worldName, bool isNew)
         {
             //Check if the world directory exists and create it otherwise
-            if (!Directory.Exists(string.Format("{0}/SeeloewenCraft/{1}", appData, worldName)))
+            if (!Directory.Exists(string.Format("{0}/SeeloewenCraft/worlds/{1}", appData, worldName)))
             {
-                Directory.CreateDirectory(string.Format("{0}/SeeloewenCraft/{1}", appData, worldName));
+                Directory.CreateDirectory(string.Format("{0}/SeeloewenCraft/worlds/{1}", appData, worldName));
             }
-            worldDirectory = string.Format("{0}/SeeloewenCraft/{1}", appData, worldName);
+            worldDirectory = string.Format("{0}/SeeloewenCraft/worlds/{1}", appData, worldName);
 
             //Check if the world settings file exists and create it otherwise
             if (!File.Exists($"{worldDirectory}/settings.txt"))

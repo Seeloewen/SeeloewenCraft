@@ -51,6 +51,13 @@ namespace SeeloewenCraft
             {
                 Directory.CreateDirectory(string.Format("{0}/SeeloewenCraft/", appData));
             }
+
+            //Check if the world directory exists
+            if (!Directory.Exists(string.Format("{0}/SeeloewenCraft/worlds", appData)))
+            {
+                Directory.CreateDirectory(string.Format("{0}/SeeloewenCraft/worlds", appData));
+            }
+
             gameDirectory = string.Format("{0}/SeeloewenCraft/", appData);
             wndSettings = new wndSettings(this);
         }

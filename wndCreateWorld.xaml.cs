@@ -38,7 +38,7 @@ namespace SeeloewenCraft
             if(string.IsNullOrEmpty(tbWorldName.Text) == false)
             {
                 //Check if the world already exists
-                if(Directory.Exists(string.Format("{0}/{1}", wndMenu.gameDirectory, tbWorldName.Text)) == false)
+                if(Directory.Exists(string.Format("{0}worlds/{1}", wndMenu.gameDirectory, tbWorldName.Text)) == false)
                 {
                     //Create a new world
                     wndMenu.wndGame = new wndGame(wndMenu, tbWorldName.Text, true, wndMenu.worldVersion, wndMenu.gameVersion);
