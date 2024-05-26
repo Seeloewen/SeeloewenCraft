@@ -21,7 +21,6 @@ namespace SeeloewenCraft
         //-- Constructor --//
 
         public wndMenu wndMenu;
-        public wndGame wndGame;
 
         public wndCreateWorld(wndMenu wndMenu)
         {
@@ -39,13 +38,13 @@ namespace SeeloewenCraft
             if(string.IsNullOrEmpty(tbWorldName.Text) == false)
             {
                 //Check if the world already exists
-                if(Directory.Exists(string.Format("{0}/{1}", wndMenu.gameDirectory, tbWorldName.Text)) == false)
+                if(Directory.Exists(string.Format("{0}worlds/{1}", wndMenu.gameDirectory, tbWorldName.Text)) == false)
                 {
                     //Create a new world
-                    wndGame = new wndGame(tbWorldName.Text, true, wndMenu.version);
-                    wndGame.Show();
-                    wndMenu.Owner = wndGame;
-                    wndMenu.Close();
+                    wndMenu.wndGame = new wndGame(wndMenu, tbWorldName.Text, true, wndMenu.worldVersion, wndMenu.gameVersion);
+                    wndMenu.Hide();
+                    wndMenu.wndGame.ShowDialog();
+                    Close();
                 }
                 else
                 {

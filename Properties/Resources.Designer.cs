@@ -143,6 +143,16 @@ namespace SeeloewenCraft.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Hammer {
+            get {
+                object obj = ResourceManager.GetObject("Hammer", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap IronOreBlock {
             get {
                 object obj = ResourceManager.GetObject("IronOreBlock", resourceCulture);
@@ -156,6 +166,16 @@ namespace SeeloewenCraft.Properties {
         internal static System.Drawing.Bitmap MagmaBlock {
             get {
                 object obj = ResourceManager.GetObject("MagmaBlock", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MissingTexture {
+            get {
+                object obj = ResourceManager.GetObject("MissingTexture", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -186,6 +206,26 @@ namespace SeeloewenCraft.Properties {
         internal static System.Drawing.Bitmap PumpkinBlock {
             get {
                 object obj = ResourceManager.GetObject("PumpkinBlock", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SpruceLeavesBlock {
+            get {
+                object obj = ResourceManager.GetObject("SpruceLeavesBlock", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SpruceLogBlock {
+            get {
+                object obj = ResourceManager.GetObject("SpruceLogBlock", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

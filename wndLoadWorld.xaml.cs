@@ -21,7 +21,6 @@ namespace SeeloewenCraft
 
         public List<string> worldList = new List<string>();
         public wndMenu wndMenu;
-        public wndGame wndGame;
         public wndCreateWorld wndCreateWorld;
 
         //-- Constructor --//
@@ -41,12 +40,12 @@ namespace SeeloewenCraft
         private void LoadWorlds()
         {
             //Get all worlds
-            string[] worlds = Directory.GetDirectories(wndMenu.gameDirectory);
+            string[] worlds = Directory.GetDirectories($"{wndMenu.gameDirectory}worlds/");
 
             //List the worlds in the combobox
             foreach(string world in worlds)
             {
-                cbxWorld.Items.Add(world.Replace(wndMenu.gameDirectory, ""));
+                cbxWorld.Items.Add(world.Replace($"{wndMenu.gameDirectory}worlds/", ""));
             }
         }
 
@@ -56,10 +55,13 @@ namespace SeeloewenCraft
         {
             if(string.IsNullOrEmpty(cbxWorld.Text) == false)
             {
-                wndGame = new wndGame(cbxWorld.Text, false, wndMenu.version);
-                wndGame.Show();
-                wndMenu.Owner = wndGame;
-                wndMenu.Close();
+                wndMenu.wndGame = new wndGame(wndMenu, cbxWorld.Text, false, wndMenu.worldVersion, wndMenu.gameVersion);
+                if (wndMenu.wndGame.finishedLoading)
+                {
+                    wndMenu.Hide();
+                    wndMenu.wndGame.ShowDialog();
+                    Close();
+                }
             }
             else
             {
@@ -69,7 +71,7 @@ namespace SeeloewenCraft
 
         private void btnCreateNewWorld_Click(object sender, RoutedEventArgs e)
         {
-            wndCreateWorld = new wndCreateWorld(wndMenu) { Owner = wndMenu };
+            wndCreateWorld = new wndCreateWorld(wndMenu);
             Close();
             wndCreateWorld.ShowDialog();
         }

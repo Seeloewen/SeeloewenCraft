@@ -28,7 +28,7 @@ namespace SeeloewenCraft
         private System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
         public List<Chunk> chunkList = new List<Chunk>();
         public List<Inventory> inventoryList = new List<Inventory>();
-        public images images = new images();
+        public Images images;
         public wndMenu wndMenu;
         public wndSettings wndSettings;
         private HashSet<Key> pressedKeys = new HashSet<Key>();
@@ -36,7 +36,8 @@ namespace SeeloewenCraft
         public Point mousePosition;
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
         private string worldName;
-        public string version;
+        public int worldVersion;
+        public string gameVersion;
         public string worldDirectory = "";
         private bool goLeft = false;
         private bool goRight = false;
@@ -44,27 +45,89 @@ namespace SeeloewenCraft
         public int goRightAmount = 10;
         public double relativeSvPos = 0;
         public double defaultSvPos = 0;
+        public bool finishedLoading = false;
+        private bool returnToMenu = false;
         public List<BlockContainerList> blockContainerList = new List<BlockContainerList>();
 
 
         //-- Constructor --//
 
-        public wndGame(string worldName, bool isNew, string version)
+        public wndGame(wndMenu wndMenu, string worldName, bool isNew, int worldVersion, string gameVersion)
         {
             InitializeComponent();
 
             //Set world name and create game
             this.worldName = worldName;
-            this.version = version;
-            CreateGame(worldName, isNew);
+            this.worldVersion = worldVersion;
+            this.gameVersion = gameVersion;
+            this.wndMenu = wndMenu;
+            images = new Images(this);
+
+            if (!isNew && GetWorldVersion(worldName) < worldVersion)
+            {
+                MessageBoxResult result = MessageBox.Show("You are trying to load an outdated world. This may lead to corruption or other issues. You have been warned! Do you wish to continue?", "Load outdated world", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        CreateGame(worldName, isNew);
+                        break;
+                }
+            }
+            else
+            {
+                CreateGame(worldName, isNew);
+            }
         }
 
 
         //-- Custom Methods --//
 
+        public void RefreshTextures()
+        {
+            images = new Images(this);
+            foreach (Inventory inventory in inventoryList)
+            {
+                foreach (InventorySlot slot in inventory.slotList)
+                {
+                    foreach (Item item in slot.items)
+                    {
+                        item.SetTexture();
+                    }
+                }
+            }
+            foreach (Chunk chunk in chunkList)
+            {
+                foreach (Block block in chunk.blockList)
+                {
+                    block.SetTexture();
+                    block.blockContainer.cvsBlock.Background = block.image;
+                }
+            }
+        }
+
+        public int GetWorldVersion(string worldName)
+        {
+            //Check if the world settings file exists
+            if (File.Exists(string.Format("{0}/SeeloewenCraft/worlds/{1}/settings.txt", appData, worldName)))
+            {
+                try
+                {
+                    string[] fileContent = File.ReadAllLines(string.Format("{0}/SeeloewenCraft/worlds/{1}/settings.txt", appData, worldName));
+                    int worldVersion = Convert.ToInt32(fileContent[1].Replace("worldVersion=", ""));
+                    return worldVersion;
+                }
+                catch
+                {
+                    Console.WriteLine("[Error] Could not read worldVersion from settings file.");
+                }
+            }
+            return 0;
+        }
+
         public void GenerateBlockContainer()
         {
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 blockContainerList.Add(new BlockContainerList(this));
             }
@@ -73,11 +136,22 @@ namespace SeeloewenCraft
         public void CreateGame(string worldName, bool isNew)
         {
             //Check if the world directory exists and create it otherwise
-            if (!Directory.Exists(string.Format("{0}/SeeloewenCraft/{1}", appData, worldName)))
+            if (!Directory.Exists(string.Format("{0}/SeeloewenCraft/worlds/{1}", appData, worldName)))
             {
-                Directory.CreateDirectory(string.Format("{0}/SeeloewenCraft/{1}", appData, worldName));
+                Directory.CreateDirectory(string.Format("{0}/SeeloewenCraft/worlds/{1}", appData, worldName));
             }
-            worldDirectory = string.Format("{0}/SeeloewenCraft/{1}", appData, worldName);
+            worldDirectory = string.Format("{0}/SeeloewenCraft/worlds/{1}", appData, worldName);
+
+            //Check if the world settings file exists and create it otherwise
+            if (!File.Exists($"{worldDirectory}/settings.txt"))
+            {
+                List<string> worldSettings = new List<string>
+                {
+                    $"#SeeloewenCraft World Settings",
+                    $"worldVersion={worldVersion}"
+                };
+                File.WriteAllLines($"{worldDirectory}/settings.txt", worldSettings);
+            }
 
             //Create the game components
             GenerateBlockContainer();
@@ -93,10 +167,17 @@ namespace SeeloewenCraft
             tmrMovement.Start();
 
             //Load the player inventory if the world is not new
-            if (isNew == false)
+            if (!isNew)
             {
                 player.inventory.LoadInventory(worldDirectory, 0);
             }
+            else
+            {
+                //Give the player a hammer -- !! Only temporary until Crafting is implemented !!
+                player.inventory.AddItem(new HammerItem(this, 0, null));
+            }
+
+            finishedLoading = true;
         }
 
         public void CreatePlayer()
@@ -115,11 +196,7 @@ namespace SeeloewenCraft
             //Create the player and add it to the world canvas
             player = new Player(this, 600, yPos);
             cvsWorld.Children.Add(player.cvsPlayer);
-            cvsWorld.Children.Add(player.cvsPlayerHitbox);
-            cvsWorld.Children.Add(player.cvsGravityHitbox);
             Panel.SetZIndex(player.cvsPlayer, 1);
-            Panel.SetZIndex(player.cvsPlayerHitbox, 2);
-            Panel.SetZIndex(player.cvsGravityHitbox, 3);
             relativeSvPos = svWorld.VerticalOffset;
             defaultSvPos = svWorld.VerticalOffset;
         }
@@ -179,11 +256,6 @@ namespace SeeloewenCraft
             {
                 //Stop going right
                 goRight = false;
-            }
-            if (pressedKeys.Contains(Key.Space) && player.isOnFloor() == true) //Space key
-            {
-                //Make the player jump
-                player.Jump();
             }
             if (pressedKeys.Contains(Key.E)) //E key
             {
@@ -297,55 +369,73 @@ namespace SeeloewenCraft
 
         public Rect GetRectangle(Canvas canvas)
         {
-            //Set the non-adjusted rectangles
-            Rect canvasHitbox = new Rect(Canvas.GetLeft(canvas), Canvas.GetTop(canvas), canvas.ActualWidth, canvas.ActualHeight);
+            try
+            {
+                //Set the non-adjusted rectangles
+                Rect canvasHitbox = new Rect(Canvas.GetLeft(canvas), Canvas.GetTop(canvas), canvas.ActualWidth, canvas.ActualHeight);
 
-            //Convert positions to screen coordinates
-            Point canvasPoint = canvas.PointToScreen(new Point(0, 0));
+                //Convert positions to screen coordinates
+                Point canvasPoint = canvas.PointToScreen(new Point(0, 0));
 
-            //Convert to coordinates in the scrollviewer considering scrolling
-            Point canvasPosition = svWorld.TranslatePoint(canvasPoint, cvsWorld);
+                //Convert to coordinates in the scrollviewer considering scrolling
+                Point canvasPosition = svWorld.TranslatePoint(canvasPoint, cvsWorld);
 
-            //Set the new adjusted rectangles
-            Rect adjustedCanvasRect = new Rect(canvasPosition.X, canvasPosition.Y, canvasHitbox.Width, canvasHitbox.Height);
-            return adjustedCanvasRect;
-
+                //Set the new adjusted rectangles
+                Rect adjustedCanvasRect = new Rect(canvasPosition.X, canvasPosition.Y, canvasHitbox.Width, canvasHitbox.Height);
+                return adjustedCanvasRect;
+            }
+            catch
+            {
+                return new Rect(1, 1, 1, 1);
+            }
         }
 
         public Rect GetRectangle(Border border)
         {
-            //Set the non-adjusted rectangles
-            Rect borderHitbox = new Rect(Canvas.GetLeft(border), Canvas.GetTop(border), border.ActualWidth, border.ActualHeight);
+            try
+            {
+                //Set the non-adjusted rectangles
+                Rect borderHitbox = new Rect(Canvas.GetLeft(border), Canvas.GetTop(border), border.ActualWidth, border.ActualHeight);
 
-            //Convert positions to screen coordinates
-            Point borderPoint = border.PointToScreen(new Point(0, 0));
+                //Convert positions to screen coordinates
+                Point borderPoint = border.PointToScreen(new Point(0, 0));
 
-            //Convert to coordinates in the scrollviewer considering scrolling
-            Point borderPosition = svWorld.TranslatePoint(borderPoint, cvsWorld);
+                //Convert to coordinates in the scrollviewer considering scrolling
+                Point borderPosition = svWorld.TranslatePoint(borderPoint, cvsWorld);
 
-            //Set the new adjusted rectangles
-            Rect adjustedBorderRect = new Rect(borderPosition.X, borderPosition.Y, borderHitbox.Width, borderHitbox.Height);
-            return adjustedBorderRect;
-
+                //Set the new adjusted rectangles
+                Rect adjustedBorderRect = new Rect(borderPosition.X, borderPosition.Y, borderHitbox.Width, borderHitbox.Height);
+                return adjustedBorderRect;
+            }
+            catch
+            {
+                return new Rect(1, 1, 1, 1);
+            }
         }
 
 
         public Rect GetRectangle(Grid grid)
         {
+            try
+            {
+                //Set the non-adjusted rectangles
+                Rect gridHitbox = new Rect(Canvas.GetLeft(grid), Canvas.GetTop(grid), grid.ActualWidth, grid.ActualHeight);
 
-            //Set the non-adjusted rectangles
-            Rect gridHitbox = new Rect(Canvas.GetLeft(grid), Canvas.GetTop(grid), grid.ActualWidth, grid.ActualHeight);
+                //Convert positions to screen coordinates
+                Point gridPoint = grid.PointToScreen(new Point(0, 0));
 
-            //Convert positions to screen coordinates
-            Point gridPoint = grid.PointToScreen(new Point(0, 0));
+                //Convert to coordinates in the scrollviewer considering scrolling
+                Point gridPosition = svWorld.TranslatePoint(gridPoint, cvsWorld);
 
-            //Convert to coordinates in the scrollviewer considering scrolling
-            Point gridPosition = svWorld.TranslatePoint(gridPoint, cvsWorld);
+                //Set the new adjusted rectangles
+                Rect adjustedGridRect = new Rect(gridPosition.X, gridPosition.Y, gridHitbox.Width, gridHitbox.Height);
+                return adjustedGridRect;
 
-            //Set the new adjusted rectangles
-            Rect adjustedGridRect = new Rect(gridPosition.X, gridPosition.Y, gridHitbox.Width, gridHitbox.Height);
-            return adjustedGridRect;
-
+            }
+            catch
+            {
+                return new Rect(1, 1, 1, 1);
+            }
         }
 
         //-- Event Handlers --//
@@ -353,16 +443,7 @@ namespace SeeloewenCraft
         private void tmrMovement_Tick(object sender, EventArgs e)
         {
             //Movement timer, ticks at a rate of approximitely 60 fps (every 16 ms)
-            //Go in the specified direction for as long as the statement is true
-            if (goLeft == true)
-            {
-                player.MoveLeft(goLeftAmount);
-            }
-            else if (goRight == true)
-            {
-                player.MoveRight(goRightAmount);
-
-            }
+            player.physicsStep(pressedKeys.Contains(Key.A), pressedKeys.Contains(Key.D), pressedKeys.Contains(Key.Space), 0.016);
         }
 
         private void btnLeft_Click(object sender, RoutedEventArgs e)
@@ -460,7 +541,7 @@ namespace SeeloewenCraft
             else if (tbDebug.Text == "/about")
             {
                 //Show 'About' message
-                MessageBox.Show(string.Format("You are running SeeloewenCraft Version {0} - This version is not meant to be publicly shared and shall only be used for private purposes.", version), "/about");
+                MessageBox.Show(string.Format("You are running SeeloewenCraft Version {0} - This version is not meant to be publicly shared and shall only be used for private purposes.", gameVersion), "/about");
             }
             else if (tbDebug.Text == "/generateplayer")
             {
@@ -501,7 +582,7 @@ namespace SeeloewenCraft
             }
             else if (tbDebug.Text == "/changelog")
             {
-                MessageBox.Show("Changelog:\n\nVersion 1.1.2 - 23.05.2024\r\n* Added Magma Block (not obtainable yet)\r\n* Added Prototype Cave Generation\r\n* Added debug option to start game directly in world by having exactly one command line argument\r\n* Rework collision system to fix many issues\r\n* Rework how blocks and items are displayed to improve performance\r\n* Fixed Resource files being needed to start the game\r\n* Clean up code to improve performance\n\nVersion 1.1.1 - 26.04.2024\n* Fixed being able to move and interact while blocks while in chat\n* Fixed camera position getting offset over time\n* Fixed structures getting cut off at chunk borders\n* Fixed structures sometimes floating\n\nAlpha 1.1.0 - 07.09.2023\r\n- Added Main Menu\r\n- Added Settings window\r\n- Added chests (not obtainable yet)\r\n- Added game menu when pressing escape\r\n- Worlds can now be saved and loaded\r\n- Inventory now gets saved\r\n- Game now checks if item has a block before placing (fixes NullPointer when placing items)\r\n- Fixed game window being resizable\n\nAlpha 1.0.1 - 31.08.2023\r\n- Fixed blocks not loading when going into old chunks\r\n- Fixed chunks resetting when unloading them\n\nAlpha 1.0.0 - 31.08.2023\r\n- The project is now called SeeloewenCraft\r\n- Added the /changelog command\r\n- Made some code optimisations\r\n- Clicking on a hotbar slot now selects it\r\n- You will now also see a border when trying to place a block\r\n- Player hitbox now looks a little better (still no model though)\r\n- Player will now always spawn on the floor\r\n- Fixed diamond veins being too big\r\n- Possibly fixed camera breaking when glitching in walls", "/changelog");
+                MessageBox.Show("Changelog:\n\nVersion 1.1.3 - 26.05.2024\r\n* Added Texturepack support\r\n* Added Hammer to move blocks between foreground and background\r\n* Added Spruce trees\r\n* Added fallback \"Missing Texture\" image when a texture is not found\r\n* Added Stone Block background to caves\r\n* Added \"Exit to Main Menu\" option\r\n* Added warning when trying to load older worlds\r\n* Tree stems now generate in the background\r\n* Worlds are now created in a seperate directory\r\n* Fixed structures getting generated outside the possible coordinates\r\n* Fixed some structures incorrectly replacing solid blocks\r\n* Fixed exception when closing the game\n\nVersion 1.1.2 - 23.05.2024\r\n* Added Magma Block (not obtainable yet)\r\n* Added Prototype Cave Generation\r\n* Added debug option to start game directly in world by having exactly one command line argument\r\n* Rework collision system to fix many issues\r\n* Rework how blocks and items are displayed to improve performance\r\n* Fixed Resource files being needed to start the game\r\n* Clean up code to improve performance\n\nVersion 1.1.1 - 26.04.2024\n* Fixed being able to move and interact while blocks while in chat\n* Fixed camera position getting offset over time\n* Fixed structures getting cut off at chunk borders\n* Fixed structures sometimes floating\n\nAlpha 1.1.0 - 07.09.2023\r\n- Added Main Menu\r\n- Added Settings window\r\n- Added chests (not obtainable yet)\r\n- Added game menu when pressing escape\r\n- Worlds can now be saved and loaded\r\n- Inventory now gets saved\r\n- Game now checks if item has a block before placing (fixes NullPointer when placing items)\r\n- Fixed game window being resizable\n\nAlpha 1.0.1 - 31.08.2023\r\n- Fixed blocks not loading when going into old chunks\r\n- Fixed chunks resetting when unloading them\n\nAlpha 1.0.0 - 31.08.2023\r\n- The project is now called SeeloewenCraft\r\n- Added the /changelog command\r\n- Made some code optimisations\r\n- Clicking on a hotbar slot now selects it\r\n- You will now also see a border when trying to place a block\r\n- Player hitbox now looks a little better (still no model though)\r\n- Player will now always spawn on the floor\r\n- Fixed diamond veins being too big\r\n- Possibly fixed camera breaking when glitching in walls", "/changelog");
             }
             else if (tbDebug.Text.Contains("/give chest"))
             {
@@ -529,7 +610,7 @@ namespace SeeloewenCraft
         {
             //Development control, not meant for normal use
             //Move player to the right by 5
-            player.MoveRight(10);
+            player.MoveHorizontal(10);
 
         }
 
@@ -537,21 +618,14 @@ namespace SeeloewenCraft
         {
             //Development control, not meant for normal use
             //Move player to the left by 5
-            player.MoveLeft(10);
+            player.MoveHorizontal(-10);
         }
 
         private void btnPlayerDown_Click(object sender, RoutedEventArgs e)
         {
             //Development control, not meant for normal use
             //Move player down by 5
-            player.MoveDown(5);
-        }
-
-        private void btnPlayerUp_Click(object sender, RoutedEventArgs e)
-        {
-            //Development control, not meant for normal use
-            //Make the player jump
-            player.Jump();
+            player.MoveVertical(5);
         }
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
@@ -603,14 +677,27 @@ namespace SeeloewenCraft
         private void wndGame1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //If the setting to save worlds on closing is enabled
-            if (Properties.Settings.Default.saveWorldOnClose == true)
+            if (finishedLoading)
             {
-                //Save all chunks and the inventory of the player
-                foreach (Chunk chunk in chunkList)
+                if (Properties.Settings.Default.saveWorldOnClose == true)
                 {
-                    chunk.SaveChunk();
+                    //Save all chunks and the inventory of the player
+                    foreach (Chunk chunk in chunkList)
+                    {
+                        chunk.SaveChunk();
+                    }
+                    player.inventory.SaveInventory(worldDirectory);
                 }
-                player.inventory.SaveInventory(worldDirectory);
+            }
+
+            //Check if the user wants to return to the menu, else close the entire app
+            if (returnToMenu)
+            {
+                wndMenu.Show();
+            }
+            else
+            {
+                wndMenu.Close();
             }
         }
 
@@ -624,7 +711,7 @@ namespace SeeloewenCraft
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             //Show settings window
-            wndSettings = new wndSettings { Owner = this };
+            wndSettings = new wndSettings(wndMenu);
             wndSettings.ShowDialog();
         }
 
@@ -644,10 +731,8 @@ namespace SeeloewenCraft
         private void btnExitToMainMenu_Click(object sender, RoutedEventArgs e)
         {
             //Show the main menu window and close the game window
-            wndMenu = new wndMenu();
-            wndMenu.Show();
-            Owner = wndMenu;
-            //Close();
+            returnToMenu = true;
+            Close();
         }
     }
 }

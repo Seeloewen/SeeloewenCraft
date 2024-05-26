@@ -175,5 +175,17 @@
   <ItemGroup>
     <Resource Include="Resources\OakLogBlock.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\MissingTexture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Hammer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\SpruceLeavesBlock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\SpruceLogBlock.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

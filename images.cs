@@ -1,38 +1,104 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace SeeloewenCraft
 {
-    public class images //This class contains all the references to the image resources
+    public class Images //This class contains all the references to the image resources
 
     {
         //-- Custom Methods --//
 
-        public static ImageSource GetImageSource(string assemblyName, string resourceName)
+        public static string textureDirectory;
+        string wndGame;
+
+        public Images(wndGame wndGame)
         {
+            //Check which texurepack is selected and set the directory based on that
+            if (wndGame.wndMenu.selectedTexturepack == "default")
+            {
+                textureDirectory = "pack://application:,,,/SeeloewenCraft;component/Resources";
+            }
+            else
+            {
+                textureDirectory = wndGame.wndMenu.selectedTexturepack;
+            }
+
+            //Actually load the resources
+            CreateResources();
+        }
+
+        public static ImageSource GetImageSource(string resourceName)
+        {
+            Uri imageUri;
+
+            //Check if the image file exists and use default or missing texture image otherwise
+            if (File.Exists($"{textureDirectory}/{resourceName}"))
+            {
+                imageUri = new Uri($"{textureDirectory}/{resourceName}", UriKind.Absolute);
+            }
+            else
+            {
+                try
+                {
+                    imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/{resourceName}", UriKind.Absolute);
+
+                }
+                catch
+                {
+                    imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/MissingTexture.png", UriKind.Absolute);
+                }
+            }
+
             //Get an image from an imagesource from a uri
-            Uri imageUri = new Uri(string.Format("pack://application:,,,/{0};component/Resources/{1}", assemblyName, resourceName), UriKind.Absolute);
             return BitmapFrame.Create(imageUri);
+        }
+
+        private void CreateResources()
+        {
+            GrassBlock = new ImageBrush { ImageSource = GetImageSource("GrassBlock.png") };
+            StoneBlock = new ImageBrush { ImageSource = GetImageSource("StoneBlock.png") };
+            DirtBlock = new ImageBrush { ImageSource = GetImageSource("DirtBlock.png") };
+            AirBlock = new ImageBrush { ImageSource = GetImageSource("AirBlock.png") };
+            BedrockBlock = new ImageBrush { ImageSource = GetImageSource("BedrockBlock.png") };
+            CoalOreBlock = new ImageBrush { ImageSource = GetImageSource("CoalOreBlock.png") };
+            DiamondOreBlock = new ImageBrush { ImageSource = GetImageSource("DiamondOreBlock.png") };
+            IronOreBlock = new ImageBrush { ImageSource = GetImageSource("IronOreBlock.png") };
+            OakLogBlock = new ImageBrush { ImageSource = GetImageSource("OakLogBlock.png") };
+            OakLeavesBlock = new ImageBrush { ImageSource = GetImageSource("OakLeavesBlock.png") };
+            ChestBlock = new ImageBrush { ImageSource = GetImageSource("ChestBlock.png") };
+            MagmaBlock = new ImageBrush { ImageSource = GetImageSource("MagmaBlock.png") };
+            MissingTexture = new ImageBrush { ImageSource = GetImageSource("MissingTexture.png") };
+            Hammer = new ImageBrush { ImageSource = GetImageSource("Hammer.png") };
+            SpruceLogBlock = new ImageBrush { ImageSource = GetImageSource("SpruceLogBlock.png") };
+            SpruceLeavesBlock = new ImageBrush { ImageSource = GetImageSource("SpruceLeavesBlock.png") };
         }
 
         //-- Images --//
 
-        public ImageBrush GrassBlock = new ImageBrush { ImageSource = GetImageSource("SeeloewenCraft", "GrassBlock.png") };
-        public ImageBrush StoneBlock = new ImageBrush { ImageSource = GetImageSource("SeeloewenCraft", "StoneBlock.png") };
-        public ImageBrush DirtBlock = new ImageBrush { ImageSource = GetImageSource("SeeloewenCraft", "DirtBlock.png") };
-        public ImageBrush AirBlock = new ImageBrush { ImageSource = GetImageSource("SeeloewenCraft", "AirBlock.png") };
-        public ImageBrush BedrockBlock = new ImageBrush { ImageSource = GetImageSource("SeeloewenCraft", "BedrockBlock.png") };
-        public ImageBrush CoalOreBlock = new ImageBrush { ImageSource = GetImageSource("SeeloewenCraft", "CoalOreBlock.png") };
-        public ImageBrush DiamondOreBlock = new ImageBrush { ImageSource = GetImageSource("SeeloewenCraft", "DiamondOreBlock.png") };
-        public ImageBrush IronOreBlock = new ImageBrush { ImageSource = GetImageSource("SeeloewenCraft", "IronOreBlock.png") };
-        public ImageBrush OakLogBlock = new ImageBrush { ImageSource = GetImageSource("SeeloewenCraft", "OakLogBlock.png") };
-        public ImageBrush OakLeavesBlock = new ImageBrush { ImageSource = GetImageSource("SeeloewenCraft", "OakLeavesBlock.png") };
-        public ImageBrush ChestBlock = new ImageBrush { ImageSource = GetImageSource("SeeloewenCraft", "ChestBlock.png") };
-        public ImageBrush MagmaBlock = new ImageBrush { ImageSource = GetImageSource("SeeloewenCraft", "MagmaBlock.png") };
+        public ImageBrush GrassBlock;
+        public ImageBrush StoneBlock;
+        public ImageBrush DirtBlock;
+        public ImageBrush AirBlock;
+        public ImageBrush BedrockBlock;
+        public ImageBrush CoalOreBlock;
+        public ImageBrush DiamondOreBlock;
+        public ImageBrush IronOreBlock;
+        public ImageBrush OakLogBlock;
+        public ImageBrush OakLeavesBlock;
+        public ImageBrush ChestBlock;
+        public ImageBrush MagmaBlock;
+        public ImageBrush MissingTexture;
+        public ImageBrush Hammer;
+        public ImageBrush SpruceLogBlock;
+        public ImageBrush SpruceLeavesBlock;
+
     }
 }
