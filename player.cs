@@ -25,9 +25,9 @@ namespace SeeloewenCraft
         //constants:
         private const double a_ground = 50; // a: acceleration
         private const double a_air = 50;
-        private const double a_gravity = 50;
+        private const double a_gravity = 70;
         private const double f_ground = 7; //f: friction
-        private const double jump_start_speed = 13;
+        private const double jump_start_speed = 15;
         private const double slowest_ground_speed = 3;
         //variables
         private double v_x = 0; //v: velocity
