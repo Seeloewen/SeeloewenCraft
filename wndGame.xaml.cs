@@ -684,7 +684,7 @@ namespace SeeloewenCraft
                     //Save all chunks and the inventory of the player
                     foreach (Chunk chunk in chunkList)
                     {
-                        chunk.SaveChunk();
+                        chunk.bgwSaveChunk.RunWorkerAsync();
                     }
                     player.inventory.SaveInventory(worldDirectory);
                 }
@@ -720,7 +720,7 @@ namespace SeeloewenCraft
             //Save all chunks and the inventory of the player
             foreach (Chunk chunk in chunkList)
             {
-                chunk.SaveChunk();
+                chunk.bgwSaveChunk.RunWorkerAsync();
             }
             player.inventory.SaveInventory(worldDirectory);
 
