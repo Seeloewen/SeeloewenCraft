@@ -21,7 +21,8 @@ namespace SeeloewenCraft
         wndGame wndGame;
         public Inventory inventory;
 
-        //-- variables for physics --/
+        //-- Variables for physics --/
+
         //constants:
         private const double a_ground = 50; // a: acceleration
         private const double a_air = 50;
@@ -29,6 +30,7 @@ namespace SeeloewenCraft
         private const double f_ground = 7; //f: friction
         private const double jump_start_speed = 15;
         private const double slowest_ground_speed = 3;
+
         //variables
         private double v_x = 0; //v: velocity
         private double v_y = 0;
@@ -36,12 +38,11 @@ namespace SeeloewenCraft
         private int d_y = 0;
         private double d_offset_x = 0;
         private double d_offset_y = 0;
-
         private double posX;
         private double posY;
 
 
-        //hitbox points
+        //Hitbox points
 
         //onGround points
         private Point pointGround1 = new Point(0, 95);
@@ -61,9 +62,6 @@ namespace SeeloewenCraft
         private Point pointTop1 = new Point(0, -1);
         private Point pointTop2 = new Point(44, -1);
 
-
-
-
         //-- Constructor --//
 
         public Player(wndGame wndGame, int x, int y)
@@ -75,7 +73,6 @@ namespace SeeloewenCraft
             GeneratePlayer(x, y);
         }
 
-
         //-- Custom Methods --//
 
         public void GeneratePlayer(int x, int y)
@@ -85,15 +82,11 @@ namespace SeeloewenCraft
             cvsPlayer.Width = 45;
             cvsPlayer.Height = 95;
             cvsPlayer.Background = new SolidColorBrush(Colors.Red);
-
         }
-
-
 
         //physics
         public void physicsStep(bool pressedLeft, bool pressedRight, bool pressedUp, double dt)
         {
-
             // -- determine which sides of the player are touched by solid blocks --
 
             //reset
@@ -111,7 +104,6 @@ namespace SeeloewenCraft
                 foreach (Block block in chunk.blockList)
                 {
                     if (!block.isSolid) continue;
-
 
                     //Convert positions to screen coordinates
                     Point playerScreenPoint = wndGame.player.cvsPlayer.PointToScreen(new Point(0, 0));
@@ -154,8 +146,6 @@ namespace SeeloewenCraft
                 }
             }
 
-
-
             // -- change velocity depending on inputs --
             if (pressedRight && !touchingRight)
             {
@@ -177,7 +167,6 @@ namespace SeeloewenCraft
                 onGround = false;
             }
 
-
             // -- friction --
             if (true) //normally: onGround
             {
@@ -193,11 +182,11 @@ namespace SeeloewenCraft
                     v_x += Math.Max(Math.Min(slowest_ground_speed * dt, -v_x), v_reduction);
                 }
             }
+
             if(!onGround)
             {
                 v_y -= a_gravity * dt; //no air resistance yet
             }
-
 
             // -- check if moving into blocks --
             if ((touchingRight && v_x > 0) || (touchingLeft && v_x < 0))
@@ -215,7 +204,6 @@ namespace SeeloewenCraft
                 d_offset_y = 0;
             }
 
-
             //convert velocity to pixels
             d_offset_x += v_x * dt * 50;
             d_offset_y += v_y * dt * 50;
@@ -227,7 +215,6 @@ namespace SeeloewenCraft
             //store remaining pixels in offset
             d_offset_x -= d_x;
             d_offset_y -= d_y;
-
 
             // -- start of collision checking -- 
             // calculate that actual pixels only move to block border so the touching code above can calculate collsions
@@ -287,13 +274,10 @@ namespace SeeloewenCraft
                 }
             }
 
-
             //move with amount of acual pixels
             MoveHorizontal(d_x);
             MoveVertical(d_y);
-
         }
-
 
         //block origin means top left corner of the block relative to the top left corner of player
         private bool InBlock(Point blockOrigin, Point point)
@@ -303,8 +287,6 @@ namespace SeeloewenCraft
                 && blockOrigin.X <= point.X
                 && blockOrigin.X + 50 > point.X;
         }
-
-
 
         public void MoveHorizontal(int amount)
         {
