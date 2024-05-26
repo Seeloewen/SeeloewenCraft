@@ -196,11 +196,7 @@ namespace SeeloewenCraft
             //Create the player and add it to the world canvas
             player = new Player(this, 600, yPos);
             cvsWorld.Children.Add(player.cvsPlayer);
-            cvsWorld.Children.Add(player.cvsPlayerHitbox);
-            cvsWorld.Children.Add(player.cvsGravityHitbox);
             Panel.SetZIndex(player.cvsPlayer, 1);
-            Panel.SetZIndex(player.cvsPlayerHitbox, 2);
-            Panel.SetZIndex(player.cvsGravityHitbox, 3);
             relativeSvPos = svWorld.VerticalOffset;
             defaultSvPos = svWorld.VerticalOffset;
         }
@@ -260,11 +256,6 @@ namespace SeeloewenCraft
             {
                 //Stop going right
                 goRight = false;
-            }
-            if (pressedKeys.Contains(Key.Space) && player.isOnFloor() == true) //Space key
-            {
-                //Make the player jump
-                player.Jump();
             }
             if (pressedKeys.Contains(Key.E)) //E key
             {
@@ -452,16 +443,7 @@ namespace SeeloewenCraft
         private void tmrMovement_Tick(object sender, EventArgs e)
         {
             //Movement timer, ticks at a rate of approximitely 60 fps (every 16 ms)
-            //Go in the specified direction for as long as the statement is true
-            if (goLeft == true)
-            {
-                player.MoveLeft(goLeftAmount);
-            }
-            else if (goRight == true)
-            {
-                player.MoveRight(goRightAmount);
-
-            }
+            player.physicsStep(pressedKeys.Contains(Key.A), pressedKeys.Contains(Key.D), pressedKeys.Contains(Key.Space), 0.016);
         }
 
         private void btnLeft_Click(object sender, RoutedEventArgs e)
@@ -628,7 +610,7 @@ namespace SeeloewenCraft
         {
             //Development control, not meant for normal use
             //Move player to the right by 5
-            player.MoveRight(10);
+            player.MoveHorizontal(10);
 
         }
 
@@ -636,21 +618,14 @@ namespace SeeloewenCraft
         {
             //Development control, not meant for normal use
             //Move player to the left by 5
-            player.MoveLeft(10);
+            player.MoveHorizontal(-10);
         }
 
         private void btnPlayerDown_Click(object sender, RoutedEventArgs e)
         {
             //Development control, not meant for normal use
             //Move player down by 5
-            player.MoveDown(5);
-        }
-
-        private void btnPlayerUp_Click(object sender, RoutedEventArgs e)
-        {
-            //Development control, not meant for normal use
-            //Make the player jump
-            player.Jump();
+            player.MoveVertical(5);
         }
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)

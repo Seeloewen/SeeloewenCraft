@@ -92,7 +92,7 @@ namespace SeeloewenCraft
             if (element is Canvas)
             {
                 //Check for collision
-                if (wndGame.GetRectangle(wndGame.player.cvsPlayerHitbox).IntersectsWith(wndGame.GetRectangle(blockContainer.cvsBlock)))
+                if (wndGame.GetRectangle(wndGame.player.cvsPlayer).IntersectsWith(wndGame.GetRectangle(blockContainer.cvsBlock)))
                 {
                     return true;
                 }
