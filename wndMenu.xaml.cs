@@ -22,10 +22,14 @@ namespace SeeloewenCraft
         private System.Windows.Forms.Timer tmrSplashText = new System.Windows.Forms.Timer();
         private wndLoadWorld wndLoadWorld;
         private wndSettings wndSettings;
+        public wndGame wndGame;
         private int splashTextSize = 0;
         public int worldVersion = 1;
-        public string gameVersion = "Alpha 1.1.3-Beta1";
+        public string gameVersion = "Alpha 1.1.3-Beta2";
         public string gameDirectory;
+        public string texturepackDirectory;
+        public string selectedTexturepack;
+        public int texturepackVersion;
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
 
         //-- Constructor --//
@@ -48,6 +52,7 @@ namespace SeeloewenCraft
                 Directory.CreateDirectory(string.Format("{0}/SeeloewenCraft/", appData));
             }
             gameDirectory = string.Format("{0}/SeeloewenCraft/", appData);
+            wndSettings = new wndSettings(this);
         }
 
         //-- Event Handlers --//
@@ -68,7 +73,7 @@ namespace SeeloewenCraft
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             //Show the settings window
-            wndSettings = new wndSettings { Owner = this };
+            wndSettings = new wndSettings(this) { Owner = this };
             wndSettings.ShowDialog();
         }
 

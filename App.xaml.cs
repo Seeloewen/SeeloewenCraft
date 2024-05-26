@@ -40,7 +40,7 @@ namespace Random_2D_Terrain_Generator_2._0
                         Directory.Delete(string.Format("{0}/{1}", gameDirectory, "debug"), true);
                     }
 
-                    wndGame wndGame = new wndGame("debug", true, wndMenu.worldVersion, wndMenu.gameVersion);
+                    wndGame wndGame = new wndGame(wndMenu, "debug", true, wndMenu.worldVersion, wndMenu.gameVersion);
                     wndGame.Show();
                     wndMenu.Owner = wndGame;
 

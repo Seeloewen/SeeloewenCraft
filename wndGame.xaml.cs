@@ -28,7 +28,7 @@ namespace SeeloewenCraft
         private System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
         public List<Chunk> chunkList = new List<Chunk>();
         public List<Inventory> inventoryList = new List<Inventory>();
-        public images images = new images();
+        public Images images;
         public wndMenu wndMenu;
         public wndSettings wndSettings;
         private HashSet<Key> pressedKeys = new HashSet<Key>();
@@ -51,7 +51,7 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public wndGame(string worldName, bool isNew, int worldVersion, string gameVersion)
+        public wndGame(wndMenu wndMenu, string worldName, bool isNew, int worldVersion, string gameVersion)
         {
             InitializeComponent();
 
@@ -59,6 +59,8 @@ namespace SeeloewenCraft
             this.worldName = worldName;
             this.worldVersion = worldVersion;
             this.gameVersion = gameVersion;
+            this.wndMenu = wndMenu;
+            images = new Images(this);
 
             if (!isNew && GetWorldVersion(worldName) < worldVersion)
             {
@@ -80,6 +82,29 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
+        public void RefreshTextures()
+        {
+            images = new Images(this);
+            foreach (Inventory inventory in inventoryList)
+            {
+                foreach (InventorySlot slot in inventory.slotList)
+                {
+                    foreach (Item item in slot.items)
+                    {
+                        item.SetTexture();
+                    }
+                }
+            }
+            foreach(Chunk chunk in chunkList)
+            {
+                foreach(Block block in chunk.blockList)
+                {
+                    block.SetTexture();
+                    block.blockContainer.cvsBlock.Background = block.image;
+                }
+            }
+        }
+
         public int GetWorldVersion(string worldName)
         {
             //Check if the world settings file exists
@@ -91,7 +116,7 @@ namespace SeeloewenCraft
                     int worldVersion = Convert.ToInt32(fileContent[1].Replace("worldVersion=", ""));
                     return worldVersion;
                 }
-                catch 
+                catch
                 {
                     Console.WriteLine("[Error] Could not read worldVersion from settings file.");
                 }
@@ -364,7 +389,6 @@ namespace SeeloewenCraft
             //Set the new adjusted rectangles
             Rect adjustedCanvasRect = new Rect(canvasPosition.X, canvasPosition.Y, canvasHitbox.Width, canvasHitbox.Height);
             return adjustedCanvasRect;
-
         }
 
         public Rect GetRectangle(Border border)
@@ -682,7 +706,7 @@ namespace SeeloewenCraft
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             //Show settings window
-            wndSettings = new wndSettings { Owner = this };
+            wndSettings = new wndSettings(wndMenu) { Owner = this };
             wndSettings.ShowDialog();
         }
 

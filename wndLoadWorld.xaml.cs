@@ -21,7 +21,6 @@ namespace SeeloewenCraft
 
         public List<string> worldList = new List<string>();
         public wndMenu wndMenu;
-        public wndGame wndGame;
         public wndCreateWorld wndCreateWorld;
 
         //-- Constructor --//
@@ -56,11 +55,11 @@ namespace SeeloewenCraft
         {
             if(string.IsNullOrEmpty(cbxWorld.Text) == false)
             {
-                wndGame = new wndGame(cbxWorld.Text, false, wndMenu.worldVersion, wndMenu.gameVersion);
-                if (wndGame.finishedLoading)
+                wndMenu.wndGame = new wndGame(wndMenu, cbxWorld.Text, false, wndMenu.worldVersion, wndMenu.gameVersion);
+                if (wndMenu.wndGame.finishedLoading)
                 {
-                    wndGame.Show();
-                    wndMenu.Owner = wndGame;
+                    wndMenu.wndGame.Show();
+                    wndMenu.Owner = wndMenu.wndGame;
                     wndMenu.Close();
                 }
             }

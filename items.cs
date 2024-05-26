@@ -57,12 +57,7 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-        public void SetTexture(ImageBrush texture)
-        {
-            //Set the texture of the block on the canvas
-            image = texture;
-            cvsItem.Background = image;
-        }
+        public abstract void SetTexture();
 
         //This is currently required, but may be changed in the future if items that don't have blocks are added
         public abstract Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground);
@@ -76,13 +71,21 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Grass";
-            SetTexture(wndGame.images.GrassBlock);
+            SetTexture();
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
         {
             block = new GrassBlock(wndGame, x, y, chunk, this, isInBackground);
             return block;
+        }
+        override public void SetTexture()
+        {
+            {
+                //Set the texture of the block on the canvas
+                image = wndGame.images.GrassBlock;
+                cvsItem.Background = image;
+            }
         }
     }
 
@@ -92,13 +95,21 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Stone";
-            SetTexture(wndGame.images.StoneBlock);
+            SetTexture();
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
         {
             block = new StoneBlock(wndGame, x, y, chunk, this, isInBackground);
             return block;
+        }
+        override public void SetTexture()
+        {
+            {
+                //Set the texture of the block on the canvas
+                image = wndGame.images.StoneBlock;
+                cvsItem.Background = image;
+            }
         }
 
     }
@@ -109,13 +120,22 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Dirt";
-            SetTexture(wndGame.images.DirtBlock);
+            SetTexture();
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
         {
             block = new DirtBlock(wndGame, x, y, chunk, this, isInBackground);
             return block;
+        }
+
+        override public void SetTexture()
+        {
+            {
+                //Set the texture of the block on the canvas
+                image = wndGame.images.DirtBlock;
+                cvsItem.Background = image;
+            }
         }
     }
 
@@ -125,13 +145,22 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Coal Ore";
-            SetTexture(wndGame.images.CoalOreBlock);
+            SetTexture();
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
         {
             block = new CoalOreBlock(wndGame, x, y, chunk, this, isInBackground);
             return block;
+        }
+
+        override public void SetTexture()
+        {
+            {
+                //Set the texture of the block on the canvas
+                image = wndGame.images.CoalOreBlock;
+                cvsItem.Background = image;
+            }
         }
     }
 
@@ -141,13 +170,22 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Diamond Ore";
-            SetTexture(wndGame.images.DiamondOreBlock);
+            SetTexture();
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk,  bool isInBackground)
         {
             block = new DiamondOreBlock(wndGame, x, y, chunk, this, isInBackground);
             return block;
+        }
+
+        override public void SetTexture()
+        {
+            {
+                //Set the texture of the block on the canvas
+                image = wndGame.images.DiamondOreBlock;
+                cvsItem.Background = image;
+            }
         }
     }
 
@@ -157,13 +195,22 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Iron Ore";
-            SetTexture(wndGame.images.IronOreBlock);
+            SetTexture();
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
         {
             block = new IronOreBlock(wndGame, x, y, chunk, this, isInBackground);
             return block;
+        }
+
+        override public void SetTexture()
+        {
+            {
+                //Set the texture of the block on the canvas
+                image = wndGame.images.IronOreBlock;
+                cvsItem.Background = image;
+            }
         }
     }
 
@@ -173,13 +220,22 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Oak Log";
-            SetTexture(wndGame.images.OakLogBlock);
+            SetTexture();
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
         {
             block = new OakLogBlock(wndGame, x, y, chunk, this, isInBackground);
             return block;
+        }
+
+        override public void SetTexture()
+        {
+            {
+                //Set the texture of the block on the canvas
+                image = wndGame.images.OakLogBlock;
+                cvsItem.Background = image;
+            }
         }
     }
 
@@ -189,13 +245,22 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Oak Leaves";
-            SetTexture(wndGame.images.OakLeavesBlock);
+            SetTexture();
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
         {
             block = new OakLeavesBlock(wndGame, x, y, chunk, this, isInBackground);
             return block;
+        }
+
+        override public void SetTexture()
+        {
+            {
+                //Set the texture of the block on the canvas
+                image = wndGame.images.OakLeavesBlock;
+                cvsItem.Background = image;
+            }
         }
     }
 
@@ -205,13 +270,22 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Spruce Log";
-            SetTexture(wndGame.images.SpruceLogBlock);
+            SetTexture();
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
         {
             block = new SpruceLogBlock(wndGame, x, y, chunk, this, isInBackground);
             return block;
+        }
+
+        override public void SetTexture()
+        {
+            {
+                //Set the texture of the block on the canvas
+                image = wndGame.images.SpruceLogBlock;
+                cvsItem.Background = image;
+            }
         }
     }
 
@@ -221,13 +295,22 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Spruce Leaves";
-            SetTexture(wndGame.images.SpruceLeavesBlock);
+            SetTexture();
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
         {
             block = new SpruceLeavesBlock(wndGame, x, y, chunk, this, isInBackground);
             return block;
+        }
+
+        override public void SetTexture()
+        {
+            {
+                //Set the texture of the block on the canvas
+                image = wndGame.images.SpruceLeavesBlock;
+                cvsItem.Background = image;
+            }
         }
     }
 
@@ -237,7 +320,7 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Bedrock";
-            SetTexture(wndGame.images.BedrockBlock);
+            SetTexture();
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
@@ -245,6 +328,15 @@ namespace SeeloewenCraft
             block = new BedrockBlock(wndGame, x, y, chunk, this, isInBackground);
             return block;
         }
+        override public void SetTexture()
+        {
+            {
+                //Set the texture of the block on the canvas
+                image = wndGame.images.BedrockBlock;
+                cvsItem.Background = image;
+            }
+        }
+
     }
 
     public class AirItem : Item
@@ -253,13 +345,22 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Air";
-            SetTexture(wndGame.images.AirBlock);
+            SetTexture();
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
         {
             block = new AirBlock(wndGame, x, y, chunk, this, isInBackground);
             return block;
+        }
+
+        override public void SetTexture()
+        {
+            {
+                //Set the texture of the block on the canvas
+                image = wndGame.images.AirBlock;
+                cvsItem.Background = image;
+            }
         }
     }
 
@@ -269,13 +370,22 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Chest";
-            SetTexture(wndGame.images.ChestBlock);
+            SetTexture();
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
         {
             block = new ChestBlock(wndGame, x, y, chunk, this, isInBackground);
             return block;
+        }
+
+        override public void SetTexture()
+        {
+            {
+                //Set the texture of the block on the canvas
+                image = wndGame.images.ChestBlock;
+                cvsItem.Background = image;
+            }
         }
     }
 
@@ -285,13 +395,22 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Magma Block";
-            SetTexture(wndGame.images.MagmaBlock);
+            SetTexture();
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
         {
             block = new MagmaBlock(wndGame, x, y, chunk, this, isInBackground);
             return block;
+        }
+
+        override public void SetTexture()
+        {
+            {
+                //Set the texture of the block on the canvas
+                image = wndGame.images.MagmaBlock;
+                cvsItem.Background = image;
+            }
         }
     }
 
@@ -301,12 +420,21 @@ namespace SeeloewenCraft
         {
             isPlacable = false;
             itemName = "Hammer";
-            SetTexture(wndGame.images.Hammer);
+            SetTexture();
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
         {
             return null;
+        }
+
+        override public void SetTexture()
+        {
+            {
+                //Set the texture of the block on the canvas
+                image = wndGame.images.Hammer;
+                cvsItem.Background = image;
+            }
         }
     }
 }
