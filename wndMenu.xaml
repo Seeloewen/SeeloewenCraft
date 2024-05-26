@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SeeloewenCraft"
         mc:Ignorable="d"
-        Title="SeeloewenCraft" Height="452" Width="770" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+        Title="SeeloewenCraft" Height="452" Width="770" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Closing="wndMenu1_Closing">
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="Resources/Background.png" TileMode="Tile" Stretch="None"/>

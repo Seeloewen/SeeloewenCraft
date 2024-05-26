@@ -23,7 +23,7 @@
                 <Button x:Name="btnBackToGame" Content="Back to Game" Canvas.Left="10" Canvas.Top="70" Height="47" Width="327" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="22" Click="btnBackToGame_Click"/>
                 <Button x:Name="btnSettings" Content="Settings" Canvas.Left="10" Canvas.Top="132" Height="47" Width="327" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="22" Click="btnSettings_Click"/>
                 <Button x:Name="btnSaveWorld" Content="Save World" Canvas.Left="10" Canvas.Top="192" Height="47" Width="327" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="22" Click="btnSaveWorld_Click"/>
-                <Button x:Name="btnExitToMainMenu" Content="Exit to Main Menu" Canvas.Left="10" Canvas.Top="252" Height="47" Width="327" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="22" Click="btnExitToMainMenu_Click" IsEnabled="False"/>
+                <Button x:Name="btnExitToMainMenu" Content="Exit to Main Menu" Canvas.Left="10" Canvas.Top="252" Height="47" Width="327" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="22" Click="btnExitToMainMenu_Click" IsEnabled="True"/>
                 <TextBlock x:Name="tblMenuHeader" Canvas.Left="96" TextWrapping="Wrap" Canvas.Top="11" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="DemiBold"><Run Language="de-de" Text="Game "/><Run Text="Menu"/></TextBlock>
             </Canvas>
         </Border>

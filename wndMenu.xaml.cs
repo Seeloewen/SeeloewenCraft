@@ -67,7 +67,7 @@ namespace SeeloewenCraft
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
             //Show the world selection window
-            wndLoadWorld = new wndLoadWorld(this) { Owner = this };
+            wndLoadWorld = new wndLoadWorld(this);
             wndLoadWorld.ShowDialog();
         }
 
@@ -80,7 +80,7 @@ namespace SeeloewenCraft
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             //Show the settings window
-            wndSettings = new wndSettings(this) { Owner = this };
+            wndSettings = new wndSettings(this);
             wndSettings.ShowDialog();
         }
 
@@ -101,6 +101,12 @@ namespace SeeloewenCraft
                 //Reset the number
                 splashTextSize = 0;
             }
+        }
+
+        private void wndMenu1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //Close the app
+            Application.Current.Shutdown();
         }
     }
 }

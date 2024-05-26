@@ -46,6 +46,7 @@ namespace SeeloewenCraft
         public double relativeSvPos = 0;
         public double defaultSvPos = 0;
         public bool finishedLoading = false;
+        private bool returnToMenu = false;
         public List<BlockContainerList> blockContainerList = new List<BlockContainerList>();
 
 
@@ -713,7 +714,16 @@ namespace SeeloewenCraft
                     player.inventory.SaveInventory(worldDirectory);
                 }
             }
-            Application.Current.Shutdown();
+
+            //Check if the user wants to return to the menu, else close the entire app
+            if (returnToMenu)
+            {
+                wndMenu.Show();
+            }
+            else
+            {
+                wndMenu.Close();
+            }
         }
 
         private void btnBackToGame_Click(object sender, RoutedEventArgs e)
@@ -726,7 +736,7 @@ namespace SeeloewenCraft
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             //Show settings window
-            wndSettings = new wndSettings(wndMenu) { Owner = this };
+            wndSettings = new wndSettings(wndMenu);
             wndSettings.ShowDialog();
         }
 
@@ -746,10 +756,8 @@ namespace SeeloewenCraft
         private void btnExitToMainMenu_Click(object sender, RoutedEventArgs e)
         {
             //Show the main menu window and close the game window
-            wndMenu = new wndMenu();
-            wndMenu.Show();
-            Owner = wndMenu;
-            //Close();
+            returnToMenu = true;
+            Close();
         }
     }
 }

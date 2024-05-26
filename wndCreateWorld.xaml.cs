@@ -42,9 +42,9 @@ namespace SeeloewenCraft
                 {
                     //Create a new world
                     wndMenu.wndGame = new wndGame(wndMenu, tbWorldName.Text, true, wndMenu.worldVersion, wndMenu.gameVersion);
-                    wndMenu.wndGame.Show();
-                    wndMenu.Owner = wndMenu.wndGame;
-                    wndMenu.Close();
+                    wndMenu.Hide();
+                    wndMenu.wndGame.ShowDialog();
+                    Close();
                 }
                 else
                 {

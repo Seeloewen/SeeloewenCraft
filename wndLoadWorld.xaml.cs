@@ -58,9 +58,9 @@ namespace SeeloewenCraft
                 wndMenu.wndGame = new wndGame(wndMenu, cbxWorld.Text, false, wndMenu.worldVersion, wndMenu.gameVersion);
                 if (wndMenu.wndGame.finishedLoading)
                 {
-                    wndMenu.wndGame.Show();
-                    wndMenu.Owner = wndMenu.wndGame;
-                    wndMenu.Close();
+                    wndMenu.Hide();
+                    wndMenu.wndGame.ShowDialog();
+                    Close();
                 }
             }
             else
@@ -71,7 +71,7 @@ namespace SeeloewenCraft
 
         private void btnCreateNewWorld_Click(object sender, RoutedEventArgs e)
         {
-            wndCreateWorld = new wndCreateWorld(wndMenu) { Owner = wndMenu };
+            wndCreateWorld = new wndCreateWorld(wndMenu);
             Close();
             wndCreateWorld.ShowDialog();
         }
