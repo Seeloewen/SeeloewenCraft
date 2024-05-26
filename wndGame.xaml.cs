@@ -95,9 +95,9 @@ namespace SeeloewenCraft
                     }
                 }
             }
-            foreach(Chunk chunk in chunkList)
+            foreach (Chunk chunk in chunkList)
             {
-                foreach(Block block in chunk.blockList)
+                foreach (Block block in chunk.blockList)
                 {
                     block.SetTexture();
                     block.blockContainer.cvsBlock.Background = block.image;
@@ -377,54 +377,73 @@ namespace SeeloewenCraft
 
         public Rect GetRectangle(Canvas canvas)
         {
-            //Set the non-adjusted rectangles
-            Rect canvasHitbox = new Rect(Canvas.GetLeft(canvas), Canvas.GetTop(canvas), canvas.ActualWidth, canvas.ActualHeight);
+            try
+            {
+                //Set the non-adjusted rectangles
+                Rect canvasHitbox = new Rect(Canvas.GetLeft(canvas), Canvas.GetTop(canvas), canvas.ActualWidth, canvas.ActualHeight);
 
-            //Convert positions to screen coordinates
-            Point canvasPoint = canvas.PointToScreen(new Point(0, 0));
+                //Convert positions to screen coordinates
+                Point canvasPoint = canvas.PointToScreen(new Point(0, 0));
 
-            //Convert to coordinates in the scrollviewer considering scrolling
-            Point canvasPosition = svWorld.TranslatePoint(canvasPoint, cvsWorld);
+                //Convert to coordinates in the scrollviewer considering scrolling
+                Point canvasPosition = svWorld.TranslatePoint(canvasPoint, cvsWorld);
 
-            //Set the new adjusted rectangles
-            Rect adjustedCanvasRect = new Rect(canvasPosition.X, canvasPosition.Y, canvasHitbox.Width, canvasHitbox.Height);
-            return adjustedCanvasRect;
+                //Set the new adjusted rectangles
+                Rect adjustedCanvasRect = new Rect(canvasPosition.X, canvasPosition.Y, canvasHitbox.Width, canvasHitbox.Height);
+                return adjustedCanvasRect;
+            }
+            catch
+            {
+                return new Rect(1, 1, 1, 1);
+            }
         }
 
         public Rect GetRectangle(Border border)
         {
-            //Set the non-adjusted rectangles
-            Rect borderHitbox = new Rect(Canvas.GetLeft(border), Canvas.GetTop(border), border.ActualWidth, border.ActualHeight);
+            try
+            {
+                //Set the non-adjusted rectangles
+                Rect borderHitbox = new Rect(Canvas.GetLeft(border), Canvas.GetTop(border), border.ActualWidth, border.ActualHeight);
 
-            //Convert positions to screen coordinates
-            Point borderPoint = border.PointToScreen(new Point(0, 0));
+                //Convert positions to screen coordinates
+                Point borderPoint = border.PointToScreen(new Point(0, 0));
 
-            //Convert to coordinates in the scrollviewer considering scrolling
-            Point borderPosition = svWorld.TranslatePoint(borderPoint, cvsWorld);
+                //Convert to coordinates in the scrollviewer considering scrolling
+                Point borderPosition = svWorld.TranslatePoint(borderPoint, cvsWorld);
 
-            //Set the new adjusted rectangles
-            Rect adjustedBorderRect = new Rect(borderPosition.X, borderPosition.Y, borderHitbox.Width, borderHitbox.Height);
-            return adjustedBorderRect;
-
+                //Set the new adjusted rectangles
+                Rect adjustedBorderRect = new Rect(borderPosition.X, borderPosition.Y, borderHitbox.Width, borderHitbox.Height);
+                return adjustedBorderRect;
+            }
+            catch
+            {
+                return new Rect(1, 1, 1, 1);
+            }
         }
 
 
         public Rect GetRectangle(Grid grid)
         {
+            try
+            {
+                //Set the non-adjusted rectangles
+                Rect gridHitbox = new Rect(Canvas.GetLeft(grid), Canvas.GetTop(grid), grid.ActualWidth, grid.ActualHeight);
 
-            //Set the non-adjusted rectangles
-            Rect gridHitbox = new Rect(Canvas.GetLeft(grid), Canvas.GetTop(grid), grid.ActualWidth, grid.ActualHeight);
+                //Convert positions to screen coordinates
+                Point gridPoint = grid.PointToScreen(new Point(0, 0));
 
-            //Convert positions to screen coordinates
-            Point gridPoint = grid.PointToScreen(new Point(0, 0));
+                //Convert to coordinates in the scrollviewer considering scrolling
+                Point gridPosition = svWorld.TranslatePoint(gridPoint, cvsWorld);
 
-            //Convert to coordinates in the scrollviewer considering scrolling
-            Point gridPosition = svWorld.TranslatePoint(gridPoint, cvsWorld);
+                //Set the new adjusted rectangles
+                Rect adjustedGridRect = new Rect(gridPosition.X, gridPosition.Y, gridHitbox.Width, gridHitbox.Height);
+                return adjustedGridRect;
 
-            //Set the new adjusted rectangles
-            Rect adjustedGridRect = new Rect(gridPosition.X, gridPosition.Y, gridHitbox.Width, gridHitbox.Height);
-            return adjustedGridRect;
-
+            }
+            catch
+            {
+                return new Rect(1, 1, 1, 1);
+            }
         }
 
         //-- Event Handlers --//
@@ -694,6 +713,7 @@ namespace SeeloewenCraft
                     player.inventory.SaveInventory(worldDirectory);
                 }
             }
+            Application.Current.Shutdown();
         }
 
         private void btnBackToGame_Click(object sender, RoutedEventArgs e)
