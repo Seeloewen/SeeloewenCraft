@@ -105,16 +105,25 @@ namespace SeeloewenCraft
                 {
                     if (!block.isSolid) continue;
 
-                    //Convert positions to screen coordinates
-                    Point playerScreenPoint = wndGame.player.cvsPlayer.PointToScreen(new Point(0, 0));
-                    Point blockScreenPoint = block.blockContainer.bdrBlock.PointToScreen(new Point(0, 0));
+                    Point blockOriginPoint = new Point(1,1);
+                    try
+                    {
+                        //Convert positions to screen coordinates
+                        Point playerScreenPoint = wndGame.player.cvsPlayer.PointToScreen(new Point(0, 0));
+                        Point blockScreenPoint = block.blockContainer.bdrBlock.PointToScreen(new Point(0, 0));
 
-                    //Convert to coordinates considering scrolling
-                    Point playerPosition = wndGame.svWorld.TranslatePoint(playerScreenPoint, wndGame.cvsWorld);
-                    Point blockPosition = wndGame.svWorld.TranslatePoint(blockScreenPoint, wndGame.cvsWorld);
+                        //Convert to coordinates considering scrolling
+                        Point playerPosition = wndGame.svWorld.TranslatePoint(playerScreenPoint, wndGame.cvsWorld);
+                        Point blockPosition = wndGame.svWorld.TranslatePoint(blockScreenPoint, wndGame.cvsWorld);
 
-                    //calculate relative position of block from player (top-left corner)
-                    Point blockOriginPoint = new Point(blockPosition.X - playerPosition.X, blockPosition.Y - playerPosition.Y);
+                        //calculate relative position of block from player (top-left corner)
+                         blockOriginPoint = new Point(blockPosition.X - playerPosition.X, blockPosition.Y - playerPosition.Y);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("[Error] Couldn't get player point.");
+                    }
+
 
                     //set flag to true if a point is inside of the block
                     onGround = onGround
