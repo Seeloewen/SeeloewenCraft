@@ -206,7 +206,7 @@ namespace SeeloewenCraft
             //Create the starter chunks and add them to the world canvas
             for (int i = 0; i < 5; i++)
             {
-                chunkList.Add(new Chunk(this, i));
+                chunkList.Add(new Chunk(this, i, false));
             }
             cvsWorld.Children.Add(GetChunk(0).grdChunk);
             Canvas.SetLeft(GetChunk(0).grdChunk, -400);
@@ -463,7 +463,7 @@ namespace SeeloewenCraft
             if (Canvas.GetLeft(chunkList[2].grdChunk) == 800)
             {
                 chunkList.Remove(GetChunk(chunkList[4].index));
-                chunkList.Add(new Chunk(this, chunkList[0].index - 1));
+                chunkList.Add(new Chunk(this, chunkList[0].index - 1, Properties.Settings.Default.loadChunksAsync));
                 cvsWorld.Children.Add(chunkList[4].grdChunk);
                 Canvas.SetLeft(chunkList[4].grdChunk, -400);
 
@@ -491,7 +491,7 @@ namespace SeeloewenCraft
             if (Canvas.GetLeft(chunkList[2].grdChunk) == 0)
             {
                 chunkList.Remove(GetChunk(chunkList[0].index));
-                chunkList.Add(new Chunk(this, chunkList[3].index + 1));
+                chunkList.Add(new Chunk(this, chunkList[3].index + 1, Properties.Settings.Default.loadChunksAsync));
                 cvsGame.Children.Add(chunkList[4].grdChunk);
                 Canvas.SetLeft(chunkList[4].grdChunk, 1200);
 

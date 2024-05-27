@@ -33,14 +33,16 @@ namespace SeeloewenCraft
         public string chunkDirectory;
         private string[] readChunks;
         public bool isSaved = false;
+        public bool loadAsync = true;
 
         //-- Constructor --//
 
-        public Chunk(wndGame wndGame, int index)
+        public Chunk(wndGame wndGame, int index, bool loadAsync)
         {
             //Set the attributes
             this.wndGame = wndGame;
             this.index = index;
+            this.loadAsync = loadAsync;
 
             //Create item editing backgroundworker
             bgwSaveChunk.DoWork += bgwSaveChunk_DoWork;
@@ -52,12 +54,33 @@ namespace SeeloewenCraft
 
             //Begin loading the chunk
             chunkDirectory = string.Format("{0}/chunk{1}", wndGame.worldDirectory, index);
-            LoadChunk();
+            Generate();
         }
 
         //-- Custom Methods --//
 
-       
+        public void Save()
+        {
+            //Check if the chunk directory already exists and create it otherwise
+            if (!Directory.Exists(chunkDirectory))
+            {
+                Directory.CreateDirectory(chunkDirectory);
+            }
+            File.WriteAllText(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index), "");
+            foreach (Block block in blockList)
+            {
+                if (block.hasInventory == true)
+                {
+                    block.blockInventory.SaveInventory(chunkDirectory);
+                }
+
+                //Write all blocks in the chunks blocklist into a file
+                File.AppendAllText(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2};{3};{4}\n", block.GetType().ToString().Replace("SeeloewenCraft.", ""), block.xPos, block.yPos, 0, block.isInBackground));
+            }
+            //Write the chunk settings into a file
+            File.WriteAllText(string.Format("{0}/chunk{1}/settings.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2}", index, floorHeightLeft, floorHeightRight));
+        }
+
         public void SetBlock(Block block, int x, int y)
         {
             //Check if the coordinate has a container and place the block into that container if possible
@@ -71,7 +94,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public void LoadChunk()
+        public void Generate()
         {
             //Clear the chunk
             grdChunk.Children.Clear();
@@ -109,13 +132,160 @@ namespace SeeloewenCraft
                 chunkDirectory = string.Format("{0}/chunk{1}", wndGame.worldDirectory, index);
 
                 //Generate terrain & structure
-                GenerateTerrain();
+                BeginGeneratingTerrain();
 
                 // --> Continuation of generation in bgwGenerateTerrain_RunWorkerCompleted
             }
             else
             {
-                bgwLoadChunk.RunWorkerAsync();
+                if (loadAsync)
+                {
+                    bgwLoadChunk.RunWorkerAsync();
+                }
+                else
+                {
+                    Load();
+                    FinishLoading();
+                }
+            }
+        }
+
+        public void Load()
+        {
+            //Read the chunk from saved file
+            string[] blocks = File.ReadAllLines(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index));
+
+            //Read all blocks from the file
+            foreach (string block in blocks)
+            {
+                //This goes through every line and converts it to a block
+                string[] blockSplit = block.Split(';');
+
+                if (blockSplit[0] == "GrassBlock")
+                {
+                    blockList.Add(new GrassBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "DirtBlock")
+                {
+                    blockList.Add(new DirtBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "StoneBlock")
+                {
+                    blockList.Add(new StoneBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "AirBlock")
+                {
+                    blockList.Add(new AirBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "BedrockBlock")
+                {
+                    blockList.Add(new BedrockBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "DiamondOreBlock")
+                {
+                    blockList.Add(new DiamondOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "IronOreBlock")
+                {
+                    blockList.Add(new IronOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "CoalOreBlock")
+                {
+                    blockList.Add(new CoalOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "OakLogBlock")
+                {
+                    blockList.Add(new OakLogBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "OakLeavesBlock")
+                {
+                    blockList.Add(new OakLeavesBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "SpruceLogBlock")
+                {
+                    blockList.Add(new SpruceLogBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "SpruceLeavesBlock")
+                {
+                    blockList.Add(new SpruceLeavesBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "ChestBlock")
+                {
+                    blockList.Add(new ChestBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "MagmaBlock")
+                {
+                    blockList.Add(new MagmaBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else
+                {
+                    blockList.Add(new AirBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+            }
+
+            //Load the inventories of the blocks in the chunk (like chests)
+            LoadInventories();
+
+            //Read the chunk settings from the file
+            string[] settings = File.ReadAllText(string.Format("{0}/chunk{1}/settings.txt", wndGame.worldDirectory, index)).Split(';');
+            index = Convert.ToInt32(settings[0]);
+            floorHeightLeft = Convert.ToInt32(settings[1]);
+            floorHeightRight = Convert.ToInt32(settings[2]);
+            isSaved = true;
+        }
+
+        public void FinishLoading()
+        {
+            //Add all the blocks to the chunk
+            try
+            {
+                foreach (Block block in blockList)
+                {
+                    SetBlock(block, block.xPos, block.yPos);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Error] Could not load chunk: {ex}");
+            }
+        }
+
+        public void FinishSaving()
+        {
+            //Set the chunk to saved so the next chunk can continue
+            isSaved = true;
+        }
+
+        public void FinishGenerating()
+        {
+            //Generate structures
+            GenerateTrees();
+            GenerateOres();
+            GenerateCaves();
+            ContinueStructureGeneration();
+
+            //Go through each block and add it to the chunk
+            try
+            {
+                foreach (Block block in blockList)
+                {
+                    SetBlock(block, block.xPos, block.yPos);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Error] Could not load chunk: {ex}");
+            }
+
+            //Save the chunk
+            if (loadAsync)
+            {
+                bgwSaveChunk.RunWorkerAsync();
+            }
+            else
+            {
+                Save();
+                FinishSaving();
             }
         }
 
@@ -154,7 +324,7 @@ namespace SeeloewenCraft
             }
         }
 
-        private void GenerateTerrain()
+        private void BeginGeneratingTerrain()
         {
 
             //Set the floorheight based on the chunk index
@@ -177,135 +347,18 @@ namespace SeeloewenCraft
             }
 
             //Actually generate the terrain
-            bgwGenerateTerrain.RunWorkerAsync();
-        }
-
-
-        private void GenerateTrees()
-        {
-            //Generate up to 3 trees
-            for (int i = 0; i < 3; i++)
+            if(loadAsync)
             {
-                int random = rnd.Next(0, 3);
-                if (random == 0)
-                {
-                    int xPos = rnd.Next(0, 9);
-                    int yPos = 0;
-                    foreach (Block block in blockList)
-                    {
-                        if (block.xPos == xPos && block is GrassBlock)
-                            yPos = block.yPos - 1;
-                    }
-
-                    //Decide which tree to generate, mostly generate oak trees, rarely spruce
-                    int random2 = rnd.Next(0, 6);
-                    if (random2 == 0)
-                    {
-                        structureList.Add(new SpruceTreeStructure(wndGame, xPos, yPos, index, true, this, false));
-                    }
-                    else
-                    {
-                        structureList.Add(new OakTreeStructure(wndGame, xPos, yPos, index, true, this, false));
-                    }
-
-                }
+                bgwGenerateTerrain.RunWorkerAsync();
+            }
+            else
+            {
+                GenerateTerrain();
+                FinishGenerating();
             }
         }
 
-        private void GenerateOres()
-        {
-            //Generate up to 15 ores
-            for (int i = 0; i < 15; i++)
-            {
-                int random = rnd.Next(0, 3);
-                if (random == 0)
-                {
-                    int xPos = rnd.Next(0, 9);
-                    int yPos = 0;
-                    foreach (Block block in blockList)
-                    {
-                        if (block.xPos == xPos && block is GrassBlock)
-                        {
-                            yPos = rnd.Next(block.yPos + 5, 70);
-                        }
-                    }
-                    structureList.Add(new OreStructure(wndGame, xPos, yPos, index, true, this, true));
-                }
-            }
-        }
-
-        private void GenerateCaves()
-        {
-            //Generate up to 1 cave
-            int random = rnd.Next(1, 9);
-            if (random == 1)
-            {
-                for (int i = 0; i < 1; i++)
-                {
-                    int xPos = rnd.Next(0, 9);
-                    int yPos = 0;
-                    foreach (Block block in blockList)
-                    {
-                        if (block.xPos == xPos && block is GrassBlock)
-                        {
-                            yPos = rnd.Next(block.yPos + 15, 70);
-                        }
-                    }
-                    structureList.Add(new Cave(wndGame, xPos, yPos, index, true, this, true));
-                }
-            }
-        }
-
-        private void ContinueStructureGeneration()
-        {
-            //Continue Structure Generation by adding a continuation strucutre, which contains the structure components that were previously cut off
-            if (index > 0)
-            {
-                foreach (Structure structure in wndGame.GetChunk(index - 1).structureList)
-                {
-                    if (structure.isCutOff)
-                    {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, 1, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks));
-                    }
-                }
-            }
-            else if (index < 0)
-            {
-                foreach (Structure structure in wndGame.GetChunk(index + 1).structureList)
-                {
-                    if (structure.isCutOff)
-                    {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, 8, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks));
-                    }
-                }
-            }
-        }
-
-        // -- Event Handlers --
-
-        private void bgwSaveChunk_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
-        {
-            //Check if the chunk directory already exists and create it otherwise
-            if (!Directory.Exists(chunkDirectory))
-            {
-                Directory.CreateDirectory(chunkDirectory);
-            }
-            File.WriteAllText(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index), "");
-            foreach (Block block in blockList)
-            {
-                if (block.hasInventory == true)
-                {
-                    block.blockInventory.SaveInventory(chunkDirectory);
-                }
-
-                //Write all blocks in the chunks blocklist into a file
-                File.AppendAllText(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2};{3};{4}\n", block.GetType().ToString().Replace("SeeloewenCraft.", ""), block.xPos, block.yPos, 0, block.isInBackground));
-            }
-            //Write the chunk settings into a file
-            File.WriteAllText(string.Format("{0}/chunk{1}/settings.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2}", index, floorHeightLeft, floorHeightRight));
-        }
-
-        private void bgwGenerateTerrain_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        private void GenerateTerrain()
         {
             //Generate the chunk from left to right
             if (index >= 0)
@@ -466,135 +519,142 @@ namespace SeeloewenCraft
             }
         }
 
-        private void bgwLoadChunk_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        private void GenerateTrees()
         {
-            //Read the chunk from saved file
-            string[] blocks = File.ReadAllLines(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index));
-
-            //Read all blocks from the file
-            foreach (string block in blocks)
+            //Generate up to 3 trees
+            for (int i = 0; i < 3; i++)
             {
-                //This goes through every line and converts it to a block
-                string[] blockSplit = block.Split(';');
+                int random = rnd.Next(0, 3);
+                if (random == 0)
+                {
+                    int xPos = rnd.Next(0, 9);
+                    int yPos = 0;
+                    foreach (Block block in blockList)
+                    {
+                        if (block.xPos == xPos && block is GrassBlock)
+                            yPos = block.yPos - 1;
+                    }
 
-                if (blockSplit[0] == "GrassBlock")
-                {
-                    blockList.Add(new GrassBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "DirtBlock")
-                {
-                    blockList.Add(new DirtBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "StoneBlock")
-                {
-                    blockList.Add(new StoneBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "AirBlock")
-                {
-                    blockList.Add(new AirBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "BedrockBlock")
-                {
-                    blockList.Add(new BedrockBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "DiamondOreBlock")
-                {
-                    blockList.Add(new DiamondOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "IronOreBlock")
-                {
-                    blockList.Add(new IronOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "CoalOreBlock")
-                {
-                    blockList.Add(new CoalOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "OakLogBlock")
-                {
-                    blockList.Add(new OakLogBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "OakLeavesBlock")
-                {
-                    blockList.Add(new OakLeavesBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "SpruceLogBlock")
-                {
-                    blockList.Add(new SpruceLogBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "SpruceLeavesBlock")
-                {
-                    blockList.Add(new SpruceLeavesBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "ChestBlock")
-                {
-                    blockList.Add(new ChestBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "MagmaBlock")
-                {
-                    blockList.Add(new MagmaBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else
-                {
-                    blockList.Add(new AirBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                    //Decide which tree to generate, mostly generate oak trees, rarely spruce
+                    int random2 = rnd.Next(0, 6);
+                    if (random2 == 0)
+                    {
+                        structureList.Add(new SpruceTreeStructure(wndGame, xPos, yPos, index, true, this, false));
+                    }
+                    else
+                    {
+                        structureList.Add(new OakTreeStructure(wndGame, xPos, yPos, index, true, this, false));
+                    }
+
                 }
             }
+        }
 
-            //Load the inventories of the blocks in the chunk (like chests)
-            LoadInventories();
+        private void GenerateOres()
+        {
+            //Generate up to 15 ores
+            for (int i = 0; i < 15; i++)
+            {
+                int random = rnd.Next(0, 3);
+                if (random == 0)
+                {
+                    int xPos = rnd.Next(0, 9);
+                    int yPos = 0;
+                    foreach (Block block in blockList)
+                    {
+                        if (block.xPos == xPos && block is GrassBlock)
+                        {
+                            yPos = rnd.Next(block.yPos + 5, 70);
+                        }
+                    }
+                    structureList.Add(new OreStructure(wndGame, xPos, yPos, index, true, this, true));
+                }
+            }
+        }
 
-            //Read the chunk settings from the file
-            string[] settings = File.ReadAllText(string.Format("{0}/chunk{1}/settings.txt", wndGame.worldDirectory, index)).Split(';');
-            index = Convert.ToInt32(settings[0]);
-            floorHeightLeft = Convert.ToInt32(settings[1]);
-            floorHeightRight = Convert.ToInt32(settings[2]);
-            isSaved = true;
+        private void GenerateCaves()
+        {
+            //Generate up to 1 cave
+            int random = rnd.Next(1, 9);
+            if (random == 1)
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    int xPos = rnd.Next(0, 9);
+                    int yPos = 0;
+                    foreach (Block block in blockList)
+                    {
+                        if (block.xPos == xPos && block is GrassBlock)
+                        {
+                            yPos = rnd.Next(block.yPos + 15, 70);
+                        }
+                    }
+                    structureList.Add(new Cave(wndGame, xPos, yPos, index, true, this, true));
+                }
+            }
+        }
+
+        private void ContinueStructureGeneration()
+        {
+            //Continue Structure Generation by adding a continuation strucutre, which contains the structure components that were previously cut off
+            if (index > 0)
+            {
+                foreach (Structure structure in wndGame.GetChunk(index - 1).structureList)
+                {
+                    if (structure.isCutOff)
+                    {
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, 1, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks));
+                    }
+                }
+            }
+            else if (index < 0)
+            {
+                foreach (Structure structure in wndGame.GetChunk(index + 1).structureList)
+                {
+                    if (structure.isCutOff)
+                    {
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, 8, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks));
+                    }
+                }
+            }
+        }
+
+        // -- Event Handlers --
+
+        private void bgwSaveChunk_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            //Run save process async
+            Save();
+        }
+
+        private void bgwGenerateTerrain_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            //Generate terrain async
+            GenerateTerrain();
+        }
+
+        private void bgwLoadChunk_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            //Load chunk async
+            Load();
         }
 
         private void bgwSaveChunk_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            //Set the chunk to saved so the next chunk can continue
-            isSaved = true;
+            //Run after save process completed
+            FinishSaving();
         }
 
         private void bgwLoadChunk_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            //Add all the blocks to the chunk
-            try
-            {
-                foreach (Block block in blockList)
-                {
-                    SetBlock(block, block.xPos, block.yPos);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[Error] Could not load chunk: {ex}");
-            }
+            //Run after load process completed
+            FinishLoading();
         }
 
         private void bgwGenerateTerrain_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            //Generate structures
-            GenerateTrees();
-            GenerateOres();
-            GenerateCaves();
-            ContinueStructureGeneration();
-
-            //Go through each block and add it to the chunk
-            try
-            {
-                foreach (Block block in blockList)
-                {
-                    SetBlock(block, block.xPos, block.yPos);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[Error] Could not load chunk: {ex}");
-            }
-
-            //Save the chunk
-            bgwSaveChunk.RunWorkerAsync();
+            //Run after terrain generation completed
+            FinishGenerating();
         }
     }
 }

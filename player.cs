@@ -315,7 +315,7 @@ namespace SeeloewenCraft
                 //Save the chunk that has moved to far and remove it. Add a new one at the opposite site.
                 wndGame.GetChunk(wndGame.chunkList[0].index).bgwSaveChunk.RunWorkerAsync();
                 wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[0].index));
-                wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[3].index + 1));
+                wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[3].index + 1, Properties.Settings.Default.loadChunksAsync));
                 wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);
                 Canvas.SetLeft(wndGame.chunkList[4].grdChunk, 1200 - offset);
 
@@ -328,7 +328,7 @@ namespace SeeloewenCraft
                 //Move the chunk on the right all the way to the left
                 wndGame.GetChunk(wndGame.chunkList[4].index).bgwSaveChunk.RunWorkerAsync();
                 wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[4].index));
-                wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[0].index - 1));
+                wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[0].index - 1, Properties.Settings.Default.loadChunksAsync));
                 wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);
                 Canvas.SetLeft(wndGame.chunkList[4].grdChunk, -400 + offset);
 

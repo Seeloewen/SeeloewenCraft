@@ -58,5 +58,17 @@ namespace SeeloewenCraft.Properties {
                 this["texturepack"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool loadChunksAsync {
+            get {
+                return ((bool)(this["loadChunksAsync"]));
+            }
+            set {
+                this["loadChunksAsync"] = value;
+            }
+        }
     }
 }
