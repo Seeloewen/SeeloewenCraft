@@ -19,6 +19,7 @@ namespace SeeloewenCraft
     {
         public BackgroundWorker bgwSaveChunk = new BackgroundWorker();
         public BackgroundWorker bgwLoadChunk = new BackgroundWorker();
+        public BackgroundWorker bgwGenerateTerrain = new BackgroundWorker();
         public List<Block> blockList = new List<Block>();
         public List<Structure> structureList = new List<Structure>();
         public BlockContainerList blockContainerList;
@@ -26,10 +27,12 @@ namespace SeeloewenCraft
         private Random rnd = new Random(DateTime.Now.Millisecond);
         wndGame wndGame;
         public int index;
+        int floorHeight; //Only used while generating
         public int floorHeightRight;
         public int floorHeightLeft;
-        string chunkDirectory;
-        string[] readChunks;
+        public string chunkDirectory;
+        private string[] readChunks;
+        public bool isSaved = false;
 
         //-- Constructor --//
 
@@ -42,7 +45,10 @@ namespace SeeloewenCraft
             //Create item editing backgroundworker
             bgwSaveChunk.DoWork += bgwSaveChunk_DoWork;
             bgwLoadChunk.DoWork += bgwLoadChunk_DoWork;
+            bgwGenerateTerrain.DoWork += bgwGenerateTerrain_DoWork;
+            bgwSaveChunk.RunWorkerCompleted += bgwSaveChunk_RunWorkerCompleted;
             bgwLoadChunk.RunWorkerCompleted += bgwLoadChunk_RunWorkerCompleted;
+            bgwGenerateTerrain.RunWorkerCompleted += bgwGenerateTerrain_RunWorkerCompleted;
 
             //Begin loading the chunk
             chunkDirectory = string.Format("{0}/chunk{1}", wndGame.worldDirectory, index);
@@ -51,127 +57,7 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-        private void bgwSaveChunk_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
-        {
-            //Check if the chunk directory already exists and create it otherwise
-            if (!Directory.Exists(chunkDirectory))
-            {
-                Directory.CreateDirectory(chunkDirectory);
-            }
-            File.WriteAllText(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index), "");
-            foreach (Block block in blockList)
-            {
-                if (block.hasInventory == true)
-                {
-                    block.blockInventory.SaveInventory(chunkDirectory);
-                }
-
-                //Write all blocks in the chunks blocklist into a file
-                File.AppendAllText(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2};{3};{4}\n", block.GetType().ToString().Replace("SeeloewenCraft.", ""), block.xPos, block.yPos, 0, block.isInBackground));
-            }
-            //Write the chunk settings into a file
-            File.WriteAllText(string.Format("{0}/chunk{1}/settings.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2}", index, floorHeightLeft, floorHeightRight));
-        }
-
-        private void bgwLoadChunk_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
-        {
-            //Read the chunk from saved file
-            string[] blocks = File.ReadAllLines(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index));
-
-            //Read all blocks from the file
-            foreach (string block in blocks)
-            {
-                //This goes through every line and converts it to a block
-                string[] blockSplit = block.Split(';');
-
-                if (blockSplit[0] == "GrassBlock")
-                {
-                    blockList.Add(new GrassBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "DirtBlock")
-                {
-                    blockList.Add(new DirtBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "StoneBlock")
-                {
-                    blockList.Add(new StoneBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "AirBlock")
-                {
-                    blockList.Add(new AirBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "BedrockBlock")
-                {
-                    blockList.Add(new BedrockBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "DiamondOreBlock")
-                {
-                    blockList.Add(new DiamondOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "IronOreBlock")
-                {
-                    blockList.Add(new IronOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "CoalOreBlock")
-                {
-                    blockList.Add(new CoalOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "OakLogBlock")
-                {
-                    blockList.Add(new OakLogBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "OakLeavesBlock")
-                {
-                    blockList.Add(new OakLeavesBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "SpruceLogBlock")
-                {
-                    blockList.Add(new SpruceLogBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "SpruceLeavesBlock")
-                {
-                    blockList.Add(new SpruceLeavesBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "ChestBlock")
-                {
-                    blockList.Add(new ChestBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else if (blockSplit[0] == "MagmaBlock")
-                {
-                    blockList.Add(new MagmaBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-                else
-                {
-                    blockList.Add(new AirBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                }
-            }
-
-            //Load the inventories of the blocks in the chunk (like chests)
-            LoadInventories();
-
-            //Read the chunk settings from the file
-            string[] settings = File.ReadAllText(string.Format("{0}/chunk{1}/settings.txt", wndGame.worldDirectory, index)).Split(';');
-            index = Convert.ToInt32(settings[0]);
-            floorHeightLeft = Convert.ToInt32(settings[1]);
-            floorHeightRight = Convert.ToInt32(settings[2]);
-        }
-
-        private void bgwLoadChunk_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            //Add all the blocks to the chunk
-            try
-            {
-                foreach (Block block in blockList)
-                {
-                    SetBlock(block, block.xPos, block.yPos);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[Error] Could not load chunk: {ex}");
-            }
-        }
-
+       
         public void SetBlock(Block block, int x, int y)
         {
             //Check if the coordinate has a container and place the block into that container if possible
@@ -224,32 +110,15 @@ namespace SeeloewenCraft
 
                 //Generate terrain & structure
                 GenerateTerrain();
-                GenerateTrees();
-                GenerateOres();
-                GenerateCaves();
-                ContinueStructureGeneration();
 
-                //Go through each block and add it to the chunk
-                try
-                {
-                    foreach (Block block in blockList)
-                    {
-                        SetBlock(block, block.xPos, block.yPos);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"[Error] Could not load chunk: {ex}");
-                }
-
-                //Save the chunk
-                bgwSaveChunk.RunWorkerAsync();
+                // --> Continuation of generation in bgwGenerateTerrain_RunWorkerCompleted
             }
             else
             {
                 bgwLoadChunk.RunWorkerAsync();
             }
         }
+
         public Block GetBlock(int x, int y)
         {
             //Go through each block and return the block that matches the coords
@@ -287,12 +156,11 @@ namespace SeeloewenCraft
 
         private void GenerateTerrain()
         {
-            int floorHeight;
 
-            //Generate the chunk from left to right
+            //Set the floorheight based on the chunk index
             if (index >= 0)
             {
-                if (wndGame.chunkList.Count == 0)
+                if (index == 0 || index == 1)
                 {
                     //If it's the first chunk, set the floor hight
                     floorHeight = rnd.Next(12, 15);
@@ -302,162 +170,14 @@ namespace SeeloewenCraft
                     //If it's not the first chunk, get the most right floor height from the chunk to the left
                     floorHeight = wndGame.GetChunk(index - 1).floorHeightRight;
                 }
-                for (int x = 1; x <= 8; x++)
-                {
-                    //Go through all 8 columns in the chunk and generate a number to determine if the floor height should c hange
-                    int floorHeightChange = rnd.Next(0, 100);
-                    if (floorHeightChange >= 80 && floorHeightChange <= 100)
-                    {
-                        //Only decrease the floor height if it's currently 10 or higher
-                        if (floorHeight >= 10)
-                        {
-                            floorHeight--;
-                        }
-                    }
-                    else if (floorHeightChange >= 60 && floorHeightChange < 80)
-                    {
-                        //Only increase the floor height if it's currently 18 or below
-                        if (floorHeight <= 18)
-                        {
-                            floorHeight++;
-                        }
-                    }
-
-                    //Go through each row
-                    for (int y = 1; y <= 75; y++)
-                    {
-
-                        if (y == floorHeight)
-                        {
-                            //If the block is exactly on floor height add a grass block
-                            blockList.Add(new GrassBlock(wndGame, x, y, this, null, false));
-
-                            //If it's at one of the corners, set the left or right floor height variable
-                            if (x == 1)
-                            {
-                                floorHeightLeft = floorHeight;
-                            }
-                            if (x == 8)
-                            {
-                                floorHeightRight = floorHeight;
-                            }
-                        }
-                        else if (y == floorHeight + 1 || y == floorHeight + 2)
-                        {
-                            //If it's 1 or 2 blocks below the floor height, add dirt
-                            blockList.Add(new DirtBlock(wndGame, x, y, this, null, false));
-                        }
-                        else if (y == floorHeight + 3)
-                        {
-                            //If it's 3 blocks below the floor height, it has an additional chance to generate dirt
-                            int random = rnd.Next(1, 3);
-                            if (random == 1)
-                            {
-                                blockList.Add(new DirtBlock(wndGame, x, y, this, null, false));
-                            }
-                            else
-                            {
-                                blockList.Add(new StoneBlock(wndGame, x, y, this, null, false));
-                            }
-                        }
-                        else if (y > floorHeight + 3 && y < 75)
-                        {
-                            //If it's 3 blocks below floor height and above y 75, set stone blocks
-                            blockList.Add(new StoneBlock(wndGame, x, y, this, null, false));
-                        }
-                        else if (y < floorHeight)
-                        {
-                            //If it's above floor height, generate air
-                            blockList.Add(new AirBlock(wndGame, x, y, this, null, false));
-                        }
-                        else if (y == 75)
-                        {
-                            //If it's exactly at bottom layer y 75, set bedrock block
-                            blockList.Add(new BedrockBlock(wndGame, x, y, this, null, false));
-                        }
-                    }
-                }
             }
-
-            //Generate the chunk from right to left
-            else
+            else if (index < 0)
             {
                 floorHeight = wndGame.GetChunk(index + 1).floorHeightLeft;
-
-                for (int x = 8; x > 0; x--)
-                {
-                    int floorHeightChange = rnd.Next(0, 100);
-                    if (floorHeightChange >= 80 && floorHeightChange <= 100)
-                    {
-                        if (floorHeight >= 10)
-                        {
-                            floorHeight--;
-                        }
-                    }
-                    else if (floorHeightChange >= 60 && floorHeightChange < 80)
-                    {
-                        if (floorHeight <= 18)
-                        {
-                            floorHeight++;
-
-                        }
-                    }
-
-                    //Go through each row
-                    for (int y = 1; y <= 75; y++)
-                    {
-
-                        if (y == floorHeight)
-                        {
-                            //If the block is exactly on floor height add a grass block
-                            blockList.Add(new GrassBlock(wndGame, x, y, this, null, false));
-
-                            //If it's at one of the corners, set the left or right floor height variable
-                            if (x == 1)
-                            {
-                                floorHeightLeft = floorHeight;
-                            }
-                            if (x == 8)
-                            {
-                                floorHeightRight = floorHeight;
-                            }
-                        }
-                        else if (y == floorHeight + 1 || y == floorHeight + 2)
-                        {
-                            //If it's 1 or 2 blocks below the floor height, add dirt
-                            blockList.Add(new DirtBlock(wndGame, x, y, this, null, false));
-                        }
-                        else if (y == floorHeight + 3)
-                        {
-                            //If it's 3 blocks below the floor height, it has an additional chance to generate dirt
-                            int random = rnd.Next(1, 3);
-                            if (random == 1)
-                            {
-                                blockList.Add(new DirtBlock(wndGame, x, y, this, null, false));
-                            }
-                            else
-                            {
-                                blockList.Add(new DirtBlock(wndGame, x, y, this, null, false));
-                            }
-                        }
-                        else if (y > floorHeight + 3 && y < 75)
-                        {
-                            //If it's 3 blocks below floor height and above y 75, set stone blocks
-                            blockList.Add(new StoneBlock(wndGame, x, y, this, null, false));
-                        }
-                        else if (y < floorHeight)
-                        {
-                            //If it's above floor height, generate air
-                            blockList.Add(new AirBlock(wndGame, x, y, this, null, false));
-                        }
-                        else if (y == 75)
-                        {
-                            //If it's exactly at bottom layer y 75, set bedrock block
-                            blockList.Add(new BedrockBlock(wndGame, x, y, this, null, false ));
-                        }
-                    }
-                }
             }
+
+            //Actually generate the terrain
+            bgwGenerateTerrain.RunWorkerAsync();
         }
 
 
@@ -559,6 +279,322 @@ namespace SeeloewenCraft
                     }
                 }
             }
+        }
+
+        // -- Event Handlers --
+
+        private void bgwSaveChunk_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            //Check if the chunk directory already exists and create it otherwise
+            if (!Directory.Exists(chunkDirectory))
+            {
+                Directory.CreateDirectory(chunkDirectory);
+            }
+            File.WriteAllText(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index), "");
+            foreach (Block block in blockList)
+            {
+                if (block.hasInventory == true)
+                {
+                    block.blockInventory.SaveInventory(chunkDirectory);
+                }
+
+                //Write all blocks in the chunks blocklist into a file
+                File.AppendAllText(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2};{3};{4}\n", block.GetType().ToString().Replace("SeeloewenCraft.", ""), block.xPos, block.yPos, 0, block.isInBackground));
+            }
+            //Write the chunk settings into a file
+            File.WriteAllText(string.Format("{0}/chunk{1}/settings.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2}", index, floorHeightLeft, floorHeightRight));
+        }
+
+        private void bgwGenerateTerrain_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            //Generate the chunk from left to right
+            if (index >= 0)
+            {
+                for (int x = 1; x <= 8; x++)
+                {
+                    //Go through all 8 columns in the chunk and generate a number to determine if the floor height should change
+                    int floorHeightChange = rnd.Next(0, 100);
+                    if (floorHeightChange >= 80 && floorHeightChange <= 100)
+                    {
+                        //Only decrease the floor height if it's currently 10 or higher
+                        if (floorHeight >= 10)
+                        {
+                            floorHeight--;
+                        }
+                    }
+                    else if (floorHeightChange >= 60 && floorHeightChange < 80)
+                    {
+                        //Only increase the floor height if it's currently 18 or below
+                        if (floorHeight <= 18)
+                        {
+                            floorHeight++;
+                        }
+                    }
+
+                    //Go through each row
+                    for (int y = 1; y <= 75; y++)
+                    {
+
+                        if (y == floorHeight)
+                        {
+                            //If the block is exactly on floor height add a grass block
+                            blockList.Add(new GrassBlock(wndGame, x, y, this, null, false));
+
+                            //If it's at one of the corners, set the left or right floor height variable
+                            if (x == 1)
+                            {
+                                floorHeightLeft = floorHeight;
+                            }
+                            if (x == 8)
+                            {
+                                floorHeightRight = floorHeight;
+                            }
+                        }
+                        else if (y == floorHeight + 1 || y == floorHeight + 2)
+                        {
+                            //If it's 1 or 2 blocks below the floor height, add dirt
+                            blockList.Add(new DirtBlock(wndGame, x, y, this, null, false));
+                        }
+                        else if (y == floorHeight + 3)
+                        {
+                            //If it's 3 blocks below the floor height, it has an additional chance to generate dirt
+                            int random = rnd.Next(1, 3);
+                            if (random == 1)
+                            {
+                                blockList.Add(new DirtBlock(wndGame, x, y, this, null, false));
+                            }
+                            else
+                            {
+                                blockList.Add(new StoneBlock(wndGame, x, y, this, null, false));
+                            }
+                        }
+                        else if (y > floorHeight + 3 && y < 75)
+                        {
+                            //If it's 3 blocks below floor height and above y 75, set stone blocks
+                            blockList.Add(new StoneBlock(wndGame, x, y, this, null, false));
+                        }
+                        else if (y < floorHeight)
+                        {
+                            //If it's above floor height, generate air
+                            blockList.Add(new AirBlock(wndGame, x, y, this, null, false));
+                        }
+                        else if (y == 75)
+                        {
+                            //If it's exactly at bottom layer y 75, set bedrock block
+                            blockList.Add(new BedrockBlock(wndGame, x, y, this, null, false));
+                        }
+                    }
+                }
+            }
+
+            //Generate the chunk from right to left
+            else
+            {
+                for (int x = 8; x > 0; x--)
+                {
+                    int floorHeightChange = rnd.Next(0, 100);
+                    if (floorHeightChange >= 80 && floorHeightChange <= 100)
+                    {
+                        if (floorHeight >= 10)
+                        {
+                            floorHeight--;
+                        }
+                    }
+                    else if (floorHeightChange >= 60 && floorHeightChange < 80)
+                    {
+                        if (floorHeight <= 18)
+                        {
+                            floorHeight++;
+
+                        }
+                    }
+
+                    //Go through each row
+                    for (int y = 1; y <= 75; y++)
+                    {
+
+                        if (y == floorHeight)
+                        {
+                            //If the block is exactly on floor height add a grass block
+                            blockList.Add(new GrassBlock(wndGame, x, y, this, null, false));
+
+                            //If it's at one of the corners, set the left or right floor height variable
+                            if (x == 1)
+                            {
+                                floorHeightLeft = floorHeight;
+                            }
+                            if (x == 8)
+                            {
+                                floorHeightRight = floorHeight;
+                            }
+                        }
+                        else if (y == floorHeight + 1 || y == floorHeight + 2)
+                        {
+                            //If it's 1 or 2 blocks below the floor height, add dirt
+                            blockList.Add(new DirtBlock(wndGame, x, y, this, null, false));
+                        }
+                        else if (y == floorHeight + 3)
+                        {
+                            //If it's 3 blocks below the floor height, it has an additional chance to generate dirt
+                            int random = rnd.Next(1, 3);
+                            if (random == 1)
+                            {
+                                blockList.Add(new DirtBlock(wndGame, x, y, this, null, false));
+                            }
+                            else
+                            {
+                                blockList.Add(new DirtBlock(wndGame, x, y, this, null, false));
+                            }
+                        }
+                        else if (y > floorHeight + 3 && y < 75)
+                        {
+                            //If it's 3 blocks below floor height and above y 75, set stone blocks
+                            blockList.Add(new StoneBlock(wndGame, x, y, this, null, false));
+                        }
+                        else if (y < floorHeight)
+                        {
+                            //If it's above floor height, generate air
+                            blockList.Add(new AirBlock(wndGame, x, y, this, null, false));
+                        }
+                        else if (y == 75)
+                        {
+                            //If it's exactly at bottom layer y 75, set bedrock block
+                            blockList.Add(new BedrockBlock(wndGame, x, y, this, null, false));
+                        }
+                    }
+                }
+            }
+        }
+
+        private void bgwLoadChunk_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            //Read the chunk from saved file
+            string[] blocks = File.ReadAllLines(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index));
+
+            //Read all blocks from the file
+            foreach (string block in blocks)
+            {
+                //This goes through every line and converts it to a block
+                string[] blockSplit = block.Split(';');
+
+                if (blockSplit[0] == "GrassBlock")
+                {
+                    blockList.Add(new GrassBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "DirtBlock")
+                {
+                    blockList.Add(new DirtBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "StoneBlock")
+                {
+                    blockList.Add(new StoneBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "AirBlock")
+                {
+                    blockList.Add(new AirBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "BedrockBlock")
+                {
+                    blockList.Add(new BedrockBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "DiamondOreBlock")
+                {
+                    blockList.Add(new DiamondOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "IronOreBlock")
+                {
+                    blockList.Add(new IronOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "CoalOreBlock")
+                {
+                    blockList.Add(new CoalOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "OakLogBlock")
+                {
+                    blockList.Add(new OakLogBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "OakLeavesBlock")
+                {
+                    blockList.Add(new OakLeavesBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "SpruceLogBlock")
+                {
+                    blockList.Add(new SpruceLogBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "SpruceLeavesBlock")
+                {
+                    blockList.Add(new SpruceLeavesBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "ChestBlock")
+                {
+                    blockList.Add(new ChestBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else if (blockSplit[0] == "MagmaBlock")
+                {
+                    blockList.Add(new MagmaBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+                else
+                {
+                    blockList.Add(new AirBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                }
+            }
+
+            //Load the inventories of the blocks in the chunk (like chests)
+            LoadInventories();
+
+            //Read the chunk settings from the file
+            string[] settings = File.ReadAllText(string.Format("{0}/chunk{1}/settings.txt", wndGame.worldDirectory, index)).Split(';');
+            index = Convert.ToInt32(settings[0]);
+            floorHeightLeft = Convert.ToInt32(settings[1]);
+            floorHeightRight = Convert.ToInt32(settings[2]);
+            isSaved = true;
+        }
+
+        private void bgwSaveChunk_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            //Set the chunk to saved so the next chunk can continue
+            isSaved = true;
+        }
+
+        private void bgwLoadChunk_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            //Add all the blocks to the chunk
+            try
+            {
+                foreach (Block block in blockList)
+                {
+                    SetBlock(block, block.xPos, block.yPos);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Error] Could not load chunk: {ex}");
+            }
+        }
+
+        private void bgwGenerateTerrain_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            //Generate structures
+            GenerateTrees();
+            GenerateOres();
+            GenerateCaves();
+            ContinueStructureGeneration();
+
+            //Go through each block and add it to the chunk
+            try
+            {
+                foreach (Block block in blockList)
+                {
+                    SetBlock(block, block.xPos, block.yPos);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Error] Could not load chunk: {ex}");
+            }
+
+            //Save the chunk
+            bgwSaveChunk.RunWorkerAsync();
         }
     }
 }
