@@ -73,6 +73,9 @@
     <Compile Include="inventorySlot.cs" />
     <Compile Include="items.cs" />
     <Compile Include="structures.cs" />
+    <Compile Include="wndAbout.xaml.cs">
+      <DependentUpon>wndAbout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="wndCreateWorld.xaml.cs">
       <DependentUpon>wndCreateWorld.xaml</DependentUpon>
     </Compile>
@@ -85,6 +88,10 @@
     <Compile Include="wndSettings.xaml.cs">
       <DependentUpon>wndSettings.xaml</DependentUpon>
     </Compile>
+    <Page Include="wndAbout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="wndCreateWorld.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -186,5 +186,12 @@ namespace SeeloewenCraft
             ApplyTexturepack();
             MessageBox.Show("The texturepack was applied!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+        private void btnAbout_Click(object sender, RoutedEventArgs e)
+        {
+            //Show the about window
+            wndAbout wndAbout = new wndAbout(wndMenu);
+            wndAbout.ShowDialog();
+        }
     }
 }

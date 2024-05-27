@@ -541,7 +541,8 @@ namespace SeeloewenCraft
             else if (tbDebug.Text == "/about")
             {
                 //Show 'About' message
-                MessageBox.Show(string.Format("You are running SeeloewenCraft Version {0} - This version is not meant to be publicly shared and shall only be used for private purposes.", gameVersion), "/about");
+                wndAbout wndAbout = new wndAbout(wndMenu);
+                wndAbout.ShowDialog();
             }
             else if (tbDebug.Text == "/generateplayer")
             {

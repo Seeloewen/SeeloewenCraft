@@ -25,7 +25,8 @@ namespace SeeloewenCraft
         public wndGame wndGame;
         private int splashTextSize = 0;
         public int worldVersion = 1;
-        public string gameVersion = "Alpha 1.1.3";
+        public string gameVersion = "Alpha 1.1.4-Dev3";
+        public string versionDate = "27.05.2024";
         public string gameDirectory;
         public string texturepackDirectory;
         public string selectedTexturepack;

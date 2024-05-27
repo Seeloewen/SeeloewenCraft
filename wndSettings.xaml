@@ -17,5 +17,6 @@
         <ComboBox x:Name="cbxTexturepack" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" Width="367"/>
         <Button x:Name="btnApplyTexturepack" Content="Apply" HorizontalAlignment="Left" Margin="383,160,0,0" VerticalAlignment="Top" Height="22" Width="93" Click="btnApplyTexturepack_Click"/>
         <TextBlock x:Name="tblTexturepack" HorizontalAlignment="Left" Margin="11,133,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.285,0.455" FontSize="18" Width="127"><Run Text="Texturepa"/><Run Language="de-de" Text="ck:"/><LineBreak/><Run Language="de-de"/></TextBlock>
+        <Button x:Name="btnAbout" Content="About" HorizontalAlignment="Left" Margin="10,320,0,0" VerticalAlignment="Top" Height="29" Width="115" FontSize="16" Click="btnAbout_Click"/>
     </Grid>
 </Window>
