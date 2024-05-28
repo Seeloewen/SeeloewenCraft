@@ -16,7 +16,7 @@
         <TextBlock x:Name="tblAbout" HorizontalAlignment="Left" Margin="320,384,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16"><Run Text="202"/><Run Language="de-de" Text="4"/><Run Text=" by Seeloewen - Private project, inspired by Minecraft"/></TextBlock>
         <Button x:Name="btnSettings" Content="Settings" HorizontalAlignment="Center" Margin="0,196,0,0" VerticalAlignment="Top" Height="40" Width="206" FontSize="20" Click="btnSettings_Click"/>
         <TextBlock x:Name="tblVersion" HorizontalAlignment="Left" Margin="10,383,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16"><Run Language="de-de" Text="Version {0}"/></TextBlock>
-        <TextBlock x:Name="tblAlpha" HorizontalAlignment="Left" Margin="547,77,0,0" TextWrapping="Wrap" Text="Early Alpha!" VerticalAlignment="Top" FontSize="20" RenderTransformOrigin="0.5,0.5">
+        <TextBlock x:Name="tblSplashText" HorizontalAlignment="Left" Margin="547,77,0,0" TextWrapping="NoWrap" Text="Early Alpha" VerticalAlignment="Top" FontSize="20" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>

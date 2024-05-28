@@ -35,6 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
@@ -80,6 +81,7 @@
     <Compile Include="inventorySlot.cs" />
     <Compile Include="items.cs" />
     <Compile Include="SeeloewenLib.cs" />
+    <Compile Include="splashtexts.cs" />
     <Compile Include="structures.cs" />
     <Compile Include="wndAbout.xaml.cs">
       <DependentUpon>wndAbout.xaml</DependentUpon>
@@ -204,6 +206,17 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\SpruceLogBlock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Slashtexts.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\splash_texts.txt.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\splash_texts.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

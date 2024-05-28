@@ -33,6 +33,8 @@ namespace SeeloewenCraft
         public string selectedTexturepack;
         public int texturepackVersion;
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
+        private SplashTextHandler splashTextHandler = new SplashTextHandler();
+        bool setSplashText = false;
 
         //-- Constructor --//
 
@@ -49,6 +51,10 @@ namespace SeeloewenCraft
             //Show the version
             tblVersion.Text = string.Format("Version {0}", gameVersion);
             log.Write($"SeeloewenCraft Alpha Version {gameVersion} ({versionDate}).", "Info");
+
+            string splashText =  splashTextHandler.GetText();
+            tblSplashText.Text = splashText;
+            tblSplashText.Margin = new Thickness(605 - Math.Max(splashText.Length * 2, 40), 75, 0, 0);
 
             //Check if the game directory exists and create it otherwise
             if (!Directory.Exists(string.Format("{0}/SeeloewenCraft/", appData)))
@@ -90,15 +96,17 @@ namespace SeeloewenCraft
 
         private void tmrSplashText_Tick(object sender, EventArgs e)
         {
+            Console.WriteLine(tblSplashText.ActualWidth);
+
             splashTextSize++;
             //Increase or decrease the splash text size based on the current number
             if (splashTextSize >= 0 && splashTextSize < 15)
             {
-                tblAlpha.FontSize -= 0.3;
+                tblSplashText.FontSize -= 0.3;
             }
             else if(splashTextSize >= 15 && splashTextSize < 30)
             {
-                tblAlpha.FontSize += 0.3;
+                tblSplashText.FontSize += 0.3;
             }
             else if(splashTextSize == 30)
             {
