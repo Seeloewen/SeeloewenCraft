@@ -776,6 +776,12 @@ namespace SeeloewenCraft
             returnToMenu = true;
             Close();
         }
+
+        //disables scrolling with the mouse wheel
+        private void svWorld_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            e.Handled = true;
+        }
     }
 }
 
