@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -78,11 +79,19 @@ namespace SeeloewenCraft
         public void GeneratePlayer(int x, int y)
         {
             //Setup the character canvas that is shown but does not count in movement checks
-            cvsPlayer.Margin = new Thickness(x + 2, y + 5, 0, 0);
+            cvsPlayer.Margin = new Thickness(x, y, 0, 0);
             cvsPlayer.Width = 45;
             cvsPlayer.Height = 95;
             cvsPlayer.Background = new SolidColorBrush(Colors.Red);
         }
+
+
+        public void SavePosition(string path)
+        {
+            File.WriteAllText($"{path}/playerPosition.txt", $"{posX}\n{posY}");
+        }
+
+
 
         //physics
         public void physicsStep(bool pressedLeft, bool pressedRight, bool pressedUp, double dt)
