@@ -17,9 +17,6 @@ namespace SeeloewenCraft
 {
     public class Chunk
     {
-        public BackgroundWorker bgwSaveChunk = new BackgroundWorker();
-        public BackgroundWorker bgwLoadChunk = new BackgroundWorker();
-        public BackgroundWorker bgwGenerateTerrain = new BackgroundWorker();
         public List<Block> blockList = new List<Block>();
         public List<Structure> structureList = new List<Structure>();
         public BlockContainerList blockContainerList;
@@ -121,7 +118,6 @@ namespace SeeloewenCraft
 
                 //Generate terrain & structure
                 GenerateTerrain();
-                //Generate structures
                 GenerateTrees();
                 GenerateOres();
                 GenerateCaves();

@@ -115,8 +115,8 @@ namespace SeeloewenCraft
                     if (!block.isSolid) continue;
 
                     Point blockOriginPoint = new Point(1,1);
-                    try
-                    {
+                    //try
+                    //{
                         //Convert positions to screen coordinates
                         Point playerScreenPoint = wndGame.player.cvsPlayer.PointToScreen(new Point(0, 0));
                         Point blockScreenPoint = block.blockContainer.bdrBlock.PointToScreen(new Point(0, 0));
@@ -127,11 +127,11 @@ namespace SeeloewenCraft
 
                         //calculate relative position of block from player (top-left corner)
                          blockOriginPoint = new Point(blockPosition.X - playerPosition.X, blockPosition.Y - playerPosition.Y);
-                    }
-                    catch
-                    {
-                        Console.WriteLine("[Error] Couldn't get player point.");
-                    }
+                    //}
+                    //catch
+                    //{
+                    //    Console.WriteLine("[Error] Couldn't get player point.");
+                    //}
 
 
                     //set flag to true if a point is inside of the block
@@ -322,7 +322,7 @@ namespace SeeloewenCraft
             {
                 double offset = -Canvas.GetLeft(wndGame.chunkList[2].grdChunk);
                 //Save the chunk that has moved to far and remove it. Add a new one at the opposite site.
-                wndGame.GetChunk(wndGame.chunkList[0].index).bgwSaveChunk.RunWorkerAsync();
+                wndGame.GetChunk(wndGame.chunkList[0].index).Save();
                 wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[0].index));
                 wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[3].index + 1));
                 wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);
@@ -335,7 +335,7 @@ namespace SeeloewenCraft
             {
                 double offset = Canvas.GetLeft(wndGame.chunkList[2].grdChunk) - 800;
                 //Move the chunk on the right all the way to the left
-                wndGame.GetChunk(wndGame.chunkList[4].index).bgwSaveChunk.RunWorkerAsync();
+                wndGame.GetChunk(wndGame.chunkList[4].index).Save();
                 wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[4].index));
                 wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[0].index - 1));
                 wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);

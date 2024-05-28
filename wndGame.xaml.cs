@@ -239,7 +239,7 @@ namespace SeeloewenCraft
             int c = 0;
             for (int i = Math.Max(j, 0); i < Math.Max(j + 5, 0); i++)
             {
-                chunkList.Add(new Chunk(this, i, false));
+                chunkList.Add(new Chunk(this, i));
                 c++;
             }
 
@@ -720,14 +720,16 @@ namespace SeeloewenCraft
             //If the setting to save worlds on closing is enabled
             if (finishedLoading)
             {
+                tmrMovement.Stop();
                 if (Properties.Settings.Default.saveWorldOnClose == true)
                 {
                     //Save all chunks and the inventory of the player
                     foreach (Chunk chunk in chunkList)
                     {
-                        chunk.bgwSaveChunk.RunWorkerAsync();
+                        chunk.Save();
                     }
                     player.inventory.SaveInventory(worldDirectory);
+                    player.SavePosition(worldDirectory);
                 }
             }
 
@@ -761,10 +763,9 @@ namespace SeeloewenCraft
             //Save all chunks and the inventory of the player
             foreach (Chunk chunk in chunkList)
             {
-                chunk.bgwSaveChunk.RunWorkerAsync();
+                chunk.Save();
             }
             player.inventory.SaveInventory(worldDirectory);
-
             player.SavePosition(worldDirectory);
 
             //Show confirmation
