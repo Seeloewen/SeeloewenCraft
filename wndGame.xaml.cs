@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -153,10 +154,30 @@ namespace SeeloewenCraft
                 File.WriteAllLines($"{worldDirectory}/settings.txt", worldSettings);
             }
 
+            bool loadedPlayerPosExists = File.Exists($"{worldDirectory}/playerPosition.txt");
+            double playerPosX = 0;
+            double playerPosY = 0;
+
+            if (loadedPlayerPosExists)
+            {
+                string[] coords = File.ReadAllLines($"{worldDirectory}/playerPosition.txt");
+                try
+                {
+                    playerPosX = Double.Parse(coords[0]);
+                    playerPosY = Double.Parse(coords[1]);
+                }
+                catch
+                {
+                    loadedPlayerPosExists = false;
+                    Console.WriteLine("player coords file incorrect format(use log for this)");
+                }
+
+            }
+
             //Create the game components
             GenerateBlockContainer();
-            GenerateChunks();
-            CreatePlayer();
+            GenerateChunks(loadedPlayerPosExists ? ((int)playerPosX / 8) - 2 : 0);
+            CreatePlayer(loadedPlayerPosExists, playerPosX, playerPosY);
             player.inventory = new Inventory(this, 0, true);
             inventoryList.Add(player.inventory);
             player.inventory.hotbarSlotList[0].SelectSlot();
@@ -180,44 +201,67 @@ namespace SeeloewenCraft
             finishedLoading = true;
         }
 
-        public void CreatePlayer()
+        public void CreatePlayer(bool isLoaded, double playerPosX, double playerPosY)
         {
-            //Calculate y position where the player starts
-            //WIP
-            int yPos = 0;
-            foreach (Block block in chunkList[2].blockList)
-            {
-                if (block.xPos == 5 && block is GrassBlock)
-                {
-                    yPos = block.yPos * 50 - 150;
-                }
-            }
 
-            //Create the player and add it to the world canvas
-            player = new Player(this, 600, yPos);
+            if (!isLoaded)
+            {
+                //Calculate y position where the player starts
+                //WIP
+                int yPos = 0;
+                foreach (Block block in chunkList[2].blockList)
+                {
+                    if (block.xPos == 5 && block is GrassBlock)
+                    {
+                        yPos = block.yPos * 50 - 150;
+                        yPos = (block.yPos - 3) * 50;
+                    }
+                }
+
+                //Create the player and add it to the world canvas
+                player = new Player(this, 602, yPos + 5);
+
+            }
+            else
+            {
+                player = new Player(this, 602, (int)(playerPosY * 50) - 50);
+                player.MoveHorizontal((int)Math.Round((playerPosX % 8.0) * 50) - 252);
+            }
             cvsWorld.Children.Add(player.cvsPlayer);
             Panel.SetZIndex(player.cvsPlayer, 1);
             relativeSvPos = svWorld.VerticalOffset;
             defaultSvPos = svWorld.VerticalOffset;
         }
 
-        private void GenerateChunks()
+        private void GenerateChunks(int j)
         {
-            //Create the starter chunks and add them to the world canvas
-            for (int i = 0; i < 5; i++)
+
+            int c = 0;
+            for (int i = Math.Max(j, 0); i < Math.Max(j + 5, 0); i++)
+            {
+                chunkList.Add(new Chunk(this, i, false));
+                c++;
+            }
+
+            int temp = Math.Min(j+4, -1);
+            int temp2 = c + Math.Min(j, -5);
+            for (int i = temp; i >= temp2; i--)
             {
                 chunkList.Add(new Chunk(this, i, false));
             }
-            cvsWorld.Children.Add(GetChunk(0).grdChunk);
-            Canvas.SetLeft(GetChunk(0).grdChunk, -400);
-            cvsWorld.Children.Add(GetChunk(1).grdChunk);
-            Canvas.SetLeft(GetChunk(1).grdChunk, 0);
-            cvsWorld.Children.Add(GetChunk(2).grdChunk);
-            Canvas.SetLeft(GetChunk(2).grdChunk, 400);
-            cvsWorld.Children.Add(GetChunk(3).grdChunk);
-            Canvas.SetLeft(GetChunk(3).grdChunk, 800);
-            cvsWorld.Children.Add(GetChunk(4).grdChunk);
-            Canvas.SetLeft(GetChunk(4).grdChunk, 1200);
+
+
+
+            cvsWorld.Children.Add(GetChunk(j).grdChunk);
+            Canvas.SetLeft(GetChunk(j).grdChunk, -400);
+            cvsWorld.Children.Add(GetChunk(j + 1).grdChunk);
+            Canvas.SetLeft(GetChunk(j + 1).grdChunk, 0);
+            cvsWorld.Children.Add(GetChunk(j + 2).grdChunk);
+            Canvas.SetLeft(GetChunk(j + 2).grdChunk, 400);
+            cvsWorld.Children.Add(GetChunk(j + 3).grdChunk);
+            Canvas.SetLeft(GetChunk(j + 3).grdChunk, 800);
+            cvsWorld.Children.Add(GetChunk(j + 4).grdChunk);
+            Canvas.SetLeft(GetChunk(j + 4).grdChunk, 1200);
         }
 
         public Chunk GetChunk(int index)
@@ -720,6 +764,8 @@ namespace SeeloewenCraft
                 chunk.bgwSaveChunk.RunWorkerAsync();
             }
             player.inventory.SaveInventory(worldDirectory);
+
+            player.SavePosition(worldDirectory);
 
             //Show confirmation
             MessageBox.Show("Successfully saved the World!", "Save World", MessageBoxButton.OK, MessageBoxImage.Information);
