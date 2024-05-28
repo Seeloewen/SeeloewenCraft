@@ -43,6 +43,21 @@ namespace SeeloewenCraft
         }
 
         //-- Custom Methods --//
+        public void hideBlockInfo()
+        {
+            foreach (Block block in blockList)
+            {
+                block.HideBlockInfo();
+            }
+        }
+
+        public void showBlockInfo()
+        {
+            foreach(Block block in blockList)
+            {
+                block.ShowBlockInfo();
+            }
+        }
 
         public void Save()
         {

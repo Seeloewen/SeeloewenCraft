@@ -49,6 +49,7 @@ namespace SeeloewenCraft
         public bool finishedLoading = false;
         private bool returnToMenu = false;
         public List<BlockContainerList> blockContainerList = new List<BlockContainerList>();
+        public bool showBlockInfo = false;
 
 
         //-- Constructor --//
@@ -562,12 +563,10 @@ namespace SeeloewenCraft
                 //WIP - Needs to also show block info on new chunks
                 foreach (Chunk chunk in chunkList)
                 {
-                    foreach (Block block in chunk.blockList)
-                    {
-                        block.ShowBlockInfo();
-                    }
+                    chunk.showBlockInfo();
                 }
                 MessageBox.Show("Block info is now shown.", "/showblockinfo");
+                showBlockInfo = true;
             }
             else if (tbDebug.Text == "/hideblockinfo")
             {
@@ -575,12 +574,11 @@ namespace SeeloewenCraft
                 //WIP - Needs to also hide block info on new chunks
                 foreach (Chunk chunk in chunkList)
                 {
-                    foreach (Block block in chunk.blockList)
-                    {
-                        block.HideBlockInfo();
-                    }
+                    chunk.hideBlockInfo();
+                    
                 }
                 MessageBox.Show("Block info is now hidden.", "/hideblockinfo");
+                showBlockInfo = false;
             }
             else if (tbDebug.Text == "/about")
             {
