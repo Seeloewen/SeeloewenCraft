@@ -348,21 +348,14 @@ namespace SeeloewenCraft
 
 
 
-        public async void MoveVertical(int amount)
+        public void MoveVertical(int amount)
         {
-
             Thickness currentMarginPlayer = cvsPlayer.Margin;
             currentMarginPlayer.Top -= amount;
             cvsPlayer.Margin = currentMarginPlayer;
 
             //Scroll along to match the movement
             wndGame.svWorld.ScrollToVerticalOffset(wndGame.player.cvsPlayer.Margin.Top - 400);
-
-            //Wait to allow UI update
-            await Task.Delay(1);
-
-
-
         }
 
 
