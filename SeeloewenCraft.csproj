@@ -65,13 +65,21 @@
     <Compile Include="blockContainerList.cs" />
     <Compile Include="blocks.cs" />
     <Compile Include="caveGeneration.cs" />
+    <Compile Include="frmLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLog.Designer.cs">
+      <DependentUpon>frmLog.cs</DependentUpon>
+    </Compile>
     <Compile Include="images.cs" />
+    <Compile Include="log.cs" />
     <Compile Include="player.cs" />
     <Compile Include="chunk.cs" />
     <Compile Include="hotbarSlot.cs" />
     <Compile Include="inventory.cs" />
     <Compile Include="inventorySlot.cs" />
     <Compile Include="items.cs" />
+    <Compile Include="SeeloewenLib.cs" />
     <Compile Include="structures.cs" />
     <Compile Include="wndAbout.xaml.cs">
       <DependentUpon>wndAbout.xaml</DependentUpon>
@@ -135,6 +143,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="frmLog.resx">
+      <DependentUpon>frmLog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

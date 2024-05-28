@@ -40,9 +40,6 @@ namespace SeeloewenCraft
             //Save the save on world exit settings
             Properties.Settings.Default.saveWorldOnClose = Convert.ToBoolean(cbSaveWorldWhenClosing.IsChecked);
 
-            //Save the save on world exit settings
-            Properties.Settings.Default.loadChunksAsync = Convert.ToBoolean(cbLoadChunksAsync.IsChecked);
-
             //Save the selected texturepack
             Properties.Settings.Default.texturepack = cbxTexturepack.SelectedItem.ToString();
 
@@ -57,9 +54,6 @@ namespace SeeloewenCraft
 
             //Load the save on world exit setting
             cbSaveWorldWhenClosing.IsChecked = Properties.Settings.Default.saveWorldOnClose;
-
-            //Load the chunk async loading setting
-            cbLoadChunksAsync.IsChecked = Properties.Settings.Default.loadChunksAsync;
 
             //Load the texturepacks
             GetTexturepacks();
@@ -169,6 +163,11 @@ namespace SeeloewenCraft
             //Show the about window
             wndAbout wndAbout = new wndAbout(wndMenu);
             wndAbout.ShowDialog();
+        }
+
+        private void btnOpenLog_Click(object sender, RoutedEventArgs e)
+        {
+            wndMenu.log.Show();
         }
     }
 }

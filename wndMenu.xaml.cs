@@ -23,6 +23,7 @@ namespace SeeloewenCraft
         private wndLoadWorld wndLoadWorld;
         private wndSettings wndSettings;
         public wndGame wndGame;
+        public Log log;
         private int splashTextSize = 0;
         public int worldVersion = 1;
         public string gameVersion = "Alpha 1.1.4-Dev3";
@@ -43,9 +44,11 @@ namespace SeeloewenCraft
             tmrSplashText.Tick += tmrSplashText_Tick;
             tmrSplashText.Interval = 50;
             tmrSplashText.Start();
+            log = new Log("");
 
             //Show the version
             tblVersion.Text = string.Format("Version {0}", gameVersion);
+            log.Write($"SeeloewenCraft Alpha Version {gameVersion} ({versionDate}).", "Info");
 
             //Check if the game directory exists and create it otherwise
             if (!Directory.Exists(string.Format("{0}/SeeloewenCraft/", appData)))

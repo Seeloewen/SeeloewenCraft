@@ -247,7 +247,7 @@ namespace SeeloewenCraft
             int temp2 = c + Math.Min(j, -5);
             for (int i = temp; i >= temp2; i--)
             {
-                chunkList.Add(new Chunk(this, i, false));
+                chunkList.Add(new Chunk(this, i));
             }
 
 
@@ -507,7 +507,7 @@ namespace SeeloewenCraft
             if (Canvas.GetLeft(chunkList[2].grdChunk) == 800)
             {
                 chunkList.Remove(GetChunk(chunkList[4].index));
-                chunkList.Add(new Chunk(this, chunkList[0].index - 1, Properties.Settings.Default.loadChunksAsync));
+                chunkList.Add(new Chunk(this, chunkList[0].index - 1));
                 cvsWorld.Children.Add(chunkList[4].grdChunk);
                 Canvas.SetLeft(chunkList[4].grdChunk, -400);
 
@@ -535,7 +535,7 @@ namespace SeeloewenCraft
             if (Canvas.GetLeft(chunkList[2].grdChunk) == 0)
             {
                 chunkList.Remove(GetChunk(chunkList[0].index));
-                chunkList.Add(new Chunk(this, chunkList[3].index + 1, Properties.Settings.Default.loadChunksAsync));
+                chunkList.Add(new Chunk(this, chunkList[3].index + 1));
                 cvsGame.Children.Add(chunkList[4].grdChunk);
                 Canvas.SetLeft(chunkList[4].grdChunk, 1200);
 

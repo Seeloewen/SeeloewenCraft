@@ -11,13 +11,13 @@
             <ImageBrush ImageSource="Resources/Background.png" TileMode="Tile" Stretch="None"/>
         </Grid.Background>
         <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Settings" VerticalAlignment="Top" FontSize="28" FontWeight="DemiBold"/>
-        <CheckBox x:Name="cbEnableAutoStepup" Content="Enable Auto Stepup - Coming soon" HorizontalAlignment="Left" Margin="11,110,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.364,0.246" IsEnabled="False" FontSize="18" Padding="4,-5,0,0"/>
+        <CheckBox x:Name="cbEnableAutoStepup" Content="Enable Auto Stepup - Coming soon" HorizontalAlignment="Left" Margin="11,86,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.364,0.246" IsEnabled="False" FontSize="18" Padding="4,-5,0,0"/>
         <CheckBox x:Name="cbSaveWorldWhenClosing" Content="Save world when closing the game" HorizontalAlignment="Left" Margin="11,62,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.364,0.246" IsChecked="True" FontSize="18" Padding="4,-5,0,0"/>
         <Button x:Name="btnSaveClose" Content="Save" HorizontalAlignment="Left" Margin="361,320,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.337,0.169" Height="29" Width="115" FontSize="16" Click="btnSaveClose_Click"/>
-        <ComboBox x:Name="cbxTexturepack" HorizontalAlignment="Left" Margin="10,173,0,0" VerticalAlignment="Top" Width="367"/>
-        <Button x:Name="btnApplyTexturepack" Content="Apply" HorizontalAlignment="Left" Margin="383,173,0,0" VerticalAlignment="Top" Height="22" Width="93" Click="btnApplyTexturepack_Click"/>
-        <TextBlock x:Name="tblTexturepack" HorizontalAlignment="Left" Margin="11,146,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.285,0.455" FontSize="18" Width="127"><Run Text="Texturepa"/><Run Language="de-de" Text="ck:"/><LineBreak/><Run Language="de-de"/></TextBlock>
+        <ComboBox x:Name="cbxTexturepack" HorizontalAlignment="Left" Margin="10,149,0,0" VerticalAlignment="Top" Width="367"/>
+        <Button x:Name="btnApplyTexturepack" Content="Apply" HorizontalAlignment="Left" Margin="383,149,0,0" VerticalAlignment="Top" Height="22" Width="93" Click="btnApplyTexturepack_Click"/>
+        <TextBlock x:Name="tblTexturepack" HorizontalAlignment="Left" Margin="11,122,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.285,0.455" FontSize="18" Width="127"><Run Text="Texturepa"/><Run Language="de-de" Text="ck:"/><LineBreak/><Run Language="de-de"/></TextBlock>
         <Button x:Name="btnAbout" Content="About" HorizontalAlignment="Left" Margin="10,320,0,0" VerticalAlignment="Top" Height="29" Width="115" FontSize="16" Click="btnAbout_Click"/>
-        <CheckBox x:Name="cbLoadChunksAsync" Content="Load chunks asynchronously" HorizontalAlignment="Left" Margin="11,86,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.364,0.246" IsChecked="True" FontSize="18" Padding="4,-5,0,0"/>
+        <Button x:Name="btnOpenLog" Content="Open Log" HorizontalAlignment="Left" Margin="184,320,0,0" VerticalAlignment="Top" Width="115" FontSize="16" Height="29" Click="btnOpenLog_Click"/>
     </Grid>
 </Window>
