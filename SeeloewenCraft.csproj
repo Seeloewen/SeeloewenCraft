@@ -208,12 +208,6 @@
     <Resource Include="Resources\SpruceLogBlock.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Slashtexts.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\splash_texts.txt.bmp" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\splash_texts.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

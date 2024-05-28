@@ -52,9 +52,10 @@ namespace SeeloewenCraft
             tblVersion.Text = string.Format("Version {0}", gameVersion);
             log.Write($"SeeloewenCraft Alpha Version {gameVersion} ({versionDate}).", "Info");
 
-            string splashText =  splashTextHandler.GetText();
-            tblSplashText.Text = splashText;
-            tblSplashText.Margin = new Thickness(605 - Math.Max(splashText.Length * 2, 40), 75, 0, 0);
+            //set splashtext
+            
+            tblSplashText.Text = splashTextHandler.GetText();;
+            
 
             //Check if the game directory exists and create it otherwise
             if (!Directory.Exists(string.Format("{0}/SeeloewenCraft/", appData)))
@@ -96,8 +97,6 @@ namespace SeeloewenCraft
 
         private void tmrSplashText_Tick(object sender, EventArgs e)
         {
-            Console.WriteLine(tblSplashText.ActualWidth);
-
             splashTextSize++;
             //Increase or decrease the splash text size based on the current number
             if (splashTextSize >= 0 && splashTextSize < 15)
