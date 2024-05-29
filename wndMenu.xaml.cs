@@ -110,12 +110,13 @@ namespace SeeloewenCraft
 
         private void wndMenu1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //Close the app
-            
+            //Save the log, if enabled
             if (Properties.Settings.Default.saveLogOnExit)
             {
                 log.Save(logDirectory, false);
             }
+
+            //Close the app
             Application.Current.Shutdown();
         }
 

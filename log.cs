@@ -60,18 +60,21 @@ namespace SeeloewenCraft
             //Setup the save file dialog
             SaveFileDialog sfdLog = new SaveFileDialog();
             sfdLog.Filter = "Text (*.txt)|*.txt|All (*.*)|*.*";
-            sfdLog.FileName = $"SeeloewenCraft_Log_{DateTime.Now.ToString().Replace(":", "-").Replace(".", "-").Replace(" ", "-")}";
+            sfdLog.FileName = $"SeeloewenCraft_Log_{DateTime.Now.ToString().Replace(":", "-").Replace(".", "-").Replace(" ", "-")}.txt";
             sfdLog.ShowDialog();
 
             //Save the log content to the selected file
             try
             {
-                foreach (string line in messages)
+                //Split the color info at the end from the message and only save the messages
+                List<string> onlyMessages = new List<string>();
+                foreach (string message in messages)
                 {
-                    //Split the additional color information from the log
-                    string[] lineSplit = line.Split(';');
-                    File.AppendAllText(sfdLog.FileName, lineSplit[0] + "\n");
+                    string[] messageSplit = message.Split(';');
+                    onlyMessages.Add(messageSplit[0]);
                 }
+                File.WriteAllLines(sfdLog.FileName, onlyMessages);
+
                 if (showMessageBoxes)
                 {
                     System.Windows.MessageBox.Show($"Successfully saved the log to {sfdLog.FileName}!", "Saved log", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -89,18 +92,18 @@ namespace SeeloewenCraft
 
         public void Save(string location, bool showMessageBoxes)
         {
-
-            showMessageBoxes = true;
-            location = "D:\\test";
             //Save the log content to the selected file
             try
             {
-                foreach (string line in messages)
+                //Split the color info at the end from the message and only save the messages
+                List<string> onlyMessages = new List<string>();
+                foreach (string message in messages)
                 {
-                    //Split the additional color information from the log
-                    string[] lineSplit = line.Split(';');
-                    File.AppendAllText(location, lineSplit[0] + "\n");
+                    string[] messageSplit = message.Split(';');
+                    onlyMessages.Add(messageSplit[0]);
                 }
+                File.WriteAllLines($"{location}/SeeloewenCraft_Log_{DateTime.Now.ToString().Replace(":", "-").Replace(".", "-").Replace(" ", "-")}.txt", onlyMessages);
+
                 if (showMessageBoxes)
                 {
                     {
