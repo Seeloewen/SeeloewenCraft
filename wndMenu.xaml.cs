@@ -30,6 +30,7 @@ namespace SeeloewenCraft
         public string versionDate = "27.05.2024";
         public string gameDirectory;
         public string texturepackDirectory;
+        public string logDirectory;
         public string selectedTexturepack;
         public int texturepackVersion;
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
@@ -44,25 +45,17 @@ namespace SeeloewenCraft
             tmrSplashText.Tick += tmrSplashText_Tick;
             tmrSplashText.Interval = 50;
             tmrSplashText.Start();
-            log = new Log("");
+            log = new Log();
 
             //Show the version
             tblVersion.Text = string.Format("Version {0}", gameVersion);
             log.Write($"SeeloewenCraft Alpha Version {gameVersion} ({versionDate}).", "Info");
+            log.Write($"SeeloewenCraft Alpha Version {gameVersion} ({versionDate}).", "Error");
+            log.Write($"SeeloewenCraft Alpha Version {gameVersion} ({versionDate}).", "Warning");
 
-            //Check if the game directory exists and create it otherwise
-            if (!Directory.Exists(string.Format("{0}/SeeloewenCraft/", appData)))
-            {
-                Directory.CreateDirectory(string.Format("{0}/SeeloewenCraft/", appData));
-            }
-
-            //Check if the world directory exists
-            if (!Directory.Exists(string.Format("{0}/SeeloewenCraft/worlds", appData)))
-            {
-                Directory.CreateDirectory(string.Format("{0}/SeeloewenCraft/worlds", appData));
-            }
-
-            gameDirectory = string.Format("{0}/SeeloewenCraft/", appData);
+            //Create the game directories
+            CreateDirectories();
+            
             wndSettings = new wndSettings(this);
         }
 
@@ -110,7 +103,37 @@ namespace SeeloewenCraft
         private void wndMenu1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //Close the app
+            
+            if (Properties.Settings.Default.saveLogOnExit)
+            {
+                log.Save(logDirectory, false);
+            }
             Application.Current.Shutdown();
+        }
+
+        //-- Custom Methods --//
+
+        private void CreateDirectories()
+        {
+            //Check if the game directory exists and create it otherwise
+            if (!Directory.Exists(string.Format("{0}/SeeloewenCraft/", appData)))
+            {
+                Directory.CreateDirectory(string.Format("{0}/SeeloewenCraft/", appData));
+            }
+            gameDirectory = string.Format("{0}/SeeloewenCraft/", appData);
+
+            //Check if the world directory exists
+            if (!Directory.Exists(string.Format("{0}/SeeloewenCraft/worlds", appData)))
+            {
+                Directory.CreateDirectory(string.Format("{0}/SeeloewenCraft/worlds", appData));
+            }
+
+            //Check if the log directory exists
+            if (!Directory.Exists(string.Format("{0}/SeeloewenCraft/logs", appData)))
+            {
+                Directory.CreateDirectory(string.Format("{0}/SeeloewenCraft/logs", appData));
+            }
+            logDirectory = $"{gameDirectory}logs";
         }
     }
 }

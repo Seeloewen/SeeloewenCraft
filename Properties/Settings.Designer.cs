@@ -37,18 +37,6 @@ namespace SeeloewenCraft.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool enableAutoStepup {
-            get {
-                return ((bool)(this["enableAutoStepup"]));
-            }
-            set {
-                this["enableAutoStepup"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("default")]
         public string texturepack {
             get {
@@ -56,6 +44,18 @@ namespace SeeloewenCraft.Properties {
             }
             set {
                 this["texturepack"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool saveLogOnExit {
+            get {
+                return ((bool)(this["saveLogOnExit"]));
+            }
+            set {
+                this["saveLogOnExit"] = value;
             }
         }
     }

@@ -34,8 +34,8 @@ namespace SeeloewenCraft
         //-- Custom Methods --//
         private void SaveSettings()
         {
-            //Save the auto stepup setting
-            Properties.Settings.Default.enableAutoStepup = Convert.ToBoolean(cbEnableAutoStepup.IsChecked);
+            //Save the log save setting
+            Properties.Settings.Default.saveLogOnExit = Convert.ToBoolean(cbSaveLogOnExit.IsChecked);
 
             //Save the save on world exit settings
             Properties.Settings.Default.saveWorldOnClose = Convert.ToBoolean(cbSaveWorldWhenClosing.IsChecked);
@@ -49,8 +49,8 @@ namespace SeeloewenCraft
 
         private void LoadSettings()
         {
-            //Load the auto stepup setting
-            cbEnableAutoStepup.IsChecked = Properties.Settings.Default.enableAutoStepup;
+            //Load the log save setting
+            cbSaveLogOnExit.IsChecked = Properties.Settings.Default.saveLogOnExit;
 
             //Load the save on world exit setting
             cbSaveWorldWhenClosing.IsChecked = Properties.Settings.Default.saveWorldOnClose;
