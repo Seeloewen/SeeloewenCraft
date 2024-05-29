@@ -47,7 +47,6 @@ namespace SeeloewenCraft
             borderComponents.Add(new BorderComponent("right", xOffset + 3, yOffset + 2));
             borderComponents.Add(new BorderComponent("up", xOffset + 1, yOffset));
             borderComponents.Add(new BorderComponent("up", xOffset + 2, yOffset));
-
         }
 
     }

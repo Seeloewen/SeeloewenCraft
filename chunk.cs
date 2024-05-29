@@ -43,7 +43,7 @@ namespace SeeloewenCraft
         }
 
         //-- Custom Methods --//
-        public void hideBlockInfo()
+        public void HideBlockInfo()
         {
             foreach (Block block in blockList.blocks)
             {
@@ -51,7 +51,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public void showBlockInfo()
+        public void ShowBlockInfo()
         {
             foreach(Block block in blockList.blocks)
             {
@@ -65,8 +65,10 @@ namespace SeeloewenCraft
             if (!Directory.Exists(chunkDirectory))
             {
                 Directory.CreateDirectory(chunkDirectory);
+                wndGame.log.Write($"Created chunk directory {chunkDirectory}!", "Info");
             }
             File.WriteAllText(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index), "");
+
             foreach (Block block in blockList.blocks)
             {
                 if (block.hasInventory == true)
@@ -79,6 +81,7 @@ namespace SeeloewenCraft
             }
             //Write the chunk settings into a file
             File.WriteAllText(string.Format("{0}/chunk{1}/settings.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2}", index, floorHeightLeft, floorHeightRight));
+            wndGame.log.Write($"Saved chunk {index} to {chunkDirectory}", "Info");
         }
 
         public void SetBlock(Block block, int x, int y)
@@ -96,6 +99,8 @@ namespace SeeloewenCraft
 
         public void Generate()
         {
+            wndGame.log.Write($"Beginning to generate chunk {index}", "Info");
+
             //Clear the chunk
             grdChunk.Children.Clear();
             blockList.Clear();
@@ -156,6 +161,8 @@ namespace SeeloewenCraft
             }
             else
             {
+                wndGame.log.Write($"Loading chunk {index}", "Info");
+
                 //Read the chunk from saved file
                 string[] blocks = File.ReadAllLines(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index));
 
@@ -243,10 +250,11 @@ namespace SeeloewenCraft
                     {
                         SetBlock(block, block.xPos, block.yPos);
                     }
+                    wndGame.log.Write($"Successfully loaded chunk {index}", "Info");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"[Error] Could not load chunk: {ex}");
+                    wndGame.log.Write($"Could not load chunk: {ex.Message}", "Error");
                 }
             }
         }

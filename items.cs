@@ -36,7 +36,6 @@ namespace SeeloewenCraft
             if(block != null )
             {
                 this.block = block;
-
             }
 
             //Setup the item canvas

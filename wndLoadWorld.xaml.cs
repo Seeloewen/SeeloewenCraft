@@ -40,12 +40,12 @@ namespace SeeloewenCraft
         private void LoadWorlds()
         {
             //Get all worlds
-            string[] worlds = Directory.GetDirectories($"{wndMenu.gameDirectory}worlds/");
+            string[] worlds = Directory.GetDirectories(wndMenu.worldDirectory);
 
             //List the worlds in the combobox
             foreach(string world in worlds)
             {
-                cbxWorld.Items.Add(world.Replace($"{wndMenu.gameDirectory}worlds/", ""));
+                cbxWorld.Items.Add(world.Replace(wndMenu.worldDirectory + "\\", ""));
             }
         }
 
@@ -55,11 +55,11 @@ namespace SeeloewenCraft
         {
             if(string.IsNullOrEmpty(cbxWorld.Text) == false)
             {
-                wndMenu.wndGame = new wndGame(wndMenu, cbxWorld.Text, false, wndMenu.worldVersion, wndMenu.gameVersion);
+                wndMenu.wndGame = new wndGame(wndMenu, cbxWorld.Text, false, wndMenu.worldVersion, wndMenu.gameVersion, wndMenu.log);
                 if (wndMenu.wndGame.finishedLoading)
                 {
                     wndMenu.Hide();
-                    wndMenu.wndGame.ShowDialog();
+                    wndMenu.wndGame.Show();
                     Close();
                 }
             }

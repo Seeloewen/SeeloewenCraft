@@ -32,6 +32,7 @@ namespace SeeloewenCraft
         public Images images;
         public wndMenu wndMenu;
         public wndSettings wndSettings;
+        public Log log;
         private HashSet<Key> pressedKeys = new HashSet<Key>();
         public Player player;
         public Point mousePosition;
@@ -54,7 +55,7 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public wndGame(wndMenu wndMenu, string worldName, bool isNew, int worldVersion, string gameVersion)
+        public wndGame(wndMenu wndMenu, string worldName, bool isNew, int worldVersion, string gameVersion, Log log)
         {
             InitializeComponent();
 
@@ -63,6 +64,7 @@ namespace SeeloewenCraft
             this.worldVersion = worldVersion;
             this.gameVersion = gameVersion;
             this.wndMenu = wndMenu;
+            this.log = log;
             images = new Images(this);
 
             if (!isNew && GetWorldVersion(worldName) < worldVersion)
@@ -72,6 +74,7 @@ namespace SeeloewenCraft
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+                        log.Write("You are loading an outdated world. This may cause issues or corruption.", "Info");
                         CreateGame(worldName, isNew);
                         break;
                 }
@@ -106,25 +109,33 @@ namespace SeeloewenCraft
                     block.blockContainer.cvsBlock.Background = block.image;
                 }
             }
+
+            log.Write("Refreshing Textures for items and blocks!", "Info");
         }
 
         public int GetWorldVersion(string worldName)
         {
             //Check if the world settings file exists
-            if (File.Exists(string.Format("{0}/SeeloewenCraft/worlds/{1}/settings.txt", appData, worldName)))
+            if (File.Exists($"{worldDirectory}/settings.txt")) 
             {
                 try
                 {
-                    string[] fileContent = File.ReadAllLines(string.Format("{0}/SeeloewenCraft/worlds/{1}/settings.txt", appData, worldName));
+                    string[] fileContent = File.ReadAllLines($"{worldDirectory}/settings.txt");
                     int worldVersion = Convert.ToInt32(fileContent[1].Replace("worldVersion=", ""));
+                    log.Write($"Read world version {fileContent[1].Replace("worldVersion=", "")} from settings file", "Info");
                     return worldVersion;
                 }
-                catch
+                catch(Exception ex)
                 {
-                    Console.WriteLine("[Error] Could not read worldVersion from settings file.");
+                    log.Write($"Could not read world version from settings file: {ex.Message}", "Error");
+                    return 0;
                 }
             }
-            return 0;
+            else
+            {
+                log.Write("Could not read world version from settings file because the settings file does not exist", "Error");
+                return 0;
+            }
         }
 
         public void GenerateBlockContainer()
@@ -137,28 +148,35 @@ namespace SeeloewenCraft
 
         public void CreateGame(string worldName, bool isNew)
         {
+            log.Write($"Beginning to load game for world {worldName}", "Info");
+
             //Check if the world directory exists and create it otherwise
-            if (!Directory.Exists(string.Format("{0}/SeeloewenCraft/worlds/{1}", appData, worldName)))
+            if (!Directory.Exists($"{wndMenu.worldDirectory}\\{worldName}"))
             {
-                Directory.CreateDirectory(string.Format("{0}/SeeloewenCraft/worlds/{1}", appData, worldName));
+                Directory.CreateDirectory($"{wndMenu.worldDirectory}\\{worldName}");
+                log.Write($"Created directory for world {worldName}: {wndMenu.worldDirectory}\\{worldName}", "Info");
             }
-            worldDirectory = string.Format("{0}/SeeloewenCraft/worlds/{1}", appData, worldName);
+            worldDirectory = $"{wndMenu.worldDirectory}\\{worldName}";
+            log.Write($"Set directory for world {worldName} to {worldDirectory}", "Info");
 
             //Check if the world settings file exists and create it otherwise
-            if (!File.Exists($"{worldDirectory}/settings.txt"))
+            if (!File.Exists($"{worldDirectory}\\settings.txt"))
             {
                 List<string> worldSettings = new List<string>
                 {
                     $"#SeeloewenCraft World Settings",
                     $"worldVersion={worldVersion}"
                 };
-                File.WriteAllLines($"{worldDirectory}/settings.txt", worldSettings);
+                File.WriteAllLines($"{worldDirectory}\\settings.txt", worldSettings);
+                log.Write($"Created settings file for world {worldName}: {worldDirectory}\\settings.txt", "Info");
             }
 
+            //Check if the player position exists
             bool loadedPlayerPosExists = File.Exists($"{worldDirectory}/playerPosition.txt");
             double playerPosX = 0;
             double playerPosY = 0;
 
+            //Load the player position if possible
             if (loadedPlayerPosExists)
             {
                 string[] coords = File.ReadAllLines($"{worldDirectory}/playerPosition.txt");
@@ -166,13 +184,18 @@ namespace SeeloewenCraft
                 {
                     playerPosX = Double.Parse(coords[0]);
                     playerPosY = Double.Parse(coords[1]);
+                    log.Write($"Read player position from file: x{playerPosX} y{playerPosY}", "Info");
                 }
-                catch
+                catch (Exception ex)
                 {
                     loadedPlayerPosExists = false;
-                    Console.WriteLine("player coords file incorrect format(use log for this)");
+                    log.Write($"Could not read player position from file: {ex.Message}", "Error");
                 }
 
+            }
+            else
+            {
+                log.Write("Player position file does not exist, skipping...", "Info");
             }
 
             //Create the game components
@@ -200,33 +223,33 @@ namespace SeeloewenCraft
             }
 
             finishedLoading = true;
+            log.Write($"Loading of world {worldName} completed!", "Info");
         }
 
-        public void CreatePlayer(bool isLoaded, double playerPosX, double playerPosY)
+        public void CreatePlayer(bool isNew, double playerPosX, double playerPosY)
         {
 
-            if (!isLoaded)
+            if (isNew)
             {
                 //Calculate y position where the player starts
-                //WIP
                 int yPos = 0;
                 foreach (Block block in chunkList[2].blockList.blocks)
                 {
                     if (block.xPos == 5 && block is GrassBlock)
                     {
-                        yPos = block.yPos * 50 - 150;
                         yPos = (block.yPos - 3) * 50;
                     }
                 }
 
                 //Create the player and add it to the world canvas
                 player = new Player(this, 602, yPos + 5);
-
+                log.Write("Generated player at start position", "Info");
             }
             else
             {
                 player = new Player(this, 602, (int)(playerPosY * 50) - 50);
                 player.MoveHorizontal((int)Math.Round((playerPosX % 8.0) * 50) - 252);
+                log.Write("Generated player at loaded position", "Info");
             }
             cvsWorld.Children.Add(player.cvsPlayer);
             Panel.SetZIndex(player.cvsPlayer, 1);
@@ -236,7 +259,7 @@ namespace SeeloewenCraft
 
         private void GenerateChunks(int j)
         {
-
+            //Load or generate the chunks
             int c = 0;
             for (int i = Math.Max(j, 0); i < Math.Max(j + 5, 0); i++)
             {
@@ -244,15 +267,12 @@ namespace SeeloewenCraft
                 c++;
             }
 
-            int temp = Math.Min(j + 4, -1);
-            int temp2 = c + Math.Min(j, -5);
-            for (int i = temp; i >= temp2; i--)
+            for (int i = Math.Min(j + 4, -1); i >= c + Math.Min(j, -5); i--)
             {
                 chunkList.Add(new Chunk(this, i));
             }
 
-
-
+            //Add the chunks to the game
             cvsWorld.Children.Add(GetChunk(j).grdChunk);
             Canvas.SetLeft(GetChunk(j).grdChunk, -400);
             cvsWorld.Children.Add(GetChunk(j + 1).grdChunk);
@@ -275,6 +295,8 @@ namespace SeeloewenCraft
                     return chunk;
                 }
             }
+
+            if(index != 10000000) log.Write($"Could not get chunk at given index {index}", "Warning");
             return null;
         }
 
@@ -429,8 +451,9 @@ namespace SeeloewenCraft
                 Rect adjustedCanvasRect = new Rect(canvasPosition.X, canvasPosition.Y, canvasHitbox.Width, canvasHitbox.Height);
                 return adjustedCanvasRect;
             }
-            catch
+            catch (Exception ex)
             {
+                log.Write($"Could not get rectangle for canvas {canvas.Uid}: {ex.Message}", "Warning");
                 return new Rect(1, 1, 1, 1);
             }
         }
@@ -452,8 +475,9 @@ namespace SeeloewenCraft
                 Rect adjustedBorderRect = new Rect(borderPosition.X, borderPosition.Y, borderHitbox.Width, borderHitbox.Height);
                 return adjustedBorderRect;
             }
-            catch
+            catch(Exception ex)
             {
+                log.Write($"Could not get rectangle for border {border.Uid}: {ex.Message}", "Warning");
                 return new Rect(1, 1, 1, 1);
             }
         }
@@ -477,8 +501,9 @@ namespace SeeloewenCraft
                 return adjustedGridRect;
 
             }
-            catch
+            catch(Exception ex)
             {
+                log.Write($"Could not get rectangle for grid {grid.Uid}: {ex.Message}", "Warning");
                 return new Rect(1, 1, 1, 1);
             }
         }
@@ -563,7 +588,7 @@ namespace SeeloewenCraft
                 //WIP - Needs to also show block info on new chunks
                 foreach (Chunk chunk in chunkList)
                 {
-                    chunk.showBlockInfo();
+                    chunk.ShowBlockInfo();
                 }
                 MessageBox.Show("Block info is now shown.", "/showblockinfo");
                 showBlockInfo = true;
@@ -574,7 +599,7 @@ namespace SeeloewenCraft
                 //WIP - Needs to also hide block info on new chunks
                 foreach (Chunk chunk in chunkList)
                 {
-                    chunk.hideBlockInfo();
+                    chunk.HideBlockInfo();
 
                 }
                 MessageBox.Show("Block info is now hidden.", "/hideblockinfo");
@@ -780,7 +805,7 @@ namespace SeeloewenCraft
         //disables scrolling with the mouse wheel
         private void svWorld_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-
+            //Select the hotbar slots
             int newSlot;
             if (e.Delta < 0)
             {

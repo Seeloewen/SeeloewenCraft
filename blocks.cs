@@ -112,9 +112,9 @@ namespace SeeloewenCraft
             List<UIElement> removalList = new List<UIElement>();
 
             //Check for existing block info
-            foreach(UIElement uiElement in blockContainer.cvsBlock.Children)
+            foreach (UIElement uiElement in blockContainer.cvsBlock.Children)
             {
-                if(uiElement is TextBlock textBlock)
+                if (uiElement is TextBlock textBlock)
                 {
                     if (textBlock.Tag.ToString() == "BlockInfo")
                     {
@@ -131,6 +131,7 @@ namespace SeeloewenCraft
 
             //Show block info
             blockContainer.cvsBlock.Children.Add(new TextBlock { Text = string.Format("x: {0} y:{1}\n{2}\n{3}", xPos, yPos, GetType().ToString().Replace("SeeloewenCraft.", "").Replace("Block", ""), chunk.index), Tag = "BlockInfo" });
+            wndGame.log.Write("Block info is now shown!", "Info");
         }
 
         public void HideBlockInfo()
@@ -154,6 +155,7 @@ namespace SeeloewenCraft
             {
                 blockContainer.cvsBlock.Children.Remove(uiElement);
             }
+            wndGame.log.Write("Block info is now hidden!", "Info");
         }
 
         public void MoveToBackground()
@@ -335,16 +337,16 @@ namespace SeeloewenCraft
         }
 
         public override void SetTexture()
-        {         
+        {
             image = wndGame.images.GrassBlock;
         }
-}
+    }
 
     public class StoneBlock : Block
     {
         public StoneBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
-           SetTexture();
+            SetTexture();
             name = "Stone Block";
         }
 
@@ -540,7 +542,7 @@ namespace SeeloewenCraft
         public SpruceLeavesBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             SetTexture();
-            name = "Spruce Leaves"; 
+            name = "Spruce Leaves";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)

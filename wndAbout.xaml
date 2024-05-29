@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:SeeloewenCraft"
         mc:Ignorable="d"
         Title="About" Height="571" Width="488" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Window.Background>
+        <ImageBrush ImageSource="/Background.png"/>
+    </Window.Background>
     <Grid>
         <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="65,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="50" FontWeight="DemiBold"><Run Language="de-de" Text="SeeloewenCraft"/></TextBlock>
         <TextBlock x:Name="tblVersion" HorizontalAlignment="Left" Margin="39,71,0,0" TextWrapping="Wrap" Text="Version {0}" VerticalAlignment="Top" FontSize="20" TextAlignment="Center" Width="396"/>

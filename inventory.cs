@@ -112,6 +112,8 @@ namespace SeeloewenCraft
                     Grid.SetColumn(slot.bdrSlot, slot.xPos);
                 }
             }
+
+            wndGame.log.Write($"Created Inventory {id}", "Info");
         }
 
         //-- Custom Methods --//
@@ -130,9 +132,6 @@ namespace SeeloewenCraft
             }
             return 0;
         }
-
-
-        
 
         public void AddItem(Item item)
         {
@@ -316,6 +315,8 @@ namespace SeeloewenCraft
                     File.AppendAllText(string.Format("{0}/{1}-{2}.txt", inventoryDirectory, slot.xPos, slot.yPos), string.Format("{0};{1}\n", item.GetType().ToString().Replace("SeeloewenCraft.", ""), item.id));
                 }
             }
+
+            wndGame.log.Write($"Saved inventory {id}", "Info");
         }
 
         public void LoadInventory(string path, int id)
@@ -401,6 +402,8 @@ namespace SeeloewenCraft
                     }
                 }
             }
+
+            wndGame.log.Write($"Loaded inventory {id}", "Info");
         }
     }
 }

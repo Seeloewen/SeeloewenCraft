@@ -43,6 +43,7 @@ namespace SeeloewenCraft
                     return container;
                 }
             }
+            wndGame.log.Write($"Could not get container for position x{x} y{y}", "Warning");
             return null;
         }
 

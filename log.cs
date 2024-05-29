@@ -49,10 +49,11 @@ namespace SeeloewenCraft
                 }
                 paragraph.Inlines.Add(line);
             }
+            wndLog.rtbLog.Document.Blocks.Clear();
             wndLog.rtbLog.Document.Blocks.Add(paragraph);
 
             //Show the log
-            wndLog.ShowDialog();
+            wndLog.Show();
         }
 
         public void Save(bool showMessageBoxes)
@@ -159,6 +160,32 @@ namespace SeeloewenCraft
             }
 
             messages.Add($"[{DateTime.Now}] [{prefix}] {message};{color}");
+
+            if (wndLog != null)
+            {
+                //Add all messages to the log richtextbox in the respective color
+                paragraph = new Paragraph();
+                foreach (string mes in messages)
+                {
+                    string[] messageSplit = mes.Split(';');
+                    Run line;
+                    if (messageSplit[1] == "red")
+                    {
+                        line = new Run($"{messageSplit[0]}\n") { Foreground = new SolidColorBrush(Colors.Red) };
+                    }
+                    else if (messageSplit[1] == "orange")
+                    {
+                        line = new Run($"{messageSplit[0]}\n") { Foreground = new SolidColorBrush(Colors.DarkOrange) };
+                    }
+                    else
+                    {
+                        line = new Run($"{messageSplit[0]}\n") { Foreground = new SolidColorBrush(Colors.Blue) };
+                    }
+                    paragraph.Inlines.Add(line);
+                }
+                wndLog.rtbLog.Document.Blocks.Clear();
+                wndLog.rtbLog.Document.Blocks.Add(paragraph);
+            }
         }
     }
 }
