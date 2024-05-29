@@ -244,7 +244,7 @@ namespace SeeloewenCraft
                 c++;
             }
 
-            int temp = Math.Min(j+4, -1);
+            int temp = Math.Min(j + 4, -1);
             int temp2 = c + Math.Min(j, -5);
             for (int i = temp; i >= temp2; i--)
             {
@@ -575,7 +575,7 @@ namespace SeeloewenCraft
                 foreach (Chunk chunk in chunkList)
                 {
                     chunk.hideBlockInfo();
-                    
+
                 }
                 MessageBox.Show("Block info is now hidden.", "/hideblockinfo");
                 showBlockInfo = false;
@@ -780,6 +780,19 @@ namespace SeeloewenCraft
         //disables scrolling with the mouse wheel
         private void svWorld_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
+
+            int newSlot;
+            if (e.Delta > 0)
+            {
+                newSlot = (player.inventory.GetSelectedIndex() + 1) % 9;
+            }
+            else
+            {
+                newSlot = (player.inventory.GetSelectedIndex() - 1) % 9;
+                if (newSlot == -1) newSlot = 8;
+            }
+            player.inventory.hotbarSlotList[newSlot].SelectSlot();
+
             e.Handled = true;
         }
     }
