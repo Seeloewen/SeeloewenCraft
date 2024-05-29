@@ -17,7 +17,7 @@ namespace SeeloewenCraft
 {
     public class Chunk
     {
-        public List<Block> blockList = new List<Block>();
+        public BlockList blockList = new BlockList();
         public List<Structure> structureList = new List<Structure>();
         public BlockContainerList blockContainerList;
         public Grid grdChunk = new Grid();
@@ -43,6 +43,21 @@ namespace SeeloewenCraft
         }
 
         //-- Custom Methods --//
+        public void hideBlockInfo()
+        {
+            foreach (Block block in blockList.blocks)
+            {
+                block.HideBlockInfo();
+            }
+        }
+
+        public void showBlockInfo()
+        {
+            foreach(Block block in blockList.blocks)
+            {
+                block.ShowBlockInfo();
+            }
+        }
 
         public void Save()
         {
@@ -52,7 +67,7 @@ namespace SeeloewenCraft
                 Directory.CreateDirectory(chunkDirectory);
             }
             File.WriteAllText(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index), "");
-            foreach (Block block in blockList)
+            foreach (Block block in blockList.blocks)
             {
                 if (block.hasInventory == true)
                 {
@@ -126,7 +141,7 @@ namespace SeeloewenCraft
                 //Go through each block and add it to the chunk
                 try
                 {
-                    foreach (Block block in blockList)
+                    foreach (Block block in blockList.blocks)
                     {
                         SetBlock(block, block.xPos, block.yPos);
                     }
@@ -224,7 +239,7 @@ namespace SeeloewenCraft
                 //Add all the blocks to the chunk
                 try
                 {
-                    foreach (Block block in blockList)
+                    foreach (Block block in blockList.blocks)
                     {
                         SetBlock(block, block.xPos, block.yPos);
                     }
@@ -238,27 +253,19 @@ namespace SeeloewenCraft
 
         public Block GetBlock(int x, int y)
         {
-            //Go through each block and return the block that matches the coords
-            foreach (Block block in blockList)
-            {
-                if (block.xPos == x && block.yPos == y)
-                {
-                    return block;
-                }
-            }
-            return null;
+            return blockList.Get(x, y);
         }
 
         public void SetBlock(int x, int y, Block block)
         {
             //Remove the block that is currently there
-            blockList.Remove(GetBlock(x, y));
+            blockList.Remove(x, y);
             blockList.Add(block);
         }
         public void LoadInventories()
         {
             //Go through each block
-            foreach (Block block in blockList)
+            foreach (Block block in blockList.blocks)
             {
                 foreach (string dir in Directory.GetDirectories(chunkDirectory))
                 {
@@ -462,7 +469,7 @@ namespace SeeloewenCraft
                 {
                     int xPos = rnd.Next(0, 9);
                     int yPos = 0;
-                    foreach (Block block in blockList)
+                    foreach (Block block in blockList.blocks)
                     {
                         if (block.xPos == xPos && block is GrassBlock)
                             yPos = block.yPos - 1;
@@ -493,9 +500,9 @@ namespace SeeloewenCraft
                 {
                     int xPos = rnd.Next(0, 9);
                     int yPos = 0;
-                    foreach (Block block in blockList)
+                    foreach (Block block in blockList.blocks)
                     {
-                        if (block.xPos == xPos && block is GrassBlock)
+                        if (block != null && block.xPos == xPos && block is GrassBlock)
                         {
                             yPos = rnd.Next(block.yPos + 5, 70);
                         }
@@ -515,7 +522,7 @@ namespace SeeloewenCraft
                 {
                     int xPos = rnd.Next(0, 9);
                     int yPos = 0;
-                    foreach (Block block in blockList)
+                    foreach (Block block in blockList.blocks)
                     {
                         if (block.xPos == xPos && block is GrassBlock)
                         {

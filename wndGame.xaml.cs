@@ -49,6 +49,7 @@ namespace SeeloewenCraft
         public bool finishedLoading = false;
         private bool returnToMenu = false;
         public List<BlockContainerList> blockContainerList = new List<BlockContainerList>();
+        public bool showBlockInfo = false;
 
 
         //-- Constructor --//
@@ -99,7 +100,7 @@ namespace SeeloewenCraft
             }
             foreach (Chunk chunk in chunkList)
             {
-                foreach (Block block in chunk.blockList)
+                foreach (Block block in chunk.blockList.blocks)
                 {
                     block.SetTexture();
                     block.blockContainer.cvsBlock.Background = block.image;
@@ -209,7 +210,7 @@ namespace SeeloewenCraft
                 //Calculate y position where the player starts
                 //WIP
                 int yPos = 0;
-                foreach (Block block in chunkList[2].blockList)
+                foreach (Block block in chunkList[2].blockList.blocks)
                 {
                     if (block.xPos == 5 && block is GrassBlock)
                     {
@@ -243,7 +244,7 @@ namespace SeeloewenCraft
                 c++;
             }
 
-            int temp = Math.Min(j+4, -1);
+            int temp = Math.Min(j + 4, -1);
             int temp2 = c + Math.Min(j, -5);
             for (int i = temp; i >= temp2; i--)
             {
@@ -562,12 +563,10 @@ namespace SeeloewenCraft
                 //WIP - Needs to also show block info on new chunks
                 foreach (Chunk chunk in chunkList)
                 {
-                    foreach (Block block in chunk.blockList)
-                    {
-                        block.ShowBlockInfo();
-                    }
+                    chunk.showBlockInfo();
                 }
                 MessageBox.Show("Block info is now shown.", "/showblockinfo");
+                showBlockInfo = true;
             }
             else if (tbDebug.Text == "/hideblockinfo")
             {
@@ -575,12 +574,11 @@ namespace SeeloewenCraft
                 //WIP - Needs to also hide block info on new chunks
                 foreach (Chunk chunk in chunkList)
                 {
-                    foreach (Block block in chunk.blockList)
-                    {
-                        block.HideBlockInfo();
-                    }
+                    chunk.hideBlockInfo();
+
                 }
                 MessageBox.Show("Block info is now hidden.", "/hideblockinfo");
+                showBlockInfo = false;
             }
             else if (tbDebug.Text == "/about")
             {
@@ -777,6 +775,25 @@ namespace SeeloewenCraft
             //Show the main menu window and close the game window
             returnToMenu = true;
             Close();
+        }
+
+        //disables scrolling with the mouse wheel
+        private void svWorld_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+
+            int newSlot;
+            if (e.Delta < 0)
+            {
+                newSlot = (player.inventory.GetSelectedIndex() + 1) % 9;
+            }
+            else
+            {
+                newSlot = (player.inventory.GetSelectedIndex() - 1) % 9;
+                if (newSlot == -1) newSlot = 8;
+            }
+            player.inventory.hotbarSlotList[newSlot].SelectSlot();
+
+            e.Handled = true;
         }
     }
 }

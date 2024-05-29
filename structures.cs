@@ -19,10 +19,11 @@ namespace SeeloewenCraft
 {
     public class Structure
     {
+        static int o = 0;
         public List<StructureComponent> structureComponents = new List<StructureComponent>();
         public List<StructureComponent> cutOffComponents = new List<StructureComponent>();
-        public List<Block> blockList = new List<Block>();
-        public Random rnd = new Random(DateTime.Now.Millisecond);
+        public BlockList blockList = new BlockList();
+        public Random rnd;
         public Chunk chunk;
         wndGame wndGame;
         public string direction = "";
@@ -43,6 +44,8 @@ namespace SeeloewenCraft
             this.chunk = chunk;
             this.wndGame = wndGame;
             this.canFloat = canFloat;
+            rnd = new Random(DateTime.Now.Millisecond + o);
+            o++;
         }
 
         //-- Custom Methods --//
@@ -108,75 +111,45 @@ namespace SeeloewenCraft
 
         public void GenerateStructure()
         {
-            //Create a list of block that will need to be replaced
-            List<Block> removeBlocks = new List<Block>();
-            List<Block> nevermindBlocks = new List<Block>();
-
-            foreach (Block block in blockList)
-            {
-                foreach (Block blockMain in chunk.blockList)
-                {
-                    if (block.xPos == blockMain.xPos && block.yPos == blockMain.yPos)
-                    {
-                        removeBlocks.Add(blockMain);
-                    }
-                }
-            }
+            
 
 
             //Add all blocks from the structure to the blocklist
-            foreach (Block block in blockList)
+            foreach (Block block in blockList.blocks)
             {
-                if (block.xPos > 0 && block.xPos < 9 && block.yPos > 0 && block.yPos < 76)
+                if (block != null && block.xPos > 0 && block.xPos < 9 && block.yPos > 0 && block.yPos < 76)
                 {
-                    foreach (Block blockRem in removeBlocks)
+
+                    //Compare each block in the structure list to the block that's already at that position; if it has a fixed solid state, don't replace it
+
+                    if (canReplaceSolidBlocks)
                     {
-                        //Compare each block in the structure list to the block that's already at that position; if it has a fixed solid state, don't replace it
-                        if (block.xPos == blockRem.xPos && block.yPos == blockRem.yPos)
+                        chunk.blockList.Add(block);
+
+                        if (canFloat == false && block.yPos == yBase)
                         {
-                            if(!canReplaceSolidBlocks)
-                            {
-                                if (!blockRem.hasFixedSolidState)
-                                {
-                                    chunk.blockList.Add(block);
-
-                                    if (canFloat == false && block.yPos == yBase)
-                                    {
-                                        MakeBaseSolid(block);
-                                    }
-                                }
-                                else
-                                {
-                                    nevermindBlocks.Add(blockRem);
-                                }
-                            }
-                            else
-                            {
-                                chunk.blockList.Add(block);
-
-                                if (canFloat == false && block.yPos == yBase)
-                                {
-                                    MakeBaseSolid(block);
-                                }
-                            }
-
+                            MakeBaseSolid(block);
                         }
                     }
+                    else
+                    {
+                        if(chunk.blockList.Get(block.xPos, block.yPos).isBreakable)
+                        {
+                            chunk.blockList.Add(block);
+
+                            if (canFloat == false && block.yPos == yBase)
+                            {
+                                MakeBaseSolid(block);
+                            }
+                        }
+                    }
+
+
+
 
                 }
             }
 
-            //Go through the blocks that shouldn't be removed afterall
-            foreach (Block block in nevermindBlocks)
-            {
-                removeBlocks.Remove(block);
-            }
-
-            //Remove the blocks from the list
-            foreach (Block block in removeBlocks)
-            {
-                chunk.blockList.Remove(block);
-            }
         }
 
         public void MakeBaseSolid(Block block)

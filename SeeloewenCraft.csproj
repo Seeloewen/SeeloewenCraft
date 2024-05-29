@@ -35,6 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
@@ -63,6 +64,7 @@
     </ApplicationDefinition>
     <Compile Include="blockContainer.cs" />
     <Compile Include="blockContainerList.cs" />
+    <Compile Include="blockList.cs" />
     <Compile Include="blocks.cs" />
     <Compile Include="caveGeneration.cs" />
     <Compile Include="images.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="inventorySlot.cs" />
     <Compile Include="items.cs" />
     <Compile Include="SeeloewenLib.cs" />
+    <Compile Include="splashtexts.cs" />
     <Compile Include="structures.cs" />
     <Compile Include="wndAbout.xaml.cs">
       <DependentUpon>wndAbout.xaml</DependentUpon>
@@ -202,6 +205,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\SpruceLogBlock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\splash_texts.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Background.png" />
