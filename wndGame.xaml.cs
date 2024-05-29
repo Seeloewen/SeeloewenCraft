@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -48,6 +49,7 @@ namespace SeeloewenCraft
         public bool finishedLoading = false;
         private bool returnToMenu = false;
         public List<BlockContainerList> blockContainerList = new List<BlockContainerList>();
+        public bool showBlockInfo = false;
 
 
         //-- Constructor --//
@@ -153,10 +155,30 @@ namespace SeeloewenCraft
                 File.WriteAllLines($"{worldDirectory}/settings.txt", worldSettings);
             }
 
+            bool loadedPlayerPosExists = File.Exists($"{worldDirectory}/playerPosition.txt");
+            double playerPosX = 0;
+            double playerPosY = 0;
+
+            if (loadedPlayerPosExists)
+            {
+                string[] coords = File.ReadAllLines($"{worldDirectory}/playerPosition.txt");
+                try
+                {
+                    playerPosX = Double.Parse(coords[0]);
+                    playerPosY = Double.Parse(coords[1]);
+                }
+                catch
+                {
+                    loadedPlayerPosExists = false;
+                    Console.WriteLine("player coords file incorrect format(use log for this)");
+                }
+
+            }
+
             //Create the game components
             GenerateBlockContainer();
-            GenerateChunks();
-            CreatePlayer();
+            GenerateChunks(loadedPlayerPosExists ? ((int)playerPosX / 8) - 2 : 0);
+            CreatePlayer(loadedPlayerPosExists, playerPosX, playerPosY);
             player.inventory = new Inventory(this, 0, true);
             inventoryList.Add(player.inventory);
             player.inventory.hotbarSlotList[0].SelectSlot();
@@ -180,44 +202,67 @@ namespace SeeloewenCraft
             finishedLoading = true;
         }
 
-        public void CreatePlayer()
+        public void CreatePlayer(bool isLoaded, double playerPosX, double playerPosY)
         {
-            //Calculate y position where the player starts
-            //WIP
-            int yPos = 0;
-            foreach (Block block in chunkList[2].blockList)
-            {
-                if (block.xPos == 5 && block is GrassBlock)
-                {
-                    yPos = block.yPos * 50 - 150;
-                }
-            }
 
-            //Create the player and add it to the world canvas
-            player = new Player(this, 600, yPos);
+            if (!isLoaded)
+            {
+                //Calculate y position where the player starts
+                //WIP
+                int yPos = 0;
+                foreach (Block block in chunkList[2].blockList)
+                {
+                    if (block.xPos == 5 && block is GrassBlock)
+                    {
+                        yPos = block.yPos * 50 - 150;
+                        yPos = (block.yPos - 3) * 50;
+                    }
+                }
+
+                //Create the player and add it to the world canvas
+                player = new Player(this, 602, yPos + 5);
+
+            }
+            else
+            {
+                player = new Player(this, 602, (int)(playerPosY * 50) - 50);
+                player.MoveHorizontal((int)Math.Round((playerPosX % 8.0) * 50) - 252);
+            }
             cvsWorld.Children.Add(player.cvsPlayer);
             Panel.SetZIndex(player.cvsPlayer, 1);
             relativeSvPos = svWorld.VerticalOffset;
             defaultSvPos = svWorld.VerticalOffset;
         }
 
-        private void GenerateChunks()
+        private void GenerateChunks(int j)
         {
-            //Create the starter chunks and add them to the world canvas
-            for (int i = 0; i < 5; i++)
+
+            int c = 0;
+            for (int i = Math.Max(j, 0); i < Math.Max(j + 5, 0); i++)
+            {
+                chunkList.Add(new Chunk(this, i));
+                c++;
+            }
+
+            int temp = Math.Min(j + 4, -1);
+            int temp2 = c + Math.Min(j, -5);
+            for (int i = temp; i >= temp2; i--)
             {
                 chunkList.Add(new Chunk(this, i));
             }
-            cvsWorld.Children.Add(GetChunk(0).grdChunk);
-            Canvas.SetLeft(GetChunk(0).grdChunk, -400);
-            cvsWorld.Children.Add(GetChunk(1).grdChunk);
-            Canvas.SetLeft(GetChunk(1).grdChunk, 0);
-            cvsWorld.Children.Add(GetChunk(2).grdChunk);
-            Canvas.SetLeft(GetChunk(2).grdChunk, 400);
-            cvsWorld.Children.Add(GetChunk(3).grdChunk);
-            Canvas.SetLeft(GetChunk(3).grdChunk, 800);
-            cvsWorld.Children.Add(GetChunk(4).grdChunk);
-            Canvas.SetLeft(GetChunk(4).grdChunk, 1200);
+
+
+
+            cvsWorld.Children.Add(GetChunk(j).grdChunk);
+            Canvas.SetLeft(GetChunk(j).grdChunk, -400);
+            cvsWorld.Children.Add(GetChunk(j + 1).grdChunk);
+            Canvas.SetLeft(GetChunk(j + 1).grdChunk, 0);
+            cvsWorld.Children.Add(GetChunk(j + 2).grdChunk);
+            Canvas.SetLeft(GetChunk(j + 2).grdChunk, 400);
+            cvsWorld.Children.Add(GetChunk(j + 3).grdChunk);
+            Canvas.SetLeft(GetChunk(j + 3).grdChunk, 800);
+            cvsWorld.Children.Add(GetChunk(j + 4).grdChunk);
+            Canvas.SetLeft(GetChunk(j + 4).grdChunk, 1200);
         }
 
         public Chunk GetChunk(int index)
@@ -518,12 +563,10 @@ namespace SeeloewenCraft
                 //WIP - Needs to also show block info on new chunks
                 foreach (Chunk chunk in chunkList)
                 {
-                    foreach (Block block in chunk.blockList)
-                    {
-                        block.ShowBlockInfo();
-                    }
+                    chunk.showBlockInfo();
                 }
                 MessageBox.Show("Block info is now shown.", "/showblockinfo");
+                showBlockInfo = true;
             }
             else if (tbDebug.Text == "/hideblockinfo")
             {
@@ -531,17 +574,17 @@ namespace SeeloewenCraft
                 //WIP - Needs to also hide block info on new chunks
                 foreach (Chunk chunk in chunkList)
                 {
-                    foreach (Block block in chunk.blockList)
-                    {
-                        block.HideBlockInfo();
-                    }
+                    chunk.hideBlockInfo();
+
                 }
                 MessageBox.Show("Block info is now hidden.", "/hideblockinfo");
+                showBlockInfo = false;
             }
             else if (tbDebug.Text == "/about")
             {
                 //Show 'About' message
-                MessageBox.Show(string.Format("You are running SeeloewenCraft Version {0} - This version is not meant to be publicly shared and shall only be used for private purposes.", gameVersion), "/about");
+                wndAbout wndAbout = new wndAbout(wndMenu);
+                wndAbout.ShowDialog();
             }
             else if (tbDebug.Text == "/generateplayer")
             {
@@ -579,10 +622,6 @@ namespace SeeloewenCraft
                 btnPlayerUp.Visibility = Visibility.Hidden;
                 btnPlayerLeft.Visibility = Visibility.Hidden;
                 btnPlayerRight.Visibility = Visibility.Hidden;
-            }
-            else if (tbDebug.Text == "/changelog")
-            {
-                MessageBox.Show("Changelog:\n\nVersion 1.1.3 - 26.05.2024\r\n* Added Texturepack support\r\n* Added Hammer to move blocks between foreground and background\r\n* Added Spruce trees\r\n* Added fallback \"Missing Texture\" image when a texture is not found\r\n* Added Stone Block background to caves\r\n* Added \"Exit to Main Menu\" option\r\n* Added warning when trying to load older worlds\r\n* Tree stems now generate in the background\r\n* Worlds are now created in a seperate directory\r\n* Fixed structures getting generated outside the possible coordinates\r\n* Fixed some structures incorrectly replacing solid blocks\r\n* Fixed exception when closing the game\n\nVersion 1.1.2 - 23.05.2024\r\n* Added Magma Block (not obtainable yet)\r\n* Added Prototype Cave Generation\r\n* Added debug option to start game directly in world by having exactly one command line argument\r\n* Rework collision system to fix many issues\r\n* Rework how blocks and items are displayed to improve performance\r\n* Fixed Resource files being needed to start the game\r\n* Clean up code to improve performance\n\nVersion 1.1.1 - 26.04.2024\n* Fixed being able to move and interact while blocks while in chat\n* Fixed camera position getting offset over time\n* Fixed structures getting cut off at chunk borders\n* Fixed structures sometimes floating\n\nAlpha 1.1.0 - 07.09.2023\r\n- Added Main Menu\r\n- Added Settings window\r\n- Added chests (not obtainable yet)\r\n- Added game menu when pressing escape\r\n- Worlds can now be saved and loaded\r\n- Inventory now gets saved\r\n- Game now checks if item has a block before placing (fixes NullPointer when placing items)\r\n- Fixed game window being resizable\n\nAlpha 1.0.1 - 31.08.2023\r\n- Fixed blocks not loading when going into old chunks\r\n- Fixed chunks resetting when unloading them\n\nAlpha 1.0.0 - 31.08.2023\r\n- The project is now called SeeloewenCraft\r\n- Added the /changelog command\r\n- Made some code optimisations\r\n- Clicking on a hotbar slot now selects it\r\n- You will now also see a border when trying to place a block\r\n- Player hitbox now looks a little better (still no model though)\r\n- Player will now always spawn on the floor\r\n- Fixed diamond veins being too big\r\n- Possibly fixed camera breaking when glitching in walls", "/changelog");
             }
             else if (tbDebug.Text.Contains("/give chest"))
             {
@@ -679,14 +718,16 @@ namespace SeeloewenCraft
             //If the setting to save worlds on closing is enabled
             if (finishedLoading)
             {
+                tmrMovement.Stop();
                 if (Properties.Settings.Default.saveWorldOnClose == true)
                 {
                     //Save all chunks and the inventory of the player
                     foreach (Chunk chunk in chunkList)
                     {
-                        chunk.SaveChunk();
+                        chunk.Save();
                     }
                     player.inventory.SaveInventory(worldDirectory);
+                    player.SavePosition(worldDirectory);
                 }
             }
 
@@ -720,9 +761,10 @@ namespace SeeloewenCraft
             //Save all chunks and the inventory of the player
             foreach (Chunk chunk in chunkList)
             {
-                chunk.SaveChunk();
+                chunk.Save();
             }
             player.inventory.SaveInventory(worldDirectory);
+            player.SavePosition(worldDirectory);
 
             //Show confirmation
             MessageBox.Show("Successfully saved the World!", "Save World", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -733,6 +775,25 @@ namespace SeeloewenCraft
             //Show the main menu window and close the game window
             returnToMenu = true;
             Close();
+        }
+
+        //disables scrolling with the mouse wheel
+        private void svWorld_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+
+            int newSlot;
+            if (e.Delta > 0)
+            {
+                newSlot = (player.inventory.GetSelectedIndex() + 1) % 9;
+            }
+            else
+            {
+                newSlot = (player.inventory.GetSelectedIndex() - 1) % 9;
+                if (newSlot == -1) newSlot = 8;
+            }
+            player.inventory.hotbarSlotList[newSlot].SelectSlot();
+
+            e.Handled = true;
         }
     }
 }

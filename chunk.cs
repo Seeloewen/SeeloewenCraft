@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace SeeloewenCraft
@@ -22,9 +24,10 @@ namespace SeeloewenCraft
         private Random rnd = new Random(DateTime.Now.Millisecond);
         wndGame wndGame;
         public int index;
+        int floorHeight; //Only used while generating
         public int floorHeightRight;
         public int floorHeightLeft;
-        string chunkDirectory;
+        public string chunkDirectory;
 
         //-- Constructor --//
 
@@ -36,25 +39,27 @@ namespace SeeloewenCraft
 
             //Begin loading the chunk
             chunkDirectory = string.Format("{0}/chunk{1}", wndGame.worldDirectory, index);
-            LoadChunk();
+            Generate();
         }
 
         //-- Custom Methods --//
-
-        public void SetBlock(Block block, int x, int y)
+        public void hideBlockInfo()
         {
-            //Check if the coordinate has a container and place the block into that container if possible
-            if (blockContainerList.GetContainer(x, y) != null)
+            foreach (Block block in blockList)
             {
-                blockContainerList.GetContainer(x, y).SetBlock(block);
-            }
-            else
-            {
-                Console.WriteLine($"[Error] Could not find container at x{x} y{y} for block {block.name}");
+                block.HideBlockInfo();
             }
         }
 
-        public void SaveChunk()
+        public void showBlockInfo()
+        {
+            foreach(Block block in blockList)
+            {
+                block.ShowBlockInfo();
+            }
+        }
+
+        public void Save()
         {
             //Check if the chunk directory already exists and create it otherwise
             if (!Directory.Exists(chunkDirectory))
@@ -70,13 +75,26 @@ namespace SeeloewenCraft
                 }
 
                 //Write all blocks in the chunks blocklist into a file
-                File.AppendAllText(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2};{3};{4}\n", block.GetType().ToString().Replace("SeeloewenCraft.", ""), block.xPos, block.yPos, 0,block.isInBackground));
+                File.AppendAllText(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2};{3};{4}\n", block.GetType().ToString().Replace("SeeloewenCraft.", ""), block.xPos, block.yPos, 0, block.isInBackground));
             }
             //Write the chunk settings into a file
             File.WriteAllText(string.Format("{0}/chunk{1}/settings.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2}", index, floorHeightLeft, floorHeightRight));
         }
 
-        public void LoadChunk()
+        public void SetBlock(Block block, int x, int y)
+        {
+            //Check if the coordinate has a container and place the block into that container if possible
+            if (blockContainerList.GetContainer(x, y) != null)
+            {
+                blockContainerList.GetContainer(x, y).SetBlock(block);
+            }
+            else
+            {
+                Console.WriteLine($"[Error] Could not find container at x{x} y{y} for block {block.name}");
+            }
+        }
+
+        public void Generate()
         {
             //Clear the chunk
             grdChunk.Children.Clear();
@@ -134,7 +152,7 @@ namespace SeeloewenCraft
                 }
 
                 //Save the chunk
-                SaveChunk();
+                Save();
             }
             else
             {
@@ -212,6 +230,12 @@ namespace SeeloewenCraft
                 //Load the inventories of the blocks in the chunk (like chests)
                 LoadInventories();
 
+                //Read the chunk settings from the file
+                string[] settings = File.ReadAllText(string.Format("{0}/chunk{1}/settings.txt", wndGame.worldDirectory, index)).Split(';');
+                index = Convert.ToInt32(settings[0]);
+                floorHeightLeft = Convert.ToInt32(settings[1]);
+                floorHeightRight = Convert.ToInt32(settings[2]);
+
                 //Add all the blocks to the chunk
                 try
                 {
@@ -224,14 +248,9 @@ namespace SeeloewenCraft
                 {
                     Console.WriteLine($"[Error] Could not load chunk: {ex}");
                 }
-
-                //Read the chunk settings from the file
-                string[] settings = File.ReadAllText(string.Format("{0}/chunk{1}/settings.txt", wndGame.worldDirectory, index)).Split(';');
-                index = Convert.ToInt32(settings[0]);
-                floorHeightLeft = Convert.ToInt32(settings[1]);
-                floorHeightRight = Convert.ToInt32(settings[2]);
             }
         }
+
         public Block GetBlock(int x, int y)
         {
             //Go through each block and return the block that matches the coords
@@ -269,12 +288,11 @@ namespace SeeloewenCraft
 
         private void GenerateTerrain()
         {
-            int floorHeight;
 
-            //Generate the chunk from left to right
+            //Set the floorheight based on the chunk index
             if (index >= 0)
             {
-                if (wndGame.chunkList.Count == 0)
+                if (index == 0)
                 {
                     //If it's the first chunk, set the floor hight
                     floorHeight = rnd.Next(12, 15);
@@ -284,9 +302,18 @@ namespace SeeloewenCraft
                     //If it's not the first chunk, get the most right floor height from the chunk to the left
                     floorHeight = wndGame.GetChunk(index - 1).floorHeightRight;
                 }
+            }
+            else if (index < 0)
+            {
+                floorHeight = wndGame.GetChunk(index + 1).floorHeightLeft;
+            }
+
+            //Actually generate the terrain
+            if (index >= 0)
+            {
                 for (int x = 1; x <= 8; x++)
                 {
-                    //Go through all 8 columns in the chunk and generate a number to determine if the floor height should c hange
+                    //Go through all 8 columns in the chunk and generate a number to determine if the floor height should change
                     int floorHeightChange = rnd.Next(0, 100);
                     if (floorHeightChange >= 80 && floorHeightChange <= 100)
                     {
@@ -364,8 +391,6 @@ namespace SeeloewenCraft
             //Generate the chunk from right to left
             else
             {
-                floorHeight = wndGame.GetChunk(index + 1).floorHeightLeft;
-
                 for (int x = 8; x > 0; x--)
                 {
                     int floorHeightChange = rnd.Next(0, 100);
@@ -435,13 +460,12 @@ namespace SeeloewenCraft
                         else if (y == 75)
                         {
                             //If it's exactly at bottom layer y 75, set bedrock block
-                            blockList.Add(new BedrockBlock(wndGame, x, y, this, null, false ));
+                            blockList.Add(new BedrockBlock(wndGame, x, y, this, null, false));
                         }
                     }
                 }
             }
         }
-
 
         private void GenerateTrees()
         {

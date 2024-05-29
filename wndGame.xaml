@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="SeeloewenCraft World" Height="839" Width="1216" KeyDown="MainWindow_KeyDown" KeyUp="MainWindow_KeyUp" MouseMove="Window_MouseMove" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Closing="wndGame1_Closing">
     <Canvas x:Name="cvsGame">
-        <ScrollViewer x:Name="svWorld" Height="839" Width="1218">
+        <ScrollViewer x:Name="svWorld" Height="839" Width="1218" PreviewMouseWheel="svWorld_PreviewMouseWheel">
             <Canvas x:Name="cvsWorld" Height="3785">
             </Canvas>
         </ScrollViewer>

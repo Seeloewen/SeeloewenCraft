@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,8 @@ namespace SeeloewenCraft
         wndGame wndGame;
         public Inventory inventory;
 
-        //-- variables for physics --/
+        //-- Variables for physics --/
+
         //constants:
         private const double a_ground = 50; // a: acceleration
         private const double a_air = 50;
@@ -29,6 +31,7 @@ namespace SeeloewenCraft
         private const double f_ground = 7; //f: friction
         private const double jump_start_speed = 15;
         private const double slowest_ground_speed = 3;
+
         //variables
         private double v_x = 0; //v: velocity
         private double v_y = 0;
@@ -36,12 +39,11 @@ namespace SeeloewenCraft
         private int d_y = 0;
         private double d_offset_x = 0;
         private double d_offset_y = 0;
-
         private double posX;
         private double posY;
 
 
-        //hitbox points
+        //Hitbox points
 
         //onGround points
         private Point pointGround1 = new Point(0, 95);
@@ -61,9 +63,6 @@ namespace SeeloewenCraft
         private Point pointTop1 = new Point(0, -1);
         private Point pointTop2 = new Point(44, -1);
 
-
-
-
         //-- Constructor --//
 
         public Player(wndGame wndGame, int x, int y)
@@ -75,17 +74,21 @@ namespace SeeloewenCraft
             GeneratePlayer(x, y);
         }
 
-
         //-- Custom Methods --//
 
         public void GeneratePlayer(int x, int y)
         {
             //Setup the character canvas that is shown but does not count in movement checks
-            cvsPlayer.Margin = new Thickness(x + 2, y + 5, 0, 0);
+            cvsPlayer.Margin = new Thickness(x, y, 0, 0);
             cvsPlayer.Width = 45;
             cvsPlayer.Height = 95;
             cvsPlayer.Background = new SolidColorBrush(Colors.Red);
+        }
 
+
+        public void SavePosition(string path)
+        {
+            File.WriteAllText($"{path}/playerPosition.txt", $"{posX}\n{posY}");
         }
 
 
@@ -93,7 +96,6 @@ namespace SeeloewenCraft
         //physics
         public void physicsStep(bool pressedLeft, bool pressedRight, bool pressedUp, double dt)
         {
-
             // -- determine which sides of the player are touched by solid blocks --
 
             //reset
@@ -112,7 +114,9 @@ namespace SeeloewenCraft
                 {
                     if (!block.isSolid) continue;
 
-
+                    Point blockOriginPoint = new Point(1, 1);
+                    //try
+                    //{
                     //Convert positions to screen coordinates
                     Point playerScreenPoint = wndGame.player.cvsPlayer.PointToScreen(new Point(0, 0));
                     Point blockScreenPoint = block.blockContainer.bdrBlock.PointToScreen(new Point(0, 0));
@@ -122,7 +126,13 @@ namespace SeeloewenCraft
                     Point blockPosition = wndGame.svWorld.TranslatePoint(blockScreenPoint, wndGame.cvsWorld);
 
                     //calculate relative position of block from player (top-left corner)
-                    Point blockOriginPoint = new Point(blockPosition.X - playerPosition.X, blockPosition.Y - playerPosition.Y);
+                    blockOriginPoint = new Point(blockPosition.X - playerPosition.X, blockPosition.Y - playerPosition.Y);
+                    //}
+                    //catch
+                    //{
+                    //    Console.WriteLine("[Error] Couldn't get player point.");
+                    //}
+
 
                     //set flag to true if a point is inside of the block
                     onGround = onGround
@@ -154,8 +164,6 @@ namespace SeeloewenCraft
                 }
             }
 
-
-
             // -- change velocity depending on inputs --
             if (pressedRight && !touchingRight)
             {
@@ -177,7 +185,6 @@ namespace SeeloewenCraft
                 onGround = false;
             }
 
-
             // -- friction --
             if (true) //normally: onGround
             {
@@ -193,11 +200,11 @@ namespace SeeloewenCraft
                     v_x += Math.Max(Math.Min(slowest_ground_speed * dt, -v_x), v_reduction);
                 }
             }
-            if(!onGround)
+
+            if (!onGround)
             {
                 v_y -= a_gravity * dt; //no air resistance yet
             }
-
 
             // -- check if moving into blocks --
             if ((touchingRight && v_x > 0) || (touchingLeft && v_x < 0))
@@ -215,7 +222,6 @@ namespace SeeloewenCraft
                 d_offset_y = 0;
             }
 
-
             //convert velocity to pixels
             d_offset_x += v_x * dt * 50;
             d_offset_y += v_y * dt * 50;
@@ -227,7 +233,6 @@ namespace SeeloewenCraft
             //store remaining pixels in offset
             d_offset_x -= d_x;
             d_offset_y -= d_y;
-
 
             // -- start of collision checking -- 
             // calculate that actual pixels only move to block border so the touching code above can calculate collsions
@@ -287,13 +292,10 @@ namespace SeeloewenCraft
                 }
             }
 
-
             //move with amount of acual pixels
             MoveHorizontal(d_x);
             MoveVertical(d_y);
-
         }
-
 
         //block origin means top left corner of the block relative to the top left corner of player
         private bool InBlock(Point blockOrigin, Point point)
@@ -303,8 +305,6 @@ namespace SeeloewenCraft
                 && blockOrigin.X <= point.X
                 && blockOrigin.X + 50 > point.X;
         }
-
-
 
         public void MoveHorizontal(int amount)
         {
@@ -322,7 +322,8 @@ namespace SeeloewenCraft
             {
                 double offset = -Canvas.GetLeft(wndGame.chunkList[2].grdChunk);
                 //Save the chunk that has moved to far and remove it. Add a new one at the opposite site.
-                wndGame.GetChunk(wndGame.chunkList[0].index).SaveChunk();
+                wndGame.GetChunk(wndGame.chunkList[0].index).Save(); 
+                if (wndGame.showBlockInfo) wndGame.GetChunk(wndGame.chunkList[0].index).hideBlockInfo();
                 wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[0].index));
                 wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[3].index + 1));
                 wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);
@@ -330,12 +331,15 @@ namespace SeeloewenCraft
 
                 //Sort the chunklist again
                 wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+
+                if (wndGame.showBlockInfo) wndGame.GetChunk(wndGame.chunkList[4].index).showBlockInfo();
             }
             else if (Canvas.GetLeft(wndGame.chunkList[2].grdChunk) >= 800)
             {
                 double offset = Canvas.GetLeft(wndGame.chunkList[2].grdChunk) - 800;
                 //Move the chunk on the right all the way to the left
-                wndGame.GetChunk(wndGame.chunkList[4].index).SaveChunk();
+                wndGame.GetChunk(wndGame.chunkList[4].index).Save();
+                if (wndGame.showBlockInfo) wndGame.GetChunk(wndGame.chunkList[4].index).hideBlockInfo();
                 wndGame.chunkList.Remove(wndGame.GetChunk(wndGame.chunkList[4].index));
                 wndGame.chunkList.Add(new Chunk(wndGame, wndGame.chunkList[0].index - 1));
                 wndGame.cvsWorld.Children.Add(wndGame.chunkList[4].grdChunk);
@@ -343,26 +347,21 @@ namespace SeeloewenCraft
 
                 //Sort the list again
                 wndGame.chunkList = wndGame.chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+
+                if (wndGame.showBlockInfo) wndGame.GetChunk(wndGame.chunkList[0].index).showBlockInfo();
             }
         }
 
 
 
-        public async void MoveVertical(int amount)
+        public void MoveVertical(int amount)
         {
-
             Thickness currentMarginPlayer = cvsPlayer.Margin;
             currentMarginPlayer.Top -= amount;
             cvsPlayer.Margin = currentMarginPlayer;
 
             //Scroll along to match the movement
             wndGame.svWorld.ScrollToVerticalOffset(wndGame.player.cvsPlayer.Margin.Top - 400);
-
-            //Wait to allow UI update
-            await Task.Delay(1);
-
-
-
         }
 
 

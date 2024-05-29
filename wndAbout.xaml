@@ -1,0 +1,32 @@
+﻿<Window x:Class="SeeloewenCraft.wndAbout"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SeeloewenCraft"
+        mc:Ignorable="d"
+        Title="About" Height="571" Width="488" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="65,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="50" FontWeight="DemiBold"><Run Language="de-de" Text="SeeloewenCraft"/></TextBlock>
+        <TextBlock x:Name="tblVersion" HorizontalAlignment="Left" Margin="39,71,0,0" TextWrapping="Wrap" Text="Version {0}" VerticalAlignment="Top" FontSize="20" TextAlignment="Center" Width="396"/>
+        <TextBlock x:Name="tblDeveloperName" HorizontalAlignment="Left" Margin="174,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20"><Run Language="de-de" Text="By "/><Run Text="Seeloewen"/></TextBlock>
+        <TabControl x:Name="tcAbout" Margin="10,144,0,0" HorizontalAlignment="Left" Width="447" Height="334" VerticalAlignment="Top">
+            <TabItem x:Name="tiAbout" Header="About">
+                <Canvas x:Name="cvsAbout">
+                    <TextBox x:Name="tbAbout" Canvas.Left="10" TextWrapping="Wrap" Text="SeeloewenCraft is a 2D Sandbox game, inspired by Minecraft. It is not meant to copy or replace Minecraft in any way. Please contact Seeloewen on Discord for any legal issues.&#xD;&#xA;&#xD;&#xA;This project is a private project that is not meant to be shared publicly, only with certain friends. Please do not create and share copies of the game, if you happen to have any.&#xD;&#xA;&#xD;&#xA;Please note that development of this game may not be consistant and might stop entirely at some point. Afterall, it's just a fun test project that I'm using to improve my coding skills. If you have any ideas for the game, feel free to share them with me!" Canvas.Top="10" Width="421" Height="286" IsReadOnly="True" FontSize="14"/>
+                </Canvas>
+            </TabItem>
+            <TabItem x:Name="tiChangelog" Header="Changelog">
+                <Canvas x:Name="cvsChangelog">
+                    <TextBox x:Name="tbChangelog" Canvas.Left="10" TextWrapping="Wrap" Text="Version 1.1.3 - 26.05.2024&#xD;&#xA;* Added Texturepack support&#xD;&#xA;* Added Hammer to move blocks between foreground and background&#xD;&#xA;* Added Spruce trees&#xD;&#xA;* Added fallback &quot;Missing Texture&quot; image when a texture is not found&#xD;&#xA;* Added Stone Block background to caves&#xD;&#xA;* Added &quot;Exit to Main Menu&quot; option&#xD;&#xA;* Added warning when trying to load older worlds&#xD;&#xA;* Tree stems now generate in the background&#xD;&#xA;* Worlds are now created in a separate directory&#xD;&#xA;* Fixed structures getting generated outside the possible coordinates&#xD;&#xA;* Fixed some structures incorrectly replacing solid blocks&#xD;&#xA;* Fixed exception when closing the game&#xD;&#xA;&#xD;&#xA;Version 1.1.2 - 23.05.2024&#xD;&#xA;* Added Magma Block (not obtainable yet)&#xD;&#xA;* Added Prototype Cave Generation&#xD;&#xA;* Added debug option to start game directly in world by having exactly one command line argument&#xD;&#xA;* Rework collision system to fix many issues&#xD;&#xA;* Rework how blocks and items are displayed to improve performance&#xD;&#xA;* Fixed Resource files being needed to start the game&#xD;&#xA;* Clean up code to improve performance&#xD;&#xA;&#xD;&#xA;Version 1.1.1 - 26.04.2024&#xD;&#xA;* Fixed being able to move and interact while blocks while in chat&#xD;&#xA;* Fixed camera position getting offset over time&#xD;&#xA;* Fixed structures getting cut off at chunk borders&#xD;&#xA;* Fixed structures sometimes floating&#xD;&#xA;&#xD;&#xA;Alpha 1.1.0 - 07.09.2023&#xD;&#xA;* Added Main Menu&#xD;&#xA;* Added Settings window&#xD;&#xA;* Added chests (not obtainable yet)&#xD;&#xA;* Added game menu when pressing escape&#xD;&#xA;* Worlds can now be saved and loaded&#xD;&#xA;* Inventory now gets saved&#xD;&#xA;* Game now checks if item has a block before placing (fixes NullPointer when placing items)&#xD;&#xA;* Fixed game window being resizable&#xD;&#xA;&#xD;&#xA;Alpha 1.0.1 - 31.08.2023&#xD;&#xA;* Fixed blocks not loading when going into old chunks&#xD;&#xA;* Fixed chunks resetting when unloading them&#xD;&#xA;&#xD;&#xA;Alpha 1.0.0 - 31.08.2023&#xD;&#xA;* The project is now called SeeloewenCraft&#xD;&#xA;* Added the /changelog command&#xD;&#xA;* Made some code optimisations&#xD;&#xA;* Clicking on a hotbar slot now selects it&#xD;&#xA;* You will now also see a border when trying to place a block&#xD;&#xA;* Player hitbox now looks a little better (still no model though)&#xD;&#xA;* Player will now always spawn on the floor&#xD;&#xA;* Fixed diamond veins being too big&#xD;&#xA;* Possibly fixed camera breaking when glitching in walls" Canvas.Top="10" Width="421" Height="286" FontSize="14" IsReadOnly="True" ScrollViewer.CanContentScroll="True"/>
+                </Canvas>
+            </TabItem>
+            <TabItem x:Name="tiSpecialThanks" Header="Special Thanks">
+                <Canvas x:Name="cvsSpecialThanks">
+                    <TextBox x:Name="tbSpecialThanks" Canvas.Left="10" TextWrapping="Wrap" Text="Special thanks to CDLemmi for helping on many features of the game, most notably the movement physics and the collision system used after Alpha 1.1.4.&#xD;&#xA;&#xD;&#xA;Special thanks to Finni for helping me find many issues by testing developmen versions and also for giving a lot of ideas." Canvas.Top="10" Width="421" Height="286" FontSize="14" IsReadOnly="True"/>
+                </Canvas>
+            </TabItem>
+        </TabControl>
+        <Button x:Name="btnOK" Content="OK" HorizontalAlignment="Left" Margin="145,493,0,0" VerticalAlignment="Top" Height="28" Width="188" FontSize="16" Click="btnOK_Click"/>
+    </Grid>
+</Window>

@@ -116,6 +116,24 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
+        public int GetSelectedIndex()
+        {
+
+            int c = 0;
+            foreach(HotbarSlot slot in hotbarSlotList)
+            {
+                if(slot.isSelected)
+                {
+                    return c;
+                }
+                c++;    
+            }
+            return 0;
+        }
+
+
+        
+
         public void AddItem(Item item)
         {
             bool isAdded = false;

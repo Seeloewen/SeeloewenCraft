@@ -34,26 +34,11 @@ namespace SeeloewenCraft
         //-- Custom Methods --//
         private void SaveSettings()
         {
-            //Check and save the auto stepup setting
-            if (cbEnableAutoStepup.IsChecked == true)
-            {
-                Properties.Settings.Default.enableAutoStepup = true;
-            }
-            else
-            {
-                Properties.Settings.Default.enableAutoStepup = false;
-            }
+            //Save the auto stepup setting
+            Properties.Settings.Default.enableAutoStepup = Convert.ToBoolean(cbEnableAutoStepup.IsChecked);
 
-            //Check and save the save on world exit settings
-            if (cbSaveWorldWhenClosing.IsChecked == true)
-            {
-                Properties.Settings.Default.saveWorldOnClose = true;
-            }
-            else
-            {
-                Properties.Settings.Default.saveWorldOnClose = false;
-            }
-
+            //Save the save on world exit settings
+            Properties.Settings.Default.saveWorldOnClose = Convert.ToBoolean(cbSaveWorldWhenClosing.IsChecked);
 
             //Save the selected texturepack
             Properties.Settings.Default.texturepack = cbxTexturepack.SelectedItem.ToString();
@@ -64,25 +49,11 @@ namespace SeeloewenCraft
 
         private void LoadSettings()
         {
-            //Check and load the auto stepup setting
-            if (Properties.Settings.Default.enableAutoStepup == true)
-            {
-                cbEnableAutoStepup.IsChecked = true;
-            }
-            else
-            {
-                cbEnableAutoStepup.IsChecked = false;
-            }
+            //Load the auto stepup setting
+            cbEnableAutoStepup.IsChecked = Properties.Settings.Default.enableAutoStepup;
 
-            //Check and load the save on world exit setting
-            if (Properties.Settings.Default.saveWorldOnClose == true)
-            {
-                cbSaveWorldWhenClosing.IsChecked = true;
-            }
-            else
-            {
-                cbSaveWorldWhenClosing.IsChecked = false;
-            }
+            //Load the save on world exit setting
+            cbSaveWorldWhenClosing.IsChecked = Properties.Settings.Default.saveWorldOnClose;
 
             //Load the texturepacks
             GetTexturepacks();
@@ -109,7 +80,7 @@ namespace SeeloewenCraft
                 //Check if the texturepack has a pack file and add it to the list
                 if (File.Exists($"{directory}/pack.txt"))
                 {
-                    cbxTexturepack.Items.Add(directory.Replace($"{wndMenu.texturepackDirectory}\\",""));
+                    cbxTexturepack.Items.Add(directory.Replace($"{wndMenu.texturepackDirectory}\\", ""));
                 }
             }
 
@@ -163,7 +134,7 @@ namespace SeeloewenCraft
                 wndMenu.selectedTexturepack = $"{wndMenu.texturepackDirectory}/{cbxTexturepack.SelectedItem}";
             }
 
-            if(wndMenu.wndGame != null)
+            if (wndMenu.wndGame != null)
             {
                 if (wndMenu.wndGame.finishedLoading)
                 {
@@ -185,6 +156,18 @@ namespace SeeloewenCraft
             //Apply the texturepack
             ApplyTexturepack();
             MessageBox.Show("The texturepack was applied!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void btnAbout_Click(object sender, RoutedEventArgs e)
+        {
+            //Show the about window
+            wndAbout wndAbout = new wndAbout(wndMenu);
+            wndAbout.ShowDialog();
+        }
+
+        private void btnOpenLog_Click(object sender, RoutedEventArgs e)
+        {
+            wndMenu.log.Show();
         }
     }
 }

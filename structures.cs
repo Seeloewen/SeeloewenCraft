@@ -19,10 +19,11 @@ namespace SeeloewenCraft
 {
     public class Structure
     {
+        static int o = 0;
         public List<StructureComponent> structureComponents = new List<StructureComponent>();
         public List<StructureComponent> cutOffComponents = new List<StructureComponent>();
         public List<Block> blockList = new List<Block>();
-        public Random rnd = new Random(DateTime.Now.Millisecond);
+        public Random rnd;
         public Chunk chunk;
         wndGame wndGame;
         public string direction = "";
@@ -43,6 +44,8 @@ namespace SeeloewenCraft
             this.chunk = chunk;
             this.wndGame = wndGame;
             this.canFloat = canFloat;
+            rnd = new Random(DateTime.Now.Millisecond + o);
+            o++;
         }
 
         //-- Custom Methods --//
