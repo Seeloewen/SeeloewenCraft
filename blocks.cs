@@ -297,7 +297,7 @@ namespace SeeloewenCraft
                         {
                             //Remove the non-solid block that is currently there and add the new selected block
                             chunk.blockList.Remove(this);
-                            chunk.blockList.Add(slot.slot.items[slot.slot.items.Count - 1].block);
+                            chunk.blockList.Add(slot.slot.items[slot.slot.items.Count - 1].block, xPos, yPos);
                             slot.slot.items[slot.slot.items.Count - 1].block.xPos = xPos;
                             slot.slot.items[slot.slot.items.Count - 1].block.yPos = yPos;
                             slot.slot.items[slot.slot.items.Count - 1].block.chunk = chunk;

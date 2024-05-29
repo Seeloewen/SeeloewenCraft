@@ -22,6 +22,13 @@ namespace SeeloewenCraft
             blocks[i] = block;
         }
 
+        public void Add(Block block, int x, int y)
+        {
+            //Add the block to the index based on x and y pos
+            int i = calcIndex(x, y);
+            blocks[i] = block;
+        }
+
         public Block Get(int x, int y)
         {
             //Get the block at the index based on x and y pos

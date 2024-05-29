@@ -66,6 +66,7 @@ namespace SeeloewenCraft
             this.wndMenu = wndMenu;
             this.log = log;
             images = new Images(this);
+            worldDirectory = $"{wndMenu.worldDirectory}\\{worldName}";
 
             if (!isNew && GetWorldVersion(worldName) < worldVersion)
             {
@@ -116,11 +117,11 @@ namespace SeeloewenCraft
         public int GetWorldVersion(string worldName)
         {
             //Check if the world settings file exists
-            if (File.Exists($"{worldDirectory}/settings.txt")) 
+            if (File.Exists($"{worldDirectory}\\settings.txt")) 
             {
                 try
                 {
-                    string[] fileContent = File.ReadAllLines($"{worldDirectory}/settings.txt");
+                    string[] fileContent = File.ReadAllLines($"{worldDirectory}\\settings.txt");
                     int worldVersion = Convert.ToInt32(fileContent[1].Replace("worldVersion=", ""));
                     log.Write($"Read world version {fileContent[1].Replace("worldVersion=", "")} from settings file", "Info");
                     return worldVersion;
@@ -133,7 +134,7 @@ namespace SeeloewenCraft
             }
             else
             {
-                log.Write("Could not read world version from settings file because the settings file does not exist", "Error");
+                log.Write("Could not read world version from settings file because the settings file was not found", "Error");
                 return 0;
             }
         }
@@ -226,10 +227,10 @@ namespace SeeloewenCraft
             log.Write($"Loading of world {worldName} completed!", "Info");
         }
 
-        public void CreatePlayer(bool isNew, double playerPosX, double playerPosY)
+        public void CreatePlayer(bool isLoaded, double playerPosX, double playerPosY)
         {
 
-            if (isNew)
+            if (!isLoaded)
             {
                 //Calculate y position where the player starts
                 int yPos = 0;
