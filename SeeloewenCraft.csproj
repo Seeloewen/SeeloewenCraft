@@ -64,6 +64,7 @@
     </ApplicationDefinition>
     <Compile Include="blockContainer.cs" />
     <Compile Include="blockContainerList.cs" />
+    <Compile Include="blockList.cs" />
     <Compile Include="blocks.cs" />
     <Compile Include="caveGeneration.cs" />
     <Compile Include="frmLog.cs">
