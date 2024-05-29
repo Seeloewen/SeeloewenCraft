@@ -100,7 +100,7 @@ namespace SeeloewenCraft
             }
             foreach (Chunk chunk in chunkList)
             {
-                foreach (Block block in chunk.blockList)
+                foreach (Block block in chunk.blockList.blocks)
                 {
                     block.SetTexture();
                     block.blockContainer.cvsBlock.Background = block.image;
@@ -210,7 +210,7 @@ namespace SeeloewenCraft
                 //Calculate y position where the player starts
                 //WIP
                 int yPos = 0;
-                foreach (Block block in chunkList[2].blockList)
+                foreach (Block block in chunkList[2].blockList.blocks)
                 {
                     if (block.xPos == 5 && block is GrassBlock)
                     {
@@ -782,7 +782,7 @@ namespace SeeloewenCraft
         {
 
             int newSlot;
-            if (e.Delta > 0)
+            if (e.Delta < 0)
             {
                 newSlot = (player.inventory.GetSelectedIndex() + 1) % 9;
             }

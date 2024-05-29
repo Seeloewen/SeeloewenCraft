@@ -110,9 +110,9 @@ namespace SeeloewenCraft
             //iterate over every solid block
             foreach (Chunk chunk in getCurrentChunks())
             {
-                foreach (Block block in chunk.blockList)
+                foreach (Block block in chunk.blockList.blocks)
                 {
-                    if (!block.isSolid) continue;
+                    if (block == null || !block.isSolid) continue;
 
                     Point blockOriginPoint = new Point(1, 1);
                     //try
