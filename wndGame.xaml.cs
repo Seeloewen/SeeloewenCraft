@@ -782,7 +782,7 @@ namespace SeeloewenCraft
         {
 
             int newSlot;
-            if (e.Delta > 0)
+            if (e.Delta < 0)
             {
                 newSlot = (player.inventory.GetSelectedIndex() + 1) % 9;
             }
