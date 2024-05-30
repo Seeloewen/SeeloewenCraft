@@ -140,7 +140,7 @@ namespace SeeloewenCraft
                 GenerateTerrain();
                 GenerateTrees();
                 GenerateOres();
-                GenerateCaves();
+                if(Properties.Settings.Default.enableCaveGeneration) GenerateCaves();
                 ContinueStructureGeneration();
 
                 //Go through each block and add it to the chunk

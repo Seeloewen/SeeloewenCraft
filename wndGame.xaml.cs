@@ -220,7 +220,7 @@ namespace SeeloewenCraft
             else
             {
                 //Give the player a hammer -- !! Only temporary until Crafting is implemented !!
-                player.inventory.AddItem(new HammerItem(this, 0, null));
+                if(Properties.Settings.Default.enableHammer) player.inventory.AddItem(new HammerItem(this, 0, null));
             }
 
             finishedLoading = true;

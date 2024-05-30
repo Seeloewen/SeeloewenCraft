@@ -58,5 +58,29 @@ namespace SeeloewenCraft.Properties {
                 this["saveLogOnExit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool enableHammer {
+            get {
+                return ((bool)(this["enableHammer"]));
+            }
+            set {
+                this["enableHammer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool enableCaveGeneration {
+            get {
+                return ((bool)(this["enableCaveGeneration"]));
+            }
+            set {
+                this["enableCaveGeneration"] = value;
+            }
+        }
     }
 }

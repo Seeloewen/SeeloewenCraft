@@ -42,6 +42,14 @@ namespace SeeloewenCraft
             Properties.Settings.Default.saveWorldOnClose = Convert.ToBoolean(cbSaveWorldWhenClosing.IsChecked);
             wndMenu.log.Write($"Saved setting saveWorldOnClose as {Properties.Settings.Default.saveWorldOnClose}", "Info");
 
+            //Save the enable hammer exit settings
+            Properties.Settings.Default.enableHammer = Convert.ToBoolean(cbEnableHammer.IsChecked);
+            wndMenu.log.Write($"Saved setting enableHammer as {Properties.Settings.Default.enableHammer}", "Info");
+
+            //Save the enable cave generation exit settings
+            Properties.Settings.Default.enableCaveGeneration = Convert.ToBoolean(cbEnableCaveGeneration.IsChecked);
+            wndMenu.log.Write($"Saved setting enableCaveGeneration as {Properties.Settings.Default.enableCaveGeneration}", "Info");
+
             //Save the selected texturepack
             Properties.Settings.Default.texturepack = cbxTexturepack.SelectedItem.ToString();
             wndMenu.log.Write($"Saved setting texturepack as {Properties.Settings.Default.texturepack}", "Info");
@@ -57,6 +65,12 @@ namespace SeeloewenCraft
 
             //Load the save on world exit setting
             cbSaveWorldWhenClosing.IsChecked = Properties.Settings.Default.saveWorldOnClose;
+
+            //Load the enable hammer setting
+            cbEnableHammer.IsChecked = Properties.Settings.Default.enableHammer;
+
+            //Load the enable cave generation exit setting
+            cbEnableCaveGeneration.IsChecked = Properties.Settings.Default.enableCaveGeneration;
 
             //Load the texturepacks
             GetTexturepacks();
