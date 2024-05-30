@@ -49,6 +49,7 @@ namespace SeeloewenCraft
             {
                 block.HideBlockInfo();
             }
+            wndGame.log.Write("Block info is now hidden!", "Info");
         }
 
         public void ShowBlockInfo()
@@ -57,6 +58,7 @@ namespace SeeloewenCraft
             {
                 block.ShowBlockInfo();
             }
+            wndGame.log.Write("Block info is now shown!", "Info");
         }
 
         public void Save()

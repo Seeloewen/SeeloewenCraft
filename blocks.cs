@@ -131,7 +131,6 @@ namespace SeeloewenCraft
 
             //Show block info
             blockContainer.cvsBlock.Children.Add(new TextBlock { Text = string.Format("x: {0} y:{1}\n{2}\n{3}", xPos, yPos, GetType().ToString().Replace("SeeloewenCraft.", "").Replace("Block", ""), chunk.index), Tag = "BlockInfo" });
-            wndGame.log.Write("Block info is now shown!", "Info");
         }
 
         public void HideBlockInfo()
@@ -155,7 +154,6 @@ namespace SeeloewenCraft
             {
                 blockContainer.cvsBlock.Children.Remove(uiElement);
             }
-            wndGame.log.Write("Block info is now hidden!", "Info");
         }
 
         public void MoveToBackground()
