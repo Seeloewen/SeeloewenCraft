@@ -50,6 +50,10 @@ namespace SeeloewenCraft
             Properties.Settings.Default.enableCaveGeneration = Convert.ToBoolean(cbEnableCaveGeneration.IsChecked);
             wndMenu.log.Write($"Saved setting enableCaveGeneration as {Properties.Settings.Default.enableCaveGeneration}", "Info");
 
+            //Save the enable lighting settings
+            Properties.Settings.Default.enableLighting = Convert.ToBoolean(cbEnableLighting.IsChecked);
+            wndMenu.log.Write($"Saved setting enableLighting as {Properties.Settings.Default.enableLighting}", "Info");
+
             //Save the selected texturepack
             Properties.Settings.Default.texturepack = cbxTexturepack.SelectedItem.ToString();
             wndMenu.log.Write($"Saved setting texturepack as {Properties.Settings.Default.texturepack}", "Info");
@@ -68,6 +72,9 @@ namespace SeeloewenCraft
 
             //Load the enable hammer setting
             cbEnableHammer.IsChecked = Properties.Settings.Default.enableHammer;
+
+            //Load the enable lighting setting
+            cbEnableLighting.IsChecked = Properties.Settings.Default.enableLighting;
 
             //Load the enable cave generation exit setting
             cbEnableCaveGeneration.IsChecked = Properties.Settings.Default.enableCaveGeneration;

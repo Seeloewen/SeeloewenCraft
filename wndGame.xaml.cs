@@ -207,11 +207,6 @@ namespace SeeloewenCraft
             inventoryList.Add(player.inventory);
             player.inventory.hotbarSlotList[0].SelectSlot();
 
-            //Start the main timer
-            tmrMovement.Interval = 16;
-            tmrMovement.Tick += tmrMovement_Tick;
-            tmrMovement.Start();
-
             //Load the player inventory if the world is not new
             if (!isNew)
             {
@@ -225,6 +220,11 @@ namespace SeeloewenCraft
 
             finishedLoading = true;
             log.Write($"Loading of world {worldName} completed!", "Info");
+
+            //Start the main timer
+            tmrMovement.Interval = 16;
+            tmrMovement.Tick += tmrMovement_Tick;
+            tmrMovement.Start();
         }
 
         public void CreatePlayer(bool isLoaded, double playerPosX, double playerPosY)

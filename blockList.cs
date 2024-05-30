@@ -36,6 +36,13 @@ namespace SeeloewenCraft
             return blocks[i];
         }
 
+        public Block Get(Block block)
+        {
+            //Get the block at the index based on x and y pos
+            int i = calcIndex(block.xPos, block.yPos);
+            return blocks[i];
+        }
+
         public void Remove(int x, int y) {
             //Remove the block at the index based on x and y pos
             int i = calcIndex(x, y);

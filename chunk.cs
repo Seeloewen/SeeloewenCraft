@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
@@ -54,7 +55,7 @@ namespace SeeloewenCraft
 
         public void ShowBlockInfo()
         {
-            foreach(Block block in blockList.blocks)
+            foreach (Block block in blockList.blocks)
             {
                 block.ShowBlockInfo();
             }
@@ -142,7 +143,7 @@ namespace SeeloewenCraft
                 GenerateTerrain();
                 GenerateTrees();
                 GenerateOres();
-                if(Properties.Settings.Default.enableCaveGeneration) GenerateCaves();
+                if (Properties.Settings.Default.enableCaveGeneration) GenerateCaves();
                 ContinueStructureGeneration();
 
                 //Go through each block and add it to the chunk
@@ -272,6 +273,7 @@ namespace SeeloewenCraft
             blockList.Remove(x, y);
             blockList.Add(block);
         }
+
         public void LoadInventories()
         {
             //Go through each block

@@ -82,5 +82,17 @@ namespace SeeloewenCraft.Properties {
                 this["enableCaveGeneration"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool enableLighting {
+            get {
+                return ((bool)(this["enableLighting"]));
+            }
+            set {
+                this["enableLighting"] = value;
+            }
+        }
     }
 }
