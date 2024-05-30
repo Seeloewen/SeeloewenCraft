@@ -37,18 +37,6 @@ namespace SeeloewenCraft.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool enableAutoStepup {
-            get {
-                return ((bool)(this["enableAutoStepup"]));
-            }
-            set {
-                this["enableAutoStepup"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("default")]
         public string texturepack {
             get {
@@ -56,6 +44,54 @@ namespace SeeloewenCraft.Properties {
             }
             set {
                 this["texturepack"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool saveLogOnExit {
+            get {
+                return ((bool)(this["saveLogOnExit"]));
+            }
+            set {
+                this["saveLogOnExit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool enableHammer {
+            get {
+                return ((bool)(this["enableHammer"]));
+            }
+            set {
+                this["enableHammer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool enableCaveGeneration {
+            get {
+                return ((bool)(this["enableCaveGeneration"]));
+            }
+            set {
+                this["enableCaveGeneration"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool enableLighting {
+            get {
+                return ((bool)(this["enableLighting"]));
+            }
+            set {
+                this["enableLighting"] = value;
             }
         }
     }

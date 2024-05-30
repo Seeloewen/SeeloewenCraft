@@ -27,11 +27,12 @@ namespace SeeloewenCraft
     public partial class wndGame : Window
     {
         private System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
-        public List<Chunk> chunkList = new List<Chunk>();
+        public List<Chunk> currentChunkList = new List<Chunk>();
         public List<Inventory> inventoryList = new List<Inventory>();
         public Images images;
         public wndMenu wndMenu;
         public wndSettings wndSettings;
+        public Log log;
         private HashSet<Key> pressedKeys = new HashSet<Key>();
         public Player player;
         public Point mousePosition;
@@ -50,11 +51,12 @@ namespace SeeloewenCraft
         private bool returnToMenu = false;
         public List<BlockContainerList> blockContainerList = new List<BlockContainerList>();
         public bool showBlockInfo = false;
+        public List<Chunk> totalChunkList = new List<Chunk>();
 
 
         //-- Constructor --//
 
-        public wndGame(wndMenu wndMenu, string worldName, bool isNew, int worldVersion, string gameVersion)
+        public wndGame(wndMenu wndMenu, string worldName, bool isNew, int worldVersion, string gameVersion, Log log)
         {
             InitializeComponent();
 
@@ -63,7 +65,9 @@ namespace SeeloewenCraft
             this.worldVersion = worldVersion;
             this.gameVersion = gameVersion;
             this.wndMenu = wndMenu;
+            this.log = log;
             images = new Images(this);
+            worldDirectory = $"{wndMenu.worldDirectory}\\{worldName}";
 
             if (!isNew && GetWorldVersion(worldName) < worldVersion)
             {
@@ -72,6 +76,7 @@ namespace SeeloewenCraft
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+                        log.Write("You are loading an outdated world. This may cause issues or corruption.", "Info");
                         CreateGame(worldName, isNew);
                         break;
                 }
@@ -85,6 +90,23 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
+        public Chunk GetChunk(int index)
+        {
+            //Searches the total chunk list for the chunk with the specified index. If not found, create a new one
+            foreach (Chunk chunk in totalChunkList)
+            {
+                if (chunk.index == index)
+                {
+                    chunk.SetContainerList();
+                    chunk.RenderChunk();
+                    return chunk;
+                }
+            }
+
+            Chunk newChunk = new Chunk(this, index);
+            totalChunkList.Add(newChunk);
+            return newChunk;
+        }
         public void RefreshTextures()
         {
             images = new Images(this);
@@ -98,7 +120,7 @@ namespace SeeloewenCraft
                     }
                 }
             }
-            foreach (Chunk chunk in chunkList)
+            foreach (Chunk chunk in currentChunkList)
             {
                 foreach (Block block in chunk.blockList.blocks)
                 {
@@ -106,25 +128,33 @@ namespace SeeloewenCraft
                     block.blockContainer.cvsBlock.Background = block.image;
                 }
             }
+
+            log.Write("Refreshing Textures for items and blocks!", "Info");
         }
 
         public int GetWorldVersion(string worldName)
         {
             //Check if the world settings file exists
-            if (File.Exists(string.Format("{0}/SeeloewenCraft/worlds/{1}/settings.txt", appData, worldName)))
+            if (File.Exists($"{worldDirectory}\\settings.txt"))
             {
                 try
                 {
-                    string[] fileContent = File.ReadAllLines(string.Format("{0}/SeeloewenCraft/worlds/{1}/settings.txt", appData, worldName));
+                    string[] fileContent = File.ReadAllLines($"{worldDirectory}\\settings.txt");
                     int worldVersion = Convert.ToInt32(fileContent[1].Replace("worldVersion=", ""));
+                    log.Write($"Read world version {fileContent[1].Replace("worldVersion=", "")} from settings file", "Info");
                     return worldVersion;
                 }
-                catch
+                catch (Exception ex)
                 {
-                    Console.WriteLine("[Error] Could not read worldVersion from settings file.");
+                    log.Write($"Could not read world version from settings file: {ex.Message}", "Error");
+                    return 0;
                 }
             }
-            return 0;
+            else
+            {
+                log.Write("Could not read world version from settings file because the settings file was not found", "Error");
+                return 0;
+            }
         }
 
         public void GenerateBlockContainer()
@@ -137,28 +167,35 @@ namespace SeeloewenCraft
 
         public void CreateGame(string worldName, bool isNew)
         {
+            log.Write($"Beginning to load game for world {worldName}", "Info");
+
             //Check if the world directory exists and create it otherwise
-            if (!Directory.Exists(string.Format("{0}/SeeloewenCraft/worlds/{1}", appData, worldName)))
+            if (!Directory.Exists($"{wndMenu.worldDirectory}\\{worldName}"))
             {
-                Directory.CreateDirectory(string.Format("{0}/SeeloewenCraft/worlds/{1}", appData, worldName));
+                Directory.CreateDirectory($"{wndMenu.worldDirectory}\\{worldName}");
+                log.Write($"Created directory for world {worldName}: {wndMenu.worldDirectory}\\{worldName}", "Info");
             }
-            worldDirectory = string.Format("{0}/SeeloewenCraft/worlds/{1}", appData, worldName);
+            worldDirectory = $"{wndMenu.worldDirectory}\\{worldName}";
+            log.Write($"Set directory for world {worldName} to {worldDirectory}", "Info");
 
             //Check if the world settings file exists and create it otherwise
-            if (!File.Exists($"{worldDirectory}/settings.txt"))
+            if (!File.Exists($"{worldDirectory}\\settings.txt"))
             {
                 List<string> worldSettings = new List<string>
                 {
                     $"#SeeloewenCraft World Settings",
                     $"worldVersion={worldVersion}"
                 };
-                File.WriteAllLines($"{worldDirectory}/settings.txt", worldSettings);
+                File.WriteAllLines($"{worldDirectory}\\settings.txt", worldSettings);
+                log.Write($"Created settings file for world {worldName}: {worldDirectory}\\settings.txt", "Info");
             }
 
+            //Check if the player position exists
             bool loadedPlayerPosExists = File.Exists($"{worldDirectory}/playerPosition.txt");
             double playerPosX = 0;
             double playerPosY = 0;
 
+            //Load the player position if possible
             if (loadedPlayerPosExists)
             {
                 string[] coords = File.ReadAllLines($"{worldDirectory}/playerPosition.txt");
@@ -166,13 +203,18 @@ namespace SeeloewenCraft
                 {
                     playerPosX = Double.Parse(coords[0]);
                     playerPosY = Double.Parse(coords[1]);
+                    log.Write($"Read player position from file: x{playerPosX} y{playerPosY}", "Info");
                 }
-                catch
+                catch (Exception ex)
                 {
                     loadedPlayerPosExists = false;
-                    Console.WriteLine("player coords file incorrect format(use log for this)");
+                    log.Write($"Could not read player position from file: {ex.Message}", "Error");
                 }
 
+            }
+            else
+            {
+                log.Write("Player position file does not exist, skipping...", "Info");
             }
 
             //Create the game components
@@ -183,11 +225,6 @@ namespace SeeloewenCraft
             inventoryList.Add(player.inventory);
             player.inventory.hotbarSlotList[0].SelectSlot();
 
-            //Start the main timer
-            tmrMovement.Interval = 16;
-            tmrMovement.Tick += tmrMovement_Tick;
-            tmrMovement.Start();
-
             //Load the player inventory if the world is not new
             if (!isNew)
             {
@@ -196,10 +233,16 @@ namespace SeeloewenCraft
             else
             {
                 //Give the player a hammer -- !! Only temporary until Crafting is implemented !!
-                player.inventory.AddItem(new HammerItem(this, 0, null));
+                if (Properties.Settings.Default.enableHammer) player.inventory.AddItem(new HammerItem(this, 0, null));
             }
 
             finishedLoading = true;
+            log.Write($"Loading of world {worldName} completed!", "Info");
+
+            //Start the main timer
+            tmrMovement.Interval = 16;
+            tmrMovement.Tick += tmrMovement_Tick;
+            tmrMovement.Start();
         }
 
         public void CreatePlayer(bool isLoaded, double playerPosX, double playerPosY)
@@ -208,25 +251,24 @@ namespace SeeloewenCraft
             if (!isLoaded)
             {
                 //Calculate y position where the player starts
-                //WIP
                 int yPos = 0;
-                foreach (Block block in chunkList[2].blockList.blocks)
+                foreach (Block block in currentChunkList[2].blockList.blocks)
                 {
                     if (block.xPos == 5 && block is GrassBlock)
                     {
-                        yPos = block.yPos * 50 - 150;
                         yPos = (block.yPos - 3) * 50;
                     }
                 }
 
                 //Create the player and add it to the world canvas
                 player = new Player(this, 602, yPos + 5);
-
+                log.Write("Generated player at start position", "Info");
             }
             else
             {
                 player = new Player(this, 602, (int)(playerPosY * 50) - 50);
                 player.MoveHorizontal((int)Math.Round((playerPosX % 8.0) * 50) - 252);
+                log.Write("Generated player at loaded position", "Info");
             }
             cvsWorld.Children.Add(player.cvsPlayer);
             Panel.SetZIndex(player.cvsPlayer, 1);
@@ -236,39 +278,37 @@ namespace SeeloewenCraft
 
         private void GenerateChunks(int j)
         {
-
+            //Load or generate the chunks
             int c = 0;
             for (int i = Math.Max(j, 0); i < Math.Max(j + 5, 0); i++)
             {
-                chunkList.Add(new Chunk(this, i));
+                
+                currentChunkList.Add(GetChunk(i));
                 c++;
             }
 
-            int temp = Math.Min(j + 4, -1);
-            int temp2 = c + Math.Min(j, -5);
-            for (int i = temp; i >= temp2; i--)
+            for (int i = Math.Min(j + 4, -1); i >= c + Math.Min(j, -5); i--)
             {
-                chunkList.Add(new Chunk(this, i));
+                currentChunkList.Add(GetChunk(i));
             }
 
-
-
-            cvsWorld.Children.Add(GetChunk(j).grdChunk);
-            Canvas.SetLeft(GetChunk(j).grdChunk, -400);
-            cvsWorld.Children.Add(GetChunk(j + 1).grdChunk);
-            Canvas.SetLeft(GetChunk(j + 1).grdChunk, 0);
-            cvsWorld.Children.Add(GetChunk(j + 2).grdChunk);
-            Canvas.SetLeft(GetChunk(j + 2).grdChunk, 400);
-            cvsWorld.Children.Add(GetChunk(j + 3).grdChunk);
-            Canvas.SetLeft(GetChunk(j + 3).grdChunk, 800);
-            cvsWorld.Children.Add(GetChunk(j + 4).grdChunk);
-            Canvas.SetLeft(GetChunk(j + 4).grdChunk, 1200);
+            //Add the chunks to the game
+            cvsWorld.Children.Add(GetFromCurrentChunks(j).grdChunk);
+            Canvas.SetLeft(GetFromCurrentChunks(j).grdChunk, -400);
+            cvsWorld.Children.Add(GetFromCurrentChunks(j + 1).grdChunk);
+            Canvas.SetLeft(GetFromCurrentChunks(j + 1).grdChunk, 0);
+            cvsWorld.Children.Add(GetFromCurrentChunks(j + 2).grdChunk);
+            Canvas.SetLeft(GetFromCurrentChunks(j + 2).grdChunk, 400);
+            cvsWorld.Children.Add(GetFromCurrentChunks(j + 3).grdChunk);
+            Canvas.SetLeft(GetFromCurrentChunks(j + 3).grdChunk, 800);
+            cvsWorld.Children.Add(GetFromCurrentChunks(j + 4).grdChunk);
+            Canvas.SetLeft(GetFromCurrentChunks(j + 4).grdChunk, 1200);
         }
 
-        public Chunk GetChunk(int index)
+        public Chunk GetFromCurrentChunks(int index)
         {
             //Returns a chunk from the list based on the given index
-            foreach (Chunk chunk in chunkList)
+            foreach (Chunk chunk in currentChunkList)
             {
                 if (chunk.index == index)
                 {
@@ -429,8 +469,9 @@ namespace SeeloewenCraft
                 Rect adjustedCanvasRect = new Rect(canvasPosition.X, canvasPosition.Y, canvasHitbox.Width, canvasHitbox.Height);
                 return adjustedCanvasRect;
             }
-            catch
+            catch (Exception ex)
             {
+                log.Write($"Could not get rectangle for canvas {canvas.Uid}: {ex.Message}", "Warning");
                 return new Rect(1, 1, 1, 1);
             }
         }
@@ -452,8 +493,9 @@ namespace SeeloewenCraft
                 Rect adjustedBorderRect = new Rect(borderPosition.X, borderPosition.Y, borderHitbox.Width, borderHitbox.Height);
                 return adjustedBorderRect;
             }
-            catch
+            catch (Exception ex)
             {
+                log.Write($"Could not get rectangle for border {border.Uid}: {ex.Message}", "Warning");
                 return new Rect(1, 1, 1, 1);
             }
         }
@@ -477,8 +519,9 @@ namespace SeeloewenCraft
                 return adjustedGridRect;
 
             }
-            catch
+            catch (Exception ex)
             {
+                log.Write($"Could not get rectangle for grid {grid.Uid}: {ex.Message}", "Warning");
                 return new Rect(1, 1, 1, 1);
             }
         }
@@ -496,24 +539,24 @@ namespace SeeloewenCraft
             //Development control, not meant for normal use
 
             //Move all chunks 50 to the right
-            foreach (Chunk chunk in chunkList)
+            foreach (Chunk chunk in currentChunkList)
             {
                 Canvas.SetLeft(chunk.grdChunk, Canvas.GetLeft(chunk.grdChunk) + 50);
             }
 
             //Sort the chunklist to account for the chunk movement
-            chunkList = chunkList.OrderBy(chunk => Canvas.GetLeft(chunk.grdChunk)).ToList();
+            currentChunkList = currentChunkList.OrderBy(chunk => Canvas.GetLeft(chunk.grdChunk)).ToList();
 
             //Check if the chunk has moved too far and move the chunk on the far right all the way to the left
-            if (Canvas.GetLeft(chunkList[2].grdChunk) == 800)
+            if (Canvas.GetLeft(currentChunkList[2].grdChunk) == 800)
             {
-                chunkList.Remove(GetChunk(chunkList[4].index));
-                chunkList.Add(new Chunk(this, chunkList[0].index - 1));
-                cvsWorld.Children.Add(chunkList[4].grdChunk);
-                Canvas.SetLeft(chunkList[4].grdChunk, -400);
+                currentChunkList.Remove(GetFromCurrentChunks(currentChunkList[4].index));
+                currentChunkList.Add(new Chunk(this, currentChunkList[0].index - 1));
+                cvsWorld.Children.Add(currentChunkList[4].grdChunk);
+                Canvas.SetLeft(currentChunkList[4].grdChunk, -400);
 
                 //Sort chunklist again
-                chunkList = chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+                currentChunkList = currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
             }
 
 
@@ -524,24 +567,24 @@ namespace SeeloewenCraft
             //Development control, not meant for normal use
 
             //Move all chunks 50 to the left
-            foreach (Chunk chunk in chunkList)
+            foreach (Chunk chunk in currentChunkList)
             {
                 Canvas.SetLeft(chunk.grdChunk, Canvas.GetLeft(chunk.grdChunk) - 50);
             }
 
             //Sort the chunklist to account for the chunk movement
-            chunkList = chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+            currentChunkList = currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
 
             //Check if the chunk has moved too far and move the chunk on the far left all the way to the right
-            if (Canvas.GetLeft(chunkList[2].grdChunk) == 0)
+            if (Canvas.GetLeft(currentChunkList[2].grdChunk) == 0)
             {
-                chunkList.Remove(GetChunk(chunkList[0].index));
-                chunkList.Add(new Chunk(this, chunkList[3].index + 1));
-                cvsGame.Children.Add(chunkList[4].grdChunk);
-                Canvas.SetLeft(chunkList[4].grdChunk, 1200);
+                currentChunkList.Remove(GetFromCurrentChunks(currentChunkList[0].index));
+                currentChunkList.Add(new Chunk(this, currentChunkList[3].index + 1));
+                cvsGame.Children.Add(currentChunkList[4].grdChunk);
+                Canvas.SetLeft(currentChunkList[4].grdChunk, 1200);
 
                 //Sort chunklist again
-                chunkList = chunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+                currentChunkList = currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
             }
 
         }
@@ -561,9 +604,9 @@ namespace SeeloewenCraft
             {
                 //Display block info (position, name, etc.) for each block that is currently rendered
                 //WIP - Needs to also show block info on new chunks
-                foreach (Chunk chunk in chunkList)
+                foreach (Chunk chunk in currentChunkList)
                 {
-                    chunk.showBlockInfo();
+                    chunk.ShowBlockInfo();
                 }
                 MessageBox.Show("Block info is now shown.", "/showblockinfo");
                 showBlockInfo = true;
@@ -572,9 +615,9 @@ namespace SeeloewenCraft
             {
                 //Hide block info for each block that is currently rendered
                 //WIP - Needs to also hide block info on new chunks
-                foreach (Chunk chunk in chunkList)
+                foreach (Chunk chunk in currentChunkList)
                 {
-                    chunk.hideBlockInfo();
+                    chunk.HideBlockInfo();
 
                 }
                 MessageBox.Show("Block info is now hidden.", "/hideblockinfo");
@@ -722,7 +765,7 @@ namespace SeeloewenCraft
                 if (Properties.Settings.Default.saveWorldOnClose == true)
                 {
                     //Save all chunks and the inventory of the player
-                    foreach (Chunk chunk in chunkList)
+                    foreach (Chunk chunk in currentChunkList)
                     {
                         chunk.Save();
                     }
@@ -759,7 +802,7 @@ namespace SeeloewenCraft
         private void btnSaveWorld_Click(object sender, RoutedEventArgs e)
         {
             //Save all chunks and the inventory of the player
-            foreach (Chunk chunk in chunkList)
+            foreach (Chunk chunk in totalChunkList)
             {
                 chunk.Save();
             }
@@ -780,7 +823,7 @@ namespace SeeloewenCraft
         //disables scrolling with the mouse wheel
         private void svWorld_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-
+            //Select the hotbar slots
             int newSlot;
             if (e.Delta < 0)
             {

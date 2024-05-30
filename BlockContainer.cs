@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
@@ -18,9 +19,11 @@ namespace SeeloewenCraft
         public Canvas cvsBlock = new Canvas();
         public Border bdrBlock = new Border();
         public Rectangle rectDarkOverlay = new Rectangle();
+        public Rectangle rectDarkOverlayLight = new Rectangle();
         public Block block;
         public int xPos;
         public int yPos;
+        public bool previousBlockWasLightSource;
 
         //-- Constructor --//
 
@@ -43,6 +46,14 @@ namespace SeeloewenCraft
             rectDarkOverlay.Opacity = 0.3;
             rectDarkOverlay.Visibility = System.Windows.Visibility.Hidden;
             cvsBlock.Children.Add(rectDarkOverlay);
+
+            //Setup the light Rectangle
+            rectDarkOverlayLight.Width = 50;
+            rectDarkOverlayLight.Height = 50;
+            rectDarkOverlayLight.Fill = new SolidColorBrush(Colors.Black);
+            rectDarkOverlayLight.Opacity = 0;
+            rectDarkOverlayLight.Visibility = System.Windows.Visibility.Visible;
+            cvsBlock.Children.Add(rectDarkOverlayLight);
         }
 
         //-- Custom Methods --//
@@ -56,12 +67,29 @@ namespace SeeloewenCraft
             }
 
             //Pass the new position to the block and make a reference
+            if (this.block != null)
+            {
+                previousBlockWasLightSource = this.block.isLightSource;
+            }
+
             this.block = block;
             this.block.xPos = xPos;
             this.block.yPos = yPos;
             this.block.SetContainer(this);
+
+            //Check if the block has a lightsource in range and set lightlevel
+            if (Properties.Settings.Default.enableLighting)
+            {
+                block.SetLightLevel(block.RangeToLightSource());
+                block.UpdateNearbyBlocks();
+                SetLightOpacity();
+            }
         }
 
+        public void SetLightOpacity()
+        {
+            rectDarkOverlayLight.Opacity = block.lightLevel;
+        }
         public void ShowDarkRectangle()
         {
             rectDarkOverlay.Visibility = System.Windows.Visibility.Visible;
@@ -82,6 +110,7 @@ namespace SeeloewenCraft
 
             wndGame.RemoveFromParent(bdrBlock);
             block = null;
+            previousBlockWasLightSource = false;
         }
 
         public void Clear()

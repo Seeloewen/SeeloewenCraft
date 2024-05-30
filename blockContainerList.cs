@@ -43,13 +43,14 @@ namespace SeeloewenCraft
                     return container;
                 }
             }
+            wndGame.log.Write($"Could not get container for position x{x} y{y}", "Warning");
             return null;
         }
 
         public bool IsAvailable()
         {
             //Check if a chunk with the index of this list is currently loaded (which means it's not available)
-            if (wndGame.GetChunk(chunkIndex) == null)
+            if (wndGame.GetFromCurrentChunks(chunkIndex) == null)
             {
                 return true;
             }

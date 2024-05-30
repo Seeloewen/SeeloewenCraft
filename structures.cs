@@ -111,17 +111,12 @@ namespace SeeloewenCraft
 
         public void GenerateStructure()
         {
-            
-
-
             //Add all blocks from the structure to the blocklist
             foreach (Block block in blockList.blocks)
             {
                 if (block != null && block.xPos > 0 && block.xPos < 9 && block.yPos > 0 && block.yPos < 76)
                 {
-
                     //Compare each block in the structure list to the block that's already at that position; if it has a fixed solid state, don't replace it
-
                     if (canReplaceSolidBlocks)
                     {
                         chunk.blockList.Add(block);
@@ -133,7 +128,7 @@ namespace SeeloewenCraft
                     }
                     else
                     {
-                        if(chunk.blockList.Get(block.xPos, block.yPos).isBreakable)
+                        if (chunk.blockList.Get(block.xPos, block.yPos).isBreakable)
                         {
                             chunk.blockList.Add(block);
 
@@ -143,12 +138,9 @@ namespace SeeloewenCraft
                             }
                         }
                     }
-
-
-
-
                 }
             }
+            wndGame.log.Write($"Generated structure {GetType()} at x{xBase} y{yBase} with width {totalWidth}, direction {direction}, isCutOff = {isCutOff}, widthRemaining = {widthRemaining}", "Info");
 
         }
 
@@ -184,17 +176,20 @@ namespace SeeloewenCraft
 
         public void BeginGeneration(int x, int y, int index, bool isNew)
         {
+            wndGame.log.Write($"Beginning to generate structure {GetType()} at x{xBase} y{yBase}", "Info");
             if (y != 0) //The game somehow tries to generate structures on y0 at some points. This is to prevent that. An actual fix may follow later.
             {
                 this.isNew = isNew;
                 //Check which direction it's going to be built in
                 if (index > 0)
                 {
+                    wndGame.log.Write("Determined structure generation direction 'right'", "Info");
                     SetupStructure(x, y, "right");
                     GenerateStructure();
                 }
                 else if (index < 0)
                 {
+                    wndGame.log.Write("Determined structure generation direction 'left'", "Info");
                     SetupStructure(x, y, "left");
                     GenerateStructure();
                 }
@@ -208,6 +203,7 @@ namespace SeeloewenCraft
             {
                 if (xBase - totalWidth < 0)
                 {
+                    wndGame.log.Write("Detected cutoff in structure generation!", "Info");
                     return true;
                 }
                 else
@@ -219,6 +215,7 @@ namespace SeeloewenCraft
             {
                 if (xBase + totalWidth > 9)
                 {
+                    wndGame.log.Write("Detected cutoff in structure generation!", "Info");
                     return true;
                 }
                 else

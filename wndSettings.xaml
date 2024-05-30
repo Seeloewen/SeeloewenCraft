@@ -5,19 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SeeloewenCraft"
         mc:Ignorable="d"
-        Title="Settings" Height="394" Width="508" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Settings" Height="440" Width="508" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="Resources/Background.png" TileMode="Tile" Stretch="None"/>
         </Grid.Background>
         <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Settings" VerticalAlignment="Top" FontSize="28" FontWeight="DemiBold"/>
-        <CheckBox x:Name="cbEnableAutoStepup" Content="Enable Auto Stepup - Coming soon" HorizontalAlignment="Left" Margin="11,86,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.364,0.246" IsEnabled="False" FontSize="18" Padding="4,-5,0,0"/>
-        <CheckBox x:Name="cbSaveWorldWhenClosing" Content="Save world when closing the game" HorizontalAlignment="Left" Margin="11,62,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.364,0.246" IsChecked="True" FontSize="18" Padding="4,-5,0,0"/>
-        <Button x:Name="btnSaveClose" Content="Save" HorizontalAlignment="Left" Margin="361,320,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.337,0.169" Height="29" Width="115" FontSize="16" Click="btnSaveClose_Click"/>
-        <ComboBox x:Name="cbxTexturepack" HorizontalAlignment="Left" Margin="10,149,0,0" VerticalAlignment="Top" Width="367"/>
-        <Button x:Name="btnApplyTexturepack" Content="Apply" HorizontalAlignment="Left" Margin="383,149,0,0" VerticalAlignment="Top" Height="22" Width="93" Click="btnApplyTexturepack_Click"/>
-        <TextBlock x:Name="tblTexturepack" HorizontalAlignment="Left" Margin="11,122,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.285,0.455" FontSize="18" Width="127"><Run Text="Texturepa"/><Run Language="de-de" Text="ck:"/><LineBreak/><Run Language="de-de"/></TextBlock>
-        <Button x:Name="btnAbout" Content="About" HorizontalAlignment="Left" Margin="10,320,0,0" VerticalAlignment="Top" Height="29" Width="115" FontSize="16" Click="btnAbout_Click"/>
-        <Button x:Name="btnOpenLog" Content="Open Log" HorizontalAlignment="Left" Margin="184,320,0,0" VerticalAlignment="Top" Width="115" FontSize="16" Height="29" Click="btnOpenLog_Click"/>
+        <CheckBox x:Name="cbSaveWorldWhenClosing" Content="Save world when closing the game" HorizontalAlignment="Left" Margin="11,78,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.364,0.246" IsChecked="True" FontSize="18" Padding="4,-5,0,0"/>
+        <Button x:Name="btnSaveClose" Content="Save" HorizontalAlignment="Left" Margin="368,366,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.337,0.169" Height="29" Width="115" FontSize="16" Click="btnSaveClose_Click"/>
+        <ComboBox x:Name="cbxTexturepack" HorizontalAlignment="Left" Margin="10,168,0,0" VerticalAlignment="Top" Width="367"/>
+        <Button x:Name="btnApplyTexturepack" Content="Apply" HorizontalAlignment="Left" Margin="383,168,0,0" VerticalAlignment="Top" Height="22" Width="93" Click="btnApplyTexturepack_Click"/>
+        <TextBlock x:Name="tblTexturepack" HorizontalAlignment="Left" Margin="11,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.285,0.455" FontSize="18" Width="127" Height="27"><Run Text="Texturepa"/><Run Language="de-de" Text="ck:"/><LineBreak/><Run Language="de-de"/></TextBlock>
+        <Button x:Name="btnAbout" Content="About" HorizontalAlignment="Left" Margin="17,366,0,0" VerticalAlignment="Top" Height="29" Width="115" FontSize="16" Click="btnAbout_Click"/>
+        <Button x:Name="btnOpenLog" Content="Open Log" HorizontalAlignment="Left" Margin="191,366,0,0" VerticalAlignment="Top" Width="115" FontSize="16" Height="29" Click="btnOpenLog_Click"/>
+        <CheckBox x:Name="cbSaveLogOnExit" Content="Save log when exiting the game" HorizontalAlignment="Left" Margin="11,102,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True"/>
+        <TextBlock x:Name="tblGeneral" HorizontalAlignment="Left" Margin="11,51,0,0" TextWrapping="Wrap" Text="General:" VerticalAlignment="Top" RenderTransformOrigin="0.069,-0.042" FontSize="18"/>
+        <TextBlock x:Name="tblExperimentalFeatures" HorizontalAlignment="Left" Margin="11,216,0,0" TextWrapping="Wrap" Text="Experimental Features:" VerticalAlignment="Top" FontSize="18"/>
+        <CheckBox x:Name="cbEnableCaveGeneration" Content="Enable Cave Generation" HorizontalAlignment="Left" Margin="11,246,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True"/>
+        <CheckBox x:Name="cbEnableHammer" Content="Enable Hammer" HorizontalAlignment="Left" Margin="11,271,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True"/>
+        <CheckBox x:Name="cbEnableLighting" Content="Enable Lighting" HorizontalAlignment="Left" Margin="11,296,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True"/>
     </Grid>
 </Window>

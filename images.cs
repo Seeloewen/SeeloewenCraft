@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.IO;
+using System.Reflection;
 
 namespace SeeloewenCraft
 {
@@ -17,18 +18,22 @@ namespace SeeloewenCraft
         //-- Custom Methods --//
 
         public static string textureDirectory;
-        string wndGame;
+        wndGame wndGame;
 
         public Images(wndGame wndGame)
         {
+            this.wndGame = wndGame;
+
             //Check which texurepack is selected and set the directory based on that
             if (wndGame.wndMenu.selectedTexturepack == "default")
             {
                 textureDirectory = "pack://application:,,,/SeeloewenCraft;component/Resources";
+                wndGame.log.Write($"Set texture directory to pack://application:,,,/SeeloewenCraft;component/Resources (internal resources)", "Info");
             }
             else
             {
                 textureDirectory = wndGame.wndMenu.selectedTexturepack;
+                wndGame.log.Write($"Set texture directory to {wndGame.wndMenu.selectedTexturepack}", "Info");
             }
 
             //Actually load the resources

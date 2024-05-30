@@ -35,15 +35,15 @@ namespace SeeloewenCraft
         private void btnCreateWorld_Click(object sender, RoutedEventArgs e)
         {
             //Check if the world name isn't blank
-            if(string.IsNullOrEmpty(tbWorldName.Text) == false)
+            if(!string.IsNullOrEmpty(tbWorldName.Text))
             {
                 //Check if the world already exists
-                if(Directory.Exists(string.Format("{0}worlds/{1}", wndMenu.gameDirectory, tbWorldName.Text)) == false)
+                if(!Directory.Exists($"{wndMenu.worldDirectory}/{tbWorldName.Text}"))
                 {
                     //Create a new world
-                    wndMenu.wndGame = new wndGame(wndMenu, tbWorldName.Text, true, wndMenu.worldVersion, wndMenu.gameVersion);
+                    wndMenu.wndGame = new wndGame(wndMenu, tbWorldName.Text, true, wndMenu.worldVersion, wndMenu.gameVersion, wndMenu.log);
                     wndMenu.Hide();
-                    wndMenu.wndGame.ShowDialog();
+                    wndMenu.wndGame.Show();
                     Close();
                 }
                 else

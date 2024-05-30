@@ -9,6 +9,8 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Media.Converters;
+using System.Diagnostics.Eventing.Reader;
 
 namespace SeeloewenCraft
 {
@@ -28,6 +30,15 @@ namespace SeeloewenCraft
         public bool hasFixedSolidState = false;
         public bool isBreakable = true;
         public bool hasInventory = false;
+        public bool isLightSource = false;
+        public double lightLevel;
+        public List<Block> lightSourcesInRange1 = new List<Block>();
+        public List<Block> lightSourcesInRange2 = new List<Block>();
+        public List<Block> lightSourcesInRange3 = new List<Block>();
+        public List<Block> lightSourcesInRange4 = new List<Block>();
+        public List<Block> lightSourcesInRange5 = new List<Block>();
+        public List<Block> lightSourcesInRange6 = new List<Block>();
+        public int rangeToNearestLightSource = 100000;
 
         //-- Constructor --//
 
@@ -112,9 +123,9 @@ namespace SeeloewenCraft
             List<UIElement> removalList = new List<UIElement>();
 
             //Check for existing block info
-            foreach(UIElement uiElement in blockContainer.cvsBlock.Children)
+            foreach (UIElement uiElement in blockContainer.cvsBlock.Children)
             {
-                if(uiElement is TextBlock textBlock)
+                if (uiElement is TextBlock textBlock)
                 {
                     if (textBlock.Tag.ToString() == "BlockInfo")
                     {
@@ -130,7 +141,7 @@ namespace SeeloewenCraft
             }
 
             //Show block info
-            blockContainer.cvsBlock.Children.Add(new TextBlock { Text = string.Format("x: {0} y:{1}\n{2}\n{3}", xPos, yPos, GetType().ToString().Replace("SeeloewenCraft.", "").Replace("Block", ""), chunk.index), Tag = "BlockInfo" });
+            blockContainer.cvsBlock.Children.Add(new TextBlock { Text = string.Format("x: {0} y:{1}\n{2}\n{3},{4}", xPos, yPos, GetType().ToString().Replace("SeeloewenCraft.", "").Replace("Block", ""), chunk.index, lightLevel), Tag = "BlockInfo" });
         }
 
         public void HideBlockInfo()
@@ -224,6 +235,256 @@ namespace SeeloewenCraft
             return false;
         }
 
+        public List<Block> GetBlocksInRange()
+        {
+            List<Block> blocksInRange = new List<Block>();
+
+            //Gets all blocks above 
+            for (int yOffset = 0; yOffset < 6; yOffset++)
+            {
+                for (int xOffset = -yOffset; xOffset <= yOffset; xOffset++)
+                {
+                    blocksInRange.Add(GetBlock(xOffset, 6 - yOffset));
+                    blocksInRange.Add(GetBlock(xOffset, -6 + yOffset));
+                }
+            }
+
+            for (int xOffset = 1; xOffset < 7; xOffset++)
+            {
+                blocksInRange.Add(GetBlock(xOffset, 0));
+                blocksInRange.Add(GetBlock(-xOffset, 0));
+            }
+
+            return blocksInRange;
+        }
+
+        public int GetRangeToBlock(Block block)
+        {
+            int xDiff = block.xPos + block.chunk.index * 8 - xPos - chunk.index * 8;
+            return Math.Abs(xDiff) + Math.Abs(block.yPos - yPos);
+        }
+
+        public void AddToLightSourceList(Block block, int range)
+        {
+            switch (range)
+            {
+                case 1:
+                    block.lightSourcesInRange1.Add(block);
+                    break;
+                case 2:
+                    block.lightSourcesInRange2.Add(block);
+                    break;
+                case 3:
+                    block.lightSourcesInRange3.Add(block);
+                    break;
+                case 4:
+                    block.lightSourcesInRange4.Add(block);
+                    break;
+                case 5:
+                    block.lightSourcesInRange5.Add(block);
+                    break;
+                case 6:
+                    block.lightSourcesInRange6.Add(block);
+                    break;
+            }
+        }
+
+        public void UpdateNearbyBlocks()
+        {
+            List<Block> blocksInRange = GetBlocksInRange();
+
+            foreach (Block block in blocksInRange)
+            {
+                if (block != null)
+                {
+                    if (isLightSource)
+                    {
+                        int range = GetRangeToBlock(block);
+                        AddToLightSourceList(block, range);
+                        if (range < block.rangeToNearestLightSource)
+                        {
+                            block.rangeToNearestLightSource = range;
+                            block.SetLightLevel(range);
+
+                            if (block.blockContainer != null)
+                            {
+                                block.blockContainer.SetLightOpacity();
+                            }
+                        }
+                    }
+                    else if (!isLightSource)
+                    {
+                        int range = GetRangeToBlock(block);
+
+                        if(blockContainer.previousBlockWasLightSource)
+                        {
+                            block.rangeToNearestLightSource = block.RangeToLightSource();
+                            block.SetLightLevel(block.RangeToLightSource());
+                            block.blockContainer.SetLightOpacity();
+                        }
+                    }
+                }
+            }
+        }
+
+        public bool LightSourceExists(int range)
+        {
+            List<Block> lightSourceList = new List<Block>();
+
+            switch (range)
+            {
+                case 1:
+                    lightSourceList = lightSourcesInRange1;
+                    break;
+                case 2:
+                    lightSourceList = lightSourcesInRange2;
+                    break;
+                case 3:
+                    lightSourceList = lightSourcesInRange3;
+                    break;
+                case 4:
+                    lightSourceList = lightSourcesInRange4;
+                    break;
+                case 5:
+                    lightSourceList = lightSourcesInRange5;
+                    break;
+                case 6:
+                    lightSourceList = lightSourcesInRange6;
+                    break;
+            }
+
+            List<Block> removalList = new List<Block>();
+
+            foreach (Block block in lightSourceList)
+            {
+                if (block.chunk.blockList.Get(block).isLightSource)
+                {
+                    removalList.Add(block);
+                }
+            }
+
+            foreach (Block block in removalList)
+            {
+                lightSourceList.Remove(block);
+            }
+
+            if (lightSourceList.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public int RangeToLightSource()
+        {
+            List<Block> blocksInRange = GetBlocksInRange();
+
+            int minRange = 7;
+            foreach (Block block in blocksInRange)
+            {
+                if (block != null)
+                {
+                    if (block.isLightSource)
+                    {
+                        int range = GetRangeToBlock(block);
+                        SetAsNearestLightSource(block, range);
+                        minRange = Math.Min(minRange, range);
+                    }
+                }
+            }
+
+            return minRange;
+        }
+
+        public void SetLightLevel(int range)
+        {
+            int rangeToLightSource = range;
+            if (isLightSource || rangeToLightSource == 1)
+            {
+                lightLevel = 0;
+            }
+            else if (rangeToLightSource < 6)
+            {
+                lightLevel = 0.25 * rangeToLightSource - 0.5;
+            }
+            else if (rangeToLightSource == 6)
+            {
+                lightLevel = 0.9;
+            }
+            else
+            {
+                lightLevel = 1;
+            }
+        }
+
+        private void SetAsNearestLightSource(Block block, int range)
+        {
+            if (!isLightSource)
+            {
+                //If no nearest lightsource is detected, add block as lightsource
+                if (rangeToNearestLightSource == 100000)
+                {
+                    AddToLightSourceList(block, range);
+                    rangeToNearestLightSource = range;
+                }
+                //If the block has the same range as the current nearest lightsource, add it as well
+                else if (range == rangeToNearestLightSource)
+
+                {
+                    AddToLightSourceList(block, range);
+                }
+                //If a block with a lower range to nearest lightsource is found, delete all current nearest ones and add new one
+                else if (range < rangeToNearestLightSource)
+                {
+                    AddToLightSourceList(block, range);
+                    rangeToNearestLightSource = range;
+                }
+            }
+        }
+
+        private Block GetBlock(int xOffset, int yOffset)
+        {
+
+            if (yOffset + yPos < 1 || yOffset + yPos > 75)
+            {
+                return null;
+            }
+
+            if (xPos + xOffset < 1)
+            {
+                Chunk chunk = wndGame.GetFromCurrentChunks(this.chunk.index - 1);
+
+                if (chunk != null)
+                {
+                    return chunk.blockList.Get(xPos + xOffset + 8, yPos + yOffset);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else if (xPos + xOffset > 8)
+            {
+                Chunk chunk = wndGame.GetFromCurrentChunks(this.chunk.index + 1);
+
+                if (chunk != null)
+                {
+                    return chunk.blockList.Get(xPos + xOffset - 8, yPos + yOffset);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return chunk.blockList.Get(xPos + xOffset, yPos + yOffset);
+            }
+        }
+
         //-- Event Handlers --//
 
         private void cvsBlock_MouseEnter(object sender, EventArgs e)
@@ -295,7 +556,7 @@ namespace SeeloewenCraft
                         {
                             //Remove the non-solid block that is currently there and add the new selected block
                             chunk.blockList.Remove(this);
-                            chunk.blockList.Add(slot.slot.items[slot.slot.items.Count - 1].block);
+                            chunk.blockList.Add(slot.slot.items[slot.slot.items.Count - 1].block, xPos, yPos);
                             slot.slot.items[slot.slot.items.Count - 1].block.xPos = xPos;
                             slot.slot.items[slot.slot.items.Count - 1].block.yPos = yPos;
                             slot.slot.items[slot.slot.items.Count - 1].block.chunk = chunk;
@@ -335,16 +596,16 @@ namespace SeeloewenCraft
         }
 
         public override void SetTexture()
-        {         
+        {
             image = wndGame.images.GrassBlock;
         }
-}
+    }
 
     public class StoneBlock : Block
     {
         public StoneBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
-           SetTexture();
+            SetTexture();
             name = "Stone Block";
         }
 
@@ -387,6 +648,7 @@ namespace SeeloewenCraft
             hasFixedSolidState = true;
             SetTexture();
             name = "Air";
+            isLightSource = true;
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -503,6 +765,7 @@ namespace SeeloewenCraft
         {
             SetTexture();
             name = "Oak Leaves";
+            isLightSource = true;
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -539,8 +802,9 @@ namespace SeeloewenCraft
     {
         public SpruceLeavesBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
+            isLightSource = true;
             SetTexture();
-            name = "Spruce Leaves"; 
+            name = "Spruce Leaves";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)

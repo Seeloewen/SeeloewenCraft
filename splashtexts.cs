@@ -12,28 +12,27 @@ namespace SeeloewenCraft
 {
     internal class SplashTextHandler
     {
-
+        wndMenu wndMenu;
         Random rnd = new Random(DateTime.Now.Millisecond);
         string[] texts;
 
-        public SplashTextHandler()
+        public SplashTextHandler(wndMenu wndMenu)
         {
+            this.wndMenu = wndMenu;
+
+            //Read all texts from file
             Uri uri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/splash_texts.txt", UriKind.Absolute);
             StreamResourceInfo info = Application.GetResourceStream(uri);
-
-
             using StreamReader reader = new(info.Stream);
-
-            // Read the stream as a string.
             string text = reader.ReadToEnd();
-
-            //string text = File.ReadAllText("/Resources/Splashtexts.txt");
             texts = text.Split(';');
         }
 
         public string GetText()
         {
-            return texts[rnd.Next(texts.Length)];
+            string splashText = texts[rnd.Next(texts.Length)];
+            wndMenu.log.Write($"Rolled splash text {splashText}", "Info");
+            return splashText;
         }
 
 
