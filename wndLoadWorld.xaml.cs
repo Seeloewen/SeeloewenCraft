@@ -89,8 +89,8 @@ namespace SeeloewenCraft
                         try
                         {
                             Directory.Delete($"{wndMenu.worldDirectory}\\{cbxWorld.Text}",true);
-                            cbxWorld.Items.Remove(cbxWorld.Text);
                             MessageBox.Show($"Successfully deleted world {cbxWorld.Text}!", "Delete world", MessageBoxButton.OK, MessageBoxImage.Information);
+                            cbxWorld.Items.Remove(cbxWorld.Text);
                         }
                         catch (Exception ex)
                         {

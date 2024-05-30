@@ -455,7 +455,7 @@ namespace SeeloewenCraft
 
             if (xPos + xOffset < 1)
             {
-                Chunk chunk = wndGame.GetChunk(this.chunk.index - 1);
+                Chunk chunk = wndGame.GetFromCurrentChunks(this.chunk.index - 1);
 
                 if (chunk != null)
                 {
@@ -468,7 +468,7 @@ namespace SeeloewenCraft
             }
             else if (xPos + xOffset > 8)
             {
-                Chunk chunk = wndGame.GetChunk(this.chunk.index + 1);
+                Chunk chunk = wndGame.GetFromCurrentChunks(this.chunk.index + 1);
 
                 if (chunk != null)
                 {

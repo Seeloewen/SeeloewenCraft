@@ -100,6 +100,20 @@ namespace SeeloewenCraft
             }
         }
 
+        public void SetContainerList()
+        {
+            //Get the container list
+            foreach (BlockContainerList containerList in wndGame.blockContainerList)
+            {
+                if (containerList.IsAvailable())
+                {
+                    blockContainerList = containerList;
+                    blockContainerList.AssignToChunk(this);
+                    break;
+                }
+            }
+        }
+
         public void Generate()
         {
             wndGame.log.Write($"Beginning to generate chunk {index}", "Info");
@@ -123,15 +137,7 @@ namespace SeeloewenCraft
             }
 
             //Get the container list
-            foreach (BlockContainerList containerList in wndGame.blockContainerList)
-            {
-                if (containerList.IsAvailable())
-                {
-                    blockContainerList = containerList;
-                    blockContainerList.AssignToChunk(this);
-                    break;
-                }
-            }
+            SetContainerList();
 
             //Check if the chunk doesn't already exist
             if (!Directory.Exists(string.Format("{0}/chunk{1}", wndGame.worldDirectory, index)))
@@ -149,18 +155,12 @@ namespace SeeloewenCraft
                 //Go through each block and add it to the chunk
                 try
                 {
-                    foreach (Block block in blockList.blocks)
-                    {
-                        SetBlock(block, block.xPos, block.yPos);
-                    }
+                    RenderChunk();
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"[Error] Could not load chunk: {ex}");
                 }
-
-                //Save the chunk
-                Save();
             }
             else
             {
@@ -249,16 +249,21 @@ namespace SeeloewenCraft
                 //Add all the blocks to the chunk
                 try
                 {
-                    foreach (Block block in blockList.blocks)
-                    {
-                        SetBlock(block, block.xPos, block.yPos);
-                    }
+                    RenderChunk();
                     wndGame.log.Write($"Successfully loaded chunk {index}", "Info");
                 }
                 catch (Exception ex)
                 {
                     wndGame.log.Write($"Could not load chunk: {ex.Message}", "Error");
                 }
+            }
+        }
+
+        public void RenderChunk()
+        {
+            foreach (Block block in blockList.blocks)
+            {
+                SetBlock(block, block.xPos, block.yPos);
             }
         }
 
@@ -304,12 +309,12 @@ namespace SeeloewenCraft
                 else
                 {
                     //If it's not the first chunk, get the most right floor height from the chunk to the left
-                    floorHeight = wndGame.GetChunk(index - 1).floorHeightRight;
+                    floorHeight = wndGame.GetFromCurrentChunks(index - 1).floorHeightRight;
                 }
             }
             else if (index < 0)
             {
-                floorHeight = wndGame.GetChunk(index + 1).floorHeightLeft;
+                floorHeight = wndGame.GetFromCurrentChunks(index + 1).floorHeightLeft;
             }
 
             //Actually generate the terrain
@@ -551,7 +556,7 @@ namespace SeeloewenCraft
             //Continue Structure Generation by adding a continuation strucutre, which contains the structure components that were previously cut off
             if (index > 0)
             {
-                foreach (Structure structure in wndGame.GetChunk(index - 1).structureList)
+                foreach (Structure structure in wndGame.GetFromCurrentChunks(index - 1).structureList)
                 {
                     if (structure.isCutOff)
                     {
@@ -561,7 +566,7 @@ namespace SeeloewenCraft
             }
             else if (index < 0)
             {
-                foreach (Structure structure in wndGame.GetChunk(index + 1).structureList)
+                foreach (Structure structure in wndGame.GetFromCurrentChunks(index + 1).structureList)
                 {
                     if (structure.isCutOff)
                     {
