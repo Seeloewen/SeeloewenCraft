@@ -26,7 +26,7 @@ namespace SeeloewenCraft
         public Log log;
         private int splashTextSize = 0;
         public int worldVersion = 1;
-        public string gameVersion = "Alpha 1.1.4-Dev4";
+        public string gameVersion = "Alpha 1.1.4-Dev5";
         public string versionDate = "30.05.2024";
         public string gameDirectory;
         public string texturepackDirectory;
