@@ -296,8 +296,6 @@ namespace SeeloewenCraft
                     return chunk;
                 }
             }
-
-            if(index != 10000000) log.Write($"Could not get chunk at given index {index}", "Warning");
             return null;
         }
 
