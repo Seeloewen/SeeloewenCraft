@@ -11,6 +11,9 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media.Converters;
 using System.Diagnostics.Eventing.Reader;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Microsoft.Json.Pointer;
 
 namespace SeeloewenCraft
 {
@@ -58,6 +61,112 @@ namespace SeeloewenCraft
         }
 
         //-- Custom Methods --//
+
+
+        public void SaveToJson(JsonWriter writer)
+        {
+            writer.WriteStartObject();
+
+            writer.WritePropertyName("name");
+            writer.WriteValue(GetType().ToString().Replace("SeeloewenCraft.", ""));
+
+            writer.WritePropertyName("pos_x");
+            writer.WriteValue(xPos);
+
+            writer.WritePropertyName("pos_y");
+            writer.WriteValue(yPos);
+
+            writer.WritePropertyName("is_in_background");
+            writer.WriteValue(isInBackground);
+
+            if (hasInventory)
+            {
+                writer.WritePropertyName("inventory");
+                blockInventory.SaveToJson(writer);
+            }
+
+            writer.WriteEndObject();
+        }
+
+
+        static public Block LoadFromJson(JToken blockToken, Chunk chunk, wndGame wndGame)
+        {
+            int posX = (int)new JsonPointer($"/pos_x").Evaluate(blockToken);
+            int posY = (int)new JsonPointer($"/pos_y").Evaluate(blockToken);
+            bool isInBackground = (bool)new JsonPointer($"/is_in_background").Evaluate(blockToken);
+
+            string name = (string)new JsonPointer($"/name").Evaluate(blockToken);
+
+            Block block;
+
+            switch (name)
+            {
+                case "GrassBlock":
+                    block = new GrassBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "DirtBlock":
+                    block = new DirtBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "StoneBlock":
+                    block = new StoneBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "AirBlock":
+                    block = new AirBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "BedrockBlock":
+                    block = new BedrockBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "DiamondOreBlock":
+                    block = new DiamondOreBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "IronOreBlock":
+                    block = new IronOreBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "CoalOreBlock":
+                    block = new CoalOreBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "OakLogBlock":
+                    block = new OakLogBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "OakLeavesBlock":
+                    block = new OakLeavesBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "SpruceLogBlock":
+                    block = new SpruceLogBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "SpruceLeavesBlock":
+                    block = new SpruceLeavesBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "ChestBlock":
+                    block = new ChestBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "MagmaBlock":
+                    block = new MagmaBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                /*case "TorchBlock":
+                    return Add(new TorchBlock(wndGame, posX, posY, this, null, isInBackground));
+                    break;*/
+                default:
+                    return new AirBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+            }
+
+            if(block.hasInventory)
+            {
+                JToken invToken = new JsonPointer($"/inventory").Evaluate(blockToken);
+                block.SetInventory(Inventory.LoadFromJson(invToken, wndGame));
+            }
+
+            return block;
+        }
+
+
+        public void SetInventory(Inventory inv)
+        {
+            blockInventory = inv;
+            Canvas.SetTop(inv.grdInventory, 410);
+            wndGame.inventoryList.Add(inv);
+        }
 
         public void SetContainer(BlockContainer blockContainer)
         {
@@ -295,7 +404,7 @@ namespace SeeloewenCraft
                     }
                 }
             }
-        }       
+        }
 
         public int RangeToLightSource()
         {
@@ -423,7 +532,7 @@ namespace SeeloewenCraft
             //Check if the block is both breakable and in range
             if (isBreakable == true && IsInRange() == true)
             {
-                if(foregroundBlock != null)
+                if (foregroundBlock != null)
                 {
                     //Add the foreground block's item to the inventory
                     foregroundBlock.GenerateItem(wndGame, 0);
@@ -767,12 +876,11 @@ namespace SeeloewenCraft
         public ChestBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             hasInventory = true;
-            blockInventory = new Inventory(wndGame, item.id, false);
-            Canvas.SetTop(blockInventory.grdInventory, 410);
-            wndGame.inventoryList.Add(blockInventory);
             SetTexture();
             name = "Chest";
         }
+
+        
 
         override public void GenerateItem(wndGame wndGame, int id)
         {

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -21,7 +22,7 @@ namespace SeeloewenCraft
 {
     public class Chunk
     {
-        public BlockList blockList = new BlockList();
+        public BlockList blockList;
         public List<Structure> structureList = new List<Structure>();
         public BlockContainerList blockContainerList;
         public Grid grdChunk = new Grid();
@@ -43,7 +44,7 @@ namespace SeeloewenCraft
 
             //Begin loading the chunk
             chunkDirectory = string.Format("{0}/chunk{1}", wndGame.worldDirectory, index);
-            Generate();
+            Init();
         }
 
         //-- Custom Methods --//
@@ -78,69 +79,43 @@ namespace SeeloewenCraft
             //save blocks in blocks.json
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);
-
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 writer.Formatting = Formatting.Indented;
-
-                writer.WriteStartObject();
-
-
-
-                writer.WritePropertyName("blocks");
-                writer.WriteStartArray();
-
-                foreach (Block block in blockList.blocks)
-                {
-                    writer.WriteStartObject();
-
-                    writer.WritePropertyName("name");
-                    writer.WriteValue(block.GetType().ToString().Replace("SeeloewenCraft.", ""));
-
-                    writer.WritePropertyName("pos_x");
-                    writer.WriteValue(block.xPos);
-
-                    writer.WritePropertyName("pos_y");
-                    writer.WriteValue(block.yPos);
-
-                    writer.WritePropertyName("is_in_background");
-                    writer.WriteValue(block.isInBackground);
-
-                    writer.WriteEndObject();
-                }
-
-                writer.WriteEndArray();
-
-
-                writer.WriteEndObject();
+                blockList.saveToJson(writer);
             }
-            File.WriteAllText(string.Format("{0}/chunk{1}/blocksJSON.json", wndGame.worldDirectory, index), sw.ToString());
+            File.WriteAllText($"{wndGame.worldDirectory}/chunk{index}/blocks.json", sw.ToString());
 
 
             //save settings in settings.json
             sb = new StringBuilder();
             sw = new StringWriter(sb);
-
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 writer.Formatting = Formatting.Indented;
-                writer.WriteStartObject();
-
-                writer.WritePropertyName("index");
-                writer.WriteValue(index);
-
-                writer.WritePropertyName("floor_height_left");
-                writer.WriteValue(floorHeightLeft);
-
-                writer.WritePropertyName("floor_height_right");
-                writer.WriteValue(floorHeightRight);
-
-                writer.WriteEndObject();
+                saveSettingsToJson(writer);
             }
-
-            File.WriteAllText(string.Format("{0}/chunk{1}/settingsJSON.json", wndGame.worldDirectory, index), sb.ToString());
+            File.WriteAllText($"{wndGame.worldDirectory}/chunk{index}/settings.json", sb.ToString());
 
         }
+
+
+        private void saveSettingsToJson(JsonWriter writer)
+        {
+            writer.WriteStartObject();
+
+            writer.WritePropertyName("index");
+            writer.WriteValue(index);
+
+            writer.WritePropertyName("floor_height_left");
+            writer.WriteValue(floorHeightLeft);
+
+            writer.WritePropertyName("floor_height_right");
+            writer.WriteValue(floorHeightRight);
+
+            writer.WriteEndObject();
+        }
+
 
         public void SetBlock(Block block, int x, int y)
         {
@@ -169,13 +144,12 @@ namespace SeeloewenCraft
             }
         }
 
-        public void Generate()
+        public void Init()
         {
-            wndGame.log.Write($"Beginning to generate chunk {index}", "Info");
+            wndGame.log.Write($"Beginning to initialize chunk {index}", "Info");
 
             //Clear the chunk
             grdChunk.Children.Clear();
-            blockList.Clear();
 
             //Setup the chunk
             grdChunk.Width = 400;
@@ -195,134 +169,71 @@ namespace SeeloewenCraft
             SetContainerList();
 
             //Check if the chunk doesn't already exist
-            if (!Directory.Exists(string.Format("{0}/chunk{1}", wndGame.worldDirectory, index)))
+            if (Directory.Exists($"{wndGame.worldDirectory}/chunk{index}"))
             {
-                //If it doesn't exist, create the file
-                chunkDirectory = string.Format("{0}/chunk{1}", wndGame.worldDirectory, index);
-
-                //Generate terrain & structure
-                GenerateTerrain();
-                GenerateTrees();
-                GenerateOres();
-                if (Properties.Settings.Default.enableCaveGeneration) GenerateCaves();
-                ContinueStructureGeneration();
-
-                //Go through each block and add it to the chunk
-                try
-                {
-                    RenderChunk();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"[Error] Could not load chunk: {ex}");
-                }
+                Load();
             }
             else
             {
-                wndGame.log.Write($"Loading chunk {index}", "Info");
+                Generate();
+            }
 
 
-
-
-
-
-
-                string documentText = File.ReadAllText($"{wndGame.worldDirectory}/chunk{index}/blocksJSON.json");
-                JToken documentToken = JToken.Parse(documentText);
-
-                JToken blockArrayToken = new JsonPointer("/blocks").Evaluate(documentToken);
-
-                for(int i = 0; i < 600; i++)
-                {
-                    JToken blockToken = new JsonPointer($"/{i}").Evaluate(blockArrayToken);
-
-                    int posX = (int)new JsonPointer($"/pos_x").Evaluate(blockToken);
-                    int posY = (int)new JsonPointer($"/pos_y").Evaluate(blockToken);
-                    bool isInBackground = (bool)new JsonPointer($"/is_in_background").Evaluate(blockToken);
-
-                    string name = (string)new JsonPointer($"/name").Evaluate(blockToken);
-
-
-                    switch(name)
-                    {
-                        case "GrassBlock":
-                            blockList.Add(new GrassBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                        case "DirtBlock":
-                            blockList.Add(new DirtBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                        case "StoneBlock":
-                            blockList.Add(new StoneBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                        case "AirBlock":
-                            blockList.Add(new AirBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                        case "BedrockBlock":
-                            blockList.Add(new BedrockBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                        case "DiamondOreBlock":
-                            blockList.Add(new DiamondOreBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                        case "IronOreBlock":
-                            blockList.Add(new IronOreBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                        case "CoalOreBlock":
-                            blockList.Add(new CoalOreBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                        case "OakLogBlock":
-                            blockList.Add(new OakLogBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                        case "OakLeavesBlock":
-                            blockList.Add(new OakLeavesBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                        case "SpruceLogBlock":
-                            blockList.Add(new SpruceLogBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                        case "SpruceLeavesBlock":
-                            blockList.Add(new SpruceLeavesBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                        case "ChestBlock":
-                            blockList.Add(new ChestBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                        case "MagmaBlock":
-                            blockList.Add(new MagmaBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                        case: "TorchBlock":
-                            blockList.Add(new TorchBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                        default:
-                            blockList.Add(new AirBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                    }
-
-
-                }
-
-
-
-                documentText = File.ReadAllText($"{wndGame.worldDirectory}/chunk{index}/settingsJSON.json");
-                documentToken = JToken.Parse(documentText);
-
-                index = (int)new JsonPointer("/index").Evaluate(documentToken);
-                floorHeightLeft = (int)new JsonPointer("/floor_height_left").Evaluate(documentToken);
-                floorHeightRight = (int)new JsonPointer("/floor_height_right").Evaluate(documentToken);
-
-                //Load the inventories of the blocks in the chunk (like chests)
-                //LoadInventories();
-
-
-                //Add all the blocks to the chunk
-                try
-                {
-                    RenderChunk();
-                    wndGame.log.Write($"Successfully loaded chunk {index}", "Info");
-                }
-                catch (Exception ex)
-                {
-                    wndGame.log.Write($"Could not load chunk: {ex.Message}", "Error");
-                }
+            //render chunk
+            try
+            {
+                RenderChunk();
+                wndGame.log.Write($"Successfully initialized chunk {index}", "Info");
+            }
+            catch (Exception ex)
+            {
+                wndGame.log.Write($"Could not initialize chunk: {ex.Message}", "Error");
             }
         }
+
+
+        private void Generate()
+        {
+            wndGame.log.Write($"Generating chunk {index}", "Info");
+
+            blockList = new BlockList();
+
+            //If it doesn't exist, create the file
+            chunkDirectory = string.Format("{0}/chunk{1}", wndGame.worldDirectory, index);
+
+            //Generate terrain & structure
+            GenerateTerrain();
+            GenerateTrees();
+            GenerateOres();
+            if (Properties.Settings.Default.enableCaveGeneration) GenerateCaves();
+            ContinueStructureGeneration();
+
+        }
+
+        private void Load()
+        {
+            wndGame.log.Write($"Loading chunk {index}", "Info");
+
+            //load blocklist
+            string documentText = File.ReadAllText($"{wndGame.worldDirectory}/chunk{index}/blocks.json");
+            JToken documentToken = JToken.Parse(documentText);
+
+            blockList = BlockList.loadFromJson(documentToken, this, wndGame);
+
+
+            //load settings
+            documentText = File.ReadAllText($"{wndGame.worldDirectory}/chunk{index}/settings.json");
+            documentToken = JToken.Parse(documentText);
+
+            index = (int)new JsonPointer("/index").Evaluate(documentToken);
+            floorHeightLeft = (int)new JsonPointer("/floor_height_left").Evaluate(documentToken);
+            floorHeightRight = (int)new JsonPointer("/floor_height_right").Evaluate(documentToken);
+
+            //Load the inventories of the blocks in the chunk (like chests)
+            //LoadInventories();
+        }
+
+
 
         public void RenderChunk()
         {

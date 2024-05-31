@@ -235,7 +235,16 @@ namespace SeeloewenCraft
             //Load the player inventory if the world is not new
             if (!isNew)
             {
+                string documentText = File.ReadAllText($"{worldDirectory}/player_inventory.json");
+                JToken documentToken = JToken.Parse(documentText);
+
+                player.inventory = Inventory.LoadFromJson(documentToken, this);
+
                 player.inventory.LoadInventory(worldDirectory, 0);
+
+                inventoryList.Add(player.inventory);
+
+                player.inventory.UpdateHotbar();
             }
             else
             {
@@ -764,6 +773,7 @@ namespace SeeloewenCraft
             }
         }
 
+
         private void wndGame1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //If the setting to save worlds on closing is enabled
@@ -777,6 +787,7 @@ namespace SeeloewenCraft
                     {
                         chunk.Save();
                     }
+                    player.SaveInventory(worldDirectory);
                     player.inventory.SaveInventory(worldDirectory);
                     player.SavePosition(worldDirectory);
                 }
@@ -815,6 +826,7 @@ namespace SeeloewenCraft
                 chunk.Save();
             }
             player.inventory.SaveInventory(worldDirectory);
+            player.SaveInventory(worldDirectory);
             player.SavePosition(worldDirectory);
 
             //Show confirmation
