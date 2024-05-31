@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.Json.Pointer;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -70,21 +73,73 @@ namespace SeeloewenCraft
                 Directory.CreateDirectory(chunkDirectory);
                 wndGame.log.Write($"Created chunk directory {chunkDirectory}!", "Info");
             }
-            File.WriteAllText(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index), "");
 
-            foreach (Block block in blockList.blocks)
+
+            //save blocks in blocks.json
+            StringBuilder sb = new StringBuilder();
+            StringWriter sw = new StringWriter(sb);
+
+            using (JsonWriter writer = new JsonTextWriter(sw))
             {
-                if (block.hasInventory == true)
+                writer.Formatting = Formatting.Indented;
+
+                writer.WriteStartObject();
+
+
+
+                writer.WritePropertyName("blocks");
+                writer.WriteStartArray();
+
+                foreach (Block block in blockList.blocks)
                 {
-                    block.blockInventory.SaveInventory(chunkDirectory);
+                    writer.WriteStartObject();
+
+                    writer.WritePropertyName("name");
+                    writer.WriteValue(block.GetType().ToString().Replace("SeeloewenCraft.", ""));
+
+                    writer.WritePropertyName("pos_x");
+                    writer.WriteValue(block.xPos);
+
+                    writer.WritePropertyName("pos_y");
+                    writer.WriteValue(block.yPos);
+
+                    writer.WritePropertyName("is_in_background");
+                    writer.WriteValue(block.isInBackground);
+
+                    writer.WriteEndObject();
                 }
 
-                //Write all blocks in the chunks blocklist into a file
-                File.AppendAllText(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2};{3};{4}\n", block.GetType().ToString().Replace("SeeloewenCraft.", ""), block.xPos, block.yPos, 0, block.isInBackground));
+                writer.WriteEndArray();
+
+
+                writer.WriteEndObject();
             }
-            //Write the chunk settings into a file
-            File.WriteAllText(string.Format("{0}/chunk{1}/settings.txt", wndGame.worldDirectory, index), string.Format("{0};{1};{2}", index, floorHeightLeft, floorHeightRight));
-            wndGame.log.Write($"Saved chunk {index} to {chunkDirectory}", "Info");
+            File.WriteAllText(string.Format("{0}/chunk{1}/blocksJSON.json", wndGame.worldDirectory, index), sw.ToString());
+
+
+            //save settings in settings.json
+            sb = new StringBuilder();
+            sw = new StringWriter(sb);
+
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.WriteStartObject();
+
+                writer.WritePropertyName("index");
+                writer.WriteValue(index);
+
+                writer.WritePropertyName("floor_height_left");
+                writer.WriteValue(floorHeightLeft);
+
+                writer.WritePropertyName("floor_height_right");
+                writer.WriteValue(floorHeightRight);
+
+                writer.WriteEndObject();
+            }
+
+            File.WriteAllText(string.Format("{0}/chunk{1}/settingsJSON.json", wndGame.worldDirectory, index), sb.ToString());
+
         }
 
         public void SetBlock(Block block, int x, int y)
@@ -166,89 +221,95 @@ namespace SeeloewenCraft
             {
                 wndGame.log.Write($"Loading chunk {index}", "Info");
 
-                //Read the chunk from saved file
-                string[] blocks = File.ReadAllLines(string.Format("{0}/chunk{1}/blocks.txt", wndGame.worldDirectory, index));
 
-                //Read all blocks from the file
-                foreach (string block in blocks)
+
+
+
+
+
+                string documentText = File.ReadAllText($"{wndGame.worldDirectory}/chunk{index}/blocksJSON.json");
+                JToken documentToken = JToken.Parse(documentText);
+
+                JToken blockArrayToken = new JsonPointer("/blocks").Evaluate(documentToken);
+
+                for(int i = 0; i < 600; i++)
                 {
-                    //This goes through every line and converts it to a block
-                    string[] blockSplit = block.Split(';');
+                    JToken blockToken = new JsonPointer($"/{i}").Evaluate(blockArrayToken);
 
-                    if (blockSplit[0] == "GrassBlock")
+                    int posX = (int)new JsonPointer($"/pos_x").Evaluate(blockToken);
+                    int posY = (int)new JsonPointer($"/pos_y").Evaluate(blockToken);
+                    bool isInBackground = (bool)new JsonPointer($"/is_in_background").Evaluate(blockToken);
+
+                    string name = (string)new JsonPointer($"/name").Evaluate(blockToken);
+
+
+                    switch(name)
                     {
-                        blockList.Add(new GrassBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                        case "GrassBlock":
+                            blockList.Add(new GrassBlock(wndGame, posX, posY, this, null, isInBackground));
+                            break;
+                        case "DirtBlock":
+                            blockList.Add(new DirtBlock(wndGame, posX, posY, this, null, isInBackground));
+                            break;
+                        case "StoneBlock":
+                            blockList.Add(new StoneBlock(wndGame, posX, posY, this, null, isInBackground));
+                            break;
+                        case "AirBlock":
+                            blockList.Add(new AirBlock(wndGame, posX, posY, this, null, isInBackground));
+                            break;
+                        case "BedrockBlock":
+                            blockList.Add(new BedrockBlock(wndGame, posX, posY, this, null, isInBackground));
+                            break;
+                        case "DiamondOreBlock":
+                            blockList.Add(new DiamondOreBlock(wndGame, posX, posY, this, null, isInBackground));
+                            break;
+                        case "IronOreBlock":
+                            blockList.Add(new IronOreBlock(wndGame, posX, posY, this, null, isInBackground));
+                            break;
+                        case "CoalOreBlock":
+                            blockList.Add(new CoalOreBlock(wndGame, posX, posY, this, null, isInBackground));
+                            break;
+                        case "OakLogBlock":
+                            blockList.Add(new OakLogBlock(wndGame, posX, posY, this, null, isInBackground));
+                            break;
+                        case "OakLeavesBlock":
+                            blockList.Add(new OakLeavesBlock(wndGame, posX, posY, this, null, isInBackground));
+                            break;
+                        case "SpruceLogBlock":
+                            blockList.Add(new SpruceLogBlock(wndGame, posX, posY, this, null, isInBackground));
+                            break;
+                        case "SpruceLeavesBlock":
+                            blockList.Add(new SpruceLeavesBlock(wndGame, posX, posY, this, null, isInBackground));
+                            break;
+                        case "ChestBlock":
+                            blockList.Add(new ChestBlock(wndGame, posX, posY, this, null, isInBackground));
+                            break;
+                        case "MagmaBlock":
+                            blockList.Add(new MagmaBlock(wndGame, posX, posY, this, null, isInBackground));
+                            break;
+                        case: "TorchBlock":
+                            blockList.Add(new TorchBlock(wndGame, posX, posY, this, null, isInBackground));
+                            break;
+                        default:
+                            blockList.Add(new AirBlock(wndGame, posX, posY, this, null, isInBackground));
+                            break;
                     }
-                    else if (blockSplit[0] == "DirtBlock")
-                    {
-                        blockList.Add(new DirtBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                    }
-                    else if (blockSplit[0] == "StoneBlock")
-                    {
-                        blockList.Add(new StoneBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                    }
-                    else if (blockSplit[0] == "AirBlock")
-                    {
-                        blockList.Add(new AirBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                    }
-                    else if (blockSplit[0] == "BedrockBlock")
-                    {
-                        blockList.Add(new BedrockBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                    }
-                    else if (blockSplit[0] == "DiamondOreBlock")
-                    {
-                        blockList.Add(new DiamondOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                    }
-                    else if (blockSplit[0] == "IronOreBlock")
-                    {
-                        blockList.Add(new IronOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                    }
-                    else if (blockSplit[0] == "CoalOreBlock")
-                    {
-                        blockList.Add(new CoalOreBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                    }
-                    else if (blockSplit[0] == "OakLogBlock")
-                    {
-                        blockList.Add(new OakLogBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                    }
-                    else if (blockSplit[0] == "OakLeavesBlock")
-                    {
-                        blockList.Add(new OakLeavesBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                    }
-                    else if (blockSplit[0] == "SpruceLogBlock")
-                    {
-                        blockList.Add(new SpruceLogBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                    }
-                    else if (blockSplit[0] == "SpruceLeavesBlock")
-                    {
-                        blockList.Add(new SpruceLeavesBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                    }
-                    else if (blockSplit[0] == "ChestBlock")
-                    {
-                        blockList.Add(new ChestBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                    }
-                    else if (blockSplit[0] == "MagmaBlock")
-                    {
-                        blockList.Add(new MagmaBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                    }
-                    else if (blockSplit[0] == "TorchBlock")
-                    {
-                        blockList.Add(new TorchBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                    }
-                    else
-                    {
-                        blockList.Add(new AirBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
-                    }
+
+
                 }
 
-                //Load the inventories of the blocks in the chunk (like chests)
-                LoadInventories();
 
-                //Read the chunk settings from the file
-                string[] settings = File.ReadAllText(string.Format("{0}/chunk{1}/settings.txt", wndGame.worldDirectory, index)).Split(';');
-                index = Convert.ToInt32(settings[0]);
-                floorHeightLeft = Convert.ToInt32(settings[1]);
-                floorHeightRight = Convert.ToInt32(settings[2]);
+
+                documentText = File.ReadAllText($"{wndGame.worldDirectory}/chunk{index}/settingsJSON.json");
+                documentToken = JToken.Parse(documentText);
+
+                index = (int)new JsonPointer("/index").Evaluate(documentToken);
+                floorHeightLeft = (int)new JsonPointer("/floor_height_left").Evaluate(documentToken);
+                floorHeightRight = (int)new JsonPointer("/floor_height_right").Evaluate(documentToken);
+
+                //Load the inventories of the blocks in the chunk (like chests)
+                //LoadInventories();
+
 
                 //Add all the blocks to the chunk
                 try

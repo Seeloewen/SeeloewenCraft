@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Microsoft.Json.Pointer;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -191,18 +194,22 @@ namespace SeeloewenCraft
             }
 
             //Check if the player position exists
-            bool loadedPlayerPosExists = File.Exists($"{worldDirectory}/playerPosition.txt");
+            bool loadedPlayerPosExists = File.Exists($"{worldDirectory}/player_position.json");
             double playerPosX = 0;
             double playerPosY = 0;
 
             //Load the player position if possible
             if (loadedPlayerPosExists)
             {
-                string[] coords = File.ReadAllLines($"{worldDirectory}/playerPosition.txt");
+
+                string documentText = File.ReadAllText($"{worldDirectory}/player_position.json");
+                JToken documentToken = JToken.Parse(documentText);
+
+                
                 try
                 {
-                    playerPosX = Double.Parse(coords[0]);
-                    playerPosY = Double.Parse(coords[1]);
+                    playerPosX = (double)new JsonPointer("/pos_x").Evaluate(documentToken);
+                    playerPosY = (double)new JsonPointer("/pos_y").Evaluate(documentToken);
                     log.Write($"Read player position from file: x{playerPosX} y{playerPosY}", "Info");
                 }
                 catch (Exception ex)

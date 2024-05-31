@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -92,7 +94,26 @@ namespace SeeloewenCraft
         public void SavePosition(string path)
         {
             wndGame.log.Write($"Saved player position to {path}", "Info");
-            File.WriteAllText($"{path}\\playerPosition.txt", $"{posX}\n{posY}");
+
+
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.WriteStartObject();
+
+                writer.WritePropertyName("pos_x");
+                writer.WriteValue(posX);
+
+                writer.WritePropertyName("pos_y");
+                writer.WriteValue(posY);
+
+                writer.WriteEndObject();
+            }
+
+            File.WriteAllText($"{path}/player_position.json", sb.ToString());
         }
 
         //physics
