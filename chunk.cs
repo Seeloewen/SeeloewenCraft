@@ -231,6 +231,10 @@ namespace SeeloewenCraft
                     {
                         blockList.Add(new MagmaBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
                     }
+                    else if (blockSplit[0] == "TorchBlock")
+                    {
+                        blockList.Add(new TorchBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));
+                    }
                     else
                     {
                         blockList.Add(new AirBlock(wndGame, Convert.ToInt32(blockSplit[1]), Convert.ToInt32(blockSplit[2]), this, null, Convert.ToBoolean(blockSplit[4])));

@@ -17,6 +17,7 @@ namespace SeeloewenCraft
     {
         private wndGame wndGame;
         public Canvas cvsBlock = new Canvas();
+        public Canvas cvsForegroundBlock = new Canvas();
         public Border bdrBlock = new Border();
         public Rectangle rectDarkOverlay = new Rectangle();
         public Rectangle rectDarkOverlayLight = new Rectangle();
@@ -24,6 +25,8 @@ namespace SeeloewenCraft
         public int xPos;
         public int yPos;
         public bool previousBlockWasLightSource;
+        public bool previousForegroundBlockWasLightSource;
+
 
         //-- Constructor --//
 
@@ -47,6 +50,12 @@ namespace SeeloewenCraft
             rectDarkOverlay.Visibility = System.Windows.Visibility.Hidden;
             cvsBlock.Children.Add(rectDarkOverlay);
 
+            cvsForegroundBlock.Width = 50;
+            cvsForegroundBlock.Height = 50;
+            cvsForegroundBlock.Background = new SolidColorBrush(Colors.Transparent);
+            cvsBlock.Children.Add(cvsForegroundBlock);
+            previousForegroundBlockWasLightSource = false;
+
             //Setup the light Rectangle
             rectDarkOverlayLight.Width = 50;
             rectDarkOverlayLight.Height = 50;
@@ -54,6 +63,7 @@ namespace SeeloewenCraft
             rectDarkOverlayLight.Opacity = 0;
             rectDarkOverlayLight.Visibility = System.Windows.Visibility.Visible;
             cvsBlock.Children.Add(rectDarkOverlayLight);
+
         }
 
         //-- Custom Methods --//
@@ -90,6 +100,37 @@ namespace SeeloewenCraft
         {
             rectDarkOverlayLight.Opacity = block.lightLevel;
         }
+
+        public void SetForegroundBlock(Block block)
+        {
+            this.block.foregroundBlock = block;
+            block.isForeground = true;
+            cvsForegroundBlock.Background = block.image;
+
+            //Check if the block has a lightsource in range and set lightlevel
+            if (Properties.Settings.Default.enableLighting)
+            {
+                this.block.SetLightLevel(this.block.RangeToLightSource());
+                this.block.UpdateNearbyBlocks();
+                SetLightOpacity();
+            }
+        }
+
+        public void RemoveForegroundBlock()
+        {
+            previousForegroundBlockWasLightSource = block.foregroundBlock.isLightSource;
+            block.foregroundBlock = null;
+            cvsForegroundBlock.Background = new SolidColorBrush(Colors.Transparent);
+
+            //Check if the block has a lightsource in range and set lightlevel
+            if (Properties.Settings.Default.enableLighting)
+            {
+                block.SetLightLevel(block.RangeToLightSource());
+                block.UpdateNearbyBlocks();
+                SetLightOpacity();
+            }
+        }
+
         public void ShowDarkRectangle()
         {
             rectDarkOverlay.Visibility = System.Windows.Visibility.Visible;

@@ -32,12 +32,8 @@ namespace SeeloewenCraft
         public bool hasInventory = false;
         public bool isLightSource = false;
         public double lightLevel;
-        public List<Block> lightSourcesInRange1 = new List<Block>();
-        public List<Block> lightSourcesInRange2 = new List<Block>();
-        public List<Block> lightSourcesInRange3 = new List<Block>();
-        public List<Block> lightSourcesInRange4 = new List<Block>();
-        public List<Block> lightSourcesInRange5 = new List<Block>();
-        public List<Block> lightSourcesInRange6 = new List<Block>();
+        public Block foregroundBlock;
+        public bool isForeground = false;
         public int rangeToNearestLightSource = 100000;
 
         //-- Constructor --//
@@ -264,31 +260,6 @@ namespace SeeloewenCraft
             return Math.Abs(xDiff) + Math.Abs(block.yPos - yPos);
         }
 
-        public void AddToLightSourceList(Block block, int range)
-        {
-            switch (range)
-            {
-                case 1:
-                    block.lightSourcesInRange1.Add(block);
-                    break;
-                case 2:
-                    block.lightSourcesInRange2.Add(block);
-                    break;
-                case 3:
-                    block.lightSourcesInRange3.Add(block);
-                    break;
-                case 4:
-                    block.lightSourcesInRange4.Add(block);
-                    break;
-                case 5:
-                    block.lightSourcesInRange5.Add(block);
-                    break;
-                case 6:
-                    block.lightSourcesInRange6.Add(block);
-                    break;
-            }
-        }
-
         public void UpdateNearbyBlocks()
         {
             List<Block> blocksInRange = GetBlocksInRange();
@@ -297,10 +268,9 @@ namespace SeeloewenCraft
             {
                 if (block != null)
                 {
-                    if (isLightSource)
+                    if (isLightSource || (foregroundBlock != null && foregroundBlock.isLightSource))
                     {
                         int range = GetRangeToBlock(block);
-                        AddToLightSourceList(block, range);
                         if (range < block.rangeToNearestLightSource)
                         {
                             block.rangeToNearestLightSource = range;
@@ -312,11 +282,11 @@ namespace SeeloewenCraft
                             }
                         }
                     }
-                    else if (!isLightSource)
+                    else if (!isLightSource && (foregroundBlock == null || (foregroundBlock != null && !foregroundBlock.isLightSource)))
                     {
                         int range = GetRangeToBlock(block);
 
-                        if(blockContainer.previousBlockWasLightSource)
+                        if (blockContainer.previousBlockWasLightSource || blockContainer.previousForegroundBlockWasLightSource)
                         {
                             block.rangeToNearestLightSource = block.RangeToLightSource();
                             block.SetLightLevel(block.RangeToLightSource());
@@ -325,58 +295,7 @@ namespace SeeloewenCraft
                     }
                 }
             }
-        }
-
-        public bool LightSourceExists(int range)
-        {
-            List<Block> lightSourceList = new List<Block>();
-
-            switch (range)
-            {
-                case 1:
-                    lightSourceList = lightSourcesInRange1;
-                    break;
-                case 2:
-                    lightSourceList = lightSourcesInRange2;
-                    break;
-                case 3:
-                    lightSourceList = lightSourcesInRange3;
-                    break;
-                case 4:
-                    lightSourceList = lightSourcesInRange4;
-                    break;
-                case 5:
-                    lightSourceList = lightSourcesInRange5;
-                    break;
-                case 6:
-                    lightSourceList = lightSourcesInRange6;
-                    break;
-            }
-
-            List<Block> removalList = new List<Block>();
-
-            foreach (Block block in lightSourceList)
-            {
-                if (block.chunk.blockList.Get(block).isLightSource)
-                {
-                    removalList.Add(block);
-                }
-            }
-
-            foreach (Block block in removalList)
-            {
-                lightSourceList.Remove(block);
-            }
-
-            if (lightSourceList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        }       
 
         public int RangeToLightSource()
         {
@@ -387,13 +306,15 @@ namespace SeeloewenCraft
             {
                 if (block != null)
                 {
-                    if (block.isLightSource)
+                    if (block.isLightSource || (block.foregroundBlock != null && block.foregroundBlock.isLightSource))
                     {
                         int range = GetRangeToBlock(block);
-                        SetAsNearestLightSource(block, range);
+                        SetAsNearestLightSource(range);
                         minRange = Math.Min(minRange, range);
                     }
                 }
+
+
             }
 
             return minRange;
@@ -402,7 +323,7 @@ namespace SeeloewenCraft
         public void SetLightLevel(int range)
         {
             int rangeToLightSource = range;
-            if (isLightSource || rangeToLightSource == 1)
+            if (isLightSource || (foregroundBlock != null && foregroundBlock.isLightSource) || rangeToLightSource == 1)
             {
                 lightLevel = 0;
             }
@@ -420,26 +341,18 @@ namespace SeeloewenCraft
             }
         }
 
-        private void SetAsNearestLightSource(Block block, int range)
+        private void SetAsNearestLightSource(int range)
         {
-            if (!isLightSource)
+            if (!isLightSource && (foregroundBlock != null && !foregroundBlock.isLightSource))
             {
                 //If no nearest lightsource is detected, add block as lightsource
                 if (rangeToNearestLightSource == 100000)
                 {
-                    AddToLightSourceList(block, range);
                     rangeToNearestLightSource = range;
-                }
-                //If the block has the same range as the current nearest lightsource, add it as well
-                else if (range == rangeToNearestLightSource)
-
-                {
-                    AddToLightSourceList(block, range);
                 }
                 //If a block with a lower range to nearest lightsource is found, delete all current nearest ones and add new one
                 else if (range < rangeToNearestLightSource)
                 {
-                    AddToLightSourceList(block, range);
                     rangeToNearestLightSource = range;
                 }
             }
@@ -510,16 +423,26 @@ namespace SeeloewenCraft
             //Check if the block is both breakable and in range
             if (isBreakable == true && IsInRange() == true)
             {
-                //Remove the block from the chunks blocklist and add an airblock
-                chunk.blockList.Remove(this);
-                Block block = new AirBlock(wndGame, xPos, yPos, chunk, null, false);
-                chunk.blockList.Add(block);
-                chunk.SetBlock(block, xPos, yPos);
+                if(foregroundBlock != null)
+                {
+                    //Add the foreground block's item to the inventory
+                    foregroundBlock.GenerateItem(wndGame, 0);
+                    wndGame.player.inventory.AddItem(foregroundBlock.item);
+                    blockContainer.RemoveForegroundBlock();
+                }
+                else
+                {
+                    //Remove the block from the chunks blocklist and add an airblock
+                    chunk.blockList.Remove(this);
+                    Block block = new AirBlock(wndGame, xPos, yPos, chunk, null, false);
+                    chunk.blockList.Add(block);
+                    chunk.SetBlock(block, xPos, yPos);
 
-                //Add the block's item to the inventory
-                MoveToForeground();
-                GenerateItem(wndGame, 0);
-                wndGame.player.inventory.AddItem(item);
+                    //Add the block's item to the inventory
+                    MoveToForeground();
+                    GenerateItem(wndGame, 0);
+                    wndGame.player.inventory.AddItem(item);
+                }
             }
         }
 
@@ -537,8 +460,29 @@ namespace SeeloewenCraft
                     MoveToBackground();
                 }
             }
+            else if (IsInRange() && IsHolding("Torch") && foregroundBlock == null && isInBackground)
+            {
+                //Go through each hotbar slot
+                foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
+                {
+                    //Check if the slot is selected and has an item
+                    if (slot.isSelected == true && slot.slot.items.Count > 0)
+                    {
+                        if (slot.slot.items[slot.slot.items.Count - 1].block == null)
+                        {
+                            slot.slot.items[slot.slot.items.Count - 1].block = slot.slot.items[slot.slot.items.Count - 1].GenerateBlock(0, 0, chunk, false);
+                        }
+
+                        blockContainer.SetForegroundBlock(slot.slot.items[slot.slot.items.Count - 1].block);
+
+                        //Remove the item from the inventory
+                        wndGame.player.inventory.RemoveItem(slot.slot.items[slot.slot.items.Count - 1]);
+                    }
+                }
+            }
+
             //Check if the block is in range, not solid and doesn't collide with the player
-            else if (IsInRange() == true && isSolid == false && IsCollidingWithPlayer(sender) == false)
+            else if (IsInRange() && !isSolid && !IsCollidingWithPlayer(sender) && !isInBackground)
             {
                 //Go through each hotbar slot
                 foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
@@ -857,6 +801,27 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = wndGame.images.MagmaBlock;
+        }
+    }
+
+    public class TorchBlock : Block
+    {
+        public TorchBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            isSolid = false;
+            isLightSource = true;
+            SetTexture();
+            name = "Torch";
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = new TorchItem(wndGame, id, this);
+        }
+
+        public override void SetTexture()
+        {
+            image = wndGame.images.Torch;
         }
     }
 }
