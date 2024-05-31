@@ -220,13 +220,6 @@ namespace SeeloewenCraft
             else
             {
                 wndGame.log.Write($"Loading chunk {index}", "Info");
-
-
-
-
-
-
-
                 string documentText = File.ReadAllText($"{wndGame.worldDirectory}/chunk{index}/blocksJSON.json");
                 JToken documentToken = JToken.Parse(documentText);
 
@@ -287,7 +280,7 @@ namespace SeeloewenCraft
                         case "MagmaBlock":
                             blockList.Add(new MagmaBlock(wndGame, posX, posY, this, null, isInBackground));
                             break;
-                        case: "TorchBlock":
+                        case "TorchBlock":
                             blockList.Add(new TorchBlock(wndGame, posX, posY, this, null, isInBackground));
                             break;
                         default:
