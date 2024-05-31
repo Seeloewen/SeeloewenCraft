@@ -11,6 +11,9 @@ using System.Windows.Forms.VisualStyles;
 using System.IO;
 using System.Windows.Markup;
 using System.IO.Packaging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Microsoft.Json.Pointer;
 
 namespace SeeloewenCraft
 {
@@ -122,13 +125,13 @@ namespace SeeloewenCraft
         {
 
             int c = 0;
-            foreach(HotbarSlot slot in hotbarSlotList)
+            foreach (HotbarSlot slot in hotbarSlotList)
             {
-                if(slot.isSelected)
+                if (slot.isSelected)
                 {
                     return c;
                 }
-                c++;    
+                c++;
             }
             return 0;
         }
@@ -253,6 +256,10 @@ namespace SeeloewenCraft
             isShown = false;
         }
 
+
+
+
+
         public void ShowHotbar()
         {
             if (hasHotbar == true)
@@ -317,13 +324,54 @@ namespace SeeloewenCraft
             }
 
             wndGame.log.Write($"Saved inventory {id}", "Info");
+
+        }
+
+        public void SaveToJson(JsonWriter writer)
+        {
+
+            writer.WriteStartObject();
+
+            writer.WritePropertyName("id");
+            writer.WriteValue(id);
+
+            writer.WritePropertyName("has_hotbar");
+            writer.WriteValue(hasHotbar);
+
+            writer.WritePropertyName("slots");
+            writer.WriteStartArray();
+            foreach (InventorySlot slot in slotList)
+            {
+                writer.WriteStartObject();
+
+                writer.WritePropertyName("items");
+                writer.WriteStartArray();
+                foreach (Item item in slot.items)
+                {
+                    writer.WriteStartObject();
+
+                    writer.WritePropertyName("name");
+                    writer.WriteValue(item.GetType().ToString().Replace("SeeloewenCraft.", ""));
+
+                    writer.WritePropertyName("id");
+                    writer.WriteValue(id);
+
+                    writer.WriteEndObject();
+                }
+                writer.WriteEndArray();
+
+                writer.WriteEndObject();
+            }
+            writer.WriteEndArray();
+
+            writer.WriteEndObject();
         }
 
         public void LoadInventory(string path, int id)
         {
             //Set the ID to map it to the correct block
             this.id = id;
-            
+
             //Get all inventory slot files from the inventory directory
             string[] files = Directory.GetFiles(string.Format("{0}/Inventory{1}", path, id));
 
@@ -331,7 +379,7 @@ namespace SeeloewenCraft
             foreach (InventorySlot slot in slotList)
             {
                 //Go through each slot file
-                foreach(string file in files)
+                foreach (string file in files)
                 {
                     //Format the filename and check if the slot and filename match
                     string f = file.Replace(string.Format("{0}/Inventory{1}", path, id), "").Replace(".txt", "").Replace("\\", "");
@@ -339,7 +387,7 @@ namespace SeeloewenCraft
                     if (slot.xPos == Convert.ToInt32(fileSplit[0]) && slot.yPos == Convert.ToInt32(fileSplit[1]))
                     {
                         //Go through each line (=item) in the file and add it to the inventory
-                        foreach(string item in File.ReadLines(file))
+                        foreach (string item in File.ReadLines(file))
                         {
                             string[] itemSplit = item.Split(';');
                             if (itemSplit[0] == "GrassItem")
@@ -409,5 +457,95 @@ namespace SeeloewenCraft
 
             wndGame.log.Write($"Loaded inventory {id}", "Info");
         }
+
+
+
+        //(int)new JsonPointer("/floor_height_left").Evaluate(documentToken);
+        public static Inventory LoadFromJson(JToken token, wndGame wndGame)
+        {
+            int invId = (int)new JsonPointer("/id").Evaluate(token);
+            bool hasHotbar = (bool)new JsonPointer("/has_hotbar").Evaluate(token);
+
+            Inventory inventory = new Inventory(wndGame, invId, hasHotbar);
+
+            JToken slotArrayToken = new JsonPointer("/slots").Evaluate(token);
+
+            int i = 0;
+
+            foreach (InventorySlot slot in inventory.slotList)
+            {
+
+                JToken slotToken = new JsonPointer($"/slots/{i}/items").Evaluate(token);
+
+                if (slotToken is JArray arr && arr.Count != 0)
+                {
+                    foreach (JToken itemToken in arr)
+                    {
+                        string itemName = (string)new JsonPointer("/name").Evaluate(itemToken);
+                        int id = (int)new JsonPointer("/id").Evaluate(itemToken);
+
+                        switch (itemName)
+                        {
+                            case "GrassItem":
+                                slot.AddToSlot(new GrassItem(wndGame, id, null));
+                                break;
+                            case "DirtItem":
+                                slot.AddToSlot(new DirtItem(wndGame, id, null));
+                                break;
+                            case "StoneItem":
+                                slot.AddToSlot(new StoneItem(wndGame, id, null));
+                                break;
+                            case "OakLogItem":
+                                slot.AddToSlot(new OakLogItem(wndGame, id, null));
+                                break;
+                            case "OakLeavesItem":
+                                slot.AddToSlot(new OakLeavesItem(wndGame, id, null));
+                                break;
+                            case "SpruceLogItem":
+                                slot.AddToSlot(new SpruceLogItem(wndGame, id, null));
+                                break;
+                            case "SpruceLeavesItem":
+                                slot.AddToSlot(new SpruceLeavesItem(wndGame, id, null));
+                                break;
+                            case "CoalOreItem":
+                                slot.AddToSlot(new CoalOreItem(wndGame, id, null));
+                                break;
+                            case "IronOreItem":
+                                slot.AddToSlot(new IronOreItem(wndGame, id, null));
+                                break;
+                            case "ChestItem":
+                                slot.AddToSlot(new ChestItem(wndGame, id, null));
+                                break;
+                            case "BedrockItem":
+                                slot.AddToSlot(new BedrockItem(wndGame, id, null));
+                                break;
+                            case "MagmaBlockItem":
+                                slot.AddToSlot(new MagmaBlockItem(wndGame, id, null));
+                                break;
+                            case "TorchItem":
+                                slot.AddToSlot(new TorchItem(wndGame, id, null));
+                                break;
+                        }
+
+
+                    }
+                }
+                i++;
+            }
+
+
+
+            return inventory;
+        }
+
     }
+
+
+
+
+
+
+
+
+
 }

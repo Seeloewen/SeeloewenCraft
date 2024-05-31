@@ -116,6 +116,19 @@ namespace SeeloewenCraft
             File.WriteAllText($"{path}/player_position.json", sb.ToString());
         }
 
+        public void SaveInventory(string path)
+        {
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                writer.Formatting = Formatting.Indented;
+                inventory.SaveToJson(writer);
+            }
+            File.WriteAllText($"{path}/player_inventory.json", sb.ToString());
+        }
+
         //physics
         public void physicsStep(bool pressedLeft, bool pressedRight, bool pressedUp, double dt)
         {
