@@ -7,8 +7,7 @@
         Title="SeeloewenCraft World" Height="839" Width="1216" KeyDown="MainWindow_KeyDown" KeyUp="MainWindow_KeyUp" MouseMove="Window_MouseMove" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Closing="wndGame1_Closing">
     <Canvas x:Name="cvsGame">
         <ScrollViewer x:Name="svWorld" Height="839" Width="1218" PreviewMouseWheel="svWorld_PreviewMouseWheel">
-            <Canvas x:Name="cvsWorld" Height="3785">
-            </Canvas>
+            <Canvas x:Name="cvsWorld" Height="3785" Background="#FFBCF4F7"/>
         </ScrollViewer>
         <Button x:Name="btnPlayerRight" Canvas.ZIndex="1" Content="Player Right" Canvas.Left="1070" Canvas.Top="71" Width="104" Height="42" HorizontalAlignment="Left" VerticalAlignment="Center" Click="btnPlayerRight_Click" Visibility="Hidden"/>
         <Button x:Name="btnPlayerLeft" Canvas.ZIndex="1" Content="Player Left" Canvas.Left="958" Canvas.Top="71" Width="104" Height="42" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnPlayerLeft_Click" Visibility="Hidden"/>
