@@ -11,6 +11,9 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media.Converters;
 using System.Diagnostics.Eventing.Reader;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Microsoft.Json.Pointer;
 
 namespace SeeloewenCraft
 {
@@ -58,6 +61,92 @@ namespace SeeloewenCraft
         }
 
         //-- Custom Methods --//
+
+
+        public void SaveToJson(JsonWriter writer)
+        {
+            writer.WriteStartObject();
+
+            writer.WritePropertyName("name");
+            writer.WriteValue(GetType().ToString().Replace("SeeloewenCraft.", ""));
+
+            writer.WritePropertyName("pos_x");
+            writer.WriteValue(xPos);
+
+            writer.WritePropertyName("pos_y");
+            writer.WriteValue(yPos);
+
+            writer.WritePropertyName("is_in_background");
+            writer.WriteValue(isInBackground);
+
+            writer.WriteEndObject();
+        }
+
+
+        static public Block LoadFromJson(JToken blockToken, Chunk chunk, wndGame wndGame) 
+        {
+            int posX = (int)new JsonPointer($"/pos_x").Evaluate(blockToken);
+            int posY = (int)new JsonPointer($"/pos_y").Evaluate(blockToken);
+            bool isInBackground = (bool)new JsonPointer($"/is_in_background").Evaluate(blockToken);
+
+            string name = (string)new JsonPointer($"/name").Evaluate(blockToken);
+
+
+            switch (name)
+            {
+                case "GrassBlock":
+                    return new GrassBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "DirtBlock":
+                    return new DirtBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "StoneBlock":
+                    return new StoneBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "AirBlock":
+                    return new AirBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "BedrockBlock":
+                    return new BedrockBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "DiamondOreBlock":
+                    return new DiamondOreBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "IronOreBlock":
+                    return new IronOreBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "CoalOreBlock":
+                    return new CoalOreBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "OakLogBlock":
+                    return new OakLogBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "OakLeavesBlock":
+                    return new OakLeavesBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "SpruceLogBlock":
+                    return new SpruceLogBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "SpruceLeavesBlock":
+                    return new SpruceLeavesBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "ChestBlock":
+                    return new ChestBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "MagmaBlock":
+                    return new MagmaBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                /*case "TorchBlock":
+                    return Add(new TorchBlock(wndGame, posX, posY, this, null, isInBackground));
+                    break;*/
+                default:
+                    return new AirBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+            }
+        }
+    
+
+
 
         public void SetContainer(BlockContainer blockContainer)
         {
