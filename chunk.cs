@@ -234,7 +234,6 @@ namespace SeeloewenCraft
 
                 for(int i = 0; i < 600; i++)
                 {
-
                     JToken blockToken = new JsonPointer($"/{i}").Evaluate(blockArrayToken);
 
                     int posX = (int)new JsonPointer($"/pos_x").Evaluate(blockToken);
@@ -287,6 +286,9 @@ namespace SeeloewenCraft
                             break;
                         case "MagmaBlock":
                             blockList.Add(new MagmaBlock(wndGame, posX, posY, this, null, isInBackground));
+                            break;
+                        case: "TorchBlock":
+                            blockList.Add(new TorchBlock(wndGame, posX, posY, this, null, isInBackground));
                             break;
                         default:
                             blockList.Add(new AirBlock(wndGame, posX, posY, this, null, isInBackground));

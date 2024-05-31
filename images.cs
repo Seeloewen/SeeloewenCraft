@@ -84,6 +84,7 @@ namespace SeeloewenCraft
             Hammer = new ImageBrush { ImageSource = GetImageSource("Hammer.png") };
             SpruceLogBlock = new ImageBrush { ImageSource = GetImageSource("SpruceLogBlock.png") };
             SpruceLeavesBlock = new ImageBrush { ImageSource = GetImageSource("SpruceLeavesBlock.png") };
+            Torch = new ImageBrush { ImageSource = GetImageSource("Torch.png") };
         }
 
         //-- Images --//
@@ -104,6 +105,7 @@ namespace SeeloewenCraft
         public ImageBrush Hammer;
         public ImageBrush SpruceLogBlock;
         public ImageBrush SpruceLeavesBlock;
+        public ImageBrush Torch;
 
     }
 }

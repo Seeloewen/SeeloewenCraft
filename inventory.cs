@@ -398,6 +398,10 @@ namespace SeeloewenCraft
                             {
                                 slot.AddToSlot(new HammerItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
                             }
+                            else if (itemSplit[0] == "TorchItem")
+                            {
+                                slot.AddToSlot(new TorchItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
+                            }
                         }
                     }
                 }
