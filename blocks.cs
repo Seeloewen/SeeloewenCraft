@@ -578,6 +578,89 @@ namespace SeeloewenCraft
         public void PlaceInForeground(Block block)
         {
             blockContainer.SetForegroundBlock(block);
+            block.xPos = xPos;
+            block.yPos = yPos;
+            block.chunk = chunk;
+        }
+
+        public bool ConnectedBlocksHaveEnoughSpace(Block baseBlock)
+        {
+            if (!baseBlock.isForeground)
+            {
+                foreach (Block block in baseBlock.connectedBlocks)
+                {
+                    int actualXPos = xPos + block.xOffset;
+                    int actualYPos = yPos + block.yOffset;
+
+                    if (actualXPos > 8)
+                    {
+                        Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
+                        block.chunk = newChunk;
+                        if (newChunk.GetBlock(actualXPos - 8, actualYPos).isSolid || newChunk.GetBlock(actualXPos - 8, actualYPos).isInBackground)
+                        {
+                            return false;
+                        }
+                    }
+                    else if (actualXPos < 1)
+                    {
+                        Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
+                        block.chunk = newChunk;
+                        if (newChunk.GetBlock(actualXPos + 8, actualYPos).isSolid || newChunk.GetBlock(actualXPos + 8, actualYPos).isInBackground)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        block.chunk = chunk;
+                        if (chunk.GetBlock(actualXPos, actualYPos).isSolid || chunk.GetBlock(actualXPos, actualYPos).isInBackground)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            else if (baseBlock.isForeground)
+            {
+                foreach (Block block in baseBlock.connectedBlocks)
+                {
+                    int actualXPos = xPos + block.xOffset;
+                    int actualYPos = yPos + block.yOffset;
+
+                    if (actualXPos > 8)
+                    {
+                        Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
+                        block.chunk = newChunk;
+                        if (newChunk.GetBlock(actualXPos - 8, actualYPos).foregroundBlock != null || !newChunk.GetBlock(actualXPos - 8, actualYPos).isInBackground)
+                        {
+                            return false;
+                        }
+                    }
+                    else if (actualXPos < 1)
+                    {
+                        Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
+                        block.chunk = newChunk;
+                        if (newChunk.GetBlock(actualXPos + 8, actualYPos).foregroundBlock != null || !newChunk.GetBlock(actualXPos + 8, actualYPos).isInBackground)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        block.chunk = chunk;
+                        if (chunk.GetBlock(actualXPos, actualYPos).foregroundBlock != null || !chunk.GetBlock(actualXPos, actualYPos).isInBackground)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
 
@@ -618,7 +701,7 @@ namespace SeeloewenCraft
             {
                 foreach (Block block in foregroundBlock.connectedBlocks)
                 {
-                    chunk.GetBlock(block.xPos, block.yPos).BreakBlock(true);
+                    block.chunk.GetBlock(block.xPos, block.yPos).BreakBlock(true);
                 }
                 BreakBlock(true);
             }
@@ -634,11 +717,12 @@ namespace SeeloewenCraft
             //If the block is foreground and part of a construct
             else if (foregroundBlock != null && foregroundBlock.baseBlock != null)
             {
+                foregroundBlock.baseBlock.chunk.GetBlock(foregroundBlock.baseBlock.xPos, foregroundBlock.baseBlock.yPos).BreakBlock(true);
+
                 foreach (Block block in foregroundBlock.baseBlock.connectedBlocks)
                 {
-                    chunk.GetBlock(block.xPos, block.yPos).BreakBlock(true);
+                    block.chunk.GetBlock(block.xPos, block.yPos).BreakBlock(true);
                 }
-                baseBlock.BreakBlock(true);
             }
             //If it's just a normal block
             else
@@ -670,40 +754,39 @@ namespace SeeloewenCraft
 
                 if (selectedItem.block != null)
                 {
-                    PlaceInForeground(selectedItem.block);
-
-                    foreach (Block block in selectedItem.block.connectedBlocks)
+                    if (selectedItem.block.isBase && ConnectedBlocksHaveEnoughSpace(selectedItem.block))
                     {
-                        int actualXPos = xPos + block.xOffset;
-                        int actualYPos = yPos + block.yOffset;
+                        PlaceInForeground(selectedItem.block);
 
-                        if (actualXPos > 8)
+                        foreach (Block block in selectedItem.block.connectedBlocks)
                         {
-                            Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
-                            block.chunk = newChunk;
-                            block.xPos = actualXPos - 8;
-                            block.yPos = actualYPos;
-                            newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceInForeground(block);
-                        }
-                        else if (actualXPos < 1)
-                        {
-                            Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
-                            block.chunk = newChunk;
-                            block.xPos = actualXPos + 8;
-                            block.yPos = actualYPos;
-                            newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceInForeground(block);
-                        }
-                        else
-                        {
-                            chunk.GetBlock(actualXPos, actualYPos).PlaceInForeground(block);
-                            block.chunk = chunk;
-                            block.xPos = actualXPos;
-                            block.yPos = actualYPos;
-                        }
+                            int actualXPos = xPos + block.xOffset;
+                            int actualYPos = yPos + block.yOffset;
 
-                        //Remove the item from the inventory
-                        wndGame.player.inventory.RemoveItem(selectedItem);
+                            if (actualXPos > 8)
+                            {
+                                Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
+                                newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceInForeground(block);
+                            }
+                            else if (actualXPos < 1)
+                            {
+                                Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
+                                newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceInForeground(block);
+                            }
+                            else
+                            {
+                                chunk.GetBlock(actualXPos, actualYPos).PlaceInForeground(block);
+                            }
+
+                            //Remove the item from the inventory
+                            wndGame.player.inventory.RemoveItem(selectedItem);
+                        }
                     }
+                    else if (!selectedItem.block.isBase)
+                    {
+                        PlaceInForeground(selectedItem.block);
+                    }
+
                 }
             }
             else if (IsInRange() && !isSolid && !IsCollidingWithPlayer(sender) && !isInBackground && selectedItem != null)
@@ -716,40 +799,42 @@ namespace SeeloewenCraft
 
                 if (selectedItem.block != null)
                 {
-                    PlaceNewBlock(selectedItem.block, sender);
-
-                    foreach (Block block in selectedItem.block.connectedBlocks)
+                    if (selectedItem.block.isBase && ConnectedBlocksHaveEnoughSpace(selectedItem.block))
                     {
-                        int actualXPos = xPos + block.xOffset;
-                        int actualYPos = yPos + block.yOffset;
+                        PlaceNewBlock(selectedItem.block, sender);
 
-                        if (actualXPos > 8)
+                        foreach (Block block in selectedItem.block.connectedBlocks)
                         {
-                            Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
-                            block.chunk = newChunk;
-                            newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceNewBlock(block, sender);
-                            System.Windows.MessageBox.Show($"{newChunk.GetBlock(actualXPos - 8, actualYPos).xPos} {newChunk.GetBlock(actualXPos - 8, actualYPos).yPos} {newChunk.index}");
+                            int actualXPos = xPos + block.xOffset;
+                            int actualYPos = yPos + block.yOffset;
+
+                            if (actualXPos > 8)
+                            {
+                                Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
+                                block.chunk = newChunk;
+                                newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceNewBlock(block, sender);
+                            }
+                            else if (actualXPos < 1)
+                            {
+                                Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
+                                block.chunk = newChunk;
+                                newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceNewBlock(block, sender);
+                            }
+                            else
+                            {
+                                block.chunk = chunk;
+                                chunk.GetBlock(actualXPos, actualYPos).PlaceNewBlock(block, sender);
+                            }
 
                         }
-                        else if (actualXPos < 1)
-                        {
-                            Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
-                            block.chunk = newChunk;
-                            newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceNewBlock(block, sender);
-                            System.Windows.MessageBox.Show($"{newChunk.GetBlock(actualXPos + 8, actualYPos).xPos} {newChunk.GetBlock(actualXPos + 8, actualYPos).yPos} {newChunk.index}");
-                        }
-                        else
-                        {
-                            block.chunk = chunk;
-                            chunk.GetBlock(actualXPos, actualYPos).PlaceNewBlock(block, sender);
-                            System.Windows.MessageBox.Show($"{chunk.GetBlock(actualXPos, actualYPos).xPos} {chunk.GetBlock(actualXPos, actualYPos).yPos} {chunk.index}");
 
-                        }
-
+                        //Remove the item from the inventory
+                        wndGame.player.inventory.RemoveItem(selectedItem);
                     }
-
-                    //Remove the item from the inventory
-                    wndGame.player.inventory.RemoveItem(selectedItem);
+                    else if (!selectedItem.block.isBase)
+                    {
+                        PlaceNewBlock(selectedItem.block, sender);
+                    }
                 }
 
             }
@@ -1072,14 +1157,8 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Cactus Plant Base";
             connectedBlocks.Add(new Plant2Block_Top(wndGame, x, y, chunk, item, isInBackground));
-            connectedBlocks.Add(new Plant2Block_Top(wndGame, x, y, chunk, item, isInBackground));
-            connectedBlocks.Add(new Plant2Block_Top(wndGame, x, y, chunk, item, isInBackground));
             connectedBlocks[0].yOffset = -1;
             connectedBlocks[0].baseBlock = this;
-            connectedBlocks[1].xOffset = -3;
-            connectedBlocks[1].baseBlock = this;
-            connectedBlocks[2].xOffset = 5;
-            connectedBlocks[2].baseBlock = this;
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
