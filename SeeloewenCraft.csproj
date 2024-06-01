@@ -93,6 +93,7 @@
     <Compile Include="log.cs" />
     <Compile Include="lootTable.cs" />
     <Compile Include="lootTableEntry.cs" />
+    <Compile Include="lootTables.cs" />
     <Compile Include="player.cs" />
     <Compile Include="chunk.cs" />
     <Compile Include="hotbarSlot.cs" />

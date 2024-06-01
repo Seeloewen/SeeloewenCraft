@@ -33,6 +33,7 @@ namespace SeeloewenCraft
         public List<Chunk> currentChunkList = new List<Chunk>();
         public List<Inventory> inventoryList = new List<Inventory>();
         public Images images;
+        public LootTables lootTables;
         public wndMenu wndMenu;
         public wndSettings wndSettings;
         public Log log;
@@ -63,13 +64,14 @@ namespace SeeloewenCraft
         {
             InitializeComponent();
 
-            //Set world name and create game
+            //Set world name and create game and links
             this.worldName = worldName;
             this.worldVersion = worldVersion;
             this.gameVersion = gameVersion;
             this.wndMenu = wndMenu;
             this.log = log;
             images = new Images(this);
+            lootTables = new LootTables(this);
             worldDirectory = $"{wndMenu.worldDirectory}\\{worldName}";
 
             if (!isNew && GetWorldVersion(worldName) < worldVersion)

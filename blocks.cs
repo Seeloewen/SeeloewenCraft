@@ -13,6 +13,7 @@ using System.Windows.Media.Converters;
 using System.Diagnostics.Eventing.Reader;
 using System.Runtime.Remoting.Channels;
 using System.Security.Permissions;
+using System.Windows.Forms;
 
 namespace SeeloewenCraft
 {
@@ -42,6 +43,7 @@ namespace SeeloewenCraft
         public Block baseBlock;
         public int xOffset;
         public int yOffset;
+        public LootTable lootTable;
 
         //-- Constructor --//
 
@@ -427,7 +429,18 @@ namespace SeeloewenCraft
 
                     //Add the block's item to the inventory
                     GenerateItem(wndGame, 0);
-                    if (item != null)
+
+                    //If the block has a loot table, roll an entry and give the items to player
+                    if (lootTable != null)
+                    {
+                        List<Item> items = lootTable.RollEntry().RollItems();
+                        foreach (Item item in items)
+                        {
+                            wndGame.player.inventory.AddItem(item);
+                        }
+                    }
+                    //If has only an item, only give that item
+                    else if (item != null)
                     {
                         wndGame.player.inventory.AddItem(item);
                     }
@@ -435,34 +448,31 @@ namespace SeeloewenCraft
             }
         }
 
-        public void PlaceNewBlock(Block block, object sender, bool skipRangeCheck)
+        public void PlaceNewBlock(Block block, object sender)
         {
-            //If the player is holding a hammer, move the item to the background or foreground (if possible)
-            if (!hasFixedSolidState && (IsInRange() || skipRangeCheck) && IsHolding("Hammer"))
+            //Go through each hotbar slot
+            foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
             {
-                if (isInBackground)
+                //Check if the slot is selected and has an item
+                if (slot.isSelected && slot.slot.items.Count > 0)
                 {
-                    MoveToForeground();
-                }
-                else
-                {
-                    MoveToBackground();
-                }
-            }
-            else if (IsInRange() && IsHolding("Torch") && foregroundBlock == null && isInBackground)
-            {
-                //Go through each hotbar slot
-                foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
-                {
-                    //Check if the slot is selected and has an item
-                    if (slot.isSelected == true && slot.slot.items.Count > 0)
+                    if (slot.slot.items[slot.slot.items.Count - 1].block == null)
                     {
-                        if (slot.slot.items[slot.slot.items.Count - 1].block == null)
-                        {
-                            slot.slot.items[slot.slot.items.Count - 1].block = slot.slot.items[slot.slot.items.Count - 1].GenerateBlock(0, 0, chunk, false);
-                        }
+                        slot.slot.items[slot.slot.items.Count - 1].block = slot.slot.items[slot.slot.items.Count - 1].GenerateBlock(0, 0, chunk, false);
+                    }
 
-                        blockContainer.SetForegroundBlock(slot.slot.items[slot.slot.items.Count - 1].block);
+                    //Check if the slots item is placable
+                    if (slot.slot.items[slot.slot.items.Count - 1].isPlacable)
+                    {
+                        //Remove the non-solid block that is currently there and add the new selected block
+                        chunk.blockList.Remove(this);
+                        chunk.blockList.Add(slot.slot.items[slot.slot.items.Count - 1].block, xPos, yPos);
+                        slot.slot.items[slot.slot.items.Count - 1].block.xPos = xPos;
+                        slot.slot.items[slot.slot.items.Count - 1].block.yPos = yPos;
+                        slot.slot.items[slot.slot.items.Count - 1].block.chunk = chunk;
+
+                        //Add the border to the chunk
+                        chunk.SetBlock(slot.slot.items[slot.slot.items.Count - 1].block, xPos, yPos);
 
                         //Remove the item from the inventory
                         wndGame.player.inventory.RemoveItem(slot.slot.items[slot.slot.items.Count - 1]);
@@ -470,46 +480,6 @@ namespace SeeloewenCraft
                 }
             }
 
-            //Check if the block is in range, not solid and doesn't collide with the player
-            else if ((IsInRange() || skipRangeCheck) && !isSolid && !IsCollidingWithPlayer(sender) && !isInBackground)
-            {
-                //Go through each hotbar slot
-                foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
-                {
-                    //Check if the slot is selected and has an item
-                    if (slot.isSelected && slot.slot.items.Count > 0)
-                    {
-                        if (slot.slot.items[slot.slot.items.Count - 1].block == null)
-                        {
-                            slot.slot.items[slot.slot.items.Count - 1].block = slot.slot.items[slot.slot.items.Count - 1].GenerateBlock(0, 0, chunk, false);
-                        }
-
-                        //Check if the slots item is placable
-                        if (slot.slot.items[slot.slot.items.Count - 1].isPlacable)
-                        {
-                            //Remove the non-solid block that is currently there and add the new selected block
-                            chunk.blockList.Remove(this);
-                            chunk.blockList.Add(slot.slot.items[slot.slot.items.Count - 1].block, xPos, yPos);
-                            slot.slot.items[slot.slot.items.Count - 1].block.xPos = xPos;
-                            slot.slot.items[slot.slot.items.Count - 1].block.yPos = yPos;
-                            slot.slot.items[slot.slot.items.Count - 1].block.chunk = chunk;
-
-                            //Add the border to the chunk
-                            chunk.SetBlock(slot.slot.items[slot.slot.items.Count - 1].block, xPos, yPos);
-
-                            //Remove the item from the inventory
-                            wndGame.player.inventory.RemoveItem(slot.slot.items[slot.slot.items.Count - 1]);
-                        }
-                    }
-                }
-            }
-            else if ((IsInRange() || skipRangeCheck) && isSolid && hasInventory)
-            {
-                //If the block has an inventory, open it as well as the players inventory
-                Canvas.SetTop(wndGame.player.inventory.grdInventory, -10);
-                wndGame.player.inventory.ShowInventory();
-                blockInventory.ShowInventory();
-            }
         }
 
 
@@ -561,41 +531,76 @@ namespace SeeloewenCraft
         private void cvsBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             Item selectedItem = wndGame.player.inventory.GetSelectedItem();
-            if (selectedItem != null)
+            if (!hasFixedSolidState && IsInRange() && IsHolding("Hammer"))
             {
-                if(IsInRange())
+                if (isInBackground)
                 {
-                    if (selectedItem.block != null)
+                    MoveToForeground();
+                }
+                else
+                {
+                    MoveToBackground();
+                }
+            }
+            else if (IsInRange() && IsHolding("Torch") && foregroundBlock == null && isInBackground)
+            {
+                //Go through each hotbar slot
+                foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
+                {
+                    //Check if the slot is selected and has an item
+                    if (slot.isSelected == true && slot.slot.items.Count > 0)
                     {
-                        selectedItem.GenerateBlock(xPos, yPos, chunk, isInBackground);
+                        if (slot.slot.items[slot.slot.items.Count - 1].block == null)
+                        {
+                            slot.slot.items[slot.slot.items.Count - 1].block = slot.slot.items[slot.slot.items.Count - 1].GenerateBlock(0, 0, chunk, false);
+                        }
+
+                        blockContainer.SetForegroundBlock(slot.slot.items[slot.slot.items.Count - 1].block);
+
+                        //Remove the item from the inventory
+                        wndGame.player.inventory.RemoveItem(slot.slot.items[slot.slot.items.Count - 1]);
                     }
+                }
+            }
+            else if (IsInRange() && !isSolid && !IsCollidingWithPlayer(sender) && !isInBackground && selectedItem != null)
+            {
+                if (selectedItem.block != null)
+                {
+                    selectedItem.GenerateBlock(xPos, yPos, chunk, isInBackground);
+                }
 
-                    PlaceNewBlock(selectedItem.block, sender, true);
+                PlaceNewBlock(selectedItem.block, sender);
 
-                    foreach (Block block in selectedItem.block.connectedBlocks)
+                foreach (Block block in selectedItem.block.connectedBlocks)
+                {
+                    int actualXPos = xPos + block.xOffset;
+                    int actualYPos = yPos + block.yOffset;
+
+                    if (actualXPos > 8)
                     {
-                        int actualXPos = xPos + block.xOffset;
-                        int actualYPos = yPos + block.yOffset;
-
-                        if (actualXPos > 8)
-                        {
-                            Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
-                            block.chunk = newChunk;
-                            newChunk.blockList.Add(block, actualXPos - 8, actualYPos);
-                        }
-                        else if (actualXPos < 1)
-                        {
-                            Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
-                            block.chunk = newChunk;
-                            newChunk.blockList.Add(block, actualXPos + 8, actualYPos);
-                        }
-                        else
-                        {
-                            chunk.blockList.Add(block, actualXPos, actualYPos);
-                        }
-                        chunk.SetBlock(block, actualXPos, actualYPos);
+                        Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
+                        block.chunk = newChunk;
+                        newChunk.blockList.Add(block, actualXPos - 8, actualYPos);
                     }
-                }          
+                    else if (actualXPos < 1)
+                    {
+                        Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
+                        block.chunk = newChunk;
+                        newChunk.blockList.Add(block, actualXPos + 8, actualYPos);
+                    }
+                    else
+                    {
+                        chunk.blockList.Add(block, actualXPos, actualYPos);
+                    }
+                    chunk.SetBlock(block, actualXPos, actualYPos);
+                }
+            }
+            else if (IsInRange() && isSolid && hasInventory)
+            {
+                //If the block has an inventory, open it as well as the players inventory
+                Canvas.SetTop(wndGame.player.inventory.grdInventory, -10);
+                wndGame.player.inventory.ShowInventory();
+                blockInventory.ShowInventory();
             }
         }
     }
@@ -625,6 +630,7 @@ namespace SeeloewenCraft
     {
         public StoneBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
+            //lootTable = wndGame.lootTables.stoneLootTable;
             SetTexture();
             name = "Stone Block";
         }
