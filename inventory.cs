@@ -319,6 +319,19 @@ namespace SeeloewenCraft
             wndGame.log.Write($"Saved inventory {id}", "Info");
         }
 
+        public Item GetSelectedItem()
+        {
+            foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
+            {
+                //Check if the slot is selected and has an item
+                if (slot.isSelected == true && slot.slot.items.Count > 0)
+                {
+                    return slot.slot.items[slot.slot.items.Count - 1];
+                }
+            }
+            return null;
+        }
+
         public void LoadInventory(string path, int id)
         {
             //Set the ID to map it to the correct block
@@ -401,6 +414,10 @@ namespace SeeloewenCraft
                             else if (itemSplit[0] == "TorchItem")
                             {
                                 slot.AddToSlot(new TorchItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
+                            }
+                            else if (itemSplit[0] == "Plant2Item")
+                            {
+                                slot.AddToSlot(new Plant2Item(wndGame, Convert.ToInt32(fileSplit[1]), null));
                             }
                         }
                     }

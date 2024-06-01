@@ -245,6 +245,7 @@ namespace SeeloewenCraft
                 {
                     player.inventory.AddItem(new TorchItem(this, 0, null));
                 }
+                player.inventory.AddItem(new Plant2Item(this, 0, null));
             }
 
             finishedLoading = true;

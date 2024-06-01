@@ -91,12 +91,19 @@
     <Compile Include="caveGeneration.cs" />
     <Compile Include="images.cs" />
     <Compile Include="log.cs" />
+    <Compile Include="lootTable.cs" />
+    <Compile Include="lootTableEntry.cs" />
     <Compile Include="player.cs" />
     <Compile Include="chunk.cs" />
     <Compile Include="hotbarSlot.cs" />
     <Compile Include="inventory.cs" />
     <Compile Include="inventorySlot.cs" />
     <Compile Include="items.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SeeloewenLib.cs" />
     <Compile Include="splashtexts.cs" />
     <Compile Include="structures.cs" />
@@ -159,11 +166,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -184,7 +186,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Background.png" />
+    <Resource Include="Resources\Background.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\ChestBlock.png" />
     <Resource Include="Resources\MagmaBlock.png" />
     <Resource Include="Resources\PumpkinBlock.png" />
@@ -239,6 +243,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Torch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Plant2_Base.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Plant2_Top.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Plant2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -11,6 +11,8 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media.Converters;
 using System.Diagnostics.Eventing.Reader;
+using System.Runtime.Remoting.Channels;
+using System.Security.Permissions;
 
 namespace SeeloewenCraft
 {
@@ -34,7 +36,12 @@ namespace SeeloewenCraft
         public double lightLevel;
         public Block foregroundBlock;
         public bool isForeground = false;
-        public int rangeToNearestLightSource = 100000;
+        public int rangeToNearestLightSource = int.MaxValue;
+        public List<Block> connectedBlocks = new List<Block>();
+        public bool isBase = false;
+        public Block baseBlock;
+        public int xOffset;
+        public int yOffset;
 
         //-- Constructor --//
 
@@ -295,7 +302,7 @@ namespace SeeloewenCraft
                     }
                 }
             }
-        }       
+        }
 
         public int RangeToLightSource()
         {
@@ -398,32 +405,12 @@ namespace SeeloewenCraft
             }
         }
 
-        //-- Event Handlers --//
-
-        private void cvsBlock_MouseEnter(object sender, EventArgs e)
-        {
-            //Checks if the block is in range and breakable
-            if (IsInRange() == true)
-            {
-                //Show border that indicates that the block can be broken or placed a specific location
-                blockContainer.bdrBlock.BorderThickness = new Thickness(1, 1, 1, 1);
-                blockContainer.bdrBlock.BorderBrush = new SolidColorBrush(Colors.Black);
-            }
-        }
-
-        private void cvsBlock_MouseLeave(object sender, EventArgs e)
-        {
-            //Remove the border from the block
-            blockContainer.bdrBlock.BorderThickness = new Thickness(0, 0, 0, 0);
-            blockContainer.bdrBlock.BorderBrush = new SolidColorBrush(Colors.Transparent);
-        }
-
-        private void cvsBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        public void BreakBlock(bool skipRangeCheck)
         {
             //Check if the block is both breakable and in range
-            if (isBreakable == true && IsInRange() == true)
+            if (isBreakable == true && (IsInRange() || skipRangeCheck) == true)
             {
-                if(foregroundBlock != null)
+                if (foregroundBlock != null)
                 {
                     //Add the foreground block's item to the inventory
                     foregroundBlock.GenerateItem(wndGame, 0);
@@ -433,23 +420,25 @@ namespace SeeloewenCraft
                 else
                 {
                     //Remove the block from the chunks blocklist and add an airblock
-                    chunk.blockList.Remove(this);
                     Block block = new AirBlock(wndGame, xPos, yPos, chunk, null, false);
                     chunk.blockList.Add(block);
                     chunk.SetBlock(block, xPos, yPos);
+                    MoveToForeground();
 
                     //Add the block's item to the inventory
-                    MoveToForeground();
                     GenerateItem(wndGame, 0);
-                    wndGame.player.inventory.AddItem(item);
+                    if (item != null)
+                    {
+                        wndGame.player.inventory.AddItem(item);
+                    }
                 }
             }
         }
 
-        private void cvsBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        public void PlaceNewBlock(Block block, object sender, bool skipRangeCheck)
         {
             //If the player is holding a hammer, move the item to the background or foreground (if possible)
-            if (!hasFixedSolidState && IsInRange() && IsHolding("Hammer"))
+            if (!hasFixedSolidState && (IsInRange() || skipRangeCheck) && IsHolding("Hammer"))
             {
                 if (isInBackground)
                 {
@@ -482,13 +471,13 @@ namespace SeeloewenCraft
             }
 
             //Check if the block is in range, not solid and doesn't collide with the player
-            else if (IsInRange() && !isSolid && !IsCollidingWithPlayer(sender) && !isInBackground)
+            else if ((IsInRange() || skipRangeCheck) && !isSolid && !IsCollidingWithPlayer(sender) && !isInBackground)
             {
                 //Go through each hotbar slot
                 foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
                 {
                     //Check if the slot is selected and has an item
-                    if (slot.isSelected == true && slot.slot.items.Count > 0)
+                    if (slot.isSelected && slot.slot.items.Count > 0)
                     {
                         if (slot.slot.items[slot.slot.items.Count - 1].block == null)
                         {
@@ -496,7 +485,7 @@ namespace SeeloewenCraft
                         }
 
                         //Check if the slots item is placable
-                        if (slot.slot.items[slot.slot.items.Count - 1].isPlacable == true)
+                        if (slot.slot.items[slot.slot.items.Count - 1].isPlacable)
                         {
                             //Remove the non-solid block that is currently there and add the new selected block
                             chunk.blockList.Remove(this);
@@ -514,12 +503,99 @@ namespace SeeloewenCraft
                     }
                 }
             }
-            else if (IsInRange() == true && isSolid == true && hasInventory == true)
+            else if ((IsInRange() || skipRangeCheck) && isSolid && hasInventory)
             {
                 //If the block has an inventory, open it as well as the players inventory
                 Canvas.SetTop(wndGame.player.inventory.grdInventory, -10);
                 wndGame.player.inventory.ShowInventory();
                 blockInventory.ShowInventory();
+            }
+        }
+
+
+        //-- Event Handlers --//
+
+        private void cvsBlock_MouseEnter(object sender, EventArgs e)
+        {
+            //Checks if the block is in range and breakable
+            if (IsInRange() == true)
+            {
+                //Show border that indicates that the block can be broken or placed a specific location
+                blockContainer.bdrBlock.BorderThickness = new Thickness(1, 1, 1, 1);
+                blockContainer.bdrBlock.BorderBrush = new SolidColorBrush(Colors.Black);
+            }
+        }
+
+        private void cvsBlock_MouseLeave(object sender, EventArgs e)
+        {
+            //Remove the border from the block
+            blockContainer.bdrBlock.BorderThickness = new Thickness(0, 0, 0, 0);
+            blockContainer.bdrBlock.BorderBrush = new SolidColorBrush(Colors.Transparent);
+        }
+
+        private void cvsBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+            if (isBase && IsInRange())
+            {
+                BreakBlock(true);
+                foreach (Block block in connectedBlocks)
+                {
+                    block.BreakBlock(true);
+                }
+            }
+            else if (baseBlock != null && IsInRange())
+            {
+                baseBlock.BreakBlock(true);
+                foreach (Block block in baseBlock.connectedBlocks)
+                {
+                    block.BreakBlock(true);
+                }
+            }
+            else
+            {
+                BreakBlock(false);
+            }
+        }
+
+        private void cvsBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Item selectedItem = wndGame.player.inventory.GetSelectedItem();
+            if (selectedItem != null)
+            {
+                if(IsInRange())
+                {
+                    if (selectedItem.block != null)
+                    {
+                        selectedItem.GenerateBlock(xPos, yPos, chunk, isInBackground);
+                    }
+
+                    PlaceNewBlock(selectedItem.block, sender, true);
+
+                    foreach (Block block in selectedItem.block.connectedBlocks)
+                    {
+                        int actualXPos = xPos + block.xOffset;
+                        int actualYPos = yPos + block.yOffset;
+
+                        if (actualXPos > 8)
+                        {
+                            Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
+                            block.chunk = newChunk;
+                            newChunk.blockList.Add(block, actualXPos - 8, actualYPos);
+                        }
+                        else if (actualXPos < 1)
+                        {
+                            Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
+                            block.chunk = newChunk;
+                            newChunk.blockList.Add(block, actualXPos + 8, actualYPos);
+                        }
+                        else
+                        {
+                            chunk.blockList.Add(block, actualXPos, actualYPos);
+                        }
+                        chunk.SetBlock(block, actualXPos, actualYPos);
+                    }
+                }          
             }
         }
     }
@@ -824,4 +900,48 @@ namespace SeeloewenCraft
             image = wndGame.images.Torch;
         }
     }
+    public class Plant2Block_Base : Block
+    {
+        public Plant2Block_Base(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            isSolid = false;
+            isBase = true;
+            SetTexture();
+            name = "Cactus Plant Base";
+            connectedBlocks.Add(new Plant2Block_Top(wndGame, x, y, chunk, item, isInBackground));
+            connectedBlocks[0].yOffset = -1;
+            connectedBlocks[0].baseBlock = this;
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = new Plant2Item(wndGame, id, this);
+        }
+
+        public override void SetTexture()
+        {
+            image = wndGame.images.Plant2_Base;
+        }
+    }
+
+    public class Plant2Block_Top : Block
+    {
+        public Plant2Block_Top(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            isSolid = false;
+            SetTexture();
+            name = "Cactus Plant Top";
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = null;
+        }
+
+        public override void SetTexture()
+        {
+            image = wndGame.images.Plant2_Top;
+        }
+    }
+
 }
