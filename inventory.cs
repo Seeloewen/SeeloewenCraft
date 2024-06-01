@@ -256,10 +256,6 @@ namespace SeeloewenCraft
             isShown = false;
         }
 
-
-
-
-
         public void ShowHotbar()
         {
             if (hasHotbar == true)

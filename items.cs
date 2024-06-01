@@ -470,7 +470,7 @@ namespace SeeloewenCraft
         {
             canBeForeground = true;
             isPlacable = true;
-            itemName = "Torch";
+            itemName = "Plant2";
             SetTexture();
         }
 
