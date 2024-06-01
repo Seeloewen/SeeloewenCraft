@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿using Microsoft.Json.Pointer;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Reflection;
 using System.Windows.Documents;
 
 namespace SeeloewenCraft
@@ -10,11 +13,58 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public BlockList() {
+        public BlockList()
+        {
             blocks = new Block[600];
         }
 
         //-- Custom Methods --//
+
+
+
+
+        public void saveToJson(JsonWriter writer)
+        {
+
+            writer.WriteStartObject();
+
+
+
+            writer.WritePropertyName("blocks");
+            writer.WriteStartArray();
+
+            foreach (Block block in blocks)
+            {
+                block.SaveToJson(writer);
+            }
+
+            writer.WriteEndArray();
+
+
+            writer.WriteEndObject();
+
+
+        }
+
+
+        static public BlockList loadFromJson(JToken documentToken, Chunk chunk, wndGame wndGame)
+        {
+            BlockList blockList = new BlockList();
+
+            JToken blockArrayToken = new JsonPointer("/blocks").Evaluate(documentToken);
+
+            for (int i = 0; i < 600; i++)
+            {
+                JToken blockToken = new JsonPointer($"/{i}").Evaluate(blockArrayToken);
+
+                blockList.Add(Block.LoadFromJson(blockToken, chunk, wndGame));
+            }
+            return blockList;
+
+        }
+
+
+
 
         public void Add(Block block)
         {
@@ -45,7 +95,8 @@ namespace SeeloewenCraft
             return blocks[i];
         }
 
-        public void Remove(int x, int y) {
+        public void Remove(int x, int y)
+        {
             //Remove the block at the index based on x and y pos
             int i = calcIndex(x, y);
             blocks[i] = null;
@@ -67,7 +118,7 @@ namespace SeeloewenCraft
         private int calcIndex(int x, int y)
         {
             //Calculate the index based on x and y pos
-            return (x-1) + (y-1) * 8;
+            return (x - 1) + (y - 1) * 8;
         }
 
         private int calcX(int index) //Not used
