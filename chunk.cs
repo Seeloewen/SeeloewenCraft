@@ -208,27 +208,21 @@ namespace SeeloewenCraft
         private void Generate()
         {
             wndGame.log.Write($"Generating chunk {index}", "Info");
-                JToken documentToken = JToken.Parse(documentText);
-
-                JToken blockArrayToken = new JsonPointer("/blocks").Evaluate(documentToken);
-
-                for(int i = 0; i < 600; i++)
-                {
-                    JToken blockToken = new JsonPointer($"/{i}").Evaluate(blockArrayToken);
 
             blockList = new BlockList();
 
             //If it doesn't exist, create the file
             chunkDirectory = string.Format("{0}/chunk{1}", wndGame.worldDirectory, index);
 
+            //Generate terrain & structure
+            GenerateTerrain();
+            GenerateTrees();
+            GenerateOres();
+            if (Properties.Settings.Default.enableCaveGeneration) GenerateCaves();
+            ContinueStructureGeneration();
+
         }
-                        case: "TorchBlock":
-                            blockList.Add(new TorchBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                        default:
-                            blockList.Add(new AirBlock(wndGame, posX, posY, this, null, isInBackground));
-                            break;
-                    }
+
 
         private void Load()
         {
