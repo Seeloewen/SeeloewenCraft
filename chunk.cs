@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -120,14 +121,26 @@ namespace SeeloewenCraft
         public void SetBlock(Block block, int x, int y)
         {
             //Check if the coordinate has a container and place the block into that container if possible
-            if (blockContainerList.GetContainer(x, y) != null)
+            if (x > 8)
             {
-                blockContainerList.GetContainer(x, y).SetBlock(block);
+                wndGame.GetFromCurrentChunks(index + 1).SetBlock(block, x - 8, y);
+            }
+            else if (x < 1)
+            {
+                wndGame.GetFromCurrentChunks(index - 1).SetBlock(block, x + 8, y);
             }
             else
             {
-                Console.WriteLine($"[Error] Could not find container at x{x} y{y} for block {block.name}");
+                if (blockContainerList.GetContainer(x, y) != null)
+                {
+                    blockContainerList.GetContainer(x, y).SetBlock(block);
+                }
+                else
+                {
+                    Console.WriteLine($"[Error] Could not find container at x{x} y{y} for block {block.name}");
+                }
             }
+
         }
 
         public void SetContainerList()
@@ -209,6 +222,7 @@ namespace SeeloewenCraft
             ContinueStructureGeneration();
 
         }
+
 
         private void Load()
         {

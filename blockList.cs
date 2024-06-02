@@ -1,6 +1,7 @@
 ﻿using Microsoft.Json.Pointer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Reflection;
 using System.Windows.Documents;
 
 namespace SeeloewenCraft
@@ -68,6 +69,7 @@ namespace SeeloewenCraft
         public void Add(Block block)
         {
             //Add the block to the index based on x and y pos
+            //Check if the coordinate has a container and place the block into that container if possible
             int i = calcIndex(block.xPos, block.yPos);
             blocks[i] = block;
         }

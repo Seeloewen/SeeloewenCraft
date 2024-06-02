@@ -68,6 +68,7 @@ namespace SeeloewenCraft
 
         private void CreateResources()
         {
+            Background = new ImageBrush { ImageSource = GetImageSource("Background.png") };
             GrassBlock = new ImageBrush { ImageSource = GetImageSource("GrassBlock.png") };
             StoneBlock = new ImageBrush { ImageSource = GetImageSource("StoneBlock.png") };
             DirtBlock = new ImageBrush { ImageSource = GetImageSource("DirtBlock.png") };
@@ -84,11 +85,17 @@ namespace SeeloewenCraft
             Hammer = new ImageBrush { ImageSource = GetImageSource("Hammer.png") };
             SpruceLogBlock = new ImageBrush { ImageSource = GetImageSource("SpruceLogBlock.png") };
             SpruceLeavesBlock = new ImageBrush { ImageSource = GetImageSource("SpruceLeavesBlock.png") };
-            //Torch = new ImageBrush { ImageSource = GetImageSource("Torch.png") };
+            Torch = new ImageBrush { ImageSource = GetImageSource("Torch.png") };
+            Plant2_Base = new ImageBrush { ImageSource = GetImageSource("Plant2_Base.png") };
+            Plant2_Top = new ImageBrush { ImageSource = GetImageSource("Plant2_Top.png") };
+            Plant2= new ImageBrush { ImageSource = GetImageSource("Plant2.png") };
+
+
         }
 
         //-- Images --//
 
+        public ImageBrush Background;
         public ImageBrush GrassBlock;
         public ImageBrush StoneBlock;
         public ImageBrush DirtBlock;
@@ -106,6 +113,8 @@ namespace SeeloewenCraft
         public ImageBrush SpruceLogBlock;
         public ImageBrush SpruceLeavesBlock;
         public ImageBrush Torch;
-
+        public ImageBrush Plant2_Top;
+        public ImageBrush Plant2_Base;
+        public ImageBrush Plant2;
     }
 }

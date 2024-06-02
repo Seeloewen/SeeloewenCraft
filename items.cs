@@ -25,7 +25,7 @@ namespace SeeloewenCraft
         public int xPos;
         public int yPos;
         public bool isPlacable = false;
-        public bool canBeForeground = true;
+        public bool canBeForeground = false;
 
 
         //-- Constructor --//
@@ -444,6 +444,7 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             itemName = "Torch";
+            canBeForeground = true;
             SetTexture();
         }
 
@@ -458,6 +459,32 @@ namespace SeeloewenCraft
             {
                 //Set the texture of the block on the canvas
                 image = wndGame.images.Torch;
+                cvsItem.Background = image;
+            }
+        }
+    }
+
+    public class Plant2Item : Item
+    {
+        public Plant2Item(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        {
+            canBeForeground = true;
+            isPlacable = true;
+            itemName = "Plant2";
+            SetTexture();
+        }
+
+        override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
+        {
+            block = new Plant2Block_Base(wndGame, x, y, chunk, this, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            {
+                //Set the texture of the block on the canvas
+                image = wndGame.images.Plant2;
                 cvsItem.Background = image;
             }
         }

@@ -11,9 +11,13 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media.Converters;
 using System.Diagnostics.Eventing.Reader;
+using System.Runtime.Remoting.Channels;
+using System.Security.Permissions;
+using System.Windows.Forms;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.Json.Pointer;
+using System.Windows.Interop;
 
 namespace SeeloewenCraft
 {
@@ -37,7 +41,13 @@ namespace SeeloewenCraft
         public double lightLevel;
         public Block foregroundBlock;
         public bool isForeground = false;
-        public int rangeToNearestLightSource = 100000;
+        public int rangeToNearestLightSource = int.MaxValue;
+        public List<Block> connectedBlocks = new List<Block>();
+        public bool isBase = false;
+        public Block baseBlock;
+        public int xOffset;
+        public int yOffset;
+        public LootTable lootTable;
 
         //-- Constructor --//
 
@@ -151,7 +161,7 @@ namespace SeeloewenCraft
                     break;
             }
 
-            if(block.hasInventory)
+            if (block.hasInventory)
             {
                 JToken invToken = new JsonPointer($"/inventory").Evaluate(blockToken);
                 block.SetInventory(Inventory.LoadFromJson(invToken, wndGame));
@@ -507,6 +517,153 @@ namespace SeeloewenCraft
             }
         }
 
+        public void BreakBlock(bool skipRangeCheck)
+        {
+            //Check if the block is both breakable and in range
+            if (isBreakable && (IsInRange() || skipRangeCheck))
+            {
+                if (foregroundBlock != null)
+                {
+                    //Add the foreground block's item to the inventory
+                    foregroundBlock.GenerateItem(wndGame, 0);
+                    if (foregroundBlock.item != null)
+                    {
+                        wndGame.player.inventory.AddItem(foregroundBlock.item);
+                    }
+                    blockContainer.RemoveForegroundBlock();
+                }
+                else
+                {
+                    //Remove the block from the chunks blocklist and add an airblock
+                    Block block = new AirBlock(wndGame, xPos, yPos, chunk, null, false);
+                    chunk.blockList.Add(block);
+                    chunk.SetBlock(block, xPos, yPos);
+                    MoveToForeground();
+
+                    //Add the block's item to the inventory
+                    GenerateItem(wndGame, 0);
+
+                    //If the block has a loot table, roll an entry and give the items to player
+                    if (lootTable != null)
+                    {
+                        List<Item> items = lootTable.RollEntry().RollItems();
+                        foreach (Item item in items)
+                        {
+                            wndGame.player.inventory.AddItem(item);
+                        }
+                    }
+                    //If has only an item, only give that item
+                    else if (item != null)
+                    {
+                        wndGame.player.inventory.AddItem(item);
+                    }
+                }
+            }
+        }
+
+        public void PlaceNewBlock(Block block, object sender)
+        {
+            //Remove the non-solid block that is currently there and add the new selected block
+            chunk.blockList.Add(block, xPos, yPos);
+            block.xPos = xPos;
+            block.yPos = yPos;
+            block.chunk = chunk;
+
+
+            //Add the border to the chunk
+            chunk.SetBlock(block, xPos, yPos);
+            block.MoveToForeground();
+        }
+
+        public void PlaceInForeground(Block block)
+        {
+            blockContainer.SetForegroundBlock(block);
+            block.xPos = xPos;
+            block.yPos = yPos;
+            block.chunk = chunk;
+        }
+
+        public bool ConnectedBlocksHaveEnoughSpace(Block baseBlock)
+        {
+            if (!baseBlock.isForeground)
+            {
+                foreach (Block block in baseBlock.connectedBlocks)
+                {
+                    int actualXPos = xPos + block.xOffset;
+                    int actualYPos = yPos + block.yOffset;
+
+                    if (actualXPos > 8)
+                    {
+                        Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
+                        block.chunk = newChunk;
+                        if (newChunk.GetBlock(actualXPos - 8, actualYPos).isSolid || newChunk.GetBlock(actualXPos - 8, actualYPos).isInBackground)
+                        {
+                            return false;
+                        }
+                    }
+                    else if (actualXPos < 1)
+                    {
+                        Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
+                        block.chunk = newChunk;
+                        if (newChunk.GetBlock(actualXPos + 8, actualYPos).isSolid || newChunk.GetBlock(actualXPos + 8, actualYPos).isInBackground)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        block.chunk = chunk;
+                        if (chunk.GetBlock(actualXPos, actualYPos).isSolid || chunk.GetBlock(actualXPos, actualYPos).isInBackground)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            else if (baseBlock.isForeground)
+            {
+                foreach (Block block in baseBlock.connectedBlocks)
+                {
+                    int actualXPos = xPos + block.xOffset;
+                    int actualYPos = yPos + block.yOffset;
+
+                    if (actualXPos > 8)
+                    {
+                        Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
+                        block.chunk = newChunk;
+                        if (newChunk.GetBlock(actualXPos - 8, actualYPos).foregroundBlock != null || !newChunk.GetBlock(actualXPos - 8, actualYPos).isInBackground)
+                        {
+                            return false;
+                        }
+                    }
+                    else if (actualXPos < 1)
+                    {
+                        Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
+                        block.chunk = newChunk;
+                        if (newChunk.GetBlock(actualXPos + 8, actualYPos).foregroundBlock != null || !newChunk.GetBlock(actualXPos + 8, actualYPos).isInBackground)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        block.chunk = chunk;
+                        if (chunk.GetBlock(actualXPos, actualYPos).foregroundBlock != null || !chunk.GetBlock(actualXPos, actualYPos).isInBackground)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
         //-- Event Handlers --//
 
         private void cvsBlock_MouseEnter(object sender, EventArgs e)
@@ -529,35 +686,54 @@ namespace SeeloewenCraft
 
         private void cvsBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            //Check if the block is both breakable and in range
-            if (isBreakable == true && IsInRange() == true)
-            {
-                if (foregroundBlock != null)
-                {
-                    //Add the foreground block's item to the inventory
-                    foregroundBlock.GenerateItem(wndGame, 0);
-                    wndGame.player.inventory.AddItem(foregroundBlock.item);
-                    blockContainer.RemoveForegroundBlock();
-                }
-                else
-                {
-                    //Remove the block from the chunks blocklist and add an airblock
-                    chunk.blockList.Remove(this);
-                    Block block = new AirBlock(wndGame, xPos, yPos, chunk, null, false);
-                    chunk.blockList.Add(block);
-                    chunk.SetBlock(block, xPos, yPos);
 
-                    //Add the block's item to the inventory
-                    MoveToForeground();
-                    GenerateItem(wndGame, 0);
-                    wndGame.player.inventory.AddItem(item);
+            //If the block is normal and a baseblock
+            if (isBase && IsInRange())
+            {
+                BreakBlock(true);
+                foreach (Block block in connectedBlocks)
+                {
+                    block.BreakBlock(true);
                 }
+            }
+            //If the block is foreground a baseblock
+            else if (foregroundBlock != null && foregroundBlock.isBase)
+            {
+                foreach (Block block in foregroundBlock.connectedBlocks)
+                {
+                    block.chunk.GetBlock(block.xPos, block.yPos).BreakBlock(true);
+                }
+                BreakBlock(true);
+            }
+            //If the block is normal and part of a construct
+            else if (baseBlock != null && IsInRange())
+            {
+                baseBlock.BreakBlock(true);
+                foreach (Block block in baseBlock.connectedBlocks)
+                {
+                    block.BreakBlock(true);
+                }
+            }
+            //If the block is foreground and part of a construct
+            else if (foregroundBlock != null && foregroundBlock.baseBlock != null)
+            {
+                foregroundBlock.baseBlock.chunk.GetBlock(foregroundBlock.baseBlock.xPos, foregroundBlock.baseBlock.yPos).BreakBlock(true);
+
+                foreach (Block block in foregroundBlock.baseBlock.connectedBlocks)
+                {
+                    block.chunk.GetBlock(block.xPos, block.yPos).BreakBlock(true);
+                }
+            }
+            //If it's just a normal block
+            else
+            {
+                BreakBlock(false);
             }
         }
 
         private void cvsBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            //If the player is holding a hammer, move the item to the background or foreground (if possible)
+            Item selectedItem = wndGame.player.inventory.GetSelectedItem();
             if (!hasFixedSolidState && IsInRange() && IsHolding("Hammer"))
             {
                 if (isInBackground)
@@ -569,61 +745,100 @@ namespace SeeloewenCraft
                     MoveToBackground();
                 }
             }
-            else if (IsInRange() && IsHolding("Torch") && foregroundBlock == null && isInBackground)
+            else if (IsInRange() && IsHolding("Plant2") && foregroundBlock == null && isInBackground)
             {
-                //Go through each hotbar slot
-                foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
+                if (selectedItem.block == null)
                 {
-                    //Check if the slot is selected and has an item
-                    if (slot.isSelected == true && slot.slot.items.Count > 0)
-                    {
-                        if (slot.slot.items[slot.slot.items.Count - 1].block == null)
-                        {
-                            slot.slot.items[slot.slot.items.Count - 1].block = slot.slot.items[slot.slot.items.Count - 1].GenerateBlock(0, 0, chunk, false);
-                        }
-
-                        blockContainer.SetForegroundBlock(slot.slot.items[slot.slot.items.Count - 1].block);
-
-                        //Remove the item from the inventory
-                        wndGame.player.inventory.RemoveItem(slot.slot.items[slot.slot.items.Count - 1]);
-                    }
+                    selectedItem.GenerateBlock(xPos, yPos, chunk, isInBackground);
                 }
-            }
 
-            //Check if the block is in range, not solid and doesn't collide with the player
-            else if (IsInRange() && !isSolid && !IsCollidingWithPlayer(sender) && !isInBackground)
-            {
-                //Go through each hotbar slot
-                foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
+                if (selectedItem.block != null)
                 {
-                    //Check if the slot is selected and has an item
-                    if (slot.isSelected == true && slot.slot.items.Count > 0)
+                    if (selectedItem.block.isBase && ConnectedBlocksHaveEnoughSpace(selectedItem.block))
                     {
-                        if (slot.slot.items[slot.slot.items.Count - 1].block == null)
-                        {
-                            slot.slot.items[slot.slot.items.Count - 1].block = slot.slot.items[slot.slot.items.Count - 1].GenerateBlock(0, 0, chunk, false);
-                        }
+                        PlaceInForeground(selectedItem.block);
 
-                        //Check if the slots item is placable
-                        if (slot.slot.items[slot.slot.items.Count - 1].isPlacable == true)
+                        foreach (Block block in selectedItem.block.connectedBlocks)
                         {
-                            //Remove the non-solid block that is currently there and add the new selected block
-                            chunk.blockList.Remove(this);
-                            chunk.blockList.Add(slot.slot.items[slot.slot.items.Count - 1].block, xPos, yPos);
-                            slot.slot.items[slot.slot.items.Count - 1].block.xPos = xPos;
-                            slot.slot.items[slot.slot.items.Count - 1].block.yPos = yPos;
-                            slot.slot.items[slot.slot.items.Count - 1].block.chunk = chunk;
+                            int actualXPos = xPos + block.xOffset;
+                            int actualYPos = yPos + block.yOffset;
 
-                            //Add the border to the chunk
-                            chunk.SetBlock(slot.slot.items[slot.slot.items.Count - 1].block, xPos, yPos);
+                            if (actualXPos > 8)
+                            {
+                                Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
+                                newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceInForeground(block);
+                            }
+                            else if (actualXPos < 1)
+                            {
+                                Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
+                                newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceInForeground(block);
+                            }
+                            else
+                            {
+                                chunk.GetBlock(actualXPos, actualYPos).PlaceInForeground(block);
+                            }
 
                             //Remove the item from the inventory
-                            wndGame.player.inventory.RemoveItem(slot.slot.items[slot.slot.items.Count - 1]);
+                            wndGame.player.inventory.RemoveItem(selectedItem);
                         }
                     }
+                    else if (!selectedItem.block.isBase)
+                    {
+                        PlaceInForeground(selectedItem.block);
+                    }
+
                 }
             }
-            else if (IsInRange() == true && isSolid == true && hasInventory == true)
+            else if (IsInRange() && !isSolid && !IsCollidingWithPlayer(sender) && !isInBackground && selectedItem != null)
+            {
+
+                if (selectedItem.block == null)
+                {
+                    selectedItem.GenerateBlock(xPos, yPos, chunk, isInBackground);
+                }
+
+                if (selectedItem.block != null)
+                {
+                    if (selectedItem.block.isBase && ConnectedBlocksHaveEnoughSpace(selectedItem.block))
+                    {
+                        PlaceNewBlock(selectedItem.block, sender);
+
+                        foreach (Block block in selectedItem.block.connectedBlocks)
+                        {
+                            int actualXPos = xPos + block.xOffset;
+                            int actualYPos = yPos + block.yOffset;
+
+                            if (actualXPos > 8)
+                            {
+                                Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
+                                block.chunk = newChunk;
+                                newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceNewBlock(block, sender);
+                            }
+                            else if (actualXPos < 1)
+                            {
+                                Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
+                                block.chunk = newChunk;
+                                newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceNewBlock(block, sender);
+                            }
+                            else
+                            {
+                                block.chunk = chunk;
+                                chunk.GetBlock(actualXPos, actualYPos).PlaceNewBlock(block, sender);
+                            }
+
+                        }
+
+                        //Remove the item from the inventory
+                        wndGame.player.inventory.RemoveItem(selectedItem);
+                    }
+                    else if (!selectedItem.block.isBase)
+                    {
+                        PlaceNewBlock(selectedItem.block, sender);
+                    }
+                }
+
+            }
+            else if (IsInRange() && isSolid && hasInventory)
             {
                 //If the block has an inventory, open it as well as the players inventory
                 Canvas.SetTop(wndGame.player.inventory.grdInventory, -10);
@@ -658,6 +873,7 @@ namespace SeeloewenCraft
     {
         public StoneBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
+            //lootTable = wndGame.lootTables.stoneLootTable;
             SetTexture();
             name = "Stone Block";
         }
@@ -880,7 +1096,7 @@ namespace SeeloewenCraft
             name = "Chest";
         }
 
-        
+
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
@@ -932,4 +1148,48 @@ namespace SeeloewenCraft
             image = wndGame.images.Torch;
         }
     }
+    public class Plant2Block_Base : Block
+    {
+        public Plant2Block_Base(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            isSolid = false;
+            isBase = true;
+            SetTexture();
+            name = "Cactus Plant Base";
+            connectedBlocks.Add(new Plant2Block_Top(wndGame, x, y, chunk, item, isInBackground));
+            connectedBlocks[0].yOffset = -1;
+            connectedBlocks[0].baseBlock = this;
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = new Plant2Item(wndGame, id, this);
+        }
+
+        public override void SetTexture()
+        {
+            image = wndGame.images.Plant2_Base;
+        }
+    }
+
+    public class Plant2Block_Top : Block
+    {
+        public Plant2Block_Top(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            isSolid = false;
+            SetTexture();
+            name = "Cactus Plant Top";
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = null;
+        }
+
+        public override void SetTexture()
+        {
+            image = wndGame.images.Plant2_Top;
+        }
+    }
+
 }

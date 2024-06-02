@@ -33,6 +33,7 @@ namespace SeeloewenCraft
         public List<Chunk> currentChunkList = new List<Chunk>();
         public List<Inventory> inventoryList = new List<Inventory>();
         public Images images;
+        public LootTables lootTables;
         public wndMenu wndMenu;
         public wndSettings wndSettings;
         public Log log;
@@ -63,13 +64,14 @@ namespace SeeloewenCraft
         {
             InitializeComponent();
 
-            //Set world name and create game
+            //Set world name and create game and links
             this.worldName = worldName;
             this.worldVersion = worldVersion;
             this.gameVersion = gameVersion;
             this.wndMenu = wndMenu;
             this.log = log;
             images = new Images(this);
+            lootTables = new LootTables(this);
             worldDirectory = $"{wndMenu.worldDirectory}\\{worldName}";
 
             if (!isNew && GetWorldVersion(worldName) < worldVersion)
@@ -250,7 +252,11 @@ namespace SeeloewenCraft
             {
                 //Give the player a hammer -- !! Only temporary until Crafting is implemented !!
                 if (Properties.Settings.Default.enableHammer) player.inventory.AddItem(new HammerItem(this, 0, null));
-                player.inventory.AddItem(new TorchItem(this, 0, null));
+                for(int i = 0; i < 64; i++)
+                {
+                    player.inventory.AddItem(new TorchItem(this, 0, null));
+                }
+                player.inventory.AddItem(new Plant2Item(this, 0, null));
             }
 
             finishedLoading = true;
