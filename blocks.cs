@@ -583,9 +583,9 @@ namespace SeeloewenCraft
             block.chunk = chunk;
         }
 
-        public bool ConnectedBlocksHaveEnoughSpace(Block baseBlock)
+        public bool ConnectedBlocksHaveEnoughSpace(Block baseBlock, bool isForeground)
         {
-            if (!baseBlock.isForeground)
+            if (!isForeground)
             {
                 foreach (Block block in baseBlock.connectedBlocks)
                 {
@@ -621,7 +621,7 @@ namespace SeeloewenCraft
                 }
                 return true;
             }
-            else if (baseBlock.isForeground)
+            else if (isForeground)
             {
                 foreach (Block block in baseBlock.connectedBlocks)
                 {
@@ -754,7 +754,7 @@ namespace SeeloewenCraft
 
                 if (selectedItem.block != null)
                 {
-                    if (selectedItem.block.isBase && ConnectedBlocksHaveEnoughSpace(selectedItem.block))
+                    if (selectedItem.block.isBase && ConnectedBlocksHaveEnoughSpace(selectedItem.block, true))
                     {
                         PlaceInForeground(selectedItem.block);
 
@@ -799,7 +799,7 @@ namespace SeeloewenCraft
 
                 if (selectedItem.block != null)
                 {
-                    if (selectedItem.block.isBase && ConnectedBlocksHaveEnoughSpace(selectedItem.block))
+                    if (selectedItem.block.isBase && ConnectedBlocksHaveEnoughSpace(selectedItem.block, false))
                     {
                         PlaceNewBlock(selectedItem.block, sender);
 
