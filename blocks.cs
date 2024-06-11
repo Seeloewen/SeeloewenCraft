@@ -23,31 +23,37 @@ namespace SeeloewenCraft
 {
     public abstract class Block
     {
+        //references
         public wndGame wndGame;
         public ImageBrush image = new ImageBrush();
         public BlockContainer blockContainer;
         public Chunk chunk;
         public Item item;
         public Inventory blockInventory;
+        public Block foregroundBlock;
+        public List<Block> connectedBlocks = new List<Block>();
+        public Block baseBlock;
+        public LootTable lootTable;
+
+        //block type info
         public string name;
+        public bool cantBeMovedToBackground = false;
+        public bool isBreakable = true;
+        public bool hasInventory = false;
+        public bool isLightSource = false;
+        public bool isBase = false;
+        
+
+        //variables
         public int xPos;
         public int yPos;
         public bool isSolid = true;
         public bool isInBackground = false;
-        public bool hasFixedSolidState = false;
-        public bool isBreakable = true;
-        public bool hasInventory = false;
-        public bool isLightSource = false;
         public double lightLevel;
-        public Block foregroundBlock;
         public bool isForeground = false;
         public int rangeToNearestLightSource = int.MaxValue;
-        public List<Block> connectedBlocks = new List<Block>();
-        public bool isBase = false;
-        public Block baseBlock;
         public int xOffset;
         public int yOffset;
-        public LootTable lootTable;
 
         //-- Constructor --//
 
@@ -187,7 +193,7 @@ namespace SeeloewenCraft
             this.blockContainer.cvsBlock.MouseEnter += cvsBlock_MouseEnter;
             this.blockContainer.cvsBlock.MouseLeave += cvsBlock_MouseLeave;
             //Add image and events to the container
-            if (!hasFixedSolidState)
+            if (!cantBeMovedToBackground)
             {
                 if (isInBackground)
                 {
@@ -684,6 +690,9 @@ namespace SeeloewenCraft
             blockContainer.bdrBlock.BorderBrush = new SolidColorBrush(Colors.Transparent);
         }
 
+
+
+
         private void cvsBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
@@ -734,7 +743,7 @@ namespace SeeloewenCraft
         private void cvsBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             Item selectedItem = wndGame.player.inventory.GetSelectedItem();
-            if (!hasFixedSolidState && IsInRange() && IsHolding("Hammer"))
+            if (!cantBeMovedToBackground && IsInRange() && IsHolding("Hammer"))
             {
                 if (isInBackground)
                 {
@@ -914,7 +923,7 @@ namespace SeeloewenCraft
         {
             isBreakable = false;
             isSolid = false;
-            hasFixedSolidState = true;
+            cantBeMovedToBackground = true;
             SetTexture();
             name = "Air";
             isLightSource = true;
@@ -936,7 +945,7 @@ namespace SeeloewenCraft
         public BedrockBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             isBreakable = false;
-            hasFixedSolidState = true;
+            cantBeMovedToBackground = true;
             SetTexture();
             name = "Bedrock";
         }
