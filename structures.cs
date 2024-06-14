@@ -151,8 +151,8 @@ namespace SeeloewenCraft
             {
                 //Create a new block of the same type and place it below the original block
                 Type blockType = block.GetType();
-                Block newBlock = (Block)Activator.CreateInstance(blockType, wndGame, block.xPos, block.yPos + 1, chunk, null, block.isInBackground);
-                chunk.SetBlock(block.xPos, block.yPos + 1, newBlock);
+                Block newBlock = (Block)Activator.CreateInstance(blockType, wndGame, block.xPos, block.yPos + 1, chunk, null, block.isBackground);
+                chunk.SetBlock(newBlock, block.xPos, block.yPos + 1);
                 //Repeat until floor is reached
                 MakeBaseSolid(chunk.GetBlock(block.xPos, block.yPos + 1));
             }

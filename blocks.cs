@@ -37,18 +37,17 @@ namespace SeeloewenCraft
 
         //block type info
         public string name;
-        public bool cantBeMovedToBackground = false;
+        public bool canBeMovedToBackground = true;
         public bool isBreakable = true;
         public bool hasInventory = false;
         public bool isLightSource = false;
         public bool isBase = false;
         
-
         //variables
         public int xPos;
         public int yPos;
         public bool isSolid = true;
-        public bool isInBackground = false;
+        public bool isBackground = false;
         public double lightLevel;
         public bool isForeground = false;
         public int rangeToNearestLightSource = int.MaxValue;
@@ -64,7 +63,7 @@ namespace SeeloewenCraft
             this.xPos = xPos;
             this.yPos = yPos;
             this.chunk = chunk;
-            this.isInBackground = isInBackground;
+            this.isBackground = isInBackground;
 
             if (item != null)
             {
@@ -93,7 +92,7 @@ namespace SeeloewenCraft
             writer.WriteValue(yPos);
 
             writer.WritePropertyName("is_in_background");
-            writer.WriteValue(isInBackground);
+            writer.WriteValue(isBackground);
 
             if (hasInventory)
             {
@@ -193,9 +192,9 @@ namespace SeeloewenCraft
             this.blockContainer.cvsBlock.MouseEnter += cvsBlock_MouseEnter;
             this.blockContainer.cvsBlock.MouseLeave += cvsBlock_MouseLeave;
             //Add image and events to the container
-            if (!cantBeMovedToBackground)
+            if (canBeMovedToBackground)
             {
-                if (isInBackground)
+                if (isBackground)
                 {
                     MoveToBackground();
                 }
@@ -290,15 +289,13 @@ namespace SeeloewenCraft
 
         public void MoveToBackground()
         {
-            isInBackground = true;
-            isSolid = false;
+            isBackground = true;
             blockContainer.ShowDarkRectangle();
         }
 
         public void MoveToForeground()
         {
-            isInBackground = false;
-            isSolid = true;
+            isBackground = false;
             blockContainer.HideDarkRectangle();
         }
 
@@ -542,9 +539,10 @@ namespace SeeloewenCraft
                 {
                     //Remove the block from the chunks blocklist and add an airblock
                     Block block = new AirBlock(wndGame, xPos, yPos, chunk, null, false);
-                    chunk.blockList.Add(block);
-                    chunk.SetBlock(block, xPos, yPos);
-                    MoveToForeground();
+                    PlaceNewBlock(block);
+                    block.MoveToForeground();
+                    xPos = 0;
+                    yPos = 0;
 
                     //Add the block's item to the inventory
                     GenerateItem(wndGame, 0);
@@ -567,16 +565,9 @@ namespace SeeloewenCraft
             }
         }
 
-        public void PlaceNewBlock(Block block, object sender)
+        public void PlaceNewBlock(Block block)
         {
-            //Remove the non-solid block that is currently there and add the new selected block
-            chunk.blockList.Add(block, xPos, yPos);
-            block.xPos = xPos;
-            block.yPos = yPos;
-            block.chunk = chunk;
-
-
-            //Add the border to the chunk
+            //Add the block to the chunk
             chunk.SetBlock(block, xPos, yPos);
             block.MoveToForeground();
         }
@@ -602,7 +593,7 @@ namespace SeeloewenCraft
                     {
                         Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
                         block.chunk = newChunk;
-                        if (newChunk.GetBlock(actualXPos - 8, actualYPos).isSolid || newChunk.GetBlock(actualXPos - 8, actualYPos).isInBackground)
+                        if (newChunk.GetBlock(actualXPos - 8, actualYPos).isSolid || newChunk.GetBlock(actualXPos - 8, actualYPos).isBackground)
                         {
                             return false;
                         }
@@ -611,7 +602,7 @@ namespace SeeloewenCraft
                     {
                         Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
                         block.chunk = newChunk;
-                        if (newChunk.GetBlock(actualXPos + 8, actualYPos).isSolid || newChunk.GetBlock(actualXPos + 8, actualYPos).isInBackground)
+                        if (newChunk.GetBlock(actualXPos + 8, actualYPos).isSolid || newChunk.GetBlock(actualXPos + 8, actualYPos).isBackground)
                         {
                             return false;
                         }
@@ -619,7 +610,7 @@ namespace SeeloewenCraft
                     else
                     {
                         block.chunk = chunk;
-                        if (chunk.GetBlock(actualXPos, actualYPos).isSolid || chunk.GetBlock(actualXPos, actualYPos).isInBackground)
+                        if (chunk.GetBlock(actualXPos, actualYPos).isSolid || chunk.GetBlock(actualXPos, actualYPos).isBackground)
                         {
                             return false;
                         }
@@ -638,7 +629,7 @@ namespace SeeloewenCraft
                     {
                         Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
                         block.chunk = newChunk;
-                        if (newChunk.GetBlock(actualXPos - 8, actualYPos).foregroundBlock != null || !newChunk.GetBlock(actualXPos - 8, actualYPos).isInBackground)
+                        if (newChunk.GetBlock(actualXPos - 8, actualYPos).foregroundBlock != null || !newChunk.GetBlock(actualXPos - 8, actualYPos).isBackground)
                         {
                             return false;
                         }
@@ -647,7 +638,7 @@ namespace SeeloewenCraft
                     {
                         Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
                         block.chunk = newChunk;
-                        if (newChunk.GetBlock(actualXPos + 8, actualYPos).foregroundBlock != null || !newChunk.GetBlock(actualXPos + 8, actualYPos).isInBackground)
+                        if (newChunk.GetBlock(actualXPos + 8, actualYPos).foregroundBlock != null || !newChunk.GetBlock(actualXPos + 8, actualYPos).isBackground)
                         {
                             return false;
                         }
@@ -655,7 +646,7 @@ namespace SeeloewenCraft
                     else
                     {
                         block.chunk = chunk;
-                        if (chunk.GetBlock(actualXPos, actualYPos).foregroundBlock != null || !chunk.GetBlock(actualXPos, actualYPos).isInBackground)
+                        if (chunk.GetBlock(actualXPos, actualYPos).foregroundBlock != null || !chunk.GetBlock(actualXPos, actualYPos).isBackground)
                         {
                             return false;
                         }
@@ -689,9 +680,6 @@ namespace SeeloewenCraft
             blockContainer.bdrBlock.BorderThickness = new Thickness(0, 0, 0, 0);
             blockContainer.bdrBlock.BorderBrush = new SolidColorBrush(Colors.Transparent);
         }
-
-
-
 
         private void cvsBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -743,9 +731,10 @@ namespace SeeloewenCraft
         private void cvsBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             Item selectedItem = wndGame.player.inventory.GetSelectedItem();
-            if (!cantBeMovedToBackground && IsInRange() && IsHolding("Hammer"))
+            //Check if the player has hammer and move toggle block between fore- and background
+            if (canBeMovedToBackground && IsInRange() && IsHolding("Hammer"))
             {
-                if (isInBackground)
+                if (isBackground)
                 {
                     MoveToForeground();
                 }
@@ -754,11 +743,12 @@ namespace SeeloewenCraft
                     MoveToBackground();
                 }
             }
-            else if (IsInRange() && IsHolding("Plant2") && foregroundBlock == null && isInBackground)
+            //Check if the player is holding an item that can be foreground and there is background block without a foreground block
+            else if (IsInRange() && selectedItem != null && selectedItem.canBeForeground && foregroundBlock == null && isBackground)
             {
                 if (selectedItem.block == null)
                 {
-                    selectedItem.GenerateBlock(xPos, yPos, chunk, isInBackground);
+                    selectedItem.GenerateBlock(xPos, yPos, chunk, isBackground);
                 }
 
                 if (selectedItem.block != null)
@@ -794,23 +784,26 @@ namespace SeeloewenCraft
                     else if (!selectedItem.block.isBase)
                     {
                         PlaceInForeground(selectedItem.block);
+
+                        //Remove the item from the inventory
+                        wndGame.player.inventory.RemoveItem(selectedItem);
                     }
 
                 }
             }
-            else if (IsInRange() && !isSolid && !IsCollidingWithPlayer(sender) && !isInBackground && selectedItem != null)
+            //Check if the block isn't in background and also not solid
+            else if (IsInRange() && !isSolid && !IsCollidingWithPlayer(sender) && !isBackground && selectedItem != null)
             {
-
                 if (selectedItem.block == null)
                 {
-                    selectedItem.GenerateBlock(xPos, yPos, chunk, isInBackground);
+                    selectedItem.GenerateBlock(xPos, yPos, chunk, isBackground);
                 }
 
                 if (selectedItem.block != null)
                 {
                     if (selectedItem.block.isBase && ConnectedBlocksHaveEnoughSpace(selectedItem.block, false))
                     {
-                        PlaceNewBlock(selectedItem.block, sender);
+                        PlaceNewBlock(selectedItem.block);
 
                         foreach (Block block in selectedItem.block.connectedBlocks)
                         {
@@ -821,18 +814,18 @@ namespace SeeloewenCraft
                             {
                                 Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
                                 block.chunk = newChunk;
-                                newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceNewBlock(block, sender);
+                                newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceNewBlock(block);
                             }
                             else if (actualXPos < 1)
                             {
                                 Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
                                 block.chunk = newChunk;
-                                newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceNewBlock(block, sender);
+                                newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceNewBlock(block);
                             }
                             else
                             {
                                 block.chunk = chunk;
-                                chunk.GetBlock(actualXPos, actualYPos).PlaceNewBlock(block, sender);
+                                chunk.GetBlock(actualXPos, actualYPos).PlaceNewBlock(block);
                             }
 
                         }
@@ -842,11 +835,15 @@ namespace SeeloewenCraft
                     }
                     else if (!selectedItem.block.isBase)
                     {
-                        PlaceNewBlock(selectedItem.block, sender);
+                        PlaceNewBlock(selectedItem.block);
+
+                        //Remove the item from the inventory
+                        wndGame.player.inventory.RemoveItem(selectedItem);
                     }
                 }
 
             }
+            //If the block is solid and has inventory
             else if (IsInRange() && isSolid && hasInventory)
             {
                 //If the block has an inventory, open it as well as the players inventory
@@ -923,7 +920,7 @@ namespace SeeloewenCraft
         {
             isBreakable = false;
             isSolid = false;
-            cantBeMovedToBackground = true;
+            canBeMovedToBackground = false;
             SetTexture();
             name = "Air";
             isLightSource = true;
@@ -945,7 +942,7 @@ namespace SeeloewenCraft
         public BedrockBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             isBreakable = false;
-            cantBeMovedToBackground = true;
+            canBeMovedToBackground = false;
             SetTexture();
             name = "Bedrock";
         }
@@ -1142,6 +1139,7 @@ namespace SeeloewenCraft
         public TorchBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             isSolid = false;
+            canBeMovedToBackground = false;
             isLightSource = true;
             SetTexture();
             name = "Torch";

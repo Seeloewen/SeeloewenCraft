@@ -148,7 +148,7 @@ namespace SeeloewenCraft
             {
                 foreach (Block block in chunk.blockList.blocks)
                 {
-                    if (block == null || !block.isSolid) continue;
+                    if (block == null || !block.isSolid || block.isBackground) continue;
 
                     Point blockOriginPoint = new Point(1, 1);
 

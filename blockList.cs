@@ -20,9 +20,6 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-
-
-
         public void saveToJson(JsonWriter writer)
         {
 

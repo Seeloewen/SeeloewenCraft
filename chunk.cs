@@ -120,6 +120,12 @@ namespace SeeloewenCraft
 
         public void SetBlock(Block block, int x, int y)
         {
+            //Add the block to the block list
+            block.xPos = x;
+            block.yPos = y;
+            block.chunk = this;
+            blockList.Add(block);
+
             //Check if the coordinate has a container and place the block into that container if possible
             if (x > 8)
             {
@@ -140,7 +146,6 @@ namespace SeeloewenCraft
                     Console.WriteLine($"[Error] Could not find container at x{x} y{y} for block {block.name}");
                 }
             }
-
         }
 
         public void SetContainerList()
@@ -260,13 +265,6 @@ namespace SeeloewenCraft
         public Block GetBlock(int x, int y)
         {
             return blockList.Get(x, y);
-        }
-
-        public void SetBlock(int x, int y, Block block)
-        {
-            //Remove the block that is currently there
-            blockList.Remove(x, y);
-            blockList.Add(block);
         }
 
         public void LoadInventories()
