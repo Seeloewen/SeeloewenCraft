@@ -2,6 +2,8 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -24,12 +26,14 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 using static System.Environment;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace SeeloewenCraft
 {
     public partial class wndGame : Window
     {
         private System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
+        private System.Windows.Forms.Timer tmrWater = new System.Windows.Forms.Timer();
         public List<Chunk> currentChunkList = new List<Chunk>();
         public List<Inventory> inventoryList = new List<Inventory>();
         public Images images;
@@ -56,6 +60,7 @@ namespace SeeloewenCraft
         public List<BlockContainerList> blockContainerList = new List<BlockContainerList>();
         public bool showBlockInfo = false;
         public List<Chunk> totalChunkList = new List<Chunk>();
+        public WaterHandler waterHandler;
 
 
         //-- Constructor --//
@@ -72,6 +77,7 @@ namespace SeeloewenCraft
             this.log = log;
             images = new Images(this);
             lootTables = new LootTables(this);
+            waterHandler = new WaterHandler(this);
             worldDirectory = $"{wndMenu.worldDirectory}\\{worldName}";
 
             if (!isNew && GetWorldVersion(worldName) < worldVersion)
@@ -207,7 +213,7 @@ namespace SeeloewenCraft
                 string documentText = File.ReadAllText($"{worldDirectory}/player_position.json");
                 JToken documentToken = JToken.Parse(documentText);
 
-                
+
                 try
                 {
                     playerPosX = (double)new JsonPointer("/pos_x").Evaluate(documentToken);
@@ -252,9 +258,11 @@ namespace SeeloewenCraft
             {
                 //Give the player a hammer -- !! Only temporary until Crafting is implemented !!
                 if (Properties.Settings.Default.enableHammer) player.inventory.AddItem(new HammerItem(this, 0, null));
-                for(int i = 0; i < 64; i++)
+                for (int i = 0; i < 64; i++)
                 {
                     player.inventory.AddItem(new TorchItem(this, 0, null));
+                    player.inventory.AddItem(new WaterItem(this, 0, null));
+
                 }
                 player.inventory.AddItem(new Plant2Item(this, 0, null));
             }
@@ -266,6 +274,11 @@ namespace SeeloewenCraft
             tmrMovement.Interval = 16;
             tmrMovement.Tick += tmrMovement_Tick;
             tmrMovement.Start();
+
+            //Start the water timer
+            tmrWater.Interval = 1000;
+            tmrWater.Tick += tmrWater_Tick;
+            tmrWater.Start();
         }
 
         public void CreatePlayer(bool isLoaded, double playerPosX, double playerPosY)
@@ -305,7 +318,7 @@ namespace SeeloewenCraft
             int c = 0;
             for (int i = Math.Max(j, 0); i < Math.Max(j + 5, 0); i++)
             {
-                
+
                 currentChunkList.Add(GetChunk(i));
                 c++;
             }
@@ -555,6 +568,12 @@ namespace SeeloewenCraft
         {
             //Movement timer, ticks at a rate of approximitely 60 fps (every 16 ms)
             player.physicsStep(pressedKeys.Contains(Key.A), pressedKeys.Contains(Key.D), pressedKeys.Contains(Key.Space), 0.016);
+        }
+
+        private void tmrWater_Tick(object sender, EventArgs e)
+        {
+            //Update all water blocks accordingly
+            waterHandler.DoUpdate();
         }
 
         private void btnLeft_Click(object sender, RoutedEventArgs e)

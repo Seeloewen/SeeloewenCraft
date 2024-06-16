@@ -89,6 +89,17 @@ namespace SeeloewenCraft
             Plant2_Base = new ImageBrush { ImageSource = GetImageSource("Plant2_Base.png") };
             Plant2_Top = new ImageBrush { ImageSource = GetImageSource("Plant2_Top.png") };
             Plant2= new ImageBrush { ImageSource = GetImageSource("Plant2.png") };
+            Water_1_Right = new ImageBrush { ImageSource = GetImageSource("Water_1_Right.png") };
+            Water_1_Left = new ImageBrush { ImageSource = GetImageSource("Water_1_Left.png") };
+            Water_2_Right = new ImageBrush { ImageSource = GetImageSource("Water_2_Right.png") };
+            Water_2_Left = new ImageBrush { ImageSource = GetImageSource("Water_2_Left.png") };
+            Water_3_Right = new ImageBrush { ImageSource = GetImageSource("Water_3_Right.png") };
+            Water_3_Left = new ImageBrush { ImageSource = GetImageSource("Water_3_Left.png") };
+            Water_4_Right = new ImageBrush { ImageSource = GetImageSource("Water_4_Right.png") };
+            Water_4_Left = new ImageBrush { ImageSource = GetImageSource("Water_4_Left.png") };
+            Water_5_Right= new ImageBrush { ImageSource = GetImageSource("Water_5_Right.png") };
+            Water_5_Left = new ImageBrush { ImageSource = GetImageSource("Water_5_Left.png") };
+            Water_6 = new ImageBrush { ImageSource = GetImageSource("Water_6.png") };
 
 
         }
@@ -116,5 +127,17 @@ namespace SeeloewenCraft
         public ImageBrush Plant2_Top;
         public ImageBrush Plant2_Base;
         public ImageBrush Plant2;
+        public ImageBrush Water_1_Right;
+        public ImageBrush Water_1_Left;
+        public ImageBrush Water_2_Right;
+        public ImageBrush Water_2_Left;
+        public ImageBrush Water_3_Right;
+        public ImageBrush Water_3_Left;
+        public ImageBrush Water_4_Right;
+        public ImageBrush Water_4_Left;
+        public ImageBrush Water_5_Right;
+        public ImageBrush Water_5_Left;
+        public ImageBrush Water_6;
+
     }
 }

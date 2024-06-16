@@ -54,6 +54,14 @@ namespace SeeloewenCraft
         public int xOffset;
         public int yOffset;
 
+        //Water
+        public int waterLevel = 0;
+        public bool isWaterSource = false;
+        public int waterSourceXPos = 0;
+        public int waterSourceYPos = 0;
+        public int waterSourceChunkIndex = 0;
+        public bool hasWaterSource = false;
+
         //-- Constructor --//
 
         public Block(wndGame wndGame, int xPos, int yPos, Chunk chunk, Item item, bool isInBackground)
@@ -520,10 +528,10 @@ namespace SeeloewenCraft
             }
         }
 
-        public void BreakBlock(bool skipRangeCheck)
+        public void BreakBlock(bool skipRangeCheck, bool skipBreakableCheck)
         {
             //Check if the block is both breakable and in range
-            if (isBreakable && (IsInRange() || skipRangeCheck))
+            if ((isBreakable || skipBreakableCheck) && (IsInRange() || skipRangeCheck))
             {
                 if (foregroundBlock != null)
                 {
@@ -687,10 +695,10 @@ namespace SeeloewenCraft
             //If the block is normal and a baseblock
             if (isBase && IsInRange())
             {
-                BreakBlock(true);
+                BreakBlock(true, false);
                 foreach (Block block in connectedBlocks)
                 {
-                    block.BreakBlock(true);
+                    block.BreakBlock(true, false);
                 }
             }
             //If the block is foreground a baseblock
@@ -698,33 +706,33 @@ namespace SeeloewenCraft
             {
                 foreach (Block block in foregroundBlock.connectedBlocks)
                 {
-                    block.chunk.GetBlock(block.xPos, block.yPos).BreakBlock(true);
+                    block.chunk.GetBlock(block.xPos, block.yPos).BreakBlock(true, false);
                 }
-                BreakBlock(true);
+                BreakBlock(true, false);
             }
             //If the block is normal and part of a construct
             else if (baseBlock != null && IsInRange())
             {
-                baseBlock.BreakBlock(true);
+                baseBlock.BreakBlock(true, false);
                 foreach (Block block in baseBlock.connectedBlocks)
                 {
-                    block.BreakBlock(true);
+                    block.BreakBlock(true, false);
                 }
             }
             //If the block is foreground and part of a construct
             else if (foregroundBlock != null && foregroundBlock.baseBlock != null)
             {
-                foregroundBlock.baseBlock.chunk.GetBlock(foregroundBlock.baseBlock.xPos, foregroundBlock.baseBlock.yPos).BreakBlock(true);
+                foregroundBlock.baseBlock.chunk.GetBlock(foregroundBlock.baseBlock.xPos, foregroundBlock.baseBlock.yPos).BreakBlock(true, false);
 
                 foreach (Block block in foregroundBlock.baseBlock.connectedBlocks)
                 {
-                    block.chunk.GetBlock(block.xPos, block.yPos).BreakBlock(true);
+                    block.chunk.GetBlock(block.xPos, block.yPos).BreakBlock(true, false );
                 }
             }
             //If it's just a normal block
             else
             {
-                BreakBlock(false);
+                BreakBlock(false, false);
             }
         }
 
@@ -1198,5 +1206,4 @@ namespace SeeloewenCraft
             image = wndGame.images.Plant2_Top;
         }
     }
-
 }

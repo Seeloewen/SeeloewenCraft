@@ -464,6 +464,33 @@ namespace SeeloewenCraft
         }
     }
 
+    public class WaterItem : Item
+    {
+        public WaterItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        {
+            isPlacable = true;
+            itemName = "Water";
+            canBeForeground = false;
+            SetTexture();
+        }
+
+        override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
+        {
+            block = new WaterBlock_6(wndGame, x, y, chunk, this, isInBackground);
+            block.isWaterSource = true;
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            {
+                //Set the texture of the block on the canvas
+                image = wndGame.images.Water_6;
+                cvsItem.Background = image;
+            }
+        }
+    }
+
     public class Plant2Item : Item
     {
         public Plant2Item(wndGame wndGame, int id, Block block) : base(wndGame, id, block)

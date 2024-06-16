@@ -184,4 +184,37 @@
   <data name="Torch" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Torch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Water_1_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Water_1_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Water_1_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Water_1_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Water_2_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Water_2_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Water_2_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Water_2_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Water_3_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Water_3_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Water_3_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Water_3_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Water_4_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Water_4_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Water_4_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Water_4_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Water_5_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Water_5_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Water_5_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Water_5_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Water_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Water_6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

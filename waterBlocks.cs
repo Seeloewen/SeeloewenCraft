@@ -1,0 +1,264 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SeeloewenCraft
+{
+
+    //-- Water Blocks --//
+
+    public class WaterBlock_1_Right : Block
+    {
+        public WaterBlock_1_Right(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            isSolid = false;
+            isBreakable = false;
+            canBeMovedToBackground = false;
+            waterLevel = 1;
+            SetTexture();
+            name = "Water";
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = null;
+        }
+
+        public override void SetTexture()
+        {
+            image = wndGame.images.Water_1_Right;
+        }
+    }
+
+    public class WaterBlock_1_Left : Block
+    {
+        public WaterBlock_1_Left(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            isSolid = false;
+            isBreakable = false;
+            canBeMovedToBackground = false;
+            waterLevel = 1;
+            SetTexture();
+            name = "Water";
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = null;
+        }
+
+        public override void SetTexture()
+        {
+            image = wndGame.images.Water_1_Left;
+        }
+    }
+
+    public class WaterBlock_2_Right : Block
+    {
+        public WaterBlock_2_Right(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            isSolid = false;
+            isBreakable = false;
+            canBeMovedToBackground = false;
+            waterLevel = 2;
+            SetTexture();
+            name = "Water";
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = null;
+        }
+
+        public override void SetTexture()
+        {
+            image = wndGame.images.Water_2_Right;
+        }
+    }
+
+    public class WaterBlock_2_Left : Block
+    {
+        public WaterBlock_2_Left(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            isSolid = false;
+            isBreakable = false;
+            canBeMovedToBackground = false;
+            waterLevel = 2;
+            SetTexture();
+            name = "Water";
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = null;
+        }
+
+        public override void SetTexture()
+        {
+            image = wndGame.images.Water_2_Left;
+        }
+    }
+
+    public class WaterBlock_3_Right : Block
+    {
+        public WaterBlock_3_Right(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            isSolid = false;
+            isBreakable = false;
+            canBeMovedToBackground = false;
+            waterLevel = 3;
+            SetTexture();
+            name = "Water";
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = null;
+        }
+
+        public override void SetTexture()
+        {
+            image = wndGame.images.Water_3_Right;
+        }
+    }
+
+    public class WaterBlock_3_Left : Block
+    {
+        public WaterBlock_3_Left(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            isSolid = false;
+            isBreakable = false;
+            canBeMovedToBackground = false;
+            waterLevel = 3;
+            SetTexture();
+            name = "Water";
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = null;
+        }
+
+        public override void SetTexture()
+        {
+            image = wndGame.images.Water_3_Left;
+        }
+    }
+
+    public class WaterBlock_4_Right : Block
+    {
+        public WaterBlock_4_Right(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            isSolid = false;
+            isBreakable = false;
+            canBeMovedToBackground = false;
+            waterLevel = 4;
+            SetTexture();
+            name = "Water";
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = null;
+        }
+
+        public override void SetTexture()
+        {
+            image = wndGame.images.Water_4_Right;
+        }
+    }
+
+    public class WaterBlock_4_Left : Block
+    {
+        public WaterBlock_4_Left(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            isSolid = false;
+            isBreakable = false;
+            canBeMovedToBackground = false;
+            waterLevel = 4;
+            SetTexture();
+            name = "Water";
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = null;
+        }
+
+        public override void SetTexture()
+        {
+            image = wndGame.images.Water_4_Left;
+        }
+    }
+
+    public class WaterBlock_5_Right : Block
+    {
+        public WaterBlock_5_Right(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            isSolid = false;
+            isBreakable = false;
+            canBeMovedToBackground = false;
+            waterLevel = 5;
+            SetTexture();
+            name = "Water";
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = null;
+        }
+
+        public override void SetTexture()
+        {
+            image = wndGame.images.Water_5_Right;
+        }
+    }
+
+    public class WaterBlock_5_Left : Block
+    {
+        public WaterBlock_5_Left(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            isSolid = false;
+            isBreakable = false;
+            canBeMovedToBackground = false;
+            waterLevel = 5;
+            SetTexture();
+            name = "Water";
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = null;
+        }
+
+        public override void SetTexture()
+        {
+            image = wndGame.images.Water_5_Left;
+        }
+    }
+
+    public class WaterBlock_6 : Block
+    {
+        public WaterBlock_6(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        {
+            isSolid = false;
+            isBreakable = false;
+            canBeMovedToBackground = false;
+            waterLevel = 6;
+            SetTexture();
+            name = "Water";
+        }
+
+        override public void GenerateItem(wndGame wndGame, int id)
+        {
+            item = null;
+        }
+
+        public override void SetTexture()
+        {
+            image = wndGame.images.Water_6;
+        }
+    }
+}

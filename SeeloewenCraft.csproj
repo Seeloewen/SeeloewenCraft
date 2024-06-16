@@ -89,6 +89,7 @@
     <Compile Include="blockList.cs" />
     <Compile Include="blocks.cs" />
     <Compile Include="caveGeneration.cs" />
+    <Compile Include="waterHandler.cs" />
     <Compile Include="images.cs" />
     <Compile Include="log.cs" />
     <Compile Include="lootTable.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="SeeloewenLib.cs" />
     <Compile Include="splashtexts.cs" />
     <Compile Include="structures.cs" />
+    <Compile Include="waterBlocks.cs" />
     <Compile Include="wndAbout.xaml.cs">
       <DependentUpon>wndAbout.xaml</DependentUpon>
     </Compile>
@@ -259,6 +261,48 @@
     <Resource Include="Resources\Plant2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Water_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Water_2_Left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Water_2_Right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Water_3_Left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Water_3_Right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Water_4_Left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Water_4_Right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Water_5_Left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Water_5_Right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Water_6_Left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Water_6_Right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Water_1_Left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Water_1_Right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Water_6.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -120,23 +120,33 @@ namespace SeeloewenCraft
 
         public void SetBlock(Block block, int x, int y)
         {
-            //Add the block to the block list
-            block.xPos = x;
-            block.yPos = y;
-            block.chunk = this;
-            blockList.Add(block);
-
             //Check if the coordinate has a container and place the block into that container if possible
             if (x > 8)
             {
-                wndGame.GetFromCurrentChunks(index + 1).SetBlock(block, x - 8, y);
+                Chunk chunk = wndGame.GetFromCurrentChunks(index + 1);
+
+                if (chunk != null)
+                {
+                    chunk.SetBlock(block, x - 8, y);
+                }
             }
             else if (x < 1)
             {
-                wndGame.GetFromCurrentChunks(index - 1).SetBlock(block, x + 8, y);
+                Chunk chunk = wndGame.GetFromCurrentChunks(index - 1);
+
+                if (chunk != null)
+                {
+                    chunk.SetBlock(block, x + 8, y);
+                }
             }
             else
             {
+                //Add the block to the block list
+                block.xPos = x;
+                block.yPos = y;
+                block.chunk = this;
+                blockList.Add(block);
+
                 if (blockContainerList.GetContainer(x, y) != null)
                 {
                     blockContainerList.GetContainer(x, y).SetBlock(block);
@@ -264,7 +274,18 @@ namespace SeeloewenCraft
 
         public Block GetBlock(int x, int y)
         {
-            return blockList.Get(x, y);
+            if (x > 8)
+            {
+                return wndGame.GetFromCurrentChunks(index + 1).GetBlock(x - 8, y);
+            }
+            else if (x < 1)
+            {
+                return wndGame.GetFromCurrentChunks(index - 1).GetBlock(x + 8, y);
+            }
+            else
+            {
+                return blockList.Get(x, y);
+            }
         }
 
         public void LoadInventories()
