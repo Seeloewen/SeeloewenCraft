@@ -98,7 +98,10 @@ namespace SeeloewenCraft
 
         public void SetLightOpacity()
         {
-            rectDarkOverlayLight.Opacity = block.lightLevel;
+            if (block != null)
+            {
+                rectDarkOverlayLight.Opacity = block.lightLevel;
+            }
         }
 
         public void SetForegroundBlock(Block block)
@@ -118,16 +121,19 @@ namespace SeeloewenCraft
 
         public void RemoveForegroundBlock()
         {
-            previousForegroundBlockWasLightSource = block.foregroundBlock.isLightSource;
-            block.foregroundBlock = null;
-            cvsForegroundBlock.Background = new SolidColorBrush(Colors.Transparent);
-
-            //Check if the block has a lightsource in range and set lightlevel
-            if (Properties.Settings.Default.enableLighting)
+            if(block != null && block.foregroundBlock != null)
             {
-                block.SetLightLevel(block.RangeToLightSource());
-                block.UpdateNearbyBlocks();
-                SetLightOpacity();
+                previousForegroundBlockWasLightSource = block.foregroundBlock.isLightSource;
+                block.foregroundBlock = null;
+                cvsForegroundBlock.Background = new SolidColorBrush(Colors.Transparent);
+
+                //Check if the block has a lightsource in range and set lightlevel
+                if (Properties.Settings.Default.enableLighting)
+                {
+                    block.SetLightLevel(block.RangeToLightSource());
+                    block.UpdateNearbyBlocks();
+                    SetLightOpacity();
+                }
             }
         }
 
@@ -150,6 +156,7 @@ namespace SeeloewenCraft
             }
 
             wndGame.RemoveFromParent(bdrBlock);
+            RemoveForegroundBlock();
             block = null;
             previousBlockWasLightSource = false;
         }
@@ -157,6 +164,7 @@ namespace SeeloewenCraft
         public void Clear()
         {
             //Remove the link between container and block
+            RemoveForegroundBlock();
             if (block != null)
             {
                 block.blockContainer = null;

@@ -72,7 +72,7 @@ namespace SeeloewenCraft
         }
 
         public void Add(Block block, int x, int y)
-        {
+        { 
             //Add the block to the index based on x and y pos
             int i = calcIndex(x, y);
             blocks[i] = block;

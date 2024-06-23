@@ -276,11 +276,25 @@ namespace SeeloewenCraft
         {
             if (x > 8)
             {
-                return wndGame.GetFromCurrentChunks(index + 1).GetBlock(x - 8, y);
+                if (wndGame.GetFromCurrentChunks(index + 1) != null)
+                {
+                    return wndGame.GetFromCurrentChunks(index + 1).GetBlock(x - 8, y);
+                }
+                else
+                {
+                    return null;
+                }    
             }
             else if (x < 1)
             {
-                return wndGame.GetFromCurrentChunks(index - 1).GetBlock(x + 8, y);
+                if(wndGame.GetFromCurrentChunks(index - 1) != null)
+                {
+                    return wndGame.GetFromCurrentChunks(index - 1).GetBlock(x + 8, y);
+                }
+                else
+                {
+                    return null;
+                }
             }
             else
             {
