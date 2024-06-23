@@ -42,7 +42,8 @@ namespace SeeloewenCraft
         public bool hasInventory = false;
         public bool isLightSource = false;
         public bool isBase = false;
-        
+        public bool hasRightClickAction = false;
+
         //variables
         public int xPos;
         public int yPos;
@@ -64,14 +65,14 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Block(wndGame wndGame, int xPos, int yPos, Chunk chunk, Item item, bool isInBackground)
+        public Block(wndGame wndGame, int xPos, int yPos, Chunk chunk, Item item, bool isBackground)
         {
             //Set the attributes
             this.wndGame = wndGame;
             this.xPos = xPos;
             this.yPos = yPos;
             this.chunk = chunk;
-            this.isBackground = isInBackground;
+            this.isBackground = isBackground;
 
             if (item != null)
             {
@@ -226,7 +227,7 @@ namespace SeeloewenCraft
             blockContainer.cvsBlock.MouseLeave -= cvsBlock_MouseLeave;
         }
 
-        private bool IsCollidingWithPlayer(object element)
+        public bool IsCollidingWithPlayer(object element)
         {
             if (element is Canvas)
             {
@@ -333,6 +334,7 @@ namespace SeeloewenCraft
 
         public abstract void SetTexture();
 
+        public abstract void RightClickAction(object sender);
 
         public Item GetItem()
         {
@@ -344,7 +346,7 @@ namespace SeeloewenCraft
             return item;
         }
 
-        public bool IsHolding(string itemName)
+        public bool IsHolding(string itemName) //Legacy Method, should be replaced by using wndGame.player.inventory.GetSelectedItem()
         {
             foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
             {
@@ -668,6 +670,62 @@ namespace SeeloewenCraft
             }
         }
 
+        public void PlaceConnectedForegroundBlocks(Block baseBlock)
+        {
+            foreach (Block conBlock in baseBlock.connectedBlocks)
+            {
+                //Get the actual positions for each connected block based on the offset
+                int actualXPos = xPos + conBlock.xOffset;
+                int actualYPos = yPos + conBlock.yOffset;
+
+                //Since the actual pos is potentially in another chunk, get the pos in that chunk
+                if (actualXPos > 8)
+                {
+                    Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
+                    newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceInForeground(conBlock);
+                }
+                else if (actualXPos < 1)
+                {
+                    Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
+                    newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceInForeground(conBlock);
+                }
+                else
+                {
+                    chunk.GetBlock(actualXPos, actualYPos).PlaceInForeground(conBlock);
+                }
+            }
+        }
+
+        public void PlaceConnectedBlocks(Block baseBlock)
+        {
+            foreach (Block conBlock in baseBlock.connectedBlocks)
+            {
+                //Get the actual positions for each connected block based on the offset
+                int actualXPos = xPos + conBlock.xOffset;
+                int actualYPos = yPos + conBlock.yOffset;
+
+                //Since the actual pos is potentially in another chunk, get the pos in that chunk
+                if (actualXPos > 8)
+                {
+                    Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
+                    conBlock.chunk = newChunk;
+                    newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceNewBlock(conBlock);
+                }
+                else if (actualXPos < 1)
+                {
+                    Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
+                    conBlock.chunk = newChunk;
+                    newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceNewBlock(conBlock);
+                }
+                else
+                {
+                    conBlock.chunk =chunk;
+                    chunk.GetBlock(actualXPos, actualYPos).PlaceNewBlock(conBlock);
+                }
+
+            }
+        }
+
 
         //-- Event Handlers --//
 
@@ -692,173 +750,12 @@ namespace SeeloewenCraft
         private void cvsBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
-            //If the block is normal and a baseblock
-            if (isBase && IsInRange())
-            {
-                BreakBlock(true, false);
-                foreach (Block block in connectedBlocks)
-                {
-                    block.BreakBlock(true, false);
-                }
-            }
-            //If the block is foreground a baseblock
-            else if (foregroundBlock != null && foregroundBlock.isBase)
-            {
-                foreach (Block block in foregroundBlock.connectedBlocks)
-                {
-                    block.chunk.GetBlock(block.xPos, block.yPos).BreakBlock(true, false);
-                }
-                BreakBlock(true, false);
-            }
-            //If the block is normal and part of a construct
-            else if (baseBlock != null && IsInRange())
-            {
-                baseBlock.BreakBlock(true, false);
-                foreach (Block block in baseBlock.connectedBlocks)
-                {
-                    block.BreakBlock(true, false);
-                }
-            }
-            //If the block is foreground and part of a construct
-            else if (foregroundBlock != null && foregroundBlock.baseBlock != null)
-            {
-                foregroundBlock.baseBlock.chunk.GetBlock(foregroundBlock.baseBlock.xPos, foregroundBlock.baseBlock.yPos).BreakBlock(true, false);
-
-                foreach (Block block in foregroundBlock.baseBlock.connectedBlocks)
-                {
-                    block.chunk.GetBlock(block.xPos, block.yPos).BreakBlock(true, false );
-                }
-            }
-            //If it's just a normal block
-            else
-            {
-                BreakBlock(false, false);
-            }
+            wndGame.clickHandler.DoLeftClick(this, sender);
         }
 
         private void cvsBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Item selectedItem = wndGame.player.inventory.GetSelectedItem();
-            //Check if the player has hammer and move toggle block between fore- and background
-            if (canBeMovedToBackground && IsInRange() && IsHolding("Hammer"))
-            {
-                if (isBackground)
-                {
-                    MoveToForeground();
-                }
-                else
-                {
-                    MoveToBackground();
-                }
-            }
-            //Check if the player is holding an item that can be foreground and there is background block without a foreground block
-            else if (IsInRange() && selectedItem != null && selectedItem.canBeForeground && foregroundBlock == null && isBackground)
-            {
-                if (selectedItem.block == null)
-                {
-                    selectedItem.GenerateBlock(xPos, yPos, chunk, isBackground);
-                }
-
-                if (selectedItem.block != null)
-                {
-                    if (selectedItem.block.isBase && ConnectedBlocksHaveEnoughSpace(selectedItem.block, true))
-                    {
-                        PlaceInForeground(selectedItem.block);
-
-                        foreach (Block block in selectedItem.block.connectedBlocks)
-                        {
-                            int actualXPos = xPos + block.xOffset;
-                            int actualYPos = yPos + block.yOffset;
-
-                            if (actualXPos > 8)
-                            {
-                                Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
-                                newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceInForeground(block);
-                            }
-                            else if (actualXPos < 1)
-                            {
-                                Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
-                                newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceInForeground(block);
-                            }
-                            else
-                            {
-                                chunk.GetBlock(actualXPos, actualYPos).PlaceInForeground(block);
-                            }
-
-                            //Remove the item from the inventory
-                            wndGame.player.inventory.RemoveItem(selectedItem);
-                        }
-                    }
-                    else if (!selectedItem.block.isBase)
-                    {
-                        PlaceInForeground(selectedItem.block);
-
-                        //Remove the item from the inventory
-                        wndGame.player.inventory.RemoveItem(selectedItem);
-                    }
-
-                }
-            }
-            //Check if the block isn't in background and also not solid
-            else if (IsInRange() && !isSolid && !IsCollidingWithPlayer(sender) && !isBackground && selectedItem != null)
-            {
-                if (selectedItem.block == null)
-                {
-                    selectedItem.GenerateBlock(xPos, yPos, chunk, isBackground);
-                }
-
-                if (selectedItem.block != null)
-                {
-                    if (selectedItem.block.isBase && ConnectedBlocksHaveEnoughSpace(selectedItem.block, false))
-                    {
-                        PlaceNewBlock(selectedItem.block);
-
-                        foreach (Block block in selectedItem.block.connectedBlocks)
-                        {
-                            int actualXPos = xPos + block.xOffset;
-                            int actualYPos = yPos + block.yOffset;
-
-                            if (actualXPos > 8)
-                            {
-                                Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
-                                block.chunk = newChunk;
-                                newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceNewBlock(block);
-                            }
-                            else if (actualXPos < 1)
-                            {
-                                Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
-                                block.chunk = newChunk;
-                                newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceNewBlock(block);
-                            }
-                            else
-                            {
-                                block.chunk = chunk;
-                                chunk.GetBlock(actualXPos, actualYPos).PlaceNewBlock(block);
-                            }
-
-                        }
-
-                        //Remove the item from the inventory
-                        wndGame.player.inventory.RemoveItem(selectedItem);
-                    }
-                    else if (!selectedItem.block.isBase)
-                    {
-                        PlaceNewBlock(selectedItem.block);
-
-                        //Remove the item from the inventory
-                        wndGame.player.inventory.RemoveItem(selectedItem);
-                    }
-                }
-
-            }
-            //If the block is solid and has inventory
-            else if (IsInRange() && isSolid && hasInventory)
-            {
-                //If the block has an inventory, open it as well as the players inventory
-                Canvas.SetTop(wndGame.player.inventory.grdInventory, -10);
-                wndGame.player.inventory.ShowInventory();
-                blockInventory.ShowInventory();
-            }
+            wndGame.clickHandler.DoRightClick(this, sender);
         }
     }
 
@@ -881,6 +778,11 @@ namespace SeeloewenCraft
         {
             image = wndGame.images.GrassBlock;
         }
+
+        public override void RightClickAction(object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class StoneBlock : Block
@@ -901,6 +803,11 @@ namespace SeeloewenCraft
         {
             image = wndGame.images.StoneBlock;
         }
+
+        public override void RightClickAction(object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class DirtBlock : Block
@@ -919,6 +826,11 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = wndGame.images.DirtBlock;
+        }
+
+        public override void RightClickAction(object sender)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -943,6 +855,11 @@ namespace SeeloewenCraft
         {
             image = wndGame.images.AirBlock;
         }
+
+        public override void RightClickAction(object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class BedrockBlock : Block
@@ -964,6 +881,11 @@ namespace SeeloewenCraft
         {
             image = wndGame.images.BedrockBlock;
         }
+
+        public override void RightClickAction(object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class CoalOreBlock : Block
@@ -982,6 +904,11 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = wndGame.images.CoalOreBlock;
+        }
+
+        public override void RightClickAction(object sender)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -1002,6 +929,11 @@ namespace SeeloewenCraft
         {
             image = wndGame.images.DiamondOreBlock;
         }
+
+        public override void RightClickAction(object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class IronOreBlock : Block
@@ -1021,6 +953,11 @@ namespace SeeloewenCraft
         {
             image = wndGame.images.IronOreBlock;
         }
+
+        public override void RightClickAction(object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class OakLogBlock : Block
@@ -1039,6 +976,11 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = wndGame.images.OakLogBlock;
+        }
+
+        public override void RightClickAction(object sender)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -1060,6 +1002,11 @@ namespace SeeloewenCraft
         {
             image = wndGame.images.OakLeavesBlock;
         }
+
+        public override void RightClickAction(object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class SpruceLogBlock : Block
@@ -1078,6 +1025,11 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = wndGame.images.SpruceLogBlock;
+        }
+
+        public override void RightClickAction(object sender)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -1099,6 +1051,11 @@ namespace SeeloewenCraft
         {
             image = wndGame.images.SpruceLeavesBlock;
         }
+
+        public override void RightClickAction(object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class ChestBlock : Block
@@ -1108,9 +1065,8 @@ namespace SeeloewenCraft
             hasInventory = true;
             SetTexture();
             name = "Chest";
+            hasRightClickAction = true;
         }
-
-
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
@@ -1120,6 +1076,17 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = wndGame.images.ChestBlock;
+        }
+        public override void RightClickAction(object sender)
+        {
+            //If the block is solid and has inventory
+            if (IsInRange() && isSolid && hasInventory)
+            {
+                //If the block has an inventory, open it as well as the players inventory
+                Canvas.SetTop(wndGame.player.inventory.grdInventory, -10);
+                wndGame.player.inventory.ShowInventory();
+                blockInventory.ShowInventory();
+            }
         }
     }
 
@@ -1139,6 +1106,10 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = wndGame.images.MagmaBlock;
+        }
+        public override void RightClickAction(object sender)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -1161,6 +1132,11 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = wndGame.images.Torch;
+        }
+
+        public override void RightClickAction(object sender)
+        {
+            throw new NotImplementedException();
         }
     }
     public class Plant2Block_Base : Block
@@ -1185,6 +1161,11 @@ namespace SeeloewenCraft
         {
             image = wndGame.images.Plant2_Base;
         }
+
+        public override void RightClickAction(object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class Plant2Block_Top : Block
@@ -1204,6 +1185,11 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = wndGame.images.Plant2_Top;
+        }
+
+        public override void RightClickAction(object sender)
+        {
+            throw new NotImplementedException();
         }
     }
 }

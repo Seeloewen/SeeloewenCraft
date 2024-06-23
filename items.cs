@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ namespace SeeloewenCraft
         public int yPos;
         public bool isPlacable = false;
         public bool canBeForeground = false;
+        public bool hasRightClickAction = false;
 
 
         //-- Constructor --//
@@ -61,6 +63,9 @@ namespace SeeloewenCraft
 
         //This is currently required, but may be changed in the future if items that don't have blocks are added
         public abstract Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground);
+
+        public abstract void RightClickAction(Block block, object sender);
+
     }
 
     //-- Items --//
@@ -87,6 +92,11 @@ namespace SeeloewenCraft
                 cvsItem.Background = image;
             }
         }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class StoneItem : Item
@@ -112,6 +122,10 @@ namespace SeeloewenCraft
             }
         }
 
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class DirtItem : Item
@@ -136,6 +150,11 @@ namespace SeeloewenCraft
                 image = wndGame.images.DirtBlock;
                 cvsItem.Background = image;
             }
+        }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -162,6 +181,11 @@ namespace SeeloewenCraft
                 cvsItem.Background = image;
             }
         }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class DiamondOreItem : Item
@@ -186,6 +210,11 @@ namespace SeeloewenCraft
                 image = wndGame.images.DiamondOreBlock;
                 cvsItem.Background = image;
             }
+        }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -212,6 +241,11 @@ namespace SeeloewenCraft
                 cvsItem.Background = image;
             }
         }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class OakLogItem : Item
@@ -236,6 +270,11 @@ namespace SeeloewenCraft
                 image = wndGame.images.OakLogBlock;
                 cvsItem.Background = image;
             }
+        }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -262,6 +301,11 @@ namespace SeeloewenCraft
                 cvsItem.Background = image;
             }
         }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class SpruceLogItem : Item
@@ -286,6 +330,11 @@ namespace SeeloewenCraft
                 image = wndGame.images.SpruceLogBlock;
                 cvsItem.Background = image;
             }
+        }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -312,6 +361,11 @@ namespace SeeloewenCraft
                 cvsItem.Background = image;
             }
         }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class BedrockItem : Item
@@ -335,6 +389,11 @@ namespace SeeloewenCraft
                 image = wndGame.images.BedrockBlock;
                 cvsItem.Background = image;
             }
+        }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
         }
 
     }
@@ -362,6 +421,11 @@ namespace SeeloewenCraft
                 cvsItem.Background = image;
             }
         }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class ChestItem : Item
@@ -386,6 +450,11 @@ namespace SeeloewenCraft
                 image = wndGame.images.ChestBlock;
                 cvsItem.Background = image;
             }
+        }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -412,6 +481,11 @@ namespace SeeloewenCraft
                 cvsItem.Background = image;
             }
         }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class HammerItem : Item
@@ -419,6 +493,7 @@ namespace SeeloewenCraft
         public HammerItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
         {
             isPlacable = false;
+            hasRightClickAction = true;
             itemName = "Hammer";
             SetTexture();
         }
@@ -434,6 +509,18 @@ namespace SeeloewenCraft
                 //Set the texture of the block on the canvas
                 image = wndGame.images.Hammer;
                 cvsItem.Background = image;
+            }
+        }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            if (block.isBackground && block.canBeMovedToBackground && block.IsInRange())
+            {
+                block.MoveToForeground();
+            }
+            else if(!block.isBackground && block.IsInRange() && block.canBeMovedToBackground)
+            {
+                block.MoveToBackground();
             }
         }
     }
@@ -462,6 +549,11 @@ namespace SeeloewenCraft
                 cvsItem.Background = image;
             }
         }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class WaterItem : Item
@@ -489,6 +581,11 @@ namespace SeeloewenCraft
                 cvsItem.Background = image;
             }
         }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class Plant2Item : Item
@@ -514,6 +611,11 @@ namespace SeeloewenCraft
                 image = wndGame.images.Plant2;
                 cvsItem.Background = image;
             }
+        }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
         }
     }
 }

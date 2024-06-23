@@ -89,6 +89,7 @@
     <Compile Include="blockList.cs" />
     <Compile Include="blocks.cs" />
     <Compile Include="caveGeneration.cs" />
+    <Compile Include="clickHandler.cs" />
     <Compile Include="waterHandler.cs" />
     <Compile Include="images.cs" />
     <Compile Include="log.cs" />

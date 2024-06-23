@@ -61,6 +61,7 @@ namespace SeeloewenCraft
         public bool showBlockInfo = false;
         public List<Chunk> totalChunkList = new List<Chunk>();
         public WaterHandler waterHandler;
+        public ClickHandler clickHandler;
 
 
         //-- Constructor --//
@@ -78,6 +79,7 @@ namespace SeeloewenCraft
             images = new Images(this);
             lootTables = new LootTables(this);
             waterHandler = new WaterHandler(this);
+            clickHandler = new ClickHandler(this);
             worldDirectory = $"{wndMenu.worldDirectory}\\{worldName}";
 
             if (!isNew && GetWorldVersion(worldName) < worldVersion)
