@@ -68,7 +68,7 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-        public void SetBlock(Block block)
+        public void RenderBlock(Block block)
         {
             //Remove the event handlers of the previous block
             if (this.block != null)
@@ -104,7 +104,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public void SetForegroundBlock(Block block)
+        public void RenderForegroundBlock(Block block)
         {
             this.block.foregroundBlock = block;
             block.isForeground = true;

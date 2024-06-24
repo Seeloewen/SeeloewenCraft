@@ -85,8 +85,6 @@ namespace SeeloewenCraft
         }
 
         //-- Custom Methods --//
-
-
         public void SaveToJson(JsonWriter writer)
         {
             writer.WriteStartObject();
@@ -550,7 +548,6 @@ namespace SeeloewenCraft
                     //Remove the block from the chunks blocklist and add an airblock
                     Block block = new AirBlock(wndGame, xPos, yPos, chunk, null, false);
                     PlaceNewBlock(block);
-                    block.MoveToForeground();
                     xPos = 0;
                     yPos = 0;
 
@@ -584,7 +581,7 @@ namespace SeeloewenCraft
 
         public void PlaceInForeground(Block block)
         {
-            blockContainer.SetForegroundBlock(block);
+            blockContainer.RenderForegroundBlock(block);
             block.xPos = xPos;
             block.yPos = yPos;
             block.chunk = chunk;

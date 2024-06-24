@@ -76,7 +76,6 @@ namespace SeeloewenCraft
                 wndGame.log.Write($"Created chunk directory {chunkDirectory}!", "Info");
             }
 
-
             //save blocks in blocks.json
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);
@@ -87,7 +86,6 @@ namespace SeeloewenCraft
             }
             File.WriteAllText($"{wndGame.worldDirectory}/chunk{index}/blocks.json", sw.ToString());
 
-
             //save settings in settings.json
             sb = new StringBuilder();
             sw = new StringWriter(sb);
@@ -97,9 +95,7 @@ namespace SeeloewenCraft
                 saveSettingsToJson(writer);
             }
             File.WriteAllText($"{wndGame.worldDirectory}/chunk{index}/settings.json", sb.ToString());
-
         }
-
 
         private void saveSettingsToJson(JsonWriter writer)
         {
@@ -116,7 +112,6 @@ namespace SeeloewenCraft
 
             writer.WriteEndObject();
         }
-
 
         public void SetBlock(Block block, int x, int y)
         {
@@ -149,7 +144,7 @@ namespace SeeloewenCraft
 
                 if (blockContainerList.GetContainer(x, y) != null)
                 {
-                    blockContainerList.GetContainer(x, y).SetBlock(block);
+                    blockContainerList.GetContainer(x, y).RenderBlock(block);
                 }
                 else
                 {
@@ -206,7 +201,6 @@ namespace SeeloewenCraft
                 Generate();
             }
 
-
             //render chunk
             try
             {
@@ -218,7 +212,6 @@ namespace SeeloewenCraft
                 wndGame.log.Write($"Could not initialize chunk: {ex.Message}", "Error");
             }
         }
-
 
         private void Generate()
         {
@@ -235,9 +228,7 @@ namespace SeeloewenCraft
             GenerateOres();
             if (Properties.Settings.Default.enableCaveGeneration) GenerateCaves();
             ContinueStructureGeneration();
-
         }
-
 
         private void Load()
         {
@@ -263,12 +254,26 @@ namespace SeeloewenCraft
         }
 
 
-
         public void RenderChunk()
         {
             foreach (Block block in blockList.blocks)
             {
-                SetBlock(block, block.xPos, block.yPos);
+                //Render normal blocks
+                if (!block.isForeground && !block.isBackground)
+                {
+                    SetBlock(block, block.xPos, block.yPos);
+                }
+                //Render background blocks
+                else if (!block.isForeground && block.isBackground)
+                {
+                    SetBlock(block, block.xPos, block.yPos);
+                    block.MoveToBackground();
+                }
+                //Render foreground blocks
+                else if(block.isForeground)
+                {
+                    blockList.Get(block.xPos, block.yPos).PlaceInForeground(block);
+                }
             }
         }
 
