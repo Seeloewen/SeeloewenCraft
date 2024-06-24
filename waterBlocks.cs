@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace SeeloewenCraft
 {
@@ -20,6 +21,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Water";
             id = "sc:water_1_right_block";
+            tags.Add("liquids/water");
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -49,6 +51,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Water";
             id = "sc:water_1_left_block";
+            tags.Add("liquids/water");
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -78,6 +81,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Water";
             id = "sc:water_2_right_block";
+            tags.Add("liquids/water");
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -107,6 +111,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Water";
             id = "sc:water_2_left_block";
+            tags.Add("liquids/water");
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -136,6 +141,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Water";
             id = "sc:water_3_right_block";
+            tags.Add("liquids/water");
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -165,6 +171,7 @@ namespace SeeloewenCraft
             id = "sc:water_3_left_block";
             SetTexture();
             name = "Water";
+            tags.Add("liquids/water");
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -194,6 +201,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Water";
             id = "sc:water_4_right_block";
+            tags.Add("liquids/water");
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -223,6 +231,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Water";
             id = "sc:water_4_left_block";
+            tags.Add("liquids/water");
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -252,6 +261,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Water";
             id = "sc:water_5_right_block";
+            tags.Add("liquids/water");
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -281,6 +291,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Water";
             id = "sc:water_5_left_block";
+            tags.Add("liquids/water");
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -310,6 +321,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Water";
             id = "sc:water_6_block";
+            tags.Add("liquids/water");
         }
 
         override public void GenerateItem(wndGame wndGame, int id)

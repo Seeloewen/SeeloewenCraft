@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Runtime.Remoting.Channels;
 using System.Security.Cryptography.X509Certificates;
@@ -15,6 +16,7 @@ namespace SeeloewenCraft
 {
     public abstract class Item
     {
+        public List<string> tags = new List<string>();
         public Canvas cvsItem = new Canvas();
         public ImageBrush image;
         public wndGame wndGame;
@@ -472,6 +474,7 @@ namespace SeeloewenCraft
             name = "Hammer";
             id = "sc:hammer_item";
             SetTexture();
+            tags.Add("tools/hammer");
         }
 
         override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)

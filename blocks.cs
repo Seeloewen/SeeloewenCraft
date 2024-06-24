@@ -25,6 +25,7 @@ namespace SeeloewenCraft
     public abstract class Block
     {
         //references
+        public List<string> tags = new List<string>();
         public wndGame wndGame;
         public ImageBrush image = new ImageBrush();
         public BlockContainer blockContainer;
