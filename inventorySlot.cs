@@ -63,7 +63,7 @@ namespace SeeloewenCraft
             if (items.Count != 0)
             {
                 //Check if the slot already contains items of the same type
-                if (item.itemName == items[0].itemName)
+                if (item.name == items[0].name)
                 {
                     //Add the item to the slot and increase the amount
                     items.Add(item);

@@ -22,11 +22,7 @@ namespace SeeloewenCraft
 
         public void saveToJson(JsonWriter writer)
         {
-
             writer.WriteStartObject();
-
-
-
             writer.WritePropertyName("blocks");
             writer.WriteStartArray();
 
@@ -36,13 +32,8 @@ namespace SeeloewenCraft
             }
 
             writer.WriteEndArray();
-
-
             writer.WriteEndObject();
-
-
         }
-
 
         static public BlockList loadFromJson(JToken documentToken, Chunk chunk, wndGame wndGame)
         {
@@ -57,11 +48,7 @@ namespace SeeloewenCraft
                 blockList.Add(Block.LoadFromJson(blockToken, chunk, wndGame));
             }
             return blockList;
-
         }
-
-
-
 
         public void Add(Block block)
         {

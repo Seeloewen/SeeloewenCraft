@@ -27,14 +27,12 @@ namespace SeeloewenCraft
         public string inventoryDirectory;
         public bool isShown = false;
         public bool hasHotbar = false;
-        public int id = 0;
 
         //-- Constructuror --//
 
-        public Inventory(wndGame wndGame, int id, bool hasHotbar)
+        public Inventory(wndGame wndGame, bool hasHotbar)
         {
             //Set the attributes
-            this.id = id;
             this.wndGame = wndGame;
             this.hasHotbar = hasHotbar;
 
@@ -115,8 +113,6 @@ namespace SeeloewenCraft
                     Grid.SetColumn(slot.bdrSlot, slot.xPos);
                 }
             }
-
-            wndGame.log.Write($"Created Inventory {id}", "Info");
         }
 
         //-- Custom Methods --//
@@ -146,7 +142,7 @@ namespace SeeloewenCraft
                 if (slot.items.Count > 0)
                 {
                     //Check if the item is already in the slot and the max amount is not reached
-                    if (slot.items[0].itemName == item.itemName && slot.itemAmount < 64)
+                    if (slot.items[0].name == item.name && slot.itemAmount < 64)
                     {
                         //Add the item to the slot and update it's attributes
                         slot.AddToSlot(item);
@@ -297,39 +293,9 @@ namespace SeeloewenCraft
             }
         }
 
-        public void SaveInventory(string path)
-        {
-            //Check if the inventory directory exists
-            if (!Directory.Exists(string.Format("{0}/inventory{1}/", path, id)))
-            {
-                Directory.CreateDirectory(string.Format("{0}/inventory{1}/", path, id));
-            }
-            inventoryDirectory = string.Format("{0}/inventory{1}/", path, id);
-
-            //Go through each inventory slot
-            foreach (InventorySlot slot in slotList)
-            {
-                //Clear the file
-                File.WriteAllText(string.Format("{0}/{1}-{2}.txt", inventoryDirectory, slot.xPos, slot.yPos), "");
-
-                //Write all items to the slot file
-                foreach (Item item in slot.items)
-                {
-                    File.AppendAllText(string.Format("{0}/{1}-{2}.txt", inventoryDirectory, slot.xPos, slot.yPos), string.Format("{0};{1}\n", item.GetType().ToString().Replace("SeeloewenCraft.", ""), item.id));
-                }
-            }
-
-            wndGame.log.Write($"Saved inventory {id}", "Info");
-
-        }
-
         public void SaveToJson(JsonWriter writer)
         {
-
             writer.WriteStartObject();
-
-            writer.WritePropertyName("id");
-            writer.WriteValue(id);
 
             writer.WritePropertyName("has_hotbar");
             writer.WriteValue(hasHotbar);
@@ -346,11 +312,8 @@ namespace SeeloewenCraft
                 {
                     writer.WriteStartObject();
 
-                    writer.WritePropertyName("name");
-                    writer.WriteValue(item.GetType().ToString().Replace("SeeloewenCraft.", ""));
-
                     writer.WritePropertyName("id");
-                    writer.WriteValue(id);
+                    writer.WriteValue(item.id);
 
                     writer.WriteEndObject();
                 }
@@ -376,189 +339,87 @@ namespace SeeloewenCraft
             return null;
         }
 
-        public void LoadInventory(string path, int id)
-        {
-            //Set the ID to map it to the correct block
-            this.id = id;
-
-            //Get all inventory slot files from the inventory directory
-            string[] files = Directory.GetFiles(string.Format("{0}/Inventory{1}", path, id));
-
-            //Go through each inventory slot
-            foreach (InventorySlot slot in slotList)
-            {
-                //Go through each slot file
-                foreach (string file in files)
-                {
-                    //Format the filename and check if the slot and filename match
-                    string f = file.Replace(string.Format("{0}/Inventory{1}", path, id), "").Replace(".txt", "").Replace("\\", "");
-                    string[] fileSplit = f.Split('-');
-                    if (slot.xPos == Convert.ToInt32(fileSplit[0]) && slot.yPos == Convert.ToInt32(fileSplit[1]))
-                    {
-                        //Go through each line (=item) in the file and add it to the inventory
-                        foreach (string item in File.ReadLines(file))
-                        {
-                            string[] itemSplit = item.Split(';');
-                            if (itemSplit[0] == "GrassItem")
-                            {
-                                slot.AddToSlot(new GrassItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
-                            }
-                            else if (itemSplit[0] == "DirtItem")
-                            {
-                                slot.AddToSlot(new DirtItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
-                            }
-                            else if (itemSplit[0] == "StoneItem")
-                            {
-                                slot.AddToSlot(new StoneItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
-                            }
-                            else if (itemSplit[0] == "OakLogItem")
-                            {
-                                slot.AddToSlot(new OakLogItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
-                            }
-                            else if (itemSplit[0] == "OakLeavesItem")
-                            {
-                                slot.AddToSlot(new OakLeavesItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
-                            }
-                            else if (itemSplit[0] == "SpruceLogItem")
-                            {
-                                slot.AddToSlot(new SpruceLogItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
-                            }
-                            else if (itemSplit[0] == "SpruceLeavesItem")
-                            {
-                                slot.AddToSlot(new SpruceLeavesItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
-                            }
-                            else if (itemSplit[0] == "CoalOreItem")
-                            {
-                                slot.AddToSlot(new CoalOreItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
-                            }
-                            else if (itemSplit[0] == "IronOreItem")
-                            {
-                                slot.AddToSlot(new IronOreItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
-                            }
-                            else if (itemSplit[0] == "DiamondOreItem")
-                            {
-                                slot.AddToSlot(new DiamondOreItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
-                            }
-                            else if (itemSplit[0] == "ChestItem")
-                            {
-                                slot.AddToSlot(new ChestItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
-                            }
-                            else if (itemSplit[0] == "BedrockItem")
-                            {
-                                slot.AddToSlot(new BedrockItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
-                            }
-                            else if (itemSplit[0] == "MagmaBlockItem")
-                            {
-                                slot.AddToSlot(new MagmaBlockItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
-                            }
-                            else if (itemSplit[0] == "HammerItem")
-                            {
-                                slot.AddToSlot(new HammerItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
-                            }
-                            else if (itemSplit[0] == "TorchItem")
-                            {
-                                slot.AddToSlot(new TorchItem(wndGame, Convert.ToInt32(fileSplit[1]), null));
-                            }
-                            else if (itemSplit[0] == "Plant2Item")
-                            {
-                                slot.AddToSlot(new Plant2Item(wndGame, Convert.ToInt32(fileSplit[1]), null));
-                            }
-                        }
-                    }
-                }
-            }
-
-            wndGame.log.Write($"Loaded inventory {id}", "Info");
-        }
-
-
-
-        //(int)new JsonPointer("/floor_height_left").Evaluate(documentToken);
         public static Inventory LoadFromJson(JToken token, wndGame wndGame)
         {
-            int invId = (int)new JsonPointer("/id").Evaluate(token);
             bool hasHotbar = (bool)new JsonPointer("/has_hotbar").Evaluate(token);
-
-            Inventory inventory = new Inventory(wndGame, invId, hasHotbar);
-
+            Inventory inventory = new Inventory(wndGame, hasHotbar);
             JToken slotArrayToken = new JsonPointer("/slots").Evaluate(token);
 
             int i = 0;
 
             foreach (InventorySlot slot in inventory.slotList)
             {
-
                 JToken slotToken = new JsonPointer($"/slots/{i}/items").Evaluate(token);
 
                 if (slotToken is JArray arr && arr.Count != 0)
                 {
                     foreach (JToken itemToken in arr)
                     {
-                        string itemName = (string)new JsonPointer("/name").Evaluate(itemToken);
-                        int id = (int)new JsonPointer("/id").Evaluate(itemToken);
+                        string id = (string)new JsonPointer("/id").Evaluate(itemToken);
 
-                        switch (itemName)
+                        switch (id)
                         {
-                            case "GrassItem":
-                                slot.AddToSlot(new GrassItem(wndGame, id, null));
+                            case "sc:grass_block_item":
+                                slot.AddToSlot(new GrassItem(wndGame, null));
                                 break;
-                            case "DirtItem":
-                                slot.AddToSlot(new DirtItem(wndGame, id, null));
+                            case "sc:dirt_item":
+                                slot.AddToSlot(new DirtItem(wndGame, null));
                                 break;
-                            case "StoneItem":
-                                slot.AddToSlot(new StoneItem(wndGame, id, null));
+                            case "sc:stone_item":
+                                slot.AddToSlot(new StoneItem(wndGame, null));
                                 break;
-                            case "OakLogItem":
-                                slot.AddToSlot(new OakLogItem(wndGame, id, null));
+                            case "sc:oak_log_item":
+                                slot.AddToSlot(new OakLogItem(wndGame, null));
                                 break;
-                            case "OakLeavesItem":
-                                slot.AddToSlot(new OakLeavesItem(wndGame, id, null));
+                            case "sc:oak_leaves_item":
+                                slot.AddToSlot(new OakLeavesItem(wndGame, null));
                                 break;
-                            case "SpruceLogItem":
-                                slot.AddToSlot(new SpruceLogItem(wndGame, id, null));
+                            case "sc:spruce_log_item":
+                                slot.AddToSlot(new SpruceLogItem(wndGame, null));
                                 break;
-                            case "SpruceLeavesItem":
-                                slot.AddToSlot(new SpruceLeavesItem(wndGame, id, null));
+                            case "sc:spruce_leaves_item":
+                                slot.AddToSlot(new SpruceLeavesItem(wndGame, null));
                                 break;
-                            case "CoalOreItem":
-                                slot.AddToSlot(new CoalOreItem(wndGame, id, null));
+                            case "sc:coal_ore_item":
+                                slot.AddToSlot(new CoalOreItem(wndGame, null));
                                 break;
-                            case "IronOreItem":
-                                slot.AddToSlot(new IronOreItem(wndGame, id, null));
+                            case "sc:iron_ore_item":
+                                slot.AddToSlot(new IronOreItem(wndGame, null));
                                 break;
-                            case "ChestItem":
-                                slot.AddToSlot(new ChestItem(wndGame, id, null));
+                            case "sc:chest_item":
+                                slot.AddToSlot(new ChestItem(wndGame, null));
                                 break;
-                            case "BedrockItem":
-                                slot.AddToSlot(new BedrockItem(wndGame, id, null));
+                            case "sc:bedrock_item":
+                                slot.AddToSlot(new BedrockItem(wndGame, null));
                                 break;
-                            case "MagmaBlockItem":
-                                slot.AddToSlot(new MagmaBlockItem(wndGame, id, null));
+                            case "sc:magma_block_item":
+                                slot.AddToSlot(new MagmaBlockItem(wndGame, null));
                                 break;
-                            case "TorchItem":
-                                slot.AddToSlot(new TorchItem(wndGame, id, null));
+                            case "sc:torch_item":
+                                slot.AddToSlot(new TorchItem(wndGame, null));
+                                break;
+                            case "sc:plant_2_item":
+                                slot.AddToSlot(new Plant2Item(wndGame, null));
+                                break;
+                            case "sc:water_item":
+                                slot.AddToSlot(new WaterItem(wndGame, null));
+                                break;
+                            case "sc:hammer_item":
+                                slot.AddToSlot(new HammerItem(wndGame, null));
+                                break;
+                            case "sc:air_item":
+                                slot.AddToSlot(new AirItem(wndGame, null));
+                                break;
+                            case "sc:diamond_ore_item":
+                                slot.AddToSlot(new DiamondOreItem(wndGame, null));
                                 break;
                         }
-
-
                     }
                 }
                 i++;
             }
-
-
-
             return inventory;
         }
 
     }
-
-
-
-
-
-
-
-
-
 }

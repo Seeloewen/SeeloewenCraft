@@ -240,7 +240,6 @@ namespace SeeloewenCraft
 
             blockList = BlockList.loadFromJson(documentToken, this, wndGame);
 
-
             //load settings
             documentText = File.ReadAllText($"{wndGame.worldDirectory}/chunk{index}/settings.json");
             documentToken = JToken.Parse(documentText);
@@ -304,22 +303,6 @@ namespace SeeloewenCraft
             else
             {
                 return blockList.Get(x, y);
-            }
-        }
-
-        public void LoadInventories()
-        {
-            //Go through each block
-            foreach (Block block in blockList.blocks)
-            {
-                foreach (string dir in Directory.GetDirectories(chunkDirectory))
-                {
-                    //Check for each directory if the inventory id matches the block id
-                    if (block.item.id == Convert.ToInt32(dir.Replace("inventory", "").Replace(chunkDirectory, "").Replace("\\", "")))
-                    {
-                        block.blockInventory.LoadInventory(chunkDirectory, block.item.id);
-                    }
-                }
             }
         }
 

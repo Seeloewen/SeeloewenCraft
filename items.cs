@@ -17,12 +17,11 @@ namespace SeeloewenCraft
     {
         public Canvas cvsItem = new Canvas();
         public ImageBrush image;
-        Random random = new Random(DateTime.Now.Millisecond);
         public wndGame wndGame;
         public InventorySlot slot;
         public Block block;
-        public string itemName;
-        public int id;
+        public string name;
+        public string id;
         public int xPos;
         public int yPos;
         public bool isPlacable = false;
@@ -32,11 +31,11 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Item(wndGame wndGame, int id, Block block)
+        public Item(wndGame wndGame, Block block)
         {
             //Set the attributes
             this.wndGame = wndGame;
-            if(block != null )
+            if (block != null)
             {
                 this.block = block;
             }
@@ -45,16 +44,6 @@ namespace SeeloewenCraft
             cvsItem.Width = 75;
             cvsItem.Height = 75;
             cvsItem.Background = image;
-
-            //Set the ID
-            if(id == 0)
-            {
-                this.id = random.Next(1, 99999);
-            }
-            else
-            {
-                this.id = id;
-            }
         }
 
         //-- Custom Methods --//
@@ -72,10 +61,11 @@ namespace SeeloewenCraft
 
     public class GrassItem : Item
     {
-        public GrassItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        public GrassItem(wndGame wndGame, Block block) : base(wndGame, block)
         {
             isPlacable = true;
-            itemName = "Grass";
+            name = "Grass";
+            id = "sc:grass_block_item";
             SetTexture();
         }
 
@@ -86,11 +76,9 @@ namespace SeeloewenCraft
         }
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.GrassBlock;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.GrassBlock;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
@@ -101,10 +89,11 @@ namespace SeeloewenCraft
 
     public class StoneItem : Item
     {
-        public StoneItem(wndGame wndGame, int id,Block block) : base(wndGame, id, block)
+        public StoneItem(wndGame wndGame, Block block) : base(wndGame, block)
         {
             isPlacable = true;
-            itemName = "Stone";
+            name = "Stone";
+            id = "sc:stone_item";
             SetTexture();
         }
 
@@ -115,11 +104,9 @@ namespace SeeloewenCraft
         }
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.StoneBlock;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.StoneBlock;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
@@ -130,10 +117,11 @@ namespace SeeloewenCraft
 
     public class DirtItem : Item
     {
-        public DirtItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        public DirtItem(wndGame wndGame, Block block) : base(wndGame, block)
         {
             isPlacable = true;
-            itemName = "Dirt";
+            name = "Dirt";
+            id = "sc:dirt_item";
             SetTexture();
         }
 
@@ -145,11 +133,9 @@ namespace SeeloewenCraft
 
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.DirtBlock;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.DirtBlock;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
@@ -160,10 +146,11 @@ namespace SeeloewenCraft
 
     public class CoalOreItem : Item
     {
-        public CoalOreItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        public CoalOreItem(wndGame wndGame, Block block) : base(wndGame, block)
         {
             isPlacable = true;
-            itemName = "Coal Ore";
+            name = "Coal Ore";
+            id = "sc:coal_ore_item";
             SetTexture();
         }
 
@@ -175,11 +162,9 @@ namespace SeeloewenCraft
 
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.CoalOreBlock;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.CoalOreBlock;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
@@ -190,14 +175,15 @@ namespace SeeloewenCraft
 
     public class DiamondOreItem : Item
     {
-        public DiamondOreItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        public DiamondOreItem(wndGame wndGame, Block block) : base(wndGame, block)
         {
             isPlacable = true;
-            itemName = "Diamond Ore";
+            name = "Diamond Ore";
+            id = "sc:diamond_ore_item";
             SetTexture();
         }
 
-        override public Block GenerateBlock(int x, int y, Chunk chunk,  bool isInBackground)
+        override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
         {
             block = new DiamondOreBlock(wndGame, x, y, chunk, this, isInBackground);
             return block;
@@ -205,11 +191,9 @@ namespace SeeloewenCraft
 
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.DiamondOreBlock;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.DiamondOreBlock;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
@@ -220,10 +204,11 @@ namespace SeeloewenCraft
 
     public class IronOreItem : Item
     {
-        public IronOreItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block  )
+        public IronOreItem(wndGame wndGame, Block block) : base(wndGame, block)
         {
             isPlacable = true;
-            itemName = "Iron Ore";
+            name = "Iron Ore";
+            id = "sc:iron_ore_item";
             SetTexture();
         }
 
@@ -235,11 +220,9 @@ namespace SeeloewenCraft
 
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.IronOreBlock;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.IronOreBlock;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
@@ -250,10 +233,11 @@ namespace SeeloewenCraft
 
     public class OakLogItem : Item
     {
-        public OakLogItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        public OakLogItem(wndGame wndGame, Block block) : base(wndGame, block)
         {
             isPlacable = true;
-            itemName = "Oak Log";
+            name = "Oak Log";
+            id = "sc:oak_log_item";
             SetTexture();
         }
 
@@ -265,11 +249,9 @@ namespace SeeloewenCraft
 
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.OakLogBlock;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.OakLogBlock;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
@@ -280,10 +262,11 @@ namespace SeeloewenCraft
 
     public class OakLeavesItem : Item
     {
-        public OakLeavesItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        public OakLeavesItem(wndGame wndGame, Block block) : base(wndGame, block)
         {
             isPlacable = true;
-            itemName = "Oak Leaves";
+            name = "Oak Leaves";
+            id = "sc:oak_leaves_item";
             SetTexture();
         }
 
@@ -295,11 +278,9 @@ namespace SeeloewenCraft
 
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.OakLeavesBlock;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.OakLeavesBlock;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
@@ -310,10 +291,11 @@ namespace SeeloewenCraft
 
     public class SpruceLogItem : Item
     {
-        public SpruceLogItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        public SpruceLogItem(wndGame wndGame, Block block) : base(wndGame, block)
         {
             isPlacable = true;
-            itemName = "Spruce Log";
+            name = "Spruce Log";
+            id = "sc:spruce_log_item";
             SetTexture();
         }
 
@@ -325,11 +307,9 @@ namespace SeeloewenCraft
 
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.SpruceLogBlock;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.SpruceLogBlock;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
@@ -340,10 +320,11 @@ namespace SeeloewenCraft
 
     public class SpruceLeavesItem : Item
     {
-        public SpruceLeavesItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        public SpruceLeavesItem(wndGame wndGame, Block block) : base(wndGame, block)
         {
             isPlacable = true;
-            itemName = "Spruce Leaves";
+            name = "Spruce Leaves";
+            id = "sc:spruce_leaves_item";
             SetTexture();
         }
 
@@ -355,11 +336,9 @@ namespace SeeloewenCraft
 
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.SpruceLeavesBlock;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.SpruceLeavesBlock;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
@@ -370,10 +349,11 @@ namespace SeeloewenCraft
 
     public class BedrockItem : Item
     {
-        public BedrockItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        public BedrockItem(wndGame wndGame, Block block) : base(wndGame, block)
         {
             isPlacable = true;
-            itemName = "Bedrock";
+            name = "Bedrock";
+            id = "sc:bedrock_item";
             SetTexture();
         }
 
@@ -384,11 +364,9 @@ namespace SeeloewenCraft
         }
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.BedrockBlock;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.BedrockBlock;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
@@ -400,10 +378,11 @@ namespace SeeloewenCraft
 
     public class AirItem : Item
     {
-        public AirItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        public AirItem(wndGame wndGame, Block block) : base(wndGame, block)
         {
             isPlacable = true;
-            itemName = "Air";
+            name = "Air";
+            id = "sc:air_item";
             SetTexture();
         }
 
@@ -415,11 +394,9 @@ namespace SeeloewenCraft
 
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.AirBlock;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.AirBlock;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
@@ -430,10 +407,11 @@ namespace SeeloewenCraft
 
     public class ChestItem : Item
     {
-        public ChestItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        public ChestItem(wndGame wndGame, Block block) : base(wndGame, block)
         {
             isPlacable = true;
-            itemName = "Chest";
+            name = "Chest";
+            id = "chest_item";
             SetTexture();
         }
 
@@ -445,11 +423,9 @@ namespace SeeloewenCraft
 
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.ChestBlock;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.ChestBlock;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
@@ -460,10 +436,11 @@ namespace SeeloewenCraft
 
     public class MagmaBlockItem : Item
     {
-        public MagmaBlockItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        public MagmaBlockItem(wndGame wndGame, Block block) : base(wndGame, block)
         {
             isPlacable = true;
-            itemName = "Magma Block";
+            name = "Magma Block";
+            id = "sc:magma_block_item";
             SetTexture();
         }
 
@@ -475,11 +452,9 @@ namespace SeeloewenCraft
 
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.MagmaBlock;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.MagmaBlock;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
@@ -490,11 +465,12 @@ namespace SeeloewenCraft
 
     public class HammerItem : Item
     {
-        public HammerItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        public HammerItem(wndGame wndGame, Block block) : base(wndGame, block)
         {
             isPlacable = false;
             hasRightClickAction = true;
-            itemName = "Hammer";
+            name = "Hammer";
+            id = "sc:hammer_item";
             SetTexture();
         }
 
@@ -505,11 +481,9 @@ namespace SeeloewenCraft
 
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.Hammer;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.Hammer;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
@@ -518,7 +492,7 @@ namespace SeeloewenCraft
             {
                 block.MoveToForeground();
             }
-            else if(!block.isBackground && block.IsInRange() && block.canBeMovedToBackground)
+            else if (!block.isBackground && block.IsInRange() && block.canBeMovedToBackground)
             {
                 block.MoveToBackground();
             }
@@ -527,10 +501,11 @@ namespace SeeloewenCraft
 
     public class TorchItem : Item
     {
-        public TorchItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        public TorchItem(wndGame wndGame, Block block) : base(wndGame, block)
         {
             isPlacable = true;
-            itemName = "Torch";
+            name = "Torch";
+            id = "sc:torch_item";
             canBeForeground = true;
             SetTexture();
         }
@@ -543,11 +518,9 @@ namespace SeeloewenCraft
 
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.Torch;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.Torch;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
@@ -558,10 +531,11 @@ namespace SeeloewenCraft
 
     public class WaterItem : Item
     {
-        public WaterItem(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        public WaterItem(wndGame wndGame, Block block) : base(wndGame, block)
         {
             isPlacable = true;
-            itemName = "Water";
+            name = "Water";
+            id = "sc:water_item";
             canBeForeground = false;
             SetTexture();
         }
@@ -575,11 +549,9 @@ namespace SeeloewenCraft
 
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.Water_6;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.Water_6;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
@@ -590,11 +562,12 @@ namespace SeeloewenCraft
 
     public class Plant2Item : Item
     {
-        public Plant2Item(wndGame wndGame, int id, Block block) : base(wndGame, id, block)
+        public Plant2Item(wndGame wndGame, Block block) : base(wndGame, block)
         {
             canBeForeground = true;
             isPlacable = true;
-            itemName = "Plant2";
+            name = "Plant2";
+            id = "sc:plant_2_item";
             SetTexture();
         }
 
@@ -606,11 +579,9 @@ namespace SeeloewenCraft
 
         override public void SetTexture()
         {
-            {
-                //Set the texture of the block on the canvas
-                image = wndGame.images.Plant2;
-                cvsItem.Background = image;
-            }
+            //Set the texture of the block on the canvas
+            image = wndGame.images.Plant2;
+            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Json.Pointer;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -238,7 +239,7 @@ namespace SeeloewenCraft
             GenerateBlockContainer();
             GenerateChunks(loadedPlayerPosExists ? ((int)playerPosX / 8) - 2 : 0);
             CreatePlayer(loadedPlayerPosExists, playerPosX, playerPosY);
-            player.inventory = new Inventory(this, 0, true);
+            player.inventory = new Inventory(this, true);
             inventoryList.Add(player.inventory);
             player.inventory.hotbarSlotList[0].SelectSlot();
 
@@ -249,9 +250,6 @@ namespace SeeloewenCraft
                 JToken documentToken = JToken.Parse(documentText);
 
                 player.inventory = Inventory.LoadFromJson(documentToken, this);
-
-                player.inventory.LoadInventory(worldDirectory, 0);
-
                 inventoryList.Add(player.inventory);
 
                 player.inventory.UpdateHotbar();
@@ -259,14 +257,14 @@ namespace SeeloewenCraft
             else
             {
                 //Give the player a hammer -- !! Only temporary until Crafting is implemented !!
-                if (Properties.Settings.Default.enableHammer) player.inventory.AddItem(new HammerItem(this, 0, null));
+                if (Properties.Settings.Default.enableHammer) player.inventory.AddItem(new HammerItem(this, null));
                 for (int i = 0; i < 64; i++)
                 {
-                    player.inventory.AddItem(new TorchItem(this, 0, null));
-                    player.inventory.AddItem(new WaterItem(this, 0, null));
+                    player.inventory.AddItem(new TorchItem(this, null));
+                    player.inventory.AddItem(new WaterItem(this, null));
 
                 }
-                player.inventory.AddItem(new Plant2Item(this, 0, null));
+                player.inventory.AddItem(new Plant2Item(this, null));
             }
 
             finishedLoading = true;
@@ -712,11 +710,11 @@ namespace SeeloewenCraft
             }
             else if (tbDebug.Text.Contains("/give chest"))
             {
-                player.inventory.AddItem(new ChestItem(this, 0, null));
+                player.inventory.AddItem(new ChestItem(this, null));
             }
             else if (tbDebug.Text.Contains("/give magmablock"))
             {
-                player.inventory.AddItem(new MagmaBlockItem(this, 0, null));
+                player.inventory.AddItem(new MagmaBlockItem(this, null));
             }
             else if (tbDebug.Text == "/resetview")
             {
@@ -815,7 +813,6 @@ namespace SeeloewenCraft
                         chunk.Save();
                     }
                     player.SaveInventory(worldDirectory);
-                    player.inventory.SaveInventory(worldDirectory);
                     player.SavePosition(worldDirectory);
                 }
             }
@@ -852,7 +849,6 @@ namespace SeeloewenCraft
             {
                 chunk.Save();
             }
-            player.inventory.SaveInventory(worldDirectory);
             player.SaveInventory(worldDirectory);
             player.SavePosition(worldDirectory);
 

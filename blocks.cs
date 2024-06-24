@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.Json.Pointer;
 using System.Windows.Interop;
+using System.Runtime.InteropServices;
 
 namespace SeeloewenCraft
 {
@@ -34,9 +35,12 @@ namespace SeeloewenCraft
         public List<Block> connectedBlocks = new List<Block>();
         public Block baseBlock;
         public LootTable lootTable;
+        private Random rnd;
+        static int offset;
 
         //block type info
         public string name;
+        public string id;
         public bool canBeMovedToBackground = true;
         public bool isBreakable = true;
         public bool hasInventory = false;
@@ -67,6 +71,9 @@ namespace SeeloewenCraft
 
         public Block(wndGame wndGame, int xPos, int yPos, Chunk chunk, Item item, bool isBackground)
         {
+            rnd = new Random(DateTime.Now.Millisecond + offset);
+            offset++;
+
             //Set the attributes
             this.wndGame = wndGame;
             this.xPos = xPos;
@@ -89,8 +96,8 @@ namespace SeeloewenCraft
         {
             writer.WriteStartObject();
 
-            writer.WritePropertyName("name");
-            writer.WriteValue(GetType().ToString().Replace("SeeloewenCraft.", ""));
+            writer.WritePropertyName("id");
+            writer.WriteValue(id);
 
             writer.WritePropertyName("pos_x");
             writer.WriteValue(xPos);
@@ -113,63 +120,94 @@ namespace SeeloewenCraft
 
         static public Block LoadFromJson(JToken blockToken, Chunk chunk, wndGame wndGame)
         {
-            int posX = (int)new JsonPointer($"/pos_x").Evaluate(blockToken);
-            int posY = (int)new JsonPointer($"/pos_y").Evaluate(blockToken);
-            bool isInBackground = (bool)new JsonPointer($"/is_in_background").Evaluate(blockToken);
-
-            string name = (string)new JsonPointer($"/name").Evaluate(blockToken);
+            int posX = (int)new JsonPointer("/pos_x").Evaluate(blockToken);
+            int posY = (int)new JsonPointer("/pos_y").Evaluate(blockToken);
+            bool isInBackground = (bool)new JsonPointer("/is_in_background").Evaluate(blockToken);
+            string id = (string)new JsonPointer($"/id").Evaluate(blockToken);
 
             Block block;
-
-            switch (name)
+            switch (id)
             {
-                case "GrassBlock":
+                case "sc:grass_block":
                     block = new GrassBlock(wndGame, posX, posY, chunk, null, isInBackground);
                     break;
-                case "DirtBlock":
+                case "sc:dirt_block":
                     block = new DirtBlock(wndGame, posX, posY, chunk, null, isInBackground);
                     break;
-                case "StoneBlock":
+                case "sc:stone_block":
                     block = new StoneBlock(wndGame, posX, posY, chunk, null, isInBackground);
                     break;
-                case "AirBlock":
+                case "sc:air_block":
                     block = new AirBlock(wndGame, posX, posY, chunk, null, isInBackground);
                     break;
-                case "BedrockBlock":
+                case "sc:bedrock_block":
                     block = new BedrockBlock(wndGame, posX, posY, chunk, null, isInBackground);
                     break;
-                case "DiamondOreBlock":
+                case "sc:diamond_ore_block":
                     block = new DiamondOreBlock(wndGame, posX, posY, chunk, null, isInBackground);
                     break;
-                case "IronOreBlock":
+                case "sc:iron_ore_block":
                     block = new IronOreBlock(wndGame, posX, posY, chunk, null, isInBackground);
                     break;
-                case "CoalOreBlock":
+                case "sc:coal_ore_block":
                     block = new CoalOreBlock(wndGame, posX, posY, chunk, null, isInBackground);
                     break;
-                case "OakLogBlock":
+                case "sc:oak_log_block":
                     block = new OakLogBlock(wndGame, posX, posY, chunk, null, isInBackground);
                     break;
-                case "OakLeavesBlock":
+                case "sc:oak_leaves_block":
                     block = new OakLeavesBlock(wndGame, posX, posY, chunk, null, isInBackground);
                     break;
-                case "SpruceLogBlock":
+                case "sc:spruce_log_block":
                     block = new SpruceLogBlock(wndGame, posX, posY, chunk, null, isInBackground);
                     break;
-                case "SpruceLeavesBlock":
+                case "sc:spruce_leaves_block":
                     block = new SpruceLeavesBlock(wndGame, posX, posY, chunk, null, isInBackground);
                     break;
-                case "ChestBlock":
+                case "sc:chest_block":
                     block = new ChestBlock(wndGame, posX, posY, chunk, null, isInBackground);
                     break;
-                case "MagmaBlock":
+                case "sc:magma_block":
                     block = new MagmaBlock(wndGame, posX, posY, chunk, null, isInBackground);
                     break;
-                /*case "TorchBlock":
-                    return Add(new TorchBlock(wndGame, posX, posY, this, null, isInBackground));
-                    break;*/
+                case "sc:torch_block":
+                    block = new TorchBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "sc:water_1_right_block":
+                    block = new WaterBlock_1_Right(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "sc:water_1_left_block":
+                    block = new WaterBlock_1_Left(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "sc:water_2_right_block":
+                    block = new WaterBlock_2_Right(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "sc:water_2_left_block":
+                    block = new WaterBlock_2_Left(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "sc:water_3_right_block":
+                    block = new WaterBlock_3_Right(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "sc:water_3_left_block":
+                    block = new WaterBlock_3_Left(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "sc:water_4_right_block":
+                    block = new WaterBlock_4_Right(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "sc:water_4_left_block":
+                    block = new WaterBlock_4_Left(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "sc:water_5_right_block":
+                    block = new WaterBlock_5_Right(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "sc:water_5_left_block":
+                    block = new WaterBlock_5_Left(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "sc:water_6_block":
+                    block = new WaterBlock_6(wndGame, posX, posY, chunk, null, isInBackground);
+                    break;
                 default:
-                    return new AirBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new AirBlock(wndGame, posX, posY, chunk, null, isInBackground);
                     break;
             }
 
@@ -181,7 +219,6 @@ namespace SeeloewenCraft
 
             return block;
         }
-
 
         public void SetInventory(Inventory inv)
         {
@@ -198,6 +235,7 @@ namespace SeeloewenCraft
             this.blockContainer.cvsBlock.MouseRightButtonDown += cvsBlock_MouseRightButtonDown;
             this.blockContainer.cvsBlock.MouseEnter += cvsBlock_MouseEnter;
             this.blockContainer.cvsBlock.MouseLeave += cvsBlock_MouseLeave;
+
             //Add image and events to the container
             if (canBeMovedToBackground)
             {
@@ -352,7 +390,7 @@ namespace SeeloewenCraft
                 if (slot.isSelected == true && slot.slot.items.Count > 0)
                 {
                     //Check if the item is the one that is being searched
-                    if (slot.slot.items[slot.slot.items.Count - 1].itemName == itemName)
+                    if (slot.slot.items[slot.slot.items.Count - 1].name == itemName)
                     {
                         return true;
                     }
@@ -764,11 +802,12 @@ namespace SeeloewenCraft
         {
             SetTexture();
             name = "Grass Block";
+            id = "sc:grass_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
-            item = new GrassItem(wndGame, id, this);
+            item = new GrassItem(wndGame, this);
         }
 
         public override void SetTexture()
@@ -789,11 +828,12 @@ namespace SeeloewenCraft
             //lootTable = wndGame.lootTables.stoneLootTable;
             SetTexture();
             name = "Stone Block";
+            id = "sc:stone_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
-            item = new StoneItem(wndGame, id, this);
+            item = new StoneItem(wndGame, this);
         }
 
         public override void SetTexture()
@@ -813,11 +853,12 @@ namespace SeeloewenCraft
         {
             SetTexture();
             name = "Dirt";
+            id = "sc:dirt_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
-            item = new DirtItem(wndGame, id, this);
+            item = new DirtItem(wndGame, this);
         }
 
         public override void SetTexture()
@@ -840,12 +881,13 @@ namespace SeeloewenCraft
             canBeMovedToBackground = false;
             SetTexture();
             name = "Air";
+            id = "sc:air_block";
             isLightSource = true;
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
-            item = new AirItem(wndGame, id, this);
+            item = new AirItem(wndGame, this);
         }
 
         public override void SetTexture()
@@ -867,11 +909,12 @@ namespace SeeloewenCraft
             canBeMovedToBackground = false;
             SetTexture();
             name = "Bedrock";
+            id = "sc:bedrock_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
-            item = new BedrockItem(wndGame, id, this);
+            item = new BedrockItem(wndGame, this);
         }
 
         public override void SetTexture()
@@ -891,11 +934,12 @@ namespace SeeloewenCraft
         {
             SetTexture();
             name = "Coal Ore";
+            id = "sc:coal_ore_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
-            item = new CoalOreItem(wndGame, id, this);
+            item = new CoalOreItem(wndGame, this);
         }
 
         public override void SetTexture()
@@ -915,11 +959,12 @@ namespace SeeloewenCraft
         {
             SetTexture();
             name = "Diamond Ore";
+            id = "sc:coal_ore_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
-            item = new DiamondOreItem(wndGame, id, this);
+            item = new DiamondOreItem(wndGame, this);
         }
 
         public override void SetTexture()
@@ -939,11 +984,12 @@ namespace SeeloewenCraft
         {
             SetTexture();
             name = "Iron Ore";
+            id = "sc:iron_ore_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
-            item = new IronOreItem(wndGame, id, this);
+            item = new IronOreItem(wndGame, this);
         }
 
         public override void SetTexture()
@@ -963,11 +1009,12 @@ namespace SeeloewenCraft
         {
             SetTexture();
             name = "Oak Log";
+            id = "sc:oak_log_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
-            item = new OakLogItem(wndGame, id, this);
+            item = new OakLogItem(wndGame, this);
         }
 
         public override void SetTexture()
@@ -987,12 +1034,13 @@ namespace SeeloewenCraft
         {
             SetTexture();
             name = "Oak Leaves";
+            id = "sc:oak_leaves_block";
             isLightSource = true;
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
-            item = new OakLeavesItem(wndGame, id, this);
+            item = new OakLeavesItem(wndGame, this);
         }
 
         public override void SetTexture()
@@ -1012,11 +1060,12 @@ namespace SeeloewenCraft
         {
             SetTexture();
             name = "Spruce Log";
+            id = "sc:spruce_log_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
-            item = new SpruceLogItem(wndGame, id, this);
+            item = new SpruceLogItem(wndGame, this);
         }
 
         public override void SetTexture()
@@ -1037,11 +1086,12 @@ namespace SeeloewenCraft
             isLightSource = true;
             SetTexture();
             name = "Spruce Leaves";
+            id = "sc:spruce_leaves_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
-            item = new SpruceLeavesItem(wndGame, id, this);
+            item = new SpruceLeavesItem(wndGame, this);
         }
 
         public override void SetTexture()
@@ -1060,14 +1110,16 @@ namespace SeeloewenCraft
         public ChestBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
         {
             hasInventory = true;
+            blockInventory = new Inventory(wndGame, false);
             SetTexture();
             name = "Chest";
+            id = "sc:chest_block";
             hasRightClickAction = true;
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
-            item = new ChestItem(wndGame, id, this);
+            item = new ChestItem(wndGame, this);
         }
 
         public override void SetTexture()
@@ -1093,11 +1145,12 @@ namespace SeeloewenCraft
         {
             SetTexture();
             name = "Magma Block";
+            id = "sc:magma_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
-            item = new MagmaBlockItem(wndGame, id, this);
+            item = new MagmaBlockItem(wndGame, this);
         }
 
         public override void SetTexture()
@@ -1119,11 +1172,12 @@ namespace SeeloewenCraft
             isLightSource = true;
             SetTexture();
             name = "Torch";
+            id = "sc:torch_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
-            item = new TorchItem(wndGame, id, this);
+            item = new TorchItem(wndGame, this);
         }
 
         public override void SetTexture()
@@ -1144,6 +1198,7 @@ namespace SeeloewenCraft
             isBase = true;
             SetTexture();
             name = "Cactus Plant Base";
+            id = "sc:cactus_plant_base_block";
             connectedBlocks.Add(new Plant2Block_Top(wndGame, x, y, chunk, item, isInBackground));
             connectedBlocks[0].yOffset = -1;
             connectedBlocks[0].baseBlock = this;
@@ -1151,7 +1206,7 @@ namespace SeeloewenCraft
 
         override public void GenerateItem(wndGame wndGame, int id)
         {
-            item = new Plant2Item(wndGame, id, this);
+            item = new Plant2Item(wndGame   , this);
         }
 
         public override void SetTexture()
@@ -1172,6 +1227,7 @@ namespace SeeloewenCraft
             isSolid = false;
             SetTexture();
             name = "Cactus Plant Top";
+            id = "sc:cactus_plant_top_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)

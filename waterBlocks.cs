@@ -19,6 +19,7 @@ namespace SeeloewenCraft
             waterLevel = 1;
             SetTexture();
             name = "Water";
+            id = "sc:water_1_right_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -47,6 +48,7 @@ namespace SeeloewenCraft
             waterLevel = 1;
             SetTexture();
             name = "Water";
+            id = "sc:water_1_left_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -75,6 +77,7 @@ namespace SeeloewenCraft
             waterLevel = 2;
             SetTexture();
             name = "Water";
+            id = "sc:water_2_right_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -103,6 +106,7 @@ namespace SeeloewenCraft
             waterLevel = 2;
             SetTexture();
             name = "Water";
+            id = "sc:water_2_left_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -131,6 +135,7 @@ namespace SeeloewenCraft
             waterLevel = 3;
             SetTexture();
             name = "Water";
+            id = "sc:water_3_right_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -157,6 +162,7 @@ namespace SeeloewenCraft
             isBreakable = false;
             canBeMovedToBackground = false;
             waterLevel = 3;
+            id = "sc:water_3_left_block";
             SetTexture();
             name = "Water";
         }
@@ -187,6 +193,7 @@ namespace SeeloewenCraft
             waterLevel = 4;
             SetTexture();
             name = "Water";
+            id = "sc:water_4_right_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -215,6 +222,7 @@ namespace SeeloewenCraft
             waterLevel = 4;
             SetTexture();
             name = "Water";
+            id = "sc:water_4_left_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -243,6 +251,7 @@ namespace SeeloewenCraft
             waterLevel = 5;
             SetTexture();
             name = "Water";
+            id = "sc:water_5_right_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -271,6 +280,7 @@ namespace SeeloewenCraft
             waterLevel = 5;
             SetTexture();
             name = "Water";
+            id = "sc:water_5_left_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)
@@ -299,6 +309,7 @@ namespace SeeloewenCraft
             waterLevel = 6;
             SetTexture();
             name = "Water";
+            id = "sc:water_6_block";
         }
 
         override public void GenerateItem(wndGame wndGame, int id)

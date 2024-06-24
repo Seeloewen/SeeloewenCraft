@@ -67,8 +67,8 @@ namespace SeeloewenCraft
     {
         public StoneLootTable(wndGame wndGame) : base(wndGame)
         {
-            lootTableEntries.Add(new LootTableEntry(new StoneItem(wndGame, 0, null), 1, 3, 5, wndGame));
-            lootTableEntries.Add(new LootTableEntry(new GrassItem(wndGame, 0, null), 1, 3, 1, wndGame));
+            lootTableEntries.Add(new LootTableEntry(new StoneItem(wndGame, null), 1, 3, 5, wndGame));
+            lootTableEntries.Add(new LootTableEntry(new GrassItem(wndGame, null), 1, 3, 1, wndGame));
         }
     }
 }
