@@ -25,7 +25,7 @@ namespace SeeloewenCraft
             this.yOffset = yOffset;
 
             //Add all structurecomponents to the list
-            structureComponents.Add(new StructureComponent(wndGame, xOffset, yOffset + 1, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true    )));
+            structureComponents.Add(new StructureComponent(wndGame, xOffset, yOffset + 1, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
             structureComponents.Add(new StructureComponent(wndGame, xOffset, yOffset + 2, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
             structureComponents.Add(new StructureComponent(wndGame, xOffset + 1, yOffset + 1, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
             structureComponents.Add(new StructureComponent(wndGame, xOffset + 1, yOffset, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));

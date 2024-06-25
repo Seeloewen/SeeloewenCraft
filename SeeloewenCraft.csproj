@@ -72,9 +72,6 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Background.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Torch.png" />
   </ItemGroup>
   <ItemGroup>

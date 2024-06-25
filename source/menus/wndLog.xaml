@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Debug-Log" Height="573" Width="973">
     <Window.Background>
-        <ImageBrush ImageSource="/Background.png"/>
+        <ImageBrush ImageSource="/Resources/Background.png"/>
     </Window.Background>
     <Grid>
         <RichTextBox x:Name="rtbLog" Canvas.Left="10" Canvas.Top="47" FontSize="16" Margin="11,56,11,10" IsReadOnly="True">
