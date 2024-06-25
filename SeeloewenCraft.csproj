@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <LangVersion>latest</LangVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-	    <RuntimeIdentifier>win-x64</RuntimeIdentifier> <!-- oder ein anderes Ziel, falls erforderlich -->
+	    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	<PublishSingleFile>true</PublishSingleFile>
     <SelfContained>false</SelfContained>
     <UseWindowsForms>true</UseWindowsForms>
