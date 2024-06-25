@@ -114,6 +114,12 @@ namespace SeeloewenCraft
                 blockInventory.SaveToJson(writer);
             }
 
+            if(foregroundBlock != null)
+            {
+                writer.WritePropertyName("foreground_block");
+                foregroundBlock.SaveToJson(writer);
+            }
+
             writer.WriteEndObject();
         }
 
@@ -215,6 +221,12 @@ namespace SeeloewenCraft
             {
                 JToken invToken = new JsonPointer($"/inventory").Evaluate(blockToken);
                 block.SetInventory(Inventory.LoadFromJson(invToken, wndGame));
+            }
+
+            JObject objectToken = (JObject)blockToken;
+            if(objectToken.ContainsKey("foreground_block"))
+            {
+                block.foregroundBlock = Block.LoadFromJson(new JsonPointer("/foreground_block").Evaluate(blockToken), chunk, wndGame);
             }
 
             return block;

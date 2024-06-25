@@ -269,9 +269,13 @@ namespace SeeloewenCraft
                     block.MoveToBackground();
                 }
                 //Render foreground blocks
-                else if(block.isForeground)
+                else if (block.isForeground)
                 {
                     blockList.Get(block.xPos, block.yPos).PlaceInForeground(block);
+                }
+                if (block.foregroundBlock != null)
+                {
+                    block.PlaceInForeground(block.foregroundBlock);
                 }
             }
         }
@@ -287,11 +291,11 @@ namespace SeeloewenCraft
                 else
                 {
                     return null;
-                }    
+                }
             }
             else if (x < 1)
             {
-                if(wndGame.GetFromCurrentChunks(index - 1) != null)
+                if (wndGame.GetFromCurrentChunks(index - 1) != null)
                 {
                     return wndGame.GetFromCurrentChunks(index - 1).GetBlock(x + 8, y);
                 }
