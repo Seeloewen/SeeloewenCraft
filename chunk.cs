@@ -82,7 +82,7 @@ namespace SeeloewenCraft
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 writer.Formatting = Formatting.Indented;
-                blockList.saveToJson(writer);
+                blockList.SaveToJson(writer);
             }
             File.WriteAllText($"{wndGame.worldDirectory}/chunk{index}/blocks.json", sw.ToString());
 
@@ -238,7 +238,7 @@ namespace SeeloewenCraft
             string documentText = File.ReadAllText($"{wndGame.worldDirectory}/chunk{index}/blocks.json");
             JToken documentToken = JToken.Parse(documentText);
 
-            blockList = BlockList.loadFromJson(documentToken, this, wndGame);
+            blockList = BlockList.LoadFromJson(documentToken, this, wndGame);
 
             //load settings
             documentText = File.ReadAllText($"{wndGame.worldDirectory}/chunk{index}/settings.json");

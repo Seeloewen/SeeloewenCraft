@@ -457,9 +457,12 @@ namespace SeeloewenCraft
 
                         if (blockContainer.previousBlockWasLightSource || blockContainer.previousForegroundBlockWasLightSource)
                         {
-                            block.rangeToNearestLightSource = block.RangeToLightSource();
-                            block.SetLightLevel(block.RangeToLightSource());
-                            block.blockContainer.SetLightOpacity();
+                            if(blockContainer != null)
+                            {
+                                block.rangeToNearestLightSource = block.RangeToLightSource();
+                                block.SetLightLevel(block.RangeToLightSource());
+                                block.blockContainer.SetLightOpacity();
+                            }
                         }
                     }
                 }

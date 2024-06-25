@@ -20,7 +20,7 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-        public void saveToJson(JsonWriter writer)
+        public void SaveToJson(JsonWriter writer)
         {
             writer.WriteStartObject();
             writer.WritePropertyName("blocks");
@@ -35,7 +35,7 @@ namespace SeeloewenCraft
             writer.WriteEndObject();
         }
 
-        static public BlockList loadFromJson(JToken documentToken, Chunk chunk, wndGame wndGame)
+        static public BlockList LoadFromJson(JToken documentToken, Chunk chunk, wndGame wndGame)
         {
             BlockList blockList = new BlockList();
 
@@ -54,43 +54,63 @@ namespace SeeloewenCraft
         {
             //Add the block to the index based on x and y pos
             //Check if the coordinate has a container and place the block into that container if possible
-            int i = calcIndex(block.xPos, block.yPos);
-            blocks[i] = block;
+            if ((block.xPos < 9 && block.xPos > 0) && (block.yPos > 0 && block.yPos < 76))
+            {
+                int i = CalcIndex(block.xPos, block.yPos);
+                blocks[i] = block;
+            }
         }
 
         public void Add(Block block, int x, int y)
-        { 
+        {
             //Add the block to the index based on x and y pos
-            int i = calcIndex(x, y);
-            blocks[i] = block;
+            int i = CalcIndex(x, y);
+            if ((block.xPos < 9 && block.xPos > 0) && (block.yPos > 0 && block.yPos < 76))
+            {
+                blocks[i] = block;
+            }
         }
 
         public Block Get(int x, int y)
         {
-            //Get the block at the index based on x and y pos
-            int i = calcIndex(x, y);
-            return blocks[i];
+            //Get the block at the index based on x and y pos+
+            if ((x < 9 && x > 0) && (y > 0 && y < 76))
+            {
+                int i = CalcIndex(x, y);
+                return blocks[i];
+            }
+            return null;
         }
 
         public Block Get(Block block)
         {
             //Get the block at the index based on x and y pos
-            int i = calcIndex(block.xPos, block.yPos);
-            return blocks[i];
+            if ((block.xPos < 9 && block.xPos > 0) && (block.yPos > 0 && block.yPos < 76))
+            {
+                int i = CalcIndex(block.xPos, block.yPos);
+                return blocks[i];
+            }
+            return null;
         }
 
         public void Remove(int x, int y)
         {
             //Remove the block at the index based on x and y pos
-            int i = calcIndex(x, y);
-            blocks[i] = null;
+            if ((x < 9 && x > 0) && (y > 0 && y < 76))
+            {
+                int i = CalcIndex(x, y);
+                blocks[i] = null;
+            }
         }
 
         public void Remove(Block block)
         {
             //Remove the block at the index based the actual block
-            int i = calcIndex(block.xPos, block.yPos);
-            blocks[i] = null;
+            if ((block.xPos < 9 && block.xPos > 0) && (block.yPos > 0 && block.yPos < 76))
+            {
+                int i = CalcIndex(block.xPos, block.yPos);
+                blocks[i] = null;
+            }
         }
 
         public void Clear()
@@ -99,20 +119,10 @@ namespace SeeloewenCraft
             blocks = new Block[600];
         }
 
-        private int calcIndex(int x, int y)
+        private int CalcIndex(int x, int y)
         {
             //Calculate the index based on x and y pos
             return (x - 1) + (y - 1) * 8;
-        }
-
-        private int calcX(int index) //Not used
-        {
-            return (index % 8) + 1;
-        }
-
-        private int calcY(int index) //Not used
-        {
-            return (index / 8) - 1;
         }
     }
 }
