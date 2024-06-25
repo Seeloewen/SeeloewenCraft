@@ -7,7 +7,6 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Runtime.Remoting.Lifetime;
 
 namespace SeeloewenCraft
 {

@@ -11,7 +11,6 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media.Converters;
 using System.Diagnostics.Eventing.Reader;
-using System.Runtime.Remoting.Channels;
 using System.Security.Permissions;
 using System.Windows.Forms;
 using Newtonsoft.Json;

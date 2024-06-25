@@ -262,9 +262,8 @@ namespace SeeloewenCraft
                 {
                     player.inventory.AddItem(new TorchItem(this, null));
                     player.inventory.AddItem(new WaterItem(this, null));
-
+                    player.inventory.AddItem(new Plant2Item(this, null));
                 }
-                player.inventory.AddItem(new Plant2Item(this, null));
             }
 
             finishedLoading = true;
@@ -567,7 +566,7 @@ namespace SeeloewenCraft
         private void tmrMovement_Tick(object sender, EventArgs e)
         {
             //Movement timer, ticks at a rate of approximitely 60 fps (every 16 ms)
-            player.physicsStep(pressedKeys.Contains(Key.A), pressedKeys.Contains(Key.D), pressedKeys.Contains(Key.Space), 0.016);
+            player.PhysicsStep(pressedKeys.Contains(Key.A), pressedKeys.Contains(Key.D), pressedKeys.Contains(Key.Space), 0.016);
         }
 
         private void tmrWater_Tick(object sender, EventArgs e)
