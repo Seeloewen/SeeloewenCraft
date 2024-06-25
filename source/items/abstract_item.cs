@@ -18,7 +18,7 @@ namespace SeeloewenCraft
         public List<string> tags = new List<string>();
         public Canvas cvsItem = new Canvas();
         public ImageBrush image;
-        public wndGame wndGame;
+        public World world;
         public InventorySlot slot;
         public Block block;
         public string name;
@@ -32,10 +32,10 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Item(wndGame wndGame, Block block)
+        public Item(World world, Block block)
         {
             //Set the attributes
-            this.wndGame = wndGame;
+            this.world = world;
             if (block != null)
             {
                 this.block = block;

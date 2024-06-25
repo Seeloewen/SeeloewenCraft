@@ -164,11 +164,11 @@ namespace SeeloewenCraft
                 wndMenu.log.Write($"Successfully applied texturepack ({wndMenu.texturepackDirectory}\\{cbxTexturepack.SelectedItem})", "Warning");
             }
 
-            if (wndMenu.wndGame != null)
+            if (wndMenu.world != null)
             {
-                if (wndMenu.wndGame.finishedLoading)
+                if (wndMenu.world.finishedLoading)
                 {
-                    wndMenu.wndGame.RefreshTextures();
+                    wndMenu.world.RefreshTextures();
                 }
             }
         }

@@ -35,7 +35,7 @@ namespace SeeloewenCraft
             writer.WriteEndObject();
         }
 
-        static public BlockList LoadFromJson(JToken documentToken, Chunk chunk, wndGame wndGame)
+        static public BlockList LoadFromJson(JToken documentToken, Chunk chunk, World world)
         {
             BlockList blockList = new BlockList();
 
@@ -45,7 +45,7 @@ namespace SeeloewenCraft
             {
                 JToken blockToken = new JsonPointer($"/{i}").Evaluate(blockArrayToken);
 
-                blockList.Add(Block.LoadFromJson(blockToken, chunk, wndGame));
+                blockList.Add(Block.LoadFromJson(blockToken, chunk, world));
             }
             return blockList;
         }

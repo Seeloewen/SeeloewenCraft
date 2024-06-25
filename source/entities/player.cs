@@ -22,7 +22,7 @@ namespace SeeloewenCraft
     public class Player
     {
         public Canvas cvsPlayer = new Canvas();
-        wndGame wndGame;
+        World world;
         public Inventory inventory;
 
         //-- Variables for physics --/
@@ -68,10 +68,10 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Player(wndGame wndGame, int x, int y)
+        public Player(World world, int x, int y)
         {
             //Set the attributes
-            this.wndGame = wndGame;
+            this.world = world;
 
             //Generate the player
             GeneratePlayer(x, y);
@@ -87,13 +87,13 @@ namespace SeeloewenCraft
             cvsPlayer.Height = 95;
             cvsPlayer.Background = new SolidColorBrush(Colors.Red);
 
-            wndGame.log.Write($"Created player at position x{x} y{y}", "Info");
+            world.log.Write($"Created player at position x{x} y{y}", "Info");
         }
 
 
         public void SavePosition(string path)
         {
-            wndGame.log.Write($"Saved player position to {path}", "Info");
+            world.log.Write($"Saved player position to {path}", "Info");
 
 
             var sb = new StringBuilder();
@@ -153,12 +153,12 @@ namespace SeeloewenCraft
                     Point blockOriginPoint = new Point(1, 1);
 
                     //Convert positions to screen coordinates
-                    Point playerScreenPoint = wndGame.player.cvsPlayer.PointToScreen(new Point(0, 0));
+                    Point playerScreenPoint = world.player.cvsPlayer.PointToScreen(new Point(0, 0));
                     Point blockScreenPoint = block.blockContainer.bdrBlock.PointToScreen(new Point(0, 0));
 
                     //Convert to coordinates considering scrolling
-                    Point playerPosition = wndGame.svWorld.TranslatePoint(playerScreenPoint, wndGame.cvsWorld);
-                    Point blockPosition = wndGame.svWorld.TranslatePoint(blockScreenPoint, wndGame.cvsWorld);
+                    Point playerPosition = world.wndGame.svWorld.TranslatePoint(playerScreenPoint, world.wndGame.svWorld);
+                    Point blockPosition = world.wndGame.svWorld.TranslatePoint(blockScreenPoint, world.wndGame.svWorld);
 
                     //calculate relative position of block from player (top-left corner)
                     blockOriginPoint = new Point(blockPosition.X - playerPosition.X, blockPosition.Y - playerPosition.Y);
@@ -339,58 +339,58 @@ namespace SeeloewenCraft
         public void MoveHorizontal(int amount)
         {
             //Move all chunks the specified amount to the left
-            foreach (Chunk chunk in wndGame.currentChunkList)
+            foreach (Chunk chunk in world.currentChunkList)
             {
                 Canvas.SetLeft(chunk.grdChunk, Canvas.GetLeft(chunk.grdChunk) - amount);
             }
 
             //Sort the list to account for chunk movement
-            wndGame.currentChunkList = wndGame.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+            world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
 
             //Check if the chunk has moved too far
-            if (Canvas.GetLeft(wndGame.currentChunkList[2].grdChunk) <= 0)
+            if (Canvas.GetLeft(world.currentChunkList[2].grdChunk) <= 0)
             {
-                double offset = -Canvas.GetLeft(wndGame.currentChunkList[2].grdChunk);
+                double offset = -Canvas.GetLeft(world.currentChunkList[2].grdChunk);
                 //Save the chunk that has moved to far and remove it. Add a new one at the opposite site.
-                if (wndGame.showBlockInfo) wndGame.GetFromCurrentChunks(wndGame.currentChunkList[0].index).HideBlockInfo();
-                wndGame.currentChunkList.Remove(wndGame.GetFromCurrentChunks(wndGame.currentChunkList[0].index));
-                wndGame.currentChunkList.Add(wndGame.GetChunk(wndGame.currentChunkList[3].index + 1));
+                if (world.showBlockInfo) world.GetFromCurrentChunks(world.currentChunkList[0].index).HideBlockInfo();
+                world.currentChunkList.Remove(world.GetFromCurrentChunks(world.currentChunkList[0].index));
+                world.currentChunkList.Add(world.GetChunk(world.currentChunkList[3].index + 1));
                 try
                 {
-                    wndGame.cvsWorld.Children.Add(wndGame.currentChunkList[4].grdChunk);
+                    world.wndGame.cvsWorld.Children.Add(world.currentChunkList[4].grdChunk);
                 }
                 catch
                 {
 
                 }
-                Canvas.SetLeft(wndGame.currentChunkList[4].grdChunk, 1200 - offset);
+                Canvas.SetLeft(world.currentChunkList[4].grdChunk, 1200 - offset);
 
                 //Sort the chunklist again
-                wndGame.currentChunkList = wndGame.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+                world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
 
-                if (wndGame.showBlockInfo) wndGame.GetFromCurrentChunks(wndGame.currentChunkList[4].index).ShowBlockInfo();
+                if (world.showBlockInfo) world.GetFromCurrentChunks(world.currentChunkList[4].index).ShowBlockInfo();
             }
-            else if (Canvas.GetLeft(wndGame.currentChunkList[2].grdChunk) >= 800)
+            else if (Canvas.GetLeft(world.currentChunkList[2].grdChunk) >= 800)
             {
-                double offset = Canvas.GetLeft(wndGame.currentChunkList[2].grdChunk) - 800;
+                double offset = Canvas.GetLeft(world.currentChunkList[2].grdChunk) - 800;
                 //Move the chunk on the right all the way to the left
-                if (wndGame.showBlockInfo) wndGame.GetFromCurrentChunks(wndGame.currentChunkList[4].index).HideBlockInfo();
-                wndGame.currentChunkList.Remove(wndGame.GetFromCurrentChunks(wndGame.currentChunkList[4].index));
-                wndGame.currentChunkList.Add(wndGame.GetChunk(wndGame.currentChunkList[0].index - 1));
+                if (world.showBlockInfo) world.GetFromCurrentChunks(world.currentChunkList[4].index).HideBlockInfo();
+                world.currentChunkList.Remove(world.GetFromCurrentChunks(world.currentChunkList[4].index));
+                world.currentChunkList.Add(world.GetChunk(world.currentChunkList[0].index - 1));
                 try
                 {
-                    wndGame.cvsWorld.Children.Add(wndGame.currentChunkList[4].grdChunk);
+                    world.wndGame.cvsWorld.Children.Add(world.currentChunkList[4].grdChunk);
                 }
                 catch
                 {
 
                 }
-                Canvas.SetLeft(wndGame.currentChunkList[4].grdChunk, -400 + offset);
+                Canvas.SetLeft(world.currentChunkList[4].grdChunk, -400 + offset);
 
                 //Sort the list again
-                wndGame.currentChunkList = wndGame.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+                world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
 
-                if (wndGame.showBlockInfo) wndGame.GetFromCurrentChunks(wndGame.currentChunkList[0].index).ShowBlockInfo();
+                if (world.showBlockInfo) world.GetFromCurrentChunks(world.currentChunkList[0].index).ShowBlockInfo();
             }
         }
 
@@ -403,7 +403,7 @@ namespace SeeloewenCraft
             cvsPlayer.Margin = currentMarginPlayer;
 
             //Scroll along to match the movement
-            wndGame.svWorld.ScrollToVerticalOffset(wndGame.player.cvsPlayer.Margin.Top - 400);
+            world.wndGame.svWorld.ScrollToVerticalOffset(world.player.cvsPlayer.Margin.Top - 400);
         }
 
 
@@ -412,9 +412,9 @@ namespace SeeloewenCraft
         {
             //Create a list of the chunks the player is currently in by checking collision
             List<Chunk> chunkList = new List<Chunk>();
-            foreach (Chunk chunk in wndGame.currentChunkList)
+            foreach (Chunk chunk in world.currentChunkList)
             {
-                if (wndGame.GetRectangle(cvsPlayer).IntersectsWith(wndGame.GetRectangle(chunk.grdChunk)))
+                if (world.wndGame.GetRectangle(cvsPlayer).IntersectsWith(world.wndGame.GetRectangle(chunk.grdChunk)))
                 {
                     chunkList.Add(chunk);
                 }

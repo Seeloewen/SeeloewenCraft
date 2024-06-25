@@ -28,7 +28,7 @@ namespace SeeloewenCraft
         public BlockContainerList blockContainerList;
         public Grid grdChunk = new Grid();
         private Random rnd = new Random(DateTime.Now.Millisecond);
-        wndGame wndGame;
+        World world;
         public int index;
         int floorHeight; //Only used while generating
         public int floorHeightRight;
@@ -37,14 +37,14 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Chunk(wndGame wndGame, int index)
+        public Chunk(World world, int index)
         {
             //Set the attributes
-            this.wndGame = wndGame;
+            this.world = world;
             this.index = index;
 
             //Begin loading the chunk
-            chunkDirectory = string.Format("{0}/chunk{1}", wndGame.worldDirectory, index);
+            chunkDirectory = string.Format("{0}/chunk{1}", world.worldDirectory, index);
             Init();
         }
 
@@ -55,7 +55,7 @@ namespace SeeloewenCraft
             {
                 block.HideBlockInfo();
             }
-            wndGame.log.Write("Block info is now hidden!", "Info");
+            world.log.Write("Block info is now hidden!", "Info");
         }
 
         public void ShowBlockInfo()
@@ -64,7 +64,7 @@ namespace SeeloewenCraft
             {
                 block.ShowBlockInfo();
             }
-            wndGame.log.Write("Block info is now shown!", "Info");
+            world.log.Write("Block info is now shown!", "Info");
         }
 
         public void Save()
@@ -73,7 +73,7 @@ namespace SeeloewenCraft
             if (!Directory.Exists(chunkDirectory))
             {
                 Directory.CreateDirectory(chunkDirectory);
-                wndGame.log.Write($"Created chunk directory {chunkDirectory}!", "Info");
+                world.log.Write($"Created chunk directory {chunkDirectory}!", "Info");
             }
 
             //save blocks in blocks.json
@@ -84,7 +84,7 @@ namespace SeeloewenCraft
                 writer.Formatting = Formatting.Indented;
                 blockList.SaveToJson(writer);
             }
-            File.WriteAllText($"{wndGame.worldDirectory}/chunk{index}/blocks.json", sw.ToString());
+            File.WriteAllText($"{world.worldDirectory}/chunk{index}/blocks.json", sw.ToString());
 
             //save settings in settings.json
             sb = new StringBuilder();
@@ -94,7 +94,7 @@ namespace SeeloewenCraft
                 writer.Formatting = Formatting.Indented;
                 SaveSettingsToJson(writer);
             }
-            File.WriteAllText($"{wndGame.worldDirectory}/chunk{index}/settings.json", sb.ToString());
+            File.WriteAllText($"{world.worldDirectory}/chunk{index}/settings.json", sb.ToString());
         }
 
         private void SaveSettingsToJson(JsonWriter writer)
@@ -118,7 +118,7 @@ namespace SeeloewenCraft
             //Check if the coordinate has a container and place the block into that container if possible
             if (x > 8)
             {
-                Chunk chunk = wndGame.GetFromCurrentChunks(index + 1);
+                Chunk chunk = world.GetFromCurrentChunks(index + 1);
 
                 if (chunk != null)
                 {
@@ -127,7 +127,7 @@ namespace SeeloewenCraft
             }
             else if (x < 1)
             {
-                Chunk chunk = wndGame.GetFromCurrentChunks(index - 1);
+                Chunk chunk = world.GetFromCurrentChunks(index - 1);
 
                 if (chunk != null)
                 {
@@ -156,7 +156,7 @@ namespace SeeloewenCraft
         public void SetContainerList()
         {
             //Get the container list
-            foreach (BlockContainerList containerList in wndGame.blockContainerList)
+            foreach (BlockContainerList containerList in world.blockContainerList)
             {
                 if (containerList.IsAvailable())
                 {
@@ -169,7 +169,7 @@ namespace SeeloewenCraft
 
         public void Init()
         {
-            wndGame.log.Write($"Beginning to initialize chunk {index}", "Info");
+            world.log.Write($"Beginning to initialize chunk {index}", "Info");
 
             //Clear the chunk
             grdChunk.Children.Clear();
@@ -192,7 +192,7 @@ namespace SeeloewenCraft
             SetContainerList();
 
             //Check if the chunk doesn't already exist
-            if (Directory.Exists($"{wndGame.worldDirectory}/chunk{index}"))
+            if (Directory.Exists($"{world.worldDirectory}/chunk{index}"))
             {
                 Load();
             }
@@ -205,26 +205,26 @@ namespace SeeloewenCraft
             try
             {
                 RenderChunk();
-                wndGame.log.Write($"Successfully initialized chunk {index}", "Info");
+                world.log.Write($"Successfully initialized chunk {index}", "Info");
             }
             catch (Exception ex)
             {
-                wndGame.log.Write($"Could not initialize chunk: {ex.Message}", "Error");
+                world.log.Write($"Could not initialize chunk: {ex.Message}", "Error");
             }
         }
 
         private void Load()
         {
-            wndGame.log.Write($"Loading chunk {index}", "Info");
+            world.log.Write($"Loading chunk {index}", "Info");
 
             //load blocklist
-            string documentText = File.ReadAllText($"{wndGame.worldDirectory}/chunk{index}/blocks.json");
+            string documentText = File.ReadAllText($"{world.worldDirectory}/chunk{index}/blocks.json");
             JToken documentToken = JToken.Parse(documentText);
 
-            blockList = BlockList.LoadFromJson(documentToken, this, wndGame);
+            blockList = BlockList.LoadFromJson(documentToken, this, world);
 
             //load settings
-            documentText = File.ReadAllText($"{wndGame.worldDirectory}/chunk{index}/settings.json");
+            documentText = File.ReadAllText($"{world.worldDirectory}/chunk{index}/settings.json");
             documentToken = JToken.Parse(documentText);
 
             index = (int)new JsonPointer("/index").Evaluate(documentToken);
@@ -263,9 +263,9 @@ namespace SeeloewenCraft
         {
             if (x > 8)
             {
-                if (wndGame.GetFromCurrentChunks(index + 1) != null)
+                if (world.GetFromCurrentChunks(index + 1) != null)
                 {
-                    return wndGame.GetFromCurrentChunks(index + 1).GetBlock(x - 8, y);
+                    return world.GetFromCurrentChunks(index + 1).GetBlock(x - 8, y);
                 }
                 else
                 {
@@ -274,9 +274,9 @@ namespace SeeloewenCraft
             }
             else if (x < 1)
             {
-                if(wndGame.GetFromCurrentChunks(index - 1) != null)
+                if(world.GetFromCurrentChunks(index - 1) != null)
                 {
-                    return wndGame.GetFromCurrentChunks(index - 1).GetBlock(x + 8, y);
+                    return world.GetFromCurrentChunks(index - 1).GetBlock(x + 8, y);
                 }
                 else
                 {

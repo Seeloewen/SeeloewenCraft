@@ -15,7 +15,7 @@ namespace SeeloewenCraft
 {
     public class BlockContainer
     {
-        private wndGame wndGame;
+        private World world;
         public Canvas cvsBlock = new Canvas();
         public Canvas cvsForegroundBlock = new Canvas();
         public Border bdrBlock = new Border();
@@ -30,12 +30,12 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public BlockContainer(wndGame wndGame, int xPos, int yPos)
+        public BlockContainer(World world, int xPos, int yPos)
         {
             //Pass the arguments
             this.xPos = xPos;
             this.yPos = yPos;
-            this.wndGame = wndGame;
+            this.world = world;
 
             //Setup the block canvas and border
             bdrBlock.Width = 50;
@@ -155,7 +155,7 @@ namespace SeeloewenCraft
                 block.RemoveHandlersFromContainer();
             }
 
-            wndGame.RemoveFromParent(bdrBlock);
+            world.wndGame.RemoveFromParent(bdrBlock);
             RemoveForegroundBlock();
             block = null;
             previousBlockWasLightSource = false;

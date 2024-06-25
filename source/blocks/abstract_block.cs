@@ -25,7 +25,7 @@ namespace SeeloewenCraft
     {
         //references
         public List<string> tags = new List<string>();
-        public wndGame wndGame;
+        public World world;
         public ImageBrush image = new ImageBrush();
         public BlockContainer blockContainer;
         public Chunk chunk;
@@ -69,13 +69,13 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Block(wndGame wndGame, int xPos, int yPos, Chunk chunk, Item item, bool isBackground)
+        public Block(World world, int xPos, int yPos, Chunk chunk, Item item, bool isBackground)
         {
             rnd = new Random(DateTime.Now.Millisecond + offset);
             offset++;
 
             //Set the attributes
-            this.wndGame = wndGame;
+            this.world = world;
             this.xPos = xPos;
             this.yPos = yPos;
             this.chunk = chunk;
@@ -124,7 +124,7 @@ namespace SeeloewenCraft
         }
 
 
-        static public Block LoadFromJson(JToken blockToken, Chunk chunk, wndGame wndGame)
+        static public Block LoadFromJson(JToken blockToken, Chunk chunk, World world)
         {
             int posX = (int)new JsonPointer("/pos_x").Evaluate(blockToken);
             int posY = (int)new JsonPointer("/pos_y").Evaluate(blockToken);
@@ -135,98 +135,98 @@ namespace SeeloewenCraft
             switch (id)
             {
                 case "sc:grass_block":
-                    block = new GrassBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new GrassBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:dirt_block":
-                    block = new DirtBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new DirtBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:stone_block":
-                    block = new StoneBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new StoneBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:air_block":
-                    block = new AirBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new AirBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:bedrock_block":
-                    block = new BedrockBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new BedrockBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:diamond_ore_block":
-                    block = new DiamondOreBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new DiamondOreBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:iron_ore_block":
-                    block = new IronOreBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new IronOreBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:coal_ore_block":
-                    block = new CoalOreBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new CoalOreBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:oak_log_block":
-                    block = new OakLogBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new OakLogBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:oak_leaves_block":
-                    block = new OakLeavesBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new OakLeavesBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:spruce_log_block":
-                    block = new SpruceLogBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new SpruceLogBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:spruce_leaves_block":
-                    block = new SpruceLeavesBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new SpruceLeavesBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:chest_block":
-                    block = new ChestBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new ChestBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:magma_block":
-                    block = new MagmaBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new MagmaBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:torch_block":
-                    block = new TorchBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new TorchBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:water_1_right_block":
-                    block = new WaterBlock_1_Right(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_1_Right(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:water_1_left_block":
-                    block = new WaterBlock_1_Left(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_1_Left(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:water_2_right_block":
-                    block = new WaterBlock_2_Right(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_2_Right(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:water_2_left_block":
-                    block = new WaterBlock_2_Left(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_2_Left(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:water_3_right_block":
-                    block = new WaterBlock_3_Right(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_3_Right(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:water_3_left_block":
-                    block = new WaterBlock_3_Left(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_3_Left(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:water_4_right_block":
-                    block = new WaterBlock_4_Right(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_4_Right(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:water_4_left_block":
-                    block = new WaterBlock_4_Left(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_4_Left(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:water_5_right_block":
-                    block = new WaterBlock_5_Right(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_5_Right(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:water_5_left_block":
-                    block = new WaterBlock_5_Left(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_5_Left(world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:water_6_block":
-                    block = new WaterBlock_6(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_6(world, posX, posY, chunk, null, isInBackground);
                     break;
                 default:
-                    block = new AirBlock(wndGame, posX, posY, chunk, null, isInBackground);
+                    block = new AirBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
             }
 
             if (block.hasInventory)
             {
                 JToken invToken = new JsonPointer($"/inventory").Evaluate(blockToken);
-                block.SetInventory(Inventory.LoadFromJson(invToken, wndGame));
+                block.SetInventory(Inventory.LoadFromJson(invToken, world));
             }
 
             JObject objectToken = (JObject)blockToken;
             if(objectToken.ContainsKey("foreground_block"))
             {
-                block.foregroundBlock = Block.LoadFromJson(new JsonPointer("/foreground_block").Evaluate(blockToken), chunk, wndGame);
+                block.foregroundBlock = Block.LoadFromJson(new JsonPointer("/foreground_block").Evaluate(blockToken), chunk, world);
             }
 
             return block;
@@ -236,7 +236,7 @@ namespace SeeloewenCraft
         {
             blockInventory = inv;
             Canvas.SetTop(inv.grdInventory, 410);
-            wndGame.inventoryList.Add(inv);
+            world.inventoryList.Add(inv);
         }
 
         public void SetContainer(BlockContainer blockContainer)
@@ -280,7 +280,7 @@ namespace SeeloewenCraft
             if (element is Canvas)
             {
                 //Check for collision
-                if (wndGame.GetRectangle(wndGame.player.cvsPlayer).IntersectsWith(wndGame.GetRectangle(blockContainer.cvsBlock)))
+                if (world.wndGame.GetRectangle(world.player.cvsPlayer).IntersectsWith(world.wndGame.GetRectangle(blockContainer.cvsBlock)))
                 {
                     return true;
                 }
@@ -359,12 +359,12 @@ namespace SeeloewenCraft
         public bool IsInRange()
         {
             //Convert positions to screen coordinates
-            Point playerScreenPoint = wndGame.player.cvsPlayer.PointToScreen(new Point(0, 0));
+            Point playerScreenPoint = world.player.cvsPlayer.PointToScreen(new Point(0, 0));
             Point otherScreenPoint = blockContainer.bdrBlock.PointToScreen(new Point(0, 0));
 
             //Convert to coordinates considering scrolling
-            Point playerPosition = wndGame.svWorld.TranslatePoint(playerScreenPoint, wndGame.cvsWorld);
-            Point otherPosition = wndGame.svWorld.TranslatePoint(otherScreenPoint, wndGame.cvsWorld);
+            Point playerPosition = world.wndGame.svWorld.TranslatePoint(playerScreenPoint, world.wndGame.cvsWorld);
+            Point otherPosition = world.wndGame.svWorld.TranslatePoint(otherScreenPoint, world.wndGame.cvsWorld);
 
             //Check if the distance between the player and the block is less than 200 pixels
             if ((Math.Abs(playerPosition.X - otherPosition.X) < 200) && (Math.Abs(playerPosition.Y - otherPosition.Y) < 200))
@@ -378,7 +378,7 @@ namespace SeeloewenCraft
         }
 
         //Create the item that corresponds to the block
-        public abstract void GenerateItem(wndGame wndGame, int id);
+        public abstract void GenerateItem(World world, int id);
 
         public abstract void SetTexture();
 
@@ -389,14 +389,14 @@ namespace SeeloewenCraft
             //Generate a new item if necessary and return the item
             if (item == null)
             {
-                GenerateItem(wndGame, 0);
+                GenerateItem(world, 0);
             }
             return item;
         }
 
-        public bool IsHolding(string itemName) //Legacy Method, should be replaced by using wndGame.player.inventory.GetSelectedItem()
+        public bool IsHolding(string itemName) //Legacy Method, should be replaced by using world.player.inventory.GetSelectedItem()
         {
-            foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
+            foreach (HotbarSlot slot in world.player.inventory.hotbarSlotList)
             {
                 //Check if the slot is selected and has an item
                 if (slot.isSelected == true && slot.slot.items.Count > 0)
@@ -551,7 +551,7 @@ namespace SeeloewenCraft
 
             if (xPos + xOffset < 1)
             {
-                Chunk chunk = wndGame.GetFromCurrentChunks(this.chunk.index - 1);
+                Chunk chunk = world.GetFromCurrentChunks(this.chunk.index - 1);
 
                 if (chunk != null)
                 {
@@ -564,7 +564,7 @@ namespace SeeloewenCraft
             }
             else if (xPos + xOffset > 8)
             {
-                Chunk chunk = wndGame.GetFromCurrentChunks(this.chunk.index + 1);
+                Chunk chunk = world.GetFromCurrentChunks(this.chunk.index + 1);
 
                 if (chunk != null)
                 {
@@ -589,23 +589,23 @@ namespace SeeloewenCraft
                 if (foregroundBlock != null)
                 {
                     //Add the foreground block's item to the inventory
-                    foregroundBlock.GenerateItem(wndGame, 0);
+                    foregroundBlock.GenerateItem(world, 0);
                     if (foregroundBlock.item != null)
                     {
-                        wndGame.player.inventory.AddItem(foregroundBlock.item);
+                        world.player.inventory.AddItem(foregroundBlock.item);
                     }
                     blockContainer.RemoveForegroundBlock();
                 }
                 else
                 {
                     //Remove the block from the chunks blocklist and add an airblock
-                    Block block = new AirBlock(wndGame, xPos, yPos, chunk, null, false);
+                    Block block = new AirBlock(world, xPos, yPos, chunk, null, false);
                     PlaceNewBlock(block);
                     xPos = 0;
                     yPos = 0;
 
                     //Add the block's item to the inventory
-                    GenerateItem(wndGame, 0);
+                    GenerateItem(world, 0);
 
                     //If the block has a loot table, roll an entry and give the items to player
                     if (lootTable != null)
@@ -613,13 +613,13 @@ namespace SeeloewenCraft
                         List<Item> items = lootTable.RollEntry().RollItems();
                         foreach (Item item in items)
                         {
-                            wndGame.player.inventory.AddItem(item);
+                            world.player.inventory.AddItem(item);
                         }
                     }
                     //If has only an item, only give that item
                     else if (item != null)
                     {
-                        wndGame.player.inventory.AddItem(item);
+                        world.player.inventory.AddItem(item);
                     }
                 }
             }
@@ -651,7 +651,7 @@ namespace SeeloewenCraft
 
                     if (actualXPos > 8)
                     {
-                        Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
+                        Chunk newChunk = world.GetFromCurrentChunks(chunk.index + 1);
                         block.chunk = newChunk;
                         if (newChunk.GetBlock(actualXPos - 8, actualYPos).isSolid || newChunk.GetBlock(actualXPos - 8, actualYPos).isBackground)
                         {
@@ -660,7 +660,7 @@ namespace SeeloewenCraft
                     }
                     else if (actualXPos < 1)
                     {
-                        Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
+                        Chunk newChunk = world.GetFromCurrentChunks(chunk.index - 1);
                         block.chunk = newChunk;
                         if (newChunk.GetBlock(actualXPos + 8, actualYPos).isSolid || newChunk.GetBlock(actualXPos + 8, actualYPos).isBackground)
                         {
@@ -687,7 +687,7 @@ namespace SeeloewenCraft
 
                     if (actualXPos > 8)
                     {
-                        Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
+                        Chunk newChunk = world.GetFromCurrentChunks(chunk.index + 1);
                         block.chunk = newChunk;
                         if (newChunk.GetBlock(actualXPos - 8, actualYPos).foregroundBlock != null || !newChunk.GetBlock(actualXPos - 8, actualYPos).isBackground)
                         {
@@ -696,7 +696,7 @@ namespace SeeloewenCraft
                     }
                     else if (actualXPos < 1)
                     {
-                        Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
+                        Chunk newChunk = world.GetFromCurrentChunks(chunk.index - 1);
                         block.chunk = newChunk;
                         if (newChunk.GetBlock(actualXPos + 8, actualYPos).foregroundBlock != null || !newChunk.GetBlock(actualXPos + 8, actualYPos).isBackground)
                         {
@@ -731,12 +731,12 @@ namespace SeeloewenCraft
                 //Since the actual pos is potentially in another chunk, get the pos in that chunk
                 if (actualXPos > 8)
                 {
-                    Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
+                    Chunk newChunk = world.GetFromCurrentChunks(chunk.index + 1);
                     newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceInForeground(conBlock);
                 }
                 else if (actualXPos < 1)
                 {
-                    Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
+                    Chunk newChunk = world.GetFromCurrentChunks(chunk.index - 1);
                     newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceInForeground(conBlock);
                 }
                 else
@@ -757,13 +757,13 @@ namespace SeeloewenCraft
                 //Since the actual pos is potentially in another chunk, get the pos in that chunk
                 if (actualXPos > 8)
                 {
-                    Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index + 1);
+                    Chunk newChunk = world.GetFromCurrentChunks(chunk.index + 1);
                     conBlock.chunk = newChunk;
                     newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceNewBlock(conBlock);
                 }
                 else if (actualXPos < 1)
                 {
-                    Chunk newChunk = wndGame.GetFromCurrentChunks(chunk.index - 1);
+                    Chunk newChunk = world.GetFromCurrentChunks(chunk.index - 1);
                     conBlock.chunk = newChunk;
                     newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceNewBlock(conBlock);
                 }
@@ -800,12 +800,12 @@ namespace SeeloewenCraft
         private void cvsBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
-            wndGame.clickHandler.DoLeftClick(this, sender);
+            world.clickHandler.DoLeftClick(this, sender);
         }
 
         private void cvsBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            wndGame.clickHandler.DoRightClick(this, sender);
+            world.clickHandler.DoRightClick(this, sender);
         }
     }  
 }

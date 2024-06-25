@@ -12,17 +12,17 @@ namespace SeeloewenCraft
 {
     public abstract class LootTable
     {
-        wndGame wndGame;
+        World world;
         static int offset;
         public List<LootTableEntry> lootTableEntries = new List<LootTableEntry>();
         Random rnd;
 
         //-- Constructor --//
 
-        public LootTable(wndGame wndGame)
+        public LootTable(World world)
         {
             //Create link to game window
-            this.wndGame = wndGame;
+            this.world = world;
         }
 
         //-- Custom Methods --//
@@ -65,10 +65,10 @@ namespace SeeloewenCraft
 
     public class StoneLootTable : LootTable
     {
-        public StoneLootTable(wndGame wndGame) : base(wndGame)
+        public StoneLootTable(World world) : base(world)
         {
-            lootTableEntries.Add(new LootTableEntry(new StoneItem(wndGame, null), 1, 3, 5, wndGame));
-            lootTableEntries.Add(new LootTableEntry(new GrassItem(wndGame, null), 1, 3, 1, wndGame));
+            lootTableEntries.Add(new LootTableEntry(new StoneItem(world, null), 1, 3, 5, world));
+            lootTableEntries.Add(new LootTableEntry(new GrassItem(world, null), 1, 3, 1, world));
         }
     }
 }

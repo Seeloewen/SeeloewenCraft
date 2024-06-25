@@ -10,12 +10,12 @@ namespace SeeloewenCraft
     {
         private void Generate()
         {
-            wndGame.log.Write($"Generating chunk {index}", "Info");
+            world.log.Write($"Generating chunk {index}", "Info");
 
             blockList = new BlockList();
 
             //If it doesn't exist, create the file
-            chunkDirectory = string.Format("{0}/chunk{1}", wndGame.worldDirectory, index);
+            chunkDirectory = string.Format("{0}/chunk{1}", world.worldDirectory, index);
 
             //Generate terrain & structure
             GenerateTerrain();
@@ -39,12 +39,12 @@ namespace SeeloewenCraft
                 else
                 {
                     //If it's not the first chunk, get the most right floor height from the chunk to the left
-                    floorHeight = wndGame.GetFromCurrentChunks(index - 1).floorHeightRight;
+                    floorHeight = world.GetFromCurrentChunks(index - 1).floorHeightRight;
                 }
             }
             else if (index < 0)
             {
-                floorHeight = wndGame.GetFromCurrentChunks(index + 1).floorHeightLeft;
+                floorHeight = world.GetFromCurrentChunks(index + 1).floorHeightLeft;
             }
 
             //Actually generate the terrain
@@ -78,7 +78,7 @@ namespace SeeloewenCraft
                         if (y == floorHeight)
                         {
                             //If the block is exactly on floor height add a grass block
-                            blockList.Add(new GrassBlock(wndGame, x, y, this, null, false));
+                            blockList.Add(new GrassBlock(world, x, y, this, null, false));
 
                             //If it's at one of the corners, set the left or right floor height variable
                             if (x == 1)
@@ -93,7 +93,7 @@ namespace SeeloewenCraft
                         else if (y == floorHeight + 1 || y == floorHeight + 2)
                         {
                             //If it's 1 or 2 blocks below the floor height, add dirt
-                            blockList.Add(new DirtBlock(wndGame, x, y, this, null, false));
+                            blockList.Add(new DirtBlock(world, x, y, this, null, false));
                         }
                         else if (y == floorHeight + 3)
                         {
@@ -101,27 +101,27 @@ namespace SeeloewenCraft
                             int random = rnd.Next(1, 3);
                             if (random == 1)
                             {
-                                blockList.Add(new DirtBlock(wndGame, x, y, this, null, false));
+                                blockList.Add(new DirtBlock(world, x, y, this, null, false));
                             }
                             else
                             {
-                                blockList.Add(new StoneBlock(wndGame, x, y, this, null, false));
+                                blockList.Add(new StoneBlock(world, x, y, this, null, false));
                             }
                         }
                         else if (y > floorHeight + 3 && y < 75)
                         {
                             //If it's 3 blocks below floor height and above y 75, set stone blocks
-                            blockList.Add(new StoneBlock(wndGame, x, y, this, null, false));
+                            blockList.Add(new StoneBlock(world, x, y, this, null, false));
                         }
                         else if (y < floorHeight)
                         {
                             //If it's above floor height, generate air
-                            blockList.Add(new AirBlock(wndGame, x, y, this, null, false));
+                            blockList.Add(new AirBlock(world, x, y, this, null, false));
                         }
                         else if (y == 75)
                         {
                             //If it's exactly at bottom layer y 75, set bedrock block
-                            blockList.Add(new BedrockBlock(wndGame, x, y, this, null, false));
+                            blockList.Add(new BedrockBlock(world, x, y, this, null, false));
                         }
                     }
                 }
@@ -156,7 +156,7 @@ namespace SeeloewenCraft
                         if (y == floorHeight)
                         {
                             //If the block is exactly on floor height add a grass block
-                            blockList.Add(new GrassBlock(wndGame, x, y, this, null, false));
+                            blockList.Add(new GrassBlock(world, x, y, this, null, false));
 
                             //If it's at one of the corners, set the left or right floor height variable
                             if (x == 1)
@@ -171,7 +171,7 @@ namespace SeeloewenCraft
                         else if (y == floorHeight + 1 || y == floorHeight + 2)
                         {
                             //If it's 1 or 2 blocks below the floor height, add dirt
-                            blockList.Add(new DirtBlock(wndGame, x, y, this, null, false));
+                            blockList.Add(new DirtBlock(world, x, y, this, null, false));
                         }
                         else if (y == floorHeight + 3)
                         {
@@ -179,27 +179,27 @@ namespace SeeloewenCraft
                             int random = rnd.Next(1, 3);
                             if (random == 1)
                             {
-                                blockList.Add(new DirtBlock(wndGame, x, y, this, null, false));
+                                blockList.Add(new DirtBlock(world, x, y, this, null, false));
                             }
                             else
                             {
-                                blockList.Add(new DirtBlock(wndGame, x, y, this, null, false));
+                                blockList.Add(new DirtBlock(world, x, y, this, null, false));
                             }
                         }
                         else if (y > floorHeight + 3 && y < 75)
                         {
                             //If it's 3 blocks below floor height and above y 75, set stone blocks
-                            blockList.Add(new StoneBlock(wndGame, x, y, this, null, false));
+                            blockList.Add(new StoneBlock(world, x, y, this, null, false));
                         }
                         else if (y < floorHeight)
                         {
                             //If it's above floor height, generate air
-                            blockList.Add(new AirBlock(wndGame, x, y, this, null, false));
+                            blockList.Add(new AirBlock(world, x, y, this, null, false));
                         }
                         else if (y == 75)
                         {
                             //If it's exactly at bottom layer y 75, set bedrock block
-                            blockList.Add(new BedrockBlock(wndGame, x, y, this, null, false));
+                            blockList.Add(new BedrockBlock(world, x, y, this, null, false));
                         }
                     }
                 }
@@ -226,11 +226,11 @@ namespace SeeloewenCraft
                     int random2 = rnd.Next(0, 6);
                     if (random2 == 0)
                     {
-                        structureList.Add(new SpruceTreeStructure(wndGame, xPos, yPos, index, true, this, false));
+                        structureList.Add(new SpruceTreeStructure(world, xPos, yPos, index, true, this, false));
                     }
                     else
                     {
-                        structureList.Add(new OakTreeStructure(wndGame, xPos, yPos, index, true, this, false));
+                        structureList.Add(new OakTreeStructure(world, xPos, yPos, index, true, this, false));
                     }
 
                 }
@@ -254,7 +254,7 @@ namespace SeeloewenCraft
                             yPos = rnd.Next(block.yPos + 5, 70);
                         }
                     }
-                    structureList.Add(new OreStructure(wndGame, xPos, yPos, index, true, this, true));
+                    structureList.Add(new OreStructure(world, xPos, yPos, index, true, this, true));
                 }
             }
         }
@@ -276,7 +276,7 @@ namespace SeeloewenCraft
                             yPos = rnd.Next(block.yPos + 15, 70);
                         }
                     }
-                    structureList.Add(new Cave(wndGame, xPos, yPos, index, true, this, true));
+                    structureList.Add(new Cave(world, xPos, yPos, index, true, this, true));
                 }
             }
         }
@@ -286,21 +286,21 @@ namespace SeeloewenCraft
             //Continue Structure Generation by adding a continuation strucutre, which contains the structure components that were previously cut off
             if (index > 0)
             {
-                foreach (Structure structure in wndGame.GetFromCurrentChunks(index - 1).structureList)
+                foreach (Structure structure in world.GetFromCurrentChunks(index - 1).structureList)
                 {
                     if (structure.isCutOff)
                     {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, 1, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks));
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, world, 1, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks));
                     }
                 }
             }
             else if (index < 0)
             {
-                foreach (Structure structure in wndGame.GetFromCurrentChunks(index + 1).structureList)
+                foreach (Structure structure in world.GetFromCurrentChunks(index + 1).structureList)
                 {
                     if (structure.isCutOff)
                     {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, wndGame, 8, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks));
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, world, 8, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks));
                     }
                 }
             }

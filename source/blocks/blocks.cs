@@ -11,21 +11,21 @@ namespace SeeloewenCraft
 
     public class GrassBlock : Block
     {
-        public GrassBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public GrassBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             SetTexture();
             name = "Grass Block";
             id = "sc:grass_block";
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
-            item = new GrassItem(wndGame, this);
+            item = new GrassItem(world, this);
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.GrassBlock;
+            image = world.images.GrassBlock;
         }
 
         public override void RightClickAction(object sender)
@@ -36,22 +36,22 @@ namespace SeeloewenCraft
 
     public class StoneBlock : Block
     {
-        public StoneBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public StoneBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
-            //lootTable = wndGame.lootTables.stoneLootTable;
+            //lootTable = world.lootTables.stoneLootTable;
             SetTexture();
             name = "Stone Block";
             id = "sc:stone_block";
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
-            item = new StoneItem(wndGame, this);
+            item = new StoneItem(world, this);
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.StoneBlock;
+            image = world.images.StoneBlock;
         }
 
         public override void RightClickAction(object sender)
@@ -62,21 +62,21 @@ namespace SeeloewenCraft
 
     public class DirtBlock : Block
     {
-        public DirtBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public DirtBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             SetTexture();
             name = "Dirt";
             id = "sc:dirt_block";
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
-            item = new DirtItem(wndGame, this);
+            item = new DirtItem(world, this);
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.DirtBlock;
+            image = world.images.DirtBlock;
         }
 
         public override void RightClickAction(object sender)
@@ -87,7 +87,7 @@ namespace SeeloewenCraft
 
     public class AirBlock : Block
     {
-        public AirBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public AirBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isBreakable = false;
             isSolid = false;
@@ -98,14 +98,14 @@ namespace SeeloewenCraft
             isLightSource = true;
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
-            item = new AirItem(wndGame, this);
+            item = new AirItem(world, this);
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.AirBlock;
+            image = world.images.AirBlock;
         }
 
         public override void RightClickAction(object sender)
@@ -116,7 +116,7 @@ namespace SeeloewenCraft
 
     public class BedrockBlock : Block
     {
-        public BedrockBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public BedrockBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isBreakable = false;
             canBeMovedToBackground = false;
@@ -125,14 +125,14 @@ namespace SeeloewenCraft
             id = "sc:bedrock_block";
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
-            item = new BedrockItem(wndGame, this);
+            item = new BedrockItem(world, this);
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.BedrockBlock;
+            image = world.images.BedrockBlock;
         }
 
         public override void RightClickAction(object sender)
@@ -143,21 +143,21 @@ namespace SeeloewenCraft
 
     public class CoalOreBlock : Block
     {
-        public CoalOreBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public CoalOreBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             SetTexture();
             name = "Coal Ore";
             id = "sc:coal_ore_block";
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
-            item = new CoalOreItem(wndGame, this);
+            item = new CoalOreItem(world, this);
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.CoalOreBlock;
+            image = world.images.CoalOreBlock;
         }
 
         public override void RightClickAction(object sender)
@@ -168,21 +168,21 @@ namespace SeeloewenCraft
 
     public class DiamondOreBlock : Block
     {
-        public DiamondOreBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public DiamondOreBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             SetTexture();
             name = "Diamond Ore";
             id = "sc:coal_ore_block";
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
-            item = new DiamondOreItem(wndGame, this);
+            item = new DiamondOreItem(world, this);
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.DiamondOreBlock;
+            image = world.images.DiamondOreBlock;
         }
 
         public override void RightClickAction(object sender)
@@ -193,21 +193,21 @@ namespace SeeloewenCraft
 
     public class IronOreBlock : Block
     {
-        public IronOreBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public IronOreBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             SetTexture();
             name = "Iron Ore";
             id = "sc:iron_ore_block";
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
-            item = new IronOreItem(wndGame, this);
+            item = new IronOreItem(world, this);
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.IronOreBlock;
+            image = world.images.IronOreBlock;
         }
 
         public override void RightClickAction(object sender)
@@ -218,21 +218,21 @@ namespace SeeloewenCraft
 
     public class OakLogBlock : Block
     {
-        public OakLogBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public OakLogBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             SetTexture();
             name = "Oak Log";
             id = "sc:oak_log_block";
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
-            item = new OakLogItem(wndGame, this);
+            item = new OakLogItem(world, this);
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.OakLogBlock;
+            image = world.images.OakLogBlock;
         }
 
         public override void RightClickAction(object sender)
@@ -243,7 +243,7 @@ namespace SeeloewenCraft
 
     public class OakLeavesBlock : Block
     {
-        public OakLeavesBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public OakLeavesBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             SetTexture();
             name = "Oak Leaves";
@@ -251,14 +251,14 @@ namespace SeeloewenCraft
             isLightSource = true;
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
-            item = new OakLeavesItem(wndGame, this);
+            item = new OakLeavesItem(world, this);
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.OakLeavesBlock;
+            image = world.images.OakLeavesBlock;
         }
 
         public override void RightClickAction(object sender)
@@ -269,21 +269,21 @@ namespace SeeloewenCraft
 
     public class SpruceLogBlock : Block
     {
-        public SpruceLogBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public SpruceLogBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             SetTexture();
             name = "Spruce Log";
             id = "sc:spruce_log_block";
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
-            item = new SpruceLogItem(wndGame, this);
+            item = new SpruceLogItem(world, this);
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.SpruceLogBlock;
+            image = world.images.SpruceLogBlock;
         }
 
         public override void RightClickAction(object sender)
@@ -294,7 +294,7 @@ namespace SeeloewenCraft
 
     public class SpruceLeavesBlock : Block
     {
-        public SpruceLeavesBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public SpruceLeavesBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isLightSource = true;
             SetTexture();
@@ -302,14 +302,14 @@ namespace SeeloewenCraft
             id = "sc:spruce_leaves_block";
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
-            item = new SpruceLeavesItem(wndGame, this);
+            item = new SpruceLeavesItem(world, this);
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.SpruceLeavesBlock;
+            image = world.images.SpruceLeavesBlock;
         }
 
         public override void RightClickAction(object sender)
@@ -320,24 +320,24 @@ namespace SeeloewenCraft
 
     public class ChestBlock : Block
     {
-        public ChestBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public ChestBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             hasInventory = true;
-            blockInventory = new Inventory(wndGame, false);
+            blockInventory = new Inventory(world, false);
             SetTexture();
             name = "Chest";
             id = "sc:chest_block";
             hasRightClickAction = true;
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
-            item = new ChestItem(wndGame, this);
+            item = new ChestItem(world, this);
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.ChestBlock;
+            image = world.images.ChestBlock;
         }
         public override void RightClickAction(object sender)
         {
@@ -345,8 +345,8 @@ namespace SeeloewenCraft
             if (IsInRange() && isSolid && hasInventory)
             {
                 //If the block has an inventory, open it as well as the players inventory
-                Canvas.SetTop(wndGame.player.inventory.grdInventory, -10);
-                wndGame.player.inventory.ShowInventory();
+                Canvas.SetTop(world.player.inventory.grdInventory, -10);
+                world.player.inventory.ShowInventory();
                 blockInventory.ShowInventory();
             }
         }
@@ -354,21 +354,21 @@ namespace SeeloewenCraft
 
     public class MagmaBlock : Block
     {
-        public MagmaBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public MagmaBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             SetTexture();
             name = "Magma Block";
             id = "sc:magma_block";
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
-            item = new MagmaBlockItem(wndGame, this);
+            item = new MagmaBlockItem(world, this);
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.MagmaBlock;
+            image = world.images.MagmaBlock;
         }
         public override void RightClickAction(object sender)
         {
@@ -378,7 +378,7 @@ namespace SeeloewenCraft
 
     public class TorchBlock : Block
     {
-        public TorchBlock(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public TorchBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isSolid = false;
             canBeMovedToBackground = false;
@@ -388,14 +388,14 @@ namespace SeeloewenCraft
             id = "sc:torch_block";
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
-            item = new TorchItem(wndGame, this);
+            item = new TorchItem(world, this);
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.Torch;
+            image = world.images.Torch;
         }
 
         public override void RightClickAction(object sender)
@@ -405,26 +405,26 @@ namespace SeeloewenCraft
     }
     public class Plant2Block_Base : Block
     {
-        public Plant2Block_Base(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public Plant2Block_Base(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isSolid = false;
             isBase = true;
             SetTexture();
             name = "Cactus Plant Base";
             id = "sc:cactus_plant_base_block";
-            connectedBlocks.Add(new Plant2Block_Top(wndGame, x, y, chunk, item, isInBackground));
+            connectedBlocks.Add(new Plant2Block_Top(world, x, y, chunk, item, isInBackground));
             connectedBlocks[0].yOffset = -1;
             connectedBlocks[0].baseBlock = this;
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
-            item = new Plant2Item(wndGame, this);
+            item = new Plant2Item(world, this);
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.Plant2_Base;
+            image = world.images.Plant2_Base;
         }
 
         public override void RightClickAction(object sender)
@@ -435,7 +435,7 @@ namespace SeeloewenCraft
 
     public class Plant2Block_Top : Block
     {
-        public Plant2Block_Top(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public Plant2Block_Top(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isSolid = false;
             SetTexture();
@@ -443,14 +443,14 @@ namespace SeeloewenCraft
             id = "sc:cactus_plant_top_block";
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
             item = null;
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.Plant2_Top;
+            image = world.images.Plant2_Top;
         }
 
         public override void RightClickAction(object sender)

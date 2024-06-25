@@ -19,7 +19,7 @@ namespace SeeloewenCraft
 {
     public class Inventory
     {
-        wndGame wndGame;
+        World world;
         public List<InventorySlot> slotList = new List<InventorySlot>();
         public List<HotbarSlot> hotbarSlotList = new List<HotbarSlot>();
         public Grid grdInventory = new Grid();
@@ -30,10 +30,10 @@ namespace SeeloewenCraft
 
         //-- Constructuror --//
 
-        public Inventory(wndGame wndGame, bool hasHotbar)
+        public Inventory(World world, bool hasHotbar)
         {
             //Set the attributes
-            this.wndGame = wndGame;
+            this.world = world;
             this.hasHotbar = hasHotbar;
 
             //Create the inventory grid
@@ -44,7 +44,7 @@ namespace SeeloewenCraft
             Canvas.SetLeft(grdInventory, 150);
             Canvas.SetTop(grdInventory, 100);
             Panel.SetZIndex(grdInventory, 4);
-            wndGame.cvsGame.Children.Add(grdInventory);
+            world.wndGame.cvsGame.Children.Add(grdInventory);
 
             //Add colums and rows to the grid
             for (int i = 0; i < 9; i++)
@@ -61,7 +61,7 @@ namespace SeeloewenCraft
             {
                 for (int y = 0; y < 4; y++)
                 {
-                    slotList.Add(new InventorySlot(wndGame, x, y));
+                    slotList.Add(new InventorySlot(world, x, y));
                 }
             }
 
@@ -83,7 +83,7 @@ namespace SeeloewenCraft
                 Canvas.SetLeft(grdHotbar, 10);
                 Canvas.SetTop(grdHotbar, 10);
                 Panel.SetZIndex(grdHotbar, 4);
-                wndGame.cvsGame.Children.Add(grdHotbar);
+                world.wndGame.cvsGame.Children.Add(grdHotbar);
 
                 //Create the hotbar rows and colums
                 for (int i = 0; i < 9; i++)
@@ -99,7 +99,7 @@ namespace SeeloewenCraft
                     {
                         if (slot.yPos == 3 && slot.xPos == x)
                         {
-                            hotbarSlotList.Add(new HotbarSlot(wndGame, x, slot));
+                            hotbarSlotList.Add(new HotbarSlot(world, x, slot));
                         }
                     }
 
@@ -137,7 +137,7 @@ namespace SeeloewenCraft
             bool isAdded = false;
 
             //Go through each inventory slot
-            foreach (InventorySlot slot in wndGame.player.inventory.slotList)
+            foreach (InventorySlot slot in world.player.inventory.slotList)
             {
                 if (slot.items.Count > 0)
                 {
@@ -162,7 +162,7 @@ namespace SeeloewenCraft
             if (isAdded == false)
             {
                 //If the item couldn't be added to existing stacks
-                foreach (InventorySlot slot in wndGame.player.inventory.slotList)
+                foreach (InventorySlot slot in world.player.inventory.slotList)
                 {
                     //Check for empty slots and add it to that
                     if (slot.items.Count == 0)
@@ -189,7 +189,7 @@ namespace SeeloewenCraft
             List<Item> removeList = new List<Item>();
 
             //Go through each inventory slot to find the item
-            foreach (InventorySlot slot in wndGame.player.inventory.slotList)
+            foreach (InventorySlot slot in world.player.inventory.slotList)
             {
                 if (slot.items.Count > 0)
                 {
@@ -222,7 +222,7 @@ namespace SeeloewenCraft
                 //Clear all slots in the clear list
                 slot.ClearSlot();
             }
-            foreach (InventorySlot slot in wndGame.player.inventory.slotList)
+            foreach (InventorySlot slot in world.player.inventory.slotList)
             {
                 //Remove every slot in the remove list
                 foreach (Item item in removeList)
@@ -333,7 +333,7 @@ namespace SeeloewenCraft
 
         public Item GetSelectedItem()
         {
-            foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
+            foreach (HotbarSlot slot in world.player.inventory.hotbarSlotList)
             {
                 //Check if the slot is selected and has an item
                 if (slot.isSelected == true && slot.slot.items.Count > 0)
@@ -344,10 +344,10 @@ namespace SeeloewenCraft
             return null;
         }
 
-        public static Inventory LoadFromJson(JToken token, wndGame wndGame)
+        public static Inventory LoadFromJson(JToken token, World world)
         {
             bool hasHotbar = (bool)new JsonPointer("/has_hotbar").Evaluate(token);
-            Inventory inventory = new Inventory(wndGame, hasHotbar);
+            Inventory inventory = new Inventory(world, hasHotbar);
             JToken slotArrayToken = new JsonPointer("/slots").Evaluate(token);
 
             int slotNum = 0;
@@ -364,58 +364,58 @@ namespace SeeloewenCraft
                     switch (id)
                     {
                         case "sc:grass_block_item":
-                            slot.AddToSlot(new GrassItem(wndGame, null));
+                            slot.AddToSlot(new GrassItem(world, null));
                             break;
                         case "sc:dirt_item":
-                            slot.AddToSlot(new DirtItem(wndGame, null));
+                            slot.AddToSlot(new DirtItem(world, null));
                             break;
                         case "sc:stone_item":
-                            slot.AddToSlot(new StoneItem(wndGame, null));
+                            slot.AddToSlot(new StoneItem(world, null));
                             break;
                         case "sc:oak_log_item":
-                            slot.AddToSlot(new OakLogItem(wndGame, null));
+                            slot.AddToSlot(new OakLogItem(world, null));
                             break;
                         case "sc:oak_leaves_item":
-                            slot.AddToSlot(new OakLeavesItem(wndGame, null));
+                            slot.AddToSlot(new OakLeavesItem(world, null));
                             break;
                         case "sc:spruce_log_item":
-                            slot.AddToSlot(new SpruceLogItem(wndGame, null));
+                            slot.AddToSlot(new SpruceLogItem(world, null));
                             break;
                         case "sc:spruce_leaves_item":
-                            slot.AddToSlot(new SpruceLeavesItem(wndGame, null));
+                            slot.AddToSlot(new SpruceLeavesItem(world, null));
                             break;
                         case "sc:coal_ore_item":
-                            slot.AddToSlot(new CoalOreItem(wndGame, null));
+                            slot.AddToSlot(new CoalOreItem(world, null));
                             break;
                         case "sc:iron_ore_item":
-                            slot.AddToSlot(new IronOreItem(wndGame, null));
+                            slot.AddToSlot(new IronOreItem(world, null));
                             break;
                         case "sc:chest_item":
-                            slot.AddToSlot(new ChestItem(wndGame, null));
+                            slot.AddToSlot(new ChestItem(world, null));
                             break;
                         case "sc:bedrock_item":
-                            slot.AddToSlot(new BedrockItem(wndGame, null));
+                            slot.AddToSlot(new BedrockItem(world, null));
                             break;
                         case "sc:magma_block_item":
-                            slot.AddToSlot(new MagmaBlockItem(wndGame, null));
+                            slot.AddToSlot(new MagmaBlockItem(world, null));
                             break;
                         case "sc:torch_item":
-                            slot.AddToSlot(new TorchItem(wndGame, null));
+                            slot.AddToSlot(new TorchItem(world, null));
                             break;
                         case "sc:plant_2_item":
-                            slot.AddToSlot(new Plant2Item(wndGame, null));
+                            slot.AddToSlot(new Plant2Item(world, null));
                             break;
                         case "sc:water_item":
-                            slot.AddToSlot(new WaterItem(wndGame, null));
+                            slot.AddToSlot(new WaterItem(world, null));
                             break;
                         case "sc:hammer_item":
-                            slot.AddToSlot(new HammerItem(wndGame, null));
+                            slot.AddToSlot(new HammerItem(world, null));
                             break;
                         case "sc:air_item":
-                            slot.AddToSlot(new AirItem(wndGame, null));
+                            slot.AddToSlot(new AirItem(world, null));
                             break;
                         case "sc:diamond_ore_item":
-                            slot.AddToSlot(new DiamondOreItem(wndGame, null));
+                            slot.AddToSlot(new DiamondOreItem(world, null));
                             break;
                     }
                 }

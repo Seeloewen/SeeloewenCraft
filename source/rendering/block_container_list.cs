@@ -13,20 +13,20 @@ namespace SeeloewenCraft
     public class BlockContainerList
     {
         List<BlockContainer> containerList = new List<BlockContainer>();
-        wndGame wndGame;
+        World world;
         int chunkIndex = 10000000; //Chunk index needs to be some random (preferebly unused number) to not be Null for the IsAvailable() check
 
         //-- Constructor --//
 
-        public BlockContainerList(wndGame wndGame)
+        public BlockContainerList(World world)
         {
             //Add all necessary block containers to the list
-            this.wndGame = wndGame;
+            this.world = world;
             for (int x = 1; x < 9; x++)
             {
                 for (int y = 1; y < 76; y++)
                 {
-                    containerList.Add(new BlockContainer(wndGame, x, y));
+                    containerList.Add(new BlockContainer(world, x, y));
                 }
             }
         }
@@ -43,14 +43,14 @@ namespace SeeloewenCraft
                     return container;
                 }
             }
-            wndGame.log.Write($"Could not get container for position x{x} y{y}", "Warning");
+            world.log.Write($"Could not get container for position x{x} y{y}", "Warning");
             return null;
         }
 
         public bool IsAvailable()
         {
             //Check if a chunk with the index of this list is currently loaded (which means it's not available)
-            if (wndGame.GetFromCurrentChunks(chunkIndex) == null)
+            if (world.GetFromCurrentChunks(chunkIndex) == null)
             {
                 return true;
             }

@@ -41,9 +41,9 @@ namespace SeeloewenCraft
                 if(!Directory.Exists($"{wndMenu.worldDirectory}/{tbWorldName.Text}"))
                 {
                     //Create a new world
-                    wndMenu.wndGame = new wndGame(wndMenu, tbWorldName.Text, true, wndMenu.worldVersion, wndMenu.gameVersion, wndMenu.log);
+                    wndMenu.world = new World(wndMenu, tbWorldName.Text, true, wndMenu.worldVersion, wndMenu.gameVersion, wndMenu.log);
                     wndMenu.Hide();
-                    wndMenu.wndGame.Show();
+                    wndMenu.world.wndGame.Show();
                     Close();
                 }
                 else

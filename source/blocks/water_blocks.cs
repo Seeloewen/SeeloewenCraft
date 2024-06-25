@@ -12,7 +12,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_1_Right : Block
     {
-        public WaterBlock_1_Right(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public WaterBlock_1_Right(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isSolid = false;
             isBreakable = false;
@@ -24,14 +24,14 @@ namespace SeeloewenCraft
             tags.Add("liquids/water");
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
             item = null;
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.Water_1_Right;
+            image = world.images.Water_1_Right;
         }
 
         public override void RightClickAction(object sender)
@@ -42,7 +42,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_1_Left : Block
     {
-        public WaterBlock_1_Left(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public WaterBlock_1_Left(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isSolid = false;
             isBreakable = false;
@@ -54,14 +54,14 @@ namespace SeeloewenCraft
             tags.Add("liquids/water");
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
             item = null;
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.Water_1_Left;
+            image = world.images.Water_1_Left;
         }
 
         public override void RightClickAction(object sender)
@@ -72,7 +72,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_2_Right : Block
     {
-        public WaterBlock_2_Right(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public WaterBlock_2_Right(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isSolid = false;
             isBreakable = false;
@@ -84,14 +84,14 @@ namespace SeeloewenCraft
             tags.Add("liquids/water");
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
             item = null;
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.Water_2_Right;
+            image = world.images.Water_2_Right;
         }
 
         public override void RightClickAction(object sender)
@@ -102,7 +102,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_2_Left : Block
     {
-        public WaterBlock_2_Left(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public WaterBlock_2_Left(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isSolid = false;
             isBreakable = false;
@@ -114,14 +114,14 @@ namespace SeeloewenCraft
             tags.Add("liquids/water");
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
             item = null;
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.Water_2_Left;
+            image = world.images.Water_2_Left;
         }
 
         public override void RightClickAction(object sender)
@@ -132,7 +132,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_3_Right : Block
     {
-        public WaterBlock_3_Right(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public WaterBlock_3_Right(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isSolid = false;
             isBreakable = false;
@@ -144,14 +144,14 @@ namespace SeeloewenCraft
             tags.Add("liquids/water");
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
             item = null;
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.Water_3_Right;
+            image = world.images.Water_3_Right;
         }
 
         public override void RightClickAction(object sender)
@@ -162,7 +162,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_3_Left : Block
     {
-        public WaterBlock_3_Left(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public WaterBlock_3_Left(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isSolid = false;
             isBreakable = false;
@@ -174,14 +174,14 @@ namespace SeeloewenCraft
             tags.Add("liquids/water");
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
             item = null;
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.Water_3_Left;
+            image = world.images.Water_3_Left;
         }
 
         public override void RightClickAction(object sender)
@@ -192,7 +192,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_4_Right : Block
     {
-        public WaterBlock_4_Right(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public WaterBlock_4_Right(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isSolid = false;
             isBreakable = false;
@@ -204,14 +204,14 @@ namespace SeeloewenCraft
             tags.Add("liquids/water");
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
             item = null;
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.Water_4_Right;
+            image = world.images.Water_4_Right;
         }
 
         public override void RightClickAction(object sender)
@@ -222,7 +222,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_4_Left : Block
     {
-        public WaterBlock_4_Left(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public WaterBlock_4_Left(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isSolid = false;
             isBreakable = false;
@@ -234,14 +234,14 @@ namespace SeeloewenCraft
             tags.Add("liquids/water");
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
             item = null;
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.Water_4_Left;
+            image = world.images.Water_4_Left;
         }
 
         public override void RightClickAction(object sender)
@@ -252,7 +252,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_5_Right : Block
     {
-        public WaterBlock_5_Right(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public WaterBlock_5_Right(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isSolid = false;
             isBreakable = false;
@@ -264,14 +264,14 @@ namespace SeeloewenCraft
             tags.Add("liquids/water");
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
             item = null;
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.Water_5_Right;
+            image = world.images.Water_5_Right;
         }
 
         public override void RightClickAction(object sender)
@@ -282,7 +282,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_5_Left : Block
     {
-        public WaterBlock_5_Left(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public WaterBlock_5_Left(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isSolid = false;
             isBreakable = false;
@@ -294,14 +294,14 @@ namespace SeeloewenCraft
             tags.Add("liquids/water");
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
             item = null;
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.Water_5_Left;
+            image = world.images.Water_5_Left;
         }
 
         public override void RightClickAction(object sender)
@@ -312,7 +312,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_6 : Block
     {
-        public WaterBlock_6(wndGame wndGame, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(wndGame, x, y, chunk, item, isInBackground)
+        public WaterBlock_6(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isSolid = false;
             isBreakable = false;
@@ -324,14 +324,14 @@ namespace SeeloewenCraft
             tags.Add("liquids/water");
         }
 
-        override public void GenerateItem(wndGame wndGame, int id)
+        override public void GenerateItem(World world, int id)
         {
             item = null;
         }
 
         public override void SetTexture()
         {
-            image = wndGame.images.Water_6;
+            image = world.images.Water_6;
         }
 
         public override void RightClickAction(object sender)

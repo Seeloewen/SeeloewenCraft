@@ -55,11 +55,11 @@ namespace SeeloewenCraft
         {
             if(string.IsNullOrEmpty(cbxWorld.Text) == false)
             {
-                wndMenu.wndGame = new wndGame(wndMenu, cbxWorld.Text, false, wndMenu.worldVersion, wndMenu.gameVersion, wndMenu.log);
-                if (wndMenu.wndGame.finishedLoading)
+                wndMenu.world = new World(wndMenu, cbxWorld.Text, false, wndMenu.worldVersion, wndMenu.gameVersion, wndMenu.log);
+                if (wndMenu.world.finishedLoading)
                 {
                     wndMenu.Hide();
-                    wndMenu.wndGame.Show();
+                    wndMenu.world.wndGame.Show();
                     Close();
                 }
             }

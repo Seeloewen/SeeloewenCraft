@@ -12,13 +12,13 @@ namespace SeeloewenCraft
 {
     public class WaterHandler
     {
-        wndGame wndGame;
+        World world;
 
         //-- Constructor --//
 
-        public WaterHandler(wndGame wndGame)
+        public WaterHandler(World world)
         {
-            this.wndGame = wndGame;
+            this.world = world;
         }
 
         //-- Custom Methods --//
@@ -28,7 +28,7 @@ namespace SeeloewenCraft
             List<Block> newBlocks = new List<Block>();
 
             //Water timer, ticks at a rate of 1 second
-            foreach (Chunk chunk in wndGame.currentChunkList)
+            foreach (Chunk chunk in world.currentChunkList)
             {
                 foreach (Block block in chunk.blockList.blocks)
                 {
@@ -42,7 +42,7 @@ namespace SeeloewenCraft
                         {
                             if (!SourceBlockExists(block, "normal"))
                             {
-                                newBlocks.Add(new AirBlock(wndGame, block.xPos, block.yPos, chunk, null, false));
+                                newBlocks.Add(new AirBlock(world, block.xPos, block.yPos, chunk, null, false));
                             }
                         }
                     }
@@ -55,7 +55,7 @@ namespace SeeloewenCraft
                         {
                             if (!SourceBlockExists(block, "foreground"))
                             {
-                                newBlocks.Add(new AirBlock(wndGame, block.xPos, block.yPos, chunk, null, false));
+                                newBlocks.Add(new AirBlock(world, block.xPos, block.yPos, chunk, null, false));
                             }
                         }
 
@@ -74,7 +74,7 @@ namespace SeeloewenCraft
 
             if (blockState == "foreground")
             {
-                sourceChunk = wndGame.GetFromCurrentChunks(block.foregroundBlock.waterSourceChunkIndex);
+                sourceChunk = world.GetFromCurrentChunks(block.foregroundBlock.waterSourceChunkIndex);
                 if (sourceChunk != null)
                 {
                     sourceBlock = sourceChunk.GetBlock(block.foregroundBlock.waterSourceXPos, block.foregroundBlock.waterSourceYPos);
@@ -91,7 +91,7 @@ namespace SeeloewenCraft
             }
             else if (blockState == "normal")
             {
-                sourceChunk = wndGame.GetFromCurrentChunks(block.waterSourceChunkIndex);
+                sourceChunk = world.GetFromCurrentChunks(block.waterSourceChunkIndex);
                 if (sourceChunk != null)
                 {
                     sourceBlock = sourceChunk.GetBlock(block.waterSourceXPos, block.waterSourceYPos);
@@ -118,7 +118,7 @@ namespace SeeloewenCraft
 
                 if (blockBelow != null && (!blockBelow.isSolid && (!blockBelow.tags.Contains("liquids/water") || blockBelow.waterLevel < 6)) || (blockBelow.isBackground && (blockBelow.foregroundBlock == null || (block.foregroundBlock != null && block.foregroundBlock.waterLevel < 6))))
                 {
-                    Block newWater = new WaterBlock_6(wndGame, block.xPos, block.yPos + 1, chunk, null, false);
+                    Block newWater = new WaterBlock_6(world, block.xPos, block.yPos + 1, chunk, null, false);
                     SetSourceBlock(block, newWater);
                     newBlocks.Add(newWater);
                 }
@@ -211,17 +211,17 @@ namespace SeeloewenCraft
                 switch (level)
                 {
                     case 1:
-                        return new WaterBlock_1_Right(wndGame, x, y, chunk, null, false);
+                        return new WaterBlock_1_Right(world, x, y, chunk, null, false);
                     case 2:
-                        return new WaterBlock_2_Right(wndGame, x, y, chunk, null, false);
+                        return new WaterBlock_2_Right(world, x, y, chunk, null, false);
                     case 3:
-                        return new WaterBlock_3_Right(wndGame, x, y, chunk, null, false);
+                        return new WaterBlock_3_Right(world, x, y, chunk, null, false);
                     case 4:
-                        return new WaterBlock_4_Right(wndGame, x, y, chunk, null, false);
+                        return new WaterBlock_4_Right(world, x, y, chunk, null, false);
                     case 5:
-                        return new WaterBlock_5_Right(wndGame, x, y, chunk, null, false);
+                        return new WaterBlock_5_Right(world, x, y, chunk, null, false);
                     case 6:
-                        return new WaterBlock_6(wndGame, x, y, chunk, null, false);
+                        return new WaterBlock_6(world, x, y, chunk, null, false);
                     default:
                         return null;
                 }
@@ -231,17 +231,17 @@ namespace SeeloewenCraft
                 switch (level)
                 {
                     case 1:
-                        return new WaterBlock_1_Left(wndGame, x, y, chunk, null, false);
+                        return new WaterBlock_1_Left(world, x, y, chunk, null, false);
                     case 2:
-                        return new WaterBlock_2_Left(wndGame, x, y, chunk, null, false);
+                        return new WaterBlock_2_Left(world, x, y, chunk, null, false);
                     case 3:
-                        return new WaterBlock_3_Left(wndGame, x, y, chunk, null, false);
+                        return new WaterBlock_3_Left(world, x, y, chunk, null, false);
                     case 4:
-                        return new WaterBlock_4_Left(wndGame, x, y, chunk, null, false);
+                        return new WaterBlock_4_Left(world, x, y, chunk, null, false);
                     case 5:
-                        return new WaterBlock_5_Left(wndGame, x, y, chunk, null, false);
+                        return new WaterBlock_5_Left(world, x, y, chunk, null, false);
                     case 6:
-                        return new WaterBlock_6(wndGame, x, y, chunk, null, false);
+                        return new WaterBlock_6(world, x, y, chunk, null, false);
                     default:
                         return null;
                 }

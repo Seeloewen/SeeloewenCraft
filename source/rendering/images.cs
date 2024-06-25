@@ -18,22 +18,22 @@ namespace SeeloewenCraft
         //-- Custom Methods --//
 
         public static string textureDirectory;
-        wndGame wndGame;
+        World world;
 
-        public Images(wndGame wndGame)
+        public Images(World world)
         {
-            this.wndGame = wndGame;
+            this.world = world;
 
             //Check which texurepack is selected and set the directory based on that
-            if (wndGame.wndMenu.selectedTexturepack == "default")
+            if (world.wndMenu.selectedTexturepack == "default")
             {
                 textureDirectory = "pack://application:,,,/SeeloewenCraft;component/Resources";
-                wndGame.log.Write($"Set texture directory to pack://application:,,,/SeeloewenCraft;component/Resources (internal resources)", "Info");
+                world.log.Write($"Set texture directory to pack://application:,,,/SeeloewenCraft;component/Resources (internal resources)", "Info");
             }
             else
             {
-                textureDirectory = wndGame.wndMenu.selectedTexturepack;
-                wndGame.log.Write($"Set texture directory to {wndGame.wndMenu.selectedTexturepack}", "Info");
+                textureDirectory = world.wndMenu.selectedTexturepack;
+                world.log.Write($"Set texture directory to {world.wndMenu.selectedTexturepack}", "Info");
             }
 
             //Actually load the resources

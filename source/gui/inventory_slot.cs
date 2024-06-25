@@ -14,7 +14,7 @@ namespace SeeloewenCraft
         public Border bdrSlot = new Border();
         public TextBlock tblItemAmount = new TextBlock();
         public List<Item> items = new List<Item>();
-        wndGame wndGame;
+        World world;
         public int xPos;
         public int yPos;
         public int itemAmount;
@@ -22,10 +22,10 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public InventorySlot(wndGame wndGame, int xPos, int yPos)
+        public InventorySlot(World world, int xPos, int yPos)
         {
             //Set the attributes
-            this.wndGame = wndGame;
+            this.world = world;
             this.xPos = xPos;
             this.yPos = yPos;
 
@@ -47,8 +47,8 @@ namespace SeeloewenCraft
         public void SetItem(Item item)
         {
             //Remove the item's canvas and the current slots textblock from previous parents
-            wndGame.RemoveFromParent(item.cvsItem);
-            wndGame.RemoveFromParent(tblItemAmount);
+            world.wndGame.RemoveFromParent(item.cvsItem);
+            world.wndGame.RemoveFromParent(tblItemAmount);
 
             //Add the item to the current slot and set the amount to 1 since it's the first item in the slot
             items.Add(item);
@@ -91,7 +91,7 @@ namespace SeeloewenCraft
         private void bdrSlot_MouseDown(object sender, EventArgs e)
         {
             bool wasJustSelected = false;
-            foreach (Inventory inventory in wndGame.inventoryList)
+            foreach (Inventory inventory in world.inventoryList)
             {
                 foreach (InventorySlot slot in inventory.slotList)
                 {
@@ -112,10 +112,10 @@ namespace SeeloewenCraft
                             item.yPos = yPos;
 
                             //Remove the item canvas from it's old parent border
-                            wndGame.RemoveFromParent(item.cvsItem);
+                            world.wndGame.RemoveFromParent(item.cvsItem);
 
                             //Remove the item textblock from it's old parent object and update it
-                            wndGame.RemoveFromParent(tblItemAmount);
+                            world.wndGame.RemoveFromParent(tblItemAmount);
                             tblItemAmount.Text = itemAmount.ToString();
                         }
 
@@ -137,7 +137,7 @@ namespace SeeloewenCraft
                         foreach (Item item in items)
                         {
                             //Remove all items from the previous parent
-                            wndGame.RemoveFromParent(item.cvsItem);
+                            world.wndGame.RemoveFromParent(item.cvsItem);
                         }
                         //Add the canvas back to this border
                         bdrSlot.Child = items[0].cvsItem;
@@ -152,7 +152,7 @@ namespace SeeloewenCraft
             }
 
             bool canBeSelected = true;
-            foreach (Inventory inventory2 in wndGame.inventoryList)
+            foreach (Inventory inventory2 in world.inventoryList)
             {
                 foreach (InventorySlot slot in inventory2.slotList)
                 {
@@ -174,11 +174,11 @@ namespace SeeloewenCraft
                     isSelected = true;
 
                     //Remove the item from the slot and add it to the main window to make it follow the mouse while being selected
-                    wndGame.RemoveFromParent(items[0].cvsItem);
-                    wndGame.cvsGame.Children.Add(items[0].cvsItem);
+                    world.wndGame.RemoveFromParent(items[0].cvsItem);
+                    world.wndGame.cvsGame.Children.Add(items[0].cvsItem);
                     Panel.SetZIndex(items[0].cvsItem, 5);
-                    Canvas.SetLeft(items[0].cvsItem, wndGame.mousePosition.X + 5);
-                    Canvas.SetTop(items[0].cvsItem, wndGame.mousePosition.Y + 5);
+                    Canvas.SetLeft(items[0].cvsItem, world.wndGame.mousePosition.X + 5);
+                    Canvas.SetTop(items[0].cvsItem, world.wndGame.mousePosition.Y + 5);
                 }
 
             }

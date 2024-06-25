@@ -8,7 +8,7 @@ namespace SeeloewenCraft
 {
     public class CaveComponent
     {
-        public wndGame wndGame;
+        public World world;
         public List<StructureComponent> structureComponents = new List<StructureComponent>();
         public List<BorderComponent> borderComponents = new List<BorderComponent>();
         public int xOffset = 0;
@@ -16,27 +16,27 @@ namespace SeeloewenCraft
         public string previousDirection;
 
         //This class contains the structure components used by the component
-        public CaveComponent(int xOffset, int yOffset, Chunk chunk, wndGame wndGame, string previousDirection)
+        public CaveComponent(int xOffset, int yOffset, Chunk chunk, World world, string previousDirection)
         {
             //Pass the variables
-            this.wndGame = wndGame;
+            this.world = world;
             this.previousDirection = previousDirection;
             this.xOffset = xOffset;
             this.yOffset = yOffset;
 
             //Add all structurecomponents to the list
-            structureComponents.Add(new StructureComponent(wndGame, xOffset, yOffset + 1, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset, yOffset + 2, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 1, yOffset + 1, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 1, yOffset, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 1, yOffset + 2, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 1, yOffset + 3, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 2, yOffset, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 2, yOffset + 1, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 2, yOffset + 2, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 2, yOffset + 3, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 3, yOffset + 1, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
-            structureComponents.Add(new StructureComponent(wndGame, xOffset + 3, yOffset + 2, new StoneBlock(wndGame, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, xOffset, yOffset + 1, new StoneBlock(world, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, xOffset, yOffset + 2, new StoneBlock(world, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, xOffset + 1, yOffset + 1, new StoneBlock(world, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, xOffset + 1, yOffset, new StoneBlock(world, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, xOffset + 1, yOffset + 2, new StoneBlock(world, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, xOffset + 1, yOffset + 3, new StoneBlock(world, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, xOffset + 2, yOffset, new StoneBlock(world, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, xOffset + 2, yOffset + 1, new StoneBlock(world, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, xOffset + 2, yOffset + 2, new StoneBlock(world, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, xOffset + 2, yOffset + 3, new StoneBlock(world, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, xOffset + 3, yOffset + 1, new StoneBlock(world, xOffset, yOffset, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, xOffset + 3, yOffset + 2, new StoneBlock(world, xOffset, yOffset, chunk, null, true)));
 
             //Add the bordercomponents to the list
             borderComponents.Add(new BorderComponent("left", xOffset, yOffset + 1));
@@ -71,7 +71,7 @@ namespace SeeloewenCraft
     //These are the actual caves, made up of the components above
     public class Cave : Structure
     {
-        public Cave(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
+        public Cave(World world, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(world, chunk, canFloat)
         {
             canReplaceSolidBlocks = false;
 
@@ -90,11 +90,11 @@ namespace SeeloewenCraft
             List<CaveComponent> caveComponents = new List<CaveComponent>();
             if (direction == "right")
             {
-                caveComponents.Add(new CaveComponent(0, 0, chunk, wndGame, "right"));
+                caveComponents.Add(new CaveComponent(0, 0, chunk, world, "right"));
             }
             else if (direction == "left")
             {
-                caveComponents.Add(new CaveComponent(0, 0, chunk, wndGame, "left"));
+                caveComponents.Add(new CaveComponent(0, 0, chunk, world, "left"));
             }
 
             //Use random numbers to add new cave components to random sides
@@ -193,38 +193,38 @@ namespace SeeloewenCraft
                         {
                             if (newDirection == "right")
                             {
-                                caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset + rnd.Next(-1, 1), chunk, wndGame, newDirection));
+                                caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset + rnd.Next(-1, 1), chunk, world, newDirection));
                             }
                             else if (newDirection == "left")
                             {
-                                caveComponents.Add(new CaveComponent(structureComponent.xOffset - 2, structureComponent.yOffset, chunk, wndGame, newDirection));
+                                caveComponents.Add(new CaveComponent(structureComponent.xOffset - 2, structureComponent.yOffset, chunk, world, newDirection));
                             }
                             else if (newDirection == "up")
                             {
-                                caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset, chunk, wndGame, newDirection));
+                                caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset, chunk, world, newDirection));
                             }
                             else if (newDirection == "down")
                             {
-                                caveComponents.Add(new CaveComponent(structureComponent.xOffset + rnd.Next(-2, 0), structureComponent.yOffset - 5, chunk, wndGame, newDirection));
+                                caveComponents.Add(new CaveComponent(structureComponent.xOffset + rnd.Next(-2, 0), structureComponent.yOffset - 5, chunk, world, newDirection));
                             }
                         }
                         else if (direction == "left")
                         {
                             if (newDirection == "right")
                             {
-                                caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset + rnd.Next(-1, 1), chunk, wndGame, newDirection));
+                                caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset + rnd.Next(-1, 1), chunk, world, newDirection));
                             }
                             else if (newDirection == "left")
                             {
-                                caveComponents.Add(new CaveComponent(structureComponent.xOffset + 2, structureComponent.yOffset, chunk, wndGame, newDirection));
+                                caveComponents.Add(new CaveComponent(structureComponent.xOffset + 2, structureComponent.yOffset, chunk, world, newDirection));
                             }
                             else if (newDirection == "up")
                             {
-                                caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset, chunk, wndGame, newDirection));
+                                caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset, chunk, world, newDirection));
                             }
                             else if (newDirection == "down")
                             {
-                                caveComponents.Add(new CaveComponent(structureComponent.xOffset + rnd.Next(0, 2), structureComponent.yOffset - 5, chunk, wndGame, newDirection));
+                                caveComponents.Add(new CaveComponent(structureComponent.xOffset + rnd.Next(0, 2), structureComponent.yOffset - 5, chunk, world, newDirection));
                             }
                         }
 

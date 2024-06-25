@@ -25,7 +25,7 @@ namespace SeeloewenCraft
         public BlockList blockList = new BlockList();
         public Random rnd;
         public Chunk chunk;
-        wndGame wndGame;
+        World world;
         public string direction = "";
         public int totalWidth;
         public int widthRemaining;
@@ -38,11 +38,11 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Structure(wndGame wndGame, Chunk chunk, bool canFloat)
+        public Structure(World world, Chunk chunk, bool canFloat)
         {
             //Set the attributes
             this.chunk = chunk;
-            this.wndGame = wndGame;
+            this.world = world;
             this.canFloat = canFloat;
             rnd = new Random(DateTime.Now.Millisecond + o);
             o++;
@@ -140,7 +140,7 @@ namespace SeeloewenCraft
                     }
                 }
             }
-            wndGame.log.Write($"Generated structure {GetType()} at x{xBase} y{yBase} with width {totalWidth}, direction {direction}, isCutOff = {isCutOff}, widthRemaining = {widthRemaining}", "Info");
+            world.log.Write($"Generated structure {GetType()} at x{xBase} y{yBase} with width {totalWidth}, direction {direction}, isCutOff = {isCutOff}, widthRemaining = {widthRemaining}", "Info");
 
         }
 
@@ -151,7 +151,7 @@ namespace SeeloewenCraft
             {
                 //Create a new block of the same type and place it below the original block
                 Type blockType = block.GetType();
-                Block newBlock = (Block)Activator.CreateInstance(blockType, wndGame, block.xPos, block.yPos + 1, chunk, null, block.isBackground);
+                Block newBlock = (Block)Activator.CreateInstance(blockType, world, block.xPos, block.yPos + 1, chunk, null, block.isBackground);
                 chunk.SetBlock(newBlock, block.xPos, block.yPos + 1);
                 //Repeat until floor is reached
                 MakeBaseSolid(chunk.GetBlock(block.xPos, block.yPos + 1));
@@ -176,20 +176,20 @@ namespace SeeloewenCraft
 
         public void BeginGeneration(int x, int y, int index, bool isNew)
         {
-            wndGame.log.Write($"Beginning to generate structure {GetType()} at x{xBase} y{yBase}", "Info");
+            world.log.Write($"Beginning to generate structure {GetType()} at x{xBase} y{yBase}", "Info");
             if (y != 0) //The game somehow tries to generate structures on y0 at some points. This is to prevent that. An actual fix may follow later.
             {
                 this.isNew = isNew;
                 //Check which direction it's going to be built in
                 if (index > 0)
                 {
-                    wndGame.log.Write("Determined structure generation direction 'right'", "Info");
+                    world.log.Write("Determined structure generation direction 'right'", "Info");
                     SetupStructure(x, y, "right");
                     GenerateStructure();
                 }
                 else if (index < 0)
                 {
-                    wndGame.log.Write("Determined structure generation direction 'left'", "Info");
+                    world.log.Write("Determined structure generation direction 'left'", "Info");
                     SetupStructure(x, y, "left");
                     GenerateStructure();
                 }
@@ -203,7 +203,7 @@ namespace SeeloewenCraft
             {
                 if (xBase - totalWidth < 0)
                 {
-                    wndGame.log.Write("Detected cutoff in structure generation!", "Info");
+                    world.log.Write("Detected cutoff in structure generation!", "Info");
                     return true;
                 }
                 else
@@ -215,7 +215,7 @@ namespace SeeloewenCraft
             {
                 if (xBase + totalWidth > 9)
                 {
-                    wndGame.log.Write("Detected cutoff in structure generation!", "Info");
+                    world.log.Write("Detected cutoff in structure generation!", "Info");
                     return true;
                 }
                 else
@@ -234,7 +234,7 @@ namespace SeeloewenCraft
 
     public class ContinuationStructure : Structure //This is not a normal structure. Its component list is made up of components that originally belonged to another structure but were cut off. This serves as a continuation.
     {
-        public ContinuationStructure(List<StructureComponent> structureList, wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, int remainingWidth, bool canFloat, bool canReplaceSolidBlocks) : base(wndGame, chunk, canFloat)
+        public ContinuationStructure(List<StructureComponent> structureList, World world, int x, int y, int index, bool isNew, Chunk chunk, int remainingWidth, bool canFloat, bool canReplaceSolidBlocks) : base(world, chunk, canFloat)
         {
             totalWidth = remainingWidth;
             this.canReplaceSolidBlocks = canReplaceSolidBlocks;
@@ -253,22 +253,22 @@ namespace SeeloewenCraft
 
     public class AlphaStructure : Structure //Not currently used, was only in the game for debugging
     {
-        public AlphaStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
+        public AlphaStructure(World world, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(world, chunk, canFloat)
         {
             //Set the total width of the structure
             totalWidth = 3;
             canReplaceSolidBlocks = true;
 
             //Add all structure components - It's meant to look like a bedrock pyramid
-            structureComponents.Add(new StructureComponent(wndGame, 0, 0, new BedrockBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 1, 0, new BedrockBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 2, 0, new BedrockBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 3, 0, new BedrockBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 4, 0, new BedrockBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 1, 1, new BedrockBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 2, 1, new BedrockBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 3, 1, new BedrockBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 2, 2, new BedrockBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 0, 0, new BedrockBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 1, 0, new BedrockBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 2, 0, new BedrockBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 3, 0, new BedrockBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 4, 0, new BedrockBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 1, 1, new BedrockBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 2, 1, new BedrockBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 3, 1, new BedrockBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 2, 2, new BedrockBlock(world, x, y, chunk, null, false)));
 
             //Begin generating the alpha structure - was only meant for development purposes and is no longer in the game
             BeginGeneration(x, y, index, isNew);
@@ -277,7 +277,7 @@ namespace SeeloewenCraft
 
     public class OakTreeStructure : Structure
     {
-        public OakTreeStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
+        public OakTreeStructure(World world, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(world, chunk, canFloat)
         {
             canReplaceSolidBlocks = true;
 
@@ -285,28 +285,28 @@ namespace SeeloewenCraft
             totalWidth = 5;
 
             //Layer 1
-            structureComponents.Add(new StructureComponent(wndGame, 2, 0, new OakLogBlock(wndGame, x, y, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, 2, 0, new OakLogBlock(world, x, y, chunk, null, true)));
 
             //Layer 2
-            structureComponents.Add(new StructureComponent(wndGame, 2, 1, new OakLogBlock(wndGame, x, y, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, 2, 1, new OakLogBlock(world, x, y, chunk, null, true)));
 
             //Layer 3
-            structureComponents.Add(new StructureComponent(wndGame, 2, 2, new OakLogBlock(wndGame, x, y, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, 2, 2, new OakLogBlock(world, x, y, chunk, null, true)));
 
             //Layer 4
-            structureComponents.Add(new StructureComponent(wndGame, 1, 3, new OakLeavesBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 2, 3, new OakLeavesBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 3, 3, new OakLeavesBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 4, 3, new OakLeavesBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 0, 3, new OakLeavesBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 1, 3, new OakLeavesBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 2, 3, new OakLeavesBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 3, 3, new OakLeavesBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 4, 3, new OakLeavesBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 0, 3, new OakLeavesBlock(world, x, y, chunk, null, false)));
 
             //Layer 5
-            structureComponents.Add(new StructureComponent(wndGame, 1, 4, new OakLeavesBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 2, 4, new OakLeavesBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 3, 4, new OakLeavesBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 1, 4, new OakLeavesBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 2, 4, new OakLeavesBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 3, 4, new OakLeavesBlock(world, x, y, chunk, null, false)));
 
             //Layer 6
-            structureComponents.Add(new StructureComponent(wndGame, 2, 5, new OakLeavesBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 2, 5, new OakLeavesBlock(world, x, y, chunk, null, false)));
 
             //Begin generating the trees
             BeginGeneration(x, y, index, isNew);
@@ -316,7 +316,7 @@ namespace SeeloewenCraft
 
     public class SpruceTreeStructure : Structure
     {
-        public SpruceTreeStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
+        public SpruceTreeStructure(World world, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(world, chunk, canFloat)
         {
             canReplaceSolidBlocks = true;
 
@@ -324,36 +324,36 @@ namespace SeeloewenCraft
             totalWidth = 5;
 
             //Layer 1
-            structureComponents.Add(new StructureComponent(wndGame, 2, 0, new SpruceLogBlock(wndGame, x, y, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, 2, 0, new SpruceLogBlock(world, x, y, chunk, null, true)));
 
             //Layer 2
-            structureComponents.Add(new StructureComponent(wndGame, 2, 1, new SpruceLogBlock(wndGame, x, y, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, 2, 1, new SpruceLogBlock(world, x, y, chunk, null, true)));
 
             //Layer 3
-            structureComponents.Add(new StructureComponent(wndGame, 2, 2, new SpruceLogBlock(wndGame, x, y, chunk, null, true)));
+            structureComponents.Add(new StructureComponent(world, 2, 2, new SpruceLogBlock(world, x, y, chunk, null, true)));
 
             //Layer 4
-            structureComponents.Add(new StructureComponent(wndGame, 1, 3, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 2, 3, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 3, 3, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 4, 3, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 0, 3, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 1, 3, new SpruceLeavesBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 2, 3, new SpruceLeavesBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 3, 3, new SpruceLeavesBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 4, 3, new SpruceLeavesBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 0, 3, new SpruceLeavesBlock(world, x, y, chunk, null, false)));
 
             //Layer 5
-            structureComponents.Add(new StructureComponent(wndGame, 1, 4, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 2, 4, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 3, 4, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 1, 4, new SpruceLeavesBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 2, 4, new SpruceLeavesBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 3, 4, new SpruceLeavesBlock(world, x, y, chunk, null, false)));
 
             //Layer 6
-            structureComponents.Add(new StructureComponent(wndGame, 1, 5, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 2, 5, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
-            structureComponents.Add(new StructureComponent(wndGame, 3, 5, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 1, 5, new SpruceLeavesBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 2, 5, new SpruceLeavesBlock(world, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 3, 5, new SpruceLeavesBlock(world, x, y, chunk, null, false)));
 
             //Layer 7
-            structureComponents.Add(new StructureComponent(wndGame, 2, 6, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 2, 6, new SpruceLeavesBlock(world, x, y, chunk, null, false)));
 
             //Layer 8
-            structureComponents.Add(new StructureComponent(wndGame, 2, 7, new SpruceLeavesBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 2, 7, new SpruceLeavesBlock(world, x, y, chunk, null, false)));
 
             //Begin generating the trees
             BeginGeneration(x, y, index, isNew);
@@ -363,7 +363,7 @@ namespace SeeloewenCraft
 
     public class OreStructure : Structure
     {
-        public OreStructure(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
+        public OreStructure(World world, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(world, chunk, canFloat)
         {
             canReplaceSolidBlocks = false;
 
@@ -378,64 +378,64 @@ namespace SeeloewenCraft
                 int random2;
 
                 //Layer 1
-                structureComponents.Add(new StructureComponent(wndGame, 0, 0, new CoalOreBlock(wndGame, x, y, chunk, null, false)));
+                structureComponents.Add(new StructureComponent(world, 0, 0, new CoalOreBlock(world, x, y, chunk, null, false)));
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 1, 0, new CoalOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 1, 0, new CoalOreBlock(world, x, y, chunk, null, false)));
                 }
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 2, 0, new CoalOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 2, 0, new CoalOreBlock(world, x, y, chunk, null, false)));
                 }
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 3, 0, new CoalOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 3, 0, new CoalOreBlock(world, x, y, chunk, null, false)));
                 }
 
                 //Layer 2
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 0, 1, new CoalOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 0, 1, new CoalOreBlock(world, x, y, chunk, null, false)));
                 }
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 1, 1, new CoalOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 1, 1, new CoalOreBlock(world, x, y, chunk, null, false)));
                 }
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 2, 1, new CoalOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 2, 1, new CoalOreBlock(world, x, y, chunk, null, false)));
                 }
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 3, 1, new CoalOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 3, 1, new CoalOreBlock(world, x, y, chunk, null, false)));
                 }
 
                 //Layer 3
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 0, 2, new CoalOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 0, 2, new CoalOreBlock(world, x, y, chunk, null, false)));
                 }
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 1, 2, new CoalOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 1, 2, new CoalOreBlock(world, x, y, chunk, null, false)));
                 }
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 2, 2, new CoalOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 2, 2, new CoalOreBlock(world, x, y, chunk, null, false)));
                 }
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 3, 2, new CoalOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 3, 2, new CoalOreBlock(world, x, y, chunk, null, false)));
                 }
             }
             else if (random1 > 15 && random1 <= 25) //Iron Vein
@@ -445,50 +445,50 @@ namespace SeeloewenCraft
                 int random2;
 
                 //Layer 1
-                structureComponents.Add(new StructureComponent(wndGame, 0, 0, new IronOreBlock(wndGame, x, y, chunk, null, false)));
+                structureComponents.Add(new StructureComponent(world, 0, 0, new IronOreBlock(world, x, y, chunk, null, false)));
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 1, 0, new IronOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 1, 0, new IronOreBlock(world, x, y, chunk, null, false)));
                 }
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 2, 0, new IronOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 2, 0, new IronOreBlock(world, x, y, chunk, null, false)));
                 }
 
                 //Layer 2
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 0, 1, new IronOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 0, 1, new IronOreBlock(world, x, y, chunk, null, false)));
                 }
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 1, 1, new IronOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 1, 1, new IronOreBlock(world, x, y, chunk, null, false)));
                 }
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 2, 1, new IronOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 2, 1, new IronOreBlock(world, x, y, chunk, null, false)));
                 }
 
                 //Layer 3
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 0, 2, new IronOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 0, 2, new IronOreBlock(world, x, y, chunk, null, false)));
                 }
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 1, 2, new IronOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 1, 2, new IronOreBlock(world, x, y, chunk, null, false)));
                 }
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 2, 2, new IronOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 2, 2, new IronOreBlock(world, x, y, chunk, null, false)));
                 }
             }
             else if (random1 > 25 && random1 <= 30) //Diamond Vein
@@ -498,23 +498,23 @@ namespace SeeloewenCraft
                 int random2;
 
                 //Layer 1
-                structureComponents.Add(new StructureComponent(wndGame, 0, 0, new DiamondOreBlock(wndGame, x, y, chunk, null, false)));
+                structureComponents.Add(new StructureComponent(world, 0, 0, new DiamondOreBlock(world, x, y, chunk, null, false)));
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 1, 0, new DiamondOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 1, 0, new DiamondOreBlock(world, x, y, chunk, null, false)));
                 }
 
                 //Layer 2
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 0, 1, new DiamondOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 0, 1, new DiamondOreBlock(world, x, y, chunk, null, false)));
                 }
                 random2 = rnd.Next(0, 2);
                 if (random2 == 0)
                 {
-                    structureComponents.Add(new StructureComponent(wndGame, 1, 1, new DiamondOreBlock(wndGame, x, y, chunk, null, false)));
+                    structureComponents.Add(new StructureComponent(world, 1, 1, new DiamondOreBlock(world, x, y, chunk, null, false)));
                 }
             }
 
@@ -525,11 +525,11 @@ namespace SeeloewenCraft
 
     public class AlphaCave : Structure //This was a test implementation of caves. It works partially, but has many issues and doesn't look good. Not used anymore.
     {
-        public AlphaCave(wndGame wndGame, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(wndGame, chunk, canFloat)
+        public AlphaCave(World world, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(world, chunk, canFloat)
         {
             //Generate first air block (base of cave)
             List<StructureComponent> generatedComponents = new List<StructureComponent>();
-            structureComponents.Add(new StructureComponent(wndGame, 0, 0, new AirBlock(wndGame, x, y, chunk, null, false)));
+            structureComponents.Add(new StructureComponent(world, 0, 0, new AirBlock(world, x, y, chunk, null, false)));
 
 
             //Go through all components
@@ -544,7 +544,7 @@ namespace SeeloewenCraft
                     if (randomNorth == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
-                        StructureComponent newComponent = new StructureComponent(wndGame, structureComponent.xOffset, structureComponent.yOffset - 1, new AirBlock(wndGame, x, y, chunk, null, false));
+                        StructureComponent newComponent = new StructureComponent(world, structureComponent.xOffset, structureComponent.yOffset - 1, new AirBlock(world, x, y, chunk, null, false));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
@@ -556,7 +556,7 @@ namespace SeeloewenCraft
                     if (randomEast == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
-                        StructureComponent newComponent = new StructureComponent(wndGame, structureComponent.xOffset + 1, structureComponent.yOffset, new AirBlock(wndGame, x, y, chunk, null, false));
+                        StructureComponent newComponent = new StructureComponent(world, structureComponent.xOffset + 1, structureComponent.yOffset, new AirBlock(world, x, y, chunk, null, false));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
@@ -569,7 +569,7 @@ namespace SeeloewenCraft
                     if (randomSouth == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
-                        StructureComponent newComponent = new StructureComponent(wndGame, structureComponent.xOffset, structureComponent.yOffset + 1, new AirBlock(wndGame, x, y, chunk, null, false));
+                        StructureComponent newComponent = new StructureComponent(world, structureComponent.xOffset, structureComponent.yOffset + 1, new AirBlock(world, x, y, chunk, null, false));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
@@ -582,7 +582,7 @@ namespace SeeloewenCraft
                     if (randomWest == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
-                        StructureComponent newComponent = new StructureComponent(wndGame, structureComponent.xOffset - 1, structureComponent.yOffset, new AirBlock(wndGame, x, y, chunk, null, false));
+                        StructureComponent newComponent = new StructureComponent(world, structureComponent.xOffset - 1, structureComponent.yOffset, new AirBlock(world, x, y, chunk, null, false));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
@@ -635,14 +635,14 @@ namespace SeeloewenCraft
     public class StructureComponent
     {
         public Block block;
-        public wndGame wndGame;
+        public World world;
         public int xOffset;
         public int yOffset;
 
-        public StructureComponent(wndGame wndGame, int xOffset, int yOffset, Block block)
+        public StructureComponent(World world, int xOffset, int yOffset, Block block)
         {
             //Set the attributes of the structure component
-            this.wndGame = wndGame;
+            this.world = world;
             this.xOffset = xOffset;
             this.yOffset = yOffset;
             this.block = block;

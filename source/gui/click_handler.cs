@@ -12,17 +12,17 @@ namespace SeeloewenCraft
 {
     public class ClickHandler
     {
-        wndGame wndGame;
+        World world;
 
-        public ClickHandler(wndGame wndGame)
+        public ClickHandler(World world)
         {
-            this.wndGame = wndGame;
+            this.world = world;
         }
 
         public void DoRightClick(Block block, object sender)
         {
             //Check if selected item should do an action
-            Item selectedItem = wndGame.player.inventory.GetSelectedItem();
+            Item selectedItem = world.player.inventory.GetSelectedItem();
             if (selectedItem != null && selectedItem.hasRightClickAction)
             {
                 selectedItem.RightClickAction(block, sender);
@@ -50,14 +50,14 @@ namespace SeeloewenCraft
                             block.PlaceConnectedForegroundBlocks(selectedItem.block);
 
                             //Remove the item from the inventory
-                            wndGame.player.inventory.RemoveItem(selectedItem);
+                            world.player.inventory.RemoveItem(selectedItem);
                         }
                         else if (!selectedItem.block.isBase)
                         {
                             block.PlaceInForeground(selectedItem.block);
 
                             //Remove the item from the inventory
-                            wndGame.player.inventory.RemoveItem(selectedItem);
+                            world.player.inventory.RemoveItem(selectedItem);
                         }
 
                     }
@@ -79,14 +79,14 @@ namespace SeeloewenCraft
                             block.PlaceConnectedBlocks(selectedItem.block);
 
                             //Remove the item from the inventory
-                            wndGame.player.inventory.RemoveItem(selectedItem);
+                            world.player.inventory.RemoveItem(selectedItem);
                         }
                         else if (!selectedItem.block.isBase)
                         {
                             block.PlaceNewBlock(selectedItem.block);
 
                             //Remove the item from the inventory
-                            wndGame.player.inventory.RemoveItem(selectedItem);
+                            world.player.inventory.RemoveItem(selectedItem);
                         }
                     }
 

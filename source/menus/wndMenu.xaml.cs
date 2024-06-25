@@ -22,7 +22,7 @@ namespace SeeloewenCraft
         private System.Windows.Forms.Timer tmrSplashText = new System.Windows.Forms.Timer();
         private wndLoadWorld wndLoadWorld;
         private wndSettings wndSettings;
-        public wndGame wndGame;
+        public World world;
         public Log log;
         private int splashTextSize = 0;
         public int worldVersion = 2;

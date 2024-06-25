@@ -16,17 +16,17 @@ namespace SeeloewenCraft
         public Canvas cvsSlot = new Canvas();
         public TextBlock tblItemAmount = new TextBlock();
         public InventorySlot slot;
-        wndGame wndGame;
+        World world;
         public int xPos;
         public bool isSelected;
 
 
         //-- Constructor --//
 
-        public HotbarSlot(wndGame wndGame, int xPos, InventorySlot slot)
+        public HotbarSlot(World world, int xPos, InventorySlot slot)
         {
             //Set the hotbar slot attributes
-            this.wndGame = wndGame;
+            this.world = world;
             this.xPos = xPos;
             this.slot = slot;
 
@@ -51,7 +51,7 @@ namespace SeeloewenCraft
         public void SelectSlot()
         {
             //Select the slot
-            foreach (HotbarSlot slot in wndGame.player.inventory.hotbarSlotList)
+            foreach (HotbarSlot slot in world.player.inventory.hotbarSlotList)
             {
                 slot.bdrSlot.BorderBrush = new SolidColorBrush(Colors.Transparent);
                 slot.bdrSlot.BorderThickness = new Thickness(3, 3, 3, 3);
