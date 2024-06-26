@@ -63,7 +63,7 @@ namespace SeeloewenCraft
                     }
                 }
                 //Check if the block isn't in background and also not solid
-                else if (block.IsInRange() && !block.isSolid && !block.IsCollidingWithPlayer(sender) && !block.isBackground && selectedItem != null)
+                else if (block.IsInRange() && block.isReplacable && !block.IsCollidingWithPlayer(sender) && !block.isBackground && selectedItem != null)
                 {
                     if (selectedItem.block == null)
                     {

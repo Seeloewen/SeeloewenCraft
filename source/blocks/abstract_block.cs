@@ -42,6 +42,7 @@ namespace SeeloewenCraft
         public string name;
         public string id;
         public bool canBeMovedToBackground = true;
+        public bool isReplacable = false;
         public bool isBreakable = true;
         public bool hasInventory = false;
         public bool isLightSource = false;

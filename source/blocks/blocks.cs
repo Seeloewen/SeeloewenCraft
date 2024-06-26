@@ -91,6 +91,7 @@ namespace SeeloewenCraft
         {
             isBreakable = false;
             isSolid = false;
+            isReplacable = true;
             canBeMovedToBackground = false;
             SetTexture();
             name = "Air";

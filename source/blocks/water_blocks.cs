@@ -15,6 +15,7 @@ namespace SeeloewenCraft
         public WaterBlock_1_Right(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
             isSolid = false;
+            isReplacable = true;
             isBreakable = false;
             canBeMovedToBackground = false;
             waterLevel = 1;
@@ -46,6 +47,7 @@ namespace SeeloewenCraft
         {
             isSolid = false;
             isBreakable = false;
+            isReplacable = true;
             canBeMovedToBackground = false;
             waterLevel = 1;
             SetTexture();
@@ -76,6 +78,7 @@ namespace SeeloewenCraft
         {
             isSolid = false;
             isBreakable = false;
+            isReplacable = true;
             canBeMovedToBackground = false;
             waterLevel = 2;
             SetTexture();
@@ -106,6 +109,7 @@ namespace SeeloewenCraft
         {
             isSolid = false;
             isBreakable = false;
+            isReplacable = true;
             canBeMovedToBackground = false;
             waterLevel = 2;
             SetTexture();
@@ -136,6 +140,7 @@ namespace SeeloewenCraft
         {
             isSolid = false;
             isBreakable = false;
+            isReplacable = true;
             canBeMovedToBackground = false;
             waterLevel = 3;
             SetTexture();
@@ -166,6 +171,7 @@ namespace SeeloewenCraft
         {
             isSolid = false;
             isBreakable = false;
+            isReplacable = true;
             canBeMovedToBackground = false;
             waterLevel = 3;
             id = "sc:water_3_left_block";
@@ -196,6 +202,7 @@ namespace SeeloewenCraft
         {
             isSolid = false;
             isBreakable = false;
+            isReplacable = true;
             canBeMovedToBackground = false;
             waterLevel = 4;
             SetTexture();
@@ -226,6 +233,7 @@ namespace SeeloewenCraft
         {
             isSolid = false;
             isBreakable = false;
+            isReplacable = true;
             canBeMovedToBackground = false;
             waterLevel = 4;
             SetTexture();
@@ -256,6 +264,7 @@ namespace SeeloewenCraft
         {
             isSolid = false;
             isBreakable = false;
+            isReplacable = true;
             canBeMovedToBackground = false;
             waterLevel = 5;
             SetTexture();
@@ -286,6 +295,7 @@ namespace SeeloewenCraft
         {
             isSolid = false;
             isBreakable = false;
+            isReplacable = true;
             canBeMovedToBackground = false;
             waterLevel = 5;
             SetTexture();
@@ -316,6 +326,7 @@ namespace SeeloewenCraft
         {
             isSolid = false;
             isBreakable = false;
+            isReplacable = true;
             canBeMovedToBackground = false;
             waterLevel = 6;
             SetTexture();
