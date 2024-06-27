@@ -30,6 +30,7 @@ namespace SeeloewenCraft
         public Player player;
         public WaterHandler waterHandler;
         public ClickHandler clickHandler;
+        public DebugMenu debugMenu;
 
         //Attributes
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
@@ -61,6 +62,8 @@ namespace SeeloewenCraft
             lootTables = new LootTables(this);
             waterHandler = new WaterHandler(this);
             clickHandler = new ClickHandler(this);
+            debugMenu = new DebugMenu(this);
+
             worldDirectory = $"{wndMenu.worldDirectory}\\{worldName}";
 
             if (!isNew && GetWorldVersion(worldName) < worldVersion)
@@ -256,6 +259,9 @@ namespace SeeloewenCraft
             tmrWater.Interval = 1000;
             tmrWater.Tick += tmrWater_Tick;
             tmrWater.Start();
+
+            //When the world is loaded, display the debug information
+            DisplayDebugInformation();
         }
 
         public void CreatePlayer(bool isLoaded, double playerPosX, double playerPosY)
@@ -329,6 +335,15 @@ namespace SeeloewenCraft
                 }
             }
             return null;
+        }
+
+        public void DisplayDebugInformation()
+        {
+            //Show the debug information for the world in the debug menu
+            debugMenu.tblGameStats.Text = "";
+            debugMenu.AddLine(debugMenu.tblGameStats, $"SeeloewenCraft {wndMenu.gameVersion} ({wndMenu.versionDate})");
+            debugMenu.AddLine(debugMenu.tblGameStats, $"worldname: {worldName}");
+            debugMenu.AddLine(debugMenu.tblGameStats, $"worldVersion: {worldVersion}");
         }
 
         //-- Event Handlers --//

@@ -90,6 +90,7 @@ namespace SeeloewenCraft
             {
                 this.item = null;
             }
+
         }
 
         //-- Custom Methods --//
@@ -778,10 +779,24 @@ namespace SeeloewenCraft
         }
 
 
+        public void DisplayDebugInformation()
+        {
+            //Show the debug information for the block in debug menu
+            world.debugMenu.tblBlockStats.Text = "";
+            world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"id={id}");
+            world.debugMenu.AddLine(world.debugMenu.tblBlockStats,  $"name={name}");
+            world.debugMenu.AddLine(world.debugMenu.tblBlockStats,  $"xPos={xPos}");
+            world.debugMenu.AddLine(world.debugMenu.tblBlockStats,  $"yPos={yPos}");
+            world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"chunk={chunk.index}");
+        }
+
         //-- Event Handlers --//
 
         private void cvsBlock_MouseEnter(object sender, EventArgs e)
         {
+            //Display the debug information of the block
+            DisplayDebugInformation();
+
             //Checks if the block is in range and breakable
             if (IsInRange() == true)
             {
