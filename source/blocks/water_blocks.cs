@@ -21,6 +21,11 @@ namespace SeeloewenCraft
             name = "Water";
             tags.Add("liquids/water");
         }
+
+        public override void ShowAdditionalDebugInfo()
+        {
+            world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"waterLevel={waterLevel}");
+        }
     }
 
     //-- Water Blocks --//

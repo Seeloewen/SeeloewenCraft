@@ -15,10 +15,11 @@ namespace SeeloewenCraft
 {
     public class DebugMenu
     {
+        World world;
         public Canvas cvsDebugMenu = new Canvas();
         public TextBlock tblGameStats = new TextBlock();
-        public TextBlock tblBlockStats = new TextBlock();
-        World world;
+        public TextBlock tblBlockStats = new TextBlock();   
+        public bool isEnabled = false;
 
         public DebugMenu(World world)
         {
@@ -43,19 +44,8 @@ namespace SeeloewenCraft
             tblBlockStats.FontWeight = FontWeights.Bold;
             tblBlockStats.TextAlignment = TextAlignment.Right;
             Canvas.SetRight(tblBlockStats, 10);
-        }
 
-        public void Update(TextBlock textBlock, string line, string content)
-        {
-            //If the line exists update it, else add it.
-            if (!world.debugMenu.tblBlockStats.Text.Contains(line))
-            {
-                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, line);
-            }
-            else
-            {
-                world.debugMenu.ChangeLine(world.debugMenu.tblBlockStats, line, content);
-            }
+            Hide();
         }
 
         public void AddLine(TextBlock textBlock, string content)
@@ -108,10 +98,25 @@ namespace SeeloewenCraft
             //Remove the clear lines from the array and add the array back
             splitContent = splitContent.Where(x => !string.IsNullOrEmpty(x)).ToArray();
 
+            textBlock.Text = "";
             foreach (string l in splitContent)
             {
                 AddLine(textBlock, l);
             }
+        }
+
+        public void Show()
+        {
+            //Show the debug menu
+            cvsDebugMenu.Visibility = Visibility.Visible;
+            isEnabled = true;
+        }
+
+        public void Hide()
+        {
+            //Hide the debug menu
+            cvsDebugMenu.Visibility = Visibility.Hidden;
+            isEnabled = false;
         }
     }
 }

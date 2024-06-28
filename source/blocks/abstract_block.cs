@@ -116,7 +116,7 @@ namespace SeeloewenCraft
                 blockInventory.SaveToJson(writer);
             }
 
-            if(foregroundBlock != null)
+            if (foregroundBlock != null)
             {
                 writer.WritePropertyName("foreground_block");
                 foregroundBlock.SaveToJson(writer);
@@ -226,7 +226,7 @@ namespace SeeloewenCraft
             }
 
             JObject objectToken = (JObject)blockToken;
-            if(objectToken.ContainsKey("foreground_block"))
+            if (objectToken.ContainsKey("foreground_block"))
             {
                 block.foregroundBlock = Block.LoadFromJson(new JsonPointer("/foreground_block").Evaluate(blockToken), chunk, world);
             }
@@ -386,6 +386,8 @@ namespace SeeloewenCraft
 
         public abstract void RightClickAction(object sender);
 
+        public abstract void ShowAdditionalDebugInfo();
+
         public Item GetItem()
         {
             //Generate a new item if necessary and return the item
@@ -470,7 +472,7 @@ namespace SeeloewenCraft
 
                         if (blockContainer.previousBlockWasLightSource || blockContainer.previousForegroundBlockWasLightSource)
                         {
-                            if(blockContainer != null)
+                            if (blockContainer != null)
                             {
                                 block.rangeToNearestLightSource = block.RangeToLightSource();
                                 block.SetLightLevel(block.RangeToLightSource());
@@ -771,7 +773,7 @@ namespace SeeloewenCraft
                 }
                 else
                 {
-                    conBlock.chunk =chunk;
+                    conBlock.chunk = chunk;
                     chunk.GetBlock(actualXPos, actualYPos).PlaceNewBlock(conBlock);
                 }
 
@@ -782,12 +784,40 @@ namespace SeeloewenCraft
         public void DisplayDebugInformation()
         {
             //Show the debug information for the block in debug menu
-            world.debugMenu.tblBlockStats.Text = "";
-            world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"id={id}");
-            world.debugMenu.AddLine(world.debugMenu.tblBlockStats,  $"name={name}");
-            world.debugMenu.AddLine(world.debugMenu.tblBlockStats,  $"xPos={xPos}");
-            world.debugMenu.AddLine(world.debugMenu.tblBlockStats,  $"yPos={yPos}");
-            world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"chunk={chunk.index}");
+            if (world.debugMenu.isEnabled)
+            {
+                world.debugMenu.tblBlockStats.Text = "";
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, "Selected Block:");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"id={id}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"name={name}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"xPos={xPos}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"yPos={yPos}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"chunk={chunk.index}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"isSolid={isSolid}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"isBackground={isBackground}");
+                if (foregroundBlock != null)
+                {
+                    world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"foregroundBlock={foregroundBlock.id}");
+                }
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"lightLevel={lightLevel}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"hasRightClickAction={hasRightClickAction}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"hasInventory={hasInventory}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"isBase={isBase}");
+                if (baseBlock != null)
+                {
+                    world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"baseBlock={baseBlock.id} at x{baseBlock.xPos} y{baseBlock.yPos}");
+                }
+
+                //Try to show the additional debug information
+                try
+                {
+                    ShowAdditionalDebugInfo();
+                }
+                catch (NotImplementedException)
+                {
+                    //No additional debug info to show
+                }
+            }
         }
 
         //-- Event Handlers --//
@@ -823,5 +853,5 @@ namespace SeeloewenCraft
         {
             world.clickHandler.DoRightClick(this, sender);
         }
-    }  
+    }
 }

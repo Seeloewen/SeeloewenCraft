@@ -145,6 +145,18 @@ namespace SeeloewenCraft
                     bdrMenu.IsEnabled = true;
                 }
             }
+            if(pressedKeys.Contains(Key.F3))
+            {
+                //Open debug menu
+                if(world.debugMenu.isEnabled)
+                {
+                    world.debugMenu.Hide();
+                }
+                else
+                {
+                    world.debugMenu.Show();
+                }
+            }
         }
 
         public void RemoveFromParent(UIElement element)
@@ -305,36 +317,7 @@ namespace SeeloewenCraft
             if (tbDebug.Text == "/help")
             {
                 //Show help messaged
-                MessageBox.Show("List of commands (For debug purposes only!):\n/help - Shows this page\n/showblockinfo - Shows Block info like coords or type\n/hideblockinfo - Hides the Block info\n/about - Shows about window\n/generateplayer - Runs the generation method of player\n/toggleinv - Opens or closes the inventory\n/showdevcontrols - Shows the controls only meant for developing\n/hidedevcontrols - Hides the development controls\n/give chest - Gives the player a chest item\n/resetview - Reset the scrollviewer location\n/give magmablock - Gives the player a magma block", "/help");
-            }
-            else if (tbDebug.Text == "/showblockinfo")
-            {
-                //Display block info (position, name, etc.) for each block that is currently rendered
-                //WIP - Needs to also show block info on new chunks
-                foreach (Chunk chunk in world.currentChunkList)
-                {
-                    chunk.ShowBlockInfo();
-                }
-                MessageBox.Show("Block info is now shown.", "/showblockinfo");
-                world.showBlockInfo = true;
-            }
-            else if (tbDebug.Text == "/hideblockinfo")
-            {
-                //Hide block info for each block that is currently rendered
-                //WIP - Needs to also hide block info on new chunks
-                foreach (Chunk chunk in world.currentChunkList)
-                {
-                    chunk.HideBlockInfo();
-
-                }
-                MessageBox.Show("Block info is now hidden.", "/hideblockinfo");
-                world.showBlockInfo = false;
-            }
-            else if (tbDebug.Text == "/about")
-            {
-                //Show 'About' message
-                wndAbout wndAbout = new wndAbout(world.wndMenu);
-                wndAbout.ShowDialog();
+                MessageBox.Show("List of commands (For debug purposes only!):\n/help - Shows this page\n/generateplayer - Runs the generation method of player\n/toggleinv - Opens or closes the inventory\n/showdevcontrols - Shows the controls only meant for developing\n/hidedevcontrols - Hides the development controls\n/give chest - Gives the player a chest item\n/resetview - Reset the scrollviewer location\n/give magmablock - Gives the player a magma block", "/help");
             }
             else if (tbDebug.Text == "/generateplayer")
             {
@@ -388,7 +371,7 @@ namespace SeeloewenCraft
             else
             {
                 //Show error message if the command is unknown
-                MessageBox.Show("Unknown command.", "Error");
+                MessageBox.Show("Unknown command. Type /help for a list of commands.", "Error");
             }
 
             //Clear the chat box after execution

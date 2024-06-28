@@ -91,11 +91,16 @@ namespace SeeloewenCraft
                     }
 
                 }
+
+                block.chunk.GetBlock(block.xPos, block.yPos).DisplayDebugInformation();
             }
         }
 
         public void DoLeftClick(Block block, object sender)
         {
+            int oldXPos = block.xPos;
+            int oldYPos = block.yPos;
+
             //If the block is in range
             if (block.IsInRange())
             {
@@ -145,6 +150,8 @@ namespace SeeloewenCraft
                     else block.BreakBlock(true, false);
                 }
             }
+
+            block.chunk.GetBlock(oldXPos, oldYPos).DisplayDebugInformation();
         }
     }
 }

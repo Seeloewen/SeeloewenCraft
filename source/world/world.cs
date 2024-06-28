@@ -219,6 +219,11 @@ namespace SeeloewenCraft
             //Create the game components
             GenerateBlockContainer();
             GenerateChunks(loadedPlayerPosExists ? ((int)playerPosX / 8) - 2 : 0);
+
+            //When the world is loaded, display the debug information
+            DisplayDebugInformation();
+
+            //Create the player
             CreatePlayer(loadedPlayerPosExists, playerPosX, playerPosY);
             player.inventory = new Inventory(this, true);
             inventoryList.Add(player.inventory);
@@ -259,9 +264,6 @@ namespace SeeloewenCraft
             tmrWater.Interval = 1000;
             tmrWater.Tick += tmrWater_Tick;
             tmrWater.Start();
-
-            //When the world is loaded, display the debug information
-            DisplayDebugInformation();
         }
 
         public void CreatePlayer(bool isLoaded, double playerPosX, double playerPosY)
@@ -342,7 +344,7 @@ namespace SeeloewenCraft
             //Show the debug information for the world in the debug menu
             debugMenu.tblGameStats.Text = "";
             debugMenu.AddLine(debugMenu.tblGameStats, $"SeeloewenCraft {wndMenu.gameVersion} ({wndMenu.versionDate})");
-            debugMenu.AddLine(debugMenu.tblGameStats, $"worldname: {worldName}");
+            debugMenu.AddLine(debugMenu.tblGameStats, $"worldName: {worldName}");
             debugMenu.AddLine(debugMenu.tblGameStats, $"worldVersion: {worldVersion}");
         }
 
