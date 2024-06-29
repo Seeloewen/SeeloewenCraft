@@ -29,6 +29,11 @@
                     <TextBox x:Name="tbSpecialThanks" Canvas.Left="10" TextWrapping="Wrap" Text="Special thanks to CDLemmi for helping on many features of the game, most notably the movement physics and the collision system used after Alpha 1.1.4.&#xD;&#xA;&#xD;&#xA;Special thanks to Finni for helping me find many issues by testing developmen versions and also for giving a lot of ideas." Canvas.Top="10" Width="421" Height="286" FontSize="14" IsReadOnly="True"/>
                 </Canvas>
             </TabItem>
+            <TabItem Header="Third-Party Libraries">
+                <Canvas x:Name="cvsThirdParty">
+                    <TextBox x:Name="tbThirdParty" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="10" Width="421" Height="286" FontSize="14" IsReadOnly="True" Text="Json.NET&#xD;&#xA;Copyright (c) 2007 James Newton-King&#xD;&#xA;&#xD;&#xA;Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:&#xD;&#xA;&#xD;&#xA;The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.&#xD;&#xA;&#xD;&#xA;THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."/>
+                </Canvas>
+            </TabItem>
         </TabControl>
         <Button x:Name="btnOK" Content="OK" HorizontalAlignment="Left" Margin="145,493,0,0" VerticalAlignment="Top" Height="28" Width="188" FontSize="16" Click="btnOK_Click"/>
     </Grid>
