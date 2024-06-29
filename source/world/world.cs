@@ -25,7 +25,6 @@ namespace SeeloewenCraft
         public Images images;
         public LootTables lootTables;
         public wndMenu wndMenu;
-        public wndSettings wndSettings;
         public Log log;
         public Player player;
         public WaterHandler waterHandler;
@@ -243,7 +242,7 @@ namespace SeeloewenCraft
             else
             {
                 //Give the player a hammer -- !! Only temporary until Crafting is implemented !!
-                if (Properties.Settings.Default.enableHammer) player.inventory.AddItem(new HammerItem(this, null));
+                if (wndMenu.wndSettings.enableHammer) player.inventory.AddItem(new HammerItem(this, null));
                 for (int i = 0; i < 64; i++)
                 {
                     player.inventory.AddItem(new TorchItem(this, null));
@@ -353,7 +352,7 @@ namespace SeeloewenCraft
         private void tmrMovement_Tick(object sender, EventArgs e)
         {
             //Movement timer, ticks at a rate of approximitely 60 fps (every 16 ms)
-            player.PhysicsStep(wndGame.pressedKeys.Contains(Key.A), wndGame.pressedKeys.Contains(Key.D), wndGame.pressedKeys.Contains(Key.Space), 0.016);
+            player.PhysicsStep(wndGame.pressedKeys.Contains(wndMenu.wndSettings.cMoveLeft), wndGame.pressedKeys.Contains(wndMenu.wndSettings.cMoveRight), wndGame.pressedKeys.Contains(wndMenu.wndSettings.cJump), 0.016);
         }
 
         private void tmrWater_Tick(object sender, EventArgs e)

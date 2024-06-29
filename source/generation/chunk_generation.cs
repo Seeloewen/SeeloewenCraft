@@ -21,7 +21,7 @@ namespace SeeloewenCraft
             GenerateTerrain();
             GenerateTrees();
             GenerateOres();
-            if (Properties.Settings.Default.enableCaveGeneration) GenerateCaves();
+            if (world.wndMenu.wndSettings.enableCaveGeneration) GenerateCaves();
             ContinueStructureGeneration();
         }
 

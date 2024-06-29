@@ -1,10 +1,17 @@
-﻿using System;
+﻿using Microsoft.Json.Pointer;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Packaging;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,7 +27,22 @@ namespace SeeloewenCraft
     public partial class wndSettings : Window
     {
         wndMenu wndMenu;
+        KeyConverter keyConverter = new KeyConverter();
 
+        //Settings
+        public bool saveLogOnExit = false;
+        public bool saveWorldOnClose = true;
+        public bool enableHammer = true;
+        public bool enableCaveGeneration = true;
+        public bool enableLighting = true;
+        public string texturepack;
+
+        //Keybinds
+        public Key cMoveRight = Key.D;
+        public Key cMoveLeft = Key.A;
+        public Key cShowInv = Key.E;
+        public Key cToggleDebug = Key.F3;
+        public Key cJump = Key.Space;
 
         //-- Constructor --//
 
@@ -28,56 +50,117 @@ namespace SeeloewenCraft
         {
             this.wndMenu = wndMenu;
             InitializeComponent();
-            LoadSettings();
+
+            string documentText = File.ReadAllText($"{wndMenu.gameDirectory}\\clientSettings.json");
+            JToken documentToken = JToken.Parse(documentText);
+            LoadSettings(documentToken);
         }
 
         //-- Custom Methods --//
-        private void SaveSettings()
+        private void SaveSettings(JsonWriter writer)
         {
-            //Save the log save setting
-            Properties.Settings.Default.saveLogOnExit = Convert.ToBoolean(cbSaveLogOnExit.IsChecked);
-            wndMenu.log.Write($"Saved setting saveLogOnExit as {Properties.Settings.Default.saveLogOnExit}", "Info");
+            writer.WriteStartObject();
+            writer.WritePropertyName("settings");
 
-            //Save the save on world exit settings
-            Properties.Settings.Default.saveWorldOnClose = Convert.ToBoolean(cbSaveWorldWhenClosing.IsChecked);
-            wndMenu.log.Write($"Saved setting saveWorldOnClose as {Properties.Settings.Default.saveWorldOnClose}", "Info");
+            //Save all the settings 
+            writer.WriteStartObject();
+            writer.WritePropertyName("save_log_on_exit");
+            writer.WriteValue(cbSaveLogOnExit.IsChecked);
+            saveLogOnExit = Convert.ToBoolean(cbSaveLogOnExit.IsChecked);
+            wndMenu.log.Write($"Saved setting saveLogOnExit as {saveLogOnExit}", "Info");
 
-            //Save the enable hammer exit settings
-            Properties.Settings.Default.enableHammer = Convert.ToBoolean(cbEnableHammer.IsChecked);
-            wndMenu.log.Write($"Saved setting enableHammer as {Properties.Settings.Default.enableHammer}", "Info");
+            writer.WritePropertyName("save_world_on_close");
+            writer.WriteValue(cbSaveWorldWhenClosing.IsChecked);
+            saveWorldOnClose = Convert.ToBoolean(cbSaveWorldWhenClosing.IsChecked);
+            wndMenu.log.Write($"Saved setting saveWorldOnClose as {saveWorldOnClose}", "Info");
 
-            //Save the enable cave generation exit settings
-            Properties.Settings.Default.enableCaveGeneration = Convert.ToBoolean(cbEnableCaveGeneration.IsChecked);
-            wndMenu.log.Write($"Saved setting enableCaveGeneration as {Properties.Settings.Default.enableCaveGeneration}", "Info");
+            writer.WritePropertyName("enable_hammer");
+            writer.WriteValue(cbEnableHammer.IsChecked);
+            enableHammer = Convert.ToBoolean(cbEnableHammer.IsChecked);
+            wndMenu.log.Write($"Saved setting enableHammer as {enableHammer}", "Info");
 
-            //Save the enable lighting settings
-            Properties.Settings.Default.enableLighting = Convert.ToBoolean(cbEnableLighting.IsChecked);
-            wndMenu.log.Write($"Saved setting enableLighting as {Properties.Settings.Default.enableLighting}", "Info");
+            writer.WritePropertyName("enable_cave_generation");
+            writer.WriteValue(cbEnableCaveGeneration.IsChecked);
+            enableCaveGeneration = Convert.ToBoolean(cbEnableCaveGeneration.IsChecked);
+            wndMenu.log.Write($"Saved setting enableCaveGeneration as {enableCaveGeneration}", "Info");
 
-            //Save the selected texturepack
-            Properties.Settings.Default.texturepack = cbxTexturepack.SelectedItem.ToString();
-            wndMenu.log.Write($"Saved setting texturepack as {Properties.Settings.Default.texturepack}", "Info");
+            writer.WritePropertyName("enable_lighting");
+            writer.WriteValue(cbEnableLighting.IsChecked);
+            enableLighting = Convert.ToBoolean(cbEnableLighting.IsChecked);
+            wndMenu.log.Write($"Saved setting enableLighting as {enableLighting}", "Info");
 
-            //Save the settings
-            Properties.Settings.Default.Save();
+            writer.WritePropertyName("texturepack");
+            writer.WriteValue(cbxTexturepack.Text);
+            texturepack = cbxTexturepack.Text;
+            wndMenu.log.Write($"Saved setting texturepack as {texturepack}", "Info");
+
+            writer.WriteEndObject();
+
+            writer.WritePropertyName("keybinds");
+
+            //Save all the keybinds
+            writer.WriteStartObject();
+            writer.WritePropertyName("move_right");
+            writer.WriteValue(tbMoveRight.Text);
+            cMoveRight = keyConverter.StringToKey(tbMoveRight.Text);
+            writer.WritePropertyName("move_left");
+            writer.WriteValue(tbMoveLeft.Text);
+            cMoveLeft = keyConverter.StringToKey(tbMoveLeft.Text);
+            writer.WritePropertyName("jump");
+            writer.WriteValue(tbJump.Text);
+            cJump = keyConverter.StringToKey(tbJump.Text);
+            writer.WritePropertyName("show_inventory");
+            writer.WriteValue(tbOpenInventory.Text);
+            cShowInv = keyConverter.StringToKey(tbOpenInventory.Text);
+            writer.WritePropertyName("toggle_debug_menu");
+            writer.WriteValue(tbToggleDebugMenu.Text);
+            cToggleDebug = keyConverter.StringToKey(tbToggleDebugMenu.Text);
+            writer.WriteEndObject();
+
+            writer.WriteEndObject();
+
+            MessageBox.Show("The settings have been saved successfully!", "Saved settings", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void LoadSettings()
+        private void LoadSettings(JToken fileToken)
         {
-            //Load the log save setting
-            cbSaveLogOnExit.IsChecked = Properties.Settings.Default.saveLogOnExit;
+            //Get the settings from the JSON file
+            try
+            {
+                JToken settingsToken = new JsonPointer("/settings").Evaluate(fileToken);
+                JToken keybindsToken = new JsonPointer("/keybinds").Evaluate(fileToken);
 
-            //Load the save on world exit setting
-            cbSaveWorldWhenClosing.IsChecked = Properties.Settings.Default.saveWorldOnClose;
+                saveLogOnExit = (bool)new JsonPointer("/save_log_on_exit").Evaluate(settingsToken);
+                saveWorldOnClose = (bool)new JsonPointer("/save_world_on_close").Evaluate(settingsToken);
+                enableHammer = (bool)new JsonPointer("/enable_hammer").Evaluate(settingsToken);
+                enableCaveGeneration = (bool)new JsonPointer($"/enable_cave_generation").Evaluate(settingsToken);
+                enableLighting = (bool)new JsonPointer($"/enable_lighting").Evaluate(settingsToken);
+                texturepack = (string)new JsonPointer($"/texturepack").Evaluate(settingsToken);
 
-            //Load the enable hammer setting
-            cbEnableHammer.IsChecked = Properties.Settings.Default.enableHammer;
+                cMoveRight = keyConverter.StringToKey((string)new JsonPointer($"/move_right").Evaluate(keybindsToken));
+                cMoveLeft = keyConverter.StringToKey((string)new JsonPointer($"/move_left").Evaluate(keybindsToken));
+                cJump = keyConverter.StringToKey((string)new JsonPointer($"/jump").Evaluate(keybindsToken));
+                cShowInv = keyConverter.StringToKey((string)new JsonPointer($"/show_inventory").Evaluate(keybindsToken));
+                cToggleDebug = keyConverter.StringToKey((string)new JsonPointer($"/toggle_debug_menu").Evaluate(keybindsToken));
+            }
+            catch (Exception ex)
+            {
+                wndMenu.log.Write($"Error loading settings from file: {ex}", "Error");
+            }
 
-            //Load the enable lighting setting
-            cbEnableLighting.IsChecked = Properties.Settings.Default.enableLighting;
+            //Change the checkboxes and textboxes to the loaded values
+            cbSaveLogOnExit.IsChecked = saveLogOnExit;
+            cbSaveWorldWhenClosing.IsChecked = saveWorldOnClose;
+            cbEnableHammer.IsChecked = enableHammer;
+            cbEnableCaveGeneration.IsChecked = enableCaveGeneration;
+            cbEnableLighting.IsChecked = enableLighting;
+            tblTexturepack.Text = texturepack;
 
-            //Load the enable cave generation exit setting
-            cbEnableCaveGeneration.IsChecked = Properties.Settings.Default.enableCaveGeneration;
+            tbMoveRight.Text = keyConverter.KeyToString(cMoveRight);
+            tbMoveLeft.Text = keyConverter.KeyToString(cMoveLeft);
+            tbJump.Text = keyConverter.KeyToString(cJump);
+            tbOpenInventory.Text = keyConverter.KeyToString(cShowInv);
+            tbToggleDebugMenu.Text = keyConverter.KeyToString(cToggleDebug);
 
             //Load the texturepacks
             GetTexturepacks();
@@ -102,9 +185,9 @@ namespace SeeloewenCraft
             }
 
             //Try to load default texturepack
-            if (cbxTexturepack.Items.Contains(Properties.Settings.Default.texturepack))
+            if (cbxTexturepack.Items.Contains(texturepack))
             {
-                cbxTexturepack.SelectedItem = Properties.Settings.Default.texturepack;
+                cbxTexturepack.SelectedItem = texturepack;
                 ApplyTexturepack();
             }
 
@@ -177,8 +260,15 @@ namespace SeeloewenCraft
 
         private void btnSaveClose_Click(object sender, RoutedEventArgs e)
         {
-            //Save the settings - WIP: Will get a rework later, currently resets when updating/reinstalling the app
-            SaveSettings();
+            //Save the settings
+            StringBuilder sb = new StringBuilder();
+            StringWriter sw = new StringWriter(sb);
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                writer.Formatting = Formatting.Indented;
+                SaveSettings(writer);
+            }
+            File.WriteAllText($"{wndMenu.gameDirectory}/clientSettings.json", sw.ToString());
             Close();
         }
 
@@ -200,6 +290,46 @@ namespace SeeloewenCraft
         {
             //Show the log
             wndMenu.log.Show();
+        }
+
+        private void tbMoveRight_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            //Display key in textbox
+            e.Handled = true;
+            string keyText = keyConverter.KeyToString(e.Key);
+            tbMoveRight.Text = keyText;
+        }
+
+        private void tbMoveLeft_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            //Display key in textbox
+            e.Handled = true;
+            string keyText = keyConverter.KeyToString(e.Key);
+            tbMoveLeft.Text = keyText;
+        }
+
+        private void tbJump_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            //Display key in textbox
+            e.Handled = true;
+            string keyText = keyConverter.KeyToString(e.Key);
+            tbJump.Text = keyText;
+        }
+
+        private void tbOpenInventory_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            //Display key in textbox
+            e.Handled = true;
+            string keyText = keyConverter.KeyToString(e.Key);
+            tbOpenInventory.Text = keyText;
+        }
+
+        private void tbToggleDebugMenu_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            //Display key in textbox
+            e.Handled = true;
+            string keyText = keyConverter.KeyToString(e.Key);
+            tbToggleDebugMenu.Text = keyText;
         }
     }
 }

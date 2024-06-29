@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml.Linq;
 
+
 namespace SeeloewenCraft
 {
     public partial class wndGame : Window
@@ -36,29 +37,7 @@ namespace SeeloewenCraft
         //-- Custom Methods --//
         private void HandleKeyPresses()
         {
-            if (pressedKeys.Contains(Key.A)) //A key
-            {
-                //Start going left
-                goLeftAmount = 5;
-                goLeft = true;
-            }
-            else
-            {
-                //Stop going left
-                goLeft = false;
-            }
-            if (pressedKeys.Contains(Key.D)) //D key
-            {
-                //Start going right
-                goRightAmount = 5;
-                goRight = true;
-            }
-            else
-            {
-                //Stop going right
-                goRight = false;
-            }
-            if (pressedKeys.Contains(Key.E)) //E key
+            if (pressedKeys.Contains(world.wndMenu.wndSettings.cShowInv)) //E key
             {
 
                 int amountInventoriesOpen = 0;
@@ -145,7 +124,7 @@ namespace SeeloewenCraft
                     bdrMenu.IsEnabled = true;
                 }
             }
-            if(pressedKeys.Contains(Key.F3))
+            if(pressedKeys.Contains(world.wndMenu.wndSettings.cToggleDebug))
             {
                 //Open debug menu
                 if(world.debugMenu.isEnabled)
@@ -453,7 +432,7 @@ namespace SeeloewenCraft
             if (world.finishedLoading)
             {
                 world.tmrMovement.Stop();
-                if (Properties.Settings.Default.saveWorldOnClose == true)
+                if (world.wndMenu.wndSettings.saveWorldOnClose == true)
                 {
                     //Save all chunks and the inventory of the player
                     foreach (Chunk chunk in world.currentChunkList)
@@ -486,8 +465,8 @@ namespace SeeloewenCraft
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             //Show settings window
-            world.wndSettings = new wndSettings(world.wndMenu);
-            world.wndSettings.ShowDialog();
+            world.wndMenu.wndSettings = new wndSettings(world.wndMenu);
+            world.wndMenu.wndSettings.ShowDialog();
         }
 
         private void btnSaveWorld_Click(object sender, RoutedEventArgs e)
