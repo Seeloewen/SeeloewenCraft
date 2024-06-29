@@ -235,58 +235,6 @@ namespace SeeloewenCraft
 
         //-- Event Handlers --//
 
-        private void btnLeft_Click(object sender, RoutedEventArgs e)
-        {
-            //Development control, not meant for normal use
-
-            //Move all chunks 50 to the right
-            foreach (Chunk chunk in world.currentChunkList)
-            {
-                Canvas.SetLeft(chunk.grdChunk, Canvas.GetLeft(chunk.grdChunk) + 50);
-            }
-
-            //Sort the chunklist to account for the chunk movement
-            world.currentChunkList = world.currentChunkList.OrderBy(chunk => Canvas.GetLeft(chunk.grdChunk)).ToList();
-
-            //Check if the chunk has moved too far and move the chunk on the far right all the way to the left
-            if (Canvas.GetLeft(world.currentChunkList[2].grdChunk) == 800)
-            {
-                world.currentChunkList.Remove(world.GetFromCurrentChunks(world.currentChunkList[4].index));
-                world.currentChunkList.Add(new Chunk(world, world.currentChunkList[0].index - 1));
-                cvsWorld.Children.Add(world.currentChunkList[4].grdChunk);
-                Canvas.SetLeft(world.currentChunkList[4].grdChunk, -400);
-
-                //Sort chunklist again
-                world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-            }
-        }
-
-        private void btnRight_Click(object sender, RoutedEventArgs e)
-        {
-            //Development control, not meant for normal use
-
-            //Move all chunks 50 to the left
-            foreach (Chunk chunk in world.currentChunkList)
-            {
-                Canvas.SetLeft(chunk.grdChunk, Canvas.GetLeft(chunk.grdChunk) - 50);
-            }
-
-            //Sort the chunklist to account for the chunk movement
-            world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-
-            //Check if the chunk has moved too far and move the chunk on the far left all the way to the right
-            if (Canvas.GetLeft(world.currentChunkList[2].grdChunk) == 0)
-            {
-                world.currentChunkList.Remove(world.GetFromCurrentChunks(world.currentChunkList[0].index));
-                world.currentChunkList.Add(new Chunk(world, world.currentChunkList[3].index + 1));
-                cvsGame.Children.Add(world.currentChunkList[4].grdChunk);
-                Canvas.SetLeft(world.currentChunkList[4].grdChunk, 1200);
-
-                //Sort chunklist again
-                world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-            }
-        }
-
         private void btnDebug_Click(object sender, RoutedEventArgs e)
         {
             //Currently development control, not meant for normal use yet. Will get an rework at a later point inn development to allow normal use
@@ -296,7 +244,7 @@ namespace SeeloewenCraft
             if (tbDebug.Text == "/help")
             {
                 //Show help messaged
-                MessageBox.Show("List of commands (For debug purposes only!):\n/help - Shows this page\n/generateplayer - Runs the generation method of player\n/toggleinv - Opens or closes the inventory\n/showdevcontrols - Shows the controls only meant for developing\n/hidedevcontrols - Hides the development controls\n/give chest - Gives the player a chest item\n/resetview - Reset the scrollviewer location\n/give magmablock - Gives the player a magma block", "/help");
+                MessageBox.Show("List of commands (For debug purposes only!):\n/help - Shows this page\n/generateplayer - Runs the generation method of player\n/toggleinv - Opens or closes the inventory\n/give chest - Gives the player a chest item\n/resetview - Reset the scrollviewer location\n/give magmablock - Gives the player a magma block", "/help");
             }
             else if (tbDebug.Text == "/generateplayer")
             {
@@ -314,26 +262,6 @@ namespace SeeloewenCraft
                 {
                     world.player.inventory.ShowInventory();
                 }
-            }
-            else if (tbDebug.Text == "/showdevcontrols")
-            {
-                //Show all development controls like player or chunk movement buttons
-                btnLeft.Visibility = Visibility.Visible;
-                btnRight.Visibility = Visibility.Visible;
-                btnPlayerDown.Visibility = Visibility.Visible;
-                btnPlayerUp.Visibility = Visibility.Visible;
-                btnPlayerLeft.Visibility = Visibility.Visible;
-                btnPlayerRight.Visibility = Visibility.Visible;
-            }
-            else if (tbDebug.Text == "/hidedevcontrols")
-            {
-                //Hide all development controls
-                btnLeft.Visibility = Visibility.Hidden;
-                btnRight.Visibility = Visibility.Hidden;
-                btnPlayerDown.Visibility = Visibility.Hidden;
-                btnPlayerUp.Visibility = Visibility.Hidden;
-                btnPlayerLeft.Visibility = Visibility.Hidden;
-                btnPlayerRight.Visibility = Visibility.Hidden;
             }
             else if (tbDebug.Text.Contains("/give chest"))
             {
@@ -355,28 +283,6 @@ namespace SeeloewenCraft
 
             //Clear the chat box after execution
             tbDebug.Clear();
-        }
-
-        private void btnPlayerRight_Click(object sender, RoutedEventArgs e)
-        {
-            //Development control, not meant for normal use
-            //Move player to the right by 5
-            world.player.MoveHorizontal(10);
-
-        }
-
-        private void btnPlayerLeft_Click(object sender, RoutedEventArgs e)
-        {
-            //Development control, not meant for normal use
-            //Move player to the left by 5
-            world.player.MoveHorizontal(-10);
-        }
-
-        private void btnPlayerDown_Click(object sender, RoutedEventArgs e)
-        {
-            //Development control, not meant for normal use
-            //Move player down by 5
-            world.player.MoveVertical(5);
         }
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)

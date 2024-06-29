@@ -154,7 +154,7 @@ namespace SeeloewenCraft
             cbEnableHammer.IsChecked = enableHammer;
             cbEnableCaveGeneration.IsChecked = enableCaveGeneration;
             cbEnableLighting.IsChecked = enableLighting;
-            tblTexturepack.Text = texturepack;
+            cbxTexturepack.Text = texturepack;
 
             tbMoveRight.Text = keyConverter.KeyToString(cMoveRight);
             tbMoveLeft.Text = keyConverter.KeyToString(cMoveLeft);
