@@ -20,7 +20,7 @@
                     <CheckBox x:Name="cbSaveWorldWhenClosing" Content="Save world when closing the game" RenderTransformOrigin="0.364,0.246" IsChecked="True" FontSize="18" Padding="4,-5,0,0" Canvas.Left="20" Canvas.Top="44" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <CheckBox x:Name="cbSaveLogOnExit" Content="Save log when exiting the game" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" Canvas.Left="20" Canvas.Top="68" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <TextBlock x:Name="tblGeneral" TextWrapping="Wrap" Text="General:" RenderTransformOrigin="0.069,-0.042" FontSize="18" Canvas.Left="20" Canvas.Top="10" FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <ComboBox x:Name="cbxTexturepack" Width="367" HorizontalAlignment="Left" Canvas.Left="19" Canvas.Top="142" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="cbxTexturepack" Width="367" HorizontalAlignment="Left" Canvas.Left="19" Canvas.Top="142" VerticalAlignment="Top" Text="default"/>
                     <Button x:Name="btnApplyTexturepack" Content="Apply" Height="22" Width="93" Click="btnApplyTexturepack_Click" HorizontalAlignment="Left" Canvas.Left="392" Canvas.Top="142" VerticalAlignment="Top"/>
                     <TextBlock x:Name="tblTexturepack" TextWrapping="Wrap" RenderTransformOrigin="0.285,0.455" FontSize="18" Width="127" Height="27" FontWeight="DemiBold" HorizontalAlignment="Left" Canvas.Left="20" Canvas.Top="115" VerticalAlignment="Top"><Run Text="Texturepa"/><Run Language="de-de" Text="ck:"/><LineBreak/><Run Language="de-de"/></TextBlock>
                 </Canvas>
@@ -40,12 +40,12 @@
                     <TextBlock x:Name="tblMoveLeft" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="84" HorizontalAlignment="Center" VerticalAlignment="Top"><Run Language="de-de" Text="Move Left"/></TextBlock>
                     <TextBlock x:Name="tblOpenInventory" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="146" HorizontalAlignment="Center" VerticalAlignment="Top"><Run Language="de-de" Text="Open Inventory"/></TextBlock>
                     <TextBlock x:Name="tblToggleDebugMenu" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="177" HorizontalAlignment="Center" VerticalAlignment="Top"><Run Language="de-de" Text="Toggle Debug Menu"/></TextBlock>
-                    <TextBox x:Name="tbMoveRight" Canvas.Left="339" TextWrapping="Wrap" Text="" Canvas.Top="53" Width="144" Height="24" HorizontalAlignment="Left" VerticalAlignment="Top" PreviewKeyDown="tbMoveRight_PreviewKeyDown"/>
-                    <TextBox x:Name="tbMoveLeft" Canvas.Left="339" TextWrapping="Wrap" Text="" Canvas.Top="82" Width="144" Height="24" HorizontalAlignment="Left" VerticalAlignment="Top" PreviewKeyDown="tbMoveLeft_PreviewKeyDown"/>
-                    <TextBox x:Name="tbOpenInventory" Canvas.Left="339" TextWrapping="Wrap" Text="" Canvas.Top="144" Width="144" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" PreviewKeyDown="tbOpenInventory_PreviewKeyDown"/>
-                    <TextBox x:Name="tbToggleDebugMenu" Canvas.Left="339" TextWrapping="Wrap" Text="" Canvas.Top="175" Width="144" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" PreviewKeyDown="tbToggleDebugMenu_PreviewKeyDown"/>
+                    <TextBox x:Name="tbMoveRight" Canvas.Left="339" TextWrapping="Wrap" Text="D" Canvas.Top="53" Width="144" Height="24" HorizontalAlignment="Left" VerticalAlignment="Top" PreviewKeyDown="tbMoveRight_PreviewKeyDown"/>
+                    <TextBox x:Name="tbMoveLeft" Canvas.Left="339" TextWrapping="Wrap" Text="A" Canvas.Top="82" Width="144" Height="24" HorizontalAlignment="Left" VerticalAlignment="Top" PreviewKeyDown="tbMoveLeft_PreviewKeyDown"/>
+                    <TextBox x:Name="tbOpenInventory" Canvas.Left="339" TextWrapping="Wrap" Text="E" Canvas.Top="144" Width="144" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" PreviewKeyDown="tbOpenInventory_PreviewKeyDown"/>
+                    <TextBox x:Name="tbToggleDebugMenu" Canvas.Left="339" TextWrapping="Wrap" Text="F3" Canvas.Top="175" Width="144" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" PreviewKeyDown="tbToggleDebugMenu_PreviewKeyDown"/>
                     <TextBlock x:Name="tblJump" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="115" HorizontalAlignment="Center" VerticalAlignment="Top"><Run Language="de-de" Text="Jump"/></TextBlock>
-                    <TextBox x:Name="tbJump" Canvas.Left="339" TextWrapping="Wrap" Text="" Canvas.Top="113" Width="144" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" PreviewKeyDown="tbJump_PreviewKeyDown"/>
+                    <TextBox x:Name="tbJump" Canvas.Left="339" TextWrapping="Wrap" Text="Space" Canvas.Top="113" Width="144" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" PreviewKeyDown="tbJump_PreviewKeyDown"/>
                 </Canvas>
             </TabItem>
         </TabControl>

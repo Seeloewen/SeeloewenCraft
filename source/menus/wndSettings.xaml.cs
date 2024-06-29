@@ -51,13 +51,32 @@ namespace SeeloewenCraft
             this.wndMenu = wndMenu;
             InitializeComponent();
 
-            string documentText = File.ReadAllText($"{wndMenu.gameDirectory}\\clientSettings.json");
-            JToken documentToken = JToken.Parse(documentText);
-            LoadSettings(documentToken);
+            //If the settings file exists, load it
+            if(File.Exists($"{wndMenu.gameDirectory}\\clientSettings.json"))
+            {
+                wndMenu.log.Write("Settings file was found, loading settings...", "Info");
+                string documentText = File.ReadAllText($"{wndMenu.gameDirectory}\\clientSettings.json");
+                JToken documentToken = JToken.Parse(documentText);
+                LoadSettings(documentToken);
+            }
+            else
+            {
+                wndMenu.log.Write("No settings file was found, creating a new one...", "Info");
+
+                //If not, create a new one
+                StringBuilder sb = new StringBuilder();
+                StringWriter sw = new StringWriter(sb);
+                using (JsonWriter writer = new JsonTextWriter(sw))
+                {
+                    writer.Formatting = Formatting.Indented;
+                    SaveSettings(writer, true);
+                }
+                File.WriteAllText($"{wndMenu.gameDirectory}\\clientSettings.json", sw.ToString());
+            }        
         }
 
         //-- Custom Methods --//
-        private void SaveSettings(JsonWriter writer)
+        private void SaveSettings(JsonWriter writer, bool suppressConfirmation)
         {
             writer.WriteStartObject();
             writer.WritePropertyName("settings");
@@ -119,7 +138,10 @@ namespace SeeloewenCraft
 
             writer.WriteEndObject();
 
-            MessageBox.Show("The settings have been saved successfully!", "Saved settings", MessageBoxButton.OK, MessageBoxImage.Information);
+            if(!suppressConfirmation)
+            {
+                MessageBox.Show("The settings have been saved successfully!", "Saved settings", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void LoadSettings(JToken fileToken)
@@ -266,9 +288,9 @@ namespace SeeloewenCraft
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 writer.Formatting = Formatting.Indented;
-                SaveSettings(writer);
+                SaveSettings(writer, false);
             }
-            File.WriteAllText($"{wndMenu.gameDirectory}/clientSettings.json", sw.ToString());
+            File.WriteAllText($"{wndMenu.gameDirectory}\\clientSettings.json", sw.ToString());
             Close();
         }
 
