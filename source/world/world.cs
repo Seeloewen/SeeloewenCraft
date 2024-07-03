@@ -9,6 +9,7 @@ using Microsoft.Json.Pointer;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Controls;
+using System.Text;
 
 namespace SeeloewenCraft
 {
@@ -131,20 +132,17 @@ namespace SeeloewenCraft
         public int GetWorldVersion(string worldName)
         {
             //Check if the world settings file exists
-            if (File.Exists($"{worldDirectory}\\settings.txt"))
+            if (File.Exists($"{worldDirectory}/world_settings.json"))
             {
-                try
-                {
-                    string[] fileContent = File.ReadAllLines($"{worldDirectory}\\settings.txt");
-                    int worldVersion = Convert.ToInt32(fileContent[1].Replace("worldVersion=", ""));
-                    log.Write($"Read world version {fileContent[1].Replace("worldVersion=", "")} from settings file", "Info");
-                    return worldVersion;
-                }
-                catch (Exception ex)
-                {
-                    log.Write($"Could not read world version from settings file: {ex.Message}", "Error");
-                    return 0;
-                }
+                string documentText = File.ReadAllText($"{worldDirectory}/world_settings.json");
+                JToken documentToken = JToken.Parse(documentText);
+
+                return (int)new JsonPointer("/world_version").Evaluate(documentToken);
+            }
+            else if (File.Exists($"{worldDirectory}/settings.txt"))
+            {
+                log.Write("Detected old saving system, can't load", "Error");
+                return 0;
             }
             else
             {
@@ -174,17 +172,22 @@ namespace SeeloewenCraft
             worldDirectory = $"{wndMenu.worldDirectory}\\{worldName}";
             log.Write($"Set directory for world {worldName} to {worldDirectory}", "Info");
 
-            //Check if the world settings file exists and create it otherwise
-            if (!File.Exists($"{worldDirectory}\\settings.txt"))
+            //write world version to settings.json
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+
+            using (JsonWriter writer = new JsonTextWriter(sw))
             {
-                List<string> worldSettings = new List<string>
-                {
-                    $"#SeeloewenCraft World Settings",
-                    $"worldVersion={worldVersion}"
-                };
-                File.WriteAllLines($"{worldDirectory}\\settings.txt", worldSettings);
-                log.Write($"Created settings file for world {worldName}: {worldDirectory}\\settings.txt", "Info");
+                writer.Formatting = Formatting.Indented;
+
+                writer.WriteStartObject();
+
+                writer.WritePropertyName("world_version");
+                writer.WriteValue(worldVersion);
+
+                writer.WriteEndObject();
             }
+            File.WriteAllText($"{worldDirectory}/world_settings.json", sb.ToString());
 
             //Check if the player position exists
             bool loadedPlayerPosExists = File.Exists($"{worldDirectory}/player_position.json");
