@@ -438,7 +438,7 @@ namespace SeeloewenCraft
 
         public override void RightClickAction(Block block, object sender)
         {
-            if (block.isBackground && block.canBeMovedToBackground && block.IsInRange())
+            if (block.isBackground && block.canBeMovedToBackground && block.IsInRange() && block.foregroundBlock == null)
             {
                 block.MoveToForeground();
             }
