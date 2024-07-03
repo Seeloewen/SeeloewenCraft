@@ -116,7 +116,7 @@ namespace SeeloewenCraft
             {
                 Block blockBelow = chunk.GetBlock(block.xPos, block.yPos + 1);
 
-                if (blockBelow != null && (!blockBelow.isSolid && (!blockBelow.tags.Contains("liquids/water") || blockBelow.waterLevel < 6)) || (blockBelow.isBackground && (blockBelow.foregroundBlock == null || (block.foregroundBlock != null && block.foregroundBlock.waterLevel < 6))))
+                if (blockBelow != null && (blockBelow.isReplacable && (!blockBelow.tags.Contains("liquids/water") || blockBelow.waterLevel < 6)) || (blockBelow.isBackground && (blockBelow.foregroundBlock == null || (block.foregroundBlock != null && block.foregroundBlock.waterLevel < 6))))
                 {
                     Block newWater = new WaterBlock_6(world, block.xPos, block.yPos + 1, chunk, null, false);
                     SetSourceBlock(block, newWater);
@@ -133,14 +133,14 @@ namespace SeeloewenCraft
 
                         if (blockRight != null && blockLeft != null)
                         {
-                            if ((!blockRight.isSolid && (!blockRight.tags.Contains("liquids/water") || blockRight.waterLevel < block.waterLevel - 1)) || (blockRight.isBackground && blockRight.foregroundBlock == null))
+                            if ((blockRight.isReplacable && (!blockRight.tags.Contains("liquids/water") || blockRight.waterLevel < block.waterLevel - 1)) || (blockRight.isBackground && blockRight.foregroundBlock == null))
                             {
                                 //Expand to the right
                                 Block newWater = CreateWaterBlock(block.waterLevel - 1, "right", block.xPos + 1, block.yPos, chunk);
                                 SetSourceBlock(block, newWater);
                                 newBlocks.Add(newWater);
                             }
-                            if ((!blockLeft.isSolid && (!blockLeft.tags.Contains("liquids/water") || blockLeft.waterLevel < block.waterLevel - 1)) || (blockLeft.isBackground && blockLeft.foregroundBlock == null))
+                            if ((blockLeft.isReplacable && (!blockLeft.tags.Contains("liquids/water") || blockLeft.waterLevel < block.waterLevel - 1)) || (blockLeft.isBackground && blockLeft.foregroundBlock == null))
                             {
                                 //Expand to the left
                                 Block newWater = CreateWaterBlock(block.waterLevel - 1, "left", block.xPos - 1, block.yPos, chunk);
@@ -159,7 +159,7 @@ namespace SeeloewenCraft
             {
                 if (!blockBelow.isBackground)
                 {
-                    if (blockBelow.isSolid && !blockBelow.tags.Contains("liquids/water"))
+                    if (!blockBelow.isReplacable && !blockBelow.tags.Contains("liquids/water"))
                     {
                         return true;
                     }
