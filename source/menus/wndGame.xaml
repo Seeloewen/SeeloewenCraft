@@ -9,14 +9,8 @@
         <ScrollViewer x:Name="svWorld" Height="839" Width="1218" PreviewMouseWheel="svWorld_PreviewMouseWheel">
             <Canvas x:Name="cvsWorld" Height="3785" Background="#FFBCF4F7"/>
         </ScrollViewer>
-        <Button x:Name="btnPlayerRight" Canvas.ZIndex="1" Content="Player Right" Canvas.Left="1070" Canvas.Top="71" Width="104" Height="42" HorizontalAlignment="Left" VerticalAlignment="Center" Click="btnPlayerRight_Click" Visibility="Hidden"/>
-        <Button x:Name="btnPlayerLeft" Canvas.ZIndex="1" Content="Player Left" Canvas.Left="958" Canvas.Top="71" Width="104" Height="42" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnPlayerLeft_Click" Visibility="Hidden"/>
-        <Button x:Name="btnLeft" Canvas.ZIndex="1" Content="&lt;" Canvas.Left="1070" Canvas.Top="10" Height="41" Width="42" HorizontalAlignment="Left" VerticalAlignment="Center" Click="btnLeft_Click" Visibility="Hidden"/>
-        <Button x:Name="btnRight" Canvas.ZIndex="1" Content="&gt;" Canvas.Left="1130" Canvas.Top="10" Height="41" Width="44" HorizontalAlignment="Left" VerticalAlignment="Center" Click="btnRight_Click" Visibility="Hidden"/>
         <Button x:Name="btnDebug" Canvas.ZIndex="1" Content="Send" Canvas.Left="1073" Canvas.Top="760" Height="28" Width="115" Click="btnDebug_Click" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         <TextBox x:Name="tbDebug" Canvas.ZIndex="1" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="760" Width="1052" HorizontalAlignment="Center" VerticalAlignment="Top" Height="28" FontSize="15"/>
-        <Button x:Name="btnPlayerDown" Panel.ZIndex="1" Content="Player Down" Canvas.Left="958" Canvas.Top="131" Width="104" Height="42" Click="btnPlayerDown_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Hidden"/>
-        <Button x:Name="btnPlayerUp" Panel.ZIndex="1" Content="Player Up" Canvas.Left="1073" Canvas.Top="131" Width="104" Height="42" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden"/>
         <Border x:Name="bdrMenu" BorderBrush="#FF252525" BorderThickness="2" Height="339" Width="379" Canvas.Left="396" Canvas.Top="152" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="6" Background="#FFC8C8C8" Visibility="Hidden">
             <Canvas x:Name ="cvsMenu"  RenderTransformOrigin="0.86,0.68" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFCECCCC" Visibility="Visible" Margin="15,15,0,0">
                 <Button x:Name="btnBackToGame" Content="Back to Game" Canvas.Left="10" Canvas.Top="70" Height="47" Width="327" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="22" Click="btnBackToGame_Click"/>

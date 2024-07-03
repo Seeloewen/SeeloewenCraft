@@ -88,7 +88,7 @@ namespace SeeloewenCraft
             this.block.SetContainer(this);
 
             //Check if the block has a lightsource in range and set lightlevel
-            if (Properties.Settings.Default.enableLighting)
+            if (world.wndMenu.wndSettings.enableLighting)
             {
                 block.SetLightLevel(block.RangeToLightSource());
                 block.UpdateNearbyBlocks();
@@ -111,7 +111,7 @@ namespace SeeloewenCraft
             cvsForegroundBlock.Background = block.image;
 
             //Check if the block has a lightsource in range and set lightlevel
-            if (Properties.Settings.Default.enableLighting)
+            if (world.wndMenu.wndSettings.enableLighting)
             {
                 this.block.SetLightLevel(this.block.RangeToLightSource());
                 this.block.UpdateNearbyBlocks();
@@ -128,7 +128,7 @@ namespace SeeloewenCraft
                 cvsForegroundBlock.Background = new SolidColorBrush(Colors.Transparent);
 
                 //Check if the block has a lightsource in range and set lightlevel
-                if (Properties.Settings.Default.enableLighting)
+                if (world.wndMenu.wndSettings.enableLighting)
                 {
                     block.SetLightLevel(block.RangeToLightSource());
                     block.UpdateNearbyBlocks();

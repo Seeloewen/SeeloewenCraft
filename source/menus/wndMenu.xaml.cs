@@ -21,13 +21,13 @@ namespace SeeloewenCraft
 
         private System.Windows.Forms.Timer tmrSplashText = new System.Windows.Forms.Timer();
         private wndLoadWorld wndLoadWorld;
-        private wndSettings wndSettings;
+        public wndSettings wndSettings;
         public World world;
         public Log log;
         private int splashTextSize = 0;
-        public int worldVersion = 2;
-        public string gameVersion = "Alpha 1.1.5";
-        public string versionDate = "25.06.2024";
+        public int worldVersion = 3;
+        public string gameVersion = "Alpha 1.1.6-Dev2";
+        public string versionDate = "29.06.2024";
         public string gameDirectory;
         public string texturepackDirectory;
         public string logDirectory;
@@ -108,7 +108,7 @@ namespace SeeloewenCraft
         private void wndMenu1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //Save the log, if enabled
-            if (Properties.Settings.Default.saveLogOnExit)
+            if (wndSettings.saveLogOnExit)
             {
                 log.Save(logDirectory, false);
             }

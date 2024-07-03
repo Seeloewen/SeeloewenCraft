@@ -88,8 +88,11 @@ namespace SeeloewenCraft
             cvsPlayer.Background = new SolidColorBrush(Colors.Red);
 
             world.log.Write($"Created player at position x{x} y{y}", "Info");
-        }
 
+            //Add initial debug menu lines
+            world.debugMenu.AddLine(world.debugMenu.tblGameStats, "v_x");
+            world.debugMenu.AddLine(world.debugMenu.tblGameStats, "v_y");
+        }
 
         public void SavePosition(string path)
         {
@@ -144,7 +147,7 @@ namespace SeeloewenCraft
             bool coordsDetermined = false;
 
             //iterate over every solid block
-            foreach (Chunk chunk in getCurrentChunks())
+            foreach (Chunk chunk in GetCurrentChunks())
             {
                 foreach (Block block in chunk.blockList.blocks)
                 {
@@ -325,6 +328,8 @@ namespace SeeloewenCraft
             //move with amount of acual pixels
             MoveHorizontal(d_x);
             MoveVertical(d_y);
+
+            DisplayDebugInformation();
         }
 
         //block origin means top left corner of the block relative to the top left corner of player
@@ -408,7 +413,7 @@ namespace SeeloewenCraft
 
 
 
-        public List<Chunk> getCurrentChunks()
+        public List<Chunk> GetCurrentChunks()
         {
             //Create a list of the chunks the player is currently in by checking collision
             List<Chunk> chunkList = new List<Chunk>();
@@ -421,6 +426,15 @@ namespace SeeloewenCraft
             }
 
             return chunkList;
+        }
+
+        public void DisplayDebugInformation()
+        {
+            if (world.debugMenu.isEnabled)
+            {
+                world.debugMenu.ChangeLine(world.debugMenu.tblGameStats, "v_x", $"v_x={v_x}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblGameStats, "v_y", $"v_y={v_y}");
+            }
         }
     }
 }

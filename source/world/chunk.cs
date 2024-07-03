@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Media;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
@@ -252,7 +253,7 @@ namespace SeeloewenCraft
                     block.MoveToBackground();
                 }
                 //Render foreground blocks
-                else if(block.isForeground)
+                else if (block.isForeground)
                 {
                     blockList.Get(block.xPos, block.yPos).PlaceInForeground(block);
                 }
@@ -270,11 +271,11 @@ namespace SeeloewenCraft
                 else
                 {
                     return null;
-                }    
+                }
             }
             else if (x < 1)
             {
-                if(world.GetFromCurrentChunks(index - 1) != null)
+                if (world.GetFromCurrentChunks(index - 1) != null)
                 {
                     return world.GetFromCurrentChunks(index - 1).GetBlock(x + 8, y);
                 }
