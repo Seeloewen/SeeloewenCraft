@@ -357,45 +357,35 @@ namespace SeeloewenCraft
             {
                 double offset = -Canvas.GetLeft(world.currentChunkList[2].grdChunk);
                 //Save the chunk that has moved to far and remove it. Add a new one at the opposite site.
-                if (world.showBlockInfo) world.GetFromCurrentChunks(world.currentChunkList[0].index).HideBlockInfo();
                 world.currentChunkList.Remove(world.GetFromCurrentChunks(world.currentChunkList[0].index));
                 world.currentChunkList.Add(world.GetChunk(world.currentChunkList[3].index + 1));
                 try
                 {
                     world.wndGame.cvsWorld.Children.Add(world.currentChunkList[4].grdChunk);
                 }
-                catch
-                {
-
-                }
+                catch { }
                 Canvas.SetLeft(world.currentChunkList[4].grdChunk, 1200 - offset);
 
                 //Sort the chunklist again
                 world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
 
-                if (world.showBlockInfo) world.GetFromCurrentChunks(world.currentChunkList[4].index).ShowBlockInfo();
             }
             else if (Canvas.GetLeft(world.currentChunkList[2].grdChunk) >= 800)
             {
                 double offset = Canvas.GetLeft(world.currentChunkList[2].grdChunk) - 800;
                 //Move the chunk on the right all the way to the left
-                if (world.showBlockInfo) world.GetFromCurrentChunks(world.currentChunkList[4].index).HideBlockInfo();
                 world.currentChunkList.Remove(world.GetFromCurrentChunks(world.currentChunkList[4].index));
                 world.currentChunkList.Add(world.GetChunk(world.currentChunkList[0].index - 1));
                 try
                 {
                     world.wndGame.cvsWorld.Children.Add(world.currentChunkList[4].grdChunk);
                 }
-                catch
-                {
-
-                }
+                catch { }
                 Canvas.SetLeft(world.currentChunkList[4].grdChunk, -400 + offset);
 
                 //Sort the list again
                 world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
 
-                if (world.showBlockInfo) world.GetFromCurrentChunks(world.currentChunkList[0].index).ShowBlockInfo();
             }
         }
 
