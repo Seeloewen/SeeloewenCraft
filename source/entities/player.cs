@@ -24,6 +24,7 @@ namespace SeeloewenCraft
         public Canvas cvsPlayer = new Canvas();
         World world;
         public Inventory inventory;
+        public HealthBar healthBar;
 
         //-- Variables for physics --/
 
@@ -92,6 +93,10 @@ namespace SeeloewenCraft
             //Add initial debug menu lines
             world.debugMenu.AddLine(world.debugMenu.tblGameStats, "v_x");
             world.debugMenu.AddLine(world.debugMenu.tblGameStats, "v_y");
+
+            //Setup health bar
+            healthBar = new HealthBar(world, 10, 740);
+
         }
 
         public void SavePosition(string path)
