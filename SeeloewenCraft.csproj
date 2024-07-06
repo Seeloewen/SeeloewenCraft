@@ -23,6 +23,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\ChestBlock.png" />
+    <Resource Include="Resources\Gui.png" />
     <Resource Include="Resources\MagmaBlock.png" />
     <Resource Include="Resources\PumpkinBlock.png" />
   </ItemGroup>
@@ -90,9 +91,6 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Water_1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Water_2_Left.png" />
   </ItemGroup>
   <ItemGroup>
@@ -115,12 +113,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Water_5_Right.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Water_6_Left.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Water_6_Right.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Water_1_Left.png" />
@@ -155,6 +147,9 @@
     <Compile Remove="frmLog.cs" />
     <Compile Remove="frmLog.Designer.cs" />
     <EmbeddedResource Remove="frmLog.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\Gui.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">

@@ -20,12 +20,12 @@ namespace SeeloewenCraft
     public class Inventory
     {
         World world;
+        public InventoryGui inventoryGui;
         public List<InventorySlot> slotList = new List<InventorySlot>();
         public List<HotbarSlot> hotbarSlotList = new List<HotbarSlot>();
         public Grid grdInventory = new Grid();
         public Grid grdHotbar = new Grid();
         public string inventoryDirectory;
-        public bool isShown = false;
         public bool hasHotbar = false;
 
         //-- Constructuror --//
@@ -35,16 +35,14 @@ namespace SeeloewenCraft
             //Set the attributes
             this.world = world;
             this.hasHotbar = hasHotbar;
+            inventoryGui = new InventoryGui(world, 412, 859, 150, 175, "sc:inventory", this);
 
             //Create the inventory grid
-            grdInventory.Width = 900;
-            grdInventory.Height = 400;
-            grdInventory.Visibility = Visibility.Hidden;
-            grdInventory.Background = new SolidColorBrush(Colors.Gray);
-            Canvas.SetLeft(grdInventory, 150);
-            Canvas.SetTop(grdInventory, 100);
-            Panel.SetZIndex(grdInventory, 4);
-            world.wndGame.cvsGame.Children.Add(grdInventory);
+            grdInventory.Width = 800;
+            grdInventory.Height = 356;
+            Canvas.SetLeft(grdInventory, 28);
+            Canvas.SetTop(grdInventory, 36);
+            inventoryGui.cvsGui.Children.Add(grdInventory);
 
             //Add colums and rows to the grid
             for (int i = 0; i < 9; i++)
@@ -238,9 +236,12 @@ namespace SeeloewenCraft
         public void ShowInventory()
         {
             //Show the inventory and hide the hotbar
-            grdInventory.Visibility = Visibility.Visible;
-            HideHotbar();
-            isShown = true;
+            if (world.wndGame.bdrMenu.Visibility != Visibility.Visible)
+            {
+                Canvas.SetTop(grdInventory, 36);
+                inventoryGui.Show();
+                HideHotbar();
+            }
         }
 
         public void HideInventory()
@@ -248,8 +249,7 @@ namespace SeeloewenCraft
             //Hide the inventoy, update and show the hotbar
             UpdateHotbar();
             ShowHotbar();
-            grdInventory.Visibility = Visibility.Hidden;
-            isShown = false;
+            inventoryGui.Hide();
         }
 
         public void ShowHotbar()
