@@ -369,13 +369,12 @@ namespace SeeloewenCraft
                     world.wndGame.cvsWorld.Children.Add(world.currentChunkList[4].grdChunk);
                 }
                 catch { }
-
+              
                 Canvas.SetLeft(world.currentChunkList[4].grdChunk, 1200 - offset);
 
                 //Sort the chunklist again
                 world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-
-                }
+            }
             else if (Canvas.GetLeft(world.currentChunkList[2].grdChunk) >= 800)
             {
                 double offset = Canvas.GetLeft(world.currentChunkList[2].grdChunk) - 800;
@@ -390,7 +389,7 @@ namespace SeeloewenCraft
                 Canvas.SetLeft(world.currentChunkList[4].grdChunk, -400 + offset);
 
                 //Sort the list again
-                world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+                world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();           
             }
         }
 

@@ -30,16 +30,16 @@ namespace SeeloewenCraft
             this.yPos = yPos;
 
             //Setup the slot border
-            bdrSlot.Width = 100;
-            bdrSlot.Height = 100;
+            bdrSlot.Width = 91;
+            bdrSlot.Height = 91;
             bdrSlot.BorderThickness = new Thickness(3, 3, 3, 3);
             bdrSlot.Background = new SolidColorBrush(Colors.DarkGray);
             bdrSlot.MouseDown += bdrSlot_MouseDown;
 
             //Setup the slot textblock
             tblItemAmount.FontSize = 20;
-            Canvas.SetLeft(tblItemAmount, 50);
-            Canvas.SetTop(tblItemAmount, 45);
+            Canvas.SetLeft(tblItemAmount, 45);
+            Canvas.SetTop(tblItemAmount, 40);
         }
 
         //-- Custom Methods --//

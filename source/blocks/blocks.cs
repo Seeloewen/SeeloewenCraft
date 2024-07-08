@@ -385,6 +385,7 @@ namespace SeeloewenCraft
         {
             hasInventory = true;
             blockInventory = new Inventory(world, false);
+            world.inventoryList.Add(blockInventory);
             SetTexture();
             name = "Chest";
             id = "sc:chest_block";
@@ -406,8 +407,10 @@ namespace SeeloewenCraft
             if (IsInRange() && isSolid && hasInventory)
             {
                 //If the block has an inventory, open it as well as the players inventory
-                Canvas.SetTop(world.player.inventory.grdInventory, -10);
+                world.player.inventory.inventoryGui.SetTop(0);
                 world.player.inventory.ShowInventory();
+                blockInventory.inventoryGui.SetTop(400);
+                blockInventory.inventoryGui.tblHeader.Text = "Chest";
                 blockInventory.ShowInventory();
             }
         }
