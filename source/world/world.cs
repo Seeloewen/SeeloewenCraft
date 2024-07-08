@@ -24,6 +24,7 @@ namespace SeeloewenCraft
         public List<Inventory> inventoryList = new List<Inventory>();
         public List<BlockContainerList> blockContainerList = new List<BlockContainerList>();
         public List<Gui> guiList = new List<Gui>();
+        public List<craftingRecipe> craftingRecipeList = new List<craftingRecipe>();
         public Images images;
         public LootTables lootTables;
         public wndMenu wndMenu;
@@ -32,6 +33,7 @@ namespace SeeloewenCraft
         public WaterHandler waterHandler;
         public ClickHandler clickHandler;
         public DebugMenu debugMenu;
+        public craftingHandler craftingHandler;
 
         //Constants
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
@@ -64,6 +66,8 @@ namespace SeeloewenCraft
             waterHandler = new WaterHandler(this);
             clickHandler = new ClickHandler(this);
             debugMenu = new DebugMenu(this);
+            craftingHandler = new craftingHandler(this);
+            craftingHandler.CreateRecipes();
 
             worldDirectory = $"{wndMenu.worldDirectory}\\{worldName}";
 
@@ -252,6 +256,7 @@ namespace SeeloewenCraft
                     player.inventory.AddItem(new TorchItem(this, null));
                     player.inventory.AddItem(new WaterItem(this, null));
                     player.inventory.AddItem(new Plant2Item(this, null));
+                    player.inventory.AddItem(new MagmaBlockItem(this, null));
                 }
             }
 

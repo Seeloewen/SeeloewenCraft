@@ -428,6 +428,10 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Magma Block";
             id = "sc:magma_block";
+            hasRightClickAction= true;
+
+            //Debug
+            gui = new AlphaCrafterGui(world, 535, 720, 120, 200, "sc:alpha_crafter", null);
         }
 
         override public void GenerateItem(World world, int id)
@@ -441,7 +445,7 @@ namespace SeeloewenCraft
         }
         public override void RightClickAction(object sender)
         {
-            throw new NotImplementedException();
+            gui.Show();
         }
 
         public override void ShowAdditionalDebugInfo()

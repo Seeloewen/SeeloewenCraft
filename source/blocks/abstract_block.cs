@@ -35,6 +35,7 @@ namespace SeeloewenCraft
         public List<Block> connectedBlocks = new List<Block>();
         public Block baseBlock;
         public LootTable lootTable;
+        public Gui gui;
         private Random rnd;
         static int offset;
 
