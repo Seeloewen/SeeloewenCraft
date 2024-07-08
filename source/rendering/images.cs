@@ -100,10 +100,10 @@ namespace SeeloewenCraft
             Water_5_Right= new ImageBrush { ImageSource = GetImageSource("Water_5_Right.png") };
             Water_5_Left = new ImageBrush { ImageSource = GetImageSource("Water_5_Left.png") };
             Water_6 = new ImageBrush { ImageSource = GetImageSource("Water_6.png") };
+            Gui = new ImageBrush { ImageSource = GetImageSource("Gui.png") };
             HealthFull = new ImageBrush { ImageSource = GetImageSource("HealthFull.png") };
             HealthHalf = new ImageBrush { ImageSource = GetImageSource("HealthHalf.png") };
             HealthEmpty = new ImageBrush { ImageSource = GetImageSource("HealthEmpty.png") };
-
         }
 
         //-- Images --//
@@ -140,6 +140,7 @@ namespace SeeloewenCraft
         public ImageBrush Water_5_Right;
         public ImageBrush Water_5_Left;
         public ImageBrush Water_6;
+        public ImageBrush Gui;
         public ImageBrush HealthFull;
         public ImageBrush HealthHalf;
         public ImageBrush HealthEmpty;

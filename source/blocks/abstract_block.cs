@@ -61,8 +61,8 @@ namespace SeeloewenCraft
         public int yOffset;
 
         //Water
-        public int waterLevel = 0;
-        public bool isWaterSource = false;
+        public int waterLevel = 0; //constant depending on block type
+        public bool isWaterSource = false; //variables
         public int waterSourceXPos = 0;
         public int waterSourceYPos = 0;
         public int waterSourceChunkIndex = 0;
@@ -120,6 +120,21 @@ namespace SeeloewenCraft
             {
                 writer.WritePropertyName("foreground_block");
                 foregroundBlock.SaveToJson(writer);
+            }
+
+            if (tags.Contains("liquids/water"))
+            {
+                Console.WriteLine("HALLO");
+                writer.WritePropertyName("water_is_source");
+                writer.WriteValue(isWaterSource);
+                writer.WritePropertyName("water_source_pos_x");
+                writer.WriteValue(waterSourceXPos);
+                writer.WritePropertyName("water_source_pos_y");
+                writer.WriteValue(waterSourceYPos);
+                writer.WritePropertyName("water_source_chunk_index");
+                writer.WriteValue(waterSourceChunkIndex);
+                writer.WritePropertyName("water_has_source");
+                writer.WriteValue(hasWaterSource);
             }
 
             writer.WriteEndObject();
@@ -223,6 +238,15 @@ namespace SeeloewenCraft
             {
                 JToken invToken = new JsonPointer($"/inventory").Evaluate(blockToken);
                 block.SetInventory(Inventory.LoadFromJson(invToken, world));
+            }
+
+            if(block.tags.Contains("liquids/water"))
+            {
+                block.waterSourceXPos = (int)new JsonPointer("/water_source_pos_x").Evaluate(blockToken);
+                block.waterSourceYPos = (int)new JsonPointer("/water_source_pos_y").Evaluate(blockToken);
+                block.isWaterSource = (bool)new JsonPointer("/water_is_source").Evaluate(blockToken);
+                block.waterSourceChunkIndex = (int)new JsonPointer("/water_source_chunk_index").Evaluate(blockToken);
+                block.hasWaterSource = (bool)new JsonPointer("/water_has_source").Evaluate(blockToken);
             }
 
             JObject objectToken = (JObject)blockToken;
