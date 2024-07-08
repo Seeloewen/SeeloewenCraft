@@ -8,17 +8,17 @@ using System.Windows.Media;
 
 namespace SeeloewenCraft
 {
-    public class craftingRecipe
+    public class CraftingRecipe
     {
         World World;
-        public List<craftingIngredient> ingredients = new List<craftingIngredient>();
+        public List<CraftingIngredient> ingredients = new List<CraftingIngredient>();
         public string workstation;
         public List<Item> outcomeItems = new List<Item>();
        public string id;
         public string displayName;
         public ImageBrush displayImage;
 
-        public craftingRecipe(World world, string workstation, string id, string displayName, ImageBrush displayImage)
+        public CraftingRecipe(World world, string workstation, string id, string displayName, ImageBrush displayImage)
         {
             this.workstation = workstation;
             this.id = id;

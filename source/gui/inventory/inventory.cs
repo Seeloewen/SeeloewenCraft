@@ -425,5 +425,23 @@ namespace SeeloewenCraft
             return inventory;
         }
 
+        public int GetItemAmount(string id)
+        {
+            //Checks the total amount of an item in your inventory
+            int amount = 0;
+
+            foreach(InventorySlot slot in slotList)
+            {
+                foreach(Item item in slot.items)
+                {
+                    if(item.id == id)
+                    {
+                        amount++;
+                    }
+                }
+            }
+
+            return amount;
+        }
     }
 }

@@ -7,12 +7,13 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Drawing;
 using System.Windows.Media;
+using System.Windows.Documents;
 
 namespace SeeloewenCraft
 {
     public abstract class Gui
     {
-        World world;
+        public World world;
         public Inventory inventory;
         public Canvas cvsGui;
         public TextBlock tblHeader;
@@ -48,7 +49,7 @@ namespace SeeloewenCraft
             cvsGui.Children.Add(tblHeader);
         }
 
-        public void Show()
+        public virtual void Show()
         {
             cvsGui.Visibility = Visibility.Visible;
             isOpen = true;
@@ -88,40 +89,58 @@ namespace SeeloewenCraft
 
     public class AlphaCrafterGui : Gui
     {
-        public ListView listView;
+        public TextBlock tblRecipesHeader = new TextBlock() { FontSize = 18, Text = "Available Recipes", FontWeight = FontWeights.DemiBold };
+        public TextBlock tblIngredients = new TextBlock() { FontSize = 18, Text = "Ingredients", FontWeight = FontWeights.DemiBold };
+        public Canvas cvsRecipeDetails = new Canvas() { Width = 400, Height = 375, Background = new SolidColorBrush(Colors.White) };
+        public Canvas cvsRecipes = new Canvas() { Width = 200, Height = 375 };
+        public Button btnCraft = new Button() { Width = 125, Height = 30, Content = "Craft", FontSize = 18 };
+        public CraftingHandler craftingHandler;
+
 
         public AlphaCrafterGui(World world, int height, int width, int top, int left, string id, Inventory inventory) : base(world, height, width, top, left, id)
         {
             this.inventory = inventory;
+            craftingHandler = new CraftingHandler(world);
 
             tblHeader.Text = "Alpha Crafter";
             
-            TextBlock tblRecipesHeader = new TextBlock() { FontSize = 18, Text = "Available Recipes", FontWeight = FontWeights.DemiBold};
+            //Add all the necessary components to the gui
             Canvas.SetLeft(tblRecipesHeader, 46);
             Canvas.SetTop(tblRecipesHeader, 45);
+            cvsGui.Children.Add(tblRecipesHeader);
 
-            TextBlock tblIngredients = new TextBlock() { FontSize = 18, Text = "Ingredients", FontWeight = FontWeights.DemiBold };
             Canvas.SetLeft(tblIngredients, 271);
             Canvas.SetTop(tblIngredients, 45);
+            cvsGui.Children.Add(tblIngredients);
 
-            Canvas cvsRecipeDetails = new Canvas() { Width = 400, Height = 375, Background = new SolidColorBrush(Colors.White) };
             Canvas.SetLeft(cvsRecipeDetails, 270);
             Canvas.SetTop(cvsRecipeDetails, 80);
+            cvsGui.Children.Add(cvsRecipeDetails);
 
-            Canvas cvsRecipes = new Canvas() { Width = 200, Height = 375 };
             Canvas.SetLeft(cvsRecipes, 45);
             Canvas.SetTop(cvsRecipes, 80);
+            cvsGui.Children.Add(cvsRecipes);
 
-            Button btnCraft = new Button() { Width = 125, Height = 30, Content = "Craft", FontSize = 18 };
             Canvas.SetLeft(btnCraft, 295);
             Canvas.SetTop(btnCraft, 475);
 
-            cvsGui.Children.Add(tblRecipesHeader);
-            cvsGui.Children.Add(cvsRecipes);
-            cvsGui.Children.Add(cvsRecipeDetails);
-            cvsGui.Children.Add(tblIngredients);
             cvsGui.Children.Add(btnCraft);
-            world.craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, "AlphaCrafter");
+
+            btnCraft.Click += craftingHandler.btnCraft_Click;
+
+            //Render the recipes
+            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, "AlphaCrafter");
+        }
+
+        public override void Show()
+        {
+            cvsGui.Visibility = Visibility.Visible;
+            isOpen = true;
+            world.guiList.Add(this);
+
+            //Render the recipes
+            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, "AlphaCrafter");
+
         }
     }
 }
