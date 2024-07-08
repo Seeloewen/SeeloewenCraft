@@ -39,38 +39,28 @@ namespace SeeloewenCraft
         {
             if (pressedKeys.Contains(world.wndMenu.wndSettings.cShowInv)) //E key
             {
-                //Check how many guis are open
-                int openGuis = 0;
 
-                foreach (Gui gui in world.guiList)
+                int amountInventoriesOpen = 0;
+
+                foreach (Inventory inventory in world.inventoryList)
                 {
-                    if (gui.isOpen == true)
+                    if (inventory.isShown == true)
                     {
-                        openGuis++;
+                        amountInventoriesOpen++;
                     }
                 }
 
-                //Toggle gui visibility
-                if (openGuis >= 1)
+                //Toggle inventory visibility
+                if (amountInventoriesOpen >= 1)
                 {
-                    //Create a list of all the guis that need to be closed
-                    List<Gui> removeGuiList = [.. world.guiList];
-
-                    foreach(Gui gui in removeGuiList)
+                    foreach (Inventory inventory in world.inventoryList)
                     {
-                        if (gui.id == "sc:inventory")
-                        {
-                            gui.inventory.HideInventory();
-                        }
-                        else
-                        {
-                            gui.Hide();
-                        }
+                        inventory.HideInventory();
                     }
                 }
                 else
                 {
-                    Canvas.SetTop(world.player.inventory.inventoryGui.cvsGui, 175);
+                    Canvas.SetTop(world.player.inventory.grdInventory, 100);
                     world.player.inventory.ShowInventory();
                 }
             }
@@ -121,37 +111,17 @@ namespace SeeloewenCraft
             }
             if (pressedKeys.Contains(Key.Escape)) //Num Key 9 (Not numpad)
             {
-                if(!world.HasOpenGui(false))
+                if (bdrMenu.IsVisible == true)
                 {
-                    if (bdrMenu.IsVisible == true)
-                    {
-                        //Hide the game menu and disable it to avoid input
-                        bdrMenu.Visibility = Visibility.Hidden;
-                        bdrMenu.IsEnabled = false;
-                    }
-                    else
-                    {
-                        //Show the game menu and enable it to allow input
-                        bdrMenu.Visibility = Visibility.Visible;
-                        bdrMenu.IsEnabled = true;
-                    }
+                    //Hide the game menu and disable it to avoid input
+                    bdrMenu.Visibility = Visibility.Hidden;
+                    bdrMenu.IsEnabled = false;
                 }
                 else
                 {
-                    //Create a list of all the guis that need to be closed
-                    List<Gui> removeGuiList = [.. world.guiList];
-
-                    foreach (Gui gui in removeGuiList)
-                    {
-                        if (gui.id == "sc:inventory")
-                        {
-                            gui.inventory.HideInventory();
-                        }
-                        else
-                        {
-                            gui.Hide();
-                        }
-                    }
+                    //Show the game menu and enable it to allow input
+                    bdrMenu.Visibility = Visibility.Visible;
+                    bdrMenu.IsEnabled = true;
                 }
             }
             if(pressedKeys.Contains(world.wndMenu.wndSettings.cToggleDebug))
@@ -280,6 +250,18 @@ namespace SeeloewenCraft
             {
                 //Generate player at preset position, might not work correctly
                 world.player.GeneratePlayer(600, 50);
+            }
+            else if (tbDebug.Text == "/toggleinv")
+            {
+                //Toggle inventory visibility - pretty much useless nowadays, was only used for developing the inventory
+                if (world.player.inventory.isShown)
+                {
+                    world.player.inventory.HideInventory();
+                }
+                else
+                {
+                    world.player.inventory.ShowInventory();
+                }
             }
             else if (tbDebug.Text.Contains("/give chest"))
             {

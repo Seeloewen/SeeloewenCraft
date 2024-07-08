@@ -36,7 +36,7 @@ namespace SeeloewenCraft
             }
             else if (block != null && !block.hasRightClickAction)
             {
-                //Check if the block meets all requirements to be placed in foreground of another block
+                //Check if the block meets all requirements
                 if (block.IsInRange() && selectedItem != null && selectedItem.canBeForeground && block.foregroundBlock == null && block.isBackground)
                 {
                     if (selectedItem.block == null) selectedItem.GenerateBlock(block.xPos, block.yPos, block.chunk, block.isBackground);
@@ -62,7 +62,7 @@ namespace SeeloewenCraft
 
                     }
                 }
-                //Check if the block isn't in background and can be replaced
+                //Check if the block isn't in background and also not solid
                 else if (block.IsInRange() && block.isReplacable && !block.IsCollidingWithPlayer(sender) && !block.isBackground && selectedItem != null)
                 {
                     if (selectedItem.block == null)
