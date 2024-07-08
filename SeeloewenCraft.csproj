@@ -24,6 +24,9 @@
     </Resource>
     <Resource Include="Resources\ChestBlock.png" />
     <Resource Include="Resources\Gui.png" />
+    <Resource Include="Resources\HealthEmpty.png" />
+    <Resource Include="Resources\HealthFull.png" />
+    <Resource Include="Resources\HealthHalf.png" />
     <Resource Include="Resources\MagmaBlock.png" />
     <Resource Include="Resources\PumpkinBlock.png" />
   </ItemGroup>
@@ -150,6 +153,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\Gui.png" />
+    <None Remove="Resources\HealthEmpty.png" />
+    <None Remove="Resources\HealthFull.png" />
+    <None Remove="Resources\HealthHalf.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">

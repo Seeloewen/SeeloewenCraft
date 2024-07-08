@@ -293,6 +293,18 @@ namespace SeeloewenCraft
             {
                 svWorld.ScrollToVerticalOffset(world.player.cvsPlayer.Margin.Top - 400);
             }
+            else if (tbDebug.Text == "/-")
+            {
+                world.player.healthBar.RemoveValue(0.5);
+            }
+            else if (tbDebug.Text == "/+")
+            {
+                world.player.healthBar.AddValue(0.5);
+            }
+            else if(tbDebug.Text == "/!")
+            {
+                world.player.healthBar.SetValue(7);
+            }
             else
             {
                 //Show error message if the command is unknown

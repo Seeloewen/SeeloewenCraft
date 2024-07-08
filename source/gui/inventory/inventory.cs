@@ -35,6 +35,7 @@ namespace SeeloewenCraft
             //Set the attributes
             this.world = world;
             this.hasHotbar = hasHotbar;
+
             inventoryGui = new InventoryGui(world, 412, 859, 150, 175, "sc:inventory", this);
 
             //Create the inventory grid
