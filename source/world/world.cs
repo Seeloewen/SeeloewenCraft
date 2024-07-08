@@ -20,10 +20,9 @@ namespace SeeloewenCraft
         public System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
         private System.Windows.Forms.Timer tmrWater = new System.Windows.Forms.Timer();
         public List<Chunk> currentChunkList = new List<Chunk>();
-        public List<Chunk> totalChunkList = new List<Chunk>();
         public List<Inventory> inventoryList = new List<Inventory>();
+        public List<Chunk> totalChunkList = new List<Chunk>();
         public List<BlockContainerList> blockContainerList = new List<BlockContainerList>();
-        public List<Gui> guiList = new List<Gui>();
         public Images images;
         public LootTables lootTables;
         public wndMenu wndMenu;
@@ -33,15 +32,15 @@ namespace SeeloewenCraft
         public ClickHandler clickHandler;
         public DebugMenu debugMenu;
 
-        //Constants
+        //Attributes
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
         private string worldName;
         public int worldVersion;
         public string gameVersion;
         public string worldDirectory = "";
+        public bool finishedLoading = false;
 
         //Variables
-        public bool finishedLoading = false;
         public bool returnToMenu = false;
         public bool showBlockInfo = false;
 
@@ -267,28 +266,6 @@ namespace SeeloewenCraft
             tmrWater.Interval = 1000;
             tmrWater.Tick += tmrWater_Tick;
             tmrWater.Start();
-        }
-
-        public bool HasOpenGui(bool ignoreInventory)
-        {
-            foreach (Gui gui in guiList)
-            {
-                if(gui.isOpen)
-                {
-                    if(gui.id == "sc:inventory")
-                    {
-                        if (!ignoreInventory)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
         }
 
         public void CreatePlayer(bool isLoaded, double playerPosX, double playerPosY)

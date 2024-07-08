@@ -42,8 +42,8 @@ namespace SeeloewenCraft
             }
 
             //Setup the item canvas
-            cvsItem.Width = 67;
-            cvsItem.Height = 67;
+            cvsItem.Width = 75;
+            cvsItem.Height = 75;
             cvsItem.Background = image;
         }
 
