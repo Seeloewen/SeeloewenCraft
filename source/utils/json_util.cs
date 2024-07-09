@@ -16,7 +16,7 @@ namespace SeeloewenCraft
 
         public void WriteToFile(string path)
         {
-
+            File.WriteAllText(path, sb.ToString());
         }
 
         public static JsonWriter Create()
