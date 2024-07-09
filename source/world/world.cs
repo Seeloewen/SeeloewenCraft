@@ -174,10 +174,7 @@ namespace SeeloewenCraft
             log.Write($"Set directory for world {worldName} to {worldDirectory}", "Info");
 
             //write world version to settings.json
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-
-            using (JsonWriter writer = new JsonTextWriter(sw))
+            using (JsonWriter writer = JsonWriter.Create())
             {
                 writer.Formatting = Formatting.Indented;
 
@@ -187,8 +184,9 @@ namespace SeeloewenCraft
                 writer.WriteValue(worldVersion);
 
                 writer.WriteEndObject();
+
+                writer.WriteToFile($"{worldDirectory}/world_settings.json");
             }
-            File.WriteAllText($"{worldDirectory}/world_settings.json", sb.ToString());
 
             //Check if the player position exists
             bool loadedPlayerPosExists = File.Exists($"{worldDirectory}/player_position.json");

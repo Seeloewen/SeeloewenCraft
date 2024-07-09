@@ -61,24 +61,21 @@ namespace SeeloewenCraft
             }
 
             //save blocks in blocks.json
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
-            using (JsonWriter writer = new JsonTextWriter(sw))
+            using (JsonWriter writer = JsonWriter.Create())
             {
                 writer.Formatting = Formatting.Indented;
                 blockList.SaveToJson(writer);
+                writer.WriteToFile($"{world.worldDirectory}/chunk{index}/blocks.json");
             }
-            File.WriteAllText($"{world.worldDirectory}/chunk{index}/blocks.json", sw.ToString());
 
             //save settings in settings.json
-            sb = new StringBuilder();
-            sw = new StringWriter(sb);
-            using (JsonWriter writer = new JsonTextWriter(sw))
+            using (JsonWriter writer = JsonWriter.Create())
             {
                 writer.Formatting = Formatting.Indented;
                 SaveSettingsToJson(writer);
+                writer.WriteToFile($"{world.worldDirectory}/chunk{index}/settings.json");
             }
-            File.WriteAllText($"{world.worldDirectory}/chunk{index}/settings.json", sb.ToString());
+
         }
 
         private void SaveSettingsToJson(JsonWriter writer)

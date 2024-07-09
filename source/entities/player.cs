@@ -103,11 +103,7 @@ namespace SeeloewenCraft
         {
             world.log.Write($"Saved player position to {path}", "Info");
 
-
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-
-            using (JsonWriter writer = new JsonTextWriter(sw))
+            using (JsonWriter writer = JsonWriter.Create())
             {
                 writer.Formatting = Formatting.Indented;
                 writer.WriteStartObject();
@@ -119,22 +115,20 @@ namespace SeeloewenCraft
                 writer.WriteValue(posY);
 
                 writer.WriteEndObject();
+
+                writer.WriteToFile($"{path}/player_position.json");
             }
 
-            File.WriteAllText($"{path}/player_position.json", sb.ToString());
         }
 
         public void SaveInventory(string path)
         {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-
-            using (JsonWriter writer = new JsonTextWriter(sw))
+            using (JsonWriter writer = JsonWriter.Create())
             {
                 writer.Formatting = Formatting.Indented;
                 inventory.SaveToJson(writer);
+                writer.WriteToFile($"{path}/player_inventory.json");
             }
-            File.WriteAllText($"{path}/player_inventory.json", sb.ToString());
         }
 
         //physics

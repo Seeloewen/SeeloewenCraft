@@ -64,14 +64,12 @@ namespace SeeloewenCraft
                 wndMenu.log.Write("No settings file was found, creating a new one...", "Info");
 
                 //If not, create a new one
-                StringBuilder sb = new StringBuilder();
-                StringWriter sw = new StringWriter(sb);
-                using (JsonWriter writer = new JsonTextWriter(sw))
+                using (JsonWriter writer = JsonWriter.Create())
                 {
                     writer.Formatting = Formatting.Indented;
                     SaveSettings(writer, true);
+                    writer.WriteToFile($"{wndMenu.gameDirectory}\\clientSettings.json");
                 }
-                File.WriteAllText($"{wndMenu.gameDirectory}\\clientSettings.json", sw.ToString());
             }        
         }
 
@@ -283,14 +281,12 @@ namespace SeeloewenCraft
         private void btnSaveClose_Click(object sender, RoutedEventArgs e)
         {
             //Save the settings
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
-            using (JsonWriter writer = new JsonTextWriter(sw))
+            using (JsonWriter writer = JsonWriter.Create())
             {
                 writer.Formatting = Formatting.Indented;
                 SaveSettings(writer, false);
+                writer.WriteToFile($"{wndMenu.gameDirectory}\\clientSettings.json");
             }
-            File.WriteAllText($"{wndMenu.gameDirectory}\\clientSettings.json", sw.ToString());
             Close();
         }
 
