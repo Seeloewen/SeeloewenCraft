@@ -199,15 +199,12 @@ namespace SeeloewenCraft
             world.log.Write($"Loading chunk {index}", "Info");
 
             //load blocklist
-            string documentText = File.ReadAllText($"{world.worldDirectory}/chunk{index}/blocks.json");
-            JToken documentToken = JToken.Parse(documentText);
-
+            var documentToken = JsonReader.ReadFile($"{world.worldDirectory}/chunk{index}/blocks.json");
             blockList = BlockList.LoadFromJson(documentToken, this, world);
 
             //load settings
-            documentText = File.ReadAllText($"{world.worldDirectory}/chunk{index}/settings.json");
-            documentToken = JToken.Parse(documentText);
-
+            documentToken = JsonReader.ReadFile($"{world.worldDirectory}/chunk{index}/settings.json");
+            
             index = (int)new JsonPointer("/index").Evaluate(documentToken);
             floorHeightLeft = (int)new JsonPointer("/floor_height_left").Evaluate(documentToken);
             floorHeightRight = (int)new JsonPointer("/floor_height_right").Evaluate(documentToken);

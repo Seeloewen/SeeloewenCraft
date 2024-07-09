@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json.Linq;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SeeloewenCraft
 {
@@ -37,4 +34,14 @@ namespace SeeloewenCraft
             base.Flush();
         }
     }
+
+
+    public class JsonReader
+    {
+        public static JToken ReadFile(string path)
+        {
+            return JToken.Parse(File.ReadAllText(path));
+        }
+    }
+
 }

@@ -55,8 +55,7 @@ namespace SeeloewenCraft
             if(File.Exists($"{wndMenu.gameDirectory}\\clientSettings.json"))
             {
                 wndMenu.log.Write("Settings file was found, loading settings...", "Info");
-                string documentText = File.ReadAllText($"{wndMenu.gameDirectory}\\clientSettings.json");
-                JToken documentToken = JToken.Parse(documentText);
+                JToken documentToken = JsonReader.ReadFile($"{wndMenu.gameDirectory}\\clientSettings.json");
                 LoadSettings(documentToken);
             }
             else
