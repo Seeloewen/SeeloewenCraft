@@ -135,9 +135,9 @@ namespace SeeloewenCraft
             //Check if the world settings file exists
             if (File.Exists($"{worldDirectory}/world_settings.json"))
             {
-                JToken documentToken = JsonReader.ReadFile($"{worldDirectory}/world_settings.json");
+                JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/world_settings.json");
 
-                return (int)new JsonPointer("/world_version").Evaluate(documentToken);
+                return documentToken.GetInt("/world_version");
             }
             else if (File.Exists($"{worldDirectory}/settings.txt"))
             {
@@ -195,11 +195,11 @@ namespace SeeloewenCraft
             //Load the player position if possible
             if (loadedPlayerPosExists)
             {
-                JToken documentToken = JsonReader.ReadFile($"{worldDirectory}/player_position.json");
+                JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_position.json");
                 try
                 {
-                    playerPosX = (double)new JsonPointer("/pos_x").Evaluate(documentToken);
-                    playerPosY = (double)new JsonPointer("/pos_y").Evaluate(documentToken);
+                    playerPosX = documentToken.GetDouble("/pos_x");
+                    playerPosY = documentToken.GetDouble("/pos_y");
                     log.Write($"Read player position from file: x{playerPosX} y{playerPosY}", "Info");
                 }
                 catch (Exception ex)
@@ -230,7 +230,7 @@ namespace SeeloewenCraft
             //Load the player inventory if the world is not new
             if (!isNew)
             {
-                JToken documentToken = JsonReader.ReadFile($"{worldDirectory}/player_inventory.json");
+                JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_inventory.json");
                 player.inventory = Inventory.LoadFromJson(documentToken, this);
                 inventoryList.Add(player.inventory);
 

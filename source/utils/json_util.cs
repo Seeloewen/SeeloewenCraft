@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Microsoft.Json.Pointer;
+using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Text;
 
@@ -6,11 +7,7 @@ namespace SeeloewenCraft
 {
     public class JsonWriter : Newtonsoft.Json.JsonTextWriter
     {
-
         StringBuilder sb;
-
-
-
 
         private JsonWriter(StringBuilder sb, StringWriter sw) : base(sw)
         {
@@ -36,12 +33,57 @@ namespace SeeloewenCraft
     }
 
 
-    public class JsonReader
+    public class JsonUtil
     {
-        public static JToken ReadFile(string path)
+        public static JsonToken ReadFile(string path)
         {
-            return JToken.Parse(File.ReadAllText(path));
+            return new JsonToken(JToken.Parse(File.ReadAllText(path)));
         }
+
+    }
+
+    public class JsonToken
+    {
+        public JToken value;
+
+        public JsonToken(JToken value)
+        {
+            this.value = value;
+        }
+
+        public bool ContainsKey(string address)
+        {
+            JObject objectToken = (JObject)value;
+            return objectToken.ContainsKey(address);
+        }
+
+
+        public JsonToken GetToken(string address)
+        {
+            return new JsonToken(new JsonPointer(address).Evaluate(value));
+        }
+
+        public int GetInt(string address)
+        {
+            return (int)new JsonPointer(address).Evaluate(value);
+        }
+
+        public bool GetBool(string address)
+        {
+            return (bool)new JsonPointer(address).Evaluate(value);
+        }
+
+        public string GetString(string address)
+        {
+            return (string)new JsonPointer(address).Evaluate(value);
+        }
+
+        public double GetDouble(string address)
+        {
+            return (double)new JsonPointer(address).Evaluate(value);
+        }
+
+
     }
 
 }

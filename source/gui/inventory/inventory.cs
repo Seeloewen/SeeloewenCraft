@@ -345,20 +345,20 @@ namespace SeeloewenCraft
             return null;
         }
 
-        public static Inventory LoadFromJson(JToken token, World world)
+        public static Inventory LoadFromJson(JsonToken token, World world)
         {
-            bool hasHotbar = (bool)new JsonPointer("/has_hotbar").Evaluate(token);
+            bool hasHotbar = token.GetBool("/has_hotbar");
             Inventory inventory = new Inventory(world, hasHotbar);
-            JToken slotArrayToken = new JsonPointer("/slots").Evaluate(token);
+            JsonToken slotArrayToken = token.GetToken("/slots");
 
             int slotNum = 0;
 
             foreach (InventorySlot slot in inventory.slotList)
             {
-                JToken slotToken = new JsonPointer($"/slots/{slotNum}/item").Evaluate(token);
+                JsonToken slotToken = token.GetToken($"/slots/{slotNum}/item");
 
-                string id = (string)new JsonPointer("/id").Evaluate(slotToken);
-                int amount = (int)new JsonPointer("/amount").Evaluate(slotToken);
+                string id = slotToken.GetString("/id");
+                int amount = slotToken.GetInt("/amount");
 
                 for (int i = 0; i < amount; i++)
                 {

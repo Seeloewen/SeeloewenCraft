@@ -55,7 +55,7 @@ namespace SeeloewenCraft
             if(File.Exists($"{wndMenu.gameDirectory}\\clientSettings.json"))
             {
                 wndMenu.log.Write("Settings file was found, loading settings...", "Info");
-                JToken documentToken = JsonReader.ReadFile($"{wndMenu.gameDirectory}\\clientSettings.json");
+                JsonToken documentToken = JsonUtil.ReadFile($"{wndMenu.gameDirectory}\\clientSettings.json");
                 LoadSettings(documentToken);
             }
             else
@@ -141,26 +141,26 @@ namespace SeeloewenCraft
             }
         }
 
-        private void LoadSettings(JToken fileToken)
+        private void LoadSettings(JsonToken fileToken)
         {
             //Get the settings from the JSON file
             try
             {
-                JToken settingsToken = new JsonPointer("/settings").Evaluate(fileToken);
-                JToken keybindsToken = new JsonPointer("/keybinds").Evaluate(fileToken);
+                JsonToken settingsToken = fileToken.GetToken("/settings");
+                JsonToken keybindsToken = fileToken.GetToken("/keybinds");
 
-                saveLogOnExit = (bool)new JsonPointer("/save_log_on_exit").Evaluate(settingsToken);
-                saveWorldOnClose = (bool)new JsonPointer("/save_world_on_close").Evaluate(settingsToken);
-                enableHammer = (bool)new JsonPointer("/enable_hammer").Evaluate(settingsToken);
-                enableCaveGeneration = (bool)new JsonPointer($"/enable_cave_generation").Evaluate(settingsToken);
-                enableLighting = (bool)new JsonPointer($"/enable_lighting").Evaluate(settingsToken);
-                texturepack = (string)new JsonPointer($"/texturepack").Evaluate(settingsToken);
+                saveLogOnExit = settingsToken.GetBool("/save_log_on_exit");
+                saveWorldOnClose = settingsToken.GetBool("/save_world_on_close");
+                enableHammer = settingsToken.GetBool("/enable_hammer");
+                enableCaveGeneration = settingsToken.GetBool($"/enable_cave_generation");
+                enableLighting = settingsToken.GetBool($"/enable_lighting");
+                texturepack = settingsToken.GetString($"/texturepack");
 
-                cMoveRight = keyConverter.StringToKey((string)new JsonPointer($"/move_right").Evaluate(keybindsToken));
-                cMoveLeft = keyConverter.StringToKey((string)new JsonPointer($"/move_left").Evaluate(keybindsToken));
-                cJump = keyConverter.StringToKey((string)new JsonPointer($"/jump").Evaluate(keybindsToken));
-                cShowInv = keyConverter.StringToKey((string)new JsonPointer($"/show_inventory").Evaluate(keybindsToken));
-                cToggleDebug = keyConverter.StringToKey((string)new JsonPointer($"/toggle_debug_menu").Evaluate(keybindsToken));
+                cMoveRight = keyConverter.StringToKey(keybindsToken.GetString($"/move_right"));
+                cMoveLeft = keyConverter.StringToKey(keybindsToken.GetString($"/move_left"));
+                cJump = keyConverter.StringToKey(keybindsToken.GetString($"/jump"));
+                cShowInv = keyConverter.StringToKey(keybindsToken.GetString($"/show_inventory"));
+                cToggleDebug = keyConverter.StringToKey(keybindsToken.GetString($"/toggle_debug_menu"));
             }
             catch (Exception ex)
             {

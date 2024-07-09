@@ -35,15 +35,15 @@ namespace SeeloewenCraft
             writer.WriteEndObject();
         }
 
-        static public BlockList LoadFromJson(JToken documentToken, Chunk chunk, World world)
+        static public BlockList LoadFromJson(JsonToken documentToken, Chunk chunk, World world)
         {
             BlockList blockList = new BlockList();
 
-            JToken blockArrayToken = new JsonPointer("/blocks").Evaluate(documentToken);
+            JsonToken blockArrayToken = documentToken.GetToken("/blocks");
 
             for (int i = 0; i < 600; i++)
             {
-                JToken blockToken = new JsonPointer($"/{i}").Evaluate(blockArrayToken);
+                JsonToken blockToken = blockArrayToken.GetToken($"/{i}");
 
                 blockList.Add(Block.LoadFromJson(blockToken, chunk, world));
             }

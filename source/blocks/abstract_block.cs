@@ -141,12 +141,12 @@ namespace SeeloewenCraft
         }
 
 
-        static public Block LoadFromJson(JToken blockToken, Chunk chunk, World world)
+        static public Block LoadFromJson(JsonToken blockToken, Chunk chunk, World world)
         {
-            int posX = (int)new JsonPointer("/pos_x").Evaluate(blockToken);
-            int posY = (int)new JsonPointer("/pos_y").Evaluate(blockToken);
-            bool isInBackground = (bool)new JsonPointer("/is_in_background").Evaluate(blockToken);
-            string id = (string)new JsonPointer($"/id").Evaluate(blockToken);
+            int posX = blockToken.GetInt("/pos_x");
+            int posY = blockToken.GetInt("/pos_y");
+            bool isInBackground = blockToken.GetBool("/is_in_background");
+            string id = blockToken.GetString("/id");
 
             Block block;
             switch (id)
@@ -236,23 +236,22 @@ namespace SeeloewenCraft
 
             if (block.hasInventory)
             {
-                JToken invToken = new JsonPointer($"/inventory").Evaluate(blockToken);
+                JsonToken invToken = blockToken.GetToken("/inventory");
                 block.SetInventory(Inventory.LoadFromJson(invToken, world));
             }
 
             if(block.tags.Contains("liquids/water"))
             {
-                block.waterSourceXPos = (int)new JsonPointer("/water_source_pos_x").Evaluate(blockToken);
-                block.waterSourceYPos = (int)new JsonPointer("/water_source_pos_y").Evaluate(blockToken);
-                block.isWaterSource = (bool)new JsonPointer("/water_is_source").Evaluate(blockToken);
-                block.waterSourceChunkIndex = (int)new JsonPointer("/water_source_chunk_index").Evaluate(blockToken);
-                block.hasWaterSource = (bool)new JsonPointer("/water_has_source").Evaluate(blockToken);
+                block.waterSourceXPos = blockToken.GetInt("/water_source_pos_x");
+                block.waterSourceYPos = blockToken.GetInt("/water_source_pos_y");
+                block.isWaterSource = blockToken.GetBool("/water_is_source");
+                block.waterSourceChunkIndex = blockToken.GetInt("/water_source_chunk_index");
+                block.hasWaterSource = blockToken.GetBool("/water_has_source");
             }
 
-            JObject objectToken = (JObject)blockToken;
-            if (objectToken.ContainsKey("foreground_block"))
+            if (blockToken.ContainsKey("foreground_block"))
             {
-                block.foregroundBlock = Block.LoadFromJson(new JsonPointer("/foreground_block").Evaluate(blockToken), chunk, world);
+                block.foregroundBlock = Block.LoadFromJson(blockToken.GetToken("/inventory"), chunk, world);
             }
 
             return block;

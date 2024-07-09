@@ -199,15 +199,15 @@ namespace SeeloewenCraft
             world.log.Write($"Loading chunk {index}", "Info");
 
             //load blocklist
-            var documentToken = JsonReader.ReadFile($"{world.worldDirectory}/chunk{index}/blocks.json");
+            JsonToken documentToken = JsonUtil.ReadFile($"{world.worldDirectory}/chunk{index}/blocks.json");
             blockList = BlockList.LoadFromJson(documentToken, this, world);
 
             //load settings
-            documentToken = JsonReader.ReadFile($"{world.worldDirectory}/chunk{index}/settings.json");
+            documentToken = JsonUtil.ReadFile($"{world.worldDirectory}/chunk{index}/settings.json");
             
-            index = (int)new JsonPointer("/index").Evaluate(documentToken);
-            floorHeightLeft = (int)new JsonPointer("/floor_height_left").Evaluate(documentToken);
-            floorHeightRight = (int)new JsonPointer("/floor_height_right").Evaluate(documentToken);
+            index = documentToken.GetInt("/index");
+            floorHeightLeft = documentToken.GetInt("/floor_height_left");
+            floorHeightRight = documentToken.GetInt("/floor_height_right");
 
             //Load the inventories of the blocks in the chunk (like chests)
             //LoadInventories();
