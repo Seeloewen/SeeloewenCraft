@@ -17,13 +17,15 @@ namespace SeeloewenCraft
        public string id;
         public string displayName;
         public ImageBrush displayImage;
+        public int requiredTime;
 
-        public CraftingRecipe(World world, string workstation, string id, string displayName, ImageBrush displayImage)
+        public CraftingRecipe(World world, string workstation, string id, string displayName, ImageBrush displayImage, int requiredTime)
         {
             this.workstation = workstation;
             this.id = id;
             this.displayName = displayName;
             this.displayImage = displayImage;
+            this.requiredTime = requiredTime;
 
             world.craftingRecipeList.Add(this);
         }   

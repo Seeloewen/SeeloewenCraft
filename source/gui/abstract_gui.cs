@@ -89,11 +89,13 @@ namespace SeeloewenCraft
 
     public class AlphaCrafterGui : Gui
     {
-        public TextBlock tblRecipesHeader = new TextBlock() { FontSize = 18, Text = "Available Recipes", FontWeight = FontWeights.DemiBold };
+        public TextBlock tblRecipesHeader = new TextBlock() { FontSize = 18, Text = "Available Recipes", FontWeight = FontWeights.DemiBold};
         public TextBlock tblIngredients = new TextBlock() { FontSize = 18, Text = "Ingredients", FontWeight = FontWeights.DemiBold };
-        public Canvas cvsRecipeDetails = new Canvas() { Width = 400, Height = 375, Background = new SolidColorBrush(Colors.White) };
-        public Canvas cvsRecipes = new Canvas() { Width = 200, Height = 375 };
-        public Button btnCraft = new Button() { Width = 125, Height = 30, Content = "Craft", FontSize = 18 };
+        public Canvas cvsRecipeDetails = new Canvas() { Width = 400, Height = 375, Background = new SolidColorBrush(Colors.LightGray) };
+        public Canvas cvsRecipes = new Canvas() { Width = 200, Height = 375, Background = new SolidColorBrush(Colors.LightGray) };
+        public Button btnCraft = new Button() { Width = 125, Height = 30, Content = "Craft Item", FontSize = 18 };
+        public Button btnClaim = new Button() { Width = 125, Height = 30, Content = "Claim Item", FontSize = 18, Visibility = Visibility.Hidden, Background = new SolidColorBrush(Colors.LightGreen)};
+        public ProgressBar pbCrafting = new ProgressBar() { Width = 400, Height = 30, Visibility = Visibility.Hidden };
         public CraftingHandler craftingHandler;
 
 
@@ -123,13 +125,21 @@ namespace SeeloewenCraft
 
             Canvas.SetLeft(btnCraft, 295);
             Canvas.SetTop(btnCraft, 475);
-
             cvsGui.Children.Add(btnCraft);
 
+            Canvas.SetLeft(btnClaim, 295);
+            Canvas.SetTop(btnClaim, 475);
+            cvsGui.Children.Add(btnClaim);
+
+            Canvas.SetLeft(pbCrafting, 160);
+            Canvas.SetTop(pbCrafting, 475);
+            cvsGui.Children.Add(pbCrafting);
+
             btnCraft.Click += craftingHandler.btnCraft_Click;
+            btnClaim.Click += craftingHandler.btnClaim_Click;
 
             //Render the recipes
-            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, "AlphaCrafter");
+            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, "AlphaCrafter");
         }
 
         public override void Show()
@@ -139,7 +149,7 @@ namespace SeeloewenCraft
             world.guiList.Add(this);
 
             //Render the recipes
-            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, "AlphaCrafter");
+            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, "AlphaCrafter");
 
         }
     }

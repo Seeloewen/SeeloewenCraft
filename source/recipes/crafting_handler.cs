@@ -18,11 +18,23 @@ namespace SeeloewenCraft
         public Canvas cvsRecipes;
         public Canvas cvsIngredients;
         public Button btnCraft;
+        public Button btnClaim;
+        public ProgressBar pbCrafting;
         public CraftingRecipe selectedRecipe;
+        public int recipeProgress;
+        public bool recipeRunning;
+        public bool recipeClaimable;
+        public string workstation;
+        public int craftingProgressStep;
+        System.Windows.Forms.Timer tmrCrafting = new System.Windows.Forms.Timer();
 
         public CraftingHandler(World world)
         {
             this.world = world;
+
+            //Start the main timer
+            tmrCrafting.Interval = 25;
+            tmrCrafting.Tick += tmrCrafting_Tick;
         }
 
         public CraftingRecipe GetRecipe(string id)
@@ -37,49 +49,60 @@ namespace SeeloewenCraft
             return null;
         }
 
-        public void RenderCraftingRecipes(Canvas cvsRecipes, Canvas cvsIngredients, Button btnCraft, string workstation)
+        public void RenderCraftingRecipes(Canvas cvsRecipes, Canvas cvsIngredients, Button btnCraft, Button btnClaim, ProgressBar pbCrafting, string workstation)
         {
             //Set references and clear existing content
-            this.cvsRecipes = cvsRecipes;
-            this.cvsIngredients = cvsIngredients;
-            this.btnCraft = btnCraft;
-            this.cvsIngredients.Children.Clear();
-            this.cvsRecipes.Children.Clear();
-            this.btnCraft.IsEnabled = false;
-            selectedRecipe = null;
-
-            int top = 0;
-            foreach (CraftingRecipe recipe in world.craftingRecipeList)
+            if(!recipeRunning && !recipeClaimable)
             {
-                //Go through recipes and find the correct one
-                if (recipe.workstation == workstation)
+                this.workstation = workstation;
+                this.cvsRecipes = cvsRecipes;
+                this.cvsIngredients = cvsIngredients;
+                this.btnCraft = btnCraft;
+                this.btnClaim = btnClaim;
+                this.pbCrafting = pbCrafting;
+                this.cvsIngredients.Children.Clear();
+                this.cvsRecipes.Children.Clear();
+                this.btnCraft.IsEnabled = false;
+                this.btnCraft.Visibility = Visibility.Visible;
+                this.btnClaim.Visibility = Visibility.Hidden;
+                this.pbCrafting.Visibility = Visibility.Hidden;
+                selectedRecipe = null;
+                recipeRunning = false;
+                recipeClaimable = false;
+
+                int top = 0;
+                foreach (CraftingRecipe recipe in world.craftingRecipeList)
                 {
-                    //Setup contents of the recipe
-                    Canvas cvsItem = new Canvas() { Tag = recipe.id, Width = 186, Height = 50 };
-                    TextBlock tblItem = new TextBlock() { Text = recipe.displayName, FontSize = 16, FontWeight = FontWeights.DemiBold };
-                    Canvas cvsImage = new Canvas() { Background = recipe.displayImage, Width = 40, Height = 40 };
+                    //Go through recipes and find the correct one
+                    if (recipe.workstation == workstation)
+                    {
+                        //Setup contents of the recipe
+                        Canvas cvsItem = new Canvas() { Tag = recipe.id, Width = 186, Height = 50 };
+                        TextBlock tblItem = new TextBlock() { Text = recipe.displayName, FontSize = 16, FontWeight = FontWeights.DemiBold };
+                        Canvas cvsImage = new Canvas() { Background = recipe.displayImage, Width = 40, Height = 40 };
 
-                    cvsItem.MouseDown += cvsItem_MouseDown;
+                        cvsItem.MouseDown += cvsItem_MouseDown;
 
-                    Canvas.SetLeft(tblItem, 55);
-                    Canvas.SetTop(tblItem, 12);
-                    Canvas.SetLeft(cvsImage, 3);
-                    Canvas.SetTop(cvsImage, 3);
-                    Canvas.SetTop(cvsImage, top);
+                        Canvas.SetLeft(tblItem, 60);
+                        Canvas.SetTop(tblItem, 17);
+                        Canvas.SetLeft(cvsImage, 10);
+                        Canvas.SetTop(cvsImage, 10);
+                        Canvas.SetTop(cvsItem, top);
 
-                    cvsItem.Children.Add(cvsImage);
-                    cvsItem.Children.Add(tblItem);
+                        cvsItem.Children.Add(cvsImage);
+                        cvsItem.Children.Add(tblItem);
 
-                    cvsRecipes.Children.Add(cvsItem);
+                        cvsRecipes.Children.Add(cvsItem);
 
-                    top += 50;
+                        top += 50;
+                    }
                 }
-            }
+            }       
         }
 
         public void RenderCraftingDetails(Canvas cvsIngredients, CraftingRecipe recipe)
         {
-            int top = 5;
+            int top = 10;
             cvsIngredients.Children.Clear();
 
             foreach (CraftingIngredient ingredient in recipe.ingredients)
@@ -89,9 +112,18 @@ namespace SeeloewenCraft
                 TextBlock tblItem = new TextBlock() { Text = $"{ingredient.item.name} - {world.player.inventory.GetItemAmount(ingredient.item.id)}/{ingredient.amount}", FontSize = 14, FontWeight = FontWeights.DemiBold };
                 Canvas cvsImage = new Canvas() { Background = ingredient.item.image, Width = 20, Height = 20 };
 
-                Canvas.SetLeft(tblItem, 55);
-                Canvas.SetTop(tblItem, top + 3);
-                Canvas.SetLeft(cvsImage, 3);
+                if (world.player.inventory.GetItemAmount(ingredient.item.id) < ingredient.amount)
+                {
+                    tblItem.Foreground = new SolidColorBrush(Colors.Red);
+                }
+                else
+                {
+                    tblItem.Foreground = new SolidColorBrush(Colors.Green);
+                }
+
+                Canvas.SetLeft(tblItem, 45);
+                Canvas.SetTop(tblItem, top);
+                Canvas.SetLeft(cvsImage, 12);
                 Canvas.SetTop(cvsImage, top);
 
                 cvsItem.Children.Add(cvsImage);
@@ -99,7 +131,7 @@ namespace SeeloewenCraft
 
                 cvsIngredients.Children.Add(cvsItem);
 
-                top += 55;
+                top += 30;
             }
         }
 
@@ -112,8 +144,28 @@ namespace SeeloewenCraft
             }
         }
 
+        public void ClaimItem(CraftingRecipe recipe)
+        {
+            recipeClaimable = false;
+            //Add all outcome items to the players inventory
+            foreach (Item item in recipe.outcomeItems)
+            {
+                world.player.inventory.AddItem(item);
+            }
+        }
+
         public bool RequiredItemsAvailable()
         {
+            return true;
+
+            //Check for each ingredient
+            foreach (CraftingIngredient ingredient in selectedRecipe.ingredients)
+            {
+                if (world.player.inventory.GetItemAmount (ingredient.item.id) < ingredient.amount)
+                {
+                    return false;
+                }
+            }
             return true;
         }
 
@@ -121,34 +173,73 @@ namespace SeeloewenCraft
 
         private void cvsItem_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            //Get the currently selected crafting recipe by checking the clicked element and its parents for the correct tag
-            string tag = "";
-            var sourceElement = e.OriginalSource as DependencyObject;
-            while (sourceElement != null)
+            if (!recipeRunning && !recipeClaimable)
             {
-                if (sourceElement is Canvas canvas && canvas.Tag != null && !string.IsNullOrEmpty(canvas.Tag.ToString()))
+                //Get the currently selected crafting recipe by checking the clicked element and its parents for the correct tag
+                string tag = "";
+                var sourceElement = e.OriginalSource as DependencyObject;
+                while (sourceElement != null)
                 {
-                    tag = canvas.Tag.ToString();
-                    break;
+                    if (sourceElement is Canvas canvas && canvas.Tag != null && !string.IsNullOrEmpty(canvas.Tag.ToString()))
+                    {
+                        tag = canvas.Tag.ToString();
+                        break;
+                    }
+                    sourceElement = VisualTreeHelper.GetParent(sourceElement);
                 }
-                sourceElement = VisualTreeHelper.GetParent(sourceElement);
+
+                selectedRecipe = GetRecipe(tag);
+
+                //Render stuff like ingredients and check if the required items are available
+                RenderCraftingDetails(cvsIngredients, selectedRecipe);
+
+                //Check if all requirements for crafting the recipe are met
+                btnCraft.IsEnabled = RequiredItemsAvailable();
             }
-
-            selectedRecipe = GetRecipe(tag);
-
-            //Render stuff like ingredients and check if the required items are available
-            RenderCraftingDetails(cvsIngredients, selectedRecipe);
-
-            //Check if all requirements for crafting the recipe are met
-            btnCraft.IsEnabled = true;
         }
 
         public void btnCraft_Click(object sender, RoutedEventArgs e)
         {
-            //Craft the item
-            CraftItem(selectedRecipe);
+            recipeProgress = 0;
+            pbCrafting.Visibility = Visibility.Visible;
+            pbCrafting.Value = 0;
+            btnCraft.Visibility = Visibility.Hidden;
+            recipeRunning = true;
+
+            tmrCrafting.Start();
         }
 
-        //-- Recipes --//
+        public void btnClaim_Click(object sender, RoutedEventArgs e)
+        {
+            //Claim the item
+            ClaimItem(selectedRecipe);
+
+            //Render the UI new
+            string tempRecipe = selectedRecipe.id;
+            RenderCraftingRecipes(cvsRecipes, cvsIngredients, btnCraft, btnClaim, pbCrafting, workstation);
+            selectedRecipe = GetRecipe(tempRecipe);
+            RenderCraftingDetails(cvsIngredients, selectedRecipe);
+
+            //Check if all requirements for crafting the recipe are met
+            btnCraft.IsEnabled = RequiredItemsAvailable();
+        }
+
+        private void tmrCrafting_Tick(object sender, EventArgs e)
+        {
+            //Update all water blocks accordingly
+            recipeProgress += 25;
+
+            pbCrafting.Maximum = selectedRecipe.requiredTime;
+            pbCrafting.Value += 25;
+
+            if (recipeProgress >= selectedRecipe.requiredTime)
+            {
+                recipeRunning = false;
+                recipeClaimable = true;
+                tmrCrafting.Stop();
+                pbCrafting.Visibility = Visibility.Hidden;
+                btnClaim.Visibility = Visibility.Visible;
+            }
+        }
     }
 }
