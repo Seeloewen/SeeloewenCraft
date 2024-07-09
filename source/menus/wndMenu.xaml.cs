@@ -26,8 +26,8 @@ namespace SeeloewenCraft
         public Log log;
         private int splashTextSize = 0;
         public int worldVersion = 3;
-        public string gameVersion = "Alpha 1.1.6-Dev3";
-        public string versionDate = "06.07.2024";
+        public string gameVersion = "Alpha 1.2.0-predev2";
+        public string versionDate = "09.07.2024";
         public string gameDirectory;
         public string texturepackDirectory;
         public string logDirectory;
@@ -53,7 +53,7 @@ namespace SeeloewenCraft
 
             //Show the version
             tblVersion.Text = string.Format("Version {0}", gameVersion);
-            log.Write($"SeeloewenCraft Alpha Version {gameVersion} ({versionDate})", "Info");
+            log.Write($"SeeloewenCraft Version {gameVersion} ({versionDate})", "Info");
 
             //set splashtext        
             tblSplashText.Text = splashTextHandler.GetText();;

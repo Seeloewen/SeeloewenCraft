@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Windows.Themes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO.Ports;
@@ -21,6 +22,7 @@ namespace SeeloewenCraft
         public Border bdrBlock = new Border();
         public Rectangle rectDarkOverlay = new Rectangle();
         public Rectangle rectDarkOverlayLight = new Rectangle();
+        public ProgressBar pbBlock = new ProgressBar();
         public Block block;
         public int xPos;
         public int yPos;
@@ -62,8 +64,7 @@ namespace SeeloewenCraft
             rectDarkOverlayLight.Fill = new SolidColorBrush(Colors.Black);
             rectDarkOverlayLight.Opacity = 0;
             rectDarkOverlayLight.Visibility = System.Windows.Visibility.Visible;
-            cvsBlock.Children.Add(rectDarkOverlayLight);
-
+            cvsBlock.Children.Add(rectDarkOverlayLight);            
         }
 
         //-- Custom Methods --//

@@ -428,10 +428,12 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Magma Block";
             id = "sc:magma_block";
+            tags.Add("workstation");
             hasRightClickAction= true;
 
             //Debug
-            gui = new AlphaCrafterGui(world, 535, 720, 120, 200, "sc:alpha_crafter", null);
+            craftingHandler = new CraftingHandler(world, this);
+            gui = new AlphaCrafterGui(world, 535, 720, 120, 200, "sc:alpha_crafter", null, this);
         }
 
         override public void GenerateItem(World world, int id)

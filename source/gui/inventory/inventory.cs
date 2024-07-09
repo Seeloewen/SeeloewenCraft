@@ -234,6 +234,61 @@ namespace SeeloewenCraft
             UpdateHotbar();
         }
 
+        public void RemoveItem(string id)
+        {
+            List<InventorySlot> clearList = new List<InventorySlot>();
+            List<Item> removeList = new List<Item>();
+
+            bool itemFound = false;
+            //Go through each inventory slot to find the item
+            foreach (InventorySlot slot in world.player.inventory.slotList)
+            {
+                if (slot.items.Count > 0 && !itemFound)
+                {
+                    foreach (Item item in slot.items)
+                    {
+                        //If the item is found
+                        if (item.id == id)
+                        {
+                            //Check if it's only 1 item or a stack of multiple
+                            if (slot.itemAmount > 1)
+                            {
+                                //If it's a stack, add the item to a remove list
+                                removeList.Add(item);
+                                slot.itemAmount--;
+                                slot.tblItemAmount.Text = slot.itemAmount.ToString();
+                            }
+                            else
+                            {
+                                //If not, add the slot to the clear list
+                                clearList.Add(slot);
+                            }
+
+                            itemFound = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            foreach (InventorySlot slot in clearList)
+            {
+                //Clear all slots in the clear list
+                slot.ClearSlot();
+            }
+            foreach (InventorySlot slot in world.player.inventory.slotList)
+            {
+                //Remove every slot in the remove list
+                foreach (Item item in removeList)
+                {
+                    slot.items.Remove(item);
+                }
+            }
+
+            //Update the hotbar because of possible changes
+            UpdateHotbar();
+        }
+
         public void ShowInventory()
         {
             //Show the inventory and hide the hotbar

@@ -36,6 +36,7 @@ namespace SeeloewenCraft
         public Block baseBlock;
         public LootTable lootTable;
         public Gui gui;
+        public CraftingHandler craftingHandler;
         private Random rnd;
         static int offset;
 
@@ -125,7 +126,6 @@ namespace SeeloewenCraft
 
             if (tags.Contains("liquids/water"))
             {
-                Console.WriteLine("HALLO");
                 writer.WritePropertyName("water_is_source");
                 writer.WriteValue(isWaterSource);
                 writer.WritePropertyName("water_source_pos_x");
@@ -136,6 +136,34 @@ namespace SeeloewenCraft
                 writer.WriteValue(waterSourceChunkIndex);
                 writer.WritePropertyName("water_has_source");
                 writer.WriteValue(hasWaterSource);
+            }
+            if (tags.Contains("workstation"))
+            {
+                writer.WritePropertyName("recipe_running");
+                if (craftingHandler.recipeRunning)
+                {
+                    writer.WriteValue(true);
+                    writer.WritePropertyName("recipe_id");
+                    writer.WriteValue(craftingHandler.selectedRecipe.id);
+                    writer.WritePropertyName("recipe_progress");
+                    writer.WriteValue(craftingHandler.recipeProgress);
+                    writer.WritePropertyName("recipe_amount");
+                    writer.WriteValue(craftingHandler.amount);
+                }
+                else if (craftingHandler.recipeClaimable)
+                {
+                    writer.WriteValue(true);
+                    writer.WritePropertyName("recipe_id");
+                    writer.WriteValue(craftingHandler.selectedRecipe.id);
+                    writer.WritePropertyName("recipe_progress");
+                    writer.WriteValue(craftingHandler.selectedRecipe.requiredTime - 100);
+                    writer.WritePropertyName("recipe_amount");
+                    writer.WriteValue(craftingHandler.amount);
+                }
+                else
+                {
+                    writer.WriteValue(false);
+                }
             }
 
             writer.WriteEndObject();
@@ -241,13 +269,33 @@ namespace SeeloewenCraft
                 block.SetInventory(Inventory.LoadFromJson(invToken, world));
             }
 
-            if(block.tags.Contains("liquids/water"))
+            if (block.tags.Contains("liquids/water"))
             {
                 block.waterSourceXPos = (int)new JsonPointer("/water_source_pos_x").Evaluate(blockToken);
                 block.waterSourceYPos = (int)new JsonPointer("/water_source_pos_y").Evaluate(blockToken);
                 block.isWaterSource = (bool)new JsonPointer("/water_is_source").Evaluate(blockToken);
                 block.waterSourceChunkIndex = (int)new JsonPointer("/water_source_chunk_index").Evaluate(blockToken);
                 block.hasWaterSource = (bool)new JsonPointer("/water_has_source").Evaluate(blockToken);
+            }
+
+            if (block.tags.Contains("workstation"))
+            {
+                bool recipeRunning = (bool)new JsonPointer("/recipe_running").Evaluate(blockToken);
+
+                if (recipeRunning)
+                {
+                    CraftingRecipe recipe = block.craftingHandler.GetRecipe((string)new JsonPointer("/recipe_id").Evaluate(blockToken));
+                    int progress = (int)new JsonPointer("/recipe_progress").Evaluate(blockToken);
+                    int amount = (int)new JsonPointer("/recipe_amount").Evaluate(blockToken);
+                    block.craftingHandler.selectedRecipe = recipe;
+                    block.craftingHandler.amount = amount;
+                    block.craftingHandler.tbAmount.Text = amount.ToString();
+                    block.craftingHandler.Craft(recipe, false);
+                    block.craftingHandler.recipeProgress = progress;
+                    block.craftingHandler.pbCrafting.Value = progress;
+                    block.craftingHandler.pbCraftingBlock.Value = progress;
+                }
+
             }
 
             JObject objectToken = (JObject)blockToken;
