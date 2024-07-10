@@ -35,6 +35,7 @@ namespace SeeloewenCraft
         public bool enableHammer = true;
         public bool enableCaveGeneration = true;
         public bool enableLighting = true;
+        public bool enableHealth = false;
         public string texturepack;
 
         //Keybinds
@@ -105,6 +106,11 @@ namespace SeeloewenCraft
             enableLighting = Convert.ToBoolean(cbEnableLighting.IsChecked);
             wndMenu.log.Write($"Saved setting enableLighting as {enableLighting}", "Info");
 
+            writer.WritePropertyName("enable_health");
+            writer.WriteValue(cbEnableHealth.IsChecked);
+            enableLighting = Convert.ToBoolean(cbEnableHealth.IsChecked);
+            wndMenu.log.Write($"Saved setting enableLighting as {enableHealth}", "Info");
+
             writer.WritePropertyName("texturepack");
             writer.WriteValue(cbxTexturepack.Text);
             texturepack = cbxTexturepack.Text;
@@ -154,6 +160,7 @@ namespace SeeloewenCraft
                 enableHammer = settingsToken.GetBool("/enable_hammer");
                 enableCaveGeneration = settingsToken.GetBool($"/enable_cave_generation");
                 enableLighting = settingsToken.GetBool($"/enable_lighting");
+                enableHealth = settingsToken.GetBool($"/enable_health");
                 texturepack = settingsToken.GetString($"/texturepack");
 
                 cMoveRight = keyConverter.StringToKey(keybindsToken.GetString($"/move_right"));
@@ -173,6 +180,7 @@ namespace SeeloewenCraft
             cbEnableHammer.IsChecked = enableHammer;
             cbEnableCaveGeneration.IsChecked = enableCaveGeneration;
             cbEnableLighting.IsChecked = enableLighting;
+            cbEnableHealth.IsChecked = enableHealth;
             cbxTexturepack.Text = texturepack;
 
             tbMoveRight.Text = keyConverter.KeyToString(cMoveRight);

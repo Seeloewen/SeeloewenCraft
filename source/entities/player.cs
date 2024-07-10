@@ -95,8 +95,10 @@ namespace SeeloewenCraft
             world.debugMenu.AddLine(world.debugMenu.tblGameStats, "v_y");
 
             //Setup health bar
-            healthBar = new HealthBar(world, 10, 740);
-
+            if (world.wndMenu.wndSettings.enableHealth)
+            {
+                healthBar = new HealthBar(world, 10, 740);
+            }
         }
 
         public void SavePosition(string path)
@@ -363,7 +365,7 @@ namespace SeeloewenCraft
                     world.wndGame.cvsWorld.Children.Add(world.currentChunkList[4].grdChunk);
                 }
                 catch { }
-              
+
                 Canvas.SetLeft(world.currentChunkList[4].grdChunk, 1200 - offset);
 
                 //Sort the chunklist again
@@ -383,7 +385,7 @@ namespace SeeloewenCraft
                 Canvas.SetLeft(world.currentChunkList[4].grdChunk, -400 + offset);
 
                 //Sort the list again
-                world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();           
+                world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
             }
         }
 
