@@ -31,6 +31,7 @@
                     <CheckBox x:Name="cbEnableCaveGeneration" Content="Enable Cave Generation" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" HorizontalAlignment="Left" Canvas.Left="20" Canvas.Top="47" VerticalAlignment="Top"/>
                     <CheckBox x:Name="cbEnableHammer" Content="Enable Hammer" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" HorizontalAlignment="Left" Canvas.Left="20" Canvas.Top="72" VerticalAlignment="Top"/>
                     <CheckBox x:Name="cbEnableLighting" Content="Enable Lighting" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" HorizontalAlignment="Left" Canvas.Left="20" Canvas.Top="97" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbEnableHealth" Content="Enable Health" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="False" Canvas.Left="20" Canvas.Top="123" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                 </Canvas>
             </TabItem>
             <TabItem x:Name="tiKeybinds" Header="Keybinds">
