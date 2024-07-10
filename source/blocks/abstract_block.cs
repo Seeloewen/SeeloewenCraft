@@ -289,7 +289,6 @@ namespace SeeloewenCraft
                     int amount = (int)new JsonPointer("/recipe_amount").Evaluate(blockToken);
                     block.craftingHandler.selectedRecipe = recipe;
                     block.craftingHandler.amount = amount;
-                    block.craftingHandler.tbAmount.Text = amount.ToString();
                     block.craftingHandler.Craft(recipe, false);
                     block.craftingHandler.recipeProgress = progress;
                     block.craftingHandler.pbCrafting.Value = progress;

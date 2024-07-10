@@ -539,4 +539,33 @@ namespace SeeloewenCraft
             throw new NotImplementedException();
         }
     }
+
+    public class AlphaCrafterItem : Item
+    {
+        public AlphaCrafterItem(World world, Block block) : base(world, block)
+        {
+            isPlacable = true;
+            name = "Alpha Crafter";
+            id = "sc:alpha_crafter_item";
+            SetTexture();
+        }
+
+        override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
+        {
+            block = new AlphaCrafterBlock(world, x, y, chunk, this, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            //Set the texture of the block on the canvas
+            image = world.images.AlphaCrafter;
+            cvsItem.Background = image;
+        }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

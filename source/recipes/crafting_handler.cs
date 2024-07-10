@@ -273,7 +273,7 @@ namespace SeeloewenCraft
 
         private void tmrCrafting_Tick(object sender, EventArgs e)
         {
-            //Update all water blocks accordingly
+            //Update the timer and progress bars
             recipeProgress += 25;
 
             pbCrafting.Maximum = selectedRecipe.requiredTime * amount;
@@ -287,12 +287,14 @@ namespace SeeloewenCraft
 
             if (recipeProgress >= selectedRecipe.requiredTime * amount)
             {
+                //If the timer is complete, finish the process and reset everything to default
                 recipeRunning = false;
                 recipeClaimable = true;
                 tmrCrafting.Stop();
                 pbCrafting.Visibility = Visibility.Hidden;
                 btnClaim.Visibility = Visibility.Visible;
                 tbAmount.IsEnabled = true;
+                world.log.Write($"Completed crafting for {amount}x {selectedRecipe.id} at workstation {workstation} (X: {block.xPos}, Y: {block.yPos}, Chunk: {block.chunk.index})", "Info");
             }
         }
     }
