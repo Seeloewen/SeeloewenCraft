@@ -11,25 +11,31 @@ namespace SeeloewenCraft
     {
         World world;
 
+        //-- Constructor --//
+
         public RecipeCreator(World world)
         {
             this.world = world;
         }
 
+        //-- Custom Methods --//
+
         public void CreateRecipes()
         {
-            hammer = new CraftingRecipe(world, "AlphaCrafter", "sc:recipe_hammer", "Hammer", world.images.Hammer, 5000);
+            //Setup all recipes
+            hammer = new CraftingRecipe(world, "AlphaCrafter", "sc:recipe_hammer", "Hammer", world.images.Hammer, 3000);
             hammer.ingredients.Add(new CraftingIngredient(new StoneItem(world, null), 8));
             hammer.ingredients.Add(new CraftingIngredient(new OakLogItem(world, null), 3));
             hammer.outcomeItems.Add(new HammerItem(world, null));
 
-            chest = new CraftingRecipe(world, "AlphaCrafter", "sc:chest", "Chest", world.images.ChestBlock, 300);
+            chest = new CraftingRecipe(world, "AlphaCrafter", "sc:chest", "Chest", world.images.ChestBlock, 10000);
             chest.ingredients.Add(new CraftingIngredient(new OakLogItem(world, null), 10));
             chest.outcomeItems.Add(new HammerItem(world, null));
         }
 
+        //-- Recipe References --//
+
         public CraftingRecipe hammer;
         public CraftingRecipe chest;
-
     }
 }

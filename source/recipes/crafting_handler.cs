@@ -16,39 +16,49 @@ namespace SeeloewenCraft
 {
     public class CraftingHandler
     {
-        World world;
-        public Block block;
-        public Canvas cvsRecipes;
-        public Canvas cvsIngredients;
-        public Button btnCraft;
-        public Button btnClaim;
-        public ProgressBar pbCrafting;
+        //References
+        private System.Windows.Forms.Timer tmrCrafting = new System.Windows.Forms.Timer();
         public ProgressBar pbCraftingBlock = new ProgressBar() { Height = 12, Width = 40 };
-        public TextBox tbAmount;
+        public World world;
+        private Block block;
+        private Canvas cvsRecipes;
+        private Canvas cvsIngredients;
+        private Button btnCraft;
+        private Button btnClaim;
+        public ProgressBar pbCrafting;
+        private TextBox tbAmount;
         public CraftingRecipe selectedRecipe;
+
+        //Constants
+        public string workstation;
+
+        //Variables
         public int recipeProgress;
         public bool recipeRunning;
         public bool recipeClaimable;
-        public string workstation;
-        public int craftingProgressStep;
+        private int craftingProgressStep;
         public int amount = 1;
-        System.Windows.Forms.Timer tmrCrafting = new System.Windows.Forms.Timer();
+
+        //-- Constructor --//
 
         public CraftingHandler(World world, Block block)
         {
             this.world = world;
             this.block = block;
 
+            //Setup some components
             Canvas.SetTop(pbCraftingBlock, 20);
             Canvas.SetLeft(pbCraftingBlock, 5);
 
-            //Start the main timer
             tmrCrafting.Interval = 25;
             tmrCrafting.Tick += tmrCrafting_Tick;
         }
 
+        //-- Custom Methods --//
+
         public CraftingRecipe GetRecipe(string id)
         {
+            //Go through the recipe list and find the recipe with the specified id
             foreach (CraftingRecipe recipe in world.craftingRecipeList)
             {
                 if (recipe.id == id)
@@ -61,9 +71,9 @@ namespace SeeloewenCraft
 
         public void RenderCraftingRecipes(Canvas cvsRecipes, Canvas cvsIngredients, Button btnCraft, Button btnClaim, ProgressBar pbCrafting, TextBox tbAmount, string workstation)
         {
-            //Set references and clear existing content
             if (!recipeRunning && !recipeClaimable)
             {
+                //Set references to gui
                 this.workstation = workstation;
                 this.cvsRecipes = cvsRecipes;
                 this.cvsIngredients = cvsIngredients;
@@ -71,6 +81,8 @@ namespace SeeloewenCraft
                 this.btnClaim = btnClaim;
                 this.pbCrafting = pbCrafting;
                 this.tbAmount = tbAmount;
+
+                //Reset previous changes and variables to default
                 this.cvsIngredients.Children.Clear();
                 this.cvsRecipes.Children.Clear();
                 this.btnCraft.IsEnabled = false;
@@ -119,6 +131,7 @@ namespace SeeloewenCraft
                 int top = 10;
                 cvsIngredients.Children.Clear();
 
+                //List all ingredients
                 foreach (CraftingIngredient ingredient in recipe.ingredients)
                 {
                     //Create a canvas with details for each ingredient
@@ -178,8 +191,10 @@ namespace SeeloewenCraft
 
         public void Craft(CraftingRecipe recipe, bool isNew)
         {
+            //Check if the crafting recipe is new or continued (when the chunk gets loaded for example)
             if (isNew)
             {
+                //If it's new, remove the required materials based on the amount from the players inventory
                 foreach (CraftingIngredient ingredient in recipe.ingredients)
                 {
                     for (int i = 0; i < ingredient.amount * amount; i++)
@@ -190,6 +205,7 @@ namespace SeeloewenCraft
                 RenderCraftingDetails(cvsIngredients, recipe);
             }
 
+            //Reset the progress of the possible previous recipe
             recipeProgress = 0;
             pbCrafting.Visibility = Visibility.Visible;
             pbCrafting.Value = 0;
@@ -197,12 +213,14 @@ namespace SeeloewenCraft
             recipeRunning = true;
             tbAmount.IsEnabled = true;
 
+            //If possible, also render the progressbar on the block
             if (block.blockContainer != null)
             {
                 pbCraftingBlock.Value = 0;
                 block.blockContainer.cvsBlock.Children.Add(pbCraftingBlock);
             }
 
+            //Actually start the crafting timer
             tmrCrafting.Start();
         }
 
@@ -212,6 +230,7 @@ namespace SeeloewenCraft
         {
             if (!recipeRunning && !recipeClaimable)
             {
+                //Set the background to 'unselected' for every recipe
                 foreach (UIElement element in cvsRecipes.Children)
                 {
                     if (element is Canvas canvas)
@@ -225,15 +244,16 @@ namespace SeeloewenCraft
                 var sourceElement = e.OriginalSource as DependencyObject;
                 while (sourceElement != null)
                 {
+                    //Get the recipe canvas
                     if (sourceElement is Canvas canvas && canvas.Tag != null && !string.IsNullOrEmpty(canvas.Tag.ToString()))
                     {
+                        //Set canvas state to 'selected' and set tag
                         canvas.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 134, 134, 134));
                         tag = canvas.Tag.ToString();
                         break;
                     }
                     sourceElement = VisualTreeHelper.GetParent(sourceElement);
                 }
-
                 selectedRecipe = GetRecipe(tag);
 
                 //Render stuff like ingredients and check if the required items are available
@@ -294,6 +314,9 @@ namespace SeeloewenCraft
                 pbCrafting.Visibility = Visibility.Hidden;
                 btnClaim.Visibility = Visibility.Visible;
                 tbAmount.IsEnabled = true;
+
+                //Show notification and log that crafting process is complete
+                world.notificationHandler.ShowNotification($"Crafting for x{amount} {selectedRecipe.displayName} completed!", 3000, world.images.AlphaCrafter);
                 world.log.Write($"Completed crafting for {amount}x {selectedRecipe.id} at workstation {workstation} (X: {block.xPos}, Y: {block.yPos}, Chunk: {block.chunk.index})", "Info");
             }
         }

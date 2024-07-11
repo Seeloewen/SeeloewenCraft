@@ -154,10 +154,22 @@ namespace SeeloewenCraft
                     }
                 }
             }
-            if(pressedKeys.Contains(world.wndMenu.wndSettings.cToggleDebug))
+            else if(pressedKeys.Contains(world.wndMenu.wndSettings.cNotifications))
+            {
+                //Open notification list gui
+                if(world.notificationHandler.gui.isOpen)
+                {
+                    world.notificationHandler.HideGui();
+                }
+                else
+                {
+                    world.notificationHandler.ShowGui();
+                }
+            }
+            if (pressedKeys.Contains(world.wndMenu.wndSettings.cToggleDebug))
             {
                 //Open debug menu
-                if(world.debugMenu.isEnabled)
+                if (world.debugMenu.isEnabled)
                 {
                     world.debugMenu.Hide();
                 }
@@ -305,6 +317,14 @@ namespace SeeloewenCraft
             {
                 world.player.healthBar.SetValue(7);
             }
+            else if (tbDebug.Text == "/shownotification")
+            {
+                world.notificationHandler.ShowNotification($"This is a test notification! Here's the max integer: {int.MaxValue}", 3000, world.images.GrassBlock);
+            }
+            else if (tbDebug.Text == "/shownotificationgui")
+            {
+                world.notificationHandler.ShowGui();
+            }
             else
             {
                 //Show error message if the command is unknown
@@ -443,6 +463,13 @@ namespace SeeloewenCraft
             world.player.inventory.hotbarSlotList[newSlot].SelectSlot();
 
             e.Handled = true;
+        }
+
+        private void btnNotifications_Click(object sender, RoutedEventArgs e)
+        {
+            //Show the notification list gui
+            world.notificationHandler.ShowGui();
+            bdrMenu.Visibility = Visibility.Hidden;
         }
     }
 }

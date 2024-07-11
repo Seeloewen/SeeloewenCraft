@@ -7,8 +7,11 @@ namespace SeeloewenCraft
 {
     public class CraftingIngredient
     {
+
         public Item item;
         public int amount;
+
+        //-- Constructor --//
 
         public CraftingIngredient(Item item, int amount)
         {

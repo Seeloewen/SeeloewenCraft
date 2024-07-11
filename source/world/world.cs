@@ -34,6 +34,7 @@ namespace SeeloewenCraft
         public ClickHandler clickHandler;
         public DebugMenu debugMenu;
         public RecipeCreator recipeCreator;
+        public NotificationHandler notificationHandler;
 
         //Constants
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
@@ -67,6 +68,7 @@ namespace SeeloewenCraft
             clickHandler = new ClickHandler(this);
             debugMenu = new DebugMenu(this);
             recipeCreator = new RecipeCreator(this);
+            notificationHandler = new NotificationHandler(this);
             recipeCreator.CreateRecipes();
 
             worldDirectory = $"{wndMenu.worldDirectory}\\{worldName}";
@@ -278,9 +280,9 @@ namespace SeeloewenCraft
         {
             foreach (Gui gui in guiList)
             {
-                if(gui.isOpen)
+                if (gui.isOpen)
                 {
-                    if(gui.id == "sc:inventory")
+                    if (gui.id == "sc:inventory")
                     {
                         if (!ignoreInventory)
                         {

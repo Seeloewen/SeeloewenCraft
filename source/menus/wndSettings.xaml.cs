@@ -35,6 +35,7 @@ namespace SeeloewenCraft
         public bool enableHammer = true;
         public bool enableCaveGeneration = true;
         public bool enableLighting = true;
+        public bool showNotifications = true;
         public string texturepack;
 
         //Keybinds
@@ -43,6 +44,7 @@ namespace SeeloewenCraft
         public Key cShowInv = Key.E;
         public Key cToggleDebug = Key.F3;
         public Key cJump = Key.Space;
+        public Key cNotifications = Key.N;
 
         //-- Constructor --//
 
@@ -108,6 +110,11 @@ namespace SeeloewenCraft
             enableLighting = Convert.ToBoolean(cbEnableLighting.IsChecked);
             wndMenu.log.Write($"Saved setting enableLighting as {enableLighting}", "Info");
 
+            writer.WritePropertyName("show_notifications");
+            writer.WriteValue(cbShowNotifications.IsChecked);
+            enableLighting = Convert.ToBoolean(cbShowNotifications.IsChecked);
+            wndMenu.log.Write($"Saved setting enableLighting as {showNotifications}", "Info");
+
             writer.WritePropertyName("texturepack");
             writer.WriteValue(cbxTexturepack.Text);
             texturepack = cbxTexturepack.Text;
@@ -134,6 +141,9 @@ namespace SeeloewenCraft
             writer.WritePropertyName("toggle_debug_menu");
             writer.WriteValue(tbToggleDebugMenu.Text);
             cToggleDebug = keyConverter.StringToKey(tbToggleDebugMenu.Text);
+            writer.WritePropertyName("show_notification_list");
+            writer.WriteValue(tbShowNotificationList.Text);
+            cToggleDebug = keyConverter.StringToKey(tbShowNotificationList.Text);
             writer.WriteEndObject();
 
             writer.WriteEndObject();
@@ -157,6 +167,7 @@ namespace SeeloewenCraft
                 enableHammer = (bool)new JsonPointer("/enable_hammer").Evaluate(settingsToken);
                 enableCaveGeneration = (bool)new JsonPointer($"/enable_cave_generation").Evaluate(settingsToken);
                 enableLighting = (bool)new JsonPointer($"/enable_lighting").Evaluate(settingsToken);
+                showNotifications = (bool)new JsonPointer($"/show_notifications").Evaluate(settingsToken);
                 texturepack = (string)new JsonPointer($"/texturepack").Evaluate(settingsToken);
 
                 cMoveRight = keyConverter.StringToKey((string)new JsonPointer($"/move_right").Evaluate(keybindsToken));
@@ -164,6 +175,7 @@ namespace SeeloewenCraft
                 cJump = keyConverter.StringToKey((string)new JsonPointer($"/jump").Evaluate(keybindsToken));
                 cShowInv = keyConverter.StringToKey((string)new JsonPointer($"/show_inventory").Evaluate(keybindsToken));
                 cToggleDebug = keyConverter.StringToKey((string)new JsonPointer($"/toggle_debug_menu").Evaluate(keybindsToken));
+                cNotifications = keyConverter.StringToKey((string)new JsonPointer($"/show_notification_list").Evaluate(keybindsToken));
             }
             catch (Exception ex)
             {
@@ -176,6 +188,7 @@ namespace SeeloewenCraft
             cbEnableHammer.IsChecked = enableHammer;
             cbEnableCaveGeneration.IsChecked = enableCaveGeneration;
             cbEnableLighting.IsChecked = enableLighting;
+            cbShowNotifications.IsChecked = showNotifications;
             cbxTexturepack.Text = texturepack;
 
             tbMoveRight.Text = keyConverter.KeyToString(cMoveRight);
@@ -183,6 +196,7 @@ namespace SeeloewenCraft
             tbJump.Text = keyConverter.KeyToString(cJump);
             tbOpenInventory.Text = keyConverter.KeyToString(cShowInv);
             tbToggleDebugMenu.Text = keyConverter.KeyToString(cToggleDebug);
+            tbShowNotificationList.Text = keyConverter.KeyToString(cNotifications);
 
             //Load the texturepacks
             GetTexturepacks();
@@ -352,6 +366,14 @@ namespace SeeloewenCraft
             e.Handled = true;
             string keyText = keyConverter.KeyToString(e.Key);
             tbToggleDebugMenu.Text = keyText;
+        }
+
+        private void tbShowNotificationList_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            //Display key in textbox
+            e.Handled = true;
+            string keyText = keyConverter.KeyToString(e.Key);
+            tbShowNotificationList.Text = keyText;
         }
     }
 }
