@@ -45,6 +45,7 @@ namespace SeeloewenCraft
         private double d_offset_y = 0;
         private double posX;
         private double posY;
+        private double posXInChunk;
 
 
         //Hitbox points
@@ -193,6 +194,7 @@ namespace SeeloewenCraft
                     {
                         posY = block.yPos - blockOriginPoint.Y / 50;
                         posX = block.xPos - blockOriginPoint.X / 50 + 8 * chunk.index;
+                        posXInChunk = block.xPos - blockOriginPoint.X / 50;
                         coordsDetermined = true;
                     }
                 }
