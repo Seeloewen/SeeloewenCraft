@@ -212,16 +212,30 @@ namespace SeeloewenCraft
             btnCraft.Visibility = Visibility.Hidden;
             recipeRunning = true;
             tbAmount.IsEnabled = true;
+            pbCraftingBlock.Value = 0;
 
-            //If possible, also render the progressbar on the block
-            if (block.blockContainer != null)
-            {
-                pbCraftingBlock.Value = 0;
-                block.blockContainer.cvsBlock.Children.Add(pbCraftingBlock);
-            }
+            ShowBlockProgressbar();
 
             //Actually start the crafting timer
             tmrCrafting.Start();
+        }
+
+        public void ShowBlockProgressbar()
+        {
+            //If possible, render the progressbar on the block
+            if (block.blockContainer != null)
+            {
+                block.blockContainer.cvsBlock.Children.Add(pbCraftingBlock);
+            }
+        }
+
+        public void HideBlockProgressbar()
+        {
+            //If possible, hide the progressbar on the block
+            if (block.blockContainer != null)
+            {
+                block.blockContainer.cvsBlock.Children.Remove(pbCraftingBlock);
+            }
         }
 
         //-- Event Handlers --//

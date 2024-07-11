@@ -64,25 +64,28 @@ namespace SeeloewenCraft
             rectDarkOverlayLight.Fill = new SolidColorBrush(Colors.Black);
             rectDarkOverlayLight.Opacity = 0;
             rectDarkOverlayLight.Visibility = System.Windows.Visibility.Visible;
-            cvsBlock.Children.Add(rectDarkOverlayLight);            
+            cvsBlock.Children.Add(rectDarkOverlayLight);
         }
 
         //-- Custom Methods --//
 
         public void RenderBlock(Block block)
-        {
-            //Remove the event handlers of the previous block
-            if (this.block != null)
-            {
-                this.block.RemoveHandlersFromContainer();
-            }
+        { 
 
-            //Pass the new position to the block and make a reference
             if (this.block != null)
             {
+                //Remove the handlers from the previous container and check if previous block was lightsource
+                this.block.RemoveHandlersFromContainer();
                 previousBlockWasLightSource = this.block.isLightSource;
             }
 
+            //If the new block is a workstation that has an action running, show the progressbar
+            if (block.craftingHandler != null && (block.craftingHandler.recipeRunning || block.craftingHandler.recipeClaimable))
+            {
+                block.craftingHandler.ShowBlockProgressbar();
+            }
+
+            //Pass the new position to the block and make a reference
             this.block = block;
             this.block.xPos = xPos;
             this.block.yPos = yPos;
@@ -107,6 +110,12 @@ namespace SeeloewenCraft
 
         public void RenderForegroundBlock(Block block)
         {
+            //If the new block is a workstation that has an action running, show the progressbar
+            if (block.craftingHandler != null && (block.craftingHandler.recipeRunning || block.craftingHandler.recipeClaimable))
+            {
+                block.craftingHandler.ShowBlockProgressbar();
+            }
+
             this.block.foregroundBlock = block;
             block.isForeground = true;
             cvsForegroundBlock.Background = block.image;
@@ -122,7 +131,7 @@ namespace SeeloewenCraft
 
         public void RemoveForegroundBlock()
         {
-            if(block != null && block.foregroundBlock != null)
+            if (block != null && block.foregroundBlock != null)
             {
                 previousForegroundBlockWasLightSource = block.foregroundBlock.isLightSource;
                 block.foregroundBlock = null;
@@ -150,9 +159,15 @@ namespace SeeloewenCraft
 
         public void ClearFromChunk()
         {
-            //Remove the event handlers of the previous block
             if (block != null)
             {
+                //If it's a workstation that has an action running, hide the progressbar before assigning to new block
+                if (block.craftingHandler != null && (block.craftingHandler.recipeRunning || block.craftingHandler.recipeClaimable))
+                {
+                    block.craftingHandler.HideBlockProgressbar();
+                }
+
+                //Remove the event handlers of the previous block
                 block.RemoveHandlersFromContainer();
             }
 
