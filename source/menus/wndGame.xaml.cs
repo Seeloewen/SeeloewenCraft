@@ -359,7 +359,7 @@ namespace SeeloewenCraft
                 if (world.wndMenu.wndSettings.saveWorldOnClose == true)
                 {
                     //Save all chunks and the inventory of the player
-                    foreach (Chunk chunk in world.currentChunkList)
+                    foreach (Chunk chunk in world.totalChunkList)
                     {
                         chunk.Save();
                     }
