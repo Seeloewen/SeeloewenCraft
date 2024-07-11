@@ -19,12 +19,16 @@ namespace SeeloewenCraft
     public partial class wndMenu : Window
     {
 
+        //References
         private System.Windows.Forms.Timer tmrSplashText = new System.Windows.Forms.Timer();
+        public Settings settings = new Settings();
         private wndLoadWorld wndLoadWorld;
         public wndSettings wndSettings;
         public World world;
         public Log log;
-        private int splashTextSize = 0;
+        private SplashTextHandler splashTextHandler;
+
+        //Constants
         public int worldVersion = 3;
         public string gameVersion = "Alpha 1.2.0-predev3";
         public string versionDate = "10.07.2024";
@@ -32,11 +36,13 @@ namespace SeeloewenCraft
         public string texturepackDirectory;
         public string logDirectory;
         public string worldDirectory;
-        public string selectedTexturepack;
         public int texturepackVersion;
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
-        private SplashTextHandler splashTextHandler;
+
+        //Variables
+        private int splashTextSize = 0;
         bool setSplashText = false;
+        public string selectedTexturepack;
 
         //-- Constructor --//
 
@@ -61,7 +67,7 @@ namespace SeeloewenCraft
             //Create the game directories
             CreateDirectories();
             
-            wndSettings = new wndSettings(this);
+            wndSettings = new wndSettings(this, settings);
         }
 
         //-- Event Handlers --//
@@ -82,7 +88,7 @@ namespace SeeloewenCraft
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             //Show the settings window
-            wndSettings = new wndSettings(this);
+            wndSettings = new wndSettings(this, settings);
             wndSettings.ShowDialog();
         }
 
@@ -108,7 +114,7 @@ namespace SeeloewenCraft
         private void wndMenu1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //Save the log, if enabled
-            if (wndSettings.saveLogOnExit)
+            if (settings.saveLogOnExit)
             {
                 log.Save(logDirectory, false);
             }

@@ -37,7 +37,7 @@ namespace SeeloewenCraft
         //-- Custom Methods --//
         private void HandleKeyPresses()
         {
-            if (pressedKeys.Contains(world.wndMenu.wndSettings.cShowInv)) //E key
+            if (pressedKeys.Contains(world.settings.cShowInv)) //E key
             {
                 //Check how many guis are open
                 int openGuis = 0;
@@ -154,7 +154,7 @@ namespace SeeloewenCraft
                     }
                 }
             }
-            else if(pressedKeys.Contains(world.wndMenu.wndSettings.cNotifications))
+            else if(pressedKeys.Contains(world.settings.cNotifications))
             {
                 //Open notification list gui
                 if(world.notificationHandler.gui.isOpen)
@@ -166,7 +166,7 @@ namespace SeeloewenCraft
                     world.notificationHandler.ShowGui();
                 }
             }
-            if (pressedKeys.Contains(world.wndMenu.wndSettings.cToggleDebug))
+            if (pressedKeys.Contains(world.settings.cToggleDebug))
             {
                 //Open debug menu
                 if (world.debugMenu.isEnabled)
@@ -388,7 +388,7 @@ namespace SeeloewenCraft
             if (world.finishedLoading)
             {
                 world.tmrMovement.Stop();
-                if (world.wndMenu.wndSettings.saveWorldOnClose == true)
+                if (world.settings.saveWorldOnClose == true)
                 {
                     //Save all chunks and the inventory of the player
                     foreach (Chunk chunk in world.currentChunkList)
@@ -421,7 +421,7 @@ namespace SeeloewenCraft
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             //Show settings window
-            world.wndMenu.wndSettings = new wndSettings(world.wndMenu);
+            world.wndMenu.wndSettings = new wndSettings(world.wndMenu, world.settings);
             world.wndMenu.wndSettings.ShowDialog();
         }
 

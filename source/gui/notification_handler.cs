@@ -59,7 +59,7 @@ namespace SeeloewenCraft
 
         public void ShowNotification(string message, int timeShown, ImageBrush image)
         {
-            if (world.wndMenu.wndSettings.showNotifications)
+            if (world.wndMenu.settings.showNotifications)
             {
                 //Show the notification 
                 tblNotification.Text = message;

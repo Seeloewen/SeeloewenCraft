@@ -35,6 +35,7 @@ namespace SeeloewenCraft
         public DebugMenu debugMenu;
         public RecipeCreator recipeCreator;
         public NotificationHandler notificationHandler;
+        public Settings settings;
 
         //Constants
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
@@ -59,6 +60,7 @@ namespace SeeloewenCraft
             this.gameVersion = gameVersion;
             this.wndMenu = wndMenu;
             this.log = log;
+            settings = wndMenu.settings;
 
             //Create objects
             wndGame = new wndGame(this);
@@ -252,7 +254,7 @@ namespace SeeloewenCraft
             else
             {
                 //Give the player a hammer -- !! Only temporary until Crafting is implemented !!
-                if (wndMenu.wndSettings.enableHammer) player.inventory.AddItem(new HammerItem(this, null));
+                if (settings.enableHammer) player.inventory.AddItem(new HammerItem(this, null));
                 for (int i = 0; i < 64; i++)
                 {
                     player.inventory.AddItem(new TorchItem(this, null));
@@ -385,7 +387,7 @@ namespace SeeloewenCraft
         private void tmrMovement_Tick(object sender, EventArgs e)
         {
             //Movement timer, ticks at a rate of approximitely 60 fps (every 16 ms)
-            player.PhysicsStep(wndGame.pressedKeys.Contains(wndMenu.wndSettings.cMoveLeft), wndGame.pressedKeys.Contains(wndMenu.wndSettings.cMoveRight), wndGame.pressedKeys.Contains(wndMenu.wndSettings.cJump), 0.016);
+            player.PhysicsStep(wndGame.pressedKeys.Contains(settings.cMoveLeft), wndGame.pressedKeys.Contains(settings.cMoveRight), wndGame.pressedKeys.Contains(settings.cJump), 0.016);
         }
 
         private void tmrWater_Tick(object sender, EventArgs e)
