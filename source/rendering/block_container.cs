@@ -79,17 +79,18 @@ namespace SeeloewenCraft
                 previousBlockWasLightSource = this.block.isLightSource;
             }
 
-            //If the new block is a workstation that has an action running, show the progressbar
-            if (block.craftingHandler != null && (block.craftingHandler.recipeRunning || block.craftingHandler.recipeClaimable))
-            {
-                block.craftingHandler.ShowBlockProgressbar();
-            }
 
             //Pass the new position to the block and make a reference
             this.block = block;
             this.block.xPos = xPos;
             this.block.yPos = yPos;
             this.block.SetContainer(this);
+
+            //If the new block is a workstation that has an action running, show the progressbar
+            if (block.craftingHandler != null && (block.craftingHandler.recipeRunning || block.craftingHandler.recipeClaimable))
+            {
+                block.craftingHandler.ShowBlockProgressbar();
+            }
 
             //Check if the block has a lightsource in range and set lightlevel
             if (world.settings.enableLighting)
@@ -183,6 +184,12 @@ namespace SeeloewenCraft
             RemoveForegroundBlock();
             if (block != null)
             {
+                //If it's a workstation that has an action running, hide the progressbar before assigning to new block
+                if (block.craftingHandler != null && (block.craftingHandler.recipeRunning || block.craftingHandler.recipeClaimable))
+                {
+                    block.craftingHandler.HideBlockProgressbar();
+                }
+
                 block.blockContainer = null;
             }
             block = null;

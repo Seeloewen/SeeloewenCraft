@@ -473,6 +473,9 @@ namespace SeeloewenCraft
                         case "sc:diamond_ore_item":
                             slot.AddToSlot(new DiamondOreItem(world, null));
                             break;
+                        case "sc:alpha_crafter_item":
+                            slot.AddToSlot(new AlphaCrafterItem(world, null));
+                            break;
                     }
                 }
                 slotNum++;

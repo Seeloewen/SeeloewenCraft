@@ -258,6 +258,9 @@ namespace SeeloewenCraft
                 case "sc:water_6_block":
                     block = new WaterBlock_6(world, posX, posY, chunk, null, isInBackground);
                     break;
+                case "sc:alpha_crafter_block":
+                    block = new AlphaCrafterBlock(world, posX, posY, chunk, null, isInBackground);
+                    break;
                 default:
                     block = new AirBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
@@ -654,6 +657,13 @@ namespace SeeloewenCraft
 
         public void PlaceNewBlock(Block block)
         {
+            //Show the progressbar based on if it's workstation or not
+            if (craftingHandler != null && (craftingHandler.recipeRunning || craftingHandler.recipeClaimable))
+            {
+                craftingHandler.HideBlockProgressbar();
+            }
+
+
             //Add the block to the chunk
             chunk.SetBlock(block, xPos, yPos);
             block.MoveToForeground();

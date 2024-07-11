@@ -428,7 +428,6 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Magma Block";
             id = "sc:magma_block";
-            tags.Add("workstation");
         }
 
         override public void GenerateItem(World world, int id)
@@ -556,6 +555,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Alpha Crafter";
             id = "sc:alpha_crafter_block";
+            tags.Add("workstation");
             hasRightClickAction = true;
 
             craftingHandler = new CraftingHandler(world, this);
