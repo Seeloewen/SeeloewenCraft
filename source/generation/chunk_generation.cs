@@ -21,7 +21,7 @@ namespace SeeloewenCraft
             GenerateTerrain();
             GenerateTrees();
             GenerateOres();
-            if (world.wndMenu.wndSettings.enableCaveGeneration) GenerateCaves();
+            if (world.settings.enableCaveGeneration) GenerateCaves();
             ContinueStructureGeneration();
         }
 
@@ -39,7 +39,7 @@ namespace SeeloewenCraft
                 else
                 {
                     //If it's not the first chunk, get the most right floor height from the chunk to the left
-                    floorHeight = world.GetFromCurrentChunks(index - 1).floorHeightRight;
+                     floorHeight = world.GetFromCurrentChunks(index - 1).floorHeightRight;
                 }
             }
             else if (index < 0)

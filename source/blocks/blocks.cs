@@ -546,4 +546,47 @@ throw new NotImplementedException();
             throw new NotImplementedException();
         }
     }
+
+    public class AlphaCrafterBlock : Block
+    {
+        public AlphaCrafterBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        {
+            SetTexture();
+            name = "Alpha Crafter";
+            id = "sc:alpha_crafter_block";
+            tags.Add("workstation");
+            hasRightClickAction = true;
+
+            craftingHandler = new CraftingHandler(world, this);
+            gui = new AlphaCrafterGui(world, 535, 720, 120, 200, "sc:alpha_crafter", null, this);
+        }
+
+        override public void GenerateItem(World world, int id)
+        {
+            item = new AlphaCrafterItem(world, this);
+        }
+
+        public override void SetTexture()
+        {
+            image = world.images.AlphaCrafter;
+        }
+
+        public override void RightClickAction(object sender)
+        {
+            gui.Show();
+        }
+
+        public override void ShowAdditionalDebugInfo()
+        {
+            world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"recipeClaimable={craftingHandler.recipeClaimable}");
+            world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"recipeRunning={craftingHandler.recipeRunning}");
+
+            if (craftingHandler.recipeRunning)
+            {
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"selectedRecipe={craftingHandler.selectedRecipe}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"recipeProgress={craftingHandler.recipeProgress}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"amount={craftingHandler.amount}");
+            }
+        }
+    }
 }

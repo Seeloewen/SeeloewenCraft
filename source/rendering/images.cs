@@ -117,6 +117,7 @@ namespace SeeloewenCraft
             HealthFull = new ImageBrush { ImageSource = GetImageSource("HealthFull.png") };
             HealthHalf = new ImageBrush { ImageSource = GetImageSource("HealthHalf.png") };
             HealthEmpty = new ImageBrush { ImageSource = GetImageSource("HealthEmpty.png") };
+            AlphaCrafter = new ImageBrush { ImageSource = GetImageSource("AlphaCrafter.png") };
         }
 
         //-- Images --//
@@ -157,5 +158,6 @@ namespace SeeloewenCraft
         public ImageBrush HealthFull;
         public ImageBrush HealthHalf;
         public ImageBrush HealthEmpty;
+        public ImageBrush AlphaCrafter;
     }
 }

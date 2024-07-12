@@ -5,12 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows;
+using System.Drawing;
+using System.Windows.Media;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Text.RegularExpressions;
 
 namespace SeeloewenCraft
 {
     public abstract class Gui
     {
-        World world;
+        public World world;
         public Inventory inventory;
         public Canvas cvsGui;
         public TextBlock tblHeader;
@@ -46,7 +51,7 @@ namespace SeeloewenCraft
             cvsGui.Children.Add(tblHeader);
         }
 
-        public void Show()
+        public virtual void Show()
         {
             cvsGui.Visibility = Visibility.Visible;
             isOpen = true;
@@ -69,18 +74,6 @@ namespace SeeloewenCraft
         public void SetLeft(int newLeft)
         {
             Canvas.SetLeft(cvsGui, newLeft);
-        }
-    }
-
-    public class InventoryGui : Gui
-    {
-        public InventoryGui(World world, int height, int width, int top, int left, string id, Inventory inventory) : base(world, height, width, top, left, id)
-        {
-            this.inventory = inventory;
-
-            tblHeader.Text = "Inventory";
-            tblHeader.FontSize = 18;
-            Canvas.SetLeft(tblHeader, 20);
         }
     }
 }

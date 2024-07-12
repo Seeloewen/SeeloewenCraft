@@ -35,6 +35,8 @@ namespace SeeloewenCraft
         public List<Block> connectedBlocks = new List<Block>();
         public Block baseBlock;
         public LootTable lootTable;
+        public Gui gui;
+        public CraftingHandler craftingHandler;
         private Random rnd;
         static int offset;
 
@@ -124,7 +126,6 @@ namespace SeeloewenCraft
 
             if (tags.Contains("liquids/water"))
             {
-                Console.WriteLine("HALLO");
                 writer.WritePropertyName("water_is_source");
                 writer.WriteValue(isWaterSource);
                 writer.WritePropertyName("water_source_pos_x");
@@ -135,6 +136,34 @@ namespace SeeloewenCraft
                 writer.WriteValue(waterSourceChunkIndex);
                 writer.WritePropertyName("water_has_source");
                 writer.WriteValue(hasWaterSource);
+            }
+            if (tags.Contains("workstation"))
+            {
+                writer.WritePropertyName("recipe_running");
+                if (craftingHandler.recipeRunning)
+                {
+                    writer.WriteValue(true);
+                    writer.WritePropertyName("recipe_id");
+                    writer.WriteValue(craftingHandler.selectedRecipe.id);
+                    writer.WritePropertyName("recipe_progress");
+                    writer.WriteValue(craftingHandler.recipeProgress);
+                    writer.WritePropertyName("recipe_amount");
+                    writer.WriteValue(craftingHandler.amount);
+                }
+                else if (craftingHandler.recipeClaimable)
+                {
+                    writer.WriteValue(true);
+                    writer.WritePropertyName("recipe_id");
+                    writer.WriteValue(craftingHandler.selectedRecipe.id);
+                    writer.WritePropertyName("recipe_progress");
+                    writer.WriteValue(craftingHandler.selectedRecipe.requiredTime - 100);
+                    writer.WritePropertyName("recipe_amount");
+                    writer.WriteValue(craftingHandler.amount);
+                }
+                else
+                {
+                    writer.WriteValue(false);
+                }
             }
 
             writer.WriteEndObject();
@@ -229,6 +258,9 @@ namespace SeeloewenCraft
                 case "sc:water_6_block":
                     block = new WaterBlock_6(world, posX, posY, chunk, null, isInBackground);
                     break;
+                case "sc:alpha_crafter_block":
+                    block = new AlphaCrafterBlock(world, posX, posY, chunk, null, isInBackground);
+                    break;
                 default:
                     block = new AirBlock(world, posX, posY, chunk, null, isInBackground);
                     break;
@@ -249,6 +281,25 @@ namespace SeeloewenCraft
                 block.hasWaterSource = blockToken.GetBool("/water_has_source");
             }
 
+            if (block.tags.Contains("workstation"))
+            {
+                bool recipeRunning = blockToken.GetBool("/recipe_running");
+
+                if (recipeRunning)
+                {
+                    CraftingRecipe recipe = block.craftingHandler.GetRecipe(blockToken.GetString("/recipe_id"));
+                    int progress = blockToken.GetInt("/recipe_progress");
+                    int amount = blockToken.GetInt("/recipe_amount");
+                    block.craftingHandler.selectedRecipe = recipe;
+                    block.craftingHandler.amount = amount;
+                    block.craftingHandler.Craft(recipe, false);
+                    block.craftingHandler.recipeProgress = progress;
+                    block.craftingHandler.pbCrafting.Value = progress;
+                    block.craftingHandler.pbCraftingBlock.Value = progress;
+                }
+
+            }
+          
             if (blockToken.ContainsKey("foreground_block"))
             {
                 block.foregroundBlock = Block.LoadFromJson(blockToken.GetToken("/inventory"), chunk, world);
@@ -588,12 +639,19 @@ namespace SeeloewenCraft
 
         public void PlaceNewBlock(Block block)
         {
+
+            //Show the progressbar based on if it's workstation or not
+            if (craftingHandler != null && (craftingHandler.recipeRunning || craftingHandler.recipeClaimable))
+            {
+                craftingHandler.HideBlockProgressbar();
+            }
+          
             //If it's air, check if it should be a light source  
             if (block.id == "sc:air_block")
             {
                 block.isLightSource = IsAirLightSource(block);
             }
-
+          
             //Add the block to the chunk
             block.rangeToNearestLightSource = rangeToNearestLightSource;
             chunk.SetBlock(block, xPos, yPos);

@@ -19,6 +19,7 @@
     <Optimize>True</Optimize>
   </PropertyGroup>
   <ItemGroup>
+    <Resource Include="Resources\AlphaCrafter.png" />
     <Resource Include="Resources\Background.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -152,6 +153,7 @@
     <EmbeddedResource Remove="frmLog.resx" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Resources\AlphaCrafter.png" />
     <None Remove="Resources\Gui.png" />
     <None Remove="Resources\HealthEmpty.png" />
     <None Remove="Resources\HealthFull.png" />
