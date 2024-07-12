@@ -276,65 +276,7 @@ namespace SeeloewenCraft
         }
 
         //-- Event Handlers --//
-
-        private void btnDebug_Click(object sender, RoutedEventArgs e)
-        {
-            //Currently development control, not meant for normal use yet. Will get an rework at a later point inn development to allow normal use
-            //WIP
-
-            //Perform an action based on the entered command
-            if (tbDebug.Text == "/help")
-            {
-                //Show help messaged
-                MessageBox.Show("List of commands (For debug purposes only!):\n/help - Shows this page\n/generateplayer - Runs the generation method of player\n/toggleinv - Opens or closes the inventory\n/give chest - Gives the player a chest item\n/resetview - Reset the scrollviewer location\n/give magmablock - Gives the player a magma block", "/help");
-            }
-            else if (tbDebug.Text == "/generateplayer")
-            {
-                //Generate player at preset position, might not work correctly
-                world.player.GeneratePlayer(600, 50);
-            }
-            else if (tbDebug.Text.Contains("/give chest"))
-            {
-                world.player.inventory.AddItem(new ChestItem(world, null));
-            }
-            else if (tbDebug.Text.Contains("/give magmablock"))
-            {
-                world.player.inventory.AddItem(new MagmaBlockItem(world, null));
-            }
-            else if (tbDebug.Text == "/resetview")
-            {
-                svWorld.ScrollToVerticalOffset(world.player.cvsPlayer.Margin.Top - 400);
-            }
-            else if (tbDebug.Text == "/-")
-            {
-                world.player.healthBar.RemoveValue(0.5);
-            }
-            else if (tbDebug.Text == "/+")
-            {
-                world.player.healthBar.AddValue(0.5);
-            }
-            else if(tbDebug.Text == "/!")
-            {
-                world.player.healthBar.SetValue(7);
-            }
-            else if (tbDebug.Text == "/shownotification")
-            {
-                world.notificationHandler.ShowNotification($"This is a test notification! Here's the max integer: {int.MaxValue}", 3000, world.images.GrassBlock);
-            }
-            else if (tbDebug.Text == "/shownotificationgui")
-            {
-                world.notificationHandler.ShowGui();
-            }
-            else
-            {
-                //Show error message if the command is unknown
-                MessageBox.Show("Unknown command. Type /help for a list of commands.", "Error");
-            }
-
-            //Clear the chat box after execution
-            tbDebug.Clear();
-        }
-
+        
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             //Add pressed key to the collection if it isn't in there already

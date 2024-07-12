@@ -23,19 +23,14 @@ namespace SeeloewenCraft
         public void CreateRecipes()
         {
             //Setup all recipes
-            hammer = new CraftingRecipe(world, "AlphaCrafter", "sc:recipe_hammer", "Hammer", world.images.Hammer, 3000);
-            hammer.ingredients.Add(new CraftingIngredient(new StoneItem(world, null), 8));
-            hammer.ingredients.Add(new CraftingIngredient(new OakLogItem(world, null), 3));
-            hammer.outcomeItems.Add(new HammerItem(world, null));
+            JsonToken recipeListToken = JsonUtil.ReadResource("recipes.json").GetToken("/recipes");
 
-            chest = new CraftingRecipe(world, "AlphaCrafter", "sc:chest", "Chest", world.images.ChestBlock, 10000);
-            chest.ingredients.Add(new CraftingIngredient(new OakLogItem(world, null), 10));
-            chest.outcomeItems.Add(new HammerItem(world, null));
+            for (int i = 0; i < recipeListToken.GetArrayLength(); i++)
+            {
+                JsonToken recipeToken = recipeListToken.GetToken($"/{i}");
+
+                world.craftingRecipeList.Add(new CraftingRecipe(recipeToken, world));
+            }
         }
-
-        //-- Recipe References --//
-
-        public CraftingRecipe hammer;
-        public CraftingRecipe chest;
     }
 }

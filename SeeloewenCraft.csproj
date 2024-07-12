@@ -30,6 +30,7 @@
     <Resource Include="Resources\HealthHalf.png" />
     <Resource Include="Resources\MagmaBlock.png" />
     <Resource Include="Resources\PumpkinBlock.png" />
+    <Resource Include="Resources\recipes.json" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\StoneBlock.png" />

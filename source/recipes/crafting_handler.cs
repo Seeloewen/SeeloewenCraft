@@ -169,9 +169,12 @@ namespace SeeloewenCraft
             //Add all outcome items to the players inventory
             for (int i = 0; i < amount; i++)
             {
-                foreach (Item item in recipe.outcomeItems)
+                foreach (CraftingIngredient craftingIngredient in recipe.outgredients)
                 {
-                    world.player.inventory.AddItem(item);
+                    for (int j = 0; j < craftingIngredient.amount; j++)
+                    {
+                        world.player.inventory.AddItem(craftingIngredient.item);
+                    }
                 }
             }
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -13,7 +14,7 @@ namespace SeeloewenCraft
         //References
         World World;
         public ImageBrush displayImage;
-        public List<Item> outcomeItems = new List<Item>();
+        public List<CraftingIngredient> outgredients = new List<CraftingIngredient>();
         public List<CraftingIngredient> ingredients = new List<CraftingIngredient>();
 
         //Constants
@@ -35,6 +36,33 @@ namespace SeeloewenCraft
 
             //Add the recipe to the main list so it can be accessed in the future
             world.craftingRecipeList.Add(this);
-        }   
+        }
+
+        public CraftingRecipe(JsonToken token, World world)
+        {
+            //Get general constants
+            id = token.GetString("/id");
+            workstation = token.GetString("/workstation");
+            displayName = token.GetString("/display_name");
+            requiredTime = token.GetInt("/required_time");
+
+            //Get Ingredients
+            JsonToken ingredientListToken = token.GetToken("/ingredients");
+            for (int i = 0; i < ingredientListToken.GetArrayLength(); i++)
+            {
+                JsonToken ingredientToken = ingredientListToken.GetToken($"/{i}");
+                ingredients.Add(new CraftingIngredient(ingredientToken, world));
+            }
+
+            //Get Outgredients
+            JsonToken outgredientListToken = token.GetToken("/outgredients");
+            for (int i = 0; i < outgredientListToken.GetArrayLength(); i++)
+            {
+                JsonToken outgredientToken = outgredientListToken.GetToken($"/{i}");
+                outgredients.Add(new CraftingIngredient(outgredientToken, world));
+            }
+
+            displayImage = outgredients[0].item.image;
+        }
     }
 }
