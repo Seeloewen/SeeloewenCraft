@@ -791,6 +791,15 @@ namespace SeeloewenCraft
                 {
                     //No additional debug info to show
                 }
+
+                if (tags.Count > 0)
+                {
+                    world.debugMenu.AddLine(world.debugMenu.tblBlockStats, "Tags:");
+                    foreach(string tag in tags)
+                    {
+                        world.debugMenu.AddLine(world.debugMenu.tblBlockStats, tag);
+                    }
+                }
             }
         }
 

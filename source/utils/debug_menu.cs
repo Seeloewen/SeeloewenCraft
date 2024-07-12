@@ -7,46 +7,62 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SeeloewenCraft
 {
     public class DebugMenu
     {
         World world;
-        public Canvas cvsDebugMenu = new Canvas();
-        public TextBlock tblGameStats = new TextBlock();
-        public TextBlock tblBlockStats = new TextBlock();   
+        public Canvas cvsDebugMenu = new Canvas() { Height = 630, Width = 1180 };
+        public TextBlock tblGameStats = new TextBlock() { FontSize = 20, FontWeight = FontWeights.Bold };
+        public TextBlock tblBlockStats = new TextBlock() { FontSize = 20, FontWeight = FontWeights.Bold };
+        public TextBlock tblPlayerStats = new TextBlock() { FontSize = 20, FontWeight = FontWeights.Bold };
+        public TextBox tbDebug = new TextBox() { TextWrapping = TextWrapping.Wrap, Width = 1032, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Top, Height = 28, FontSize = 15 };
+        public Button btnDebug = new Button() { Content = "Send", Width = 115, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Top, Height = 28, FontSize = 15 };
         public bool isEnabled = false;
+
+        //-- Constructor --//
 
         public DebugMenu(World world)
         {
             this.world = world;
 
             //Setup debug canvas
-            cvsDebugMenu.Height = 630;
-            cvsDebugMenu.Width = 1180;
             world.wndGame.cvsGame.Children.Add(cvsDebugMenu);
             Canvas.SetLeft(cvsDebugMenu, 10);
             Canvas.SetTop(cvsDebugMenu, 100);
 
             //Setup world stats textblock
             cvsDebugMenu.Children.Add(tblGameStats);
-            tblGameStats.FontSize = 20;
-            tblGameStats.FontWeight = FontWeights.Bold;
             Canvas.SetLeft(tblGameStats, 10);
 
             //Setup block stats textblock
             cvsDebugMenu.Children.Add(tblBlockStats);
-            tblBlockStats.FontSize = 20;
-            tblBlockStats.FontWeight = FontWeights.Bold;
             tblBlockStats.TextAlignment = TextAlignment.Right;
             Canvas.SetRight(tblBlockStats, 10);
 
+            //Setup block stats textblock
+            cvsDebugMenu.Children.Add(tblPlayerStats);
+            Canvas.SetTop(tblPlayerStats, 100);
+            Canvas.SetLeft(tblPlayerStats, 10);
+
+            //Setup debug chat button
+            cvsDebugMenu.Children.Add(btnDebug);
+            btnDebug.Click += btnDebug_Click;
+            Canvas.SetLeft(btnDebug, 1053);
+            Canvas.SetTop(btnDebug, 653);
+            Panel.SetZIndex(btnDebug, 1);
+
+            //Setup debug chat textbox
+            cvsDebugMenu.Children.Add(tbDebug);
+            Canvas.SetLeft(tbDebug, 10);
+            Canvas.SetTop(tbDebug, 653);
+            Panel.SetZIndex(tbDebug, 1);
+
             Hide();
         }
+
+        //-- Custom Methods --//
 
         public void AddLine(TextBlock textBlock, string content)
         {
@@ -66,7 +82,7 @@ namespace SeeloewenCraft
             string[] splitContent = textBlock.Text.Split('\n');
 
             //Search for the line that contains the existing content and replace
-            for(int i = 0; i < splitContent.Length; i++)
+            for (int i = 0; i < splitContent.Length; i++)
             {
                 if (splitContent[i].Contains(line))
                 {
@@ -117,6 +133,46 @@ namespace SeeloewenCraft
             //Hide the debug menu
             cvsDebugMenu.Visibility = Visibility.Hidden;
             isEnabled = false;
+        }
+
+        //-- Event Handlers --//
+
+        private void btnDebug_Click(object sender, RoutedEventArgs e)
+        {
+            //Currently development control, not meant for normal use yet. Will get an rework at a later point inn development to allow normal use
+            //WIP
+
+            //Perform an action based on the entered command
+            if (tbDebug.Text == "/help")
+            {
+                //Show help messaged
+                MessageBox.Show("List of commands (For debug purposes only!):\n/help - Shows this page\n/generateplayer - Runs the generation method of player\n/toggleinv - Opens or closes the inventory\n/give chest - Gives the player a chest item\n/resetview - Reset the scrollviewer location\n/give magmablock - Gives the player a magma block", "/help");
+            }
+            else if (tbDebug.Text == "/generateplayer")
+            {
+                //Generate player at preset position, might not work correctly
+                world.player.GeneratePlayer(600, 50);
+            }
+            else if (tbDebug.Text.Contains("/give chest"))
+            {
+                world.player.inventory.AddItem(new ChestItem(world, null));
+            }
+            else if (tbDebug.Text.Contains("/give magmablock"))
+            {
+                world.player.inventory.AddItem(new MagmaBlockItem(world, null));
+            }
+            else if (tbDebug.Text == "/resetview")
+            {
+                world.wndGame.svWorld.ScrollToVerticalOffset(world.player.cvsPlayer.Margin.Top - 400);
+            }
+            else
+            {
+                //Show error message if the command is unknown
+                MessageBox.Show("Unknown command. Type /help for a list of commands.", "Error");
+            }
+
+            //Clear the chat box after execution
+            tbDebug.Clear();
         }
     }
 }
