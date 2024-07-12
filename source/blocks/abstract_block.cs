@@ -240,7 +240,7 @@ namespace SeeloewenCraft
                 block.SetInventory(Inventory.LoadFromJson(invToken, world));
             }
 
-            if(block.tags.Contains("liquids/water"))
+            if (block.tags.Contains("liquids/water"))
             {
                 block.waterSourceXPos = blockToken.GetInt("/water_source_pos_x");
                 block.waterSourceYPos = blockToken.GetInt("/water_source_pos_y");
@@ -605,8 +605,16 @@ namespace SeeloewenCraft
 
         public void PlaceNewBlock(Block block)
         {
+            //If it's air, check if it should be a light source  
+            if (block.id == "sc:air_block")
+            {
+                block.isLightSource = IsAirLightSource(block);
+            }
+
             //Add the block to the chunk
+            block.rangeToNearestLightSource = rangeToNearestLightSource;
             chunk.SetBlock(block, xPos, yPos);
+            UpdateAirLightsources(block);
             block.MoveToForeground();
         }
 
@@ -754,6 +762,50 @@ namespace SeeloewenCraft
             }
         }
 
+        public void UpdateAirLightsources(Block block)
+        {
+            //Update Air Lightsources
+            for (int y = yPos + 1; y < 76; y++)
+            {
+                //Go through each block below the currently placed one
+                if (chunk.GetBlock(xPos, y).id == "sc:air_block")
+                {
+                    //If the block at that position is air, update it accordingly
+                    AirBlock newBlock = new AirBlock(world, xPos, y, chunk, null, false);
+                    newBlock.rangeToNearestLightSource = chunk.GetBlock(xPos, y).rangeToNearestLightSource;
+
+                    //If the placed block is air, the blocks below should be a lightsource, if not, then no light source
+                    if (block.id == "sc:air_block" && block.isLightSource)
+                    {
+                        newBlock.isLightSource = true;
+                    }
+                    else
+                    {
+                        newBlock.isLightSource = false;
+                    }
+
+                    chunk.SetBlock(newBlock, xPos, y);
+                }
+                else
+                {
+                    //If it's not air, the other blocks below don't matter since that block blocks it.
+                    break;
+                }
+            }
+        }
+
+        public bool IsAirLightSource(Block block)
+        {
+            for (int y = yPos - 1; y > 0; y--)
+            {
+                if (chunk.GetBlock(xPos, y).id != "sc:air_block")
+                {
+                    block.isLightSource = false;
+                    return false;
+                }
+            }
+            return true;
+        }
 
         public void DisplayDebugInformation()
         {
@@ -774,6 +826,8 @@ namespace SeeloewenCraft
                     world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"foregroundBlock={foregroundBlock.id}");
                 }
                 world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"lightLevel={lightLevel}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"isLightSource={isLightSource}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"rangeToNearestLightSource={rangeToNearestLightSource}");
                 world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"hasRightClickAction={hasRightClickAction}");
                 world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"hasInventory={hasInventory}");
                 world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"isBase={isBase}");
@@ -795,7 +849,7 @@ namespace SeeloewenCraft
                 if (tags.Count > 0)
                 {
                     world.debugMenu.AddLine(world.debugMenu.tblBlockStats, "Tags:");
-                    foreach(string tag in tags)
+                    foreach (string tag in tags)
                     {
                         world.debugMenu.AddLine(world.debugMenu.tblBlockStats, tag);
                     }

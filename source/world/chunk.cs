@@ -185,7 +185,15 @@ namespace SeeloewenCraft
             //render chunk
             try
             {
+                foreach (Block block in blockList.blocks)
+                {
+                    if (block.id == "sc:air_block")
+                    {
+                        block.isLightSource = block.IsAirLightSource(block);
+                    }
+                }
                 RenderChunk();
+
                 world.log.Write($"Successfully initialized chunk {index}", "Info");
             }
             catch (Exception ex)
@@ -204,7 +212,7 @@ namespace SeeloewenCraft
 
             //load settings
             documentToken = JsonUtil.ReadFile($"{world.worldDirectory}/chunk{index}/settings.json");
-            
+
             index = documentToken.GetInt("/index");
             floorHeightLeft = documentToken.GetInt("/floor_height_left");
             floorHeightRight = documentToken.GetInt("/floor_height_right");
