@@ -372,41 +372,24 @@ namespace SeeloewenCraft
             return item;
         }
 
-        public bool IsHolding(string itemName) //Legacy Method, should be replaced by using world.player.inventory.GetSelectedItem()
-        {
-            foreach (HotbarSlot slot in world.player.inventory.hotbarSlotList)
-            {
-                //Check if the slot is selected and has an item
-                if (slot.isSelected == true && slot.slot.items.Count > 0)
-                {
-                    //Check if the item is the one that is being searched
-                    if (slot.slot.items[slot.slot.items.Count - 1].name == itemName)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        public List<Block> GetBlocksInRange()
+        public List<Block> GetBlocksInRange(int range)
         {
             List<Block> blocksInRange = new List<Block>();
 
             //Gets all blocks above 
-            for (int yOffset = 0; yOffset < 6; yOffset++)
+            for (int yOffset = 0; yOffset < range; yOffset++)
             {
                 for (int xOffset = -yOffset; xOffset <= yOffset; xOffset++)
                 {
-                    blocksInRange.Add(GetBlock(xOffset, 6 - yOffset));
-                    blocksInRange.Add(GetBlock(xOffset, -6 + yOffset));
+                    blocksInRange.Add(GetBlockFromOffset(xOffset, range - yOffset));
+                    blocksInRange.Add(GetBlockFromOffset(xOffset, -range + yOffset));
                 }
             }
 
-            for (int xOffset = 1; xOffset < 7; xOffset++)
+            for (int xOffset = 1; xOffset < range + 1; xOffset++)
             {
-                blocksInRange.Add(GetBlock(xOffset, 0));
-                blocksInRange.Add(GetBlock(-xOffset, 0));
+                blocksInRange.Add(GetBlockFromOffset(xOffset, 0));
+                blocksInRange.Add(GetBlockFromOffset(-xOffset, 0));
             }
 
             return blocksInRange;
@@ -420,7 +403,7 @@ namespace SeeloewenCraft
 
         public void UpdateNearbyBlocks()
         {
-            List<Block> blocksInRange = GetBlocksInRange();
+            List<Block> blocksInRange = GetBlocksInRange(world.lightRange);
 
             foreach (Block block in blocksInRange)
             {
@@ -460,9 +443,9 @@ namespace SeeloewenCraft
 
         public int RangeToLightSource()
         {
-            List<Block> blocksInRange = GetBlocksInRange();
+            List<Block> blocksInRange = GetBlocksInRange(world.lightRange);
 
-            int minRange = 7;
+            int minRange = world.lightRange + 1;
             foreach (Block block in blocksInRange)
             {
                 if (block != null)
@@ -484,15 +467,15 @@ namespace SeeloewenCraft
         public void SetLightLevel(int range)
         {
             int rangeToLightSource = range;
-            if (isLightSource || (foregroundBlock != null && foregroundBlock.isLightSource) || rangeToLightSource == 1)
+            if (isLightSource || (foregroundBlock != null && foregroundBlock.isLightSource) || rangeToLightSource == 1|| rangeToLightSource == 2)
             {
                 lightLevel = 0;
             }
-            else if (rangeToLightSource < 6)
+            else if (rangeToLightSource < world.lightRange)
             {
-                lightLevel = 0.25 * rangeToLightSource - 0.5;
+                lightLevel = 1.0 / (world.lightRange - 3) * rangeToLightSource - 0.75;
             }
-            else if (rangeToLightSource == 6)
+            else if (rangeToLightSource == world.lightRange)
             {
                 lightLevel = 0.9;
             }
@@ -507,7 +490,7 @@ namespace SeeloewenCraft
             if (!isLightSource && (foregroundBlock != null && !foregroundBlock.isLightSource))
             {
                 //If no nearest lightsource is detected, add block as lightsource
-                if (rangeToNearestLightSource == 100000)
+                if (rangeToNearestLightSource == 100000) //Any random giant number that a range can never be
                 {
                     rangeToNearestLightSource = range;
                 }
@@ -519,7 +502,7 @@ namespace SeeloewenCraft
             }
         }
 
-        private Block GetBlock(int xOffset, int yOffset)
+        private Block GetBlockFromOffset(int xOffset, int yOffset)
         {
 
             if (yOffset + yPos < 1 || yOffset + yPos > 75)

@@ -39,6 +39,7 @@ namespace SeeloewenCraft
         public int worldVersion;
         public string gameVersion;
         public string worldDirectory = "";
+        public int lightRange = 7; //The range that all light sources use
 
         //Variables
         public bool finishedLoading = false;
