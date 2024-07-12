@@ -99,8 +99,8 @@ namespace SeeloewenCraft
 
             writer.WritePropertyName("enable_health");
             writer.WriteValue(cbEnableHealth.IsChecked);
-            enableLighting = Convert.ToBoolean(cbEnableHealth.IsChecked);
-            wndMenu.log.Write($"Saved setting enableLighting as {enableHealth}", "Info");
+            settings.enableHealth = Convert.ToBoolean(cbEnableHealth.IsChecked);
+            wndMenu.log.Write($"Saved setting enableLighting as {settings.enableHealth}", "Info");
 
             writer.WritePropertyName("texturepack");
             writer.WriteValue(cbxTexturepack.Text);

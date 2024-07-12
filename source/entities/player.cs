@@ -94,7 +94,7 @@ namespace SeeloewenCraft
 
             //Add initial debug menu lines
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "Player Stats:");
-            if (world.wndMenu.wndSettings.enableHealth)
+            if (world.settings.enableHealth)
             {
                 world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "health");
             }
@@ -105,7 +105,7 @@ namespace SeeloewenCraft
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "v_y");
 
             //Setup health bar
-            if (world.wndMenu.wndSettings.enableHealth)
+            if (world.settings.enableHealth)
             {
                 healthBar = new HealthBar(world, 10, 740);
             }
@@ -432,7 +432,7 @@ namespace SeeloewenCraft
         {
             if (world.debugMenu.isEnabled)
             {
-                if (world.wndMenu.wndSettings.enableHealth)
+                if (world.settings.enableHealth)
                 {
                     world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "health", $"health={healthBar.value}");
                 }

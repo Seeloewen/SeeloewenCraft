@@ -15,7 +15,8 @@ namespace SeeloewenCraft
         public bool enableHammer = true;
         public bool enableCaveGeneration = true;
         public bool enableLighting = true;
-        public bool showNotifications = true;
+        public bool showNotifications = false;
+        public bool enableHealth = false;
         public string texturepack;
 
         //Keybinds

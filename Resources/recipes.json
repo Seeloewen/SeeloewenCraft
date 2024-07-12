@@ -1,0 +1,44 @@
+{
+  "recipes": [
+    {
+      "id": "sc:recipe_hammer",
+      "workstation": "AlphaCrafter",
+      "display_name": "Hammer",
+      "required_time": 3000,
+      "ingredients": [
+        {
+          "item_id": "sc:stone_item",
+          "amount": 8
+        },
+        {
+          "item_id": "sc:oak_log_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:hammer_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_chest",
+      "workstation": "AlphaCrafter",
+      "display_name": "Chest",
+      "required_time": 10000,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_log_item",
+          "amount": 10
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:chest_item",
+          "amount": 1
+        }
+      ]
+    }
+]
+}
