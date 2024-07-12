@@ -18,7 +18,6 @@ namespace SeeloewenCraft
         //References
         public wndGame wndGame;
         public System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
-        private System.Windows.Forms.Timer tmrWater = new System.Windows.Forms.Timer();
         public List<Chunk> currentChunkList = new List<Chunk>();
         public List<Chunk> totalChunkList = new List<Chunk>();
         public List<Inventory> inventoryList = new List<Inventory>();
@@ -32,6 +31,7 @@ namespace SeeloewenCraft
         public WaterHandler waterHandler;
         public ClickHandler clickHandler;
         public DebugMenu debugMenu;
+        public GameLoop gameLoop;
 
         //Constants
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
@@ -64,6 +64,7 @@ namespace SeeloewenCraft
             waterHandler = new WaterHandler(this);
             clickHandler = new ClickHandler(this);
             debugMenu = new DebugMenu(this);
+            gameLoop = new GameLoop(this, 25);
 
             worldDirectory = $"{wndMenu.worldDirectory}\\{worldName}";
 
@@ -256,19 +257,17 @@ namespace SeeloewenCraft
             tmrMovement.Tick += tmrMovement_Tick;
             tmrMovement.Start();
 
-            //Start the water timer
-            tmrWater.Interval = 1000;
-            tmrWater.Tick += tmrWater_Tick;
-            tmrWater.Start();
+            //Start the game loop timer
+            gameLoop.Start();
         }
 
         public bool HasOpenGui(bool ignoreInventory)
         {
             foreach (Gui gui in guiList)
             {
-                if(gui.isOpen)
+                if (gui.isOpen)
                 {
-                    if(gui.id == "sc:inventory")
+                    if (gui.id == "sc:inventory")
                     {
                         if (!ignoreInventory)
                         {
@@ -372,12 +371,6 @@ namespace SeeloewenCraft
         {
             //Movement timer, ticks at a rate of approximitely 60 fps (every 16 ms)
             player.PhysicsStep(wndGame.pressedKeys.Contains(wndMenu.wndSettings.cMoveLeft), wndGame.pressedKeys.Contains(wndMenu.wndSettings.cMoveRight), wndGame.pressedKeys.Contains(wndMenu.wndSettings.cJump), 0.016);
-        }
-
-        private void tmrWater_Tick(object sender, EventArgs e)
-        {
-            //Update all water blocks accordingly
-            waterHandler.DoUpdate();
         }
     }
 }
