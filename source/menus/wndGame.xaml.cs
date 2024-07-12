@@ -338,7 +338,7 @@ namespace SeeloewenCraft
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             //Add pressed key to the collection if it isn't in there already
-            if (tbDebug.IsKeyboardFocused == false)
+            if (world.debugMenu.tbDebug.IsKeyboardFocused == false)
             {
                 if (!pressedKeys.Contains(e.Key))
                 {
@@ -391,7 +391,7 @@ namespace SeeloewenCraft
                 if (world.settings.saveWorldOnClose == true)
                 {
                     //Save all chunks and the inventory of the player
-                    foreach (Chunk chunk in world.currentChunkList)
+                    foreach (Chunk chunk in world.totalChunkList)
                     {
                         chunk.Save();
                     }

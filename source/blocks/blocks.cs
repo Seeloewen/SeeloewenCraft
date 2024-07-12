@@ -126,7 +126,7 @@ namespace SeeloewenCraft
 
         public override void RightClickAction(object sender)
         {
-            throw new NotImplementedException();
+throw new NotImplementedException();
         }
 
         public override void ShowAdditionalDebugInfo()
@@ -294,7 +294,6 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Oak Leaves";
             id = "sc:oak_leaves_block";
-            isLightSource = true;
         }
 
         override public void GenerateItem(World world, int id)

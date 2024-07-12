@@ -43,8 +43,10 @@ namespace SeeloewenCraft
         private int d_y = 0;
         private double d_offset_x = 0;
         private double d_offset_y = 0;
-        private double posX;
-        private double posY;
+        public double posX;
+        public double posY;
+        public double posXInChunk;
+        public int currentChunk;
 
 
         //Hitbox points
@@ -91,23 +93,29 @@ namespace SeeloewenCraft
             world.log.Write($"Created player at position x{x} y{y}", "Info");
 
             //Add initial debug menu lines
-            world.debugMenu.AddLine(world.debugMenu.tblGameStats, "v_x");
-            world.debugMenu.AddLine(world.debugMenu.tblGameStats, "v_y");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "Player Stats:");
+            if (world.wndMenu.wndSettings.enableHealth)
+            {
+                world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "health");
+            }
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "chunk");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "posX");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "posY");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "v_x");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "v_y");
 
             //Setup health bar
-            healthBar = new HealthBar(world, 10, 740);
-
+            if (world.wndMenu.wndSettings.enableHealth)
+            {
+                healthBar = new HealthBar(world, 10, 740);
+            }
         }
 
         public void SavePosition(string path)
         {
             world.log.Write($"Saved player position to {path}", "Info");
 
-
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-
-            using (JsonWriter writer = new JsonTextWriter(sw))
+            using (JsonWriter writer = JsonWriter.Create())
             {
                 writer.Formatting = Formatting.Indented;
                 writer.WriteStartObject();
@@ -119,22 +127,20 @@ namespace SeeloewenCraft
                 writer.WriteValue(posY);
 
                 writer.WriteEndObject();
+
+                writer.WriteToFile($"{path}/player_position.json");
             }
 
-            File.WriteAllText($"{path}/player_position.json", sb.ToString());
         }
 
         public void SaveInventory(string path)
         {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-
-            using (JsonWriter writer = new JsonTextWriter(sw))
+            using (JsonWriter writer = JsonWriter.Create())
             {
                 writer.Formatting = Formatting.Indented;
                 inventory.SaveToJson(writer);
+                writer.WriteToFile($"{path}/player_inventory.json");
             }
-            File.WriteAllText($"{path}/player_inventory.json", sb.ToString());
         }
 
         //physics
@@ -197,6 +203,8 @@ namespace SeeloewenCraft
                     {
                         posY = block.yPos - blockOriginPoint.Y / 50;
                         posX = block.xPos - blockOriginPoint.X / 50 + 8 * chunk.index;
+                        posXInChunk = block.xPos - blockOriginPoint.X / 50;
+                        currentChunk = chunk.index;
                         coordsDetermined = true;
                     }
                 }
@@ -369,7 +377,7 @@ namespace SeeloewenCraft
                     world.wndGame.cvsWorld.Children.Add(world.currentChunkList[4].grdChunk);
                 }
                 catch { }
-              
+
                 Canvas.SetLeft(world.currentChunkList[4].grdChunk, 1200 - offset);
 
                 //Sort the chunklist again
@@ -389,7 +397,7 @@ namespace SeeloewenCraft
                 Canvas.SetLeft(world.currentChunkList[4].grdChunk, -400 + offset);
 
                 //Sort the list again
-                world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();           
+                world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
             }
         }
 
@@ -404,8 +412,6 @@ namespace SeeloewenCraft
             //Scroll along to match the movement
             world.wndGame.svWorld.ScrollToVerticalOffset(world.player.cvsPlayer.Margin.Top - 400);
         }
-
-
 
         public List<Chunk> GetCurrentChunks()
         {
@@ -426,8 +432,15 @@ namespace SeeloewenCraft
         {
             if (world.debugMenu.isEnabled)
             {
-                world.debugMenu.ChangeLine(world.debugMenu.tblGameStats, "v_x", $"v_x={v_x}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblGameStats, "v_y", $"v_y={v_y}");
+                if (world.wndMenu.wndSettings.enableHealth)
+                {
+                    world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "health", $"health={healthBar.value}");
+                }
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "v_x", $"v_x={v_x}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "v_y", $"v_y={v_y}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "posX", $"posX={posXInChunk}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "posY", $"posY={posY + 1}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "chunk", $"chunk={currentChunk}");
             }
         }
     }

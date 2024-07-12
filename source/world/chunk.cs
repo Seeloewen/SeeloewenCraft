@@ -61,24 +61,21 @@ namespace SeeloewenCraft
             }
 
             //save blocks in blocks.json
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
-            using (JsonWriter writer = new JsonTextWriter(sw))
+            using (JsonWriter writer = JsonWriter.Create())
             {
                 writer.Formatting = Formatting.Indented;
                 blockList.SaveToJson(writer);
+                writer.WriteToFile($"{world.worldDirectory}/chunk{index}/blocks.json");
             }
-            File.WriteAllText($"{world.worldDirectory}/chunk{index}/blocks.json", sw.ToString());
 
             //save settings in settings.json
-            sb = new StringBuilder();
-            sw = new StringWriter(sb);
-            using (JsonWriter writer = new JsonTextWriter(sw))
+            using (JsonWriter writer = JsonWriter.Create())
             {
                 writer.Formatting = Formatting.Indented;
                 SaveSettingsToJson(writer);
+                writer.WriteToFile($"{world.worldDirectory}/chunk{index}/settings.json");
             }
-            File.WriteAllText($"{world.worldDirectory}/chunk{index}/settings.json", sb.ToString());
+
         }
 
         private void SaveSettingsToJson(JsonWriter writer)
@@ -188,7 +185,15 @@ namespace SeeloewenCraft
             //render chunk
             try
             {
+                foreach (Block block in blockList.blocks)
+                {
+                    if (block.id == "sc:air_block")
+                    {
+                        block.isLightSource = block.IsAirLightSource(block);
+                    }
+                }
                 RenderChunk();
+
                 world.log.Write($"Successfully initialized chunk {index}", "Info");
             }
             catch (Exception ex)
@@ -202,18 +207,15 @@ namespace SeeloewenCraft
             world.log.Write($"Loading chunk {index}", "Info");
 
             //load blocklist
-            string documentText = File.ReadAllText($"{world.worldDirectory}/chunk{index}/blocks.json");
-            JToken documentToken = JToken.Parse(documentText);
-
+            JsonToken documentToken = JsonUtil.ReadFile($"{world.worldDirectory}/chunk{index}/blocks.json");
             blockList = BlockList.LoadFromJson(documentToken, this, world);
 
             //load settings
-            documentText = File.ReadAllText($"{world.worldDirectory}/chunk{index}/settings.json");
-            documentToken = JToken.Parse(documentText);
+            documentToken = JsonUtil.ReadFile($"{world.worldDirectory}/chunk{index}/settings.json");
 
-            index = (int)new JsonPointer("/index").Evaluate(documentToken);
-            floorHeightLeft = (int)new JsonPointer("/floor_height_left").Evaluate(documentToken);
-            floorHeightRight = (int)new JsonPointer("/floor_height_right").Evaluate(documentToken);
+            index = documentToken.GetInt("/index");
+            floorHeightLeft = documentToken.GetInt("/floor_height_left");
+            floorHeightRight = documentToken.GetInt("/floor_height_right");
 
             //Load the inventories of the blocks in the chunk (like chests)
             //LoadInventories();

@@ -30,8 +30,8 @@ namespace SeeloewenCraft
 
         //Constants
         public int worldVersion = 3;
-        public string gameVersion = "Alpha 1.2.0-predev3";
-        public string versionDate = "10.07.2024";
+        public string gameVersion = "Alpha 1.1.7-dev1";
+        public string versionDate = "12.07.2024";
         public string gameDirectory;
         public string texturepackDirectory;
         public string logDirectory;

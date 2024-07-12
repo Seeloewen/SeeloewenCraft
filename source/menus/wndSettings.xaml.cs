@@ -42,8 +42,7 @@ namespace SeeloewenCraft
             if(File.Exists($"{wndMenu.gameDirectory}\\clientSettings.json"))
             {
                 wndMenu.log.Write("Settings file was found, loading settings...", "Info");
-                string documentText = File.ReadAllText($"{wndMenu.gameDirectory}\\clientSettings.json");
-                JToken documentToken = JToken.Parse(documentText);
+                JsonToken documentToken = JsonUtil.ReadFile($"{wndMenu.gameDirectory}\\clientSettings.json");
                 LoadSettings(documentToken);
             }
             else
@@ -51,14 +50,12 @@ namespace SeeloewenCraft
                 wndMenu.log.Write("No settings file was found, creating a new one...", "Info");
 
                 //If not, create a new one
-                StringBuilder sb = new StringBuilder();
-                StringWriter sw = new StringWriter(sb);
-                using (JsonWriter writer = new JsonTextWriter(sw))
+                using (JsonWriter writer = JsonWriter.Create())
                 {
                     writer.Formatting = Formatting.Indented;
                     SaveSettings(writer, true);
+                    writer.WriteToFile($"{wndMenu.gameDirectory}\\clientSettings.json");
                 }
-                File.WriteAllText($"{wndMenu.gameDirectory}\\clientSettings.json", sw.ToString());
             }        
         }
 
@@ -100,6 +97,11 @@ namespace SeeloewenCraft
             settings.showNotifications = Convert.ToBoolean(cbShowNotifications.IsChecked);
             wndMenu.log.Write($"Saved setting enableLighting as {settings.showNotifications}", "Info");
 
+            writer.WritePropertyName("enable_health");
+            writer.WriteValue(cbEnableHealth.IsChecked);
+            enableLighting = Convert.ToBoolean(cbEnableHealth.IsChecked);
+            wndMenu.log.Write($"Saved setting enableLighting as {enableHealth}", "Info");
+
             writer.WritePropertyName("texturepack");
             writer.WriteValue(cbxTexturepack.Text);
             settings.texturepack = cbxTexturepack.Text;
@@ -139,28 +141,29 @@ namespace SeeloewenCraft
             }
         }
 
-        private void LoadSettings(JToken fileToken)
+        private void LoadSettings(JsonToken fileToken)
         {
             //Get the settings from the JSON file
             try
             {
-                JToken settingsToken = new JsonPointer("/settings").Evaluate(fileToken);
-                JToken keybindsToken = new JsonPointer("/keybinds").Evaluate(fileToken);
+                JsonToken settingsToken = fileToken.GetToken("/settings");
+                JsonToken keybindsToken = fileToken.GetToken("/keybinds");
 
-                settings.saveLogOnExit = (bool)new JsonPointer("/save_log_on_exit").Evaluate(settingsToken);
-                settings.saveWorldOnClose = (bool)new JsonPointer("/save_world_on_close").Evaluate(settingsToken);
-                settings.enableHammer = (bool)new JsonPointer("/enable_hammer").Evaluate(settingsToken);
-                settings.enableCaveGeneration = (bool)new JsonPointer($"/enable_cave_generation").Evaluate(settingsToken);
-                settings.enableLighting = (bool)new JsonPointer($"/enable_lighting").Evaluate(settingsToken);
-                settings.showNotifications = (bool)new JsonPointer($"/show_notifications").Evaluate(settingsToken);
-                settings.texturepack = (string)new JsonPointer($"/texturepack").Evaluate(settingsToken);
+                settings.saveLogOnExit = settingsToken.GetBool("/save_log_on_exit");
+                settings.saveWorldOnClose = settingsToken.GetBool("/save_world_on_close");
+                settings.enableHammer = settingsToken.GetBool("/enable_hammer");
+                settings.enableCaveGeneration = settingsToken.GetBool("/enable_cave_generation");
+                settings.enableLighting = settingsToken.GetBool("/enable_lighting");
+                settings.enableHealth = settingsToken.GetBool("/enable_health");
+                settings.showNotifications = settingsToken.GetBool("/show_notifications");
+                settings.texturepack = settingsToken.GetString("/texturepack");
 
-                settings.cMoveRight = keyConverter.StringToKey((string)new JsonPointer($"/move_right").Evaluate(keybindsToken));
-                settings.cMoveLeft = keyConverter.StringToKey((string)new JsonPointer($"/move_left").Evaluate(keybindsToken));
-                settings.cJump = keyConverter.StringToKey((string)new JsonPointer($"/jump").Evaluate(keybindsToken));
-                settings.cShowInv = keyConverter.StringToKey((string)new JsonPointer($"/show_inventory").Evaluate(keybindsToken));
-                settings.cToggleDebug = keyConverter.StringToKey((string)new JsonPointer($"/toggle_debug_menu").Evaluate(keybindsToken));
-                settings.cNotifications = keyConverter.StringToKey((string)new JsonPointer($"/show_notification_list").Evaluate(keybindsToken));
+                settings.cMoveRight = keyConverter.StringToKey(keybindsToken.GetString("/move_right"));
+                settings.cMoveLeft = keyConverter.StringToKey(keybindsToken.GetString("/move_left"));
+                settings.cJump = keyConverter.StringToKey(keybindsToken.GetString("/jump"));
+                settings.cShowInv = keyConverter.StringToKey(keybindsToken.GetString("/show_inventory"));
+                settings.cToggleDebug = keyConverter.StringToKey(keybindsToken.GetString("/toggle_debug_menu"));
+                settings.cNotifications = keyConverter.StringToKey(keybindsToken.GetString("/show_notification_list"));
             }
             catch (Exception ex)
             {
@@ -173,6 +176,7 @@ namespace SeeloewenCraft
             cbEnableHammer.IsChecked = settings.enableHammer;
             cbEnableCaveGeneration.IsChecked = settings.enableCaveGeneration;
             cbEnableLighting.IsChecked = settings.enableLighting;
+            cbEnableHealth.IsChecked = settings.enableHealth;
             cbShowNotifications.IsChecked = settings.showNotifications;
             cbxTexturepack.Text = settings.texturepack;
 
@@ -282,14 +286,12 @@ namespace SeeloewenCraft
         private void btnSaveClose_Click(object sender, RoutedEventArgs e)
         {
             //Save the settings
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
-            using (JsonWriter writer = new JsonTextWriter(sw))
+            using (JsonWriter writer = JsonWriter.Create())
             {
                 writer.Formatting = Formatting.Indented;
                 SaveSettings(writer, false);
+                writer.WriteToFile($"{wndMenu.gameDirectory}\\clientSettings.json");
             }
-            File.WriteAllText($"{wndMenu.gameDirectory}\\clientSettings.json", sw.ToString());
             Close();
         }
 

@@ -4,11 +4,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.IO;
-using System.Reflection;
+using System.Resources;
+using System.Windows;
 
 namespace SeeloewenCraft
 {
@@ -44,20 +44,18 @@ namespace SeeloewenCraft
         {
             Uri imageUri;
 
-            //Check if the image file exists and use default or missing texture image otherwise
+            //Check if the image file exists if a texturepack is loaded
             if (File.Exists($"{textureDirectory}/{resourceName}"))
             {
                 imageUri = new Uri($"{textureDirectory}/{resourceName}", UriKind.Absolute);
             }
             else
             {
-                try
+                //If no texturepack is loaded or it's not found in the texturepack, fallback to default ones
+                imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/{resourceName}", UriKind.Absolute);
+                if (!ResourceExists(imageUri))
                 {
-                    imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/{resourceName}", UriKind.Absolute);
-
-                }
-                catch
-                {
+                    //If default one doesn't exist, use missing texture image
                     imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/MissingTexture.png", UriKind.Absolute);
                 }
             }
@@ -65,6 +63,21 @@ namespace SeeloewenCraft
             //Get an image from an imagesource from a uri
             return BitmapFrame.Create(imageUri);
         }
+
+        public static bool ResourceExists(Uri resourceUri)
+        {
+            //Check if the resource exists
+            try
+            {
+                var resourceInfo = Application.GetResourceStream(resourceUri);
+                return resourceInfo != null;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
         private void CreateResources()
         {

@@ -18,7 +18,6 @@ namespace SeeloewenCraft
         //References
         public wndGame wndGame;
         public System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
-        private System.Windows.Forms.Timer tmrWater = new System.Windows.Forms.Timer();
         public List<Chunk> currentChunkList = new List<Chunk>();
         public List<Chunk> totalChunkList = new List<Chunk>();
         public List<Inventory> inventoryList = new List<Inventory>();
@@ -33,6 +32,7 @@ namespace SeeloewenCraft
         public WaterHandler waterHandler;
         public ClickHandler clickHandler;
         public DebugMenu debugMenu;
+        public GameLoop gameLoop;
         public RecipeCreator recipeCreator;
         public NotificationHandler notificationHandler;
         public Settings settings;
@@ -43,6 +43,7 @@ namespace SeeloewenCraft
         public int worldVersion;
         public string gameVersion;
         public string worldDirectory = "";
+        public int lightRange = 7; //The range that all light sources use
 
         //Variables
         public bool finishedLoading = false;
@@ -69,6 +70,7 @@ namespace SeeloewenCraft
             waterHandler = new WaterHandler(this);
             clickHandler = new ClickHandler(this);
             debugMenu = new DebugMenu(this);
+            gameLoop = new GameLoop(this, 25);
             recipeCreator = new RecipeCreator(this);
             notificationHandler = new NotificationHandler(this);
             recipeCreator.CreateRecipes();
@@ -143,10 +145,9 @@ namespace SeeloewenCraft
             //Check if the world settings file exists
             if (File.Exists($"{worldDirectory}/world_settings.json"))
             {
-                string documentText = File.ReadAllText($"{worldDirectory}/world_settings.json");
-                JToken documentToken = JToken.Parse(documentText);
+                JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/world_settings.json");
 
-                return (int)new JsonPointer("/world_version").Evaluate(documentToken);
+                return documentToken.GetInt("/world_version");
             }
             else if (File.Exists($"{worldDirectory}/settings.txt"))
             {
@@ -182,10 +183,7 @@ namespace SeeloewenCraft
             log.Write($"Set directory for world {worldName} to {worldDirectory}", "Info");
 
             //write world version to settings.json
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-
-            using (JsonWriter writer = new JsonTextWriter(sw))
+            using (JsonWriter writer = JsonWriter.Create())
             {
                 writer.Formatting = Formatting.Indented;
 
@@ -195,8 +193,9 @@ namespace SeeloewenCraft
                 writer.WriteValue(worldVersion);
 
                 writer.WriteEndObject();
+
+                writer.WriteToFile($"{worldDirectory}/world_settings.json");
             }
-            File.WriteAllText($"{worldDirectory}/world_settings.json", sb.ToString());
 
             //Check if the player position exists
             bool loadedPlayerPosExists = File.Exists($"{worldDirectory}/player_position.json");
@@ -206,13 +205,11 @@ namespace SeeloewenCraft
             //Load the player position if possible
             if (loadedPlayerPosExists)
             {
-                string documentText = File.ReadAllText($"{worldDirectory}/player_position.json");
-                JToken documentToken = JToken.Parse(documentText);
-
+                JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_position.json");
                 try
                 {
-                    playerPosX = (double)new JsonPointer("/pos_x").Evaluate(documentToken);
-                    playerPosY = (double)new JsonPointer("/pos_y").Evaluate(documentToken);
+                    playerPosX = documentToken.GetDouble("/pos_x");
+                    playerPosY = documentToken.GetDouble("/pos_y");
                     log.Write($"Read player position from file: x{playerPosX} y{playerPosY}", "Info");
                 }
                 catch (Exception ex)
@@ -243,9 +240,7 @@ namespace SeeloewenCraft
             //Load the player inventory if the world is not new
             if (!isNew)
             {
-                string documentText = File.ReadAllText($"{worldDirectory}/player_inventory.json");
-                JToken documentToken = JToken.Parse(documentText);
-
+                JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_inventory.json");
                 player.inventory = Inventory.LoadFromJson(documentToken, this);
                 inventoryList.Add(player.inventory);
 
@@ -272,10 +267,8 @@ namespace SeeloewenCraft
             tmrMovement.Tick += tmrMovement_Tick;
             tmrMovement.Start();
 
-            //Start the water timer
-            tmrWater.Interval = 1000;
-            tmrWater.Tick += tmrWater_Tick;
-            tmrWater.Start();
+            //Start the game loop timer
+            gameLoop.Start();
         }
 
         public bool HasOpenGui(bool ignoreInventory)
@@ -388,12 +381,6 @@ namespace SeeloewenCraft
         {
             //Movement timer, ticks at a rate of approximitely 60 fps (every 16 ms)
             player.PhysicsStep(wndGame.pressedKeys.Contains(settings.cMoveLeft), wndGame.pressedKeys.Contains(settings.cMoveRight), wndGame.pressedKeys.Contains(settings.cJump), 0.016);
-        }
-
-        private void tmrWater_Tick(object sender, EventArgs e)
-        {
-            //Update all water blocks accordingly
-            waterHandler.DoUpdate();
         }
     }
 }

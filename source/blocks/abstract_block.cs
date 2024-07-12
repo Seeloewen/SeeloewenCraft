@@ -170,12 +170,12 @@ namespace SeeloewenCraft
         }
 
 
-        static public Block LoadFromJson(JToken blockToken, Chunk chunk, World world)
+        static public Block LoadFromJson(JsonToken blockToken, Chunk chunk, World world)
         {
-            int posX = (int)new JsonPointer("/pos_x").Evaluate(blockToken);
-            int posY = (int)new JsonPointer("/pos_y").Evaluate(blockToken);
-            bool isInBackground = (bool)new JsonPointer("/is_in_background").Evaluate(blockToken);
-            string id = (string)new JsonPointer($"/id").Evaluate(blockToken);
+            int posX = blockToken.GetInt("/pos_x");
+            int posY = blockToken.GetInt("/pos_y");
+            bool isInBackground = blockToken.GetBool("/is_in_background");
+            string id = blockToken.GetString("/id");
 
             Block block;
             switch (id)
@@ -268,28 +268,28 @@ namespace SeeloewenCraft
 
             if (block.hasInventory)
             {
-                JToken invToken = new JsonPointer($"/inventory").Evaluate(blockToken);
+                JsonToken invToken = blockToken.GetToken("/inventory");
                 block.SetInventory(Inventory.LoadFromJson(invToken, world));
             }
 
             if (block.tags.Contains("liquids/water"))
             {
-                block.waterSourceXPos = (int)new JsonPointer("/water_source_pos_x").Evaluate(blockToken);
-                block.waterSourceYPos = (int)new JsonPointer("/water_source_pos_y").Evaluate(blockToken);
-                block.isWaterSource = (bool)new JsonPointer("/water_is_source").Evaluate(blockToken);
-                block.waterSourceChunkIndex = (int)new JsonPointer("/water_source_chunk_index").Evaluate(blockToken);
-                block.hasWaterSource = (bool)new JsonPointer("/water_has_source").Evaluate(blockToken);
+                block.waterSourceXPos = blockToken.GetInt("/water_source_pos_x");
+                block.waterSourceYPos = blockToken.GetInt("/water_source_pos_y");
+                block.isWaterSource = blockToken.GetBool("/water_is_source");
+                block.waterSourceChunkIndex = blockToken.GetInt("/water_source_chunk_index");
+                block.hasWaterSource = blockToken.GetBool("/water_has_source");
             }
 
             if (block.tags.Contains("workstation"))
             {
-                bool recipeRunning = (bool)new JsonPointer("/recipe_running").Evaluate(blockToken);
+                bool recipeRunning = blockToken.GetBool("/recipe_running");
 
                 if (recipeRunning)
                 {
-                    CraftingRecipe recipe = block.craftingHandler.GetRecipe((string)new JsonPointer("/recipe_id").Evaluate(blockToken));
-                    int progress = (int)new JsonPointer("/recipe_progress").Evaluate(blockToken);
-                    int amount = (int)new JsonPointer("/recipe_amount").Evaluate(blockToken);
+                    CraftingRecipe recipe = block.craftingHandler.GetRecipe(blockToken.GetString("/recipe_id"));
+                    int progress = blockToken.GetInt("/recipe_progress");
+                    int amount = blockToken.GetInt("/recipe_amount");
                     block.craftingHandler.selectedRecipe = recipe;
                     block.craftingHandler.amount = amount;
                     block.craftingHandler.Craft(recipe, false);
@@ -299,11 +299,10 @@ namespace SeeloewenCraft
                 }
 
             }
-
-            JObject objectToken = (JObject)blockToken;
-            if (objectToken.ContainsKey("foreground_block"))
+          
+            if (blockToken.ContainsKey("foreground_block"))
             {
-                block.foregroundBlock = Block.LoadFromJson(new JsonPointer("/foreground_block").Evaluate(blockToken), chunk, world);
+                block.foregroundBlock = Block.LoadFromJson(blockToken.GetToken("/inventory"), chunk, world);
             }
 
             return block;
@@ -424,41 +423,24 @@ namespace SeeloewenCraft
             return item;
         }
 
-        public bool IsHolding(string itemName) //Legacy Method, should be replaced by using world.player.inventory.GetSelectedItem()
-        {
-            foreach (HotbarSlot slot in world.player.inventory.hotbarSlotList)
-            {
-                //Check if the slot is selected and has an item
-                if (slot.isSelected == true && slot.slot.items.Count > 0)
-                {
-                    //Check if the item is the one that is being searched
-                    if (slot.slot.items[slot.slot.items.Count - 1].name == itemName)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        public List<Block> GetBlocksInRange()
+        public List<Block> GetBlocksInRange(int range)
         {
             List<Block> blocksInRange = new List<Block>();
 
             //Gets all blocks above 
-            for (int yOffset = 0; yOffset < 6; yOffset++)
+            for (int yOffset = 0; yOffset < range; yOffset++)
             {
                 for (int xOffset = -yOffset; xOffset <= yOffset; xOffset++)
                 {
-                    blocksInRange.Add(GetBlock(xOffset, 6 - yOffset));
-                    blocksInRange.Add(GetBlock(xOffset, -6 + yOffset));
+                    blocksInRange.Add(GetBlockFromOffset(xOffset, range - yOffset));
+                    blocksInRange.Add(GetBlockFromOffset(xOffset, -range + yOffset));
                 }
             }
 
-            for (int xOffset = 1; xOffset < 7; xOffset++)
+            for (int xOffset = 1; xOffset < range + 1; xOffset++)
             {
-                blocksInRange.Add(GetBlock(xOffset, 0));
-                blocksInRange.Add(GetBlock(-xOffset, 0));
+                blocksInRange.Add(GetBlockFromOffset(xOffset, 0));
+                blocksInRange.Add(GetBlockFromOffset(-xOffset, 0));
             }
 
             return blocksInRange;
@@ -472,7 +454,7 @@ namespace SeeloewenCraft
 
         public void UpdateNearbyBlocks()
         {
-            List<Block> blocksInRange = GetBlocksInRange();
+            List<Block> blocksInRange = GetBlocksInRange(world.lightRange);
 
             foreach (Block block in blocksInRange)
             {
@@ -512,9 +494,9 @@ namespace SeeloewenCraft
 
         public int RangeToLightSource()
         {
-            List<Block> blocksInRange = GetBlocksInRange();
+            List<Block> blocksInRange = GetBlocksInRange(world.lightRange);
 
-            int minRange = 7;
+            int minRange = world.lightRange + 1;
             foreach (Block block in blocksInRange)
             {
                 if (block != null)
@@ -536,15 +518,15 @@ namespace SeeloewenCraft
         public void SetLightLevel(int range)
         {
             int rangeToLightSource = range;
-            if (isLightSource || (foregroundBlock != null && foregroundBlock.isLightSource) || rangeToLightSource == 1)
+            if (isLightSource || (foregroundBlock != null && foregroundBlock.isLightSource) || rangeToLightSource == 1|| rangeToLightSource == 2)
             {
                 lightLevel = 0;
             }
-            else if (rangeToLightSource < 6)
+            else if (rangeToLightSource < world.lightRange)
             {
-                lightLevel = 0.25 * rangeToLightSource - 0.5;
+                lightLevel = 1.0 / (world.lightRange - 3) * rangeToLightSource - 0.75;
             }
-            else if (rangeToLightSource == 6)
+            else if (rangeToLightSource == world.lightRange)
             {
                 lightLevel = 0.9;
             }
@@ -559,7 +541,7 @@ namespace SeeloewenCraft
             if (!isLightSource && (foregroundBlock != null && !foregroundBlock.isLightSource))
             {
                 //If no nearest lightsource is detected, add block as lightsource
-                if (rangeToNearestLightSource == 100000)
+                if (rangeToNearestLightSource == 100000) //Any random giant number that a range can never be
                 {
                     rangeToNearestLightSource = range;
                 }
@@ -571,7 +553,7 @@ namespace SeeloewenCraft
             }
         }
 
-        private Block GetBlock(int xOffset, int yOffset)
+        private Block GetBlockFromOffset(int xOffset, int yOffset)
         {
 
             if (yOffset + yPos < 1 || yOffset + yPos > 75)
@@ -657,15 +639,23 @@ namespace SeeloewenCraft
 
         public void PlaceNewBlock(Block block)
         {
+
             //Show the progressbar based on if it's workstation or not
             if (craftingHandler != null && (craftingHandler.recipeRunning || craftingHandler.recipeClaimable))
             {
                 craftingHandler.HideBlockProgressbar();
             }
-
-
+          
+            //If it's air, check if it should be a light source  
+            if (block.id == "sc:air_block")
+            {
+                block.isLightSource = IsAirLightSource(block);
+            }
+          
             //Add the block to the chunk
+            block.rangeToNearestLightSource = rangeToNearestLightSource;
             chunk.SetBlock(block, xPos, yPos);
+            UpdateAirLightsources(block);
             block.MoveToForeground();
         }
 
@@ -813,6 +803,50 @@ namespace SeeloewenCraft
             }
         }
 
+        public void UpdateAirLightsources(Block block)
+        {
+            //Update Air Lightsources
+            for (int y = yPos + 1; y < 76; y++)
+            {
+                //Go through each block below the currently placed one
+                if (chunk.GetBlock(xPos, y).id == "sc:air_block")
+                {
+                    //If the block at that position is air, update it accordingly
+                    AirBlock newBlock = new AirBlock(world, xPos, y, chunk, null, false);
+                    newBlock.rangeToNearestLightSource = chunk.GetBlock(xPos, y).rangeToNearestLightSource;
+
+                    //If the placed block is air, the blocks below should be a lightsource, if not, then no light source
+                    if (block.id == "sc:air_block" && block.isLightSource)
+                    {
+                        newBlock.isLightSource = true;
+                    }
+                    else
+                    {
+                        newBlock.isLightSource = false;
+                    }
+
+                    chunk.SetBlock(newBlock, xPos, y);
+                }
+                else
+                {
+                    //If it's not air, the other blocks below don't matter since that block blocks it.
+                    break;
+                }
+            }
+        }
+
+        public bool IsAirLightSource(Block block)
+        {
+            for (int y = yPos - 1; y > 0; y--)
+            {
+                if (chunk.GetBlock(xPos, y).id != "sc:air_block")
+                {
+                    block.isLightSource = false;
+                    return false;
+                }
+            }
+            return true;
+        }
 
         public void DisplayDebugInformation()
         {
@@ -833,6 +867,8 @@ namespace SeeloewenCraft
                     world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"foregroundBlock={foregroundBlock.id}");
                 }
                 world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"lightLevel={lightLevel}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"isLightSource={isLightSource}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"rangeToNearestLightSource={rangeToNearestLightSource}");
                 world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"hasRightClickAction={hasRightClickAction}");
                 world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"hasInventory={hasInventory}");
                 world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"isBase={isBase}");
@@ -849,6 +885,15 @@ namespace SeeloewenCraft
                 catch (NotImplementedException)
                 {
                     //No additional debug info to show
+                }
+
+                if (tags.Count > 0)
+                {
+                    world.debugMenu.AddLine(world.debugMenu.tblBlockStats, "Tags:");
+                    foreach (string tag in tags)
+                    {
+                        world.debugMenu.AddLine(world.debugMenu.tblBlockStats, tag);
+                    }
                 }
             }
         }
