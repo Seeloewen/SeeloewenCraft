@@ -1,7 +1,10 @@
 ﻿using Microsoft.Json.Pointer;
 using Newtonsoft.Json.Linq;
+using System;
 using System.IO;
 using System.Text;
+using System.Windows.Resources;
+using System.Windows;
 
 namespace SeeloewenCraft
 {
@@ -12,7 +15,7 @@ namespace SeeloewenCraft
         private JsonWriter(StringBuilder sb, StringWriter sw) : base(sw)
         {
             this.sb = sb;
-        }   
+        }
 
         public void WriteToFile(string path)
         {
@@ -38,6 +41,15 @@ namespace SeeloewenCraft
         public static JsonToken ReadFile(string path)
         {
             return new JsonToken(JToken.Parse(File.ReadAllText(path)));
+        }
+
+        public static JsonToken ReadResource(string name)
+        {
+            //Read all texts from file
+            Uri uri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/{name}", UriKind.Absolute);
+            StreamResourceInfo info = Application.GetResourceStream(uri);
+            using StreamReader reader = new(info.Stream);
+            return new JsonToken(JToken.Parse(reader.ReadToEnd()));
         }
 
     }
@@ -88,7 +100,10 @@ namespace SeeloewenCraft
             return (double)new JsonPointer(address).Evaluate(value);
         }
 
-
+        public int GetArrayLength()
+        {
+            return ((JArray)value).Count;
+        }
     }
 
 }

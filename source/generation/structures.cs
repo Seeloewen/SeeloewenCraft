@@ -80,10 +80,10 @@ namespace SeeloewenCraft
             {
                 if (direction == "left")
                 {
-                    if (xBase - structureComponent.xOffset < 1)
+                    if (xBase - structureComponent.xOffset < 0)
                     {
                         //If the component would be offscreen, move it to the cut off list and change the offset
-                        structureComponent.xOffset = structureComponent.xOffset - xBase;
+                        structureComponent.xOffset = structureComponent.xOffset - xBase - 1;
                         cutOffComponents.Add(structureComponent);
                     }
                     else
@@ -94,10 +94,10 @@ namespace SeeloewenCraft
                 }
                 else if (direction == "right")
                 {
-                    if (xBase + structureComponent.xOffset > 8)
+                    if (xBase + structureComponent.xOffset > 7)
                     {
                         //If the component would be offscreen, move it to the cut off list and change the offset
-                        structureComponent.xOffset = xBase + structureComponent.xOffset - 9;
+                        structureComponent.xOffset = xBase + structureComponent.xOffset - 8;
                         cutOffComponents.Add(structureComponent);
                     }
                     else
@@ -114,7 +114,7 @@ namespace SeeloewenCraft
             //Add all blocks from the structure to the blocklist
             foreach (Block block in blockList.blocks)
             {
-                if (block != null && block.xPos > 0 && block.xPos < 9 && block.yPos > 0 && block.yPos < 76)
+                if (block != null && block.xPos >= 0 && block.xPos <= 7 && block.yPos >= 0 && block.yPos <= 74)
                 {
                     //Compare each block in the structure list to the block that's already at that position; if it has a fixed solid state, don't replace it
                     if (canReplaceSolidBlocks)
@@ -176,23 +176,17 @@ namespace SeeloewenCraft
 
         public void BeginGeneration(int x, int y, int index, bool isNew)
         {
-            world.log.Write($"Beginning to generate structure {GetType()} at x{xBase} y{yBase}", "Info");
-            if (y != 0) //The game somehow tries to generate structures on y0 at some points. This is to prevent that. An actual fix may follow later.
+            this.isNew = isNew;
+            //Check which direction it's going to be built in
+            if (index > 0)
             {
-                this.isNew = isNew;
-                //Check which direction it's going to be built in
-                if (index > 0)
-                {
-                    world.log.Write("Determined structure generation direction 'right'", "Info");
-                    SetupStructure(x, y, "right");
-                    GenerateStructure();
-                }
-                else if (index < 0)
-                {
-                    world.log.Write("Determined structure generation direction 'left'", "Info");
-                    SetupStructure(x, y, "left");
-                    GenerateStructure();
-                }
+                SetupStructure(x, y, "right");
+                GenerateStructure();
+            }
+            else if (index < 0)
+            {
+                SetupStructure(x, y, "left");
+                GenerateStructure();
             }
         }
 
@@ -201,9 +195,8 @@ namespace SeeloewenCraft
             //Check if the structure is cut off on left or right side
             if (direction == "left")
             {
-                if (xBase - totalWidth < 0)
+                if (xBase - totalWidth <= 0)
                 {
-                    world.log.Write("Detected cutoff in structure generation!", "Info");
                     return true;
                 }
                 else
@@ -213,9 +206,8 @@ namespace SeeloewenCraft
             }
             else if (direction == "right")
             {
-                if (xBase + totalWidth > 9)
+                if (xBase + totalWidth > 7)
                 {
-                    world.log.Write("Detected cutoff in structure generation!", "Info");
                     return true;
                 }
                 else

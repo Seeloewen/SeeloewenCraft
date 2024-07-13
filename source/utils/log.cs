@@ -185,6 +185,7 @@ namespace SeeloewenCraft
                 }
                 wndLog.rtbLog.Document.Blocks.Clear();
                 wndLog.rtbLog.Document.Blocks.Add(paragraph);
+                wndLog.rtbLog.ScrollToEnd();
             }
         }
     }

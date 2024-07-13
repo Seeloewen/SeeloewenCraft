@@ -1,0 +1,105 @@
+﻿Alpha 1.1.6 - 10.07.2024
+* Added debug menu
+* Added basic attribute bar system and health bar (experimental)
+* Implemented improved json utils
+* Reworked inventory using new GUI
+* Reworked settings and add keybinds
+* Third-party licenses are now shown in the 'About' window
+* Restructured and refactored many parts of the code
+* World settings are now saved using json
+* Fixed many issues regarding water
+* Fixed foreground blocks not saving
+* Fixed placing a plant block in a top plant block being bugged
+* Fixed being able to move blocks into foreground that already had a foreground block
+* Fixed chest GUI being messed up
+* Removed unused and outdated debug components
+
+Alpha 1.1.5 - 25.06.2024
+* Added Water with flow and drain
+* Added Loot Table
+* Added Connected Blocks
+* Added Torches
+* Upgraded to .NET 8.0
+* Changed command line arguments to be specific
+* Reworked internal ID component
+* Reworked inventory and world saving to use JSON
+* Reworked how chunks are saved and loaded while the game is running
+* Improved rendering of blocks when loading chunks
+* Implemented new internal tag system
+* Implemented internal click handler
+* Fixed crash when caves generate outside the possible coordinates
+* Fixed a bunch of other crashes
+* Cleaned up parts of the code
+
+Alpha 1.1.4 - 30.05.2024
+* Added 'About' window
+* Added 'Debug log' window
+* Added more randomized splash texts
+* Added 'Experimental features' category in settings
+* Added prototype lighting (experimental)
+* Added option to delete worlds
+* Reworked collision system
+* Reworked movement system
+* Reworked internal block list system
+* Player position now gets saved and restored when loading a world
+* The hotbar is now scrollable
+* Fixed world not being generated new when using command line arguments
+* Fixed crash when returning to main menu
+* Fixed ore generation not being fully random
+* Fixed block info not updating when generating new chunks
+* Fixed scrolling being enabled in the world
+* Removed /changelog command
+
+Alpha 1.1.3 - 26.05.2024
+* Added Texturepack support
+* Added Hammer to move blocks between foreground and background
+* Added Spruce trees
+* Added fallback "Missing Texture" image when a texture is not found
+* Added Stone Block background to caves
+* Added "Exit to Main Menu" option
+* Added warning when trying to load older worlds
+* Tree stems now generate in the background
+* Worlds are now created in a separate directory
+* Fixed structures getting generated outside the possible coordinates
+* Fixed some structures incorrectly replacing solid blocks
+* Fixed exception when closing the game
+
+Alpha 1.1.2 - 23.05.2024
+* Added Magma Block (not obtainable yet)
+* Added Prototype Cave Generation
+* Added debug option to start game directly in world by having exactly one command line argument
+* Rework collision system to fix many issues
+* Rework how blocks and items are displayed to improve performance
+* Fixed Resource files being needed to start the game
+* Clean up code to improve performance
+
+Alpha 1.1.1 - 26.04.2024
+* Fixed being able to move and interact with blocks while in chat
+* Fixed camera position getting offset over time
+* Fixed structures getting cut off at chunk borders
+* Fixed structures sometimes floating
+
+Alpha 1.1.0 - 07.09.2023
+* Added Main Menu
+* Added Settings window
+* Added chests (not obtainable yet)
+* Added game menu when pressing escape
+* Worlds can now be saved and loaded
+* Inventory now gets saved
+* Game now checks if item has a block before placing (fixes NullPointer when placing items)
+* Fixed game window being resizable
+
+Alpha 1.0.1 - 31.08.2023
+* Fixed blocks not loading when going into old chunks
+* Fixed chunks resetting when unloading them
+
+Alpha 1.0.0 - 31.08.2023
+* The project is now called SeeloewenCraft
+* Added the /changelog command
+* Made some code optimisations
+* Clicking on a hotbar slot now selects it
+* You will now also see a border when trying to place a block
+* Player hitbox now looks a little better (still no model though)
+* Player will now always spawn on the floor
+* Fixed diamond veins being too big
+* Possibly fixed camera breaking when glitching in walls

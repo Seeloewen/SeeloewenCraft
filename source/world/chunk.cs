@@ -97,7 +97,7 @@ namespace SeeloewenCraft
         public void SetBlock(Block block, int x, int y)
         {
             //Check if the coordinate has a container and place the block into that container if possible
-            if (x > 8)
+            if (x > 7)
             {
                 Chunk chunk = world.GetFromCurrentChunks(index + 1);
 
@@ -106,7 +106,7 @@ namespace SeeloewenCraft
                     chunk.SetBlock(block, x - 8, y);
                 }
             }
-            else if (x < 1)
+            else if (x < 0)
             {
                 Chunk chunk = world.GetFromCurrentChunks(index - 1);
 
@@ -185,7 +185,15 @@ namespace SeeloewenCraft
             //render chunk
             try
             {
+                foreach (Block block in blockList.blocks)
+                {
+                    if (block.id == "sc:air_block")
+                    {
+                        block.isLightSource = block.IsAirLightSource(block);
+                    }
+                }
                 RenderChunk();
+
                 world.log.Write($"Successfully initialized chunk {index}", "Info");
             }
             catch (Exception ex)
@@ -204,7 +212,7 @@ namespace SeeloewenCraft
 
             //load settings
             documentToken = JsonUtil.ReadFile($"{world.worldDirectory}/chunk{index}/settings.json");
-            
+
             index = documentToken.GetInt("/index");
             floorHeightLeft = documentToken.GetInt("/floor_height_left");
             floorHeightRight = documentToken.GetInt("/floor_height_right");
@@ -239,7 +247,7 @@ namespace SeeloewenCraft
 
         public Block GetBlock(int x, int y)
         {
-            if (x > 8)
+            if (x > 7)
             {
                 if (world.GetFromCurrentChunks(index + 1) != null)
                 {
@@ -250,7 +258,7 @@ namespace SeeloewenCraft
                     return null;
                 }
             }
-            else if (x < 1)
+            else if (x < 0)
             {
                 if (world.GetFromCurrentChunks(index - 1) != null)
                 {

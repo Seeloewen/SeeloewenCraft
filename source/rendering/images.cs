@@ -4,11 +4,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.IO;
-using System.Reflection;
+using System.Resources;
+using System.Windows;
 
 namespace SeeloewenCraft
 {
@@ -44,20 +44,18 @@ namespace SeeloewenCraft
         {
             Uri imageUri;
 
-            //Check if the image file exists and use default or missing texture image otherwise
+            //Check if the image file exists if a texturepack is loaded
             if (File.Exists($"{textureDirectory}/{resourceName}"))
             {
                 imageUri = new Uri($"{textureDirectory}/{resourceName}", UriKind.Absolute);
             }
             else
             {
-                try
+                //If no texturepack is loaded or it's not found in the texturepack, fallback to default ones
+                imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/{resourceName}", UriKind.Absolute);
+                if (!ResourceExists(imageUri))
                 {
-                    imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/{resourceName}", UriKind.Absolute);
-
-                }
-                catch
-                {
+                    //If default one doesn't exist, use missing texture image
                     imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/MissingTexture.png", UriKind.Absolute);
                 }
             }
@@ -65,6 +63,21 @@ namespace SeeloewenCraft
             //Get an image from an imagesource from a uri
             return BitmapFrame.Create(imageUri);
         }
+
+        public static bool ResourceExists(Uri resourceUri)
+        {
+            //Check if the resource exists
+            try
+            {
+                var resourceInfo = Application.GetResourceStream(resourceUri);
+                return resourceInfo != null;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
         private void CreateResources()
         {
@@ -88,7 +101,7 @@ namespace SeeloewenCraft
             Torch = new ImageBrush { ImageSource = GetImageSource("Torch.png") };
             Plant2_Base = new ImageBrush { ImageSource = GetImageSource("Plant2_Base.png") };
             Plant2_Top = new ImageBrush { ImageSource = GetImageSource("Plant2_Top.png") };
-            Plant2= new ImageBrush { ImageSource = GetImageSource("Plant2.png") };
+            Plant2 = new ImageBrush { ImageSource = GetImageSource("Plant2.png") };
             Water_1_Right = new ImageBrush { ImageSource = GetImageSource("Water_1_Right.png") };
             Water_1_Left = new ImageBrush { ImageSource = GetImageSource("Water_1_Left.png") };
             Water_2_Right = new ImageBrush { ImageSource = GetImageSource("Water_2_Right.png") };
@@ -97,13 +110,14 @@ namespace SeeloewenCraft
             Water_3_Left = new ImageBrush { ImageSource = GetImageSource("Water_3_Left.png") };
             Water_4_Right = new ImageBrush { ImageSource = GetImageSource("Water_4_Right.png") };
             Water_4_Left = new ImageBrush { ImageSource = GetImageSource("Water_4_Left.png") };
-            Water_5_Right= new ImageBrush { ImageSource = GetImageSource("Water_5_Right.png") };
+            Water_5_Right = new ImageBrush { ImageSource = GetImageSource("Water_5_Right.png") };
             Water_5_Left = new ImageBrush { ImageSource = GetImageSource("Water_5_Left.png") };
             Water_6 = new ImageBrush { ImageSource = GetImageSource("Water_6.png") };
             Gui = new ImageBrush { ImageSource = GetImageSource("Gui.png") };
             HealthFull = new ImageBrush { ImageSource = GetImageSource("HealthFull.png") };
             HealthHalf = new ImageBrush { ImageSource = GetImageSource("HealthHalf.png") };
             HealthEmpty = new ImageBrush { ImageSource = GetImageSource("HealthEmpty.png") };
+            AlphaCrafter = new ImageBrush { ImageSource = GetImageSource("AlphaCrafter.png") };
         }
 
         //-- Images --//
@@ -144,5 +158,6 @@ namespace SeeloewenCraft
         public ImageBrush HealthFull;
         public ImageBrush HealthHalf;
         public ImageBrush HealthEmpty;
+        public ImageBrush AlphaCrafter;
     }
 }

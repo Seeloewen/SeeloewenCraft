@@ -1,6 +1,7 @@
 ﻿using Microsoft.Json.Pointer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.DirectoryServices.ActiveDirectory;
 using System.Reflection;
 using System.Windows.Documents;
 
@@ -54,7 +55,7 @@ namespace SeeloewenCraft
         {
             //Add the block to the index based on x and y pos
             //Check if the coordinate has a container and place the block into that container if possible
-            if ((block.xPos < 9 && block.xPos > 0) && (block.yPos > 0 && block.yPos < 76))
+            if ((block.xPos <= 7 && block.xPos >= 0) && (block.yPos >= 0 && block.yPos <= 74))
             {
                 int i = CalcIndex(block.xPos, block.yPos);
                 blocks[i] = block;
@@ -65,7 +66,7 @@ namespace SeeloewenCraft
         {
             //Add the block to the index based on x and y pos
             int i = CalcIndex(x, y);
-            if ((block.xPos < 9 && block.xPos > 0) && (block.yPos > 0 && block.yPos < 76))
+            if ((block.xPos <= 7 && block.xPos >= 0) && (block.yPos >= 0 && block.yPos <= 74))
             {
                 blocks[i] = block;
             }
@@ -74,7 +75,7 @@ namespace SeeloewenCraft
         public Block Get(int x, int y)
         {
             //Get the block at the index based on x and y pos+
-            if ((x < 9 && x > 0) && (y > 0 && y < 76))
+            if ((x <= 7 && x >= 0) && (y >= 0 && y <= 74))
             {
                 int i = CalcIndex(x, y);
                 return blocks[i];
@@ -85,7 +86,8 @@ namespace SeeloewenCraft
         public Block Get(Block block)
         {
             //Get the block at the index based on x and y pos
-            if ((block.xPos < 9 && block.xPos > 0) && (block.yPos > 0 && block.yPos < 76))
+            if ((block.xPos <= 7 && block.xPos >= 0) && (block.yPos >= 0 && block.yPos <= 74))
+
             {
                 int i = CalcIndex(block.xPos, block.yPos);
                 return blocks[i];
@@ -96,7 +98,8 @@ namespace SeeloewenCraft
         public void Remove(int x, int y)
         {
             //Remove the block at the index based on x and y pos
-            if ((x < 9 && x > 0) && (y > 0 && y < 76))
+            if ((x <= 7 && x >= 0) && (y >= 0 && y <= 74))
+
             {
                 int i = CalcIndex(x, y);
                 blocks[i] = null;
@@ -106,7 +109,7 @@ namespace SeeloewenCraft
         public void Remove(Block block)
         {
             //Remove the block at the index based the actual block
-            if ((block.xPos < 9 && block.xPos > 0) && (block.yPos > 0 && block.yPos < 76))
+            if ((block.xPos <= 7 && block.xPos >= 0) && (block.yPos >= 0 && block.yPos <= 74))
             {
                 int i = CalcIndex(block.xPos, block.yPos);
                 blocks[i] = null;
@@ -122,7 +125,7 @@ namespace SeeloewenCraft
         private int CalcIndex(int x, int y)
         {
             //Calculate the index based on x and y pos
-            return (x - 1) + (y - 1) * 8;
+            return x + y * 8;
         }
     }
 }

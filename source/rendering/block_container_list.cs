@@ -22,9 +22,9 @@ namespace SeeloewenCraft
         {
             //Add all necessary block containers to the list
             this.world = world;
-            for (int x = 1; x < 9; x++)
+            for (int x = 0; x < 8; x++)
             {
-                for (int y = 1; y < 76; y++)
+                for (int y = 0; y < 75; y++)
                 {
                     containerList.Add(new BlockContainer(world, x, y));
                 }
@@ -36,9 +36,9 @@ namespace SeeloewenCraft
         public BlockContainer GetContainer(int x, int y)
         {
             //Return the container that has the specified coordinates
-            foreach(BlockContainer container in containerList)
+            foreach (BlockContainer container in containerList)
             {
-                if(container.xPos == x && container.yPos == y)
+                if (container.xPos == x && container.yPos == y)
                 {
                     return container;
                 }
@@ -73,8 +73,8 @@ namespace SeeloewenCraft
 
                 //Add the containers to the chunk grid
                 chunk.grdChunk.Children.Add(container.bdrBlock);
-                Grid.SetRow(container.bdrBlock, container.yPos - 1);
-                Grid.SetColumn(container.bdrBlock, container.xPos - 1);
+                Grid.SetRow(container.bdrBlock, container.yPos);
+                Grid.SetColumn(container.bdrBlock, container.xPos);
             }
         }
     }
