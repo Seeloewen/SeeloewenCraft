@@ -232,4 +232,7 @@
   <data name="AlphaCrafter" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AlphaCrafter.png;System.Byte[]</value>
   </data>
+  <data name="changelog.txt" xml:space="preserve">
+    <value>changelog.txt</value>
+  </data>
 </root>
