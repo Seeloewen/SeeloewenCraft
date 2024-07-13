@@ -119,5 +119,12 @@ namespace SeeloewenCraft
                 world.log.Write($"Could not update value for bar {name} because an invalid value was given.", "Error");
             }
         }
+
+        public void Save(JsonWriter writer)
+        {
+            //Save the bar to json file
+            writer.WritePropertyName(name.ToLower());
+            writer.WriteValue(value);
+        }
     }
 }

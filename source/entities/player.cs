@@ -111,7 +111,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public void SavePosition(string path)
+        public void SaveStats(string path)
         {
             world.log.Write($"Saved player position to {path}", "Info");
 
@@ -126,11 +126,15 @@ namespace SeeloewenCraft
                 writer.WritePropertyName("pos_y");
                 writer.WriteValue(posY);
 
+                if (world.settings.enableHealth)
+                {
+                    healthBar.Save(writer);
+                }
+
                 writer.WriteEndObject();
 
-                writer.WriteToFile($"{path}/player_position.json");
+                writer.WriteToFile($"{path}/player_stats.json");
             }
-
         }
 
         public void SaveInventory(string path)

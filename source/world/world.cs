@@ -198,23 +198,25 @@ namespace SeeloewenCraft
             }
 
             //Check if the player position exists
-            bool loadedPlayerPosExists = File.Exists($"{worldDirectory}/player_position.json");
+            bool playerStatsExist = File.Exists($"{worldDirectory}/player_stats.json");
             double playerPosX = 0;
             double playerPosY = 0;
+            int playerHealth = 10;
 
-            //Load the player position if possible
-            if (loadedPlayerPosExists)
+            //Load the player stats if possible
+            if (playerStatsExist)
             {
-                JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_position.json");
+                JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_stats.json");
                 try
                 {
                     playerPosX = documentToken.GetDouble("/pos_x");
                     playerPosY = documentToken.GetDouble("/pos_y");
+                    playerHealth = documentToken.GetInt("/health");
                     log.Write($"Read player position from file: x{playerPosX} y{playerPosY}", "Info");
                 }
                 catch (Exception ex)
                 {
-                    loadedPlayerPosExists = false;
+                    playerStatsExist = false;
                     log.Write($"Could not read player position from file: {ex.Message}", "Error");
                 }
 
@@ -226,13 +228,13 @@ namespace SeeloewenCraft
 
             //Create the game components
             GenerateBlockContainer();
-            GenerateChunks(loadedPlayerPosExists ? ((int)playerPosX / 8) - 2 : 0);
+            GenerateChunks(playerStatsExist ? ((int)playerPosX / 8) - 2 : 0);
 
             //When the world is loaded, display the debug information
             DisplayDebugInformation();
 
             //Create the player
-            CreatePlayer(loadedPlayerPosExists, playerPosX, playerPosY);
+            CreatePlayer(playerStatsExist, playerPosX, playerPosY, playerHealth);
             player.inventory = new Inventory(this, true);
             inventoryList.Add(player.inventory);
             player.inventory.hotbarSlotList[0].SelectSlot();
@@ -292,7 +294,7 @@ namespace SeeloewenCraft
             return false;
         }
 
-        public void CreatePlayer(bool isLoaded, double playerPosX, double playerPosY)
+        public void CreatePlayer(bool isLoaded, double playerPosX, double playerPosY, int health)
         {
 
             if (!isLoaded)
@@ -318,6 +320,12 @@ namespace SeeloewenCraft
                 player.MoveHorizontal((int)Math.Round((playerPosX % 8.0) * 50) - 202);
                 log.Write("Generated player at loaded position", "Info");
             }
+
+            if (settings.enableHealth)
+            {
+                player.healthBar.SetValue(health);
+            }
+
             wndGame.cvsWorld.Children.Add(player.cvsPlayer);
             Panel.SetZIndex(player.cvsPlayer, 1);
             wndGame.relativeSvPos = wndGame.svWorld.VerticalOffset;

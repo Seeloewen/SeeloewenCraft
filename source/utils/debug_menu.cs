@@ -16,7 +16,7 @@ namespace SeeloewenCraft
         World world;
         public Canvas cvsDebugMenu = new Canvas() { Height = 630, Width = 1180 };
         public TextBlock tblGameStats = new TextBlock() { FontSize = 20, FontWeight = FontWeights.Bold };
-        public TextBlock tblBlockStats = new TextBlock() { FontSize = 20, FontWeight = FontWeights.Bold};
+        public TextBlock tblBlockStats = new TextBlock() { FontSize = 20, FontWeight = FontWeights.Bold };
         public TextBlock tblPlayerStats = new TextBlock() { FontSize = 20, FontWeight = FontWeights.Bold };
         public TextBox tbDebug = new TextBox() { TextWrapping = TextWrapping.Wrap, Width = 1032, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Top, Height = 28, FontSize = 15 };
         public Button btnDebug = new Button() { Content = "Send", Width = 115, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Top, Height = 28, FontSize = 15 };
@@ -165,6 +165,10 @@ namespace SeeloewenCraft
             else if (tbDebug.Text == "/resetview")
             {
                 world.wndGame.svWorld.ScrollToVerticalOffset(world.player.cvsPlayer.Margin.Top - 400);
+            }
+            else if (tbDebug.Text == "/health7")
+            {
+                world.player.healthBar.SetValue(7);
             }
             else
             {

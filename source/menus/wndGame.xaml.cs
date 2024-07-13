@@ -338,7 +338,7 @@ namespace SeeloewenCraft
                         chunk.Save();
                     }
                     world.player.SaveInventory(world.worldDirectory);
-                    world.player.SavePosition(world.worldDirectory);
+                    world.player.SaveStats(world.worldDirectory);
                 }
             }
 
@@ -375,7 +375,7 @@ namespace SeeloewenCraft
                 chunk.Save();
             }
             world.player.SaveInventory(world.worldDirectory);
-            world.player.SavePosition(world.worldDirectory);
+            world.player.SaveStats(world.worldDirectory);
 
             //Show confirmation
             MessageBox.Show("Successfully saved the World!", "Save World", MessageBoxButton.OK, MessageBoxImage.Information);
