@@ -103,7 +103,7 @@ namespace SeeloewenCraft
 
         public void SetLightOpacity()
         {
-            if (block != null)
+            if (block != null && block.blockContainer != null)
             {
                 rectDarkOverlayLight.Opacity = block.lightLevel;
             }

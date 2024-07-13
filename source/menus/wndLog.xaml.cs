@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SeeloewenCraft;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -33,7 +34,8 @@ namespace SeeloewenCraft
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             //Save the log
-            log.Save(true);
+            wndFindInLog wndFindinLog = new wndFindInLog(log);
+            wndFindinLog.Show();
         }
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
