@@ -39,7 +39,7 @@ namespace SeeloewenCraft
                 else
                 {
                     //If it's not the first chunk, get the most right floor height from the chunk to the left
-                     floorHeight = world.GetFromCurrentChunks(index - 1).floorHeightRight;
+                    floorHeight = world.GetFromCurrentChunks(index - 1).floorHeightRight;
                 }
             }
             else if (index < 0)
@@ -50,7 +50,7 @@ namespace SeeloewenCraft
             //Actually generate the terrain
             if (index >= 0)
             {
-                for (int x = 1; x <= 8; x++)
+                for (int x = 0; x <= 7; x++)
                 {
                     //Go through all 8 columns in the chunk and generate a number to determine if the floor height should change
                     int floorHeightChange = rnd.Next(0, 100);
@@ -72,7 +72,7 @@ namespace SeeloewenCraft
                     }
 
                     //Go through each row
-                    for (int y = 1; y <= 75; y++)
+                    for (int y = 0; y <= 74; y++)
                     {
 
                         if (y == floorHeight)
@@ -81,11 +81,11 @@ namespace SeeloewenCraft
                             blockList.Add(new GrassBlock(world, x, y, this, null, false));
 
                             //If it's at one of the corners, set the left or right floor height variable
-                            if (x == 1)
+                            if (x == 0)
                             {
                                 floorHeightLeft = floorHeight;
                             }
-                            if (x == 8)
+                            if (x == 7)
                             {
                                 floorHeightRight = floorHeight;
                             }
@@ -118,7 +118,7 @@ namespace SeeloewenCraft
                             //If it's above floor height, generate air
                             blockList.Add(new AirBlock(world, x, y, this, null, false));
                         }
-                        else if (y == 75)
+                        else if (y == 74)
                         {
                             //If it's exactly at bottom layer y 75, set bedrock block
                             blockList.Add(new BedrockBlock(world, x, y, this, null, false));
@@ -130,7 +130,7 @@ namespace SeeloewenCraft
             //Generate the chunk from right to left
             else
             {
-                for (int x = 8; x > 0; x--)
+                for (int x = 7; x >= 0; x--)
                 {
                     int floorHeightChange = rnd.Next(0, 100);
                     if (floorHeightChange >= 80 && floorHeightChange <= 100)
@@ -150,7 +150,7 @@ namespace SeeloewenCraft
                     }
 
                     //Go through each row
-                    for (int y = 1; y <= 75; y++)
+                    for (int y = 0; y <= 74; y++)
                     {
 
                         if (y == floorHeight)
@@ -159,11 +159,11 @@ namespace SeeloewenCraft
                             blockList.Add(new GrassBlock(world, x, y, this, null, false));
 
                             //If it's at one of the corners, set the left or right floor height variable
-                            if (x == 1)
+                            if (x == 0)
                             {
                                 floorHeightLeft = floorHeight;
                             }
-                            if (x == 8)
+                            if (x == 7)
                             {
                                 floorHeightRight = floorHeight;
                             }
@@ -196,7 +196,7 @@ namespace SeeloewenCraft
                             //If it's above floor height, generate air
                             blockList.Add(new AirBlock(world, x, y, this, null, false));
                         }
-                        else if (y == 75)
+                        else if (y == 74)
                         {
                             //If it's exactly at bottom layer y 75, set bedrock block
                             blockList.Add(new BedrockBlock(world, x, y, this, null, false));
@@ -214,7 +214,7 @@ namespace SeeloewenCraft
                 int random = rnd.Next(0, 3);
                 if (random == 0)
                 {
-                    int xPos = rnd.Next(0, 9);
+                    int xPos = rnd.Next(0, 8);
                     int yPos = 0;
                     foreach (Block block in blockList.blocks)
                     {
@@ -245,7 +245,7 @@ namespace SeeloewenCraft
                 int random = rnd.Next(0, 3);
                 if (random == 0)
                 {
-                    int xPos = rnd.Next(0, 9);
+                    int xPos = rnd.Next(0, 8);
                     int yPos = 0;
                     foreach (Block block in blockList.blocks)
                     {
@@ -267,7 +267,7 @@ namespace SeeloewenCraft
             {
                 for (int i = 0; i < 1; i++)
                 {
-                    int xPos = rnd.Next(0, 9);
+                    int xPos = rnd.Next(0, 8);
                     int yPos = 0;
                     foreach (Block block in blockList.blocks)
                     {
@@ -290,7 +290,7 @@ namespace SeeloewenCraft
                 {
                     if (structure.isCutOff)
                     {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, world, 1, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks));
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, world, 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks));
                     }
                 }
             }
@@ -300,7 +300,7 @@ namespace SeeloewenCraft
                 {
                     if (structure.isCutOff)
                     {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, world, 8, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks));
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, world, 7, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks));
                     }
                 }
             }
