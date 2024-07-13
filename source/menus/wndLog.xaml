@@ -10,7 +10,7 @@
         <ImageBrush ImageSource="/Resources/Background.png"/>
     </Window.Background>
     <Grid>
-        <RichTextBox x:Name="rtbLog" Canvas.Left="10" Canvas.Top="47" FontSize="16" Margin="11,56,11,10" IsReadOnly="True">
+        <RichTextBox x:Name="rtbLog" Canvas.Left="10" Canvas.Top="47" FontSize="16" Margin="11,56,11,10" IsReadOnly="True" VerticalScrollBarVisibility="Auto">
             <FlowDocument/>
         </RichTextBox>
         <TextBlock x:Name="tblHeader" Canvas.Left="16" TextWrapping="Wrap" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="26" FontWeight="DemiBold" Margin="11,11,0,0"><Run Language="de-de" Text="Debug-Log"/></TextBlock>
