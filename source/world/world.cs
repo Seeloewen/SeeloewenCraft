@@ -301,9 +301,10 @@ namespace SeeloewenCraft
                 int yPos = 0;
                 foreach (Block block in currentChunkList[2].blockList.blocks)
                 {
-                    if (block.xPos == 5 && block is GrassBlock)
+                    if (block.xPos == 4 && block is GrassBlock)
                     {
-                        yPos = (block.yPos - 3) * 50;
+                        yPos = (block.yPos - 2) * 50;
+                        break;
                     }
                 }
 
@@ -313,8 +314,8 @@ namespace SeeloewenCraft
             }
             else
             {
-                player = new Player(this, 602, (int)(playerPosY * 50) - 50);
-                player.MoveHorizontal((int)Math.Round((playerPosX % 8.0) * 50) - 252);
+                player = new Player(this, 602, (int)(playerPosY * 50));
+                player.MoveHorizontal((int)Math.Round((playerPosX % 8.0) * 50) - 202);
                 log.Write("Generated player at loaded position", "Info");
             }
             wndGame.cvsWorld.Children.Add(player.cvsPlayer);

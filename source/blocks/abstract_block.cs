@@ -93,6 +93,11 @@ namespace SeeloewenCraft
                 this.item = null;
             }
 
+            if (xPos == 8)
+            {
+                //throw new Exception();
+            }
+
         }
 
         //-- Custom Methods --//
@@ -299,7 +304,7 @@ namespace SeeloewenCraft
                 }
 
             }
-          
+
             if (blockToken.ContainsKey("foreground_block"))
             {
                 block.foregroundBlock = Block.LoadFromJson(blockToken.GetToken("/inventory"), chunk, world);
@@ -518,7 +523,7 @@ namespace SeeloewenCraft
         public void SetLightLevel(int range)
         {
             int rangeToLightSource = range;
-            if (isLightSource || (foregroundBlock != null && foregroundBlock.isLightSource) || rangeToLightSource == 1|| rangeToLightSource == 2)
+            if (isLightSource || (foregroundBlock != null && foregroundBlock.isLightSource) || rangeToLightSource == 1 || rangeToLightSource == 2)
             {
                 lightLevel = 0;
             }
@@ -556,12 +561,12 @@ namespace SeeloewenCraft
         private Block GetBlockFromOffset(int xOffset, int yOffset)
         {
 
-            if (yOffset + yPos < 1 || yOffset + yPos > 75)
+            if (yOffset + yPos < 0 || yOffset + yPos > 74)
             {
                 return null;
             }
 
-            if (xPos + xOffset < 1)
+            if (xPos + xOffset < 0)
             {
                 Chunk chunk = world.GetFromCurrentChunks(this.chunk.index - 1);
 
@@ -574,7 +579,7 @@ namespace SeeloewenCraft
                     return null;
                 }
             }
-            else if (xPos + xOffset > 8)
+            else if (xPos + xOffset > 7)
             {
                 Chunk chunk = world.GetFromCurrentChunks(this.chunk.index + 1);
 
@@ -645,13 +650,13 @@ namespace SeeloewenCraft
             {
                 craftingHandler.HideBlockProgressbar();
             }
-          
+
             //If it's air, check if it should be a light source  
             if (block.id == "sc:air_block")
             {
                 block.isLightSource = IsAirLightSource(block);
             }
-          
+
             //Add the block to the chunk
             block.rangeToNearestLightSource = rangeToNearestLightSource;
             chunk.SetBlock(block, xPos, yPos);
@@ -837,7 +842,7 @@ namespace SeeloewenCraft
 
         public bool IsAirLightSource(Block block)
         {
-            for (int y = yPos - 1; y > 0; y--)
+            for (int y = yPos - 1; y >= 0; y--)
             {
                 if (chunk.GetBlock(xPos, y).id != "sc:air_block")
                 {
