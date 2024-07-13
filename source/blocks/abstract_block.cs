@@ -101,7 +101,7 @@ namespace SeeloewenCraft
         }
 
         //-- Custom Methods --//
-        public void SaveToJson(JsonWriter writer)
+        public virtual void SaveToJson(JsonWriter writer)
         {
             writer.WriteStartObject();
 
@@ -181,6 +181,7 @@ namespace SeeloewenCraft
             int posY = blockToken.GetInt("/pos_y");
             bool isInBackground = blockToken.GetBool("/is_in_background");
             string id = blockToken.GetString("/id");
+
 
             Block block;
             switch (id)
@@ -262,6 +263,11 @@ namespace SeeloewenCraft
                     break;
                 case "sc:water_6_block":
                     block = new WaterBlock_6(world, posX, posY, chunk, null, isInBackground);
+                    break;
+                case "sc:modded_block":
+                    //if()
+                    string type = blockToken.GetString("/type");
+                    block = new ModdedBlock(type, world, posX, posY, chunk, null, isInBackground);
                     break;
                 case "sc:alpha_crafter_block":
                     block = new AlphaCrafterBlock(world, posX, posY, chunk, null, isInBackground);

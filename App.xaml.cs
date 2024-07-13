@@ -17,24 +17,47 @@ namespace Random_2D_Terrain_Generator_2._0
     public partial class App : Application
     {
 
-        private class StartOptions
+        class StartOptions
         {
-            public bool skipMenu;
-            public bool showLog;
+            public static bool skipMenu;
+            public static bool showLog;
+            public static bool modded;
+            public static void Init(string[] args)
+            {
+                foreach (string arg in args)
+                {
+                    switch (arg.ToUpper())
+                    {
+                        case "-SKIPMENU":
+                            skipMenu = true;
+                            break;
+                        case "-SHOWLOG":
+                            showLog = true;
+                            break;
+                        case "-MODDED":
+                            modded = true;
+                            break;
+                    }
+                }
+            }
         }
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
 
-            StartOptions startOptions = GetStartOptions(e.Args);
+            StartOptions.Init(e.Args);
 
-            Console.WriteLine(startOptions.skipMenu);
-            Console.WriteLine(startOptions.showLog);
+            Console.WriteLine(StartOptions.skipMenu);
+            Console.WriteLine(StartOptions.showLog);
 
+            if (StartOptions.modded)
+            {
+                ModLoader.LoadMods();
+            }
 
             wndMenu wndMenu = new wndMenu();
 
-            if (!startOptions.skipMenu)
+            if (!StartOptions.skipMenu)
             {
                 wndMenu.Show();
             }
@@ -58,35 +81,17 @@ namespace Random_2D_Terrain_Generator_2._0
                 wndMenu.Owner = world.wndGame;
             }
 
-            if(startOptions.showLog)
+            if (StartOptions.showLog)
             {
                 wndMenu.log.Show();
             }
 
         }
 
-    
 
 
-    private StartOptions GetStartOptions(string[] args)
-    {
-        StartOptions options = new StartOptions();
 
-        foreach (string arg in args)
-        {
-            switch (arg.ToUpper())
-            {
-                case "-SKIPMENU":
-                    options.skipMenu = true;
-                    break;
-                case "-SHOWLOG":
-                    options.showLog = true;
-                    break;
-            }
-        }
 
-        return options;
+
     }
-
-}
 }
