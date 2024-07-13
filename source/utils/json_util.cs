@@ -51,6 +51,11 @@ namespace SeeloewenCraft
             this.value = value;
         }
 
+        public int GetArrayLength()
+        {
+            return ((JArray)value).Count;
+        }
+
         public bool ContainsKey(string address)
         {
             JObject objectToken = (JObject)value;
