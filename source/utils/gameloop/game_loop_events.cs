@@ -11,7 +11,7 @@ namespace SeeloewenCraft
     {
         public WaterUpdateEvent(World world, GameLoop gameLoop) : base(world, gameLoop)
         {
-            maxTick = 800;
+            maxTick = 1000;
         }
 
         public override void DoEvent()
@@ -30,15 +30,15 @@ namespace SeeloewenCraft
 
         public override bool IsReady()
         {
-            if (tick == 480000 
+            if (tick == 480000
                 || tick == 510000
                 || tick == 540000
-                || tick == 570000 
-                || tick == 600000 
-                || tick == 1080000 
-                || tick == 1110000 
-                || tick == 1140000 
-                || tick == 1170000 
+                || tick == 570000
+                || tick == 600000
+                || tick == 1080000
+                || tick == 1110000
+                || tick == 1140000
+                || tick == 1170000
                 || tick == 1200000)
             {
                 return true;
@@ -48,6 +48,7 @@ namespace SeeloewenCraft
 
         public override void DoEvent()
         {
+            //Set night state based on tick
             switch (tick)
             {
                 case 480000://State 1: Sun setting slightly
@@ -80,8 +81,6 @@ namespace SeeloewenCraft
                     Reset();
                     break;
             }
-
-            world.log.Write($"Ticked! {world.nightState}", "Info");
         }
     }
 }

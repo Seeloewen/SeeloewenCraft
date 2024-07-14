@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Text;
+using System.Windows.Threading;
 
 namespace SeeloewenCraft
 {
@@ -255,7 +256,7 @@ namespace SeeloewenCraft
                     player.inventory.AddItem(new TorchItem(this, null));
                     player.inventory.AddItem(new WaterItem(this, null));
                     player.inventory.AddItem(new Plant2Item(this, null));
-                    //player.inventory.AddItem(new AlphaCrafterItem(this, null));
+                    player.inventory.AddItem(new AlphaCrafterItem(this, null));
                 }
             }
 

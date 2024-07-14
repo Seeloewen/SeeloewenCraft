@@ -339,6 +339,7 @@ namespace SeeloewenCraft
                     }
                     world.player.SaveInventory(world.worldDirectory);
                     world.player.SavePosition(world.worldDirectory);
+                    world.gameLoop.tmrGameLoop.Stop();
                 }
             }
 
@@ -376,6 +377,7 @@ namespace SeeloewenCraft
             }
             world.player.SaveInventory(world.worldDirectory);
             world.player.SavePosition(world.worldDirectory);
+            world.gameLoop.tmrGameLoop.Stop();
 
             //Show confirmation
             MessageBox.Show("Successfully saved the World!", "Save World", MessageBoxButton.OK, MessageBoxImage.Information);
