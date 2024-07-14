@@ -17,7 +17,7 @@ namespace SeeloewenCraft
     public class CraftingHandler
     {
         //References
-        private HighPrecisionTimer.MultimediaTimer tmrCrafting = new HighPrecisionTimer.MultimediaTimer();
+        public HighPrecisionTimer.MultimediaTimer tmrCrafting = new HighPrecisionTimer.MultimediaTimer();
         public ProgressBar pbCraftingBlock = new ProgressBar() { Height = 12, Width = 40 };
         public World world;
         private Block block;

@@ -126,7 +126,7 @@ namespace SeeloewenCraft
             foreach (Block block in block.GetBlocksInRange(world.lightRange))
             {
                 //If this containers' block is a non-air lightsource, it should make all blocks in its radius visible
-                if (block!= null && this.block.isLightSource && this.block.id != "sc:air_block" && block.id != "sc:air_block")
+                if (block != null && block.blockContainer != null && this.block.isLightSource && this.block.id != "sc:air_block" && block.id != "sc:air_block")
                 {
                     block.blockContainer.rectDarkOverlayNight.Opacity = 0;
                     hasLightInRange = true;

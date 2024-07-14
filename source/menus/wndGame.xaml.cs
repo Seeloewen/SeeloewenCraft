@@ -56,7 +56,7 @@ namespace SeeloewenCraft
                     //Create a list of all the guis that need to be closed
                     List<Gui> removeGuiList = [.. world.guiList];
 
-                    foreach(Gui gui in removeGuiList)
+                    foreach (Gui gui in removeGuiList)
                     {
                         if (gui.id == "sc:inventory")
                         {
@@ -121,7 +121,7 @@ namespace SeeloewenCraft
             }
             if (pressedKeys.Contains(Key.Escape)) //Num Key 9 (Not numpad)
             {
-                if(!world.HasOpenGui(false))
+                if (!world.HasOpenGui(false))
                 {
                     if (bdrMenu.IsVisible == true)
                     {
@@ -154,10 +154,10 @@ namespace SeeloewenCraft
                     }
                 }
             }
-            else if(pressedKeys.Contains(world.settings.cNotifications))
+            else if (pressedKeys.Contains(world.settings.cNotifications))
             {
                 //Open notification list gui
-                if(world.notificationHandler.gui.isOpen)
+                if (world.notificationHandler.gui.isOpen)
                 {
                     world.notificationHandler.HideGui();
                 }
@@ -276,7 +276,7 @@ namespace SeeloewenCraft
         }
 
         //-- Event Handlers --//
-        
+
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             //Add pressed key to the collection if it isn't in there already
@@ -335,11 +335,20 @@ namespace SeeloewenCraft
                     //Save all chunks and the inventory of the player
                     foreach (Chunk chunk in world.totalChunkList)
                     {
+                        //Stop all running crafting timers
+                        foreach (Block block in chunk.blockList.blocks)
+                        {
+                            if (block.craftingHandler != null && block.craftingHandler.tmrCrafting.IsRunning)
+                            {
+                                block.craftingHandler.tmrCrafting.Stop();
+                            }
+                        }
+
                         chunk.Save();
                     }
                     world.player.SaveInventory(world.worldDirectory);
                     world.player.SavePosition(world.worldDirectory);
-                    world.gameLoop.tmrGameLoop.Stop();
+                    if(world.gameLoop.tmrGameLoop.IsRunning) world.gameLoop.tmrGameLoop.Stop();
                 }
             }
 
@@ -373,11 +382,19 @@ namespace SeeloewenCraft
             //Save all chunks and the inventory of the player
             foreach (Chunk chunk in world.totalChunkList)
             {
+                //Stop all running crafting timers
+                foreach (Block block in chunk.blockList.blocks)
+                {
+                    if (block.craftingHandler != null && block.craftingHandler.tmrCrafting.IsRunning)
+                    {
+                        block.craftingHandler.tmrCrafting.Stop();
+                    }
+                }
                 chunk.Save();
             }
             world.player.SaveInventory(world.worldDirectory);
             world.player.SavePosition(world.worldDirectory);
-            world.gameLoop.tmrGameLoop.Stop();
+            if (world.gameLoop.tmrGameLoop.IsRunning) world.gameLoop.tmrGameLoop.Stop();
 
             //Show confirmation
             MessageBox.Show("Successfully saved the World!", "Save World", MessageBoxButton.OK, MessageBoxImage.Information);
