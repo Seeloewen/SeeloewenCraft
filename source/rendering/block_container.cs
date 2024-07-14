@@ -22,6 +22,7 @@ namespace SeeloewenCraft
         public Border bdrBlock = new Border();
         public Rectangle rectDarkOverlay = new Rectangle();
         public Rectangle rectDarkOverlayLight = new Rectangle();
+        public Rectangle rectDarkOverlayNight = new Rectangle();
         public ProgressBar pbBlock = new ProgressBar();
         public Block block;
         public int xPos;
@@ -65,12 +66,20 @@ namespace SeeloewenCraft
             rectDarkOverlayLight.Opacity = 0;
             rectDarkOverlayLight.Visibility = System.Windows.Visibility.Visible;
             cvsBlock.Children.Add(rectDarkOverlayLight);
+
+            //Setup the light Rectangle
+            rectDarkOverlayNight.Width = 50;
+            rectDarkOverlayNight.Height = 50;
+            rectDarkOverlayNight.Fill = new SolidColorBrush(Colors.Black);
+            rectDarkOverlayNight.Opacity = 0;
+            rectDarkOverlayNight.Visibility = System.Windows.Visibility.Visible;
+            cvsBlock.Children.Add(rectDarkOverlayNight);
         }
 
         //-- Custom Methods --//
 
         public void RenderBlock(Block block)
-        { 
+        {
 
             if (this.block != null)
             {
@@ -98,6 +107,7 @@ namespace SeeloewenCraft
                 block.SetLightLevel(block.RangeToLightSource());
                 block.UpdateNearbyBlocks();
                 SetLightOpacity();
+                SetNightState(world.nightState);
             }
         }
 
@@ -106,6 +116,58 @@ namespace SeeloewenCraft
             if (block != null && block.blockContainer != null)
             {
                 rectDarkOverlayLight.Opacity = block.lightLevel;
+            }
+        }
+
+        public void SetNightState(int nightState)
+        {
+            bool hasLightInRange = false;
+
+            foreach (Block block in block.GetBlocksInRange(world.lightRange))
+            {
+                //If this containers' block is a non-air lightsource, it should make all blocks in its radius visible
+                if (block!= null && this.block.isLightSource && this.block.id != "sc:air_block" && block.id != "sc:air_block")
+                {
+                    block.blockContainer.rectDarkOverlayNight.Opacity = 0;
+                    hasLightInRange = true;
+                }
+                //If it's some other block, check if it has a light source that is not air in its radius
+                else if (block != null && block.isLightSource && block.id != "sc:air_block")
+                {
+                    hasLightInRange = true;
+                    break;
+                }
+            }
+
+
+            //If the block does not have a light in range and is not a air block, set its state based on the night
+            if (!hasLightInRange || block.id == "sc:air_block")
+            {
+                switch (nightState)
+                {
+                    case 0:
+                        rectDarkOverlayNight.Opacity = 0;
+                        break;
+                    case 1:
+                        rectDarkOverlayNight.Opacity = 0.2;
+                        break;
+                    case 2:
+                        rectDarkOverlayNight.Opacity = 0.4;
+                        break;
+                    case 3:
+                        rectDarkOverlayNight.Opacity = 0.6;
+                        break;
+                    case 4:
+                        rectDarkOverlayNight.Opacity = 0.8;
+                        break;
+                    case 5:
+                        rectDarkOverlayNight.Opacity = 0.95;
+                        break;
+                }
+            }
+            else
+            {
+                rectDarkOverlayNight.Opacity = 0;
             }
         }
 
@@ -127,6 +189,7 @@ namespace SeeloewenCraft
                 this.block.SetLightLevel(this.block.RangeToLightSource());
                 this.block.UpdateNearbyBlocks();
                 SetLightOpacity();
+                SetNightState(world.nightState);
             }
         }
 
@@ -144,6 +207,7 @@ namespace SeeloewenCraft
                     block.SetLightLevel(block.RangeToLightSource());
                     block.UpdateNearbyBlocks();
                     SetLightOpacity();
+                    SetNightState(world.nightState);
                 }
             }
         }

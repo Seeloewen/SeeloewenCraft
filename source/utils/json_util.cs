@@ -99,11 +99,6 @@ namespace SeeloewenCraft
         {
             return (double)new JsonPointer(address).Evaluate(value);
         }
-
-        public int GetArrayLength()
-        {
-            return ((JArray)value).Count;
-        }
     }
 
 }

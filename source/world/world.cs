@@ -49,6 +49,7 @@ namespace SeeloewenCraft
         public bool finishedLoading = false;
         public bool returnToMenu = false;
         public bool showBlockInfo = false;
+        public int nightState = 0;
 
 
         //-- Constructor --//
@@ -373,6 +374,20 @@ namespace SeeloewenCraft
             debugMenu.AddLine(debugMenu.tblGameStats, $"SeeloewenCraft {wndMenu.gameVersion} ({wndMenu.versionDate})");
             debugMenu.AddLine(debugMenu.tblGameStats, $"worldName: {worldName}");
             debugMenu.AddLine(debugMenu.tblGameStats, $"worldVersion: {worldVersion}");
+        }
+
+        public void SetNight(int nightState)
+        {
+            this.nightState = nightState;
+
+            //Update all blocks in the currently loaded chunks
+            foreach (Chunk chunk in currentChunkList)
+            {
+                foreach (Block block in chunk.blockList.blocks)
+                {
+                    block.blockContainer.SetNightState(nightState);
+                }
+            }
         }
 
         //-- Event Handlers --//

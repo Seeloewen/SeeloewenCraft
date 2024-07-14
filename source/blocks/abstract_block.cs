@@ -59,6 +59,7 @@ namespace SeeloewenCraft
         public double lightLevel;
         public bool isForeground = false;
         public int rangeToNearestLightSource = int.MaxValue;
+        public bool hasAirLightSource;
         public int xOffset;
         public int yOffset;
 

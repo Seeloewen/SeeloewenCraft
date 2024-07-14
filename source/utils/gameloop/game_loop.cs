@@ -16,7 +16,8 @@ namespace SeeloewenCraft
         World world;
 
         //Gameloops
-        WaterUpdateEvent gameEvent;
+        WaterUpdateEvent waterUpdateEvent;
+        DayNightCycle dayNightCycle;
 
         //-- Constructor --//
 
@@ -32,7 +33,8 @@ namespace SeeloewenCraft
             tmrGameLoop.Tick += tmrGameLoop_Tick;
 
             //Setup all game loops
-            gameEvent = new WaterUpdateEvent(world, this);
+            //waterUpdateEvent = new WaterUpdateEvent(world, this);
+            dayNightCycle = new DayNightCycle(world, this);
         }
 
         //-- Custom Methods --//

@@ -34,8 +34,7 @@ namespace SeeloewenCraft
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             //Save the log
-            wndFindInLog wndFindinLog = new wndFindInLog(log);
-            wndFindinLog.Show();
+            log.Save(true);
         }
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
@@ -48,6 +47,13 @@ namespace SeeloewenCraft
         {
             //Close the window
             Close();
+        }
+
+        private void btnFind_Click(object sender, RoutedEventArgs e)
+        {
+            //Open the window for finding something in the log
+            wndFindInLog wndFindinLog = new wndFindInLog(log);
+            wndFindinLog.Show();
         }
     }
 }

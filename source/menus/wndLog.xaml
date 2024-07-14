@@ -17,6 +17,6 @@
         <Button x:Name="btnSave" Content="Save" Canvas.Left="687" Canvas.Top="8" Height="32" VerticalAlignment="Top" FontSize="18" Margin="0,12,401,0" HorizontalAlignment="Right" Width="116" Click="btnSave_Click"/>
         <Button x:Name="btnClear" Content="Clear" Canvas.Left="573" Canvas.Top="8" FontSize="18" Margin="0,12,142,0" Height="32" VerticalAlignment="Top" HorizontalAlignment="Right" Width="116" Click="btnClear_Click"/>
         <Button x:Name="btnClose" Content="Close" Canvas.Left="458" Canvas.Top="8" FontSize="18" Margin="0,12,12,0" Height="32" VerticalAlignment="Top" HorizontalAlignment="Right" Width="116" Click="btnClose_Click"/>
-        <Button x:Name="btnFind" Content="Find" Height="32" VerticalAlignment="Top" FontSize="18" Margin="0,12,271,0" HorizontalAlignment="Right" Width="116" Click="btnSave_Click"/>
+        <Button x:Name="btnFind" Content="Find" Height="32" VerticalAlignment="Top" FontSize="18" Margin="0,12,271,0" HorizontalAlignment="Right" Width="116" Click="btnFind_Click"/>
     </Grid>
 </Window>
