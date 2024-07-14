@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Common;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace SeeloewenCraft
 {
@@ -113,6 +115,7 @@ namespace SeeloewenCraft
 
         public void SetLightOpacity()
         {
+            //Set blocks light opacity based on light level
             if (block != null && block.blockContainer != null)
             {
                 rectDarkOverlayLight.Opacity = block.lightLevel;
@@ -121,53 +124,110 @@ namespace SeeloewenCraft
 
         public void SetNightState(int nightState)
         {
-            bool hasLightInRange = false;
+            if (block != null && block.blockContainer != null)
+            {
+                if (nightState == 0)
+                {
+                    //If it's not night, all further checks would be unnecessary
+                    block.blockContainer.rectDarkOverlayNight.Opacity = 0;
+                }
+                else //If it's some form of night
+                {
+                    //If this container's block was previously a light source but is no longer one, all blocks in range need to be checked if they have a lightsource. If not, update them accordingly
+                    if ((previousBlockWasLightSource || previousForegroundBlockWasLightSource) && !block.IsLightSource(true))
+                    {
+                        UpdateNearbyBlocksNightState(nightState);
+                    }
 
+                    //If this container's block is a non-air lightsource, it should make all blocks in its radius visible
+                    if (block.IsLightSource(true))
+                    {
+                        block.blockContainer.rectDarkOverlayNight.Opacity = 0;
+                        NightLightUpNearbyBlocks();
+                    }
+
+                    //If it's some other block, check if it has a light source that is not air in its radius
+                    if (!block.IsLightSource(true))
+                    {
+                        if (HasLightInRange(block) && block.id != "sc:air_block")
+                        {
+                            block.blockContainer.rectDarkOverlayNight.Opacity = 0;
+                        }
+                        else
+                        {
+                            block.blockContainer.rectDarkOverlayNight.Opacity = GetNightOpacity(nightState);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void UpdateNearbyBlocksNightState(int nightState)
+        {
+            //Go through each block nearby and check if it has a light in range
             foreach (Block block in block.GetBlocksInRange(world.lightRange))
             {
-                //If this containers' block is a non-air lightsource, it should make all blocks in its radius visible
-                if (block != null && block.blockContainer != null && this.block.isLightSource && this.block.id != "sc:air_block" && block.id != "sc:air_block")
+                if (block != null && block.blockContainer != null)
+                {
+                    //Update the blocks nearby based on if they have light in range or not
+                    if ((HasLightInRange(block) && block.id != "sc:air_block") || block.IsLightSource(true))
+                    {
+                        block.blockContainer.rectDarkOverlayNight.Opacity = 0;
+                    }
+                    else
+                    {
+                        block.blockContainer.rectDarkOverlayNight.Opacity = GetNightOpacity(nightState);
+                    }
+                }
+            }
+        }
+
+        private void NightLightUpNearbyBlocks()
+        {
+            //Update all blocks nearby to have light state during night
+            block.blockContainer.rectDarkOverlayNight.Opacity = 0;
+            foreach (Block block in block.GetBlocksInRange(world.lightRange))
+            {
+                if (block != null && block.blockContainer != null && block.id != "sc:air_block")
                 {
                     block.blockContainer.rectDarkOverlayNight.Opacity = 0;
-                    hasLightInRange = true;
-                }
-                //If it's some other block, check if it has a light source that is not air in its radius
-                else if (block != null && block.isLightSource && block.id != "sc:air_block")
-                {
-                    hasLightInRange = true;
-                    break;
                 }
             }
+        }
 
-
-            //If the block does not have a light in range and is not a air block, set its state based on the night
-            if (!hasLightInRange || block.id == "sc:air_block")
+        private bool HasLightInRange(Block block) //Note that air blocks do not count as light sources in this check because this is for night lighting
+        {
+            //Check each block in range if it's a light source
+            foreach (Block bl in block.GetBlocksInRange(world.lightRange))
             {
-                switch (nightState)
+                //If the block is a lightsource or its foregoundblock is a lightsource
+                if (bl != null && bl.IsLightSource(true))
                 {
-                    case 0:
-                        rectDarkOverlayNight.Opacity = 0;
-                        break;
-                    case 1:
-                        rectDarkOverlayNight.Opacity = 0.2;
-                        break;
-                    case 2:
-                        rectDarkOverlayNight.Opacity = 0.4;
-                        break;
-                    case 3:
-                        rectDarkOverlayNight.Opacity = 0.6;
-                        break;
-                    case 4:
-                        rectDarkOverlayNight.Opacity = 0.8;
-                        break;
-                    case 5:
-                        rectDarkOverlayNight.Opacity = 0.95;
-                        break;
+                    return true;
                 }
             }
-            else
+            return false;
+        }
+
+        public double GetNightOpacity(int nightState)
+        {
+            //Return opacity based on nightState
+            switch (nightState)
             {
-                rectDarkOverlayNight.Opacity = 0;
+                case 0:
+                    return 0;
+                case 1:
+                    return 0.2;
+                case 2:
+                    return 0.4;
+                case 3:
+                    return 0.6;
+                case 4:
+                    return 0.8;
+                case 5:
+                    return 0.95;
+                default:
+                    return 0;
             }
         }
 

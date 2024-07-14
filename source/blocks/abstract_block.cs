@@ -416,6 +416,22 @@ namespace SeeloewenCraft
             }
         }
 
+        public bool IsLightSource(bool ignoreAir)
+        {
+            if (isLightSource && (id != "sc:air_block" || !ignoreAir))
+            {
+                return true;
+            }
+            else
+            {
+                if(foregroundBlock != null && foregroundBlock.isLightSource && (foregroundBlock.id != "sc:air_block" || !ignoreAir))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         //Create the item that corresponds to the block
         public abstract void GenerateItem(World world, int id);
 

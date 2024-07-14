@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using System.Text;
 using System.Windows.Threading;
+using System.Windows.Media;
 
 namespace SeeloewenCraft
 {
@@ -388,6 +389,29 @@ namespace SeeloewenCraft
                 {
                     block.blockContainer.SetNightState(nightState);
                 }
+            }
+
+            //Set background color of world canvas based on night state
+            switch (nightState)
+            {
+                case 0:
+                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 188, 244, 247));
+                    break;
+                case 1:
+                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 150, 195, 198));
+                    break;
+                case 2:
+                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 113, 146, 148));
+                    break;
+                case 3:
+                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 75, 98, 99));
+                    break;
+                case 4:
+                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 38, 49, 49));
+                    break;
+                case 5:
+                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 10, 12, 13));
+                    break;
             }
         }
 
