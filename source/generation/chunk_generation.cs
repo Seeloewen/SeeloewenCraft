@@ -290,7 +290,7 @@ namespace SeeloewenCraft
                 {
                     if (structure.isCutOff)
                     {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, world, 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks));
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, world, 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
                     }
                 }
             }
@@ -300,7 +300,7 @@ namespace SeeloewenCraft
                 {
                     if (structure.isCutOff)
                     {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, world, 7, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks));
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, world, 7, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
                     }
                 }
             }
