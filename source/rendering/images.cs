@@ -44,21 +44,15 @@ namespace SeeloewenCraft
         {
             Uri imageUri;
 
-            //Check if the image file exists if a texturepack is loaded
-            if (File.Exists($"{textureDirectory}/{resourceName}"))
+            //Try to get the image file if a texturepack is loaded
+            imageUri = GetTexturepackUri(resourceName);
+
+            //If no texturepack is loaded or it's not found in the texturepack, fallback to default ones
+            if (imageUri == null)
             {
-                imageUri = new Uri($"{textureDirectory}/{resourceName}", UriKind.Absolute);
+                imageUri = GetInternalUri(resourceName);
             }
-            else
-            {
-                //If no texturepack is loaded or it's not found in the texturepack, fallback to default ones
-                imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/{resourceName}", UriKind.Absolute);
-                if (!ResourceExists(imageUri))
-                {
-                    //If default one doesn't exist, use missing texture image
-                    imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/MissingTexture.png", UriKind.Absolute);
-                }
-            }
+
 
             //Get an image from an imagesource from a uri
             return BitmapFrame.Create(imageUri);
@@ -78,6 +72,38 @@ namespace SeeloewenCraft
             }
         }
 
+        public static Uri GetTexturepackUri(string resourceName)
+        {
+            //Go through all possible folders in the texturepack and search for the image
+            if (File.Exists($"{textureDirectory}/{resourceName}")) return new Uri($"{textureDirectory}/{resourceName}", UriKind.Absolute);
+            else if (File.Exists($"{textureDirectory}/Blocks/{resourceName}")) return new Uri($"{textureDirectory}/Blocks/{resourceName}", UriKind.Absolute);
+            else if (File.Exists($"{textureDirectory}/Item/{resourceName}")) return new Uri($"{textureDirectory}/Items/{resourceName}", UriKind.Absolute);
+            else if (File.Exists($"{textureDirectory}/Gui/{resourceName}")) return new Uri($"{textureDirectory}/Gui/{resourceName}", UriKind.Absolute);
+
+            return null;
+        }
+
+        public static Uri GetInternalUri(string resourceName)
+        {
+            //Go through all possible folders internally and search for the image
+            Uri imageUri;
+
+            imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/{resourceName}", UriKind.Absolute);
+            if (ResourceExists(imageUri)) return imageUri;
+
+            imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/Blocks/{resourceName}", UriKind.Absolute);
+            if (ResourceExists(imageUri)) return imageUri;
+
+            imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/Items/{resourceName}", UriKind.Absolute);
+            if (ResourceExists(imageUri)) return imageUri;
+
+            imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/Gui/{resourceName}", UriKind.Absolute);
+            if (ResourceExists(imageUri)) return imageUri;
+
+            //If default one doesn't exist, use missing texture image
+            return new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/MissingTexture.png", UriKind.Absolute);
+
+        }
 
         private void CreateResources()
         {

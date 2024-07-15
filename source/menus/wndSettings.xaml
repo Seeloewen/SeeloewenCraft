@@ -8,7 +8,7 @@
         Title="Settings" Height="518" Width="552" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/Resources/Background.png" TileMode="Tile" Stretch="None"/>
+            <ImageBrush ImageSource="/Resources/Textures/Gui/Background.png" TileMode="Tile" Stretch="None"/>
         </Grid.Background>
         <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="11,10,0,0" TextWrapping="Wrap" Text="Settings" VerticalAlignment="Top" FontSize="28" FontWeight="DemiBold"/>
         <Button x:Name="btnSaveClose" Content="Save" HorizontalAlignment="Left" Margin="371,438,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.337,0.169" Height="29" Width="149" FontSize="16" Click="btnSaveClose_Click"/>

@@ -19,116 +19,47 @@
     <Optimize>True</Optimize>
   </PropertyGroup>
   <ItemGroup>
-    <Resource Include="Resources\AlphaCrafter.png" />
-    <Resource Include="Resources\Background.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\ChestBlock.png" />
-    <Resource Include="Resources\Gui.png" />
-    <Resource Include="Resources\HealthEmpty.png" />
-    <Resource Include="Resources\HealthFull.png" />
-    <Resource Include="Resources\HealthHalf.png" />
-    <Resource Include="Resources\MagmaBlock.png" />
-    <Resource Include="Resources\PumpkinBlock.png" />
+    <Resource Include="Resources\changelog.txt" />
+    <Resource Include="Resources\Textures\Blocks\AlphaCrafter.png" />
+    <Resource Include="Resources\Textures\Gui\Background.png" />
+    <Resource Include="Resources\Textures\Blocks\ChestBlock.png" />
+    <Resource Include="Resources\Textures\Gui\Gui.png" />
+    <Resource Include="Resources\Textures\Gui\HealthEmpty.png" />
+    <Resource Include="Resources\Textures\Gui\HealthFull.png" />
+    <Resource Include="Resources\Textures\Gui\HealthHalf.png" />
+    <Resource Include="Resources\Textures\Blocks\MagmaBlock.png" />
+    <Resource Include="Resources\Textures\Blocks\PumpkinBlock.png" />
     <Resource Include="Resources\recipes.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\StoneBlock.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\AirBlock.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\CoalOreBlock.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\DiamondOreBlock.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\DirtBlock.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\BedrockBlock.png" />
-    <Resource Include="Resources\GrassBlock.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\IronOreBlock.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\OakLeavesBlock.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\OakLogBlock.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\MissingTexture.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Hammer.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\SpruceLeavesBlock.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\SpruceLogBlock.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\splash_texts.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Torch.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Plant2_Base.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Plant2_Top.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Plant2.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Water_2_Left.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Water_2_Right.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Water_3_Left.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Water_3_Right.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Water_4_Left.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Water_4_Right.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Water_5_Left.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Water_5_Right.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Water_1_Left.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Water_1_Right.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Water_6.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="Resources\Textures\Blocks\StoneBlock.png" />
+    <Resource Include="Resources\Textures\Blocks\AirBlock.png" />
+    <Resource Include="Resources\Textures\Blocks\CoalOreBlock.png" />
+    <Resource Include="Resources\Textures\Blocks\DiamondOreBlock.png" />
+    <Resource Include="Resources\Textures\Blocks\DirtBlock.png" />
+    <Resource Include="Resources\Textures\Blocks\BedrockBlock.png" />
+    <Resource Include="Resources\Textures\Blocks\GrassBlock.png" />
+    <Resource Include="Resources\Textures\Blocks\IronOreBlock.png" />
+    <Resource Include="Resources\Textures\Blocks\OakLeavesBlock.png" />
+    <Resource Include="Resources\Textures\Blocks\OakLogBlock.png" />
+    <Resource Include="Resources\Textures\MissingTexture.png" />
+    <Resource Include="Resources\Textures\Items\Hammer.png" />
+    <Resource Include="Resources\Textures\Blocks\SpruceLeavesBlock.png" />
+    <Resource Include="Resources\Textures\Blocks\SpruceLogBlock.png" />
+    <Resource Include="Resources\splash_texts.txt" />
+    <Resource Include="Resources\Textures\Blocks\Torch.png" />
+    <Resource Include="Resources\Textures\Blocks\Plant2_Base.png" />
+    <Resource Include="Resources\Textures\Blocks\Plant2_Top.png" />
+    <Resource Include="Resources\Textures\Blocks\Plant2.png" />
+    <Resource Include="Resources\Textures\Blocks\Water_2_Left.png" />
+    <Resource Include="Resources\Textures\Blocks\Water_2_Right.png" />
+    <Resource Include="Resources\Textures\Blocks\Water_3_Left.png" />
+    <Resource Include="Resources\Textures\Blocks\Water_3_Right.png" />
+    <Resource Include="Resources\Textures\Blocks\Water_4_Left.png" />
+    <Resource Include="Resources\Textures\Blocks\Water_4_Right.png" />
+    <Resource Include="Resources\Textures\Blocks\Water_5_Left.png" />
+    <Resource Include="Resources\Textures\Blocks\Water_5_Right.png" />
+    <Resource Include="Resources\Textures\Blocks\Water_1_Left.png" />
+    <Resource Include="Resources\Textures\Blocks\Water_1_Right.png" />
+    <Resource Include="Resources\Textures\Blocks\Water_6.png" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Json.Pointer" Version="2.3.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
@@ -142,19 +73,7 @@
     <EmbeddedResource Remove="frmLog.resx" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Resources\AlphaCrafter.png" />
     <None Remove="Resources\changelog.txt" />
-    <None Remove="Resources\Gui.png" />
-    <None Remove="Resources\HealthEmpty.png" />
-    <None Remove="Resources\HealthFull.png" />
-    <None Remove="Resources\HealthHalf.png" />
-    <None Remove="Resources\QuarterOakPlankBlock.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\QuarterOakPlankBlock.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\changelog.txt" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
