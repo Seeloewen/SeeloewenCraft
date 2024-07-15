@@ -144,7 +144,7 @@ namespace SeeloewenCraft
         }
 
         //physics
-        public void PhysicsStep(bool pressedLeft, bool pressedRight, bool pressedUp, double dt)
+        public void DoPhysicsStep(bool pressedLeft, bool pressedRight, bool pressedUp, double dt)
         {
             // -- determine which sides of the player are touched by solid blocks --
 

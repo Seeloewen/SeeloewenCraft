@@ -102,6 +102,27 @@ namespace SeeloewenCraft
         }
 
         //-- Custom Methods --//
+
+
+        public virtual int CheckCollision(Direction direction, int startX, int endX, int startY, int endY)
+        {
+            if (isSolid)
+            {
+                return 0;
+            }
+
+            if (direction == Direction.UP || direction == Direction.DOWN)
+            {
+                return endY - startY;
+            }
+            else if (direction == Direction.LEFT || direction == Direction.RIGHT)
+            {
+                return endX - startX;
+            }
+
+            return 0;
+        }
+
         public virtual void SaveToJson(JsonWriter writer)
         {
             writer.WriteStartObject();
@@ -424,7 +445,7 @@ namespace SeeloewenCraft
             }
             else
             {
-                if(foregroundBlock != null && foregroundBlock.isLightSource && (foregroundBlock.id != "sc:air_block" || !ignoreAir))
+                if (foregroundBlock != null && foregroundBlock.isLightSource && (foregroundBlock.id != "sc:air_block" || !ignoreAir))
                 {
                     return true;
                 }

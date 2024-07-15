@@ -10,8 +10,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Text;
-using System.Windows.Threading;
-using System.Windows.Media;
 
 namespace SeeloewenCraft
 {
@@ -51,7 +49,6 @@ namespace SeeloewenCraft
         public bool finishedLoading = false;
         public bool returnToMenu = false;
         public bool showBlockInfo = false;
-        public int nightState = 0;
 
 
         //-- Constructor --//
@@ -257,7 +254,7 @@ namespace SeeloewenCraft
                     player.inventory.AddItem(new TorchItem(this, null));
                     player.inventory.AddItem(new WaterItem(this, null));
                     player.inventory.AddItem(new Plant2Item(this, null));
-                    player.inventory.AddItem(new AlphaCrafterItem(this, null));
+                    //player.inventory.AddItem(new AlphaCrafterItem(this, null));
                 }
             }
 
@@ -378,49 +375,12 @@ namespace SeeloewenCraft
             debugMenu.AddLine(debugMenu.tblGameStats, $"worldVersion: {worldVersion}");
         }
 
-        public void SetNight(int nightState)
-        {
-            this.nightState = nightState;
-
-            //Update all blocks in the currently loaded chunks
-            foreach (Chunk chunk in currentChunkList)
-            {
-                foreach (Block block in chunk.blockList.blocks)
-                {
-                    block.blockContainer.SetNightState(nightState);
-                }
-            }
-
-            //Set background color of world canvas based on night state
-            switch (nightState)
-            {
-                case 0:
-                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 188, 244, 247));
-                    break;
-                case 1:
-                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 150, 195, 198));
-                    break;
-                case 2:
-                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 113, 146, 148));
-                    break;
-                case 3:
-                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 75, 98, 99));
-                    break;
-                case 4:
-                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 38, 49, 49));
-                    break;
-                case 5:
-                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 10, 12, 13));
-                    break;
-            }
-        }
-
         //-- Event Handlers --//
 
         private void tmrMovement_Tick(object sender, EventArgs e)
         {
             //Movement timer, ticks at a rate of approximitely 60 fps (every 16 ms)
-            player.PhysicsStep(wndGame.pressedKeys.Contains(settings.cMoveLeft), wndGame.pressedKeys.Contains(settings.cMoveRight), wndGame.pressedKeys.Contains(settings.cJump), 0.016);
+            player.DoPhysicsStep(wndGame.pressedKeys.Contains(settings.cMoveLeft), wndGame.pressedKeys.Contains(settings.cMoveRight), wndGame.pressedKeys.Contains(settings.cJump), 0.016);
         }
     }
 }
