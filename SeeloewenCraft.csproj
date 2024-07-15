@@ -129,18 +129,6 @@
     <Resource Include="Resources\Water_6.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\Debug\Microsoft.Json.Pointer.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\Newtonsoft.Json.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\System.Collections.Immutable.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\System.Runtime.CompilerServices.Unsafe.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Json.Pointer" Version="2.3.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
