@@ -424,7 +424,7 @@ namespace SeeloewenCraft
             }
             else
             {
-                if(foregroundBlock != null && foregroundBlock.isLightSource && (foregroundBlock.id != "sc:air_block" || !ignoreAir))
+                if (foregroundBlock != null && foregroundBlock.isLightSource && (foregroundBlock.id != "sc:air_block" || !ignoreAir))
                 {
                     return true;
                 }
@@ -623,20 +623,26 @@ namespace SeeloewenCraft
 
         public void BreakBlock(bool skipRangeCheck, bool skipBreakableCheck)
         {
-            //Check if the block is both breakable and in range
-            if ((isBreakable || skipBreakableCheck) && (IsInRange() || skipRangeCheck))
+            //Check if is in range
+            if ((IsInRange() || skipRangeCheck))
             {
+                //If it has a foreground block, check if that one is breakable
                 if (foregroundBlock != null)
                 {
-                    //Add the foreground block's item to the inventory
-                    foregroundBlock.GenerateItem(world, 0);
-                    if (foregroundBlock.item != null)
+                    if (foregroundBlock.isBreakable || skipBreakableCheck)
                     {
-                        world.player.inventory.AddItem(foregroundBlock.item);
+                        //Add the foreground block's item to the inventory
+                        foregroundBlock.GenerateItem(world, 0);
+                        if (foregroundBlock.item != null)
+                        {
+                            world.player.inventory.AddItem(foregroundBlock.item);
+                        }
+                        blockContainer.RemoveForegroundBlock();
                     }
-                    blockContainer.RemoveForegroundBlock();
+
                 }
-                else
+                //If it has no foreground block, check if the normal block is breakable
+                else if (foregroundBlock == null && (isBreakable || skipBreakableCheck))
                 {
                     //Remove the block from the chunks blocklist and add an airblock
                     Block block = new AirBlock(world, xPos, yPos, chunk, null, false);
