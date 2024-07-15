@@ -19,8 +19,8 @@ namespace SeeloewenCraft
 {
     public class Log
     {
-        wndLog wndLog;
-        SeeloewenLibTools seeloewenLibTools = new SeeloewenLibTools();
+        public wndLog wndLog;
+        private SeeloewenLibTools seeloewenLibTools = new SeeloewenLibTools();
         private List<string> messages = new List<string>();
         Paragraph paragraph;
 

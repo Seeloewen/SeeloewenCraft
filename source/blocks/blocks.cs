@@ -351,7 +351,6 @@ throw new NotImplementedException();
     {
         public SpruceLeavesBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
         {
-            isLightSource = true;
             SetTexture();
             name = "Spruce Leaves";
             id = "sc:spruce_leaves_block";

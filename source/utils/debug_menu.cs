@@ -166,6 +166,10 @@ namespace SeeloewenCraft
             {
                 world.wndGame.svWorld.ScrollToVerticalOffset(world.player.cvsPlayer.Margin.Top - 400);
             }
+            else if (tbDebug.Text == "/night")
+            {
+                world.SetNight(5);
+            }
             else
             {
                 //Show error message if the command is unknown

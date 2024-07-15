@@ -4,19 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace SeeloewenCraft
 {
     public class GameLoop
     {
         //References
-        public System.Windows.Forms.Timer tmrGameLoop = new System.Windows.Forms.Timer();
+        public HighPrecisionTimer.MultimediaTimer tmrGameLoop = new HighPrecisionTimer.MultimediaTimer();
         public List<GameLoopEvent> loopEvents;
         public int tickrate;
         World world;
 
         //Gameloops
-        WaterUpdateEvent gameEvent;
+        WaterUpdateEvent waterUpdateEvent;
+        DayNightCycle dayNightCycle;
 
         //-- Constructor --//
 
@@ -29,10 +31,11 @@ namespace SeeloewenCraft
 
             //Setup timer
             tmrGameLoop.Interval = tickrate;
-            tmrGameLoop.Tick += tmrGameLoop_Tick;
+            tmrGameLoop.Elapsed += tmrGameLoop_Tick;
 
             //Setup all game loops
-            gameEvent = new WaterUpdateEvent(world, this);
+            waterUpdateEvent = new WaterUpdateEvent(world, this);
+            dayNightCycle = new DayNightCycle(world, this);
         }
 
         //-- Custom Methods --//
@@ -47,7 +50,7 @@ namespace SeeloewenCraft
                 if (gameEvent.IsReady())
                 {
                     //If the event is ready, do the event and if it's only a single event, reset the counter
-                    gameEvent.DoEvent();
+                    Application.Current.Dispatcher.Invoke(new Action(() => { gameEvent.DoEvent(); }));                          
                     if (gameEvent.singleEvent)
                     {
                         gameEvent.Reset();

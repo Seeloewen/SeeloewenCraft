@@ -59,6 +59,7 @@ namespace SeeloewenCraft
         public double lightLevel;
         public bool isForeground = false;
         public int rangeToNearestLightSource = int.MaxValue;
+        public bool hasAirLightSource;
         public int xOffset;
         public int yOffset;
 
@@ -413,6 +414,22 @@ namespace SeeloewenCraft
             {
                 return false;
             }
+        }
+
+        public bool IsLightSource(bool ignoreAir)
+        {
+            if (isLightSource && (id != "sc:air_block" || !ignoreAir))
+            {
+                return true;
+            }
+            else
+            {
+                if(foregroundBlock != null && foregroundBlock.isLightSource && (foregroundBlock.id != "sc:air_block" || !ignoreAir))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         //Create the item that corresponds to the block

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SeeloewenCraft;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -46,6 +47,13 @@ namespace SeeloewenCraft
         {
             //Close the window
             Close();
+        }
+
+        private void btnFind_Click(object sender, RoutedEventArgs e)
+        {
+            //Open the window for finding something in the log
+            wndFindInLog wndFindinLog = new wndFindInLog(log);
+            wndFindinLog.Show();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace SeeloewenCraft
     public class CraftingHandler
     {
         //References
-        private System.Windows.Forms.Timer tmrCrafting = new System.Windows.Forms.Timer();
+        public HighPrecisionTimer.MultimediaTimer tmrCrafting = new HighPrecisionTimer.MultimediaTimer();
         public ProgressBar pbCraftingBlock = new ProgressBar() { Height = 12, Width = 40 };
         public World world;
         private Block block;
@@ -51,7 +51,7 @@ namespace SeeloewenCraft
             Canvas.SetLeft(pbCraftingBlock, 5);
 
             tmrCrafting.Interval = 25;
-            tmrCrafting.Tick += tmrCrafting_Tick;
+            tmrCrafting.Elapsed += tmrCrafting_Tick;
         }
 
         //-- Custom Methods --//
@@ -241,6 +241,36 @@ namespace SeeloewenCraft
             }
         }
 
+        private void UpdateCraftingProgress()
+        {
+            //Update the timer and progress bars
+            recipeProgress += 25;
+
+            pbCrafting.Maximum = selectedRecipe.requiredTime * amount;
+            pbCrafting.Value += 25;
+
+            if (block.blockContainer != null)
+            {
+                pbCraftingBlock.Maximum = selectedRecipe.requiredTime * amount;
+                pbCraftingBlock.Value += 25;
+            }
+
+            if (recipeProgress >= selectedRecipe.requiredTime * amount)
+            {
+                //If the timer is complete, finish the process and reset everything to default
+                recipeRunning = false;
+                recipeClaimable = true;
+                tmrCrafting.Stop();
+                pbCrafting.Visibility = Visibility.Hidden;
+                btnClaim.Visibility = Visibility.Visible;
+                tbAmount.IsEnabled = true;
+
+                //Show notification and log that crafting process is complete
+                world.notificationHandler.ShowNotification($"Crafting for x{amount} {selectedRecipe.displayName} completed!", 3000, world.images.AlphaCrafter);
+                world.log.Write($"Completed crafting for {amount}x {selectedRecipe.id} at workstation {workstation} (X: {block.xPos}, Y: {block.yPos}, Chunk: {block.chunk.index})", "Info");
+            }
+        }
+
         //-- Event Handlers --//
 
         private void cvsItem_MouseDown(object sender, MouseButtonEventArgs e)
@@ -310,32 +340,9 @@ namespace SeeloewenCraft
 
         private void tmrCrafting_Tick(object sender, EventArgs e)
         {
-            //Update the timer and progress bars
-            recipeProgress += 25;
+            Application.Current.Dispatcher.Invoke(new Action(() => { UpdateCraftingProgress(); }));
 
-            pbCrafting.Maximum = selectedRecipe.requiredTime * amount;
-            pbCrafting.Value += 25;
 
-            if (block.blockContainer != null)
-            {
-                pbCraftingBlock.Maximum = selectedRecipe.requiredTime * amount;
-                pbCraftingBlock.Value += 25;
-            }
-
-            if (recipeProgress >= selectedRecipe.requiredTime * amount)
-            {
-                //If the timer is complete, finish the process and reset everything to default
-                recipeRunning = false;
-                recipeClaimable = true;
-                tmrCrafting.Stop();
-                pbCrafting.Visibility = Visibility.Hidden;
-                btnClaim.Visibility = Visibility.Visible;
-                tbAmount.IsEnabled = true;
-
-                //Show notification and log that crafting process is complete
-                world.notificationHandler.ShowNotification($"Crafting for x{amount} {selectedRecipe.displayName} completed!", 3000, world.images.AlphaCrafter);
-                world.log.Write($"Completed crafting for {amount}x {selectedRecipe.id} at workstation {workstation} (X: {block.xPos}, Y: {block.yPos}, Chunk: {block.chunk.index})", "Info");
-            }
         }
     }
 }
