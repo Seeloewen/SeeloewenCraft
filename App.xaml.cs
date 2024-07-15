@@ -9,13 +9,29 @@ using System.Windows;
 using System.IO;
 using static System.Environment;
 
-namespace Random_2D_Terrain_Generator_2._0
+namespace SeeloewenCraft
 {
-    /// <summary>
-    /// Interaktionslogik für "App.xaml"
-    /// </summary>
     public partial class App : Application
     {
+        wndMenu wndMenu = new wndMenu();
+
+        public App() : base()
+        {
+            Dispatcher.UnhandledException += OnDispatcherUnhandledException;
+        }
+
+        void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            //Create crash dump
+            wndMenu.log.Write("A crash has occured and an unhandled exception has occured. Creating crash dump...", "Error");
+            wndMenu.log.CreateCrashDump(e.Exception);
+
+            //Save log before the game exits if enabled
+            if (wndMenu.settings.saveLogOnExit)
+            {
+                wndMenu.log.Save(wndMenu.logDirectory, false);
+            }
+        }
 
         class StartOptions
         {
@@ -47,15 +63,10 @@ namespace Random_2D_Terrain_Generator_2._0
 
             StartOptions.Init(e.Args);
 
-            Console.WriteLine(StartOptions.skipMenu);
-            Console.WriteLine(StartOptions.showLog);
-
             if (StartOptions.modded)
             {
                 ModLoader.LoadMods();
             }
-
-            wndMenu wndMenu = new wndMenu();
 
             if (!StartOptions.skipMenu)
             {
@@ -76,7 +87,7 @@ namespace Random_2D_Terrain_Generator_2._0
                     Directory.Delete(string.Format("{0}/worlds/{1}", gameDirectory, "debug"), true);
                 }
 
-                World world = new World(wndMenu, "debug", true, wndMenu.worldVersion, wndMenu.gameVersion, wndMenu.log);
+                World world = new World(wndMenu, "Debug", true, wndMenu.worldVersion, wndMenu.gameVersion, wndMenu.log);
                 world.wndGame.Show();
                 wndMenu.Owner = world.wndGame;
             }
@@ -87,11 +98,5 @@ namespace Random_2D_Terrain_Generator_2._0
             }
 
         }
-
-
-
-
-
-
     }
 }

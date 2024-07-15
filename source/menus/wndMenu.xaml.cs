@@ -30,8 +30,8 @@ namespace SeeloewenCraft
 
         //Constants
         public int worldVersion = 3;
-        public string gameVersion = "Alpha 1.1.7-dev1";
-        public string versionDate = "12.07.2024";
+        public string gameVersion = "Alpha 1.1.7-dev2";
+        public string versionDate = "15.07.2024";
         public string gameDirectory;
         public string texturepackDirectory;
         public string logDirectory;
@@ -54,7 +54,8 @@ namespace SeeloewenCraft
             tmrSplashText.Tick += tmrSplashText_Tick;
             tmrSplashText.Interval = 50;
             tmrSplashText.Start();
-            log = new Log();
+
+            log = new Log(this);
             splashTextHandler = new SplashTextHandler(this);
 
             //Show the version
