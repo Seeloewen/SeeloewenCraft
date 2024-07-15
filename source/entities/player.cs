@@ -206,8 +206,8 @@ namespace SeeloewenCraft
                     if (!coordsDetermined)
                     {
                         double temp = blockOriginPoint.X / 50;
-                        posY = block.yPos - blockOriginPoint.Y / 50;
-                        posX = block.xPos - blockOriginPoint.X / 50 + 8 * chunk.index;
+                        posY = Math.Round(block.yPos - blockOriginPoint.Y / 50, 2);
+                        posX = Math.Round(block.xPos - blockOriginPoint.X / 50 + 8 * chunk.index, 2);
                         posXInChunk = block.xPos - blockOriginPoint.X / 50;
                         currentChunk = chunk.index;
                         coordsDetermined = true;
