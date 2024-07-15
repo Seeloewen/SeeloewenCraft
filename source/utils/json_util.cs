@@ -99,6 +99,7 @@ namespace SeeloewenCraft
         {
             return (double)new JsonPointer(address).Evaluate(value);
         }
+
     }
 
 }
