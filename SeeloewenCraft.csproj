@@ -160,6 +160,10 @@
     <None Remove="Resources\HealthEmpty.png" />
     <None Remove="Resources\HealthFull.png" />
     <None Remove="Resources\HealthHalf.png" />
+    <None Remove="Resources\QuarterOakPlankBlock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\QuarterOakPlankBlock.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\changelog.txt" />

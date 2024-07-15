@@ -568,4 +568,33 @@ namespace SeeloewenCraft
             throw new NotImplementedException();
         }
     }
+
+    public class QuarterOakPlankItem : Item
+    {
+        public QuarterOakPlankItem(World world, Block block) : base(world, block)
+        {
+            isPlacable = true;
+            name = "Quarter Oak Plank";
+            id = "sc:quarter_oak_plank_item";
+            SetTexture();
+        }
+
+        override public Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
+        {
+            block = new QuarterOakPlankBlock(world, x, y, chunk, this, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            //Set the texture of the block on the canvas
+            image = world.images.QuarterOakPlankBlock;
+            cvsItem.Background = image;
+        }
+
+        public override void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

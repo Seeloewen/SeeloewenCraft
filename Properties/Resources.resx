@@ -235,4 +235,8 @@
   <data name="changelog.txt" xml:space="preserve">
     <value>changelog.txt</value>
   </data>
+  <data name="QuarterOakPlankBlock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\QuarterOakPlankBlock.png;System.Byte[]</value>
+    <comment>Debug block for testing new collision system</comment>
+  </data>
 </root>

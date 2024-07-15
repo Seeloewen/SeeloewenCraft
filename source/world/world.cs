@@ -258,6 +258,7 @@ namespace SeeloewenCraft
                     player.inventory.AddItem(new WaterItem(this, null));
                     player.inventory.AddItem(new Plant2Item(this, null));
                     player.inventory.AddItem(new AlphaCrafterItem(this, null));
+                    player.inventory.AddItem(new QuarterOakPlankItem(this, null));
                 }
             }
 

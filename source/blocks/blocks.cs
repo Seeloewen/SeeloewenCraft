@@ -588,4 +588,35 @@ throw new NotImplementedException();
             }
         }
     }
+
+    public class QuarterOakPlankBlock : Block
+    {
+        public QuarterOakPlankBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        {
+            SetTexture();
+            name = "Quarter Oak Plank";
+            id = "sc:quarter_oak_plank_block";
+        }
+
+        override public void GenerateItem(World world, int id)
+        {
+            item = new QuarterOakPlankItem(world, this);
+        }
+
+        public override void SetTexture()
+        {
+            image = world.images.QuarterOakPlankBlock;
+        }
+
+        public override void RightClickAction(object sender)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void ShowAdditionalDebugInfo()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }
