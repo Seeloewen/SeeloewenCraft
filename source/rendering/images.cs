@@ -118,6 +118,7 @@ namespace SeeloewenCraft
             HealthHalf = new ImageBrush { ImageSource = GetImageSource("HealthHalf.png") };
             HealthEmpty = new ImageBrush { ImageSource = GetImageSource("HealthEmpty.png") };
             AlphaCrafter = new ImageBrush { ImageSource = GetImageSource("AlphaCrafter.png") };
+            QuarterOakPlankBlock = new ImageBrush { ImageSource = GetImageSource("QuarterOakPlankBlock.png") };
         }
 
         //-- Images --//
@@ -159,5 +160,6 @@ namespace SeeloewenCraft
         public ImageBrush HealthHalf;
         public ImageBrush HealthEmpty;
         public ImageBrush AlphaCrafter;
+        public ImageBrush QuarterOakPlankBlock;
     }
 }

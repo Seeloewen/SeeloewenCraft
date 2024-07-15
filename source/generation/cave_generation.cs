@@ -74,6 +74,8 @@ namespace SeeloewenCraft
         public Cave(World world, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(world, chunk, canFloat)
         {
             canReplaceSolidBlocks = false;
+            id = "sc:cave_1_structure";
+            name = "Cave1";
 
             //Determine the generation direction
             string direction = "";
