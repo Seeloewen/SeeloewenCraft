@@ -32,14 +32,10 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Item(World world, Block block)
+        public Item(World world)
         {
             //Set the attributes
             this.world = world;
-            if (block != null)
-            {
-                this.block = block;
-            }
 
             //Setup the item canvas
             cvsItem.Width = 67;
@@ -52,7 +48,7 @@ namespace SeeloewenCraft
         public abstract void SetTexture();
 
         //This is currently required, but may be changed in the future if items that don't have blocks are added
-        public abstract Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground);
+        public abstract Block GenerateBlock(bool isInBackground);
 
         public abstract void RightClickAction(Block block, object sender);
 

@@ -156,11 +156,11 @@ namespace SeeloewenCraft
             }
             else if (tbDebug.Text.Contains("/give chest"))
             {
-                world.player.inventory.AddItem(new ChestItem(world, null));
+                world.player.inventory.AddItem(new ChestItem(world));
             }
             else if (tbDebug.Text.Contains("/give magmablock"))
             {
-                world.player.inventory.AddItem(new MagmaBlockItem(world, null));
+                world.player.inventory.AddItem(new MagmaBlockItem(world));
             }
             else if (tbDebug.Text == "/resetview")
             {

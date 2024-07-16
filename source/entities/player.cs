@@ -103,6 +103,10 @@ namespace SeeloewenCraft
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "posY");
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "v_x");
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "v_y");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "d_x");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "d_y");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "d_offset_x");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "d_offset_y");
 
             //Setup health bar
             if (world.settings.enableHealth)
@@ -150,9 +154,9 @@ namespace SeeloewenCraft
 
             //reset
             bool onGround = false;
-            bool touchingRight = false;
             bool touchingLeft = false;
             bool touchingTop = false;
+            bool touchingRight = false;
 
             //flag to only calculate the player coordinates once
             bool coordsDetermined = false;
@@ -201,8 +205,9 @@ namespace SeeloewenCraft
                     //determine coordinates of player through relative position to block (done only once)
                     if (!coordsDetermined)
                     {
-                        posY = block.yPos - blockOriginPoint.Y / 50;
-                        posX = block.xPos - blockOriginPoint.X / 50 + 8 * chunk.index;
+                        double temp = blockOriginPoint.X / 50;
+                        posY = Math.Round(block.yPos - blockOriginPoint.Y / 50, 2);
+                        posX = Math.Round(block.xPos - blockOriginPoint.X / 50 + 8 * chunk.index, 2);
                         posXInChunk = block.xPos - blockOriginPoint.X / 50;
                         currentChunk = chunk.index;
                         coordsDetermined = true;
@@ -401,8 +406,6 @@ namespace SeeloewenCraft
             }
         }
 
-
-
         public void MoveVertical(int amount)
         {
             Thickness currentMarginPlayer = cvsPlayer.Margin;
@@ -438,6 +441,10 @@ namespace SeeloewenCraft
                 }
                 world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "v_x", $"v_x={v_x}");
                 world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "v_y", $"v_y={v_y}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "d_x", $"d_x={d_x}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "d_y", $"d_y={d_y}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "d_offset_x", $"d_offset_x={d_offset_x}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "d_offset_y", $"d_offset_y={d_offset_y}");
                 world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "posX", $"posX={posXInChunk}");
                 world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "posY", $"posY={posY + 1}");
                 world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "chunk", $"chunk={currentChunk}");

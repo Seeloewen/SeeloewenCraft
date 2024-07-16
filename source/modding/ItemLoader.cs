@@ -49,7 +49,7 @@ namespace SeeloewenCraft
     {
         public string type;
 
-        public ModdedItem(string type, World world, Block block) : base(world, block)
+        public ModdedItem(string type, World world, Block block) : base(world)
         {
             this.type = type;
             name = "Modded Item";
@@ -57,9 +57,9 @@ namespace SeeloewenCraft
             SetTexture();
         }
 
-        public override Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
+        public override Block GenerateBlock(bool isInBackground)
         {
-            return new ModdedBlock(type, world, x, y, chunk, this, isInBackground);
+            return new ModdedBlock(type, world, isInBackground);
         }
 
         public override void RightClickAction(Block block, object sender)

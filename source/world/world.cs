@@ -248,14 +248,13 @@ namespace SeeloewenCraft
             }
             else
             {
-                if (settings.enableHammer) player.inventory.AddItem(new HammerItem(this, null));
+                if (settings.enableHammer) player.inventory.AddItem(new HammerItem(this));
                 for (int i = 0; i < 64; i++)
                 {
-                    player.inventory.AddItem(new TorchItem(this, null));
-                    player.inventory.AddItem(new WaterItem(this, null));
-                    player.inventory.AddItem(new Plant2Item(this, null));
-                    player.inventory.AddItem(new AlphaCrafterItem(this, null));
-                    player.inventory.AddItem(new QuarterOakPlankItem(this, null));
+                    player.inventory.AddItem(new TorchItem(this));
+                    player.inventory.AddItem(new WaterItem(this));
+                    player.inventory.AddItem(new Plant2Item(this));
+                    //player.inventory.AddItem(new AlphaCrafterItem(this, null));
                 }
             }
 

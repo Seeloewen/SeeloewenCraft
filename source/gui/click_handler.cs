@@ -39,7 +39,7 @@ namespace SeeloewenCraft
                 //Check if the block meets all requirements to be placed in foreground of another block
                 if (block.IsInRange() && selectedItem != null && selectedItem.canBeForeground && block.foregroundBlock == null && block.isBackground)
                 {
-                    if (selectedItem.block == null) selectedItem.GenerateBlock(block.xPos, block.yPos, block.chunk, block.isBackground);
+                    if (selectedItem.block == null) selectedItem.GenerateBlock( block.isBackground);
 
                     if (selectedItem.block != null)
                     {
@@ -67,7 +67,7 @@ namespace SeeloewenCraft
                 {
                     if (selectedItem.block == null)
                     {
-                        selectedItem.GenerateBlock(block.xPos, block.yPos, block.chunk, block.isBackground);
+                        selectedItem.GenerateBlock( block.isBackground);
                     }
 
                     if (selectedItem.block != null)

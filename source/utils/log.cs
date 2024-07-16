@@ -19,10 +19,20 @@ namespace SeeloewenCraft
 {
     public class Log
     {
+        wndMenu wndMenu;
+        private Paragraph paragraph;
         public wndLog wndLog;
         private SeeloewenLibTools seeloewenLibTools = new SeeloewenLibTools();
         private List<string> messages = new List<string>();
-        Paragraph paragraph;
+
+        //-- Constructor --//
+
+        public Log(wndMenu wndMenu)
+        {
+            this.wndMenu = wndMenu;
+        }
+
+        //-- Custom Methods --//
 
         public void Show()
         {
@@ -187,6 +197,18 @@ namespace SeeloewenCraft
                 wndLog.rtbLog.Document.Blocks.Add(paragraph);
                 wndLog.rtbLog.ScrollToEnd();
             }
+        }
+
+        public void CreateCrashDump(Exception ex)
+        {
+            //Log all relevant information for a crash
+            Write("-------------------------------------", "Error");
+            Write($"SeeloewenCraft {wndMenu.gameVersion} - A crash has been detected!", "Error");
+            Write($"Exception: {ex.GetType().ToString()}!", "Error");
+            Write($"Message: {ex.Message}", "Error");
+            Write($"Source: {ex.Source}", "Error");
+            Write($"Additional Data:\n{ex.StackTrace}", "Error");
+            Write("-------------------------------------", "Error");
         }
     }
 }

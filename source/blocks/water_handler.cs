@@ -42,7 +42,9 @@ namespace SeeloewenCraft
                         {
                             if (!SourceBlockExists(block, "normal"))
                             {
-                                newBlocks.Add(new AirBlock(world, block.xPos, block.yPos, chunk, null, false));
+                                Block newBlock = new AirBlock(world, false);
+                                newBlock.SetCoords(block.xPos, block.yPos, block.chunk);
+                                newBlocks.Add(newBlock);
                             }
                         }
                     }
@@ -55,7 +57,9 @@ namespace SeeloewenCraft
                         {
                             if (!SourceBlockExists(block, "foreground"))
                             {
-                                newBlocks.Add(new AirBlock(world, block.xPos, block.yPos, chunk, null, false));
+                                Block newBlock = new AirBlock(world, false);
+                                newBlock.SetCoords(block.xPos, block.yPos, block.chunk);
+                                newBlocks.Add(newBlock);
                             }
                         }
 
@@ -118,7 +122,8 @@ namespace SeeloewenCraft
 
                 if (blockBelow != null && (blockBelow.isReplacable && (!blockBelow.tags.Contains("liquids/water") || blockBelow.waterLevel < 6)) || (blockBelow.isBackground && (blockBelow.foregroundBlock == null || (block.foregroundBlock != null && block.foregroundBlock.waterLevel < 6))))
                 {
-                    Block newWater = new WaterBlock_6(world, block.xPos, block.yPos + 1, chunk, null, false);
+                    Block newWater = new WaterBlock_6(world, false);
+                    newWater.SetCoords(block.xPos, block.yPos + 1, block.chunk);
                     SetSourceBlock(block, newWater);
                     newBlocks.Add(newWater);
                 }
@@ -136,14 +141,16 @@ namespace SeeloewenCraft
                             if ((blockRight.isReplacable && (!blockRight.tags.Contains("liquids/water") || blockRight.waterLevel < block.waterLevel - 1)) || (blockRight.isBackground && blockRight.foregroundBlock == null))
                             {
                                 //Expand to the right
-                                Block newWater = CreateWaterBlock(block.waterLevel - 1, "right", block.xPos + 1, block.yPos, chunk);
+                                Block newWater = CreateWaterBlock(block.waterLevel - 1, "right");
+                                newWater.SetCoords(block.xPos + 1, block.yPos, block.chunk);
                                 SetSourceBlock(block, newWater);
                                 newBlocks.Add(newWater);
                             }
                             if ((blockLeft.isReplacable && (!blockLeft.tags.Contains("liquids/water") || blockLeft.waterLevel < block.waterLevel - 1)) || (blockLeft.isBackground && blockLeft.foregroundBlock == null))
                             {
                                 //Expand to the left
-                                Block newWater = CreateWaterBlock(block.waterLevel - 1, "left", block.xPos - 1, block.yPos, chunk);
+                                Block newWater = CreateWaterBlock(block.waterLevel - 1, "left");
+                                newWater.SetCoords(block.xPos - 1, block.yPos, block.chunk);
                                 SetSourceBlock(block, newWater);
                                 newBlocks.Add(newWater);
                             }
@@ -196,14 +203,14 @@ namespace SeeloewenCraft
                         }
                     }
                     else
-                    { 
-                            block.chunk.GetBlock(block.xPos, block.yPos).BreakBlock(true, true);                   
+                    {
+                        block.chunk.GetBlock(block.xPos, block.yPos).BreakBlock(true, true);
                     }
                 }
             }
         }
 
-        private Block CreateWaterBlock(int level, string direction, int x, int y, Chunk chunk)
+        private Block CreateWaterBlock(int level, string direction)
         {
             //Check direction and level and return the corresponding water block
             if (direction == "right")
@@ -211,17 +218,17 @@ namespace SeeloewenCraft
                 switch (level)
                 {
                     case 1:
-                        return new WaterBlock_1_Right(world, x, y, chunk, null, false);
+                        return new WaterBlock_1_Right(world, false);
                     case 2:
-                        return new WaterBlock_2_Right(world, x, y, chunk, null, false);
+                        return new WaterBlock_2_Right(world, false);
                     case 3:
-                        return new WaterBlock_3_Right(world, x, y, chunk, null, false);
+                        return new WaterBlock_3_Right(world, false);
                     case 4:
-                        return new WaterBlock_4_Right(world, x, y, chunk, null, false);
+                        return new WaterBlock_4_Right(world, false);
                     case 5:
-                        return new WaterBlock_5_Right(world, x, y, chunk, null, false);
+                        return new WaterBlock_5_Right(world, false);
                     case 6:
-                        return new WaterBlock_6(world, x, y, chunk, null, false);
+                        return new WaterBlock_6(world, false);
                     default:
                         return null;
                 }
@@ -231,17 +238,17 @@ namespace SeeloewenCraft
                 switch (level)
                 {
                     case 1:
-                        return new WaterBlock_1_Left(world, x, y, chunk, null, false);
+                        return new WaterBlock_1_Left(world, false);
                     case 2:
-                        return new WaterBlock_2_Left(world, x, y, chunk, null, false);
+                        return new WaterBlock_2_Left(world, false);
                     case 3:
-                        return new WaterBlock_3_Left(world, x, y, chunk, null, false);
+                        return new WaterBlock_3_Left(world, false);
                     case 4:
-                        return new WaterBlock_4_Left(world, x, y, chunk, null, false);
+                        return new WaterBlock_4_Left(world, false);
                     case 5:
-                        return new WaterBlock_5_Left(world, x, y, chunk, null, false);
+                        return new WaterBlock_5_Left(world, false);
                     case 6:
-                        return new WaterBlock_6(world, x, y, chunk, null, false);
+                        return new WaterBlock_6(world, false);
                     default:
                         return null;
                 }

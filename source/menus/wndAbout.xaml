@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="About" Height="571" Width="488" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Background>
-        <ImageBrush ImageSource="/Resources/Background.png"/>
+        <ImageBrush ImageSource="/Resources/Textures/Gui/Background.png"/>
     </Window.Background>
     <Grid>
         <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="65,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="50" FontWeight="DemiBold"><Run Language="de-de" Text="SeeloewenCraft"/></TextBlock>

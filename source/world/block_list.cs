@@ -10,12 +10,14 @@ namespace SeeloewenCraft
     public class BlockList
     {
 
+        Chunk chunk;
         public Block[] blocks;
 
         //-- Constructor --//
 
-        public BlockList()
+        public BlockList(Chunk chunk)
         {
+            this.chunk = chunk;
             blocks = new Block[600];
         }
 
@@ -38,7 +40,7 @@ namespace SeeloewenCraft
 
         static public BlockList LoadFromJson(JsonToken documentToken, Chunk chunk, World world)
         {
-            BlockList blockList = new BlockList();
+            BlockList blockList = new BlockList(chunk);
 
             JsonToken blockArrayToken = documentToken.GetToken("/blocks");
 
@@ -46,28 +48,22 @@ namespace SeeloewenCraft
             {
                 JsonToken blockToken = blockArrayToken.GetToken($"/{i}");
 
-                blockList.Add(Block.LoadFromJson(blockToken, chunk, world));
+                Block loadedBlock = Block.LoadFromJson(blockToken, chunk, world);
+                blockList.Add(loadedBlock, loadedBlock.xPos, loadedBlock.yPos);
             }
             return blockList;
         }
 
-        public void Add(Block block)
-        {
-            //Add the block to the index based on x and y pos
-            //Check if the coordinate has a container and place the block into that container if possible
-            if ((block.xPos <= 7 && block.xPos >= 0) && (block.yPos >= 0 && block.yPos <= 74))
-            {
-                int i = CalcIndex(block.xPos, block.yPos);
-                blocks[i] = block;
-            }
-        }
 
         public void Add(Block block, int x, int y)
         {
             //Add the block to the index based on x and y pos
             int i = CalcIndex(x, y);
-            if ((block.xPos <= 7 && block.xPos >= 0) && (block.yPos >= 0 && block.yPos <= 74))
+            if ((x <= 7 && x >= 0) && (y >= 0 && y <= 74))
             {
+                block.xPos = x;
+                block.yPos = y;
+                block.chunk = chunk;
                 blocks[i] = block;
             }
         }

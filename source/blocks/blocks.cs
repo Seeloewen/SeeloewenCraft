@@ -11,16 +11,16 @@ namespace SeeloewenCraft
 
     public class GrassBlock : Block
     {
-        public GrassBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public GrassBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Grass Block";
             id = "sc:grass_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new GrassItem(world, this);
+            item = new GrassItem(world);
         }
 
         public override void SetTexture()
@@ -41,7 +41,7 @@ namespace SeeloewenCraft
 
     public class StoneBlock : Block
     {
-        public StoneBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public StoneBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             //lootTable = world.lootTables.stoneLootTable;
             SetTexture();
@@ -49,9 +49,9 @@ namespace SeeloewenCraft
             id = "sc:stone_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new StoneItem(world, this);
+            item = new StoneItem(world);
         }
 
         public override void SetTexture()
@@ -72,16 +72,16 @@ namespace SeeloewenCraft
 
     public class DirtBlock : Block
     {
-        public DirtBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public DirtBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Dirt";
             id = "sc:dirt_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new DirtItem(world, this);
+            item = new DirtItem(world);
         }
 
         public override void SetTexture()
@@ -102,7 +102,7 @@ namespace SeeloewenCraft
 
     public class AirBlock : Block
     {
-        public AirBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public AirBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             isBreakable = false;
             isSolid = false;
@@ -114,9 +114,9 @@ namespace SeeloewenCraft
             isLightSource = true;
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new AirItem(world, this);
+            item = new AirItem(world);
         }
 
         public override void SetTexture()
@@ -126,7 +126,7 @@ namespace SeeloewenCraft
 
         public override void RightClickAction(object sender)
         {
-throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override void ShowAdditionalDebugInfo()
@@ -137,7 +137,7 @@ throw new NotImplementedException();
 
     public class BedrockBlock : Block
     {
-        public BedrockBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public BedrockBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             isBreakable = false;
             canBeMovedToBackground = false;
@@ -146,9 +146,9 @@ throw new NotImplementedException();
             id = "sc:bedrock_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new BedrockItem(world, this);
+            item = new BedrockItem(world);
         }
 
         public override void SetTexture()
@@ -169,16 +169,16 @@ throw new NotImplementedException();
 
     public class CoalOreBlock : Block
     {
-        public CoalOreBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public CoalOreBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Coal Ore";
             id = "sc:coal_ore_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new CoalOreItem(world, this);
+            item = new CoalOreItem(world);
         }
 
         public override void SetTexture()
@@ -199,16 +199,16 @@ throw new NotImplementedException();
 
     public class DiamondOreBlock : Block
     {
-        public DiamondOreBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public DiamondOreBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Diamond Ore";
             id = "sc:coal_ore_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new DiamondOreItem(world, this);
+            item = new DiamondOreItem(world);
         }
 
         public override void SetTexture()
@@ -229,16 +229,16 @@ throw new NotImplementedException();
 
     public class IronOreBlock : Block
     {
-        public IronOreBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public IronOreBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Iron Ore";
             id = "sc:iron_ore_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new IronOreItem(world, this);
+            item = new IronOreItem(world);
         }
 
         public override void SetTexture()
@@ -259,16 +259,16 @@ throw new NotImplementedException();
 
     public class OakLogBlock : Block
     {
-        public OakLogBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public OakLogBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Oak Log";
             id = "sc:oak_log_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new OakLogItem(world, this);
+            item = new OakLogItem(world);
         }
 
         public override void SetTexture()
@@ -289,16 +289,16 @@ throw new NotImplementedException();
 
     public class OakLeavesBlock : Block
     {
-        public OakLeavesBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public OakLeavesBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Oak Leaves";
             id = "sc:oak_leaves_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new OakLeavesItem(world, this);
+            item = new OakLeavesItem(world);
         }
 
         public override void SetTexture()
@@ -319,16 +319,16 @@ throw new NotImplementedException();
 
     public class SpruceLogBlock : Block
     {
-        public SpruceLogBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public SpruceLogBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Spruce Log";
             id = "sc:spruce_log_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new SpruceLogItem(world, this);
+            item = new SpruceLogItem(world);
         }
 
         public override void SetTexture()
@@ -349,16 +349,16 @@ throw new NotImplementedException();
 
     public class SpruceLeavesBlock : Block
     {
-        public SpruceLeavesBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public SpruceLeavesBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Spruce Leaves";
             id = "sc:spruce_leaves_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new SpruceLeavesItem(world, this);
+            item = new SpruceLeavesItem(world);
         }
 
         public override void SetTexture()
@@ -379,7 +379,7 @@ throw new NotImplementedException();
 
     public class ChestBlock : Block
     {
-        public ChestBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public ChestBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             hasInventory = true;
             blockInventory = new Inventory(world, false);
@@ -390,9 +390,9 @@ throw new NotImplementedException();
             hasRightClickAction = true;
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new ChestItem(world, this);
+            item = new ChestItem(world);
         }
 
         public override void SetTexture()
@@ -421,16 +421,16 @@ throw new NotImplementedException();
 
     public class MagmaBlock : Block
     {
-        public MagmaBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public MagmaBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Magma Block";
             id = "sc:magma_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new MagmaBlockItem(world, this);
+            item = new MagmaBlockItem(world);
         }
 
         public override void SetTexture()
@@ -450,7 +450,7 @@ throw new NotImplementedException();
 
     public class TorchBlock : Block
     {
-        public TorchBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public TorchBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             isSolid = false;
             canBeMovedToBackground = false;
@@ -460,9 +460,9 @@ throw new NotImplementedException();
             id = "sc:torch_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new TorchItem(world, this);
+            item = new TorchItem(world);
         }
 
         public override void SetTexture()
@@ -482,21 +482,21 @@ throw new NotImplementedException();
     }
     public class Plant2Block_Base : Block
     {
-        public Plant2Block_Base(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public Plant2Block_Base(World world, bool isInBackground) : base(world, isInBackground)
         {
             isSolid = false;
             isBase = true;
             SetTexture();
             name = "Cactus Plant Base";
             id = "sc:cactus_plant_base_block";
-            connectedBlocks.Add(new Plant2Block_Top(world, x, y, chunk, item, isInBackground));
+            connectedBlocks.Add(new Plant2Block_Top(world, isInBackground));
             connectedBlocks[0].yOffset = -1;
             connectedBlocks[0].baseBlock = this;
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new Plant2Item(world, this);
+            item = new Plant2Item(world);
         }
 
         public override void SetTexture()
@@ -517,7 +517,7 @@ throw new NotImplementedException();
 
     public class Plant2Block_Top : Block
     {
-        public Plant2Block_Top(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public Plant2Block_Top(World world, bool isInBackground) : base(world, isInBackground)
         {
             isSolid = false;
             SetTexture();
@@ -525,7 +525,7 @@ throw new NotImplementedException();
             id = "sc:cactus_plant_top_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
             item = null;
         }
@@ -548,7 +548,7 @@ throw new NotImplementedException();
 
     public class AlphaCrafterBlock : Block
     {
-        public AlphaCrafterBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public AlphaCrafterBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Alpha Crafter";
@@ -560,9 +560,9 @@ throw new NotImplementedException();
             gui = new AlphaCrafterGui(world, 535, 720, 120, 200, "sc:alpha_crafter", null, this);
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new AlphaCrafterItem(world, this);
+            item = new AlphaCrafterItem(world);
         }
 
         public override void SetTexture()
@@ -591,16 +591,16 @@ throw new NotImplementedException();
 
     public class QuarterOakPlankBlock : Block
     {
-        public QuarterOakPlankBlock(World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public QuarterOakPlankBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Quarter Oak Plank";
             id = "sc:quarter_oak_plank_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new QuarterOakPlankItem(world, this);
+            item = new QuarterOakPlankItem(world);
         }
 
         public override void SetTexture()

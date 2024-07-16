@@ -121,7 +121,7 @@ namespace SeeloewenCraft
                 block.xPos = x;
                 block.yPos = y;
                 block.chunk = this;
-                blockList.Add(block);
+                blockList.Add(block, block.xPos, block.yPos);
 
                 if (blockContainerList.GetContainer(x, y) != null)
                 {
@@ -216,9 +216,6 @@ namespace SeeloewenCraft
             index = documentToken.GetInt("/index");
             floorHeightLeft = documentToken.GetInt("/floor_height_left");
             floorHeightRight = documentToken.GetInt("/floor_height_right");
-
-            //Load the inventories of the blocks in the chunk (like chests)
-            //LoadInventories();
         }
 
 
@@ -237,10 +234,11 @@ namespace SeeloewenCraft
                     SetBlock(block, block.xPos, block.yPos);
                     block.MoveToBackground();
                 }
+
                 //Render foreground blocks
-                else if (block.isForeground)
+                if (block.foregroundBlock != null)
                 {
-                    blockList.Get(block.xPos, block.yPos).PlaceInForeground(block);
+                    block.PlaceInForeground(block.foregroundBlock);
                 }
             }
         }

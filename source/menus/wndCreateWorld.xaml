@@ -8,7 +8,7 @@
         Title="Create World" Height="243" Width="431" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/Resources/Background.png" Stretch="None" TileMode="Tile"/>
+            <ImageBrush ImageSource="/Resources/Textures/Gui/Background.png" Stretch="None" TileMode="Tile"/>
         </Grid.Background>
         <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Create World" VerticalAlignment="Top" FontSize="28" FontWeight="DemiBold"/>
         <TextBlock x:Name="tblWorldName" Margin="14,61,173,0" TextWrapping="Wrap" Text="World name:" VerticalAlignment="Top" RenderTransformOrigin="0.37,0.394" FontSize="18"/>

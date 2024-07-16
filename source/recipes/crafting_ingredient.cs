@@ -25,61 +25,61 @@ namespace SeeloewenCraft
             switch (token.GetString("/item_id"))
             {
                 case "sc:grass_block_item":
-                    item = new GrassItem(world, null);
+                    item = new GrassItem(world);
                     break;
                 case "sc:dirt_item":
-                    item = new DirtItem(world, null);
+                    item = new DirtItem(world);
                     break;
                 case "sc:stone_item":
-                    item = new StoneItem(world, null);
+                    item = new StoneItem(world);
                     break;
                 case "sc:oak_log_item":
-                    item = new OakLogItem(world, null);
+                    item = new OakLogItem(world);
                     break;
                 case "sc:oak_leaves_item":
-                    item = new OakLeavesItem(world, null);
+                    item = new OakLeavesItem(world);
                     break;
                 case "sc:spruce_log_item":
-                    item = new SpruceLogItem(world, null);
+                    item = new SpruceLogItem(world);
                     break;
                 case "sc:spruce_leaves_item":
-                    item = new SpruceLeavesItem(world, null);
+                    item = new SpruceLeavesItem(world);
                     break;
                 case "sc:coal_ore_item":
-                    item = new CoalOreItem(world, null);
+                    item = new CoalOreItem(world);
                     break;
                 case "sc:iron_ore_item":
-                    item = new IronOreItem(world, null);
+                    item = new IronOreItem(world);
                     break;
                 case "sc:chest_item":
-                    item = new ChestItem(world, null);
+                    item = new ChestItem(world);
                     break;
                 case "sc:bedrock_item":
-                    item = new BedrockItem(world, null);
+                    item = new BedrockItem(world);
                     break;
                 case "sc:magma_block_item":
-                    item = new MagmaBlockItem(world, null);
+                    item = new MagmaBlockItem(world);
                     break;
                 case "sc:torch_item":
-                    item = new TorchItem(world, null);
+                    item = new TorchItem(world);
                     break;
                 case "sc:plant_2_item":
-                    item = new Plant2Item(world, null);
+                    item = new Plant2Item(world);
                     break;
                 case "sc:water_item":
-                    item = new WaterItem(world, null);
+                    item = new WaterItem(world);
                     break;
                 case "sc:hammer_item":
-                    item = new HammerItem(world, null);
+                    item = new HammerItem(world);
                     break;
                 case "sc:air_item":
-                    item = new AirItem(world, null);
+                    item = new AirItem(world);
                     break;
                 case "sc:diamond_ore_item":
-                    item = new DiamondOreItem(world, null);
+                    item = new DiamondOreItem(world);
                     break;
                 case "sc:alpha_crafter_item":
-                    item = new AlphaCrafterItem(world, null);
+                    item = new AlphaCrafterItem(world);
                     break;
             }
 
