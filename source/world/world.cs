@@ -115,6 +115,12 @@ namespace SeeloewenCraft
             totalChunkList.Add(newChunk);
             return newChunk;
         }
+
+        public Block GetBlock(int posX, int posY)
+        {
+            return GetChunk(posX / 8).GetBlock(posX % 8, posY);
+        }
+
         public void RefreshTextures()
         {
             images = new Images(this);
