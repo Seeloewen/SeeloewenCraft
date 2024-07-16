@@ -306,7 +306,7 @@ namespace SeeloewenCraft
                 {
                     if (block.xPos == 4 && block is GrassBlock)
                     {
-                        yPos = (block.yPos - 3) * 50;
+                        yPos = (block.yPos - 2) * 50;
                         break;
                     }
                 }
