@@ -12,7 +12,7 @@ namespace SeeloewenCraft
         {
             world.log.Write($"Generating chunk {index}", "Info");
 
-            blockList = new BlockList();
+            blockList = new BlockList(this);
 
             //If it doesn't exist, create the file
             chunkDirectory = string.Format("{0}/chunk{1}", world.worldDirectory, index);
@@ -78,7 +78,7 @@ namespace SeeloewenCraft
                         if (y == floorHeight)
                         {
                             //If the block is exactly on floor height add a grass block
-                            blockList.Add(new GrassBlock(world, x, y, this, null, false));
+                            blockList.Add(new GrassBlock(world,  false), x, y);
 
                             //If it's at one of the corners, set the left or right floor height variable
                             if (x == 0)
@@ -93,7 +93,7 @@ namespace SeeloewenCraft
                         else if (y == floorHeight + 1 || y == floorHeight + 2)
                         {
                             //If it's 1 or 2 blocks below the floor height, add dirt
-                            blockList.Add(new DirtBlock(world, x, y, this, null, false));
+                            blockList.Add(new DirtBlock(world,  false), x, y);
                         }
                         else if (y == floorHeight + 3)
                         {
@@ -101,27 +101,27 @@ namespace SeeloewenCraft
                             int random = rnd.Next(1, 3);
                             if (random == 1)
                             {
-                                blockList.Add(new DirtBlock(world, x, y, this, null, false));
+                                blockList.Add(new DirtBlock(world,  false), x, y);
                             }
                             else
                             {
-                                blockList.Add(new StoneBlock(world, x, y, this, null, false));
+                                blockList.Add(new StoneBlock(world,  false), x, y);
                             }
                         }
                         else if (y > floorHeight + 3 && y < 75)
                         {
                             //If it's 3 blocks below floor height and above y 75, set stone blocks
-                            blockList.Add(new StoneBlock(world, x, y, this, null, false));
+                            blockList.Add(new StoneBlock(world,  false), x, y);
                         }
                         else if (y < floorHeight)
                         {
                             //If it's above floor height, generate air
-                            blockList.Add(new AirBlock(world, x, y, this, null, false));
+                            blockList.Add(new AirBlock(world,  false), x, y);
                         }
                         else if (y == 74)
                         {
                             //If it's exactly at bottom layer y 75, set bedrock block
-                            blockList.Add(new BedrockBlock(world, x, y, this, null, false));
+                            blockList.Add(new BedrockBlock(world,  false), x, y);
                         }
                     }
                 }
@@ -156,7 +156,7 @@ namespace SeeloewenCraft
                         if (y == floorHeight)
                         {
                             //If the block is exactly on floor height add a grass block
-                            blockList.Add(new GrassBlock(world, x, y, this, null, false));
+                            blockList.Add(new GrassBlock(world,  false), x, y);
 
                             //If it's at one of the corners, set the left or right floor height variable
                             if (x == 0)
@@ -170,8 +170,8 @@ namespace SeeloewenCraft
                         }
                         else if (y == floorHeight + 1 || y == floorHeight + 2)
                         {
-                            //If it's 1 or 2 blocks below the floor height, add dirt
-                            blockList.Add(new DirtBlock(world, x, y, this, null, false));
+                            //If it's 1 or 2 blocks below the floor height, add dirt                                Block newBlock = new DirtBlock(world,  false);
+                            blockList.Add(new DirtBlock(world,  false), x, y);
                         }
                         else if (y == floorHeight + 3)
                         {
@@ -179,27 +179,27 @@ namespace SeeloewenCraft
                             int random = rnd.Next(1, 3);
                             if (random == 1)
                             {
-                                blockList.Add(new DirtBlock(world, x, y, this, null, false));
+                                blockList.Add(new DirtBlock(world,  false), x, y);
                             }
                             else
                             {
-                                blockList.Add(new DirtBlock(world, x, y, this, null, false));
+                                blockList.Add(new DirtBlock(world,  false), x, y);
                             }
                         }
                         else if (y > floorHeight + 3 && y < 75)
                         {
                             //If it's 3 blocks below floor height and above y 75, set stone blocks
-                            blockList.Add(new StoneBlock(world, x, y, this, null, false));
+                            blockList.Add(new StoneBlock(world,  false), x, y);
                         }
                         else if (y < floorHeight)
                         {
                             //If it's above floor height, generate air
-                            blockList.Add(new AirBlock(world, x, y, this, null, false));
+                            blockList.Add(new AirBlock(world,  false), x, y);
                         }
                         else if (y == 74)
                         {
                             //If it's exactly at bottom layer y 75, set bedrock block
-                            blockList.Add(new BedrockBlock(world, x, y, this, null, false));
+                            blockList.Add(new BedrockBlock(world,  false), x, y);
                         }
                     }
                 }

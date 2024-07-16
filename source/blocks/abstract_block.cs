@@ -73,32 +73,14 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Block(World world, int xPos, int yPos, Chunk chunk, Item item, bool isBackground)
+        public Block(World world, bool isBackground)
         {
             rnd = new Random(DateTime.Now.Millisecond + offset);
             offset++;
 
             //Set the attributes
             this.world = world;
-            this.xPos = xPos;
-            this.yPos = yPos;
-            this.chunk = chunk;
             this.isBackground = isBackground;
-
-            if (item != null)
-            {
-                this.item = item;
-            }
-            else
-            {
-                this.item = null;
-            }
-
-            if (xPos == 8)
-            {
-                //throw new Exception();
-            }
-
         }
 
         //-- Custom Methods --//
@@ -188,93 +170,93 @@ namespace SeeloewenCraft
             switch (id)
             {
                 case "sc:grass_block":
-                    block = new GrassBlock(world, posX, posY, chunk, null, isInBackground);
+                    block = new GrassBlock(world, isInBackground);
                     break;
                 case "sc:dirt_block":
-                    block = new DirtBlock(world, posX, posY, chunk, null, isInBackground);
+                    block = new DirtBlock(world, isInBackground);
                     break;
                 case "sc:stone_block":
-                    block = new StoneBlock(world, posX, posY, chunk, null, isInBackground);
+                    block = new StoneBlock(world, isInBackground);
                     break;
                 case "sc:air_block":
-                    block = new AirBlock(world, posX, posY, chunk, null, isInBackground);
+                    block = new AirBlock(world, isInBackground);
                     break;
                 case "sc:bedrock_block":
-                    block = new BedrockBlock(world, posX, posY, chunk, null, isInBackground);
+                    block = new BedrockBlock(world, isInBackground);
                     break;
                 case "sc:diamond_ore_block":
-                    block = new DiamondOreBlock(world, posX, posY, chunk, null, isInBackground);
+                    block = new DiamondOreBlock(world, isInBackground);
                     break;
                 case "sc:iron_ore_block":
-                    block = new IronOreBlock(world, posX, posY, chunk, null, isInBackground);
+                    block = new IronOreBlock(world, isInBackground);
                     break;
                 case "sc:coal_ore_block":
-                    block = new CoalOreBlock(world, posX, posY, chunk, null, isInBackground);
+                    block = new CoalOreBlock(world, isInBackground);
                     break;
                 case "sc:oak_log_block":
-                    block = new OakLogBlock(world, posX, posY, chunk, null, isInBackground);
+                    block = new OakLogBlock(world, isInBackground);
                     break;
                 case "sc:oak_leaves_block":
-                    block = new OakLeavesBlock(world, posX, posY, chunk, null, isInBackground);
+                    block = new OakLeavesBlock(world, isInBackground);
                     break;
                 case "sc:spruce_log_block":
-                    block = new SpruceLogBlock(world, posX, posY, chunk, null, isInBackground);
+                    block = new SpruceLogBlock(world, isInBackground);
                     break;
                 case "sc:spruce_leaves_block":
-                    block = new SpruceLeavesBlock(world, posX, posY, chunk, null, isInBackground);
+                    block = new SpruceLeavesBlock(world, isInBackground);
                     break;
                 case "sc:chest_block":
-                    block = new ChestBlock(world, posX, posY, chunk, null, isInBackground);
+                    block = new ChestBlock(world, isInBackground);
                     break;
                 case "sc:magma_block":
-                    block = new MagmaBlock(world, posX, posY, chunk, null, isInBackground);
+                    block = new MagmaBlock(world, isInBackground);
                     break;
                 case "sc:torch_block":
-                    block = new TorchBlock(world, posX, posY, chunk, null, isInBackground);
+                    block = new TorchBlock(world, isInBackground);
                     break;
                 case "sc:water_1_right_block":
-                    block = new WaterBlock_1_Right(world, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_1_Right(world, isInBackground);
                     break;
                 case "sc:water_1_left_block":
-                    block = new WaterBlock_1_Left(world, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_1_Left(world, isInBackground);
                     break;
                 case "sc:water_2_right_block":
-                    block = new WaterBlock_2_Right(world, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_2_Right(world, isInBackground);
                     break;
                 case "sc:water_2_left_block":
-                    block = new WaterBlock_2_Left(world, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_2_Left(world, isInBackground);
                     break;
                 case "sc:water_3_right_block":
-                    block = new WaterBlock_3_Right(world, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_3_Right(world, isInBackground);
                     break;
                 case "sc:water_3_left_block":
-                    block = new WaterBlock_3_Left(world, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_3_Left(world, isInBackground);
                     break;
                 case "sc:water_4_right_block":
-                    block = new WaterBlock_4_Right(world, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_4_Right(world, isInBackground);
                     break;
                 case "sc:water_4_left_block":
-                    block = new WaterBlock_4_Left(world, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_4_Left(world, isInBackground);
                     break;
                 case "sc:water_5_right_block":
-                    block = new WaterBlock_5_Right(world, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_5_Right(world, isInBackground);
                     break;
                 case "sc:water_5_left_block":
-                    block = new WaterBlock_5_Left(world, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_5_Left(world, isInBackground);
                     break;
                 case "sc:water_6_block":
-                    block = new WaterBlock_6(world, posX, posY, chunk, null, isInBackground);
+                    block = new WaterBlock_6(world, isInBackground);
                     break;
                 case "sc:modded_block":
                     //if()
                     string type = blockToken.GetString("/type");
-                    block = new ModdedBlock(type, world, posX, posY, chunk, null, isInBackground);
+                    block = new ModdedBlock(type, world, isInBackground);
                     break;
                 case "sc:alpha_crafter_block":
-                    block = new AlphaCrafterBlock(world, posX, posY, chunk, null, isInBackground);
+                    block = new AlphaCrafterBlock(world, isInBackground);
                     break;
                 default:
-                    block = new AirBlock(world, posX, posY, chunk, null, isInBackground);
+                    block = new AirBlock(world, isInBackground);
                     break;
             }
 
@@ -314,8 +296,14 @@ namespace SeeloewenCraft
 
             if (blockToken.ContainsKey("foreground_block"))
             {
-                block.foregroundBlock = Block.LoadFromJson(blockToken.GetToken("/inventory"), chunk, world);
+                block.foregroundBlock = Block.LoadFromJson(blockToken.GetToken("/foreground_block"), chunk, world);
             }
+
+
+            //Set block stats
+            block.xPos = posX;
+            block.yPos = posY;
+            block.chunk = chunk;
 
             return block;
         }
@@ -645,7 +633,7 @@ namespace SeeloewenCraft
                 else if (foregroundBlock == null && (isBreakable || skipBreakableCheck))
                 {
                     //Remove the block from the chunks blocklist and add an airblock
-                    Block block = new AirBlock(world, xPos, yPos, chunk, null, false);
+                    Block block = new AirBlock(world, false);
                     PlaceNewBlock(block);
                     xPos = 0;
                     yPos = 0;
@@ -781,6 +769,14 @@ namespace SeeloewenCraft
             }
         }
 
+        public void SetCoords(int x, int y, Chunk chunk)
+        {
+            //Warning: Only sets coords inside blocks, not inside chunk/blocklist
+            this.chunk = chunk;
+            xPos = x;
+            yPos = y;
+        }
+
         public void PlaceConnectedForegroundBlocks(Block baseBlock)
         {
             foreach (Block conBlock in baseBlock.connectedBlocks)
@@ -846,7 +842,7 @@ namespace SeeloewenCraft
                 if (chunk.GetBlock(xPos, y).id == "sc:air_block")
                 {
                     //If the block at that position is air, update it accordingly
-                    AirBlock newBlock = new AirBlock(world, xPos, y, chunk, null, false);
+                    AirBlock newBlock = new AirBlock(world, false);
                     newBlock.rangeToNearestLightSource = chunk.GetBlock(xPos, y).rangeToNearestLightSource;
 
                     //If the placed block is air, the blocks below should be a lightsource, if not, then no light source

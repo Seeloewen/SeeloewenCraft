@@ -59,7 +59,7 @@ namespace SeeloewenCraft
 
         public override Block GenerateBlock(int x, int y, Chunk chunk, bool isInBackground)
         {
-            return new ModdedBlock(type, world, x, y, chunk, this, isInBackground);
+            return new ModdedBlock(type, world, isInBackground);
         }
 
         public override void RightClickAction(Block block, object sender)

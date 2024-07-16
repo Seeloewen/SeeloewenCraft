@@ -50,7 +50,7 @@ namespace SeeloewenCraft
 
         string type;
 
-        public ModdedBlock(string type, World world, int x, int y, Chunk chunk, Item item, bool isInBackground) : base(world, x, y, chunk, item, isInBackground)
+        public ModdedBlock(string type, World world, bool isInBackground) : base(world, isInBackground)
         {
             this.type = type;
             SetTexture();

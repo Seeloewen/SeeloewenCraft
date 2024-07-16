@@ -121,7 +121,7 @@ namespace SeeloewenCraft
                 block.xPos = x;
                 block.yPos = y;
                 block.chunk = this;
-                blockList.Add(block);
+                blockList.Add(block, block.xPos, block.yPos);
 
                 if (blockContainerList.GetContainer(x, y) != null)
                 {

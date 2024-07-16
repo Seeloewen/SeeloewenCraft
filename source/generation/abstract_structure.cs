@@ -11,7 +11,7 @@ namespace SeeloewenCraft
         //References
         public List<StructureComponent> structureComponents = new List<StructureComponent>();
         public List<StructureComponent> cutOffComponents = new List<StructureComponent>();
-        public BlockList blockList = new BlockList();
+        public BlockList blockList;
         public Random rnd;
         public Chunk chunk;
         World world;
@@ -37,6 +37,7 @@ namespace SeeloewenCraft
         public Structure(World world, Chunk chunk, bool canFloat)
         {
             //Set the attributes
+            blockList = new BlockList(chunk);
             this.chunk = chunk;
             this.world = world;
             this.canFloat = canFloat;
@@ -119,7 +120,7 @@ namespace SeeloewenCraft
                     //Compare each block in the structure list to the block that's already at that position; if it has a fixed solid state, don't replace it
                     if (canReplaceSolidBlocks)
                     {
-                        chunk.blockList.Add(block);
+                        chunk.blockList.Add(block, block.xPos, block.yPos);
 
                         if (canFloat == false && block.yPos == yBase)
                         {
@@ -130,7 +131,7 @@ namespace SeeloewenCraft
                     {
                         if (chunk.blockList.Get(block.xPos, block.yPos).isBreakable)
                         {
-                            chunk.blockList.Add(block);
+                            chunk.blockList.Add(block, block.xPos, block.yPos);
 
                             if (canFloat == false && block.yPos == yBase)
                             {
@@ -151,7 +152,7 @@ namespace SeeloewenCraft
             {
                 //Create a new block of the same type and place it below the original block
                 Type blockType = block.GetType();
-                Block newBlock = (Block)Activator.CreateInstance(blockType, world, block.xPos, block.yPos + 1, chunk, null, block.isBackground);
+                Block newBlock = (Block)Activator.CreateInstance(blockType, world, block.isBackground);
                 chunk.SetBlock(newBlock, block.xPos, block.yPos + 1);
                 //Repeat until floor is reached
                 MakeBaseSolid(chunk.GetBlock(block.xPos, block.yPos + 1));
@@ -171,7 +172,7 @@ namespace SeeloewenCraft
             }
 
             block.yPos = yBase - yOffset;
-            blockList.Add(block);
+            blockList.Add(block, block.xPos, block.yPos);
         }
 
         public void BeginGeneration(int x, int y, int index, bool isNew)
