@@ -18,9 +18,9 @@ namespace SeeloewenCraft
             id = "sc:grass_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new GrassItem(world, this);
+            item = new GrassItem(world);
         }
 
         public override void SetTexture()
@@ -49,9 +49,9 @@ namespace SeeloewenCraft
             id = "sc:stone_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new StoneItem(world, this);
+            item = new StoneItem(world);
         }
 
         public override void SetTexture()
@@ -79,9 +79,9 @@ namespace SeeloewenCraft
             id = "sc:dirt_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new DirtItem(world, this);
+            item = new DirtItem(world);
         }
 
         public override void SetTexture()
@@ -114,9 +114,9 @@ namespace SeeloewenCraft
             isLightSource = true;
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new AirItem(world, this);
+            item = new AirItem(world);
         }
 
         public override void SetTexture()
@@ -146,9 +146,9 @@ namespace SeeloewenCraft
             id = "sc:bedrock_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new BedrockItem(world, this);
+            item = new BedrockItem(world);
         }
 
         public override void SetTexture()
@@ -176,9 +176,9 @@ namespace SeeloewenCraft
             id = "sc:coal_ore_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new CoalOreItem(world, this);
+            item = new CoalOreItem(world);
         }
 
         public override void SetTexture()
@@ -206,9 +206,9 @@ namespace SeeloewenCraft
             id = "sc:coal_ore_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new DiamondOreItem(world, this);
+            item = new DiamondOreItem(world);
         }
 
         public override void SetTexture()
@@ -236,9 +236,9 @@ namespace SeeloewenCraft
             id = "sc:iron_ore_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new IronOreItem(world, this);
+            item = new IronOreItem(world);
         }
 
         public override void SetTexture()
@@ -266,9 +266,9 @@ namespace SeeloewenCraft
             id = "sc:oak_log_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new OakLogItem(world, this);
+            item = new OakLogItem(world);
         }
 
         public override void SetTexture()
@@ -296,9 +296,9 @@ namespace SeeloewenCraft
             id = "sc:oak_leaves_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new OakLeavesItem(world, this);
+            item = new OakLeavesItem(world);
         }
 
         public override void SetTexture()
@@ -326,9 +326,9 @@ namespace SeeloewenCraft
             id = "sc:spruce_log_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new SpruceLogItem(world, this);
+            item = new SpruceLogItem(world);
         }
 
         public override void SetTexture()
@@ -356,9 +356,9 @@ namespace SeeloewenCraft
             id = "sc:spruce_leaves_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new SpruceLeavesItem(world, this);
+            item = new SpruceLeavesItem(world);
         }
 
         public override void SetTexture()
@@ -390,9 +390,9 @@ namespace SeeloewenCraft
             hasRightClickAction = true;
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new ChestItem(world, this);
+            item = new ChestItem(world);
         }
 
         public override void SetTexture()
@@ -428,9 +428,9 @@ namespace SeeloewenCraft
             id = "sc:magma_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new MagmaBlockItem(world, this);
+            item = new MagmaBlockItem(world);
         }
 
         public override void SetTexture()
@@ -460,9 +460,9 @@ namespace SeeloewenCraft
             id = "sc:torch_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new TorchItem(world, this);
+            item = new TorchItem(world);
         }
 
         public override void SetTexture()
@@ -494,9 +494,9 @@ namespace SeeloewenCraft
             connectedBlocks[0].baseBlock = this;
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new Plant2Item(world, this);
+            item = new Plant2Item(world);
         }
 
         public override void SetTexture()
@@ -525,7 +525,7 @@ namespace SeeloewenCraft
             id = "sc:cactus_plant_top_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
             item = null;
         }
@@ -560,9 +560,9 @@ namespace SeeloewenCraft
             gui = new AlphaCrafterGui(world, 535, 720, 120, 200, "sc:alpha_crafter", null, this);
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new AlphaCrafterItem(world, this);
+            item = new AlphaCrafterItem(world);
         }
 
         public override void SetTexture()
@@ -598,9 +598,9 @@ namespace SeeloewenCraft
             id = "sc:quarter_oak_plank_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
-            item = new QuarterOakPlankItem(world, this);
+            item = new QuarterOakPlankItem(world);
         }
 
         public override void SetTexture()

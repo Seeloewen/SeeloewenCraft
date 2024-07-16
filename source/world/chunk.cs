@@ -216,9 +216,6 @@ namespace SeeloewenCraft
             index = documentToken.GetInt("/index");
             floorHeightLeft = documentToken.GetInt("/floor_height_left");
             floorHeightRight = documentToken.GetInt("/floor_height_right");
-
-            //Load the inventories of the blocks in the chunk (like chests)
-            //LoadInventories();
         }
 
 

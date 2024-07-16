@@ -40,7 +40,7 @@ namespace SeeloewenCraft
             id = "sc:water_1_right_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
             item = null;
         }
@@ -65,7 +65,7 @@ namespace SeeloewenCraft
             id = "sc:water_1_left_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
             item = null;
         }
@@ -90,7 +90,7 @@ namespace SeeloewenCraft
             id = "sc:water_2_right_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
             item = null;
         }
@@ -115,7 +115,7 @@ namespace SeeloewenCraft
             id = "sc:water_2_left_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
             item = null;
         }
@@ -140,7 +140,7 @@ namespace SeeloewenCraft
             id = "sc:water_3_right_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
             item = null;
         }
@@ -165,7 +165,7 @@ namespace SeeloewenCraft
             SetTexture();
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
             item = null;
         }
@@ -190,7 +190,7 @@ namespace SeeloewenCraft
             id = "sc:water_4_right_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
             item = null;
         }
@@ -215,7 +215,7 @@ namespace SeeloewenCraft
             id = "sc:water_4_left_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
             item = null;
         }
@@ -240,7 +240,7 @@ namespace SeeloewenCraft
             id = "sc:water_5_right_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
             item = null;
         }
@@ -265,7 +265,7 @@ namespace SeeloewenCraft
             id = "sc:water_5_left_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
             item = null;
         }
@@ -290,7 +290,7 @@ namespace SeeloewenCraft
             id = "sc:water_6_block";
         }
 
-        override public void GenerateItem(World world, int id)
+        override public void GenerateItem(World world)
         {
             item = null;
         }

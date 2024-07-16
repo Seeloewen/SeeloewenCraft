@@ -91,7 +91,7 @@ namespace SeeloewenCraft
             image = BlockLoader.blockTypes[type].texture;
         }
 
-        public override void GenerateItem(World world, int id)
+        public override void GenerateItem(World world)
         {
             item = new ModdedItem(type, world, this);
         }

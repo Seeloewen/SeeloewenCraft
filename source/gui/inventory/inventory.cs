@@ -420,61 +420,61 @@ namespace SeeloewenCraft
                     switch (id)
                     {
                         case "sc:grass_block_item":
-                            slot.AddToSlot(new GrassItem(world, null));
+                            slot.AddToSlot(new GrassItem(world));
                             break;
                         case "sc:dirt_item":
-                            slot.AddToSlot(new DirtItem(world, null));
+                            slot.AddToSlot(new DirtItem(world));
                             break;
                         case "sc:stone_item":
-                            slot.AddToSlot(new StoneItem(world, null));
+                            slot.AddToSlot(new StoneItem(world));
                             break;
                         case "sc:oak_log_item":
-                            slot.AddToSlot(new OakLogItem(world, null));
+                            slot.AddToSlot(new OakLogItem(world));
                             break;
                         case "sc:oak_leaves_item":
-                            slot.AddToSlot(new OakLeavesItem(world, null));
+                            slot.AddToSlot(new OakLeavesItem(world));
                             break;
                         case "sc:spruce_log_item":
-                            slot.AddToSlot(new SpruceLogItem(world, null));
+                            slot.AddToSlot(new SpruceLogItem(world));
                             break;
                         case "sc:spruce_leaves_item":
-                            slot.AddToSlot(new SpruceLeavesItem(world, null));
+                            slot.AddToSlot(new SpruceLeavesItem(world));
                             break;
                         case "sc:coal_ore_item":
-                            slot.AddToSlot(new CoalOreItem(world, null));
+                            slot.AddToSlot(new CoalOreItem(world));
                             break;
                         case "sc:iron_ore_item":
-                            slot.AddToSlot(new IronOreItem(world, null));
+                            slot.AddToSlot(new IronOreItem(world));
                             break;
                         case "sc:chest_item":
-                            slot.AddToSlot(new ChestItem(world, null));
+                            slot.AddToSlot(new ChestItem(world));
                             break;
                         case "sc:bedrock_item":
-                            slot.AddToSlot(new BedrockItem(world, null));
+                            slot.AddToSlot(new BedrockItem(world));
                             break;
                         case "sc:magma_block_item":
-                            slot.AddToSlot(new MagmaBlockItem(world, null));
+                            slot.AddToSlot(new MagmaBlockItem(world));
                             break;
                         case "sc:torch_item":
-                            slot.AddToSlot(new TorchItem(world, null));
+                            slot.AddToSlot(new TorchItem(world));
                             break;
                         case "sc:plant_2_item":
-                            slot.AddToSlot(new Plant2Item(world, null));
+                            slot.AddToSlot(new Plant2Item(world));
                             break;
                         case "sc:water_item":
-                            slot.AddToSlot(new WaterItem(world, null));
+                            slot.AddToSlot(new WaterItem(world));
                             break;
                         case "sc:hammer_item":
-                            slot.AddToSlot(new HammerItem(world, null));
+                            slot.AddToSlot(new HammerItem(world));
                             break;
                         case "sc:air_item":
-                            slot.AddToSlot(new AirItem(world, null));
+                            slot.AddToSlot(new AirItem(world));
                             break;
                         case "sc:diamond_ore_item":
-                            slot.AddToSlot(new DiamondOreItem(world, null));
+                            slot.AddToSlot(new DiamondOreItem(world));
                             break;
                         case "sc:alpha_crafter_item":
-                            slot.AddToSlot(new AlphaCrafterItem(world, null));
+                            slot.AddToSlot(new AlphaCrafterItem(world));
                             break;
                     }
                 }

@@ -421,7 +421,7 @@ namespace SeeloewenCraft
         }
 
         //Create the item that corresponds to the block
-        public abstract void GenerateItem(World world, int id);
+        public abstract void GenerateItem(World world);
 
         public abstract void SetTexture();
 
@@ -434,7 +434,7 @@ namespace SeeloewenCraft
             //Generate a new item if necessary and return the item
             if (item == null)
             {
-                GenerateItem(world, 0);
+                GenerateItem(world);
             }
             return item;
         }
@@ -620,7 +620,7 @@ namespace SeeloewenCraft
                     if (foregroundBlock.isBreakable || skipBreakableCheck)
                     {
                         //Add the foreground block's item to the inventory
-                        foregroundBlock.GenerateItem(world, 0);
+                        foregroundBlock.GenerateItem(world);
                         if (foregroundBlock.item != null)
                         {
                             world.player.inventory.AddItem(foregroundBlock.item);
@@ -639,7 +639,7 @@ namespace SeeloewenCraft
                     yPos = 0;
 
                     //Add the block's item to the inventory
-                    GenerateItem(world, 0);
+                    GenerateItem(world);
 
                     //If the block has a loot table, roll an entry and give the items to player
                     if (lootTable != null)
