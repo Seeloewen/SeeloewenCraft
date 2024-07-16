@@ -237,10 +237,11 @@ namespace SeeloewenCraft
                     SetBlock(block, block.xPos, block.yPos);
                     block.MoveToBackground();
                 }
+
                 //Render foreground blocks
-                else if (block.isForeground)
+                if (block.foregroundBlock != null)
                 {
-                    blockList.Get(block.xPos, block.yPos).PlaceInForeground(block);
+                    block.PlaceInForeground(block.foregroundBlock);
                 }
             }
         }
