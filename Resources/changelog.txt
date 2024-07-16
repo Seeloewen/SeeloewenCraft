@@ -1,4 +1,27 @@
-﻿Alpha 1.1.6 - 10.07.2024
+﻿Alpha 1.1.7 - 16.07.2024
+* Added new entries in debug menu
+* Added ingame notifications
+* Added game loop
+* Added 'Find' menu to log
+* Added day/night cycle
+* Moved chat to debug menu
+* Air blocks are now only light sources when no block is above
+* Changelog is now being read from file
+* The log now has a scrollbar and scrolls to bottom on new entries
+* Sorted resource files and reworked how resources are loaded
+* A crash dump is now created and the log is being saved when game crashes
+* Replaced several ingame timers for higher precision
+* Improved several log messages
+* Cleaned up several things internally
+* Changed to 0-based coordinate system
+* Adjusted light range
+* Fixed settings not applying until restart
+* Fixed not all chunks being saved when closing a world
+* Fixed fallback missing texture not working
+* Fixed foreground blocks being breakable even if set to unbreakable
+* Fixed movement glitch in chunk -1
+
+Alpha 1.1.6 - 10.07.2024
 * Added debug menu
 * Added basic attribute bar system and health bar (experimental)
 * Implemented improved json utils
