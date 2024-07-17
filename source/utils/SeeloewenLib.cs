@@ -17,13 +17,8 @@ using System.Windows;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System;
-using System.Windows.Media.Animation;
-using System.Windows.Forms.VisualStyles;
-using System.Text;
-using System.Windows.Markup;
 using System.Windows.Media;
 using System.IO;
-using System.Linq;
 
 namespace SeeloewenLib
 {

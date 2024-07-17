@@ -4,13 +4,7 @@ using static System.Environment;
 using System.Windows;
 using System.IO;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Microsoft.Json.Pointer;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Controls;
-using System.Text;
-using System.Windows.Threading;
 using System.Windows.Media;
 
 namespace SeeloewenCraft

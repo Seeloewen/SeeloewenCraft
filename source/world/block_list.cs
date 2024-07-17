@@ -1,10 +1,4 @@
-﻿using Microsoft.Json.Pointer;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.DirectoryServices.ActiveDirectory;
-using System.Reflection;
-using System.Windows.Documents;
-
+﻿
 namespace SeeloewenCraft
 {
     public class BlockList

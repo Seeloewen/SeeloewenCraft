@@ -1,19 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.Odbc;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Remoting;
-using System.Security.RightsManagement;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls.Primitives;
-using System.Xml.Serialization;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
+﻿using System.Collections.Generic;
 
 namespace SeeloewenCraft
 {

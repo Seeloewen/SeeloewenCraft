@@ -1,23 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Media.Converters;
-using System.Diagnostics.Eventing.Reader;
-using System.Security.Permissions;
-using System.Windows.Forms;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Microsoft.Json.Pointer;
-using System.Windows.Interop;
-using System.Runtime.InteropServices;
+using System;
 
 namespace SeeloewenCraft
 {
