@@ -1,21 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Forms;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Media3D;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace SeeloewenCraft
 {
@@ -29,45 +16,27 @@ namespace SeeloewenCraft
         //-- Variables for physics --/
 
         //constants:
-        private const double a_ground = 50; // a: acceleration
-        private const double a_air = 50;
-        private const double a_gravity = 70;
-        private const double f_ground = 7; //f: friction
-        private const double jump_start_speed = 15;
-        private const double slowest_ground_speed = 3;
+        private const int accWalking = 50000; // a: acceleration
+        private const int accGrav = 60000;
+        private const int jumpStartSpeed = 15000;
+        private const int friction = 10;
+        private const int slowestGroundSpeed = 400;
 
         //variables
-        private double v_x = 0; //v: velocity
-        private double v_y = 0;
-        private int d_x = 0; // pixels to be moved
-        private int d_y = 0;
-        private double d_offset_x = 0;
-        private double d_offset_y = 0;
-        public double posX;
-        public double posY;
-        public double posXInChunk;
-        public int currentChunk;
+
+        int sizeX = 900;
+        int sizeY = 1900;
+
+        public int posX = 20050; //1/1000 of a block (mm)
+        public int posY = 5000;
+        int velX = 0; //(mm/s)
+        int velY = 0;
 
 
-        //Hitbox points
 
-        //onGround points
-        private Point pointGround1 = new Point(0, 95);
-        private Point pointGround2 = new Point(44, 95);
 
-        //touchingRight points
-        private Point pointRight1 = new Point(45, 0);
-        private Point pointRight2 = new Point(45, 48);
-        private Point pointRight3 = new Point(45, 94);
 
-        //touchingLeft points
-        private Point pointLeft1 = new Point(-1, 0);
-        private Point pointLeft2 = new Point(-1, 48);
-        private Point pointLeft3 = new Point(-1, 94);
 
-        //touchingTop points
-        private Point pointTop1 = new Point(0, -1);
-        private Point pointTop2 = new Point(44, -1);
 
         //-- Constructor --//
 
@@ -78,6 +47,7 @@ namespace SeeloewenCraft
 
             //Generate the player
             GeneratePlayer(x, y);
+            posY = y * 20;
         }
 
         //-- Custom Methods --//
@@ -98,15 +68,14 @@ namespace SeeloewenCraft
             {
                 world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "health");
             }
-            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "chunk");
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "posX");
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "posY");
-            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "v_x");
-            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "v_y");
-            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "d_x");
-            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "d_y");
-            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "d_offset_x");
-            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "d_offset_y");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "velX");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "velY");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "blockPosX");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "blockPosY");
+
+
 
             //Setup health bar
             if (world.settings.enableHealth)
@@ -114,6 +83,261 @@ namespace SeeloewenCraft
                 healthBar = new HealthBar(world, 10, 740);
             }
         }
+
+        private int ConvertToBlockX(int i)
+        {
+            return i >= 0
+                ? i / 1000 
+                : (i-999) / 1000;
+        }
+
+        private (bool, int) DoCollisionCheck(Direction direction, int startX, int startY, int endX, int endY)
+        {
+            if (endY < 0 || endY > 75000) return (false, 0);
+
+            if (direction.IsRight())
+            {
+                for (int x = ConvertToBlockX(startX); x <= ConvertToBlockX(endX); x++)
+                {
+                    bool collision = false;
+                    int maxMovement = int.MaxValue;
+
+                    for (int y = startY / 1000; y <= endY / 1000; y++)
+                    {
+                        (bool newCollision, int newMaxMovement) = world.GetBlock(x, y).CheckCollision(Direction.RIGHT, startX, endX, startY, endY);
+                        if (newCollision)
+                        {
+                            collision = true;
+                            maxMovement = Math.Min(maxMovement, newMaxMovement);
+                        }
+
+                    }
+                    if (collision)
+                    {
+                        return (true, maxMovement);
+                    }
+                }
+                return (false, 0);
+            }
+
+            if (direction.IsLeft())
+            {
+                for (int x = ConvertToBlockX(startX); x >= ConvertToBlockX(endX); x--)
+                {
+                    bool collision = false;
+                    int maxMovement = int.MaxValue;
+
+                    for (int y = startY / 1000; y <= endY / 1000; y++)
+                    {
+                        (bool newCollision, int newMaxMovement) = world.GetBlock(x, y).CheckCollision(Direction.LEFT, startX, endX, startY, endY);
+                        if (newCollision)
+                        {
+                            collision = true;
+                            maxMovement = Math.Min(maxMovement, newMaxMovement);
+                        }
+
+                    }
+                    if (collision)
+                    {
+                        return (true, maxMovement);
+                    }
+                }
+                return (false, 0);
+            }
+
+
+            if (direction.IsDown())
+            {
+                for (int y = startY / 1000; y <= endY / 1000; y++)
+                {
+                    bool collision = false;
+                    int maxMovement = int.MaxValue;
+
+                    for (int x = ConvertToBlockX(startX); x <= ConvertToBlockX(endX); x++)
+                    {
+                        (bool newCollision, int newMaxMovement) = world.GetBlock(x, y).CheckCollision(Direction.DOWN, startX, endX, startY, endY);
+                        if (newCollision)
+                        {
+                            collision = true;
+                            maxMovement = Math.Min(maxMovement, newMaxMovement);
+                        }
+
+                    }
+                    if (collision)
+                    {
+                        return (true, maxMovement);
+                    }
+                }
+                return (false, 0);
+            }
+
+            if (direction.IsUp())
+            {
+                for (int y = startY / 1000; y >= endY / 1000; y--)
+                {
+                    bool collision = false;
+                    int maxMovement = int.MaxValue;
+
+                    for (int x = ConvertToBlockX(startX); x <= ConvertToBlockX(endX); x++)
+                    {
+                        (bool newCollision, int newMaxMovement) = world.GetBlock(x, y).CheckCollision(Direction.UP, startX, endX, startY, endY);
+                        if (newCollision)
+                        {
+                            collision = true;
+                            maxMovement = Math.Min(maxMovement, newMaxMovement);
+                        }
+
+                    }
+                    if (collision)
+                    {
+                        return (true, maxMovement);
+                    }
+                }
+                return (false, 0);
+            }
+            return (false, 0);
+        }
+
+
+        //physics
+        public void DoPhysicsStep(bool pressedLeft, bool pressedRight, bool pressedUp, double deltaTime)
+        {
+
+            int tps = (int)(1.0 / deltaTime);
+
+            // -- determine which sides of the player are touched by solid blocks --
+
+            //reset
+            (bool onGround, _) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + 1);
+            (bool touchingLeft, _) = DoCollisionCheck(Direction.LEFT, posX, posY, posX - 1, posY + sizeY);
+            (bool touchingRight, _) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + 1, posY + sizeY);
+
+
+
+
+            // -- change velocity depending on inputs --
+            if (pressedRight && !touchingRight)
+            {
+                velX += accWalking / tps;
+            }
+            if (pressedLeft && !touchingLeft)
+            {
+                velX -= accWalking / tps;
+            }
+
+            //jump
+            if (pressedUp && onGround)
+            {
+                velY = -jumpStartSpeed;
+                onGround = false;
+            }
+
+            // -- friction --
+            if (true) //normally: onGround
+            {
+                if (velX > 0)
+                {
+                    //this reduces the velocity by f_ground * v_x * dt until v_x reaches a threshold with value slowest_ground_speed, when it gets set to zero
+                    int v_reduction = friction * velX/tps;
+                    velX -= Math.Max(Math.Min(slowestGroundSpeed/tps, velX), v_reduction);
+                }
+                else if (velX < 0)
+                {
+                    int v_reduction = -friction * velX/tps;
+                    velX += Math.Max(Math.Min(slowestGroundSpeed/tps, -velX), v_reduction);
+                }
+            }
+
+
+
+            if (!onGround)
+            {
+                velY += accGrav / tps;
+            }
+
+            int dX = velX / tps;
+            int dY = velY / tps;
+
+            if (velX > 0)
+            {
+                (bool collided, int maxMovement) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + dX, posY + sizeY);
+                if (collided)
+                {
+                    velX = 0;
+                    posX += maxMovement;
+                    //MoveHorizontal(maxMovement / 20);
+                }
+                else
+                {
+                    posX += velX / tps;
+                    //MoveHorizontal(dX / 20);
+                }
+            }
+            if (velX < 0)
+            {
+                (bool collided, int maxMovement) = DoCollisionCheck(Direction.LEFT, posX, posY, posX + dX, posY + sizeY);
+                if (collided)
+                {
+                    velX = 0;
+                    posX -= maxMovement;
+                    //MoveHorizontal(-maxMovement / 20);
+                }
+                else
+                {
+                    posX += velX / tps;
+                    //MoveHorizontal(dX / 20);
+                }
+            }
+
+            if (velY > 0)
+            {
+                (bool collided, int maxMovement) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + dY);
+                if (collided)
+                {
+                    velY = 0;
+                    posY += maxMovement;
+                    //MoveVertical(-maxMovement / 20);
+                }
+                else
+                {
+                    posY += velY / tps;
+                    //MoveVertical(-dY / 20);
+                }
+            }
+            if (velY < 0)
+            {
+                (bool collided, int maxMovement) = DoCollisionCheck(Direction.UP, posX, posY, posX + sizeX, posY + dY);
+                if (collided)
+                {
+                    velY = 0;
+                    posY -= maxMovement;
+                    //MoveVertical(maxMovement / 20);
+                }
+                else
+                {
+                    posY += velY / tps;
+                    //MoveVertical(-dY / 20);
+                }
+            }
+
+            // -- check if moving into blocks --
+
+            world.log.Write($"posX:{posX},posY:{posY},velX:{velX},velY:{velY}", "Info");
+
+            //move with amount of acual pixels
+
+            DisplayDebugInformation();
+        }
+
+        //block origin means top left corner of the block relative to the top left corner of player
+        private bool InBlock(Point blockOrigin, Point point)
+        {
+            return blockOrigin.Y <= point.Y
+                && blockOrigin.Y + 50 > point.Y
+                && blockOrigin.X <= point.X
+                && blockOrigin.X + 50 > point.X;
+        }
+
 
         public void SavePosition(string path)
         {
@@ -147,219 +371,8 @@ namespace SeeloewenCraft
             }
         }
 
-        //physics
-        public void DoPhysicsStep(bool pressedLeft, bool pressedRight, bool pressedUp, double dt)
-        {
-            // -- determine which sides of the player are touched by solid blocks --
 
-            //reset
-            bool onGround = false;
-            bool touchingLeft = false;
-            bool touchingTop = false;
-            bool touchingRight = false;
-
-            //flag to only calculate the player coordinates once
-            bool coordsDetermined = false;
-
-            //iterate over every solid block
-            foreach (Chunk chunk in GetCurrentChunks())
-            {
-                foreach (Block block in chunk.blockList.blocks)
-                {
-                    if (block == null || !block.isSolid || block.isBackground) continue;
-
-                    Point blockOriginPoint = new Point(1, 1);
-
-                    //Convert positions to screen coordinates
-                    Point playerScreenPoint = world.player.cvsPlayer.PointToScreen(new Point(0, 0));
-                    Point blockScreenPoint = block.blockContainer.bdrBlock.PointToScreen(new Point(0, 0));
-
-                    //Convert to coordinates considering scrolling
-                    Point playerPosition = world.wndGame.svWorld.TranslatePoint(playerScreenPoint, world.wndGame.svWorld);
-                    Point blockPosition = world.wndGame.svWorld.TranslatePoint(blockScreenPoint, world.wndGame.svWorld);
-
-                    //calculate relative position of block from player (top-left corner)
-                    blockOriginPoint = new Point(blockPosition.X - playerPosition.X, blockPosition.Y - playerPosition.Y);
-
-
-                    //set flag to true if a point is inside of the block
-                    onGround = onGround
-                        || InBlock(blockOriginPoint, pointGround1)
-                        || InBlock(blockOriginPoint, pointGround2);
-
-                    touchingRight = touchingRight
-                        || InBlock(blockOriginPoint, pointRight1)
-                        || InBlock(blockOriginPoint, pointRight2)
-                        || InBlock(blockOriginPoint, pointRight3);
-
-                    touchingLeft = touchingLeft
-                        || InBlock(blockOriginPoint, pointLeft1)
-                        || InBlock(blockOriginPoint, pointLeft2)
-                        || InBlock(blockOriginPoint, pointLeft3);
-
-                    touchingTop = touchingTop
-                        || InBlock(blockOriginPoint, pointTop1)
-                        || InBlock(blockOriginPoint, pointTop2);
-
-
-                    //determine coordinates of player through relative position to block (done only once)
-                    if (!coordsDetermined)
-                    {
-                        double temp = blockOriginPoint.X / 50;
-                        posY = Math.Round(block.yPos - blockOriginPoint.Y / 50, 2);
-                        posX = Math.Round(block.xPos - blockOriginPoint.X / 50 + 8 * chunk.index, 2);
-                        posXInChunk = block.xPos - blockOriginPoint.X / 50;
-                        currentChunk = chunk.index;
-                        coordsDetermined = true;
-                    }
-                }
-            }
-
-            // -- change velocity depending on inputs --
-            if (pressedRight && !touchingRight)
-            {
-                v_x += onGround     //use different acceleration values depending on onGround
-                    ? a_ground * dt
-                    : a_air * dt;
-            }
-            if (pressedLeft && !touchingLeft)
-            {
-                v_x -= onGround
-                    ? a_ground * dt
-                    : a_air * dt;
-            }
-
-            //jump
-            if (pressedUp && onGround)
-            {
-                v_y = jump_start_speed;
-                onGround = false;
-            }
-
-            // -- friction --
-            if (true) //normally: onGround
-            {
-                if (v_x > 0)
-                {
-                    //this reduces the velocity by f_ground * v_x * dt until v_x reaches a threshold with value slowest_ground_speed, when it gets set to zero
-                    double v_reduction = f_ground * v_x * dt;
-                    v_x -= Math.Max(Math.Min(slowest_ground_speed * dt, v_x), v_reduction);
-                }
-                else if (v_x < 0)
-                {
-                    double v_reduction = -f_ground * v_x * dt;
-                    v_x += Math.Max(Math.Min(slowest_ground_speed * dt, -v_x), v_reduction);
-                }
-            }
-
-            if (!onGround)
-            {
-                v_y -= a_gravity * dt; //no air resistance yet
-            }
-
-            // -- check if moving into blocks --
-            if ((touchingRight && v_x > 0) || (touchingLeft && v_x < 0))
-            {
-                //set horizontal movement to zero
-                v_x = 0;
-                d_x = 0;
-                d_offset_x = 0;
-            }
-            if ((onGround && v_y < 0) || (touchingTop && v_y > 0))
-            {
-                //set vertical movement to zero
-                v_y = 0;
-                d_y = 0;
-                d_offset_y = 0;
-            }
-
-            //convert velocity to pixels
-            d_offset_x += v_x * dt * 50;
-            d_offset_y += v_y * dt * 50;
-
-            //calculate actual pixels to be moved
-            d_x = (int)Math.Floor(d_offset_x);
-            d_y = (int)Math.Floor(d_offset_y);
-
-            //store remaining pixels in offset
-            d_offset_x -= d_x;
-            d_offset_y -= d_y;
-
-            // -- start of collision checking -- 
-            // calculate that actual pixels only move to block border so the touching code above can calculate collsions
-            // remaining amount gets added to offset to move in next physics step
-
-            //right
-            if (d_x > 1)
-            {
-                double startX = posX + 0.90;
-                double endX = posX + 0.90 + (double)d_x / 50.0;
-                double borderX = Math.Floor(endX);
-
-                if (borderX > startX)
-                {
-                    d_x = Convert.ToInt32((borderX - startX) * 50);
-                    d_offset_x += ((endX - borderX) * 50);
-                }
-            }
-            //left
-            else if (d_x < -1)
-            {
-                double startX = posX;
-                double endX = posX + (double)d_x / 50.0;
-                double borderX = Math.Ceiling(endX);
-
-                if (borderX < startX)
-                {
-                    d_x = Convert.ToInt32((borderX - startX) * 50);
-                    d_offset_x += ((endX - borderX) * 50);
-                }
-            }
-
-            // top
-            if (d_y > 1)
-            {
-                double startY = posY;
-                double endY = posY - (double)d_y / 50.0;
-                double borderY = Math.Ceiling(endY);
-
-                if (borderY < startY)
-                {
-                    d_y = -Convert.ToInt32((borderY - startY) * 50);
-                    d_offset_y += ((borderY - endY) * 50);
-                }
-            }
-            // bottom
-            else if (d_y < -1)
-            {
-                double startY = posY + 1.90;
-                double endY = posY + 1.90 - (double)d_y / 50.0;
-                double borderY = Math.Floor(endY);
-
-                if (borderY > startY)
-                {
-                    d_y = -Convert.ToInt32((borderY - startY) * 50);
-                    d_offset_y += ((endY - borderY) * 50);
-                }
-            }
-
-            //move with amount of acual pixels
-            MoveHorizontal(d_x);
-            MoveVertical(d_y);
-
-            DisplayDebugInformation();
-        }
-
-        //block origin means top left corner of the block relative to the top left corner of player
-        private bool InBlock(Point blockOrigin, Point point)
-        {
-            return blockOrigin.Y <= point.Y
-                && blockOrigin.Y + 50 > point.Y
-                && blockOrigin.X <= point.X
-                && blockOrigin.X + 50 > point.X;
-        }
-
-        public void MoveHorizontal(int amount)
+        /*public void MoveHorizontal(int amount)
         {
             //Move all chunks the specified amount to the left
             foreach (Chunk chunk in world.currentChunkList)
@@ -404,9 +417,9 @@ namespace SeeloewenCraft
                 //Sort the list again
                 world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
             }
-        }
+        }*/
 
-        public void MoveVertical(int amount)
+        /*public void MoveVertical(int amount)
         {
             Thickness currentMarginPlayer = cvsPlayer.Margin;
             currentMarginPlayer.Top -= amount;
@@ -414,22 +427,9 @@ namespace SeeloewenCraft
 
             //Scroll along to match the movement
             world.wndGame.svWorld.ScrollToVerticalOffset(world.player.cvsPlayer.Margin.Top - 400);
-        }
+        }*/
 
-        public List<Chunk> GetCurrentChunks()
-        {
-            //Create a list of the chunks the player is currently in by checking collision
-            List<Chunk> chunkList = new List<Chunk>();
-            foreach (Chunk chunk in world.currentChunkList)
-            {
-                if (world.wndGame.GetRectangle(cvsPlayer).IntersectsWith(world.wndGame.GetRectangle(chunk.grdChunk)))
-                {
-                    chunkList.Add(chunk);
-                }
-            }
-
-            return chunkList;
-        }
+        
 
         public void DisplayDebugInformation()
         {
@@ -439,15 +439,12 @@ namespace SeeloewenCraft
                 {
                     world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "health", $"health={healthBar.value}");
                 }
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "v_x", $"v_x={v_x}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "v_y", $"v_y={v_y}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "d_x", $"d_x={d_x}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "d_y", $"d_y={d_y}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "d_offset_x", $"d_offset_x={d_offset_x}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "d_offset_y", $"d_offset_y={d_offset_y}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "posX", $"posX={posXInChunk}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "posY", $"posY={posY + 1}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "chunk", $"chunk={currentChunk}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "posX", $"posX={posX}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "posY", $"posY={posY}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "velX", $"velX={velX}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "velY", $"velY={velY}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "blockPosX", $"blockPosX={(posX/1000)%8}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "blockPosY", $"blockPosY={posY/1000}");
             }
         }
     }

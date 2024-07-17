@@ -21,6 +21,7 @@
   <ItemGroup>
     <Resource Include="Resources\changelog.txt" />
     <Resource Include="Resources\Textures\Blocks\AlphaCrafter.png" />
+    <Resource Include="Resources\Textures\Blocks\QuarterOakPlankBlock.png" />
     <Resource Include="Resources\Textures\Gui\Background.png" />
     <Resource Include="Resources\Textures\Blocks\ChestBlock.png" />
     <Resource Include="Resources\Textures\Gui\Gui.png" />
@@ -74,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\changelog.txt" />
+    <None Remove="Resources\Textures\Blocks\QuarterOakPlankBlock.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">

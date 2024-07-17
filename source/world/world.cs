@@ -4,13 +4,7 @@ using static System.Environment;
 using System.Windows;
 using System.IO;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Microsoft.Json.Pointer;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Controls;
-using System.Text;
-using System.Windows.Threading;
 using System.Windows.Media;
 
 namespace SeeloewenCraft
@@ -38,6 +32,7 @@ namespace SeeloewenCraft
         public RecipeCreator recipeCreator;
         public NotificationHandler notificationHandler;
         public Settings settings;
+        public WorldRenderer worldRenderer;
 
         //Constants
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
@@ -77,6 +72,8 @@ namespace SeeloewenCraft
             recipeCreator = new RecipeCreator(this);
             notificationHandler = new NotificationHandler(this);
             recipeCreator.CreateRecipes();
+
+            worldRenderer = new WorldRenderer(wndGame);
 
             worldDirectory = $"{wndMenu.worldDirectory}\\{worldName}";
 
@@ -118,6 +115,20 @@ namespace SeeloewenCraft
             totalChunkList.Add(newChunk);
             return newChunk;
         }
+
+        public Block GetBlock(int posX, int posY)
+        {
+            if(posX < 0)
+            {
+                Console.WriteLine("sahdkja");
+            }
+            int chunkIndex = posX >= 0 
+                ? posX / 8 
+                : (posX-7) / 8;
+            int x = (posX % 8 + 8) % 8;
+            return GetChunk(chunkIndex).GetBlock(x, posY);
+        }
+
         public void RefreshTextures()
         {
             images = new Images(this);
@@ -257,6 +268,7 @@ namespace SeeloewenCraft
                     player.inventory.AddItem(new TorchItem(this));
                     player.inventory.AddItem(new WaterItem(this));
                     player.inventory.AddItem(new Plant2Item(this));
+                    player.inventory.AddItem(new QuarterOakPlankItem(this));
                     //player.inventory.AddItem(new AlphaCrafterItem(this));
                 }
             }
@@ -312,14 +324,14 @@ namespace SeeloewenCraft
                 }
 
                 //Create the player and add it to the world canvas
-                player = new Player(this, 602, yPos + 5);
+                player = new Player(this, 600, yPos + 5);
                 log.Write("Generated player at start position", "Info");
             }
             else
             {
-                player = new Player(this, 602, (int)(playerPosY * 50));
+                /*player = new Player(this, 602, (int)(playerPosY * 50));
                 player.MoveHorizontal((int)Math.Round((playerPosX % 8.0) * 50) - 202);
-                log.Write("Generated player at loaded position", "Info");
+                log.Write("Generated player at loaded position", "Info");*/
             }
             wndGame.cvsWorld.Children.Add(player.cvsPlayer);
             Panel.SetZIndex(player.cvsPlayer, 1);
@@ -343,17 +355,23 @@ namespace SeeloewenCraft
                 currentChunkList.Add(GetOrCreateChunk(i));
             }
 
+            worldRenderer.AddChunk(GetFromCurrentChunks(j));
+            worldRenderer.AddChunk(GetFromCurrentChunks(j + 1));
+            worldRenderer.AddChunk(GetFromCurrentChunks(j + 2));
+            worldRenderer.AddChunk(GetFromCurrentChunks(j + 3));
+            worldRenderer.AddChunk(GetFromCurrentChunks(j + 4));
+
             //Add the chunks to the game
-            wndGame.cvsWorld.Children.Add(GetFromCurrentChunks(j).grdChunk);
+            /*wndGame.cvsWorld.Children.Add(GetFromCurrentChunks(j).grdChunk);
             Canvas.SetLeft(GetFromCurrentChunks(j).grdChunk, -400);
             wndGame.cvsWorld.Children.Add(GetFromCurrentChunks(j + 1).grdChunk);
             Canvas.SetLeft(GetFromCurrentChunks(j + 1).grdChunk, 0);
-            wndGame.cvsWorld.Children.Add(GetFromCurrentChunks(j + 2).grdChunk);
-            Canvas.SetLeft(GetFromCurrentChunks(j + 2).grdChunk, 400);
-            wndGame.cvsWorld.Children.Add(GetFromCurrentChunks(j + 3).grdChunk);
+            //wndGame.cvsWorld.Children.Add(GetFromCurrentChunks(j + 2).grdChunk);
+            //Canvas.SetLeft(GetFromCurrentChunks(j + 2).grdChunk, 400);
+            /*wndGame.cvsWorld.Children.Add(GetFromCurrentChunks(j + 3).grdChunk);
             Canvas.SetLeft(GetFromCurrentChunks(j + 3).grdChunk, 800);
             wndGame.cvsWorld.Children.Add(GetFromCurrentChunks(j + 4).grdChunk);
-            Canvas.SetLeft(GetFromCurrentChunks(j + 4).grdChunk, 1200);
+            Canvas.SetLeft(GetFromCurrentChunks(j + 4).grdChunk, 1200);*/
         }
 
         public Chunk GetFromCurrentChunks(int index)
@@ -421,6 +439,24 @@ namespace SeeloewenCraft
         {
             //Movement timer, ticks at a rate of approximitely 60 fps (every 16 ms)
             player.DoPhysicsStep(wndGame.pressedKeys.Contains(settings.cMoveLeft), wndGame.pressedKeys.Contains(settings.cMoveRight), wndGame.pressedKeys.Contains(settings.cJump), 0.016);
+
+            worldRenderer.offsetX = (double)player.posX / 1000;
+            worldRenderer.offsetY = (double)player.posY / 1000 + 1.1;
+
+            //Convert positions to screen coordinates
+            /*Point playerScreenPoint = player.cvsPlayer.PointToScreen(new Point(0, 0));
+            Point blockScreenPoint = block.blockContainer.bdrBlock.PointToScreen(new Point(0, 0));
+
+            //Convert to coordinates considering scrolling
+            Point playerPosition = world.wndGame.svWorld.TranslatePoint(playerScreenPoint, world.wndGame.svWorld);
+            Point blockPosition = world.wndGame.svWorld.TranslatePoint(blockScreenPoint, world.wndGame.svWorld);
+
+            //calculate relative position of block from player (top-left corner)
+            blockOriginPoint = new Point(blockPosition.X - playerPosition.X, blockPosition.Y - playerPosition.Y);*/
+
+            worldRenderer.Render();
+            
+        
         }
     }
 }

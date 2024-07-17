@@ -1,5 +1,7 @@
 ﻿namespace SeeloewenCraft
 {
+
+
     public enum Direction
     {
         UP,
@@ -29,5 +31,7 @@
         {
             return d == Direction.LEFT;
         }
+
     }
+
 }
