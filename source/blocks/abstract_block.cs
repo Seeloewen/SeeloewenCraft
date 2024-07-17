@@ -57,6 +57,9 @@ namespace SeeloewenCraft
         public int waterSourceChunkIndex = 0;
         public bool hasWaterSource = false;
 
+        //Temporary, only important during generation
+        public bool isSurface = false;
+
         //-- Constructor --//
 
         public Block(World world, bool isBackground)
@@ -615,7 +618,7 @@ namespace SeeloewenCraft
 
                         if (blockContainer.previousBlockWasLightSource || blockContainer.previousForegroundBlockWasLightSource)
                         {
-                            if (blockContainer != null)
+                            if (blockContainer != null && block.blockContainer != null)
                             {
                                 block.rangeToNearestLightSource = block.RangeToLightSource();
                                 block.SetLightLevel(block.RangeToLightSource());

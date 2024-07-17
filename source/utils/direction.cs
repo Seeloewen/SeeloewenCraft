@@ -1,5 +1,4 @@
-﻿
-namespace SeeloewenCraft
+﻿namespace SeeloewenCraft
 {
 
 

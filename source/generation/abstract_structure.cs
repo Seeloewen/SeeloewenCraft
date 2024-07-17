@@ -16,7 +16,7 @@ namespace SeeloewenCraft
         //Constants
         public string name;
         public string id;
-        public string direction = "";
+        public Direction direction;
         public int totalWidth;
         public int xBase;
         public int yBase;
@@ -44,7 +44,7 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-        public void SetupStructure(int xBase, int yBase, string direction)
+        public void SetupStructure(int xBase, int yBase, Direction direction)
         {
             //Set the base coordinates and direction
             this.xBase = xBase;
@@ -54,29 +54,20 @@ namespace SeeloewenCraft
             //Check if the structure will be cut off
             if (isNew == true)
             {
-                isCutOff = checkForCutoff();
+                isCutOff = CheckForCutoff();
 
                 if (isCutOff == true)
                 {
-                    //1
-                    if (direction == "left")
-                    {
-                        widthRemaining = Math.Abs(xBase - totalWidth);
-                    }
-                    else if (direction == "right")
-                    {
-                        widthRemaining = xBase + totalWidth - 8;
-                    }
-
-                    //2
-                    //widthRemaining = direction == "left" ? Math.Abs(xBase - totalWidth) : xBase + totalWidth - 8;
+                    widthRemaining = direction.IsLeft()
+                            ? Math.Abs(xBase - totalWidth)
+                            : xBase + totalWidth - 8;
                 }
             }
 
             //Go through all the structure components
             foreach (StructureComponent structureComponent in structureComponents)
             {
-                if (direction == "left")
+                if (direction.IsLeft())
                 {
                     if (xBase - structureComponent.xOffset < 0)
                     {
@@ -90,7 +81,7 @@ namespace SeeloewenCraft
                         AddBlock(xBase, yBase, structureComponent.xOffset, structureComponent.yOffset, structureComponent.block);
                     }
                 }
-                else if (direction == "right")
+                else if (direction.IsRight())
                 {
                     if (xBase + structureComponent.xOffset > 7)
                     {
@@ -138,7 +129,7 @@ namespace SeeloewenCraft
                     }
                 }
             }
-            world.log.Write($"Generated structure {id} at x{xBase} y{yBase} with width {totalWidth}, name {name} direction {direction}, isCutOff = {isCutOff}, widthRemaining = {widthRemaining}", "Info");
+            world.log.Write($"Generated structure {id} at x{xBase} y{yBase} with width {totalWidth}, name {name}, direction {direction}, isCutOff = {isCutOff}, widthRemaining = {widthRemaining}", "Info");
 
         }
 
@@ -158,16 +149,7 @@ namespace SeeloewenCraft
 
         public void AddBlock(int xBase, int yBase, int xOffset, int yOffset, Block block)
         {
-            //Add block to the structure blocklist
-            if (direction == "right")
-            {
-                block.xPos = xBase + xOffset;
-            }
-            else if (direction == "left")
-            {
-                block.xPos = xBase - xOffset;
-            }
-
+            block.xPos = xBase + (direction.IsRight() ? xOffset : -xOffset);
             block.yPos = yBase - yOffset;
             blockList.Add(block, block.xPos, block.yPos);
         }
@@ -176,42 +158,22 @@ namespace SeeloewenCraft
         {
             this.isNew = isNew;
             //Check which direction it's going to be built in
-            if (index > 0)
-            {
-                SetupStructure(x, y, "right");
-                GenerateStructure();
-            }
-            else if (index < 0)
-            {
-                SetupStructure(x, y, "left");
-                GenerateStructure();
-            }
+            SetupStructure(x, y, index > 0 ? Direction.RIGHT : Direction.LEFT);
+            GenerateStructure();
         }
 
-        public bool checkForCutoff()
+        public bool CheckForCutoff()
         {
             //Check if the structure is cut off on left or right side
-            if (direction == "left")
+            if (direction.IsLeft())
             {
-                if (xBase - totalWidth <= 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return xBase - totalWidth <= 0;
+
             }
-            else if (direction == "right")
+            else if (direction.IsRight())
             {
-                if (xBase + totalWidth > 7)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return xBase + totalWidth > 7;
+
             }
             else
             {

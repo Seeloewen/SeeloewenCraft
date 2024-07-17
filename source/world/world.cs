@@ -98,7 +98,7 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-        public Chunk GetChunk(int index)
+        public Chunk GetOrCreateChunk(int index)
         {
             //Searches the total chunk list for the chunk with the specified index. If not found, create a new one
             foreach (Chunk chunk in totalChunkList)
@@ -346,13 +346,13 @@ namespace SeeloewenCraft
             for (int i = Math.Max(j, 0); i < Math.Max(j + 5, 0); i++)
             {
 
-                currentChunkList.Add(GetChunk(i));
+                currentChunkList.Add(GetOrCreateChunk(i));
                 c++;
             }
 
             for (int i = Math.Min(j + 4, -1); i >= c + Math.Min(j, -5); i--)
             {
-                currentChunkList.Add(GetChunk(i));
+                currentChunkList.Add(GetOrCreateChunk(i));
             }
 
             worldRenderer.AddChunk(GetFromCurrentChunks(j));

@@ -4,15 +4,18 @@ namespace SeeloewenCraft
 {
     public class CaveComponent
     {
+        //References
         public World world;
         public List<StructureComponent> structureComponents = new List<StructureComponent>();
         public List<BorderComponent> borderComponents = new List<BorderComponent>();
+
+        //Variables
         public int xOffset = 0;
         public int yOffset = 0;
-        public string previousDirection;
+        public Direction previousDirection;
 
         //This class contains the structure components used by the component
-        public CaveComponent(int xOffset, int yOffset, Chunk chunk, World world, string previousDirection)
+        public CaveComponent(int xOffset, int yOffset, Chunk chunk, World world, Direction previousDirection)
         {
             //Pass the variables
             this.world = world;
@@ -35,27 +38,28 @@ namespace SeeloewenCraft
             structureComponents.Add(new StructureComponent(world, xOffset + 3, yOffset + 2, new StoneBlock(world, true)));
 
             //Add the bordercomponents to the list
-            borderComponents.Add(new BorderComponent("left", xOffset, yOffset + 1));
-            borderComponents.Add(new BorderComponent("left", xOffset, yOffset + 2));
-            borderComponents.Add(new BorderComponent("down", xOffset + 1, yOffset + 3));
-            borderComponents.Add(new BorderComponent("down", xOffset + 2, yOffset + 3));
-            borderComponents.Add(new BorderComponent("right", xOffset + 3, yOffset + 1));
-            borderComponents.Add(new BorderComponent("right", xOffset + 3, yOffset + 2));
-            borderComponents.Add(new BorderComponent("up", xOffset + 1, yOffset));
-            borderComponents.Add(new BorderComponent("up", xOffset + 2, yOffset));
+            borderComponents.Add(new BorderComponent(Direction.LEFT, xOffset, yOffset + 1));
+            borderComponents.Add(new BorderComponent(Direction.LEFT, xOffset, yOffset + 2));
+            borderComponents.Add(new BorderComponent(Direction.DOWN, xOffset + 1, yOffset + 3));
+            borderComponents.Add(new BorderComponent(Direction.DOWN, xOffset + 2, yOffset + 3));
+            borderComponents.Add(new BorderComponent(Direction.RIGHT, xOffset + 3, yOffset + 1));
+            borderComponents.Add(new BorderComponent(Direction.RIGHT, xOffset + 3, yOffset + 2));
+            borderComponents.Add(new BorderComponent(Direction.UP, xOffset + 1, yOffset));
+            borderComponents.Add(new BorderComponent(Direction.UP, xOffset + 2, yOffset));
         }
 
     }
 
 
     //This class is used to let the game know the position and direction of borders of the components
-    public class BorderComponent
+    public struct BorderComponent
     {
+        public Direction direction;
+
         public int x;
         public int y;
-        public string direction = "";
 
-        public BorderComponent(string direction, int x, int y)
+        public BorderComponent(Direction direction, int x, int y)
         {
             //Pass the variables
             this.direction = direction;
@@ -74,96 +78,96 @@ namespace SeeloewenCraft
             name = "Cave1";
 
             //Determine the generation direction
-            string direction = "";
+            Direction direction = Direction.RIGHT;
             if (index >= 0)
             {
-                direction = "right";
+                direction.IsRight();
             }
             else if (index < 0)
             {
-                direction = "left";
+                direction.IsLeft();
             }
 
             //Add the starter cave component to the list
             List<CaveComponent> caveComponents = new List<CaveComponent>();
-            if (direction == "right")
+            if (direction.IsRight())
             {
-                caveComponents.Add(new CaveComponent(0, 0, chunk, world, "right"));
+                caveComponents.Add(new CaveComponent(0, 0, chunk, world, Direction.RIGHT));
             }
-            else if (direction == "left")
+            else if (direction.IsLeft())
             {
-                caveComponents.Add(new CaveComponent(0, 0, chunk, world, "left"));
+                caveComponents.Add(new CaveComponent(0, 0, chunk, world, Direction.LEFT));
             }
 
             //Use random numbers to add new cave components to random sides
             for (int i = 0; i < 50; i++)
             {
                 //First, determine the new direction
-                string newDirection = "";
+                Direction newDirection = Direction.RIGHT;
 
                 //If the previos direction was up or down, the chances for getting another down are significantly higher
-                if (caveComponents[caveComponents.Count - 1].previousDirection == "up" || caveComponents[caveComponents.Count - 1].previousDirection == "down")
+                if (caveComponents[caveComponents.Count - 1].previousDirection.IsUp() || caveComponents[caveComponents.Count - 1].previousDirection.IsDown())
                 {
                     int random = rnd.Next(1, 101);
 
                     if (random > 0 && random <= 50)
                     {
-                        newDirection = "down";
+                        newDirection.IsDown();
                     }
                     else if (random > 50 && random <= 70)
                     {
-                        newDirection = "up";
+                        newDirection.IsUp();
                     }
                     else if (random > 70 && random <= 90)
                     {
-                        newDirection = "right";
+                        newDirection.IsRight();
                     }
                     else if (random > 90 && random <= 100)
                     {
-                        newDirection = "left";
+                        newDirection.IsLeft();
                     }
                 }
                 //If the previous direction was right or left, the chances for getting another right or left are significantly higher
-                else if (caveComponents[caveComponents.Count - 1].previousDirection == "left" || caveComponents[caveComponents.Count - 1].previousDirection == "right")
+                else if (caveComponents[caveComponents.Count - 1].previousDirection.IsLeft() || caveComponents[caveComponents.Count - 1].previousDirection.IsRight())
                 {
                     int random = rnd.Next(1, 101);
 
-                    if (direction == "right")
+                    if (direction.IsRight())
                     {
                         if (random > 0 && random <= 50)
                         {
-                            newDirection = "right";
+                            newDirection.IsRight();
                         }
                         else if (random > 50 && random <= 70)
                         {
-                            newDirection = "up";
+                            newDirection.IsUp();
                         }
                         else if (random > 70 && random <= 90)
                         {
-                            newDirection = "down";
+                            newDirection.IsDown();
                         }
                         else if (random > 90 && random <= 100)
                         {
-                            newDirection = "left";
+                            newDirection.IsLeft();
                         }
                     }
-                    else if (direction == "left")
+                    else if (direction.IsLeft())
                     {
                         if (random > 0 && random <= 50)
                         {
-                            newDirection = "left";
+                            newDirection.IsLeft();
                         }
                         else if (random > 50 && random <= 70)
                         {
-                            newDirection = "up";
+                            newDirection.IsUp();
                         }
                         else if (random > 70 && random <= 90)
                         {
-                            newDirection = "down";
+                            newDirection.IsDown();
                         }
                         else if (random > 90 && random <= 100)
                         {
-                            newDirection = "right";
+                            newDirection.IsRight();
                         }
                     }
                 }
@@ -187,40 +191,40 @@ namespace SeeloewenCraft
                     if (potentialBorders[random2].x == structureComponent.xOffset && potentialBorders[random2].y == structureComponent.yOffset)
                     {
                         //Add the new cave component to the list, depending on the direction. Some offsets are used here to make the cave generation feel less linear.
-                        if (direction == "right")
+                        if (direction.IsRight())
                         {
-                            if (newDirection == "right")
+                            if (newDirection.IsRight())
                             {
                                 caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset + rnd.Next(-1, 1), chunk, world, newDirection));
                             }
-                            else if (newDirection == "left")
+                            else if (newDirection.IsLeft())
                             {
                                 caveComponents.Add(new CaveComponent(structureComponent.xOffset - 2, structureComponent.yOffset, chunk, world, newDirection));
                             }
-                            else if (newDirection == "up")
+                            else if (newDirection.IsUp())
                             {
                                 caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset, chunk, world, newDirection));
                             }
-                            else if (newDirection == "down")
+                            else if (newDirection.IsDown())
                             {
                                 caveComponents.Add(new CaveComponent(structureComponent.xOffset + rnd.Next(-2, 0), structureComponent.yOffset - 5, chunk, world, newDirection));
                             }
                         }
-                        else if (direction == "left")
+                        else if (direction.IsLeft())
                         {
-                            if (newDirection == "right")
+                            if (newDirection.IsRight())
                             {
                                 caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset + rnd.Next(-1, 1), chunk, world, newDirection));
                             }
-                            else if (newDirection == "left")
+                            else if (newDirection.IsLeft())
                             {
                                 caveComponents.Add(new CaveComponent(structureComponent.xOffset + 2, structureComponent.yOffset, chunk, world, newDirection));
                             }
-                            else if (newDirection == "up")
+                            else if (newDirection.IsUp())
                             {
                                 caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset, chunk, world, newDirection));
                             }
-                            else if (newDirection == "down")
+                            else if (newDirection.IsDown())
                             {
                                 caveComponents.Add(new CaveComponent(structureComponent.xOffset + rnd.Next(0, 2), structureComponent.yOffset - 5, chunk, world, newDirection));
                             }
