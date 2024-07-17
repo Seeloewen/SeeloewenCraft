@@ -44,13 +44,13 @@ namespace SeeloewenCraft
             cvsDebugMenu.Children.Add(btnDebug);
             btnDebug.Click += btnDebug_Click;
             Canvas.SetLeft(btnDebug, 1053);
-            Canvas.SetTop(btnDebug, 653);
+            Canvas.SetTop(btnDebug, 600);
             Panel.SetZIndex(btnDebug, 1);
 
             //Setup debug chat textbox
             cvsDebugMenu.Children.Add(tbDebug);
             Canvas.SetLeft(tbDebug, 10);
-            Canvas.SetTop(tbDebug, 653);
+            Canvas.SetTop(tbDebug, 600);
             Panel.SetZIndex(tbDebug, 1);
 
             Hide();
@@ -133,11 +133,15 @@ namespace SeeloewenCraft
 
         private void btnDebug_Click(object sender, RoutedEventArgs e)
         {
-            //Currently development control, not meant for normal use yet. Will get an rework at a later point inn development to allow normal use
-            //WIP
+
+            if (tbDebug.Text[0] == '/')
+            {
+                CommandHandler.HandleCommand(tbDebug.Text, world);
+            }
+            
 
             //Perform an action based on the entered command
-            if (tbDebug.Text == "/help")
+            /*if (tbDebug.Text == "/help")
             {
                 //Show help messaged
                 MessageBox.Show("List of commands (For debug purposes only!):\n/help - Shows this page\n/generateplayer - Runs the generation method of player\n/toggleinv - Opens or closes the inventory\n/give chest - Gives the player a chest item\n/resetview - Reset the scrollviewer location\n/give magmablock - Gives the player a magma block", "/help");
@@ -167,7 +171,7 @@ namespace SeeloewenCraft
             {
                 //Show error message if the command is unknown
                 MessageBox.Show("Unknown command. Type /help for a list of commands.", "Error");
-            }
+            }*/
 
             //Clear the chat box after execution
             tbDebug.Clear();

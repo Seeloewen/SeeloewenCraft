@@ -322,8 +322,6 @@ namespace SeeloewenCraft
 
             // -- check if moving into blocks --
 
-            world.log.Write($"posX:{posX},posY:{posY},velX:{velX},velY:{velY}", "Info");
-
             //move with amount of acual pixels
 
             DisplayDebugInformation();
