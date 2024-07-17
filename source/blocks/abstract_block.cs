@@ -88,15 +88,15 @@ namespace SeeloewenCraft
 
         public virtual (bool, int) CheckCollision(Direction direction, int startX, int endX, int startY, int endY)
         {
-            if (!isSolid)
+            if (!isSolid || isBackground)
             {
                 return (false, 0);
             }
 
             startX -= (xPos + chunk.index * 8) * 1000;
             endX -= (xPos + chunk.index * 8) * 1000;
-            startY -= (yPos + chunk.index * 8) * 1000;
-            endY -= (yPos + chunk.index * 8) * 1000;
+            startY -= yPos * 1000;
+            endY -= yPos* 1000;
 
             if (direction == Direction.RIGHT)
             {

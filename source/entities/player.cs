@@ -1,22 +1,12 @@
 ﻿using Newtonsoft.Json;
+using SeeloewenCraft;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Media3D;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace SeeloewenCraft
 {
@@ -31,18 +21,20 @@ namespace SeeloewenCraft
 
         //constants:
         private const int accWalking = 50000; // a: acceleration
-        private const int accGrav = 70000;
+        private const int accGrav = 60000;
         private const int jumpStartSpeed = 15000;
+        private const int friction = 10;
+        private const int slowestGroundSpeed = 400;
 
         //variables
 
-        int sizeX;
-        int sizeY;
+        int sizeX = 900;
+        int sizeY = 1900;
 
-        int posX; //1/1000 of a block (mm)
-        int posY;
-        int velX; //(mm/s)
-        int velY;
+        public int posX = 20050; //1/1000 of a block (mm)
+        public int posY = 5000;
+        int velX = 0; //(mm/s)
+        int velY = 0;
 
 
 
@@ -59,6 +51,7 @@ namespace SeeloewenCraft
 
             //Generate the player
             GeneratePlayer(x, y);
+            posY = y * 20;
         }
 
         //-- Custom Methods --//
@@ -79,6 +72,14 @@ namespace SeeloewenCraft
             {
                 world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "health");
             }
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "posX");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "posY");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "velX");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "velY");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "blockPosX");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "blockPosY");
+
+
 
             //Setup health bar
             if (world.settings.enableHealth)
@@ -87,11 +88,20 @@ namespace SeeloewenCraft
             }
         }
 
+        private int ConvertToBlockX(int i)
+        {
+            return i >= 0
+                ? i / 1000 
+                : (i-999) / 1000;
+        }
+
         private (bool, int) DoCollisionCheck(Direction direction, int startX, int startY, int endX, int endY)
         {
+            if (endY < 0 || endY > 75000) return (false, 0);
+
             if (direction == Direction.RIGHT)
             {
-                for (int x = startX / 1000; x <= endX / 1000; x++)
+                for (int x = ConvertToBlockX(startX); x <= ConvertToBlockX(endX); x++)
                 {
                     bool collision = false;
                     int maxMovement = int.MaxValue;
@@ -116,7 +126,7 @@ namespace SeeloewenCraft
 
             if (direction == Direction.LEFT)
             {
-                for (int x = startX / 1000; x >= endX / 1000; x--)
+                for (int x = ConvertToBlockX(startX); x >= ConvertToBlockX(endX); x--)
                 {
                     bool collision = false;
                     int maxMovement = int.MaxValue;
@@ -147,7 +157,7 @@ namespace SeeloewenCraft
                     bool collision = false;
                     int maxMovement = int.MaxValue;
 
-                    for (int x = startX / 1000; x <= endX / 1000; x++)
+                    for (int x = ConvertToBlockX(startX); x <= ConvertToBlockX(endX); x++)
                     {
                         (bool newCollision, int newMaxMovement) = world.GetBlock(x, y).CheckCollision(Direction.DOWN, startX, endX, startY, endY);
                         if (newCollision)
@@ -172,7 +182,7 @@ namespace SeeloewenCraft
                     bool collision = false;
                     int maxMovement = int.MaxValue;
 
-                    for (int x = startX / 1000; x <= endX / 1000; x++)
+                    for (int x = ConvertToBlockX(startX); x <= ConvertToBlockX(endX); x++)
                     {
                         (bool newCollision, int newMaxMovement) = world.GetBlock(x, y).CheckCollision(Direction.UP, startX, endX, startY, endY);
                         if (newCollision)
@@ -204,8 +214,7 @@ namespace SeeloewenCraft
             //reset
             (bool onGround, _) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + 1);
             (bool touchingLeft, _) = DoCollisionCheck(Direction.LEFT, posX, posY, posX - 1, posY + sizeY);
-            (bool touchingTop, _) = DoCollisionCheck(Direction.UP, posX, posY, posX+sizeX, posY-1);
-            (bool touchingRight, _) = DoCollisionCheck(Direction.RIGHT, posX+sizeX, posY, posX+sizeX+1, posY+sizeY);
+            (bool touchingRight, _) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + 1, posY + sizeY);
 
 
 
@@ -228,23 +237,21 @@ namespace SeeloewenCraft
             }
 
             // -- friction --
-            /*if (true) //normally: onGround
+            if (true) //normally: onGround
             {
-                if (v_x > 0)
+                if (velX > 0)
                 {
                     //this reduces the velocity by f_ground * v_x * dt until v_x reaches a threshold with value slowest_ground_speed, when it gets set to zero
-                    double v_reduction = f_ground * v_x * dt;
-                    v_x -= Math.Max(Math.Min(slowest_ground_speed * dt, v_x), v_reduction);
+                    int v_reduction = friction * velX/tps;
+                    velX -= Math.Max(Math.Min(slowestGroundSpeed/tps, velX), v_reduction);
                 }
-                else if (v_x < 0)
+                else if (velX < 0)
                 {
-                    double v_reduction = -f_ground * v_x * dt;
-                    v_x += Math.Max(Math.Min(slowest_ground_speed * dt, -v_x), v_reduction);
+                    int v_reduction = -friction * velX/tps;
+                    velX += Math.Max(Math.Min(slowestGroundSpeed/tps, -velX), v_reduction);
                 }
-            }*/
-            
-            //friction temporary
-            velX = velX*8/10;
+            }
+
 
 
             if (!onGround)
@@ -252,70 +259,74 @@ namespace SeeloewenCraft
                 velY += accGrav / tps;
             }
 
+            int dX = velX / tps;
+            int dY = velY / tps;
 
-            if(velX > 0)
+            if (velX > 0)
             {
-                (bool collided, int maxMovement) = DoCollisionCheck(Direction.RIGHT, posX+sizeX,posY,posX+sizeX+velX,posY+sizeY);
-                if(collided)
+                (bool collided, int maxMovement) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + dX, posY + sizeY);
+                if (collided)
                 {
                     velX = 0;
                     posX += maxMovement;
-                    MoveHorizontal(maxMovement/20);
-                }else
+                    //MoveHorizontal(maxMovement / 20);
+                }
+                else
                 {
-                    posX += velX;
-                    MoveHorizontal(velX / 20);
+                    posX += velX / tps;
+                    //MoveHorizontal(dX / 20);
                 }
             }
             if (velX < 0)
             {
-                (bool collided, int maxMovement) = DoCollisionCheck(Direction.LEFT, posX, posY, posX+velX, posY + sizeY);
+                (bool collided, int maxMovement) = DoCollisionCheck(Direction.LEFT, posX, posY, posX + dX, posY + sizeY);
                 if (collided)
                 {
                     velX = 0;
                     posX -= maxMovement;
-                    MoveHorizontal(-maxMovement / 20);
+                    //MoveHorizontal(-maxMovement / 20);
                 }
                 else
                 {
-                    posX += velX;
-                    MoveHorizontal(velX / 20);
+                    posX += velX / tps;
+                    //MoveHorizontal(dX / 20);
                 }
             }
 
             if (velY > 0)
             {
-                (bool collided, int maxMovement) = DoCollisionCheck(Direction.DOWN, posX, posY+sizeY, posX + sizeX, posY + sizeY+velY);
+                (bool collided, int maxMovement) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + dY);
                 if (collided)
                 {
                     velY = 0;
                     posY += maxMovement;
-                    MoveHorizontal(maxMovement / 20);
+                    //MoveVertical(-maxMovement / 20);
                 }
                 else
                 {
-                    posY += velY;
-                    MoveHorizontal(velY / 20);
+                    posY += velY / tps;
+                    //MoveVertical(-dY / 20);
                 }
             }
-            if (velX < 0)
+            if (velY < 0)
             {
-                (bool collided, int maxMovement) = DoCollisionCheck(Direction.UP, posX, posY, posX+sizeX, posY+velY);
+                (bool collided, int maxMovement) = DoCollisionCheck(Direction.UP, posX, posY, posX + sizeX, posY + dY);
                 if (collided)
                 {
                     velY = 0;
                     posY -= maxMovement;
-                    MoveHorizontal(-maxMovement / 20);
+                    //MoveVertical(maxMovement / 20);
                 }
                 else
                 {
-                    posY += velY;
-                    MoveHorizontal(velY / 20);
+                    posY += velY / tps;
+                    //MoveVertical(-dY / 20);
                 }
             }
 
             // -- check if moving into blocks --
-            
+
+            world.log.Write($"posX:{posX},posY:{posY},velX:{velX},velY:{velY}", "Info");
 
             //move with amount of acual pixels
 
@@ -365,7 +376,7 @@ namespace SeeloewenCraft
         }
 
 
-        public void MoveHorizontal(int amount)
+        /*public void MoveHorizontal(int amount)
         {
             //Move all chunks the specified amount to the left
             foreach (Chunk chunk in world.currentChunkList)
@@ -410,9 +421,9 @@ namespace SeeloewenCraft
                 //Sort the list again
                 world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
             }
-        }
+        }*/
 
-        public void MoveVertical(int amount)
+        /*public void MoveVertical(int amount)
         {
             Thickness currentMarginPlayer = cvsPlayer.Margin;
             currentMarginPlayer.Top -= amount;
@@ -420,22 +431,9 @@ namespace SeeloewenCraft
 
             //Scroll along to match the movement
             world.wndGame.svWorld.ScrollToVerticalOffset(world.player.cvsPlayer.Margin.Top - 400);
-        }
+        }*/
 
-        public List<Chunk> GetCurrentChunks()
-        {
-            //Create a list of the chunks the player is currently in by checking collision
-            List<Chunk> chunkList = new List<Chunk>();
-            foreach (Chunk chunk in world.currentChunkList)
-            {
-                if (world.wndGame.GetRectangle(cvsPlayer).IntersectsWith(world.wndGame.GetRectangle(chunk.grdChunk)))
-                {
-                    chunkList.Add(chunk);
-                }
-            }
-
-            return chunkList;
-        }
+        
 
         public void DisplayDebugInformation()
         {
@@ -445,15 +443,12 @@ namespace SeeloewenCraft
                 {
                     world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "health", $"health={healthBar.value}");
                 }
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "v_x", $"v_x={v_x}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "v_y", $"v_y={v_y}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "d_x", $"d_x={d_x}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "d_y", $"d_y={d_y}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "d_offset_x", $"d_offset_x={d_offset_x}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "d_offset_y", $"d_offset_y={d_offset_y}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "posX", $"posX={posXInChunk}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "posY", $"posY={posY + 1}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "chunk", $"chunk={currentChunk}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "posX", $"posX={posX}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "posY", $"posY={posY}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "velX", $"velX={velX}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "velY", $"velY={velY}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "blockPosX", $"blockPosX={(posX/1000)%8}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "blockPosY", $"blockPosY={posY/1000}");
             }
         }
     }
