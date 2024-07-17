@@ -4,9 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="SeeloewenCraft World" Height="839" Width="1216" KeyDown="MainWindow_KeyDown" KeyUp="MainWindow_KeyUp" MouseMove="Window_MouseMove" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Closing="wndGame1_Closing">
+        Title="SeeloewenCraft World" Height="800" Width="1200" KeyDown="MainWindow_KeyDown" KeyUp="MainWindow_KeyUp" MouseMove="Window_MouseMove" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Closing="wndGame1_Closing">
     <Canvas x:Name="cvsGame">
-        <ScrollViewer x:Name="svWorld" Height="839" Width="1218" PreviewMouseWheel="svWorld_PreviewMouseWheel" Panel.ZIndex="0">
+        <ScrollViewer x:Name="svWorld" Height="800" Width="1200" PreviewMouseWheel="svWorld_PreviewMouseWheel" Panel.ZIndex="0">
             <Canvas x:Name="cvsWorld" Height="3785" Background="#FFBCF4F7"/>
         </ScrollViewer>
         <Border x:Name="bdrMenu" BorderBrush="#FF252525" BorderThickness="2" Height="382" Width="379" Canvas.Left="396" Canvas.Top="152" HorizontalAlignment="Center" VerticalAlignment="Top" Panel.ZIndex="6" Background="#FFC8C8C8" Visibility="Hidden">
