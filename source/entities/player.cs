@@ -99,7 +99,7 @@ namespace SeeloewenCraft
         {
             if (endY < 0 || endY > 75000) return (false, 0);
 
-            if (direction == Direction.RIGHT)
+            if (direction.IsRight())
             {
                 for (int x = ConvertToBlockX(startX); x <= ConvertToBlockX(endX); x++)
                 {
@@ -124,7 +124,7 @@ namespace SeeloewenCraft
                 return (false, 0);
             }
 
-            if (direction == Direction.LEFT)
+            if (direction.IsLeft())
             {
                 for (int x = ConvertToBlockX(startX); x >= ConvertToBlockX(endX); x--)
                 {
@@ -150,7 +150,7 @@ namespace SeeloewenCraft
             }
 
 
-            if (direction == Direction.DOWN)
+            if (direction.IsDown())
             {
                 for (int y = startY / 1000; y <= endY / 1000; y++)
                 {
@@ -175,7 +175,7 @@ namespace SeeloewenCraft
                 return (false, 0);
             }
 
-            if (direction == Direction.UP)
+            if (direction.IsUp())
             {
                 for (int y = startY / 1000; y >= endY / 1000; y--)
                 {
