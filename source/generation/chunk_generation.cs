@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace SeeloewenCraft
 {
@@ -10,200 +11,100 @@ namespace SeeloewenCraft
     {
         private void Generate()
         {
-            world.log.Write($"Generating chunk {index}", "Info");
-
             blockList = new BlockList(this);
-
-            //If it doesn't exist, create the file
             chunkDirectory = string.Format("{0}/chunk{1}", world.worldDirectory, index);
+
+            //Determine the biome
+            switch (index)
+            {
+                //Get the biome based on the previously generated chunk (except for chunk 0)
+                case 0:
+                    biome = GetNewBiome(Biome.None);
+                    break;
+                case > 0:
+                    biome = GetNewBiome(world.GetFromCurrentChunks(index - 1).biome);
+                    break;
+                case < 0:
+                    biome = GetNewBiome(world.GetFromCurrentChunks(index + 1).biome);
+                    break;
+            }
+
+            world.log.Write($"Generating chunk {index} with biome {biome}", "Info");
 
             //Generate terrain & structure
             GenerateTerrain();
-            GenerateTrees();
-            GenerateOres();
-            if (world.settings.enableCaveGeneration) GenerateCaves();
-            ContinueStructureGeneration();
+            GenerateStructues();
         }
 
-        private void GenerateTerrain()
+        public Biome GetNewBiome(Biome adjacentBiome)
         {
+            bool newBiome = true;
 
-            //Set the floorheight based on the chunk index
-            if (index >= 0)
+            if (adjacentBiome != Biome.None)
             {
-                if (index == 0)
+                //1 in 10 chance to generate a new biome
+                int random = rnd.Next(1, 11);
+                if (random == 0)
                 {
-                    //If it's the first chunk, set the floor hight
-                    floorHeight = rnd.Next(12, 15);
-                }
-                else
-                {
-                    //If it's not the first chunk, get the most right floor height from the chunk to the left
-                    floorHeight = world.GetFromCurrentChunks(index - 1).floorHeightRight;
-                }
-            }
-            else if (index < 0)
-            {
-                floorHeight = world.GetFromCurrentChunks(index + 1).floorHeightLeft;
-            }
-
-            //Actually generate the terrain
-            if (index >= 0)
-            {
-                for (int x = 0; x <= 7; x++)
-                {
-                    //Go through all 8 columns in the chunk and generate a number to determine if the floor height should change
-                    int floorHeightChange = rnd.Next(0, 100);
-                    if (floorHeightChange >= 80 && floorHeightChange <= 100)
-                    {
-                        //Only decrease the floor height if it's currently 10 or higher
-                        if (floorHeight >= 10)
-                        {
-                            floorHeight--;
-                        }
-                    }
-                    else if (floorHeightChange >= 60 && floorHeightChange < 80)
-                    {
-                        //Only increase the floor height if it's currently 18 or below
-                        if (floorHeight <= 18)
-                        {
-                            floorHeight++;
-                        }
-                    }
-
-                    //Go through each row
-                    for (int y = 0; y <= 74; y++)
-                    {
-
-                        if (y == floorHeight)
-                        {
-                            //If the block is exactly on floor height add a grass block
-                            blockList.Add(new GrassBlock(world, false), x, y);
-
-                            //If it's at one of the corners, set the left or right floor height variable
-                            if (x == 0)
-                            {
-                                floorHeightLeft = floorHeight;
-                            }
-                            if (x == 7)
-                            {
-                                floorHeightRight = floorHeight;
-                            }
-                        }
-                        else if (y == floorHeight + 1 || y == floorHeight + 2)
-                        {
-                            //If it's 1 or 2 blocks below the floor height, add dirt
-                            blockList.Add(new DirtBlock(world, false), x, y);
-                        }
-                        else if (y == floorHeight + 3)
-                        {
-                            //If it's 3 blocks below the floor height, it has an additional chance to generate dirt
-                            int random = rnd.Next(1, 3);
-                            if (random == 1)
-                            {
-                                blockList.Add(new DirtBlock(world, false), x, y);
-                            }
-                            else
-                            {
-                                blockList.Add(new StoneBlock(world, false), x, y);
-                            }
-                        }
-                        else if (y > floorHeight + 3 && y < 74)
-                        {
-                            //If it's 3 blocks below floor height and above y 75, set stone blocks
-                            blockList.Add(new StoneBlock(world, false), x, y);
-                        }
-                        else if (y < floorHeight)
-                        {
-                            //If it's above floor height, generate air
-                            blockList.Add(new AirBlock(world, false), x, y);
-                        }
-                        else if (y == 74)
-                        {
-                            //If it's exactly at bottom layer y 75, set bedrock block
-                            blockList.Add(new BedrockBlock(world, false), x, y);
-                        }
-                    }
+                    newBiome = true;
                 }
             }
 
-            //Generate the chunk from right to left
+            if (newBiome)
+            {
+                //Generate a new biome based on random value
+                int random = rnd.Next(1, 2);
+                switch (random)
+                {
+                    case 1:
+                        return Biome.Plains;
+                }
+            }
             else
             {
-                for (int x = 7; x >= 0; x--)
+                return adjacentBiome;
+            }
+
+            //Default biome
+            return Biome.Plains;
+        }
+
+        private void GenerateStructues()
+        {
+            if (index != 0)
+            {
+                //Generate structures
+                GenerateTrees();
+                GenerateOres();
+                if (world.settings.enableCaveGeneration) GenerateCaves();
+                ContinueStructureGeneration();
+            }
+        }
+
+        private (int x, int y) GetCoordinates(int minX, int maxX, int minY, int maxY)
+        {
+            //Generate random coordinates in the specified range
+            int x = rnd.Next(minX, maxX + 1);
+            int y = rnd.Next(minY, maxY + 1);
+            return (x, y);
+        }
+
+        private (int x, int y) GetCoordinatesOnSurface(int minX, int maxX)
+        {
+            //Generate random x coordinate
+            int x = rnd.Next(minX, maxX + 1);
+            int y = 0;
+
+            //Get y coordinate of first surface airblock
+            for (int i = 0; i < 74; i++)
+            {
+                if (blockList.Get(x, i).isSurface)
                 {
-                    int floorHeightChange = rnd.Next(0, 100);
-                    if (floorHeightChange >= 80 && floorHeightChange <= 100)
-                    {
-                        if (floorHeight >= 10)
-                        {
-                            floorHeight--;
-                        }
-                    }
-                    else if (floorHeightChange >= 60 && floorHeightChange < 80)
-                    {
-                        if (floorHeight <= 18)
-                        {
-                            floorHeight++;
-
-                        }
-                    }
-
-                    //Go through each row
-                    for (int y = 0; y <= 74; y++)
-                    {
-
-                        if (y == floorHeight)
-                        {
-                            //If the block is exactly on floor height add a grass block
-                            blockList.Add(new GrassBlock(world, false), x, y);
-
-                            //If it's at one of the corners, set the left or right floor height variable
-                            if (x == 0)
-                            {
-                                floorHeightLeft = floorHeight;
-                            }
-                            if (x == 7)
-                            {
-                                floorHeightRight = floorHeight;
-                            }
-                        }
-                        else if (y == floorHeight + 1 || y == floorHeight + 2)
-                        {
-                            //If it's 1 or 2 blocks below the floor height, add dirt
-                            blockList.Add(new DirtBlock(world, false), x, y);
-                        }
-                        else if (y == floorHeight + 3)
-                        {
-                            //If it's 3 blocks below the floor height, it has an additional chance to generate dirt
-                            int random = rnd.Next(1, 3);
-                            if (random == 1)
-                            {
-                                blockList.Add(new DirtBlock(world, false), x, y);
-                            }
-                            else
-                            {
-                                blockList.Add(new DirtBlock(world, false), x, y);
-                            }
-                        }
-                        else if (y > floorHeight + 3 && y < 74)
-                        {
-                            //If it's 3 blocks below floor height and above y 75, set stone blocks
-                            blockList.Add(new StoneBlock(world, false), x, y);
-                        }
-                        else if (y < floorHeight)
-                        {
-                            //If it's above floor height, generate air
-                            blockList.Add(new AirBlock(world, false), x, y);
-                        }
-                        else if (y == 74)
-                        {
-                            //If it's exactly at bottom layer y 75, set bedrock block
-                            blockList.Add(new BedrockBlock(world, false), x, y);
-                        }
-                    }
+                    y = i;
+                    break;
                 }
             }
+            return (x, y);
         }
 
         private void GenerateTrees()
@@ -211,26 +112,18 @@ namespace SeeloewenCraft
             //Generate up to 3 trees
             for (int i = 0; i < 3; i++)
             {
-                int random = rnd.Next(0, 3);
-                if (random == 0)
+                if (rnd.Next(0, 3) == 0)
                 {
-                    int xPos = rnd.Next(0, 8);
-                    int yPos = 0;
-                    foreach (Block block in blockList.blocks)
-                    {
-                        if (block.xPos == xPos && block is GrassBlock)
-                            yPos = block.yPos - 1;
-                    }
+                    (int x, int y) = GetCoordinatesOnSurface(0, 7);
 
                     //Decide which tree to generate, mostly generate oak trees, rarely spruce
-                    int random2 = rnd.Next(0, 6);
-                    if (random2 == 0)
+                    if (rnd.Next(0, 6) == 0)
                     {
-                        structureList.Add(new SpruceTreeStructure(world, xPos, yPos, index, true, this, false));
+                        structureList.Add(new SpruceTreeStructure(world, x, y - 1, index, true, this, false));
                     }
                     else
                     {
-                        structureList.Add(new OakTreeStructure(world, xPos, yPos, index, true, this, false));
+                        structureList.Add(new OakTreeStructure(world, x, y - 1, index, true, this, false));
                     }
 
                 }
@@ -242,19 +135,11 @@ namespace SeeloewenCraft
             //Generate up to 15 ores
             for (int i = 0; i < 15; i++)
             {
-                int random = rnd.Next(0, 3);
-                if (random == 0)
+                if (rnd.Next(0, 3) == 0)
                 {
-                    int xPos = rnd.Next(0, 8);
-                    int yPos = 0;
-                    foreach (Block block in blockList.blocks)
-                    {
-                        if (block != null && block.xPos == xPos && block is GrassBlock)
-                        {
-                            yPos = rnd.Next(block.yPos + 5, 70);
-                        }
-                    }
-                    structureList.Add(new OreStructure(world, xPos, yPos, index, true, this, true));
+                    (int x, int y) = GetCoordinatesOnSurface(0, 7);
+
+                    structureList.Add(new OreStructure(world, x, y + rnd.Next(10, 70), index, true, this, true));
                 }
             }
         }
@@ -262,45 +147,24 @@ namespace SeeloewenCraft
         private void GenerateCaves()
         {
             //Generate up to 1 cave
-            int random = rnd.Next(1, 9);
-            if (random == 1)
+            if (rnd.Next(0, 8) == 0)
             {
-                for (int i = 0; i < 1; i++)
-                {
-                    int xPos = rnd.Next(0, 8);
-                    int yPos = 0;
-                    foreach (Block block in blockList.blocks)
-                    {
-                        if (block.xPos == xPos && block is GrassBlock)
-                        {
-                            yPos = rnd.Next(block.yPos + 15, 70);
-                        }
-                    }
-                    structureList.Add(new Cave(world, xPos, yPos, index, true, this, true));
-                }
+                (int x, int y) = GetCoordinatesOnSurface(0, 7);
+
+                structureList.Add(new Cave(world, x, y + 15, index, true, this, true));
             }
         }
 
         private void ContinueStructureGeneration()
         {
             //Continue Structure Generation by adding a continuation strucutre, which contains the structure components that were previously cut off
-            if (index > 0)
+            if (index != 0)
             {
-                foreach (Structure structure in world.GetFromCurrentChunks(index - 1).structureList)
+                foreach (Structure structure in world.GetFromCurrentChunks(index + (index < 0 ? 1 : -1)).structureList)
                 {
                     if (structure.isCutOff)
                     {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, world, 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
-                    }
-                }
-            }
-            else if (index < 0)
-            {
-                foreach (Structure structure in world.GetFromCurrentChunks(index + 1).structureList)
-                {
-                    if (structure.isCutOff)
-                    {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, world, 7, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, world, index < 0 ? 7 : 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
                     }
                 }
             }

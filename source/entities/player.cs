@@ -376,7 +376,7 @@ namespace SeeloewenCraft
                 double offset = -Canvas.GetLeft(world.currentChunkList[2].grdChunk);
                 //Save the chunk that has moved to far and remove it. Add a new one at the opposite site.
                 world.currentChunkList.Remove(world.GetFromCurrentChunks(world.currentChunkList[0].index));
-                world.currentChunkList.Add(world.GetChunk(world.currentChunkList[3].index + 1));
+                world.currentChunkList.Add(world.GetOrCreateChunk(world.currentChunkList[3].index + 1));
                 try
                 {
                     world.wndGame.cvsWorld.Children.Add(world.currentChunkList[4].grdChunk);
@@ -393,7 +393,7 @@ namespace SeeloewenCraft
                 double offset = Canvas.GetLeft(world.currentChunkList[2].grdChunk) - 800;
                 //Move the chunk on the right all the way to the left
                 world.currentChunkList.Remove(world.GetFromCurrentChunks(world.currentChunkList[4].index));
-                world.currentChunkList.Add(world.GetChunk(world.currentChunkList[0].index - 1));
+                world.currentChunkList.Add(world.GetOrCreateChunk(world.currentChunkList[0].index - 1));
                 try
                 {
                     world.wndGame.cvsWorld.Children.Add(world.currentChunkList[4].grdChunk);

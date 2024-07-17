@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using System.Xml.Serialization;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
@@ -170,157 +171,101 @@ namespace SeeloewenCraft
 
             //Generate a random number between 0 and 29 to get the ore type
             //WIP - Split into seperate ore structures for getting appropriate heights
-            int random1 = rnd.Next(0, 30);
+            int random1 = rnd.Next(0, 31);
 
             if (random1 >= 0 && random1 <= 15) //Coal Vein
             {
                 //Set the total width
                 totalWidth = 4;
-                int random2;
 
-                //Layer 1
-                structureComponents.Add(new StructureComponent(world, 0, 0, new CoalOreBlock(world, false)));
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
+                //Generate ores
+                for (int i = 0; i < 3; i++) //Y
                 {
-                    structureComponents.Add(new StructureComponent(world, 1, 0, new CoalOreBlock(world, false)));
-                }
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 2, 0, new CoalOreBlock(world, false)));
-                }
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 3, 0, new CoalOreBlock(world, false)));
-                }
-
-                //Layer 2
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 0, 1, new CoalOreBlock(world, false)));
-                }
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 1, 1, new CoalOreBlock(world, false)));
-                }
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 2, 1, new CoalOreBlock(world, false)));
-                }
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 3, 1, new CoalOreBlock(world, false)));
-                }
-
-                //Layer 3
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 0, 2, new CoalOreBlock(world, false)));
-                }
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 1, 2, new CoalOreBlock(world, false)));
-                }
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 2, 2, new CoalOreBlock(world, false)));
-                }
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 3, 2, new CoalOreBlock(world, false)));
+                    for (int j = 0; j < 4; j++) //X
+                    {
+                        if (i == 0 && j == 0)
+                        {
+                            structureComponents.Add(new StructureComponent(world, 0, 0, new CoalOreBlock(world, false)));
+                        }
+                        else
+                        {
+                            GetCoalOre(world, j, i);
+                        }
+                    }
                 }
             }
             else if (random1 > 15 && random1 <= 25) //Iron Vein
             {
                 //Set the total width
                 totalWidth = 3;
-                int random2;
 
-                //Layer 1
-                structureComponents.Add(new StructureComponent(world, 0, 0, new IronOreBlock(world, false)));
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
+                //Generate ores
+                for (int i = 0; i < 3; i++) //Y
                 {
-                    structureComponents.Add(new StructureComponent(world, 1, 0, new IronOreBlock(world, false)));
-                }
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 2, 0, new IronOreBlock(world, false)));
-                }
-
-                //Layer 2
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 0, 1, new IronOreBlock(world, false)));
-                }
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 1, 1, new IronOreBlock(world, false)));
-                }
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 2, 1, new IronOreBlock(world, false)));
-                }
-
-                //Layer 3
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 0, 2, new IronOreBlock(world, false)));
-                }
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 1, 2, new IronOreBlock(world, false)));
-                }
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 2, 2, new IronOreBlock(world, false)));
+                    for (int j = 0; j < 3; j++) //X
+                    {
+                        if (i == 0 && j == 0)
+                        {
+                            structureComponents.Add(new StructureComponent(world, 0, 0, new IronOreBlock(world, false)));
+                        }
+                        else
+                        {
+                            GetIronOre(world, j, i);
+                        }
+                    }
                 }
             }
             else if (random1 > 25 && random1 <= 30) //Diamond Vein
             {
                 //Set the total width
                 totalWidth = 2;
-                int random2;
 
-                //Layer 1
-                structureComponents.Add(new StructureComponent(world, 0, 0, new DiamondOreBlock(world, false)));
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
+                //Generate ores
+                for (int i = 0; i < 2; i++) //Y
                 {
-                    structureComponents.Add(new StructureComponent(world, 1, 0, new DiamondOreBlock(world, false)));
-                }
-
-                //Layer 2
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 0, 1, new DiamondOreBlock(world, false)));
-                }
-                random2 = rnd.Next(0, 2);
-                if (random2 == 0)
-                {
-                    structureComponents.Add(new StructureComponent(world, 1, 1, new DiamondOreBlock(world, false)));
+                    for (int j = 0; j < 2; j++) //X
+                    {
+                        if (i == 0 && j == 0)
+                        {
+                            structureComponents.Add(new StructureComponent(world, 0, 0, new DiamondOreBlock(world, false)));
+                        }
+                        else
+                        {
+                            GetDiamondOre(world, j, i);
+                        }
+                    }
                 }
             }
 
             BeginGeneration(x, y, index, isNew);
 
+        }
+
+        public void GetCoalOre(World world, int x, int y)
+        {
+            //50% chance to add a new ore block
+            if (rnd.Next(0, 2) == 0)
+            {
+                structureComponents.Add(new StructureComponent(world, x, y, new CoalOreBlock(world, false)));
+            }
+        }
+
+        public void GetIronOre(World world, int x, int y)
+        {
+            //50% chance to add a new ore block
+            if (rnd.Next(0, 2) == 0)
+            {
+                structureComponents.Add(new StructureComponent(world, x, y, new IronOreBlock(world, false)));
+            }
+        }
+
+        public void GetDiamondOre(World world, int x, int y)
+        {
+            //50% chance to add a new ore block
+            if (rnd.Next(0, 2) == 0)
+            {
+                structureComponents.Add(new StructureComponent(world, x, y, new DiamondOreBlock(world, false)));
+            }
         }
     }
 

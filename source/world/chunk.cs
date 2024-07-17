@@ -15,13 +15,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Media;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace SeeloewenCraft
 {
+    public enum Biome
+    {
+        None,
+        Plains
+    }
+
     public partial class Chunk
     {
         public BlockList blockList;
@@ -31,10 +33,12 @@ namespace SeeloewenCraft
         private Random rnd = new Random(DateTime.Now.Millisecond);
         World world;
         public int index;
-        int floorHeight; //Only used while generating
+        private int floorHeight; //Only used while generating
         public int floorHeightRight;
         public int floorHeightLeft;
+        //static int o = 0;
         public string chunkDirectory;
+        public Biome biome;
 
         //-- Constructor --//
 
@@ -43,6 +47,8 @@ namespace SeeloewenCraft
             //Set the attributes
             this.world = world;
             this.index = index;
+            //rnd = new Random(DateTime.Now.Millisecond);
+            //o++;
 
             //Begin loading the chunk
             chunkDirectory = string.Format("{0}/chunk{1}", world.worldDirectory, index);
