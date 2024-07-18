@@ -60,7 +60,7 @@ namespace SeeloewenCraft {
                 Chunk chunk = wndGame.world.GetLoadedChunk(wndGame.world.loadedChunkList[4].index);
                 wndGame.world.UnloadChunk(chunk);
                 RemoveChunk(chunk);
-                wndGame.world.loadedChunkList.Add(wndGame.world.GetChunk(wndGame.world.loadedChunkList[0].index - 1));
+                wndGame.world.LoadChunk(wndGame.world.GetChunk(wndGame.world.loadedChunkList[0].index - 1));
                 try
                 {
                     AddChunk(wndGame.world.loadedChunkList[4]);

@@ -16,8 +16,8 @@ namespace SeeloewenCraft
         //-- Variables for physics --/
 
         //constants:
-        private const int accWalking = 50000; // a: acceleration
-        private const int accGrav = 60000;
+        private const int accWalking = 70000; // a: acceleration
+        private const int accGrav = 70000;
         private const int jumpStartSpeed = 15000;
         private const int friction = 10;
         private const int slowestGroundSpeed = 400;
