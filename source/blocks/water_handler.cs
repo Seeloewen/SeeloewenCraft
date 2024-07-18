@@ -20,7 +20,7 @@ namespace SeeloewenCraft
             List<Block> newBlocks = new List<Block>();
 
             //Water timer, ticks at a rate of 1 second
-            foreach (Chunk chunk in world.currentChunkList)
+            foreach (Chunk chunk in world.loadedChunkList)
             {
                 foreach (Block block in chunk.blockList.blocks)
                 {
@@ -70,7 +70,7 @@ namespace SeeloewenCraft
 
             if (blockState == "foreground")
             {
-                sourceChunk = world.GetFromCurrentChunks(block.foregroundBlock.waterSourceChunkIndex);
+                sourceChunk = world.GetLoadedChunk(block.foregroundBlock.waterSourceChunkIndex);
                 if (sourceChunk != null)
                 {
                     sourceBlock = sourceChunk.GetBlock(block.foregroundBlock.waterSourceXPos, block.foregroundBlock.waterSourceYPos);
@@ -87,7 +87,7 @@ namespace SeeloewenCraft
             }
             else if (blockState == "normal")
             {
-                sourceChunk = world.GetFromCurrentChunks(block.waterSourceChunkIndex);
+                sourceChunk = world.GetLoadedChunk(block.waterSourceChunkIndex);
                 if (sourceChunk != null)
                 {
                     sourceBlock = sourceChunk.GetBlock(block.waterSourceXPos, block.waterSourceYPos);

@@ -93,7 +93,7 @@ namespace SeeloewenCraft
             //Check if the coordinate has a container and place the block into that container if possible
             if (x > 7)
             {
-                Chunk chunk = world.GetFromCurrentChunks(index + 1);
+                Chunk chunk = world.GetLoadedChunk(index + 1);
 
                 if (chunk != null)
                 {
@@ -102,7 +102,7 @@ namespace SeeloewenCraft
             }
             else if (x < 0)
             {
-                Chunk chunk = world.GetFromCurrentChunks(index - 1);
+                Chunk chunk = world.GetLoadedChunk(index - 1);
 
                 if (chunk != null)
                 {
@@ -241,9 +241,9 @@ namespace SeeloewenCraft
         {
             if (x > 7)
             {
-                if (world.GetFromCurrentChunks(index + 1) != null)
+                if (world.GetLoadedChunk(index + 1) != null)
                 {
-                    return world.GetFromCurrentChunks(index + 1).GetBlock(x - 8, y);
+                    return world.GetLoadedChunk(index + 1).GetBlock(x - 8, y);
                 }
                 else
                 {
@@ -252,9 +252,9 @@ namespace SeeloewenCraft
             }
             else if (x < 0)
             {
-                if (world.GetFromCurrentChunks(index - 1) != null)
+                if (world.GetLoadedChunk(index - 1) != null)
                 {
-                    return world.GetFromCurrentChunks(index - 1).GetBlock(x + 8, y);
+                    return world.GetLoadedChunk(index - 1).GetBlock(x + 8, y);
                 }
                 else
                 {

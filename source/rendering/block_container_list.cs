@@ -43,7 +43,7 @@ namespace SeeloewenCraft
         public bool IsAvailable()
         {
             //Check if a chunk with the index of this list is currently loaded (which means it's not available)
-            if (world.GetFromCurrentChunks(chunkIndex) == null)
+            if (world.GetLoadedChunk(chunkIndex) == null)
             {
                 return true;
             }

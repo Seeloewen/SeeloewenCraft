@@ -14,7 +14,7 @@ namespace SeeloewenCraft
         //References
         public wndGame wndGame;
         public System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
-        public List<Chunk> currentChunkList = new List<Chunk>();
+        public List<Chunk> loadedChunkList = new List<Chunk>();
         public List<Chunk> totalChunkList = new List<Chunk>();
         public List<Inventory> inventoryList = new List<Inventory>();
         public List<BlockContainerList> blockContainerList = new List<BlockContainerList>();
@@ -98,35 +98,66 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-        public Chunk GetOrCreateChunk(int index)
+        //creates and returns chunk and adds to total chunk list
+        public Chunk CreateChunk(int index)
         {
-            //Searches the total chunk list for the chunk with the specified index. If not found, create a new one
+            Chunk newChunk = new Chunk(this, index);
+            totalChunkList.Add(newChunk);
+            return newChunk;
+        }
+
+        public void UnloadChunk(Chunk chunk)
+        {
+            loadedChunkList.Remove(chunk);
+        }
+
+
+        public Chunk LoadChunk(Chunk chunk)
+        {
+            chunk.SetContainerList();
+            chunk.RenderChunk();
+            loadedChunkList.Add(chunk);
+            return chunk;
+        }
+
+        public Chunk LoadChunk(int index)
+        {
             foreach (Chunk chunk in totalChunkList)
             {
                 if (chunk.index == index)
                 {
                     chunk.SetContainerList();
                     chunk.RenderChunk();
+                    loadedChunkList.Add(chunk);
                     return chunk;
                 }
             }
+            return CreateChunk(index);
+        }
 
-            Chunk newChunk = new Chunk(this, index);
-            totalChunkList.Add(newChunk);
-            return newChunk;
+        public Chunk GetChunk(int index)
+        {
+            //Searches the total chunk list for the chunk with the specified index. If not found, create a new one
+            foreach (Chunk chunk in totalChunkList)
+            {
+                if (chunk.index == index)
+                {
+                    return chunk;
+                }
+            }
+            return CreateChunk(index);
         }
 
         public Block GetBlock(int posX, int posY)
         {
-            if(posX < 0)
-            {
-                Console.WriteLine("sahdkja");
-            }
-            int chunkIndex = posX >= 0 
-                ? posX / 8 
-                : (posX-7) / 8;
+            int chunkIndex = posX >= 0
+                ? posX / 8
+                : (posX - 7) / 8;
             int x = (posX % 8 + 8) % 8;
-            return GetChunk(chunkIndex).GetBlock(x, posY);
+            Chunk c = GetChunk(chunkIndex);
+            Block b = c.GetBlock(x, posY);
+
+            return b;
         }
 
         public void RefreshTextures()
@@ -142,7 +173,7 @@ namespace SeeloewenCraft
                     }
                 }
             }
-            foreach (Chunk chunk in currentChunkList)
+            foreach (Chunk chunk in loadedChunkList)
             {
                 foreach (Block block in chunk.blockList.blocks)
                 {
@@ -314,7 +345,7 @@ namespace SeeloewenCraft
             {
                 //Calculate y position where the player starts
                 int yPos = 0;
-                foreach (Block block in currentChunkList[2].blockList.blocks)
+                foreach (Block block in loadedChunkList[2].blockList.blocks)
                 {
                     if (block.xPos == 4 && block is GrassBlock)
                     {
@@ -346,38 +377,27 @@ namespace SeeloewenCraft
             for (int i = Math.Max(j, 0); i < Math.Max(j + 5, 0); i++)
             {
 
-                currentChunkList.Add(GetOrCreateChunk(i));
+                loadedChunkList.Add(GetChunk(i));
                 c++;
             }
 
             for (int i = Math.Min(j + 4, -1); i >= c + Math.Min(j, -5); i--)
             {
-                currentChunkList.Add(GetOrCreateChunk(i));
+                loadedChunkList.Add(GetChunk(i));
             }
 
-            worldRenderer.AddChunk(GetFromCurrentChunks(j));
-            worldRenderer.AddChunk(GetFromCurrentChunks(j + 1));
-            worldRenderer.AddChunk(GetFromCurrentChunks(j + 2));
-            worldRenderer.AddChunk(GetFromCurrentChunks(j + 3));
-            worldRenderer.AddChunk(GetFromCurrentChunks(j + 4));
+            worldRenderer.AddChunk(GetLoadedChunk(j));
+            worldRenderer.AddChunk(GetLoadedChunk(j + 1));
+            worldRenderer.AddChunk(GetLoadedChunk(j + 2));
+            worldRenderer.AddChunk(GetLoadedChunk(j + 3));
+            worldRenderer.AddChunk(GetLoadedChunk(j + 4));
 
-            //Add the chunks to the game
-            /*wndGame.cvsWorld.Children.Add(GetFromCurrentChunks(j).grdChunk);
-            Canvas.SetLeft(GetFromCurrentChunks(j).grdChunk, -400);
-            wndGame.cvsWorld.Children.Add(GetFromCurrentChunks(j + 1).grdChunk);
-            Canvas.SetLeft(GetFromCurrentChunks(j + 1).grdChunk, 0);
-            //wndGame.cvsWorld.Children.Add(GetFromCurrentChunks(j + 2).grdChunk);
-            //Canvas.SetLeft(GetFromCurrentChunks(j + 2).grdChunk, 400);
-            /*wndGame.cvsWorld.Children.Add(GetFromCurrentChunks(j + 3).grdChunk);
-            Canvas.SetLeft(GetFromCurrentChunks(j + 3).grdChunk, 800);
-            wndGame.cvsWorld.Children.Add(GetFromCurrentChunks(j + 4).grdChunk);
-            Canvas.SetLeft(GetFromCurrentChunks(j + 4).grdChunk, 1200);*/
         }
 
-        public Chunk GetFromCurrentChunks(int index)
+        public Chunk GetLoadedChunk(int index)
         {
             //Returns a chunk from the list based on the given index
-            foreach (Chunk chunk in currentChunkList)
+            foreach (Chunk chunk in loadedChunkList)
             {
                 if (chunk.index == index)
                 {
@@ -401,7 +421,7 @@ namespace SeeloewenCraft
             this.nightState = nightState;
 
             //Update all blocks in the currently loaded chunks
-            foreach (Chunk chunk in currentChunkList)
+            foreach (Chunk chunk in loadedChunkList)
             {
                 foreach (Block block in chunk.blockList.blocks)
                 {
@@ -443,20 +463,9 @@ namespace SeeloewenCraft
             worldRenderer.offsetX = (double)player.posX / 1000;
             worldRenderer.offsetY = (double)player.posY / 1000 + 1.1;
 
-            //Convert positions to screen coordinates
-            /*Point playerScreenPoint = player.cvsPlayer.PointToScreen(new Point(0, 0));
-            Point blockScreenPoint = block.blockContainer.bdrBlock.PointToScreen(new Point(0, 0));
-
-            //Convert to coordinates considering scrolling
-            Point playerPosition = world.wndGame.svWorld.TranslatePoint(playerScreenPoint, world.wndGame.svWorld);
-            Point blockPosition = world.wndGame.svWorld.TranslatePoint(blockScreenPoint, world.wndGame.svWorld);
-
-            //calculate relative position of block from player (top-left corner)
-            blockOriginPoint = new Point(blockPosition.X - playerPosition.X, blockPosition.Y - playerPosition.Y);*/
-
             worldRenderer.Render();
-            
-        
+
+
         }
     }
 }

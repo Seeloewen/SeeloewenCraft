@@ -16,10 +16,10 @@ namespace SeeloewenCraft
                     biome = GetNewBiome(Biome.None);
                     break;
                 case > 0:
-                    biome = GetNewBiome(world.GetFromCurrentChunks(index - 1).biome);
+                    biome = GetNewBiome(world.GetLoadedChunk(index - 1).biome);
                     break;
                 case < 0:
-                    biome = GetNewBiome(world.GetFromCurrentChunks(index + 1).biome);
+                    biome = GetNewBiome(world.GetLoadedChunk(index + 1).biome);
                     break;
             }
 
@@ -154,7 +154,7 @@ namespace SeeloewenCraft
             //Continue Structure Generation by adding a continuation strucutre, which contains the structure components that were previously cut off
             if (index != 0)
             {
-                foreach (Structure structure in world.GetFromCurrentChunks(index + (index < 0 ? 1 : -1)).structureList)
+                foreach (Structure structure in world.GetLoadedChunk(index + (index < 0 ? 1 : -1)).structureList)
                 {
                     if (structure.isCutOff)
                     {

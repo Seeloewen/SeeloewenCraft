@@ -86,7 +86,7 @@ namespace SeeloewenCraft
 
         private int ConvertToBlockX(int i)
         {
-            return i >= 0
+            return i >= 0 
                 ? i / 1000 
                 : (i-999) / 1000;
         }
@@ -104,13 +104,13 @@ namespace SeeloewenCraft
 
                     for (int y = startY / 1000; y <= endY / 1000; y++)
                     {
-                        (bool newCollision, int newMaxMovement) = world.GetBlock(x, y).CheckCollision(Direction.RIGHT, startX, endX, startY, endY);
+                        Block b = world.GetBlock(x, y);
+                        (bool newCollision, int newMaxMovement) = b.CheckCollision(Direction.RIGHT, startX, endX, startY, endY);
                         if (newCollision)
                         {
                             collision = true;
                             maxMovement = Math.Min(maxMovement, newMaxMovement);
                         }
-
                     }
                     if (collision)
                     {
@@ -198,7 +198,6 @@ namespace SeeloewenCraft
             return (false, 0);
         }
 
-
         //physics
         public void DoPhysicsStep(bool pressedLeft, bool pressedRight, bool pressedUp, double deltaTime)
         {
@@ -211,7 +210,6 @@ namespace SeeloewenCraft
             (bool onGround, _) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + 1);
             (bool touchingLeft, _) = DoCollisionCheck(Direction.LEFT, posX, posY, posX - 1, posY + sizeY);
             (bool touchingRight, _) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + 1, posY + sizeY);
-
 
 
 
@@ -327,14 +325,6 @@ namespace SeeloewenCraft
             DisplayDebugInformation();
         }
 
-        //block origin means top left corner of the block relative to the top left corner of player
-        private bool InBlock(Point blockOrigin, Point point)
-        {
-            return blockOrigin.Y <= point.Y
-                && blockOrigin.Y + 50 > point.Y
-                && blockOrigin.X <= point.X
-                && blockOrigin.X + 50 > point.X;
-        }
 
 
         public void SavePosition(string path)
@@ -370,64 +360,7 @@ namespace SeeloewenCraft
         }
 
 
-        /*public void MoveHorizontal(int amount)
-        {
-            //Move all chunks the specified amount to the left
-            foreach (Chunk chunk in world.currentChunkList)
-            {
-                Canvas.SetLeft(chunk.grdChunk, Canvas.GetLeft(chunk.grdChunk) - amount);
-            }
-
-            //Sort the list to account for chunk movement
-            world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-
-            //Check if the chunk has moved too far
-            if (Canvas.GetLeft(world.currentChunkList[2].grdChunk) <= 0)
-            {
-                double offset = -Canvas.GetLeft(world.currentChunkList[2].grdChunk);
-                //Save the chunk that has moved to far and remove it. Add a new one at the opposite site.
-                world.currentChunkList.Remove(world.GetFromCurrentChunks(world.currentChunkList[0].index));
-                world.currentChunkList.Add(world.GetOrCreateChunk(world.currentChunkList[3].index + 1));
-                try
-                {
-                    world.wndGame.cvsWorld.Children.Add(world.currentChunkList[4].grdChunk);
-                }
-                catch { }
-
-                Canvas.SetLeft(world.currentChunkList[4].grdChunk, 1200 - offset);
-
-                //Sort the chunklist again
-                world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-            }
-            else if (Canvas.GetLeft(world.currentChunkList[2].grdChunk) >= 800)
-            {
-                double offset = Canvas.GetLeft(world.currentChunkList[2].grdChunk) - 800;
-                //Move the chunk on the right all the way to the left
-                world.currentChunkList.Remove(world.GetFromCurrentChunks(world.currentChunkList[4].index));
-                world.currentChunkList.Add(world.GetOrCreateChunk(world.currentChunkList[0].index - 1));
-                try
-                {
-                    world.wndGame.cvsWorld.Children.Add(world.currentChunkList[4].grdChunk);
-                }
-                catch { }
-                Canvas.SetLeft(world.currentChunkList[4].grdChunk, -400 + offset);
-
-                //Sort the list again
-                world.currentChunkList = world.currentChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
-            }
-        }*/
-
-        /*public void MoveVertical(int amount)
-        {
-            Thickness currentMarginPlayer = cvsPlayer.Margin;
-            currentMarginPlayer.Top -= amount;
-            cvsPlayer.Margin = currentMarginPlayer;
-
-            //Scroll along to match the movement
-            world.wndGame.svWorld.ScrollToVerticalOffset(world.player.cvsPlayer.Margin.Top - 400);
-        }*/
-
-        
+       
 
         public void DisplayDebugInformation()
         {

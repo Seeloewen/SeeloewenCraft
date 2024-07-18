@@ -701,7 +701,7 @@ namespace SeeloewenCraft
 
             if (xPos + xOffset < 0)
             {
-                Chunk chunk = world.GetFromCurrentChunks(this.chunk.index - 1);
+                Chunk chunk = world.GetLoadedChunk(this.chunk.index - 1);
 
                 if (chunk != null)
                 {
@@ -714,7 +714,7 @@ namespace SeeloewenCraft
             }
             else if (xPos + xOffset > 7)
             {
-                Chunk chunk = world.GetFromCurrentChunks(this.chunk.index + 1);
+                Chunk chunk = world.GetLoadedChunk(this.chunk.index + 1);
 
                 if (chunk != null)
                 {
@@ -822,7 +822,7 @@ namespace SeeloewenCraft
 
                     if (actualXPos > 8)
                     {
-                        Chunk newChunk = world.GetFromCurrentChunks(chunk.index + 1);
+                        Chunk newChunk = world.GetLoadedChunk(chunk.index + 1);
                         block.chunk = newChunk;
                         if (newChunk.GetBlock(actualXPos - 8, actualYPos).isSolid || newChunk.GetBlock(actualXPos - 8, actualYPos).isBackground)
                         {
@@ -831,7 +831,7 @@ namespace SeeloewenCraft
                     }
                     else if (actualXPos < 1)
                     {
-                        Chunk newChunk = world.GetFromCurrentChunks(chunk.index - 1);
+                        Chunk newChunk = world.GetLoadedChunk(chunk.index - 1);
                         block.chunk = newChunk;
                         if (newChunk.GetBlock(actualXPos + 8, actualYPos).isSolid || newChunk.GetBlock(actualXPos + 8, actualYPos).isBackground)
                         {
@@ -858,7 +858,7 @@ namespace SeeloewenCraft
 
                     if (actualXPos > 8)
                     {
-                        Chunk newChunk = world.GetFromCurrentChunks(chunk.index + 1);
+                        Chunk newChunk = world.GetLoadedChunk(chunk.index + 1);
                         block.chunk = newChunk;
                         if (newChunk.GetBlock(actualXPos - 8, actualYPos).foregroundBlock != null || !newChunk.GetBlock(actualXPos - 8, actualYPos).isBackground)
                         {
@@ -867,7 +867,7 @@ namespace SeeloewenCraft
                     }
                     else if (actualXPos < 1)
                     {
-                        Chunk newChunk = world.GetFromCurrentChunks(chunk.index - 1);
+                        Chunk newChunk = world.GetLoadedChunk(chunk.index - 1);
                         block.chunk = newChunk;
                         if (newChunk.GetBlock(actualXPos + 8, actualYPos).foregroundBlock != null || !newChunk.GetBlock(actualXPos + 8, actualYPos).isBackground)
                         {
@@ -910,12 +910,12 @@ namespace SeeloewenCraft
                 //Since the actual pos is potentially in another chunk, get the pos in that chunk
                 if (actualXPos > 8)
                 {
-                    Chunk newChunk = world.GetFromCurrentChunks(chunk.index + 1);
+                    Chunk newChunk = world.GetLoadedChunk(chunk.index + 1);
                     newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceInForeground(conBlock);
                 }
                 else if (actualXPos < 1)
                 {
-                    Chunk newChunk = world.GetFromCurrentChunks(chunk.index - 1);
+                    Chunk newChunk = world.GetLoadedChunk(chunk.index - 1);
                     newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceInForeground(conBlock);
                 }
                 else
@@ -936,13 +936,13 @@ namespace SeeloewenCraft
                 //Since the actual pos is potentially in another chunk, get the pos in that chunk
                 if (actualXPos > 8)
                 {
-                    Chunk newChunk = world.GetFromCurrentChunks(chunk.index + 1);
+                    Chunk newChunk = world.GetLoadedChunk(chunk.index + 1);
                     conBlock.chunk = newChunk;
                     newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceNewBlock(conBlock);
                 }
                 else if (actualXPos < 1)
                 {
-                    Chunk newChunk = world.GetFromCurrentChunks(chunk.index - 1);
+                    Chunk newChunk = world.GetLoadedChunk(chunk.index - 1);
                     conBlock.chunk = newChunk;
                     newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceNewBlock(conBlock);
                 }
