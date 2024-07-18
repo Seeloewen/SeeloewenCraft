@@ -99,6 +99,12 @@ namespace SeeloewenCraft
         //-- Custom Methods --//
 
         //creates and returns chunk and adds to total chunk list
+        
+        public void SetBlock(Block block, int posX, int posY)
+        {
+            GetBlock(posX, posY).PlaceNewBlock(block);
+        }
+        
         public Chunk CreateChunk(int index)
         {
             Chunk newChunk = new Chunk(this, index);

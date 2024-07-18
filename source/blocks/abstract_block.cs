@@ -288,98 +288,14 @@ namespace SeeloewenCraft
             string id = blockToken.GetString("/id");
 
 
-            Block block;
-            switch (id)
+            Block block = BlockRegister.GenerateBlock(id, world);
+
+            if(block == null)
             {
-                case "sc:grass_block":
-                    block = new GrassBlock(world, isInBackground);
-                    break;
-                case "sc:dirt_block":
-                    block = new DirtBlock(world, isInBackground);
-                    break;
-                case "sc:stone_block":
-                    block = new StoneBlock(world, isInBackground);
-                    break;
-                case "sc:air_block":
-                    block = new AirBlock(world, isInBackground);
-                    break;
-                case "sc:bedrock_block":
-                    block = new BedrockBlock(world, isInBackground);
-                    break;
-                case "sc:diamond_ore_block":
-                    block = new DiamondOreBlock(world, isInBackground);
-                    break;
-                case "sc:iron_ore_block":
-                    block = new IronOreBlock(world, isInBackground);
-                    break;
-                case "sc:coal_ore_block":
-                    block = new CoalOreBlock(world, isInBackground);
-                    break;
-                case "sc:oak_log_block":
-                    block = new OakLogBlock(world, isInBackground);
-                    break;
-                case "sc:oak_leaves_block":
-                    block = new OakLeavesBlock(world, isInBackground);
-                    break;
-                case "sc:spruce_log_block":
-                    block = new SpruceLogBlock(world, isInBackground);
-                    break;
-                case "sc:spruce_leaves_block":
-                    block = new SpruceLeavesBlock(world, isInBackground);
-                    break;
-                case "sc:chest_block":
-                    block = new ChestBlock(world, isInBackground);
-                    break;
-                case "sc:magma_block":
-                    block = new MagmaBlock(world, isInBackground);
-                    break;
-                case "sc:torch_block":
-                    block = new TorchBlock(world, isInBackground);
-                    break;
-                case "sc:water_1_right_block":
-                    block = new WaterBlock_1_Right(world, isInBackground);
-                    break;
-                case "sc:water_1_left_block":
-                    block = new WaterBlock_1_Left(world, isInBackground);
-                    break;
-                case "sc:water_2_right_block":
-                    block = new WaterBlock_2_Right(world, isInBackground);
-                    break;
-                case "sc:water_2_left_block":
-                    block = new WaterBlock_2_Left(world, isInBackground);
-                    break;
-                case "sc:water_3_right_block":
-                    block = new WaterBlock_3_Right(world, isInBackground);
-                    break;
-                case "sc:water_3_left_block":
-                    block = new WaterBlock_3_Left(world, isInBackground);
-                    break;
-                case "sc:water_4_right_block":
-                    block = new WaterBlock_4_Right(world, isInBackground);
-                    break;
-                case "sc:water_4_left_block":
-                    block = new WaterBlock_4_Left(world, isInBackground);
-                    break;
-                case "sc:water_5_right_block":
-                    block = new WaterBlock_5_Right(world, isInBackground);
-                    break;
-                case "sc:water_5_left_block":
-                    block = new WaterBlock_5_Left(world, isInBackground);
-                    break;
-                case "sc:water_6_block":
-                    block = new WaterBlock_6(world, isInBackground);
-                    break;
-                case "sc:modded_block":
-                    //if()
-                    string type = blockToken.GetString("/type");
-                    block = new ModdedBlock(type, world, isInBackground);
-                    break;
-                case "sc:alpha_crafter_block":
-                    block = new AlphaCrafterBlock(world, isInBackground);
-                    break;
-                default:
-                    block = new AirBlock(world, isInBackground);
-                    break;
+                block = new AirBlock(world, false);
+            } else
+            {
+                block.isBackground = isInBackground;
             }
 
             if (block.hasInventory)

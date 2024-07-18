@@ -22,6 +22,9 @@ namespace SeeloewenCraft
                 case "give":
                     HandleGiveCommand(args);
                     break;
+                case "setblock":
+                    HandleSetBlockCommand(args);
+                    break;
                 case "ping":
                     Write("pong");
                     break;
