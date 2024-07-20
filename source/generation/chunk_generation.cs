@@ -70,7 +70,7 @@ namespace SeeloewenCraft
                 //Generate structures
                 GenerateTrees();
                 GenerateOres();
-                if (world.settings.enableCaveGeneration) GenerateCaves();
+                if (Settings.enableCaveGeneration) GenerateCaves();
                 ContinueStructureGeneration();
             }
         }

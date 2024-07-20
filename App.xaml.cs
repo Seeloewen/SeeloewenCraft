@@ -20,7 +20,7 @@ namespace SeeloewenCraft
             wndMenu.log.CreateCrashDump(e.Exception);
 
             //Save log before the game exits if enabled
-            if (wndMenu.settings.saveLogOnExit)
+            if (Settings.saveLogOnExit)
             {
                 wndMenu.log.Save(wndMenu.logDirectory, false);
             }

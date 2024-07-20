@@ -10,7 +10,6 @@ namespace SeeloewenCraft
 
         //References
         private System.Windows.Forms.Timer tmrSplashText = new System.Windows.Forms.Timer();
-        public Settings settings = new Settings();
         private wndLoadWorld wndLoadWorld;
         public wndSettings wndSettings;
         public World world;
@@ -57,7 +56,7 @@ namespace SeeloewenCraft
             //Create the game directories
             CreateDirectories();
             
-            wndSettings = new wndSettings(this, settings);
+            wndSettings = new wndSettings(this);
         }
 
         //-- Event Handlers --//
@@ -78,7 +77,7 @@ namespace SeeloewenCraft
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             //Show the settings window
-            wndSettings = new wndSettings(this, settings);
+            wndSettings = new wndSettings(this);
             wndSettings.ShowDialog();
         }
 
@@ -104,7 +103,7 @@ namespace SeeloewenCraft
         private void wndMenu1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //Save the log, if enabled
-            if (settings.saveLogOnExit)
+            if (Settings.saveLogOnExit)
             {
                 log.Save(logDirectory, false);
             }
