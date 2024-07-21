@@ -21,6 +21,21 @@
   <ItemGroup>
     <Resource Include="Resources\changelog.txt" />
     <Resource Include="Resources\Textures\Blocks\AlphaCrafter.png" />
+    <Resource Include="Resources\Textures\Blocks\Chiseler.png" />
+    <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock.png" />
+    <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_BottomLeft.png" />
+    <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_BottomRight.png" />
+    <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_Center.png" />
+    <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_SlabBottom.png" />
+    <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_SlabLeft.png" />
+    <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_SlabRight.png" />
+    <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_SlabTop.png" />
+    <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_StairBottomLeft.png" />
+    <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_StairBottomRight.png" />
+    <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_StairTopLeft.png" />
+    <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_StairTopRight.png" />
+    <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_TopLeft.png" />
+    <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_TopRight.png" />
     <Resource Include="Resources\Textures\Blocks\QuarterOakPlankBlock.png" />
     <Resource Include="Resources\Textures\Gui\Background.png" />
     <Resource Include="Resources\Textures\Blocks\ChestBlock.png" />
@@ -72,10 +87,6 @@
     <Compile Remove="frmLog.cs" />
     <Compile Remove="frmLog.Designer.cs" />
     <EmbeddedResource Remove="frmLog.resx" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Resources\changelog.txt" />
-    <None Remove="Resources\Textures\Blocks\QuarterOakPlankBlock.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">

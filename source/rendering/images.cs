@@ -139,6 +139,20 @@ namespace SeeloewenCraft
             HealthEmpty = new ImageBrush { ImageSource = GetImageSource("HealthEmpty.png") };
             AlphaCrafter = new ImageBrush { ImageSource = GetImageSource("AlphaCrafter.png") };
             QuarterOakPlankBlock = new ImageBrush { ImageSource = GetImageSource("QuarterOakPlankBlock.png") };
+            CobbleStoneBlock = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock.png") };
+            CobbleStoneBlock_BottomRight = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_BottomRight.png") };
+            CobbleStoneBlock_BottomLeft = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_BottomLeft.png") };
+            CobbleStoneBlock_TopRight = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_TopRight.png") };
+            CobbleStoneBlock_TopLeft = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_TopLeft.png") };
+            CobbleStoneBlock_SlabBottom = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_SlabBottom.png") };
+            CobbleStoneBlock_SlabTop = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_SlabTop.png") };
+            CobbleStoneBlock_SlabLeft = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_SlabLeft.png") };
+            CobbleStoneBlock_SlabRight = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_SlabRight.png") };
+            CobbleStoneBlock_StairBottomRight = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_StairBottomRight.png") };
+            CobbleStoneBlock_StairBottomLeft = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_StairBottomLeft.png") };
+            CobbleStoneBlock_StairTopRight = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_StairTopRight.png") };
+            CobbleStoneBlock_StairTopLeft = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_StairTopLeft.png") };
+            Chiseler = new ImageBrush { ImageSource = GetImageSource("Chiseler.png") };
         }
 
         //-- Images --//
@@ -180,6 +194,21 @@ namespace SeeloewenCraft
         public ImageBrush HealthHalf;
         public ImageBrush HealthEmpty;
         public ImageBrush AlphaCrafter;
+        public ImageBrush CobbleStoneBlock;
+        public ImageBrush CobbleStoneBlock_BottomRight;
+        public ImageBrush CobbleStoneBlock_BottomLeft;
+        public ImageBrush CobbleStoneBlock_TopRight;
+        public ImageBrush CobbleStoneBlock_TopLeft;
+        public ImageBrush CobbleStoneBlock_SlabBottom;
+        public ImageBrush CobbleStoneBlock_SlabTop;
+        public ImageBrush CobbleStoneBlock_SlabLeft;
+        public ImageBrush CobbleStoneBlock_SlabRight;
+        public ImageBrush CobbleStoneBlock_StairBottomRight;
+        public ImageBrush CobbleStoneBlock_StairBottomLeft;
+        public ImageBrush CobbleStoneBlock_StairTopRight;
+        public ImageBrush CobbleStoneBlock_StairTopLeft;
+        public ImageBrush Chiseler;
         public ImageBrush QuarterOakPlankBlock;
+
     }
 }
