@@ -44,11 +44,6 @@ namespace SeeloewenCraft
         {
             image = world.images.Water_1_Right;
         }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class WaterBlock_1_Left : WaterBlock
@@ -68,11 +63,6 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = world.images.Water_1_Left;
-        }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -94,11 +84,6 @@ namespace SeeloewenCraft
         {
             image = world.images.Water_2_Right;
         }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class WaterBlock_2_Left : WaterBlock
@@ -118,11 +103,6 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = world.images.Water_2_Left;
-        }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -144,11 +124,6 @@ namespace SeeloewenCraft
         {
             image = world.images.Water_3_Right;
         }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class WaterBlock_3_Left : WaterBlock
@@ -168,11 +143,6 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = world.images.Water_3_Left;
-        }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -194,11 +164,6 @@ namespace SeeloewenCraft
         {
             image = world.images.Water_4_Right;
         }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class WaterBlock_4_Left : WaterBlock
@@ -218,11 +183,6 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = world.images.Water_4_Left;
-        }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -244,11 +204,6 @@ namespace SeeloewenCraft
         {
             image = world.images.Water_5_Right;
         }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class WaterBlock_5_Left : WaterBlock
@@ -269,11 +224,6 @@ namespace SeeloewenCraft
         {
             image = world.images.Water_5_Left;
         }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class WaterBlock_6 : WaterBlock
@@ -293,11 +243,6 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = world.images.Water_6;
-        }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
         }
     }
 }

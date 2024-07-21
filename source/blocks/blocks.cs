@@ -22,16 +22,6 @@ namespace SeeloewenCraft
         {
             image = world.images.GrassBlock;
         }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class StoneBlock : Block
@@ -53,16 +43,6 @@ namespace SeeloewenCraft
         {
             image = world.images.StoneBlock;
         }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class DirtBlock : Block
@@ -82,16 +62,6 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = world.images.DirtBlock;
-        }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -118,16 +88,6 @@ namespace SeeloewenCraft
         {
             image = world.images.AirBlock;
         }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class BedrockBlock : Block
@@ -150,16 +110,6 @@ namespace SeeloewenCraft
         {
             image = world.images.BedrockBlock;
         }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class CoalOreBlock : Block
@@ -179,16 +129,6 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = world.images.CoalOreBlock;
-        }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -210,16 +150,6 @@ namespace SeeloewenCraft
         {
             image = world.images.DiamondOreBlock;
         }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class IronOreBlock : Block
@@ -239,16 +169,6 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = world.images.IronOreBlock;
-        }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -270,16 +190,6 @@ namespace SeeloewenCraft
         {
             image = world.images.OakLogBlock;
         }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class OakLeavesBlock : Block
@@ -299,16 +209,6 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = world.images.OakLeavesBlock;
-        }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -330,16 +230,6 @@ namespace SeeloewenCraft
         {
             image = world.images.SpruceLogBlock;
         }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class SpruceLeavesBlock : Block
@@ -359,16 +249,6 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = world.images.SpruceLeavesBlock;
-        }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -407,11 +287,6 @@ namespace SeeloewenCraft
                 blockInventory.ShowInventory();
             }
         }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class MagmaBlock : Block
@@ -431,15 +306,6 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = world.images.MagmaBlock;
-        }
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -463,16 +329,6 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = world.images.Torch;
-        }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
         }
     }
     public class Plant2Block_Base : Block
@@ -498,16 +354,6 @@ namespace SeeloewenCraft
         {
             image = world.images.Plant2_Base;
         }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class Plant2Block_Top : Block
@@ -529,16 +375,6 @@ namespace SeeloewenCraft
         {
             image = world.images.Plant2_Top;
         }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class AlphaCrafterBlock : Block
@@ -552,7 +388,8 @@ namespace SeeloewenCraft
             hasRightClickAction = true;
 
             craftingHandler = new CraftingHandler(world, this);
-            gui = new AlphaCrafterGui(world, 535, 720, 120, 200, "sc:alpha_crafter", null, this);
+            //gui = new AlphaCrafterGui(world, 535, 720, 120, 200, "sc:alpha_crafter", null, this);
+            gui = new ChiselerGui(world, 535, 720, 120, 200, "sc:chiseler", null, this);
         }
 
         override public void GenerateItem(World world)
@@ -731,16 +568,6 @@ namespace SeeloewenCraft
         public override void SetTexture()
         {
             image = world.images.QuarterOakPlankBlock;
-        }
-
-        public override void RightClickAction(object sender)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ShowAdditionalDebugInfo()
-        {
-            throw new NotImplementedException();
         }
     }
 
