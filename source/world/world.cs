@@ -97,12 +97,12 @@ namespace SeeloewenCraft
         //-- Custom Methods --//
 
         //creates and returns chunk and adds to total chunk list
-        
+
         public void SetBlock(Block block, int posX, int posY)
         {
             GetBlock(posX, posY).PlaceNewBlock(block);
         }
-        
+
         public Chunk CreateChunk(int index)
         {
             Chunk newChunk = new Chunk(this, index);
@@ -282,7 +282,7 @@ namespace SeeloewenCraft
 
             //Create the player
             CreatePlayer(loadedPlayerPosExists, playerPosX, playerPosY);
-            player.inventory = new Inventory(this, true);
+            player.inventory = new Inventory(this, true, 9, 4);
             inventoryList.Add(player.inventory);
             player.inventory.hotbarSlotList[0].SelectSlot();
 
@@ -303,8 +303,12 @@ namespace SeeloewenCraft
                     player.inventory.AddItem(new TorchItem(this));
                     player.inventory.AddItem(new WaterItem(this));
                     player.inventory.AddItem(new Plant2Item(this));
-                    player.inventory.AddItem(new QuarterOakPlankItem(this));
-player.inventory.AddItem(new AlphaCrafterItem(this));
+                    player.inventory.AddItem(new ChiselerItem(this));
+                    player.inventory.AddItem(new AlphaCrafterItem(this));
+                    player.inventory.AddItem(new ChestItem(this));
+                    player.inventory.AddItem(new CobbleStoneItem_StairTopLeft(this));
+                    player.inventory.AddItem(new UnchiselerItem(this));
+
                 }
             }
 

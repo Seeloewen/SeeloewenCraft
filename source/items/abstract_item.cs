@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System;
 
 namespace SeeloewenCraft
 {
@@ -36,12 +37,18 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-        public abstract void SetTexture();
+        public virtual void SetTexture()
+        {
+            throw new Exception("No texture for item was set.");
+        }
 
         //This is currently required, but may be changed in the future if items that don't have blocks are added
         public abstract Block GenerateBlock(bool isInBackground);
 
-        public abstract void RightClickAction(Block block, object sender);
+        public virtual void RightClickAction(Block block, object sender)
+        {
+            throw new NotImplementedException();
+        }
 
     }
 }

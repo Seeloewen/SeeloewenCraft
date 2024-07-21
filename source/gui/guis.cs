@@ -87,7 +87,7 @@ namespace SeeloewenCraft
             tbAmount.PreviewTextInput += tbAmount_PreviewTextInput;
 
             //Render the recipes
-            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, "AlphaCrafter");
+            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, "AlphaCrafter");
         }
 
         public override void Show()
@@ -97,7 +97,7 @@ namespace SeeloewenCraft
             world.guiList.Add(this);
 
             //Render the recipes
-            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, "AlphaCrafter");
+            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, "AlphaCrafter");
         }
 
         private void tbAmount_TextChanged(object sender, EventArgs e)
@@ -216,9 +216,9 @@ namespace SeeloewenCraft
         public TextBlock tblIngredients = new TextBlock() { FontSize = 18, Text = "Ingredients", FontWeight = FontWeights.DemiBold };
         public TextBlock tblAmount = new TextBlock() { FontSize = 18, Text = "Amount:", FontWeight = FontWeights.DemiBold };
         public TextBox tbAmount = new TextBox() { FontSize = 18, Text = "1", FontWeight = FontWeights.DemiBold, Width = 45 };
-        public ScrollViewer svRecipeDetails = new ScrollViewer() { Width = 400, Height = 375, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
+        public ScrollViewer svRecipeDetails = new ScrollViewer() { Width = 290, Height = 375, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
         public Canvas cvsRecipeDetails = new Canvas() { Background = new SolidColorBrush(Colors.LightGray) };
-        public ScrollViewer svRecipes = new ScrollViewer() { Width = 200, Height = 375, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
+        public ScrollViewer svRecipes = new ScrollViewer() { Width = 305, Height = 375, VerticalScrollBarVisibility = ScrollBarVisibility.Visible };
         public Canvas cvsRecipes = new Canvas() { Background = new SolidColorBrush(Colors.LightGray) };
         public Button btnCraft = new Button() { Width = 125, Height = 30, Content = "Craft Item", FontSize = 18 };
         public Button btnClaim = new Button() { Width = 125, Height = 30, Content = "Claim Item", FontSize = 18, Visibility = Visibility.Hidden, Background = new SolidColorBrush(Colors.LightGreen) };
@@ -237,11 +237,11 @@ namespace SeeloewenCraft
             Canvas.SetTop(tblRecipesHeader, 45);
             cvsGui.Children.Add(tblRecipesHeader);
 
-            Canvas.SetLeft(tblIngredients, 271);
+            Canvas.SetLeft(tblIngredients, 391);
             Canvas.SetTop(tblIngredients, 45);
             cvsGui.Children.Add(tblIngredients);
 
-            Canvas.SetLeft(svRecipeDetails, 270);
+            Canvas.SetLeft(svRecipeDetails, 390);
             Canvas.SetTop(svRecipeDetails, 80);
             svRecipeDetails.Content = cvsRecipeDetails;
             cvsGui.Children.Add(svRecipeDetails);
@@ -277,7 +277,7 @@ namespace SeeloewenCraft
             tbAmount.PreviewTextInput += tbAmount_PreviewTextInput;
 
             //Render the recipes
-            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, "Chiseler");
+            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, "Chiseler");
         }
 
         public override void Show()
@@ -287,7 +287,7 @@ namespace SeeloewenCraft
             world.guiList.Add(this);
 
             //Render the recipes
-            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, "Chiseler");
+            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, "Chiseler");
         }
 
         private void tbAmount_TextChanged(object sender, EventArgs e)
@@ -313,6 +313,77 @@ namespace SeeloewenCraft
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
+        }
+    }
+
+    public class UnchiselerGui : Gui
+    {
+
+        TextBlock tblUnchisel = new TextBlock() { Text = "Unchisel a block:", FontSize = 20, FontWeight = FontWeights.DemiBold };
+        Button btnUnchisel = new Button() { Content = "Break down", Width = 125, Height = 30, FontSize = 16 };
+
+        public UnchiselerGui(World world, int height, int width, int top, int left, string id) : base(world, height, width, top, left, id)
+        {
+            //Setup the gui
+            inventory = new Inventory(world, false, 1, 1);
+            world.inventoryList.Add(inventory);
+            tblHeader.Visibility = Visibility.Hidden;
+
+            Canvas.SetLeft(inventory.grdInventory, 67);
+            Canvas.SetTop(inventory.grdInventory, 67);
+            world.wndGame.RemoveFromParent(inventory.grdInventory);
+            cvsGui.Children.Add(inventory.grdInventory);
+
+            Canvas.SetLeft(btnUnchisel, 48);
+            Canvas.SetTop(btnUnchisel, 175);
+            cvsGui.Children.Add(btnUnchisel);
+
+            Canvas.SetLeft(tblUnchisel, 35);
+            Canvas.SetTop(tblUnchisel, 25);
+            cvsGui.Children.Add(tblUnchisel);
+
+            btnUnchisel.Click += BtnUnchisel_Click;
+        }
+
+        private void BtnUnchisel_Click(object sender, RoutedEventArgs e)
+        {
+            Unchisel();
+        }
+
+        private void Unchisel()
+        {
+            //Check if there's an item in the slot and the item is a chiselitem
+            if (inventory.slotList[0].items.Count > 0)
+            {
+                bool unchiselSuccess = false;
+
+                for (int i = 0; i < inventory.slotList[0].items.Count; i++)
+                {
+                    if (inventory.slotList[0].items[i] is ChiseledItem chisItem && chisItem.isChiseled)
+                    {
+                        //Add the output to the inventory
+                        foreach (Item item in chisItem.Unchisel())
+                        {
+                            world.player.inventory.AddItem(item);
+                        }
+
+                        unchiselSuccess = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("This item cannot be unchiseled!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                    }
+                }
+
+                //If an item was unchiseled, clear the slot
+                if (unchiselSuccess) inventory.slotList[0].ClearSlot();
+
+            }
+            else
+            {
+                MessageBox.Show("Please select an item to unchisel!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ namespace SeeloewenCraft
 
         //-- Constructuror --//
 
-        public Inventory(World world, bool hasHotbar)
+        public Inventory(World world, bool hasHotbar, int slotsX, int slotsY)
         {
             //Set the attributes
             this.world = world;
@@ -27,26 +27,26 @@ namespace SeeloewenCraft
             inventoryGui = new InventoryGui(world, 412, 859, 150, 175, "sc:inventory", this);
 
             //Create the inventory grid
-            grdInventory.Width = 800;
-            grdInventory.Height = 356;
+            grdInventory.Width = 89 * slotsX;
+            grdInventory.Height = 89 * slotsY;
             Canvas.SetLeft(grdInventory, 28);
             Canvas.SetTop(grdInventory, 36);
             inventoryGui.cvsGui.Children.Add(grdInventory);
 
             //Add colums and rows to the grid
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < slotsX; i++)
             {
                 grdInventory.ColumnDefinitions.Add(new ColumnDefinition());
             }
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < slotsY; i++)
             {
                 grdInventory.RowDefinitions.Add(new RowDefinition());
             }
 
             //Create inventory slots
-            for (int x = 0; x < 9; x++)
+            for (int x = 0; x < slotsX; x++)
             {
-                for (int y = 0; y < 4; y++)
+                for (int y = 0; y < slotsY; y++)
                 {
                     slotList.Add(new InventorySlot(world, x, y));
                 }
@@ -63,7 +63,7 @@ namespace SeeloewenCraft
             if (hasHotbar == true)
             {
                 //Create the hotbar grid
-                grdHotbar.Width = 675;
+                grdHotbar.Width = 75 * slotsX;
                 grdHotbar.Height = 75;
                 grdHotbar.Visibility = Visibility.Visible;
                 grdHotbar.Background = new SolidColorBrush(Colors.Gray);
@@ -73,14 +73,14 @@ namespace SeeloewenCraft
                 world.wndGame.cvsGame.Children.Add(grdHotbar);
 
                 //Create the hotbar rows and colums
-                for (int i = 0; i < 9; i++)
+                for (int i = 0; i < slotsX; i++)
                 {
                     grdHotbar.ColumnDefinitions.Add(new ColumnDefinition());
                 }
                 grdHotbar.RowDefinitions.Add(new RowDefinition());
 
                 //Create the hotbar slots
-                for (int x = 0; x < 9; x++)
+                for (int x = 0; x < slotsX; x++)
                 {
                     foreach (InventorySlot slot in slotList)
                     {
@@ -129,7 +129,7 @@ namespace SeeloewenCraft
                 if (slot.items.Count > 0)
                 {
                     //Check if the item is already in the slot and the max amount is not reached
-                    if (slot.items[0].name == item.name && slot.itemAmount < 64)
+                    if (slot.items[0].id == item.id && slot.itemAmount < 64)
                     {
                         //Add the item to the slot and update it's attributes
                         slot.AddToSlot(item);
@@ -391,7 +391,7 @@ namespace SeeloewenCraft
         public static Inventory LoadFromJson(JsonToken token, World world)
         {
             bool hasHotbar = token.GetBool("/has_hotbar");
-            Inventory inventory = new Inventory(world, hasHotbar);
+            Inventory inventory = new Inventory(world, hasHotbar,9,4);
             JsonToken slotArrayToken = token.GetToken("/slots");
 
             int slotNum = 0;

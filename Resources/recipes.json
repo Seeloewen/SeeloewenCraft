@@ -39,6 +39,240 @@
           "amount": 1
         }
       ]
+    },
+    {
+      "id": "sc:recipe_cobblestone_topleft",
+      "workstation": "Chiseler",
+      "display_name": "Cobblestone Top-Left",
+      "required_time": 1000,
+      "ingredients": [
+        {
+          "item_id": "sc:cobblestone_center_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:cobblestone_topleft_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_cobblestone_topright",
+      "workstation": "Chiseler",
+      "display_name": "Cobblestone Top-Right",
+      "required_time": 1000,
+      "ingredients": [
+        {
+          "item_id": "sc:cobblestone_center_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:cobblestone_topright_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_cobblestone_bottomleft",
+      "workstation": "Chiseler",
+      "display_name": "Cobblestone Bottom-Left",
+      "required_time": 1000,
+      "ingredients": [
+        {
+          "item_id": "sc:cobblestone_center_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:cobblestone_bottomleft_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_cobblestone_bottomright",
+      "workstation": "Chiseler",
+      "display_name": "Cobblestone Bottom-Right",
+      "required_time": 1000,
+      "ingredients": [
+        {
+          "item_id": "sc:cobblestone_center_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:cobblestone_bottomright_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_cobblestone_stairtopleft",
+      "workstation": "Chiseler",
+      "display_name": "Cobblestone Stair Top-Left",
+      "required_time": 3000,
+      "ingredients": [
+        {
+          "item_id": "sc:cobblestone_center_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:cobblestone_stairtopleft_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_cobblestone_stairtopright",
+      "workstation": "Chiseler",
+      "display_name": "Cobblestone Stair Top-Right",
+      "required_time": 3000,
+      "ingredients": [
+        {
+          "item_id": "sc:cobblestone_center_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:cobblestone_stairtopright_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_cobblestone_stairbottomleft",
+      "workstation": "Chiseler",
+      "display_name": "Cobblestone Stair Bottom-Left",
+      "required_time": 3000,
+      "ingredients": [
+        {
+          "item_id": "sc:cobblestone_center_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:cobblestone_stairbottomleft_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_cobblestone_stairbottomright",
+      "workstation": "Chiseler",
+      "display_name": "Cobblestone Stair Bottom-Right",
+      "required_time": 3000,
+      "ingredients": [
+        {
+          "item_id": "sc:cobblestone_center_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:cobblestone_stairbottomright_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_cobblestone_slabbottom",
+      "workstation": "Chiseler",
+      "display_name": "Cobblestone Slab Bottom",
+      "required_time": 2000,
+      "ingredients": [
+        {
+          "item_id": "sc:cobblestone_center_item",
+          "amount": 2
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:cobblestone_slabbottom_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_cobblestone_slabtop",
+      "workstation": "Chiseler",
+      "display_name": "Cobblestone Slab Top",
+      "required_time": 2000,
+      "ingredients": [
+        {
+          "item_id": "sc:cobblestone_center_item",
+          "amount": 2
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:cobblestone_slabtop_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_cobblestone_slabright",
+      "workstation": "Chiseler",
+      "display_name": "Cobblestone Slab Right",
+      "required_time": 2000,
+      "ingredients": [
+        {
+          "item_id": "sc:cobblestone_center_item",
+          "amount": 2
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:cobblestone_slabright_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_cobblestone_slableft",
+      "workstation": "Chiseler",
+      "display_name": "Cobblestone Slab Left",
+      "required_time": 2000,
+      "ingredients": [
+        {
+          "item_id": "sc:cobblestone_center_item",
+          "amount": 2
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:cobblestone_slableft_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_cobblestone_center",
+      "workstation": "Chiseler",
+      "display_name": "Cobblestone Center",
+      "required_time": 4000,
+      "ingredients": [
+        {
+          "item_id": "sc:cobblestone_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:cobblestone_center_item",
+          "amount": 4
+        }
+      ]
     }
-]
+  ]
 }

@@ -1,0 +1,353 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SeeloewenCraft
+{
+    public class CobbleStoneItem_TopRight : ChiseledItem
+    {
+        public CobbleStoneItem_TopRight(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Chiseled Cobblestone";
+            id = "sc:cobblestone_topright_item";
+            SetTexture();
+            unchiselItems.Add(new CobbleStoneItem_Center(world));
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new CobbleStoneBlock_TopRight(world, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            //Set the texture of the block on the canvas
+            image = world.images.CobbleStoneBlock_TopRight;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class CobbleStoneItem_TopLeft : ChiseledItem
+    {
+        public CobbleStoneItem_TopLeft(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Chiseled Cobblestone";
+            id = "sc:cobblestone_topleft_item";
+            SetTexture();
+            unchiselItems.Add(new CobbleStoneItem_Center(world));
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new CobbleStoneBlock_TopLeft(world, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            image = world.images.CobbleStoneBlock_TopLeft;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class CobbleStoneItem_BottomRight : ChiseledItem
+    {
+        public CobbleStoneItem_BottomRight(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Chiseled Cobblestone";
+            id = "sc:cobblestone_bottomright_item";
+            SetTexture();
+            unchiselItems.Add(new CobbleStoneItem_Center(world));
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new CobbleStoneBlock_BottomRight(world, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            image = world.images.CobbleStoneBlock_BottomRight;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class CobbleStoneItem_BottomLeft : ChiseledItem
+    {
+        public CobbleStoneItem_BottomLeft(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Chiseled Cobblestone";
+            id = "sc:cobblestone_bottomleft_item";
+            SetTexture();
+            unchiselItems.Add(new CobbleStoneItem_Center(world));
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new CobbleStoneBlock_BottomLeft(world, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            image = world.images.CobbleStoneBlock_BottomLeft;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class CobbleStoneItem_SlabRight : ChiseledItem
+    {
+        public CobbleStoneItem_SlabRight(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Chiseled Cobblestone";
+            id = "sc:cobblestone_slabright_item";
+            SetTexture();
+
+            for (int i = 0; i < 2; i++)
+            {
+                unchiselItems.Add(new CobbleStoneItem_Center(world));
+            }
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new CobbleStoneBlock_SlabRight(world, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            image = world.images.CobbleStoneBlock_SlabRight;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class CobbleStoneItem_SlabLeft : ChiseledItem
+    {
+        public CobbleStoneItem_SlabLeft(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Chiseled Cobblestone";
+            id = "sc:cobblestone_slableft_item";
+            SetTexture();
+
+            for (int i = 0; i < 2; i++)
+            {
+                unchiselItems.Add(new CobbleStoneItem_Center(world));
+            }
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new CobbleStoneBlock_SlabLeft(world, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            image = world.images.CobbleStoneBlock_SlabLeft;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class CobbleStoneItem_SlabTop : ChiseledItem
+    {
+        public CobbleStoneItem_SlabTop(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Chiseled Cobblestone";
+            id = "sc:cobblestone_slabtop_item";
+            SetTexture();
+
+            for (int i = 0; i < 2; i++)
+            {
+                unchiselItems.Add(new CobbleStoneItem_Center(world));
+            }
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new CobbleStoneBlock_SlabTop(world, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            image = world.images.CobbleStoneBlock_SlabTop;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class CobbleStoneItem_SlabBottom : ChiseledItem
+    {
+        public CobbleStoneItem_SlabBottom(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Chiseled Cobblestone";
+            id = "sc:cobblestone_slabbottom_item";
+            SetTexture();
+
+            for (int i = 0; i < 2; i++)
+            {
+                unchiselItems.Add(new CobbleStoneItem_Center(world));
+            }
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new CobbleStoneBlock_SlabBottom(world, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            image = world.images.CobbleStoneBlock_SlabBottom;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class CobbleStoneItem_StairTopRight : ChiseledItem
+    {
+        public CobbleStoneItem_StairTopRight(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Chiseled Cobblestone";
+            id = "sc:cobblestone_stairtopright_item";
+            SetTexture();
+
+            for (int i = 0; i < 3; i++)
+            {
+                unchiselItems.Add(new CobbleStoneItem_Center(world));
+            }
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new CobbleStoneBlock_StairTopRight(world, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            image = world.images.CobbleStoneBlock_StairTopRight;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class CobbleStoneItem_StairTopLeft : ChiseledItem
+    {
+        public CobbleStoneItem_StairTopLeft(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Chiseled Cobblestone";
+            id = "sc:cobblestone_stairtopleft_item";
+            SetTexture();
+
+            for (int i = 0; i < 3; i++)
+            {
+                unchiselItems.Add(new CobbleStoneItem_Center(world));
+            }
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new CobbleStoneBlock_StairTopLeft(world, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            image = world.images.CobbleStoneBlock_StairTopLeft;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class CobbleStoneItem_StairBottomRight : ChiseledItem
+    {
+        public CobbleStoneItem_StairBottomRight(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Chiseled Cobblestone";
+            id = "sc:cobblestone_stairbottomright_item";
+            SetTexture();
+
+            for (int i = 0; i < 3; i++)
+            {
+                unchiselItems.Add(new CobbleStoneItem_Center(world));
+            }
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new CobbleStoneBlock_StairBottomRight(world, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            image = world.images.CobbleStoneBlock_StairBottomRight;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class CobbleStoneItem_StairBottomLeft : ChiseledItem
+    {
+        public CobbleStoneItem_StairBottomLeft(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Chiseled Cobblestone";
+            id = "sc:cobblestone_stairbottomleft_item";
+            SetTexture();
+
+            for (int i = 0; i < 3; i++)
+            {
+                unchiselItems.Add(new CobbleStoneItem_Center(world));
+            }
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new CobbleStoneBlock_StairBottomLeft(world, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            image = world.images.CobbleStoneBlock_StairBottomLeft;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class CobbleStoneItem_Center : ChiseledItem
+    {
+        public CobbleStoneItem_Center(World world) : base(world)
+        {
+            isChiseled = false;
+            isPlacable = true;
+            name = "Chiseled Cobblestone";
+            id = "sc:cobblestone_center_item";
+            SetTexture();
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new CobbleStoneBlock_Center(world, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            image = world.images.CobbleStoneBlock_Center;
+            cvsItem.Background = image;
+        }
+    }
+}

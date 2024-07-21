@@ -47,7 +47,6 @@ namespace SeeloewenCraft
                 imageUri = GetInternalUri(resourceName);
             }
 
-
             //Get an image from an imagesource from a uri
             return BitmapFrame.Create(imageUri);
         }
@@ -138,7 +137,6 @@ namespace SeeloewenCraft
             HealthHalf = new ImageBrush { ImageSource = GetImageSource("HealthHalf.png") };
             HealthEmpty = new ImageBrush { ImageSource = GetImageSource("HealthEmpty.png") };
             AlphaCrafter = new ImageBrush { ImageSource = GetImageSource("AlphaCrafter.png") };
-            QuarterOakPlankBlock = new ImageBrush { ImageSource = GetImageSource("QuarterOakPlankBlock.png") };
             CobbleStoneBlock = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock.png") };
             CobbleStoneBlock_BottomRight = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_BottomRight.png") };
             CobbleStoneBlock_BottomLeft = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_BottomLeft.png") };
@@ -152,7 +150,9 @@ namespace SeeloewenCraft
             CobbleStoneBlock_StairBottomLeft = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_StairBottomLeft.png") };
             CobbleStoneBlock_StairTopRight = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_StairTopRight.png") };
             CobbleStoneBlock_StairTopLeft = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_StairTopLeft.png") };
+            CobbleStoneBlock_Center = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_Center.png") };
             Chiseler = new ImageBrush { ImageSource = GetImageSource("Chiseler.png") };
+            Unchiseler = new ImageBrush { ImageSource = GetImageSource("Unchiseler.png") };
         }
 
         //-- Images --//
@@ -207,8 +207,8 @@ namespace SeeloewenCraft
         public ImageBrush CobbleStoneBlock_StairBottomLeft;
         public ImageBrush CobbleStoneBlock_StairTopRight;
         public ImageBrush CobbleStoneBlock_StairTopLeft;
+        public ImageBrush CobbleStoneBlock_Center;
         public ImageBrush Chiseler;
-        public ImageBrush QuarterOakPlankBlock;
-
+        public ImageBrush Unchiseler;
     }
 }

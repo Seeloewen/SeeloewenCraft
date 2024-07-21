@@ -25,11 +25,6 @@ namespace SeeloewenCraft
             image = world.images.GrassBlock;
             cvsItem.Background = image;
         }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class StoneItem : Item
@@ -52,11 +47,6 @@ namespace SeeloewenCraft
             //Set the texture of the block on the canvas
             image = world.images.StoneBlock;
             cvsItem.Background = image;
-        }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -82,11 +72,6 @@ namespace SeeloewenCraft
             image = world.images.DirtBlock;
             cvsItem.Background = image;
         }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class CoalOreItem : Item
@@ -110,11 +95,6 @@ namespace SeeloewenCraft
             //Set the texture of the block on the canvas
             image = world.images.CoalOreBlock;
             cvsItem.Background = image;
-        }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -140,11 +120,6 @@ namespace SeeloewenCraft
             image = world.images.DiamondOreBlock;
             cvsItem.Background = image;
         }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class IronOreItem : Item
@@ -168,11 +143,6 @@ namespace SeeloewenCraft
             //Set the texture of the block on the canvas
             image = world.images.IronOreBlock;
             cvsItem.Background = image;
-        }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -198,11 +168,6 @@ namespace SeeloewenCraft
             image = world.images.OakLogBlock;
             cvsItem.Background = image;
         }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class OakLeavesItem : Item
@@ -226,11 +191,6 @@ namespace SeeloewenCraft
             //Set the texture of the block on the canvas
             image = world.images.OakLeavesBlock;
             cvsItem.Background = image;
-        }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -256,11 +216,6 @@ namespace SeeloewenCraft
             image = world.images.SpruceLogBlock;
             cvsItem.Background = image;
         }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class SpruceLeavesItem : Item
@@ -285,11 +240,6 @@ namespace SeeloewenCraft
             image = world.images.SpruceLeavesBlock;
             cvsItem.Background = image;
         }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class BedrockItem : Item
@@ -313,12 +263,6 @@ namespace SeeloewenCraft
             image = world.images.BedrockBlock;
             cvsItem.Background = image;
         }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 
     public class AirItem : Item
@@ -342,11 +286,6 @@ namespace SeeloewenCraft
             //Set the texture of the block on the canvas
             image = world.images.AirBlock;
             cvsItem.Background = image;
-        }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -372,11 +311,6 @@ namespace SeeloewenCraft
             image = world.images.ChestBlock;
             cvsItem.Background = image;
         }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class MagmaBlockItem : Item
@@ -400,11 +334,6 @@ namespace SeeloewenCraft
             //Set the texture of the block on the canvas
             image = world.images.MagmaBlock;
             cvsItem.Background = image;
-        }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -468,11 +397,6 @@ namespace SeeloewenCraft
             image = world.images.Torch;
             cvsItem.Background = image;
         }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class WaterItem : Item
@@ -499,11 +423,6 @@ namespace SeeloewenCraft
             image = world.images.Water_6;
             cvsItem.Background = image;
         }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class Plant2Item : Item
@@ -529,11 +448,6 @@ namespace SeeloewenCraft
             image = world.images.Plant2;
             cvsItem.Background = image;
         }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class AlphaCrafterItem : Item
@@ -558,39 +472,77 @@ namespace SeeloewenCraft
             image = world.images.AlphaCrafter;
             cvsItem.Background = image;
         }
-
-        public override void RightClickAction(Block block, object sender)
-        {
-            throw new NotImplementedException();
-        }
     }
 
-    public class QuarterOakPlankItem : Item
+    public class CobbleStoneItem : Item
     {
-        public QuarterOakPlankItem(World world) : base(world)
+        public CobbleStoneItem(World world) : base(world)
         {
             isPlacable = true;
-            name = "Quarter Oak Plank";
-            id = "sc:quarter_oak_plank_item";
+            name = "Cobblestone";
+            id = "sc:cobblestone_item";
             SetTexture();
         }
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new QuarterOakPlankBlock(world, isInBackground);
+            block = new CobbleStoneBlock(world, isInBackground);
             return block;
         }
 
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = world.images.QuarterOakPlankBlock;
+            image = world.images.CobbleStoneBlock;
             cvsItem.Background = image;
         }
+    }
 
-        public override void RightClickAction(Block block, object sender)
+    public class ChiselerItem : Item
+    {
+        public ChiselerItem(World world) : base(world)
         {
-            throw new NotImplementedException();
+            isPlacable = true;
+            name = "Chiseler";
+            id = "sc:chiseler_item";
+            SetTexture();
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new ChiselerBlock(world, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            //Set the texture of the block on the canvas
+            image = world.images.Chiseler;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class UnchiselerItem : Item
+    {
+        public UnchiselerItem(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Unchiseler";
+            id = "sc:unchiseler_item";
+            SetTexture();
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new UnchiselerBlock(world, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            //Set the texture of the block on the canvas
+            image = world.images.Unchiseler;
+            cvsItem.Background = image;
         }
     }
 }

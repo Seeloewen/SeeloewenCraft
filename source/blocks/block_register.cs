@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
-
-namespace SeeloewenCraft
+﻿namespace SeeloewenCraft
 {
     static public class BlockRegister
     {
@@ -72,6 +65,38 @@ namespace SeeloewenCraft
                     return new ModdedBlock(type, world, false);*/
                 case "sc:alpha_crafter_block":
                     return new AlphaCrafterBlock(world, false);
+                case "sc:cobblestone_topleft":
+                    return new CobbleStoneBlock_TopLeft(world, false);
+                case "sc:cobblestone_topright":
+                    return new CobbleStoneBlock_TopRight(world, false);
+                case "sc:cobblestone_bottomleft":
+                    return new CobbleStoneBlock_BottomLeft(world, false);
+                case "sc:cobblestone_bottomright":
+                    return new CobbleStoneBlock_BottomRight(world, false);
+                case "sc:cobblestone_slabright":
+                    return new CobbleStoneBlock_SlabRight(world, false);
+                case "sc:cobblestone_slableft":
+                    return new CobbleStoneBlock_SlabLeft(world, false);
+                case "sc:cobblestone_slabtop":
+                    return new CobbleStoneBlock_SlabTop(world, false);
+                case "sc:cobblestone_slabbottom":
+                    return new CobbleStoneBlock_SlabBottom(world, false);
+                case "sc:cobblestone_stairtopright":
+                    return new CobbleStoneBlock_StairTopRight(world, false);
+                case "sc:cobblestone_stairtopleft":
+                    return new CobbleStoneBlock_StairTopLeft(world, false);
+                case "sc:cobblestone_stairbottomright":
+                    return new CobbleStoneBlock_StairBottomRight(world, false);
+                case "sc:cobblestone_stairbottomleft":
+                    return new CobbleStoneBlock_StairBottomLeft(world, false);
+                case "sc:cobblestone":
+                    return new CobbleStoneBlock(world, false);
+                case "sc:chiseler":
+                    return new ChiselerBlock(world, false);
+                case "sc:unchiseler":
+                    return new UnchiselerBlock(world, false);
+                case "sc:cobblestone_center":
+                    return new CobbleStoneBlock_Center(world, false);
                 default:
                     return null;
 

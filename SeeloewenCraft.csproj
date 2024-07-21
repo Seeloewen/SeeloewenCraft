@@ -36,7 +36,7 @@
     <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_StairTopRight.png" />
     <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_TopLeft.png" />
     <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_TopRight.png" />
-    <Resource Include="Resources\Textures\Blocks\QuarterOakPlankBlock.png" />
+    <Resource Include="Resources\Textures\Blocks\Unchiseler.png" />
     <Resource Include="Resources\Textures\Gui\Background.png" />
     <Resource Include="Resources\Textures\Blocks\ChestBlock.png" />
     <Resource Include="Resources\Textures\Gui\Gui.png" />
@@ -87,6 +87,9 @@
     <Compile Remove="frmLog.cs" />
     <Compile Remove="frmLog.Designer.cs" />
     <EmbeddedResource Remove="frmLog.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\Textures\Blocks\Unchiseler.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">

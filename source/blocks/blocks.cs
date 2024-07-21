@@ -257,7 +257,7 @@ namespace SeeloewenCraft
         public ChestBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             hasInventory = true;
-            blockInventory = new Inventory(world, false);
+            blockInventory = new Inventory(world, false, 9, 4);
             world.inventoryList.Add(blockInventory);
             SetTexture();
             name = "Chest";
@@ -388,8 +388,7 @@ namespace SeeloewenCraft
             hasRightClickAction = true;
 
             craftingHandler = new CraftingHandler(world, this);
-            //gui = new AlphaCrafterGui(world, 535, 720, 120, 200, "sc:alpha_crafter", null, this);
-            gui = new ChiselerGui(world, 535, 720, 120, 200, "sc:chiseler", null, this);
+            gui = new AlphaCrafterGui(world, 535, 720, 120, 200, "sc:alpha_crafter", null, this);
         }
 
         override public void GenerateItem(World world)
@@ -404,7 +403,12 @@ namespace SeeloewenCraft
 
         public override void RightClickAction(object sender)
         {
-            gui.Show();
+            //If the block is in range
+            if (IsInRange())
+            {
+                //If the block has an inventory, open it as well as the players inventory
+                gui.Show();
+            }
         }
 
         public override void ShowAdditionalDebugInfo()
@@ -421,29 +425,104 @@ namespace SeeloewenCraft
         }
     }
 
-    public class QuarterOakPlankBlock : Block
+    public class ChiselerBlock : Block
     {
-        public QuarterOakPlankBlock(World world, bool isInBackground) : base(world, isInBackground)
+        public ChiselerBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
-            name = "Quarter Oak Plank";
-            id = "sc:quarter_oak_plank_block";
+            name = "Chiseler";
+            id = "sc:chiseler_block";
+            tags.Add("workstation");
+            hasRightClickAction = true;
 
-            collision = new RectangleCollision(500,1000,0,500);
-
+            craftingHandler = new CraftingHandler(world, this);
+            gui = new ChiselerGui(world, 535, 720, 120, 200, "sc:chiseler", null, this);
         }
-
-
 
         override public void GenerateItem(World world)
         {
-            item = new QuarterOakPlankItem(world);
+            item = new ChiselerItem(world);
         }
 
         public override void SetTexture()
         {
-            image = world.images.QuarterOakPlankBlock;
+            image = world.images.Chiseler;
+        }
+
+        public override void RightClickAction(object sender)
+        {
+            if (IsInRange())
+            {
+                gui.Show();
+            }
+        }
+
+        public override void ShowAdditionalDebugInfo()
+        {
+            world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"recipeClaimable={craftingHandler.recipeClaimable}");
+            world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"recipeRunning={craftingHandler.recipeRunning}");
+
+            if (craftingHandler.recipeRunning)
+            {
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"selectedRecipe={craftingHandler.selectedRecipe}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"recipeProgress={craftingHandler.recipeProgress}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"amount={craftingHandler.amount}");
+            }
         }
     }
 
+    public class UnchiselerBlock : Block
+    {
+        public UnchiselerBlock(World world, bool isInBackground) : base(world, isInBackground)
+        {
+            SetTexture();
+            name = "Unchiseler";
+            id = "sc:unchiseler_block";
+            hasRightClickAction = true;
+            collision = new RectangleCollision(0, 1000, 565, 1000);
+
+            craftingHandler = new CraftingHandler(world, this);
+            gui = new UnchiselerGui(world, 225, 225, 465, 475, "sc:unchiseler");
+        }
+
+        override public void GenerateItem(World world)
+        {
+            item = new UnchiselerItem(world);
+        }
+
+        public override void SetTexture()
+        {
+            image = world.images.Unchiseler;
+        }
+
+        public override void RightClickAction(object sender)
+        {
+            if (IsInRange())
+            {
+                world.player.inventory.inventoryGui.SetTop(25);
+                world.player.inventory.ShowInventory();
+                gui.Show();
+            }
+        }
+    }
+
+    public class CobbleStoneBlock : Block
+    {
+        public CobbleStoneBlock(World world, bool isInBackground) : base(world, isInBackground)
+        {
+            SetTexture();
+            name = "Cobblestone";
+            id = "sc:cobblestone_block";
+        }
+
+        override public void GenerateItem(World world)
+        {
+            item = new CobbleStoneItem(world);
+        }
+
+        public override void SetTexture()
+        {
+            image = world.images.CobbleStoneBlock;
+        }
+    }
 }

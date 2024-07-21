@@ -14,6 +14,7 @@ namespace SeeloewenCraft
         public World world;
         private Block block;
         private Canvas cvsRecipes;
+        private ScrollViewer svRecipes;
         private Canvas cvsIngredients;
         private Button btnCraft;
         private Button btnClaim;
@@ -61,7 +62,7 @@ namespace SeeloewenCraft
             return null;
         }
 
-        public void RenderCraftingRecipes(Canvas cvsRecipes, Canvas cvsIngredients, Button btnCraft, Button btnClaim, ProgressBar pbCrafting, TextBox tbAmount, string workstation)
+        public void RenderCraftingRecipes(Canvas cvsRecipes, Canvas cvsIngredients, Button btnCraft, Button btnClaim, ProgressBar pbCrafting, TextBox tbAmount, ScrollViewer svRecipes, string workstation)
         {
             if (!recipeRunning && !recipeClaimable)
             {
@@ -73,6 +74,7 @@ namespace SeeloewenCraft
                 this.btnClaim = btnClaim;
                 this.pbCrafting = pbCrafting;
                 this.tbAmount = tbAmount;
+                this.svRecipes = svRecipes;
 
                 //Reset previous changes and variables to default
                 this.cvsIngredients.Children.Clear();
@@ -87,13 +89,15 @@ namespace SeeloewenCraft
                 recipeClaimable = false;
 
                 int top = 0;
+                cvsRecipes.Height = 0;
+
                 foreach (CraftingRecipe recipe in world.craftingRecipeList)
                 {
                     //Go through recipes and find the correct one
                     if (recipe.workstation == workstation)
                     {
                         //Setup contents of the recipe
-                        Canvas cvsItem = new Canvas() { Tag = recipe.id, Width = 200, Height = 60 };
+                        Canvas cvsItem = new Canvas() { Tag = recipe.id, Width = svRecipes.Width, Height = 60 };
                         TextBlock tblItem = new TextBlock() { Text = recipe.displayName, FontSize = 16, FontWeight = FontWeights.DemiBold };
                         Canvas cvsImage = new Canvas() { Background = recipe.displayImage, Width = 40, Height = 40 };
 
@@ -111,6 +115,7 @@ namespace SeeloewenCraft
                         cvsRecipes.Children.Add(cvsItem);
 
                         top += 60;
+                        cvsRecipes.Height += 60;
                     }
                 }
             }
@@ -316,7 +321,7 @@ namespace SeeloewenCraft
 
             //Refresh the UI
             string tempRecipe = selectedRecipe.id;
-            RenderCraftingRecipes(cvsRecipes, cvsIngredients, btnCraft, btnClaim, pbCrafting, tbAmount, workstation);
+            RenderCraftingRecipes(cvsRecipes, cvsIngredients, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, workstation);
             selectedRecipe = GetRecipe(tempRecipe);
             RenderCraftingDetails(cvsIngredients, selectedRecipe);
 
