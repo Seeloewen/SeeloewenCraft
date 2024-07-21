@@ -406,7 +406,10 @@ namespace SeeloewenCraft
                 for (int i = 0; i < amount; i++)
                 {
                     Item item = ItemRegister.GenerateItem(id, world);
-                    slot.AddToSlot(item);
+                    if (item != null)
+                    {
+                        slot.AddToSlot(item);
+                    }
                 }
                 slotNum++;
             }

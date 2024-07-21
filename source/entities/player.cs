@@ -46,21 +46,22 @@ namespace SeeloewenCraft
             this.world = world;
 
             //Generate the player
-            GeneratePlayer(x, y);
-            posY = y * 20;
+            posX = x;
+            posY = y;
+            GeneratePlayer();
         }
 
         //-- Custom Methods --//
 
-        public void GeneratePlayer(int x, int y)
+        public void GeneratePlayer()
         {
             //Setup the character canvas that is shown but does not count in movement checks
-            cvsPlayer.Margin = new Thickness(x, y, 0, 0);
+            cvsPlayer.Margin = new Thickness(0, 0, 0, 0);
             cvsPlayer.Width = 45;
             cvsPlayer.Height = 95;
             cvsPlayer.Background = new SolidColorBrush(Colors.Red);
 
-            world.log.Write($"Created player at position x{x} y{y}", "Info");
+            world.log.Write($"Created player at position x{posX} y{posY}", "Info");
 
             //Add initial debug menu lines
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "Player Stats:");

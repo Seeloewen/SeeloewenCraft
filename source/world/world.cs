@@ -248,8 +248,8 @@ namespace SeeloewenCraft
 
             //Check if the player position exists
             bool loadedPlayerPosExists = File.Exists($"{worldDirectory}/player_position.json");
-            double playerPosX = 0;
-            double playerPosY = 0;
+            int playerPosX = 0;
+            int playerPosY = 0;
 
             //Load the player position if possible
             if (loadedPlayerPosExists)
@@ -257,8 +257,8 @@ namespace SeeloewenCraft
                 JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_position.json");
                 try
                 {
-                    playerPosX = documentToken.GetDouble("/pos_x");
-                    playerPosY = documentToken.GetDouble("/pos_y");
+                    playerPosX = documentToken.GetInt("/pos_x");
+                    playerPosY = documentToken.GetInt("/pos_y");
                     log.Write($"Read player position from file: x{playerPosX} y{playerPosY}", "Info");
                 }
                 catch (Exception ex)
@@ -275,7 +275,7 @@ namespace SeeloewenCraft
 
             //Create the game components
             GenerateBlockContainer();
-            GenerateChunks(loadedPlayerPosExists ? ((int)playerPosX / 8) - 2 : 0);
+            GenerateChunks(loadedPlayerPosExists ? (playerPosX / 8000) - 2 : 0);
 
             //When the world is loaded, display the debug information
             DisplayDebugInformation();
@@ -346,7 +346,7 @@ namespace SeeloewenCraft
             return false;
         }
 
-        public void CreatePlayer(bool isLoaded, double playerPosX, double playerPosY)
+        public void CreatePlayer(bool isLoaded, int playerPosX, int playerPosY)
         {
 
             if (!isLoaded)
@@ -357,20 +357,19 @@ namespace SeeloewenCraft
                 {
                     if (block.xPos == 4 && block is GrassBlock)
                     {
-                        yPos = (block.yPos - 2) * 50;
+                        yPos = block.yPos;
                         break;
                     }
                 }
 
                 //Create the player and add it to the world canvas
-                player = new Player(this, 600, yPos + 5);
+                player = new Player(this, 20050, Math.Max((yPos*1000) - 1900, 2000));
                 log.Write("Generated player at start position", "Info");
             }
             else
             {
-                /*player = new Player(this, 602, (int)(playerPosY * 50));
-                player.MoveHorizontal((int)Math.Round((playerPosX % 8.0) * 50) - 202);
-                log.Write("Generated player at loaded position", "Info");*/
+                player = new Player(this, playerPosX, playerPosY);
+                log.Write("Generated player at loaded position", "Info");
             }
             wndGame.cvsWorld.Children.Add(player.cvsPlayer);
             Panel.SetZIndex(player.cvsPlayer, 1);
@@ -462,14 +461,13 @@ namespace SeeloewenCraft
         }
 
         //-- Event Handlers --//
-
         private void tmrMovement_Tick(object sender, EventArgs e)
         {
             //Movement timer, ticks at a rate of approximitely 60 fps (every 16 ms)
             player.DoPhysicsStep(wndGame.pressedKeys.Contains(Settings.cMoveLeft), wndGame.pressedKeys.Contains(Settings.cMoveRight), wndGame.pressedKeys.Contains(Settings.cJump), 0.016);
 
-            worldRenderer.offsetX = (double)player.posX / 1000;
-            worldRenderer.offsetY = (double)player.posY / 1000 + 1.1;
+            worldRenderer.playerPosX = (double)player.posX / 1000;
+            worldRenderer.playerPosY = (double)player.posY / 1000;
 
             worldRenderer.Render();
 
