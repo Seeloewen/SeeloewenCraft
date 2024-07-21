@@ -68,6 +68,7 @@ namespace SeeloewenCraft
             if (index != 0)
             {
                 //Generate structures
+                GenerateLakes();
                 GenerateTrees();
                 GenerateOres();
                 if (Settings.enableCaveGeneration) GenerateCaves();
@@ -123,6 +124,19 @@ namespace SeeloewenCraft
                 }
             }
         }
+
+        private void GenerateLakes()
+        {
+            //Generate up to 1 lake
+            if (rnd.Next(0, 5) == 0)
+            {
+                (int x, int y) = GetCoordinatesOnSurface(0, 7);
+
+                int floorHeight = rnd.Next(3, 8);
+                structureList.Add(new Lake(world, x, y + floorHeight, index, true, this, true, floorHeight));
+            }
+        }
+
 
         private void GenerateOres()
         {

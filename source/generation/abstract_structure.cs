@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization.Metadata;
 
 namespace SeeloewenCraft
 {
@@ -180,6 +181,21 @@ namespace SeeloewenCraft
                 return false;
             }
         }
+
+        public int GetTotalWidth()
+        {
+            //Get the total width by checking the amount of different X coordinates
+            List<int> handledX = new List<int>();
+            foreach (StructureComponent structureComponent in structureComponents)
+            {
+                if (!handledX.Contains(structureComponent.xOffset))
+                {
+                    handledX.Add(structureComponent.xOffset);
+                }
+            }
+            return handledX.Count;
+        }
+
     }
 
     //Components that tell the structure which blocks to place at which position
