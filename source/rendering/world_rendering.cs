@@ -12,6 +12,9 @@ namespace SeeloewenCraft {
         public double offsetX = 10; //block coordinates of center of frame
         public double offsetY = 20;
 
+        public double playerPosX;
+        public double playerPosY;
+
         List<Chunk> chunks;
 
         public WorldRenderer(wndGame wndGame)
@@ -24,14 +27,18 @@ namespace SeeloewenCraft {
 
         public void Render()
         {
+            offsetX = playerPosX;
+            offsetY = playerPosY;
+
             foreach(Chunk chunk in chunks)
             {
                 Canvas.SetLeft(chunk.grdChunk,(int) (600 - 50 * offsetX + 400 * chunk.index));
             }
-            wndGame.svWorld.ScrollToVerticalOffset((int)((offsetY-7) * 50));
+            wndGame.svWorld.ScrollToVerticalOffset((int)((offsetY-6) * 50));
 
             Thickness currentMarginPlayer = wndGame.world.player.cvsPlayer.Margin;
-            currentMarginPlayer.Top = offsetY * 50 - 55;
+            currentMarginPlayer.Top = playerPosY * 50;
+            currentMarginPlayer.Left = playerPosX * 50 - (offsetX-12) * 50;
             wndGame.world.player.cvsPlayer.Margin = currentMarginPlayer;
 
 
