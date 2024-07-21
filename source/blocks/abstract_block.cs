@@ -4,6 +4,7 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows;
 using System;
+using System.Windows.Automation;
 
 namespace SeeloewenCraft
 {
@@ -88,7 +89,7 @@ namespace SeeloewenCraft
             startX -= (xPos + chunk.index * 8) * 1000;
             endX -= (xPos + chunk.index * 8) * 1000;
             startY -= yPos * 1000;
-            endY -= yPos* 1000;
+            endY -= yPos * 1000;
 
             return collision.CheckCollision(direction, startX, endX, startY, endY);
 
@@ -179,10 +180,11 @@ namespace SeeloewenCraft
 
             Block block = BlockRegister.GenerateBlock(id, world);
 
-            if(block == null)
+            if (block == null)
             {
                 block = new AirBlock(world, false);
-            } else
+            }
+            else
             {
                 block.isBackground = isInBackground;
             }
@@ -348,13 +350,25 @@ namespace SeeloewenCraft
         }
 
         //Create the item that corresponds to the block
-        public abstract void GenerateItem(World world);
+        public virtual void GenerateItem(World world)
+        {
+            return;
+        }
 
-        public abstract void SetTexture();
+        public virtual void SetTexture()
+        {
+            throw new Exception("No texture for block was set.");
+        }
 
-        public abstract void RightClickAction(object sender);
+        public virtual void RightClickAction(object sender)
+        {
+            return;
+        }
 
-        public abstract void ShowAdditionalDebugInfo();
+        public virtual void ShowAdditionalDebugInfo()
+        {
+            return;
+        }
 
         public Item GetItem()
         {
