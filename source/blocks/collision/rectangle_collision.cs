@@ -9,6 +9,14 @@ namespace SeeloewenCraft
         int top;
         int bottom;
 
+        public RectangleCollision(int left, int right, int top, int bottom)
+        {
+            this.left = left;
+            this.right = right;
+            this.top = top;
+            this.bottom = bottom;
+        }
+
         public override (bool, int) CheckCollision(Direction direction, int startX, int endX, int startY, int endY)
         {
 
@@ -129,4 +137,5 @@ namespace SeeloewenCraft
             return (false, 0);
 
         }
+    }
 }
