@@ -244,15 +244,7 @@ namespace SeeloewenCraft
             }
 
             //Get the total width by checking the amount of different X coordinates
-            List<int> handledX = new List<int>();
-            foreach (StructureComponent structureComponent in structureComponents)
-            {
-                if (!handledX.Contains(structureComponent.xOffset))
-                {
-                    handledX.Add(structureComponent.xOffset);
-                }
-            }
-            totalWidth = handledX.Count;
+            totalWidth = GetTotalWidth();
 
             //Actually generate the structure now that everything is prepared
             BeginGeneration(x, y, index, isNew);

@@ -18,13 +18,13 @@ namespace SeeloewenCraft
         public List<Structure> structureList = new List<Structure>();
         public BlockContainerList blockContainerList;
         public Grid grdChunk = new Grid();
-        private Random rnd = new Random(DateTime.Now.Millisecond);
+        private Random rnd;
         World world;
         public int index;
         private int floorHeight; //Only used while generating
         public int floorHeightRight;
         public int floorHeightLeft;
-        //static int o = 0;
+        static int o = 0;
         public string chunkDirectory;
         public Biome biome;
 
@@ -35,8 +35,8 @@ namespace SeeloewenCraft
             //Set the attributes
             this.world = world;
             this.index = index;
-            //rnd = new Random(DateTime.Now.Millisecond);
-            //o++;
+            rnd = new Random(DateTime.Now.Millisecond);
+            o++;
 
             //Begin loading the chunk
             chunkDirectory = string.Format("{0}/chunk{1}", world.worldDirectory, index);

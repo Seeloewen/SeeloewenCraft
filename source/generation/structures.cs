@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SeeloewenCraft
 {
@@ -48,6 +49,80 @@ namespace SeeloewenCraft
             structureComponents.Add(new StructureComponent(world, 2, 2, new BedrockBlock(world, false)));
 
             //Begin generating the alpha structure - was only meant for development purposes and is no longer in the game
+            BeginGeneration(x, y, index, isNew);
+        }
+    }
+
+
+    public class Lake : Structure
+    {
+        public Lake(World world, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat, int floorHeight) : base(world, chunk, canFloat)
+        {
+            id = "sc:lake";
+            name = "Lake";
+
+            //Set the total width of the structure
+            canReplaceSolidBlocks = true;
+
+            //Add all structure components
+            int xPos = 0;
+            int yPos = 0;
+
+            bool goDown = true;
+
+            yPos = floorHeight;
+
+            do
+            {
+                //Generate from bottom to floorheight
+                for (int i = 0; i < floorHeight; i++)
+                {
+                    //Add dirt when below the currently observed ypos, else add water
+                    if (i < yPos && i >= yPos - 2)
+                    {
+                        structureComponents.Add(new StructureComponent(world, xPos, i, new DirtBlock(world, false)));
+                    }
+                    else if (i >= yPos)
+                    {
+                        structureComponents.Add(new StructureComponent(world, xPos, i, new WaterBlock_6(world, false)));
+                    }
+                }
+
+                //Generate a mirror of the lake above, but with air to clear potential blocks above
+                for (int i = floorHeight; i <= floorHeight + floorHeight - yPos; i++)
+                {
+                    structureComponents.Add(new StructureComponent(world, xPos, i, new AirBlock(world, false)));
+                }
+
+
+                //Determine whether to go down or up
+                if (yPos == 1)
+                {
+                    goDown = false;
+                }
+
+                //Roll for a 50% chance to go down/up or stay on the height
+                if (xPos == 0)
+                {
+                    yPos--;
+                }
+                else if (goDown)
+                {
+                    yPos = (rnd.Next(0, 2) == 0) ? yPos - 1 : yPos;
+                }
+                else
+                {
+                    yPos = (rnd.Next(0, 2) == 0) ? yPos + 1 : yPos;
+                }
+
+                xPos++;
+            }
+
+            while (yPos <= floorHeight);
+
+            totalWidth = GetTotalWidth();
+
+            //Begin generation
             BeginGeneration(x, y, index, isNew);
         }
     }
@@ -334,16 +409,8 @@ namespace SeeloewenCraft
                 temporaryComponentList.Clear();
             }
 
-            //Get width
-            List<int> handledX = new List<int>();
-            foreach (StructureComponent structureComponent in structureComponents)
-            {
-                if (!handledX.Contains(structureComponent.xOffset))
-                {
-                    handledX.Add(structureComponent.xOffset);
-                }
-            }
-            totalWidth = handledX.Count;
+            //Get total width
+            totalWidth = GetTotalWidth();
 
             //Begin generating the cave
             BeginGeneration(x, y, index, isNew);
