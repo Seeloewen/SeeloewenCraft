@@ -71,7 +71,7 @@ namespace SeeloewenCraft
                 GenerateLakes();
                 GenerateTrees();
                 GenerateOres();
-                if (world.settings.enableCaveGeneration) GenerateCaves();
+                if (Settings.enableCaveGeneration) GenerateCaves();
                 ContinueStructureGeneration();
             }
         }

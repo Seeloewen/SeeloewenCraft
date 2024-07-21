@@ -9,15 +9,13 @@ namespace SeeloewenCraft
     public partial class wndSettings : Window
     {
         wndMenu wndMenu;
-        Settings settings;
         KeyConverter keyConverter = new KeyConverter();
 
         //-- Constructor --//
 
-        public wndSettings(wndMenu wndMenu, Settings settings)
+        public wndSettings(wndMenu wndMenu)
         {
             this.wndMenu = wndMenu;
-            this.settings = settings;
             InitializeComponent();
 
             //If the settings file exists, load it
@@ -50,43 +48,43 @@ namespace SeeloewenCraft
             writer.WriteStartObject();
             writer.WritePropertyName("save_log_on_exit");
             writer.WriteValue(cbSaveLogOnExit.IsChecked);
-            settings.saveLogOnExit = Convert.ToBoolean(cbSaveLogOnExit.IsChecked);
-            wndMenu.log.Write($"Saved setting saveLogOnExit as {settings.saveLogOnExit}", "Info");
+            Settings.saveLogOnExit = Convert.ToBoolean(cbSaveLogOnExit.IsChecked);
+            wndMenu.log.Write($"Saved setting saveLogOnExit as {Settings.saveLogOnExit}", "Info");
 
             writer.WritePropertyName("save_world_on_close");
             writer.WriteValue(cbSaveWorldWhenClosing.IsChecked);
-            settings.saveWorldOnClose = Convert.ToBoolean(cbSaveWorldWhenClosing.IsChecked);
-            wndMenu.log.Write($"Saved setting saveWorldOnClose as {settings.saveWorldOnClose}", "Info");
+            Settings.saveWorldOnClose = Convert.ToBoolean(cbSaveWorldWhenClosing.IsChecked);
+            wndMenu.log.Write($"Saved setting saveWorldOnClose as {Settings.saveWorldOnClose}", "Info");
 
             writer.WritePropertyName("enable_hammer");
             writer.WriteValue(cbEnableHammer.IsChecked);
-            settings.enableHammer = Convert.ToBoolean(cbEnableHammer.IsChecked);
-            wndMenu.log.Write($"Saved setting enableHammer as {settings.enableHammer}", "Info");
+            Settings.enableHammer = Convert.ToBoolean(cbEnableHammer.IsChecked);
+            wndMenu.log.Write($"Saved setting enableHammer as {Settings.enableHammer}", "Info");
 
             writer.WritePropertyName("enable_cave_generation");
             writer.WriteValue(cbEnableCaveGeneration.IsChecked);
-            settings.enableCaveGeneration = Convert.ToBoolean(cbEnableCaveGeneration.IsChecked);
-            wndMenu.log.Write($"Saved setting enableCaveGeneration as {settings.enableCaveGeneration}", "Info");
+            Settings.enableCaveGeneration = Convert.ToBoolean(cbEnableCaveGeneration.IsChecked);
+            wndMenu.log.Write($"Saved setting enableCaveGeneration as {Settings.enableCaveGeneration}", "Info");
 
             writer.WritePropertyName("enable_lighting");
             writer.WriteValue(cbEnableLighting.IsChecked);
-            settings.enableLighting = Convert.ToBoolean(cbEnableLighting.IsChecked);
-            wndMenu.log.Write($"Saved setting enableLighting as {settings.enableLighting}", "Info");
+            Settings.enableLighting = Convert.ToBoolean(cbEnableLighting.IsChecked);
+            wndMenu.log.Write($"Saved setting enableLighting as {Settings.enableLighting}", "Info");
 
             writer.WritePropertyName("show_notifications");
             writer.WriteValue(cbShowNotifications.IsChecked);
-            settings.showNotifications = Convert.ToBoolean(cbShowNotifications.IsChecked);
-            wndMenu.log.Write($"Saved setting enableLighting as {settings.showNotifications}", "Info");
+            Settings.showNotifications = Convert.ToBoolean(cbShowNotifications.IsChecked);
+            wndMenu.log.Write($"Saved setting enableLighting as {Settings.showNotifications}", "Info");
 
             writer.WritePropertyName("enable_health");
             writer.WriteValue(cbEnableHealth.IsChecked);
-            settings.enableHealth = Convert.ToBoolean(cbEnableHealth.IsChecked);
-            wndMenu.log.Write($"Saved setting enableLighting as {settings.enableHealth}", "Info");
+            Settings.enableHealth = Convert.ToBoolean(cbEnableHealth.IsChecked);
+            wndMenu.log.Write($"Saved setting enableLighting as {Settings.enableHealth}", "Info");
 
             writer.WritePropertyName("texturepack");
             writer.WriteValue(cbxTexturepack.Text);
-            settings.texturepack = cbxTexturepack.Text;
-            wndMenu.log.Write($"Saved setting texturepack as {settings.texturepack}", "Info");
+            Settings.texturepack = cbxTexturepack.Text;
+            wndMenu.log.Write($"Saved setting texturepack as {Settings.texturepack}", "Info");
 
             writer.WriteEndObject();
 
@@ -96,22 +94,22 @@ namespace SeeloewenCraft
             writer.WriteStartObject();
             writer.WritePropertyName("move_right");
             writer.WriteValue(tbMoveRight.Text);
-            settings.cMoveRight = keyConverter.StringToKey(tbMoveRight.Text);
+            Settings.cMoveRight = keyConverter.StringToKey(tbMoveRight.Text);
             writer.WritePropertyName("move_left");
             writer.WriteValue(tbMoveLeft.Text);
-            settings.cMoveLeft = keyConverter.StringToKey(tbMoveLeft.Text);
+            Settings.cMoveLeft = keyConverter.StringToKey(tbMoveLeft.Text);
             writer.WritePropertyName("jump");
             writer.WriteValue(tbJump.Text);
-            settings.cJump = keyConverter.StringToKey(tbJump.Text);
+            Settings.cJump = keyConverter.StringToKey(tbJump.Text);
             writer.WritePropertyName("show_inventory");
             writer.WriteValue(tbOpenInventory.Text);
-            settings.cShowInv = keyConverter.StringToKey(tbOpenInventory.Text);
+            Settings.cShowInv = keyConverter.StringToKey(tbOpenInventory.Text);
             writer.WritePropertyName("toggle_debug_menu");
             writer.WriteValue(tbToggleDebugMenu.Text);
-            settings.cToggleDebug = keyConverter.StringToKey(tbToggleDebugMenu.Text);
+            Settings.cToggleDebug = keyConverter.StringToKey(tbToggleDebugMenu.Text);
             writer.WritePropertyName("show_notification_list");
             writer.WriteValue(tbShowNotificationList.Text);
-            settings.cToggleDebug = keyConverter.StringToKey(tbShowNotificationList.Text);
+            Settings.cToggleDebug = keyConverter.StringToKey(tbShowNotificationList.Text);
             writer.WriteEndObject();
 
             writer.WriteEndObject();
@@ -130,21 +128,21 @@ namespace SeeloewenCraft
                 JsonToken settingsToken = fileToken.GetToken("/settings");
                 JsonToken keybindsToken = fileToken.GetToken("/keybinds");
 
-                settings.saveLogOnExit = settingsToken.GetBool("/save_log_on_exit");
-                settings.saveWorldOnClose = settingsToken.GetBool("/save_world_on_close");
-                settings.enableHammer = settingsToken.GetBool("/enable_hammer");
-                settings.enableCaveGeneration = settingsToken.GetBool("/enable_cave_generation");
-                settings.enableLighting = settingsToken.GetBool("/enable_lighting");
-                settings.enableHealth = settingsToken.GetBool("/enable_health");
-                settings.showNotifications = settingsToken.GetBool("/show_notifications");
-                settings.texturepack = settingsToken.GetString("/texturepack");
+                Settings.saveLogOnExit = settingsToken.GetBool("/save_log_on_exit");
+                Settings.saveWorldOnClose = settingsToken.GetBool("/save_world_on_close");
+                Settings.enableHammer = settingsToken.GetBool("/enable_hammer");
+                Settings.enableCaveGeneration = settingsToken.GetBool("/enable_cave_generation");
+                Settings.enableLighting = settingsToken.GetBool("/enable_lighting");
+                Settings.enableHealth = settingsToken.GetBool("/enable_health");
+                Settings.showNotifications = settingsToken.GetBool("/show_notifications");
+                Settings.texturepack = settingsToken.GetString("/texturepack");
 
-                settings.cMoveRight = keyConverter.StringToKey(keybindsToken.GetString("/move_right"));
-                settings.cMoveLeft = keyConverter.StringToKey(keybindsToken.GetString("/move_left"));
-                settings.cJump = keyConverter.StringToKey(keybindsToken.GetString("/jump"));
-                settings.cShowInv = keyConverter.StringToKey(keybindsToken.GetString("/show_inventory"));
-                settings.cToggleDebug = keyConverter.StringToKey(keybindsToken.GetString("/toggle_debug_menu"));
-                settings.cNotifications = keyConverter.StringToKey(keybindsToken.GetString("/show_notification_list"));
+                Settings.cMoveRight = keyConverter.StringToKey(keybindsToken.GetString("/move_right"));
+                Settings.cMoveLeft = keyConverter.StringToKey(keybindsToken.GetString("/move_left"));
+                Settings.cJump = keyConverter.StringToKey(keybindsToken.GetString("/jump"));
+                Settings.cShowInv = keyConverter.StringToKey(keybindsToken.GetString("/show_inventory"));
+                Settings.cToggleDebug = keyConverter.StringToKey(keybindsToken.GetString("/toggle_debug_menu"));
+                Settings.cNotifications = keyConverter.StringToKey(keybindsToken.GetString("/show_notification_list"));
             }
             catch (Exception ex)
             {
@@ -152,21 +150,21 @@ namespace SeeloewenCraft
             }
 
             //Change the checkboxes and textboxes to the loaded values
-            cbSaveLogOnExit.IsChecked = settings.saveLogOnExit;
-            cbSaveWorldWhenClosing.IsChecked = settings.saveWorldOnClose;
-            cbEnableHammer.IsChecked = settings.enableHammer;
-            cbEnableCaveGeneration.IsChecked = settings.enableCaveGeneration;
-            cbEnableLighting.IsChecked = settings.enableLighting;
-            cbEnableHealth.IsChecked = settings.enableHealth;
-            cbShowNotifications.IsChecked = settings.showNotifications;
-            cbxTexturepack.Text = settings.texturepack;
+            cbSaveLogOnExit.IsChecked = Settings.saveLogOnExit;
+            cbSaveWorldWhenClosing.IsChecked = Settings.saveWorldOnClose;
+            cbEnableHammer.IsChecked = Settings.enableHammer;
+            cbEnableCaveGeneration.IsChecked = Settings.enableCaveGeneration;
+            cbEnableLighting.IsChecked = Settings.enableLighting;
+            cbEnableHealth.IsChecked = Settings.enableHealth;
+            cbShowNotifications.IsChecked = Settings.showNotifications;
+            cbxTexturepack.Text = Settings.texturepack;
 
-            tbMoveRight.Text = keyConverter.KeyToString(settings.cMoveRight);
-            tbMoveLeft.Text = keyConverter.KeyToString(settings.cMoveLeft);
-            tbJump.Text = keyConverter.KeyToString(settings.cJump);
-            tbOpenInventory.Text = keyConverter.KeyToString(settings.cShowInv);
-            tbToggleDebugMenu.Text = keyConverter.KeyToString(settings.cToggleDebug);
-            tbShowNotificationList.Text = keyConverter.KeyToString(settings.cNotifications);
+            tbMoveRight.Text = keyConverter.KeyToString(Settings.cMoveRight);
+            tbMoveLeft.Text = keyConverter.KeyToString(Settings.cMoveLeft);
+            tbJump.Text = keyConverter.KeyToString(Settings.cJump);
+            tbOpenInventory.Text = keyConverter.KeyToString(Settings.cShowInv);
+            tbToggleDebugMenu.Text = keyConverter.KeyToString(Settings.cToggleDebug);
+            tbShowNotificationList.Text = keyConverter.KeyToString(Settings.cNotifications);
 
             //Load the texturepacks
             GetTexturepacks();
@@ -191,9 +189,9 @@ namespace SeeloewenCraft
             }
 
             //Try to load default texturepack
-            if (cbxTexturepack.Items.Contains(settings.texturepack))
+            if (cbxTexturepack.Items.Contains(Settings.texturepack))
             {
-                cbxTexturepack.SelectedItem = settings.texturepack;
+                cbxTexturepack.SelectedItem = Settings.texturepack;
                 ApplyTexturepack();
             }
 

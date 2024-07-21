@@ -31,7 +31,6 @@ namespace SeeloewenCraft
         public GameLoop gameLoop;
         public RecipeCreator recipeCreator;
         public NotificationHandler notificationHandler;
-        public Settings settings;
         public WorldRenderer worldRenderer;
 
         //Constants
@@ -59,7 +58,6 @@ namespace SeeloewenCraft
             this.gameVersion = gameVersion;
             this.wndMenu = wndMenu;
             this.log = log;
-            settings = wndMenu.settings;
 
             //Create objects
             wndGame = new wndGame(this);
@@ -99,6 +97,12 @@ namespace SeeloewenCraft
         //-- Custom Methods --//
 
         //creates and returns chunk and adds to total chunk list
+        
+        public void SetBlock(Block block, int posX, int posY)
+        {
+            GetBlock(posX, posY).PlaceNewBlock(block);
+        }
+        
         public Chunk CreateChunk(int index)
         {
             Chunk newChunk = new Chunk(this, index);
@@ -293,7 +297,7 @@ namespace SeeloewenCraft
             }
             else
             {
-                if (settings.enableHammer) player.inventory.AddItem(new HammerItem(this));
+                if (Settings.enableHammer) player.inventory.AddItem(new HammerItem(this));
                 for (int i = 0; i < 64; i++)
                 {
                     player.inventory.AddItem(new TorchItem(this));
@@ -458,7 +462,7 @@ namespace SeeloewenCraft
         private void tmrMovement_Tick(object sender, EventArgs e)
         {
             //Movement timer, ticks at a rate of approximitely 60 fps (every 16 ms)
-            player.DoPhysicsStep(wndGame.pressedKeys.Contains(settings.cMoveLeft), wndGame.pressedKeys.Contains(settings.cMoveRight), wndGame.pressedKeys.Contains(settings.cJump), 0.016);
+            player.DoPhysicsStep(wndGame.pressedKeys.Contains(Settings.cMoveLeft), wndGame.pressedKeys.Contains(Settings.cMoveRight), wndGame.pressedKeys.Contains(Settings.cJump), 0.016);
 
             worldRenderer.offsetX = (double)player.posX / 1000;
             worldRenderer.offsetY = (double)player.posY / 1000 + 1.1;
