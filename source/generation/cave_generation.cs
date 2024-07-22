@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Documents;
 
 namespace SeeloewenCraft
 {
@@ -8,46 +10,73 @@ namespace SeeloewenCraft
         public World world;
         public List<StructureComponent> structureComponents = new List<StructureComponent>();
         public List<BorderComponent> borderComponents = new List<BorderComponent>();
+        public Random rnd;
 
         //Variables
         public int xOffset = 0;
         public int yOffset = 0;
+        private static int rndOffset = 0;
         public Direction previousDirection;
 
         //This class contains the structure components used by the component
-        public CaveComponent(int xOffset, int yOffset, Chunk chunk, World world, Direction previousDirection)
+        public CaveComponent(int xOffset, int yOffset, Chunk chunk, World world, Direction previousDirection, Direction offsetDirection)
         {
             //Pass the variables
             this.world = world;
             this.previousDirection = previousDirection;
+            rnd = new Random(DateTime.Now.Millisecond + rndOffset);
+            rndOffset++;
+        }
+    }
+
+    public class CaveComponent1 : CaveComponent
+    {
+        public CaveComponent1(int xOffset, int yOffset, Chunk chunk, World world, Direction previousDirection, Direction offsetDirection) : base(xOffset, yOffset, chunk, world, previousDirection, offsetDirection)
+        {
             this.xOffset = xOffset;
             this.yOffset = yOffset;
 
+            //Get offsets based on directions
+            switch (previousDirection)
+            {
+                case Direction.RIGHT:
+                    this.yOffset += rnd.Next(-1, 1);
+                    break;
+                case Direction.LEFT:
+                    this.xOffset += offsetDirection.IsRight() ? -2 : 2;
+                    break;
+                case Direction.DOWN:
+                    this.xOffset += offsetDirection.IsRight() ? rnd.Next(-2, 0) : rnd.Next(0, 2);
+                    this.yOffset -= 5;
+                    break;
+            }
+
             //Add all structurecomponents to the list
-            structureComponents.Add(new StructureComponent(world, xOffset, yOffset + 1, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, xOffset, yOffset + 2, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, xOffset + 1, yOffset + 1, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, xOffset + 1, yOffset, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, xOffset + 1, yOffset + 2, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, xOffset + 1, yOffset + 3, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, xOffset + 2, yOffset, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, xOffset + 2, yOffset + 1, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, xOffset + 2, yOffset + 2, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, xOffset + 2, yOffset + 3, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, xOffset + 3, yOffset + 1, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, xOffset + 3, yOffset + 2, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(world, this.xOffset, this.yOffset + 1, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(world, this.xOffset, this.yOffset + 2, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(world, this.xOffset + 1, this.yOffset + 1, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(world, this.xOffset + 1, this.yOffset, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(world, this.xOffset + 1, this.yOffset + 2, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(world, this.xOffset + 1, this.yOffset + 3, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(world, this.xOffset + 2, this.yOffset, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(world, this.xOffset + 2, this.yOffset + 1, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(world, this.xOffset + 2, this.yOffset + 2, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(world, this.xOffset + 2, this.yOffset + 3, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(world, this.xOffset + 3, this.yOffset + 1, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(world, this.xOffset + 3, this.yOffset + 2, new StoneBlock(world, true)));
 
             //Add the bordercomponents to the list
-            borderComponents.Add(new BorderComponent(Direction.LEFT, xOffset, yOffset + 1));
-            borderComponents.Add(new BorderComponent(Direction.LEFT, xOffset, yOffset + 2));
-            borderComponents.Add(new BorderComponent(Direction.DOWN, xOffset + 1, yOffset + 3));
-            borderComponents.Add(new BorderComponent(Direction.DOWN, xOffset + 2, yOffset + 3));
-            borderComponents.Add(new BorderComponent(Direction.RIGHT, xOffset + 3, yOffset + 1));
-            borderComponents.Add(new BorderComponent(Direction.RIGHT, xOffset + 3, yOffset + 2));
-            borderComponents.Add(new BorderComponent(Direction.UP, xOffset + 1, yOffset));
-            borderComponents.Add(new BorderComponent(Direction.UP, xOffset + 2, yOffset));
-        }
+            borderComponents.Add(new BorderComponent(Direction.LEFT, this.xOffset, this.yOffset + 1));
+            borderComponents.Add(new BorderComponent(Direction.LEFT, this.xOffset, this.yOffset + 2));
+            borderComponents.Add(new BorderComponent(Direction.DOWN, this.xOffset + 1, this.yOffset + 3));
+            borderComponents.Add(new BorderComponent(Direction.DOWN, this.xOffset + 2, this.yOffset + 3));
+            borderComponents.Add(new BorderComponent(Direction.RIGHT, this.xOffset + 3, this.yOffset + 1));
+            borderComponents.Add(new BorderComponent(Direction.RIGHT, this.xOffset + 3, this.yOffset + 2));
+            borderComponents.Add(new BorderComponent(Direction.UP, this.xOffset + 1, this.yOffset));
+            borderComponents.Add(new BorderComponent(Direction.UP, this.xOffset + 2, this.yOffset));
 
+
+        }
     }
 
 
@@ -55,7 +84,6 @@ namespace SeeloewenCraft
     public struct BorderComponent
     {
         public Direction direction;
-
         public int x;
         public int y;
 
@@ -71,8 +99,11 @@ namespace SeeloewenCraft
     //These are the actual caves, made up of the components above
     public class Cave : Structure
     {
+        World world;
+
         public Cave(World world, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(world, chunk, canFloat)
         {
+            this.world = world;
             canReplaceSolidBlocks = false;
             id = "sc:cave_1_structure";
             name = "Cave1";
@@ -81,22 +112,22 @@ namespace SeeloewenCraft
             Direction direction = Direction.RIGHT;
             if (index >= 0)
             {
-                direction.IsRight();
+                direction = Direction.RIGHT;
             }
             else if (index < 0)
             {
-                direction.IsLeft();
+                direction = Direction.LEFT;
             }
 
             //Add the starter cave component to the list
             List<CaveComponent> caveComponents = new List<CaveComponent>();
             if (direction.IsRight())
             {
-                caveComponents.Add(new CaveComponent(0, 0, chunk, world, Direction.RIGHT));
+                caveComponents.Add(GetCaveComponent(0, 0, chunk, world, Direction.RIGHT, Direction.RIGHT));
             }
             else if (direction.IsLeft())
             {
-                caveComponents.Add(new CaveComponent(0, 0, chunk, world, Direction.LEFT));
+                caveComponents.Add(GetCaveComponent(0, 0, chunk, world, Direction.LEFT, Direction.LEFT));
             }
 
             //Use random numbers to add new cave components to random sides
@@ -112,19 +143,19 @@ namespace SeeloewenCraft
 
                     if (random > 0 && random <= 50)
                     {
-                        newDirection.IsDown();
+                        newDirection = Direction.DOWN;
                     }
                     else if (random > 50 && random <= 70)
                     {
-                        newDirection.IsUp();
+                        newDirection = Direction.UP;
                     }
                     else if (random > 70 && random <= 90)
                     {
-                        newDirection.IsRight();
+                        newDirection = Direction.RIGHT;
                     }
                     else if (random > 90 && random <= 100)
                     {
-                        newDirection.IsLeft();
+                        newDirection = Direction.LEFT;
                     }
                 }
                 //If the previous direction was right or left, the chances for getting another right or left are significantly higher
@@ -132,43 +163,22 @@ namespace SeeloewenCraft
                 {
                     int random = rnd.Next(1, 101);
 
-                    if (direction.IsRight())
+                    //Determine new direction based on random value
+                    if (random > 0 && random <= 50)
                     {
-                        if (random > 0 && random <= 50)
-                        {
-                            newDirection.IsRight();
-                        }
-                        else if (random > 50 && random <= 70)
-                        {
-                            newDirection.IsUp();
-                        }
-                        else if (random > 70 && random <= 90)
-                        {
-                            newDirection.IsDown();
-                        }
-                        else if (random > 90 && random <= 100)
-                        {
-                            newDirection.IsLeft();
-                        }
+                        newDirection = direction.IsRight() ? Direction.RIGHT : Direction.LEFT;
                     }
-                    else if (direction.IsLeft())
+                    else if (random > 50 && random <= 70)
                     {
-                        if (random > 0 && random <= 50)
-                        {
-                            newDirection.IsLeft();
-                        }
-                        else if (random > 50 && random <= 70)
-                        {
-                            newDirection.IsUp();
-                        }
-                        else if (random > 70 && random <= 90)
-                        {
-                            newDirection.IsDown();
-                        }
-                        else if (random > 90 && random <= 100)
-                        {
-                            newDirection.IsRight();
-                        }
+                        newDirection = Direction.UP;
+                    }
+                    else if (random > 70 && random <= 90)
+                    {
+                        newDirection = Direction.DOWN;
+                    }
+                    else if (random > 90 && random <= 100)
+                    {
+                        newDirection = direction.IsRight() ? Direction.LEFT : Direction.RIGHT;
                     }
                 }
 
@@ -182,7 +192,7 @@ namespace SeeloewenCraft
                     }
                 }
 
-                //Randomly select one of the potential border blocks
+                //Randomly select one of the potential border blocks to append the new cave component
                 int random2 = rnd.Next(0, potentialBorders.Count);
 
                 //Get the correct border block
@@ -190,46 +200,10 @@ namespace SeeloewenCraft
                 {
                     if (potentialBorders[random2].x == structureComponent.xOffset && potentialBorders[random2].y == structureComponent.yOffset)
                     {
-                        //Add the new cave component to the list, depending on the direction. Some offsets are used here to make the cave generation feel less linear.
-                        if (direction.IsRight())
-                        {
-                            if (newDirection.IsRight())
-                            {
-                                caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset + rnd.Next(-1, 1), chunk, world, newDirection));
-                            }
-                            else if (newDirection.IsLeft())
-                            {
-                                caveComponents.Add(new CaveComponent(structureComponent.xOffset - 2, structureComponent.yOffset, chunk, world, newDirection));
-                            }
-                            else if (newDirection.IsUp())
-                            {
-                                caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset, chunk, world, newDirection));
-                            }
-                            else if (newDirection.IsDown())
-                            {
-                                caveComponents.Add(new CaveComponent(structureComponent.xOffset + rnd.Next(-2, 0), structureComponent.yOffset - 5, chunk, world, newDirection));
-                            }
-                        }
-                        else if (direction.IsLeft())
-                        {
-                            if (newDirection.IsRight())
-                            {
-                                caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset + rnd.Next(-1, 1), chunk, world, newDirection));
-                            }
-                            else if (newDirection.IsLeft())
-                            {
-                                caveComponents.Add(new CaveComponent(structureComponent.xOffset + 2, structureComponent.yOffset, chunk, world, newDirection));
-                            }
-                            else if (newDirection.IsUp())
-                            {
-                                caveComponents.Add(new CaveComponent(structureComponent.xOffset, structureComponent.yOffset, chunk, world, newDirection));
-                            }
-                            else if (newDirection.IsDown())
-                            {
-                                caveComponents.Add(new CaveComponent(structureComponent.xOffset + rnd.Next(0, 2), structureComponent.yOffset - 5, chunk, world, newDirection));
-                            }
-                        }
+                        //Add a new cave component to the list
+                        world.log.Write(newDirection.ToString(), "Info");
 
+                        caveComponents.Add(GetCaveComponent(structureComponent.xOffset, structureComponent.yOffset, chunk, world, newDirection, direction));
                     }
                 }
             }
@@ -248,6 +222,12 @@ namespace SeeloewenCraft
 
             //Actually generate the structure now that everything is prepared
             BeginGeneration(x, y, index, isNew);
+        }
+
+        public CaveComponent GetCaveComponent(int xOffset, int yOffset, Chunk chunk, World world, Direction previousDirection, Direction offsetDirection)
+        {
+            //Will later return a random component
+            return new CaveComponent1(xOffset, yOffset, chunk, world, previousDirection, offsetDirection);
         }
     }
 }
