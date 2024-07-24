@@ -20,10 +20,6 @@ namespace SeeloewenCraft
         public int worldVersion = 4;
         public string gameVersion = "Alpha 1.2.0-Dev1";
         public string versionDate = "17.07.2024";
-        public string gameDirectory;
-        public string texturepackDirectory;
-        public string logDirectory;
-        public string worldDirectory;
         public int texturepackVersion;
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
 
@@ -43,7 +39,7 @@ namespace SeeloewenCraft
             tmrSplashText.Interval = 50;
             tmrSplashText.Start();
 
-            log = new Log(this);
+            log = new Log();
             splashTextHandler = new SplashTextHandler(this);
 
             //Show the version
@@ -52,9 +48,6 @@ namespace SeeloewenCraft
 
             //set splashtext        
             tblSplashText.Text = splashTextHandler.GetText();;
-            
-            //Create the game directories
-            CreateDirectories();
             
             wndSettings = new wndSettings(this);
         }
@@ -105,7 +98,7 @@ namespace SeeloewenCraft
             //Save the log, if enabled
             if (Settings.saveLogOnExit)
             {
-                log.Save(logDirectory, false);
+                log.Save(FolderUtil.logsFolder, false);
             }
 
             //Close the app
@@ -114,43 +107,6 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-        private void CreateDirectories()
-        {
-            //Check if the game directory exists and create it otherwise
-            if (!Directory.Exists($"{appData}\\SeeloewenCraft"))
-            {
-                Directory.CreateDirectory($"{appData}\\SeeloewenCraft");
-                log.Write($"Created game directory {appData}\\SeeloewenCraft", "Info");
-            }
-            gameDirectory = $"{appData}\\SeeloewenCraft";
-            log.Write($"Set game directory to {gameDirectory}", "Info");
-
-            //Check if the world directory exists
-            if (!Directory.Exists($"{gameDirectory}\\worlds"))
-            {
-                Directory.CreateDirectory($"{gameDirectory}\\worlds");
-                log.Write($"Created world directory {gameDirectory}\\worlds", "Info");
-            }
-            worldDirectory = $"{gameDirectory}\\worlds";
-            log.Write($"Set world directory to {gameDirectory}\\worlds", "Info");
-
-            //Check if the log directory exists
-            if (!Directory.Exists($"{gameDirectory}\\logs"))
-            {
-                Directory.CreateDirectory($"{gameDirectory}\\logs");
-                log.Write($"Set log directory to {gameDirectory}\\logs", "Info");
-            }
-            logDirectory = $"{gameDirectory}\\logs";
-            log.Write($"Set game directory to {logDirectory}", "Info");
-
-            //Check if the texturepack directory exists, create it otherwise
-            if (!Directory.Exists($"{gameDirectory}\\texturepacks"))
-            {
-                Directory.CreateDirectory($"{gameDirectory}\\texturepacks");
-                log.Write($"Set texturepack directory to {gameDirectory}\\texturepack", "Info");
-            }
-            texturepackDirectory = $"{gameDirectory}\\texturepacks";
-            log.Write($"Set texturepack directory to {texturepackDirectory}", "Info");
-        }
+        
     }
 }

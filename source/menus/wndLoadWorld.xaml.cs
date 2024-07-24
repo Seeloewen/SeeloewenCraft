@@ -30,12 +30,12 @@ namespace SeeloewenCraft
         private void LoadWorlds()
         {
             //Get all worlds
-            string[] worlds = Directory.GetDirectories(wndMenu.worldDirectory);
+            string[] worlds = Directory.GetDirectories(FolderUtil.worldsFolder);
 
             //List the worlds in the combobox
             foreach(string world in worlds)
             {
-                cbxWorld.Items.Add(world.Replace(wndMenu.worldDirectory + "\\", ""));
+                cbxWorld.Items.Add(world.Replace(FolderUtil.worldsFolder + "\\", ""));
             }
         }
 
@@ -78,7 +78,7 @@ namespace SeeloewenCraft
                     case MessageBoxResult.Yes:
                         try
                         {
-                            Directory.Delete($"{wndMenu.worldDirectory}\\{cbxWorld.Text}",true);
+                            Directory.Delete($"{FolderUtil.worldsFolder}\\{cbxWorld.Text}",true);
                             MessageBox.Show($"Successfully deleted world {cbxWorld.Text}!", "Delete world", MessageBoxButton.OK, MessageBoxImage.Information);
                             cbxWorld.Items.Remove(cbxWorld.Text);
                         }

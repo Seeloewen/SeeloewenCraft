@@ -6,7 +6,7 @@ namespace SeeloewenCraft
 {
     public partial class App : Application
     {
-        wndMenu wndMenu = new wndMenu();
+        wndMenu wndMenu;
 
         public App() : base()
         {
@@ -14,13 +14,18 @@ namespace SeeloewenCraft
             Dispatcher.UnhandledException += OnDispatcherUnhandledException;
         }
 
-
-
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             //parse command line arguments to start option variables
             StartOptions.Parse(e.Args);
 
+            //Initiliaze Game
+            Log log = new Log();
+            FolderUtil.InitializeDirectories(log);
+            wndMenu = new wndMenu();
+            log.wndMenu = wndMenu;
+
+            //Do start options
             if (StartOptions.modded)
             {
                 ModLoader.LoadMods();
@@ -65,7 +70,7 @@ namespace SeeloewenCraft
             //Save log before the game exits if enabled
             if (Settings.saveLogOnExit)
             {
-                wndMenu.log.Save(wndMenu.logDirectory, false);
+                wndMenu.log.Save(FolderUtil.logsFolder, false);
             }
         }
 

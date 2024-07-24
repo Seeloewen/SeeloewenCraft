@@ -73,7 +73,7 @@ namespace SeeloewenCraft
 
             worldRenderer = new WorldRenderer(wndGame);
 
-            worldDirectory = $"{wndMenu.worldDirectory}\\{worldName}";
+            worldDirectory = $"{FolderUtil.worldsFolder}\\{worldName}";
 
             if (!isNew && GetWorldVersion(worldName) < worldVersion)
             {
@@ -223,12 +223,12 @@ namespace SeeloewenCraft
             log.Write($"Beginning to load game for world {worldName}", "Info");
 
             //Check if the world directory exists and create it otherwise
-            if (!Directory.Exists($"{wndMenu.worldDirectory}\\{worldName}"))
+            if (!Directory.Exists($"{FolderUtil.worldsFolder}\\{worldName}"))
             {
-                Directory.CreateDirectory($"{wndMenu.worldDirectory}\\{worldName}");
-                log.Write($"Created directory for world {worldName}: {wndMenu.worldDirectory}\\{worldName}", "Info");
+                Directory.CreateDirectory($"{FolderUtil.worldsFolder}\\{worldName}");
+                log.Write($"Created directory for world {worldName}: {FolderUtil.worldsFolder}\\{worldName}", "Info");
             }
-            worldDirectory = $"{wndMenu.worldDirectory}\\{worldName}";
+            worldDirectory = $"{FolderUtil.worldsFolder}\\{worldName}";
             log.Write($"Set directory for world {worldName} to {worldDirectory}", "Info");
 
             //write world version to settings.json

@@ -19,9 +19,9 @@ namespace SeeloewenCraft
             InitializeComponent();
 
             //If the settings file exists, load it
-            if(File.Exists($"{wndMenu.gameDirectory}\\clientSettings.json"))
+            if(File.Exists($"{FolderUtil.gameFolder}\\clientSettings.json"))
             {
-                JsonToken documentToken = JsonUtil.ReadFile($"{wndMenu.gameDirectory}\\clientSettings.json");
+                JsonToken documentToken = JsonUtil.ReadFile($"{FolderUtil.gameFolder}\\clientSettings.json");
                 LoadSettings(documentToken);
             }
             else
@@ -33,7 +33,7 @@ namespace SeeloewenCraft
                 {
                     writer.Formatting = Formatting.Indented;
                     SaveSettings(writer, true);
-                    writer.WriteToFile($"{wndMenu.gameDirectory}\\clientSettings.json");
+                    writer.WriteToFile($"{FolderUtil.gameFolder}\\clientSettings.json");
                 }
             }        
         }
@@ -178,13 +178,13 @@ namespace SeeloewenCraft
             cbxTexturepack.Items.Add("default");
 
             //Get all texturepacks
-            string[] directories = Directory.GetDirectories(wndMenu.texturepackDirectory);
+            string[] directories = Directory.GetDirectories(FolderUtil.texturepacksFolder);
             foreach (string directory in directories)
             {
                 //Check if the texturepack has a pack file and add it to the list
                 if (File.Exists($"{directory}\\pack.txt"))
                 {
-                    cbxTexturepack.Items.Add(directory.Replace($"{wndMenu.texturepackDirectory}\\", ""));
+                    cbxTexturepack.Items.Add(directory.Replace($"{FolderUtil.texturepacksFolder}\\", ""));
                 }
             }
 
@@ -242,13 +242,13 @@ namespace SeeloewenCraft
             else
             {
                 //Check the texturepack version and apply that if possible
-                if (GetTexturepackVersion($"{wndMenu.texturepackDirectory}\\{cbxTexturepack.SelectedItem}") < wndMenu.texturepackVersion)
+                if (GetTexturepackVersion($"{FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}") < wndMenu.texturepackVersion)
                 {
-                    wndMenu.log.Write($"The texture pack you are trying to load ({wndMenu.texturepackDirectory}\\{cbxTexturepack.SelectedItem}) is outdated", "Warning");
+                    wndMenu.log.Write($"The texture pack you are trying to load ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}) is outdated", "Warning");
                     MessageBox.Show("Warning: The texturepack that you are trying to load is outdated. This may lead to issues.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
-                wndMenu.selectedTexturepack = $"{wndMenu.texturepackDirectory}\\{cbxTexturepack.SelectedItem}";
-                wndMenu.log.Write($"Successfully applied texturepack ({wndMenu.texturepackDirectory}\\{cbxTexturepack.SelectedItem})", "Warning");
+                wndMenu.selectedTexturepack = $"{FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}";
+                wndMenu.log.Write($"Successfully applied texturepack ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem})", "Warning");
             }
 
             if (wndMenu.world != null)
@@ -269,7 +269,7 @@ namespace SeeloewenCraft
             {
                 writer.Formatting = Formatting.Indented;
                 SaveSettings(writer, false);
-                writer.WriteToFile($"{wndMenu.gameDirectory}\\clientSettings.json");
+                writer.WriteToFile($"{FolderUtil.gameFolder}\\clientSettings.json");
             }
             Close();
         }

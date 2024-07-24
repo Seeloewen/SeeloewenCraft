@@ -6,23 +6,17 @@ using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Media;
 using SeeloewenLib;
+using static System.Environment;
 
 namespace SeeloewenCraft
 {
     public class Log
     {
-        wndMenu wndMenu;
+        public wndMenu wndMenu;
         private Paragraph paragraph;
         public wndLog wndLog;
         private SeeloewenLibTools seeloewenLibTools = new SeeloewenLibTools();
         private List<string> messages = new List<string>();
-
-        //-- Constructor --//
-
-        public Log(wndMenu wndMenu)
-        {
-            this.wndMenu = wndMenu;
-        }
 
         //-- Custom Methods --//
 
@@ -95,6 +89,12 @@ namespace SeeloewenCraft
 
         public void Save(string location, bool showMessageBoxes)
         {
+            //If location is invalid, use fallback
+            if (string.IsNullOrEmpty(location) || !File.Exists(location))
+            {
+                location = $"{GetFolderPath(SpecialFolder.ApplicationData)}/SeeloewenCraft/logs";
+            }
+
             //Save the log content to the selected file
             try
             {
