@@ -16,6 +16,7 @@ namespace SeeloewenCraft
     {
         public BlockList blockList;
         public List<Structure> structureList = new List<Structure>();
+        public List<Structure> continuedStructureList = new List<Structure>();
         public BlockContainerList blockContainerList;
         public Grid grdChunk = new Grid();
         private Random rnd;

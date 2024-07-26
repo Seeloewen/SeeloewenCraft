@@ -843,6 +843,7 @@ namespace SeeloewenCraft
                 world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"hasRightClickAction={hasRightClickAction}");
                 world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"hasInventory={hasInventory}");
                 world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"isBase={isBase}");
+                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"isSurface={isSurface}");
                 if (baseBlock != null)
                 {
                     world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"baseBlock={baseBlock.id} at x{baseBlock.xPos} y{baseBlock.yPos}");
