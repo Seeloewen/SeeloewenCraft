@@ -39,7 +39,7 @@ namespace SeeloewenCraft
             this.chunk = chunk;
             this.world = world;
             this.canFloat = canFloat;
-            rnd = new Random(DateTime.Now.Millisecond + o);
+            rnd = new Random(DateTime.Now.Millisecond + o * 2);
             o++;
         }
 

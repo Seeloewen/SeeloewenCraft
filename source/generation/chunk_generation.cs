@@ -128,7 +128,7 @@ namespace SeeloewenCraft
         private void GenerateLakes()
         {
             //Generate up to 1 lake
-            if (rnd.Next(0, 5) == 0)
+            if (rnd.Next(0, 6) == 0)
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7);
 
