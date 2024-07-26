@@ -6,10 +6,10 @@ using System.Windows.Media;
 
 namespace SeeloewenCraft
 {
-    public class Player
+    public class Player : Entity
     {
-        public Canvas cvsPlayer = new Canvas();
-        World world;
+        //public Canvas cvsPlayer = new Canvas();
+        //World world;
         public Inventory inventory;
         public HealthBar healthBar;
 
@@ -17,20 +17,22 @@ namespace SeeloewenCraft
 
         //constants:
         private const int accWalking = 70000; // a: acceleration
-        private const int accGrav = 70000;
         private const int jumpStartSpeed = 15000;
-        private const int friction = 10;
-        private const int slowestGroundSpeed = 400;
+
+
+        public bool pressedUp;
+        public bool pressedRight;
+        public bool pressedLeft;
 
         //variables
 
-        int sizeX = 900;
+        /*int sizeX = 900;
         int sizeY = 1900;
 
-        public int posX = 20050; //1/1000 of a block (mm)
+        public int posX = 20050; //1/1000 of a block (1 mm)
         public int posY = 5000;
         int velX = 0; //(mm/s)
-        int velY = 0;
+        int velY = 0;*/
 
 
 
@@ -40,14 +42,12 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Player(World world, int x, int y)
+        public Player(World world, int x, int y) : base(900, 1900, x, y, 0, 0, world, Colors.Red)
         {
             //Set the attributes
             this.world = world;
 
             //Generate the player
-            posX = x;
-            posY = y;
             GeneratePlayer();
         }
 
@@ -56,10 +56,10 @@ namespace SeeloewenCraft
         public void GeneratePlayer()
         {
             //Setup the character canvas that is shown but does not count in movement checks
-            cvsPlayer.Margin = new Thickness(0, 0, 0, 0);
+            /*cvsPlayer.Margin = new Thickness(0, 0, 0, 0);
             cvsPlayer.Width = 45;
             cvsPlayer.Height = 95;
-            cvsPlayer.Background = new SolidColorBrush(Colors.Red);
+            cvsPlayer.Background = new SolidColorBrush(Colors.Red);*/
 
             world.log.Write($"Created player at position x{posX} y{posY}", "Info");
 
@@ -85,125 +85,10 @@ namespace SeeloewenCraft
             }
         }
 
-        private int ConvertToBlockX(int i)
-        {
-            return i >= 0 
-                ? i / 1000 
-                : (i-999) / 1000;
-        }
-
-        private (bool, int) DoCollisionCheck(Direction direction, int startX, int startY, int endX, int endY)
-        {
-            if (endY < 0 || endY > 75000) return (false, 0);
-
-            if (direction.IsRight())
-            {
-                for (int x = ConvertToBlockX(startX); x <= ConvertToBlockX(endX); x++)
-                {
-                    bool collision = false;
-                    int maxMovement = int.MaxValue;
-
-                    for (int y = startY / 1000; y <= endY / 1000; y++)
-                    {
-                        Block b = world.GetBlock(x, y);
-                        (bool newCollision, int newMaxMovement) = b.CheckCollision(Direction.RIGHT, startX, endX, startY, endY);
-                        if (newCollision)
-                        {
-                            collision = true;
-                            maxMovement = Math.Min(maxMovement, newMaxMovement);
-                        }
-                    }
-                    if (collision)
-                    {
-                        return (true, maxMovement);
-                    }
-                }
-                return (false, 0);
-            }
-
-            if (direction.IsLeft())
-            {
-                for (int x = ConvertToBlockX(startX); x >= ConvertToBlockX(endX); x--)
-                {
-                    bool collision = false;
-                    int maxMovement = int.MaxValue;
-
-                    for (int y = startY / 1000; y <= endY / 1000; y++)
-                    {
-                        (bool newCollision, int newMaxMovement) = world.GetBlock(x, y).CheckCollision(Direction.LEFT, startX, endX, startY, endY);
-                        if (newCollision)
-                        {
-                            collision = true;
-                            maxMovement = Math.Min(maxMovement, newMaxMovement);
-                        }
-
-                    }
-                    if (collision)
-                    {
-                        return (true, maxMovement);
-                    }
-                }
-                return (false, 0);
-            }
-
-
-            if (direction.IsDown())
-            {
-                for (int y = startY / 1000; y <= endY / 1000; y++)
-                {
-                    bool collision = false;
-                    int maxMovement = int.MaxValue;
-
-                    for (int x = ConvertToBlockX(startX); x <= ConvertToBlockX(endX); x++)
-                    {
-                        (bool newCollision, int newMaxMovement) = world.GetBlock(x, y).CheckCollision(Direction.DOWN, startX, endX, startY, endY);
-                        if (newCollision)
-                        {
-                            collision = true;
-                            maxMovement = Math.Min(maxMovement, newMaxMovement);
-                        }
-
-                    }
-                    if (collision)
-                    {
-                        return (true, maxMovement);
-                    }
-                }
-                return (false, 0);
-            }
-
-            if (direction.IsUp())
-            {
-                for (int y = startY / 1000; y >= endY / 1000; y--)
-                {
-                    bool collision = false;
-                    int maxMovement = int.MaxValue;
-
-                    for (int x = ConvertToBlockX(startX); x <= ConvertToBlockX(endX); x++)
-                    {
-                        (bool newCollision, int newMaxMovement) = world.GetBlock(x, y).CheckCollision(Direction.UP, startX, endX, startY, endY);
-                        if (newCollision)
-                        {
-                            collision = true;
-                            maxMovement = Math.Min(maxMovement, newMaxMovement);
-                        }
-
-                    }
-                    if (collision)
-                    {
-                        return (true, maxMovement);
-                    }
-                }
-                return (false, 0);
-            }
-            return (false, 0);
-        }
 
         //physics
-        public void DoPhysicsStep(bool pressedLeft, bool pressedRight, bool pressedUp, double deltaTime)
+        public override void DoPhysicsStep(int tps)
         {
-
-            int tps = (int)(1.0 / deltaTime);
 
             // -- determine which sides of the player are touched by solid blocks --
 
@@ -228,96 +113,11 @@ namespace SeeloewenCraft
             if (pressedUp && onGround)
             {
                 velY = -jumpStartSpeed;
-                onGround = false;
             }
 
-            // -- friction --
-            if (true) //normally: onGround
-            {
-                if (velX > 0)
-                {
-                    //this reduces the velocity by f_ground * v_x * dt until v_x reaches a threshold with value slowest_ground_speed, when it gets set to zero
-                    int v_reduction = friction * velX/tps;
-                    velX -= Math.Max(Math.Min(slowestGroundSpeed/tps, velX), v_reduction);
-                }
-                else if (velX < 0)
-                {
-                    int v_reduction = -friction * velX/tps;
-                    velX += Math.Max(Math.Min(slowestGroundSpeed/tps, -velX), v_reduction);
-                }
-            }
+            base.DoPhysicsStep(tps);
 
-
-
-            if (!onGround)
-            {
-                velY += accGrav / tps;
-            }
-
-            int dX = velX / tps;
-            int dY = velY / tps;
-
-            if (velX > 0)
-            {
-                (bool collided, int maxMovement) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + dX, posY + sizeY);
-                if (collided)
-                {
-                    velX = 0;
-                    posX += maxMovement;
-                    //MoveHorizontal(maxMovement / 20);
-                }
-                else
-                {
-                    posX += velX / tps;
-                    //MoveHorizontal(dX / 20);
-                }
-            }
-            if (velX < 0)
-            {
-                (bool collided, int maxMovement) = DoCollisionCheck(Direction.LEFT, posX, posY, posX + dX, posY + sizeY);
-                if (collided)
-                {
-                    velX = 0;
-                    posX -= maxMovement;
-                    //MoveHorizontal(-maxMovement / 20);
-                }
-                else
-                {
-                    posX += velX / tps;
-                    //MoveHorizontal(dX / 20);
-                }
-            }
-
-            if (velY > 0)
-            {
-                (bool collided, int maxMovement) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + dY);
-                if (collided)
-                {
-                    velY = 0;
-                    posY += maxMovement;
-                    //MoveVertical(-maxMovement / 20);
-                }
-                else
-                {
-                    posY += velY / tps;
-                    //MoveVertical(-dY / 20);
-                }
-            }
-            if (velY < 0)
-            {
-                (bool collided, int maxMovement) = DoCollisionCheck(Direction.UP, posX, posY, posX + sizeX, posY + dY);
-                if (collided)
-                {
-                    velY = 0;
-                    posY -= maxMovement;
-                    //MoveVertical(maxMovement / 20);
-                }
-                else
-                {
-                    posY += velY / tps;
-                    //MoveVertical(-dY / 20);
-                }
-            }
+            //
 
             // -- check if moving into blocks --
 

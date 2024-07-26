@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace SeeloewenCraft { 
     public class WorldRenderer
@@ -16,11 +17,13 @@ namespace SeeloewenCraft {
         public double playerPosY;
 
         List<Chunk> chunks;
+        List<Entity> entities;
 
         public WorldRenderer(wndGame wndGame)
         {
             this.wndGame = wndGame;
 
+            entities = new List<Entity>();
             chunks = new List<Chunk>();
 
         }
@@ -36,10 +39,18 @@ namespace SeeloewenCraft {
             }
             wndGame.svWorld.ScrollToVerticalOffset((int)((offsetY-6) * 50));
 
-            Thickness currentMarginPlayer = wndGame.world.player.cvsPlayer.Margin;
+            Thickness currentMarginPlayer = wndGame.world.player.texture.Margin;
             currentMarginPlayer.Top = playerPosY * 50;
             currentMarginPlayer.Left = playerPosX * 50 - (offsetX-12) * 50;
-            wndGame.world.player.cvsPlayer.Margin = currentMarginPlayer;
+            wndGame.world.player.texture.Margin = currentMarginPlayer;
+
+            foreach(Entity entity in entities)
+            {
+                Thickness currentMargin = entity.texture.Margin;
+                currentMargin.Top = entity.posY /20;
+                currentMargin.Left = entity.posX/20 - (offsetX - 12) * 50;
+                entity.texture.Margin = currentMargin;
+            }
 
 
             if (Canvas.GetLeft(wndGame.world.loadedChunkList[2].grdChunk) <= 0)
@@ -79,8 +90,29 @@ namespace SeeloewenCraft {
                 Render();
             }
 
-
         }
+
+        public (double, double) GetMouseOffset()
+        {
+            Point p = Mouse.GetPosition(wndGame.cvsWorld);
+
+
+            double x = 20*(p.X + (offsetX-12)*50);
+            double y = p.Y * 20;
+
+            return ((double)x, (double)y);
+        }
+
+        public void AddEntity(Entity entity)
+        {
+            entities.Add(entity);
+        }
+
+        public void Remove(Entity entitiy)
+        {
+            entities.Remove(entitiy);
+        }
+
 
         public void AddChunk(Chunk chunk)
         {

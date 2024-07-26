@@ -285,7 +285,7 @@ namespace SeeloewenCraft
             if (element is Canvas)
             {
                 //Check for collision
-                if (world.wndGame.GetRectangle(world.player.cvsPlayer).IntersectsWith(world.wndGame.GetRectangle(blockContainer.cvsBlock)))
+                if (world.wndGame.GetRectangle(world.player.texture).IntersectsWith(world.wndGame.GetRectangle(blockContainer.cvsBlock)))
                 {
                     return true;
                 }
@@ -315,7 +315,7 @@ namespace SeeloewenCraft
         public bool IsInRange()
         {
             //Convert positions to screen coordinates
-            Point playerScreenPoint = world.player.cvsPlayer.PointToScreen(new Point(0, 0));
+            Point playerScreenPoint = world.player.texture.PointToScreen(new Point(0, 0));
             Point otherScreenPoint = blockContainer.bdrBlock.PointToScreen(new Point(0, 0));
 
             //Convert to coordinates considering scrolling

@@ -6,6 +6,7 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Input;
 
 namespace SeeloewenCraft
 {
@@ -32,6 +33,7 @@ namespace SeeloewenCraft
         public RecipeCreator recipeCreator;
         public NotificationHandler notificationHandler;
         public WorldRenderer worldRenderer;
+        public List<Entity> entities;
 
         //Constants
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
@@ -97,6 +99,37 @@ namespace SeeloewenCraft
         //-- Custom Methods --//
 
         //creates and returns chunk and adds to total chunk list
+
+        public Entity GetEntity(long id)
+        {
+            foreach (Entity entity in entities)
+            {
+                if (entity.id == id)
+                {
+                    return entity;
+                }
+            }
+            return null;
+        }
+
+
+        public void AddEntity(Entity entity)
+        {
+            entities.Add(entity);
+            wndGame.cvsWorld.Children.Add(entity.texture);
+            Panel.SetZIndex(entity.texture, 1);
+            worldRenderer.AddEntity(entity);
+        }
+
+        public void RemoveEntity(Entity entity)
+        {
+            if (entities.Contains(entity))
+            {
+                entities.Remove(entity);
+                wndGame.cvsWorld.Children.Remove(entity.texture);
+                worldRenderer.Remove(entity);
+            }
+        }
 
         public void SetBlock(Block block, int posX, int posY)
         {
@@ -246,6 +279,8 @@ namespace SeeloewenCraft
                 writer.WriteToFile($"{worldDirectory}/world_settings.json");
             }
 
+            entities = new List<Entity>();
+
             //Check if the player position exists
             bool loadedPlayerPosExists = File.Exists($"{worldDirectory}/player_position.json");
             int playerPosX = 0;
@@ -363,7 +398,7 @@ namespace SeeloewenCraft
                 }
 
                 //Create the player and add it to the world canvas
-                player = new Player(this, 20050, Math.Max((yPos*1000) - 1900, 2000));
+                player = new Player(this, 20050, Math.Max((yPos * 1000) - 1900, 2000));
                 log.Write("Generated player at start position", "Info");
             }
             else
@@ -371,8 +406,8 @@ namespace SeeloewenCraft
                 player = new Player(this, playerPosX, playerPosY);
                 log.Write("Generated player at loaded position", "Info");
             }
-            wndGame.cvsWorld.Children.Add(player.cvsPlayer);
-            Panel.SetZIndex(player.cvsPlayer, 1);
+            wndGame.cvsWorld.Children.Add(player.texture);
+            Panel.SetZIndex(player.texture, 1);
             wndGame.relativeSvPos = wndGame.svWorld.VerticalOffset;
             wndGame.defaultSvPos = wndGame.svWorld.VerticalOffset;
         }
@@ -461,10 +496,58 @@ namespace SeeloewenCraft
         }
 
         //-- Event Handlers --//
+
+        private static bool dropped = false;
         private void tmrMovement_Tick(object sender, EventArgs e)
         {
             //Movement timer, ticks at a rate of approximitely 60 fps (every 16 ms)
-            player.DoPhysicsStep(wndGame.pressedKeys.Contains(Settings.cMoveLeft), wndGame.pressedKeys.Contains(Settings.cMoveRight), wndGame.pressedKeys.Contains(Settings.cJump), 0.016);
+            player.pressedLeft = wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            player.pressedRight = wndGame.pressedKeys.Contains(Settings.cMoveRight);
+            player.pressedUp = wndGame.pressedKeys.Contains(Settings.cJump);
+
+            player.DoPhysicsStep(63); // tps: 1/0.016
+
+            if (wndGame.pressedKeys.Contains(Key.Q))
+            {
+                if (!dropped)
+                {
+                    Item item = player.inventory.GetSelectedItem();
+                    if (item != null)
+                    {
+                        (double mousePosX, double mousePosY) = worldRenderer.GetMouseOffset();
+                        double xOffset = mousePosX - player.posX - 450;
+                        double yOffset = mousePosY - player.posY;
+                        double n = Math.Sqrt(xOffset * xOffset + yOffset * yOffset);
+                        double xDir = xOffset / n;
+                        double yDir = yOffset / n;
+
+                        ItemEntity itemEntity = new ItemEntity(item, player.posX + 300, player.posY, (int)(15000 * xDir) + player.velX, (int)(20000 * yDir) + player.velY, this);
+                        AddEntity(itemEntity);
+                        log.Write($"item entity created at {player.posX}, {player.posY}", "Info");
+                        dropped = true;
+                        player.inventory.RemoveItem(item);
+                    }
+                }
+            }
+            else
+            {
+                dropped = false;
+            }
+
+            List<ItemEntity> pickedUpEntities = new List<ItemEntity>();
+            foreach (Entity entity in entities)
+            {
+                entity.DoPhysicsStep(63);
+                if (entity is ItemEntity itemEntity && entity.lifeTime > 800 && wndGame.GetRectangle(entity.texture).IntersectsWith(wndGame.GetRectangle(player.texture))) {
+                    pickedUpEntities.Add(itemEntity);
+                }
+            }
+            foreach (ItemEntity itemEntity in pickedUpEntities)
+            {
+                player.inventory.AddItem(itemEntity.item);
+                RemoveEntity(itemEntity);
+            }
+
 
             worldRenderer.playerPosX = (double)player.posX / 1000;
             worldRenderer.playerPosY = (double)player.posY / 1000;
