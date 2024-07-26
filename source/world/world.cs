@@ -521,7 +521,7 @@ namespace SeeloewenCraft
                         double xDir = xOffset / n;
                         double yDir = yOffset / n;
 
-                        ItemEntity itemEntity = new ItemEntity(item, player.posX + 300, player.posY, (int)(15000 * xDir) + player.velX, (int)(20000 * yDir) + player.velY, this);
+                        ItemEntity itemEntity = new ItemEntity(item, player.posX + 500 - ItemEntity.itemSizeX/2, player.posY, (int)(15000 * xDir) + player.velX, (int)(20000 * yDir) + player.velY, this);
                         AddEntity(itemEntity);
                         log.Write($"item entity created at {player.posX}, {player.posY}", "Info");
                         dropped = true;

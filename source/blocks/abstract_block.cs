@@ -565,7 +565,7 @@ namespace SeeloewenCraft
                         if (foregroundBlock.item != null)
                         {
                             //world.player.inventory.AddItem(foregroundBlock.item);
-                            world.AddEntity(new ItemEntity(item, (xPos + 8 * chunk.index) * 1000 + 350, yPos * 1000 + 350, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
+                            world.AddEntity(new ItemEntity(item, (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
                         }
                         blockContainer.RemoveForegroundBlock();
                     }
@@ -590,14 +590,14 @@ namespace SeeloewenCraft
                         foreach (Item item in items)
                         {
                             //world.player.inventory.AddItem(item);
-                            world.AddEntity(new ItemEntity(item, (xPos + 8 * chunk.index) * 1000 + 350, yPos * 1000 + 350, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
+                            world.AddEntity(new ItemEntity(item, (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
                         }
                     }
                     //If has only an item, only give that item
                     else if (item != null)
                     {
                         //world.player.inventory.AddItem(item);
-                        world.AddEntity(new ItemEntity(item, (xPos + 8 * chunk.index) * 1000 + 350, yPos * 1000 + 350, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
+                        world.AddEntity(new ItemEntity(item, (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
                     }
                 }
             }

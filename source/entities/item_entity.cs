@@ -10,8 +10,12 @@ namespace SeeloewenCraft
 {
     public class ItemEntity : Entity
     {
+
+        public const int itemSizeX = 500;
+        public const int itemSizeY = 500;
+
         public Item item;
-        public ItemEntity(Item item, int posX, int posY, int velX, int velY, World world) : base(300, 300, posX, posY, velX, velY, world, Colors.Yellow){
+        public ItemEntity(Item item, int posX, int posY, int velX, int velY, World world) : base(itemSizeX, itemSizeY, posX, posY, velX, velY, world, Colors.Yellow){
             this.item = item;
             frictionAir = 2;
 
