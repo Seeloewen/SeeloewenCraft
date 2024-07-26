@@ -72,7 +72,7 @@ namespace SeeloewenCraft
                 GenerateTrees();
                 GenerateOres();
                 if (Settings.enableCaveGeneration) GenerateCaves();
-                ContinueStructureGeneration();
+                ContinueStructureGeneration("");
             }
         }
 
@@ -104,6 +104,9 @@ namespace SeeloewenCraft
 
         private void GenerateTrees()
         {
+            ContinueStructureGeneration("Spruce Tree");
+            ContinueStructureGeneration("Oak Tree");
+
             //Generate up to 3 trees
             for (int i = 0; i < 3; i++)
             {
@@ -127,8 +130,10 @@ namespace SeeloewenCraft
 
         private void GenerateLakes()
         {
+            ContinueStructureGeneration("Lake");
+
             //Generate up to 1 lake
-            if (rnd.Next(0, 5) == 0)
+            if (rnd.Next(0, 6) == 0)
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7);
 
@@ -140,6 +145,8 @@ namespace SeeloewenCraft
 
         private void GenerateOres()
         {
+            ContinueStructureGeneration("Legacy Ore Structure");
+
             //Generate up to 15 ores
             for (int i = 0; i < 15; i++)
             {
@@ -154,6 +161,8 @@ namespace SeeloewenCraft
 
         private void GenerateCaves()
         {
+            ContinueStructureGeneration("Cave1");
+
             //Generate up to 1 cave
             if (rnd.Next(0, 8) == 0)
             {
@@ -163,16 +172,34 @@ namespace SeeloewenCraft
             }
         }
 
-        private void ContinueStructureGeneration()
+        private void ContinueStructureGeneration(string structureName)
         {
-            //Continue Structure Generation by adding a continuation strucutre, which contains the structure components that were previously cut off
-            if (index != 0)
+            //If an ID is given, only generate structures with that id
+            if (!string.IsNullOrEmpty(structureName))
+            {
+                //Continue Structure Generation by adding a continuation strucutre, which contains the structure components that were previously cut off
+                if (index != 0)
+                {
+                    foreach (Structure structure in world.GetLoadedChunk(index + (index < 0 ? 1 : -1)).structureList)
+                    {
+                        //Check if the structure in the list is actually cut off and matches the id
+                        if (structure.isCutOff && structure.name == structureName)
+                        {
+                            structureList.Add(new ContinuationStructure(structure.cutOffComponents, world, index < 0 ? 7 : 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
+                            continuedStructureList.Add(structure);
+                        }
+                    }
+                }
+            }
+            else //If no id is given, generate all remaining structures in the list
             {
                 foreach (Structure structure in world.GetLoadedChunk(index + (index < 0 ? 1 : -1)).structureList)
                 {
-                    if (structure.isCutOff)
+                    //Check if the structure in the list is actually cut off and matches the id
+                    if (structure.isCutOff && !continuedStructureList.Contains(structure))
                     {
                         structureList.Add(new ContinuationStructure(structure.cutOffComponents, world, index < 0 ? 7 : 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
+                        continuedStructureList.Add(structure);
                     }
                 }
             }

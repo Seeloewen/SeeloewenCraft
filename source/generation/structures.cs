@@ -89,7 +89,7 @@ namespace SeeloewenCraft
                 }
 
                 //Generate a mirror of the lake above, but with air to clear potential blocks above
-                for (int i = floorHeight; i <= floorHeight + floorHeight - yPos; i++)
+                for (int i = floorHeight; i <= floorHeight + floorHeight - yPos + 2; i++)
                 {
                     structureComponents.Add(new StructureComponent(world, xPos, i, new AirBlock(world, false)));
                 }
