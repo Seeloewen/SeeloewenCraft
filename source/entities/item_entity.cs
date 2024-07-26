@@ -14,6 +14,9 @@ namespace SeeloewenCraft
         public ItemEntity(Item item, int posX, int posY, int velX, int velY, World world) : base(300, 300, posX, posY, velX, velY, world, Colors.Yellow){
             this.item = item;
             frictionAir = 2;
+
+            texture.Background = item.image;
+
         }
 
     }
