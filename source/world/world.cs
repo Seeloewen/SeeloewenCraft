@@ -538,7 +538,7 @@ namespace SeeloewenCraft
             foreach (Entity entity in entities)
             {
                 entity.DoPhysicsStep(63);
-                if (entity is ItemEntity itemEntity && entity.lifeTime > 800 && wndGame.GetRectangle(entity.texture).IntersectsWith(wndGame.GetRectangle(player.texture))) {
+                if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && wndGame.GetRectangle(entity.texture).IntersectsWith(wndGame.GetRectangle(player.texture))) {
                     pickedUpEntities.Add(itemEntity);
                 }
             }

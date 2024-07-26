@@ -11,7 +11,8 @@ namespace SeeloewenCraft
         protected World world;
 
         private const int accGrav = 70000;
-        protected int friction = 10;
+        protected int frictionGround = 10;
+        protected int frictionAir = 10;
         private const int slowestGroundSpeed = 400;
 
         public long lifeTime;
@@ -38,19 +39,24 @@ namespace SeeloewenCraft
             (bool onGround, _) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + 1);
 
             // -- friction --
-            if (true) //normally: onGround
+            if (onGround)
             {
                 if (velX > 0)
                 {
                     //this reduces the velocity by f_ground * v_x * dt until v_x reaches a threshold with value slowest_ground_speed, when it gets set to zero
-                    int v_reduction = friction * velX / tps;
+                    int v_reduction = frictionGround * velX / tps;
                     velX -= Math.Max(Math.Min(slowestGroundSpeed / tps, velX), v_reduction);
                 }
                 else if (velX < 0)
                 {
-                    int v_reduction = -friction * velX / tps;
+                    int v_reduction = -frictionGround * velX / tps;
                     velX += Math.Max(Math.Min(slowestGroundSpeed / tps, -velX), v_reduction);
                 }
+            }
+            else
+            {
+                int v_reduction = frictionAir * velX / tps;
+                velX -= v_reduction;
             }
 
             if (!onGround)
@@ -60,7 +66,7 @@ namespace SeeloewenCraft
 
             Move(tps);
         }
-        
+
         protected void Move(int tps)
         {
 
