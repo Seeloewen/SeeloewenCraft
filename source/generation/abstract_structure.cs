@@ -12,6 +12,7 @@ namespace SeeloewenCraft
         public BlockList blockList;
         public Random rnd;
         public Chunk chunk;
+        public StructureShapeCreator shapeCreator;
         World world;
 
         //Constants
@@ -36,6 +37,7 @@ namespace SeeloewenCraft
         {
             //Set the attributes
             blockList = new BlockList(chunk);
+            shapeCreator = new StructureShapeCreator(world);
             this.chunk = chunk;
             this.world = world;
             this.canFloat = canFloat;
@@ -202,14 +204,12 @@ namespace SeeloewenCraft
     public class StructureComponent
     {
         public Block block;
-        public World world;
         public int xOffset;
         public int yOffset;
 
-        public StructureComponent(World world, int xOffset, int yOffset, Block block)
+        public StructureComponent(int xOffset, int yOffset, Block block)
         {
             //Set the attributes of the structure component
-            this.world = world;
             this.xOffset = xOffset;
             this.yOffset = yOffset;
             this.block = block;

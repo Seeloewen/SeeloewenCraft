@@ -191,7 +191,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public void CreateCrashDump(Exception ex)
+        public void CreateCrashDump(wndMenu wndMenu, Exception ex)
         {
             //Log all relevant information for a crash
             Write("-------------------------------------", "Error");

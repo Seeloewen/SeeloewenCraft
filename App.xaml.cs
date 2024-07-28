@@ -7,6 +7,7 @@ namespace SeeloewenCraft
     public partial class App : Application
     {
         wndMenu wndMenu;
+        Log log;
 
         public App() : base()
         {
@@ -20,7 +21,7 @@ namespace SeeloewenCraft
             StartOptions.Parse(e.Args);
 
             //Initiliaze Game
-            Log log = new Log();
+            log = new Log();
             FolderUtil.InitializeDirectories(log);
             wndMenu = new wndMenu();
             log.wndMenu = wndMenu;
@@ -65,7 +66,7 @@ namespace SeeloewenCraft
         {
             //Create crash dump
             wndMenu.log.Write("A crash has occured and an unhandled exception has occured. Creating crash dump...", "Error");
-            wndMenu.log.CreateCrashDump(e.Exception);
+            wndMenu.log.CreateCrashDump(wndMenu, e.Exception);
 
             //Save log before the game exits if enabled
             if (Settings.saveLogOnExit)
