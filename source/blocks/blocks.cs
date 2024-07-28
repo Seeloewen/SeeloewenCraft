@@ -11,6 +11,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Grass Block";
             id = "sc:grass_block";
+            tags.Add("CanBeFloor");
         }
 
         override public void GenerateItem(World world)
@@ -32,6 +33,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Stone Block";
             id = "sc:stone_block";
+            tags.Add("CanBeFloor");
         }
 
         override public void GenerateItem(World world)
@@ -52,6 +54,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Dirt";
             id = "sc:dirt_block";
+            tags.Add("CanBeFloor");
         }
 
         override public void GenerateItem(World world)

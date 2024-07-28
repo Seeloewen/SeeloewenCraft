@@ -40,30 +40,31 @@ namespace SeeloewenCraft
             switch (previousDirection)
             {
                 case Direction.RIGHT:
-                    this.yOffset += rnd.Next(-1, 1);
+                    this.yOffset += rnd.Next(-2, 2);
                     break;
                 case Direction.LEFT:
                     this.xOffset += offsetDirection.IsRight() ? -2 : 2;
+                    this.yOffset += rnd.Next(-2, 2);
                     break;
                 case Direction.DOWN:
-                    this.xOffset += offsetDirection.IsRight() ? rnd.Next(-2, 0) : rnd.Next(0, 2);
+                    this.xOffset += offsetDirection.IsRight() ? rnd.Next(-3, -1) : rnd.Next(-1, 3);
                     this.yOffset -= 5;
                     break;
             }
 
             //Add all structurecomponents to the list
-            structureComponents.Add(new StructureComponent(this.xOffset, this.yOffset + 1, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(this.xOffset, this.yOffset + 2, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 1, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 2, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 3, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 1, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 2, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 3, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 3, this.yOffset + 1, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 3, this.yOffset + 2, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(this.xOffset, this.yOffset + 1, new AirBlock(world, false)));
+            structureComponents.Add(new StructureComponent(this.xOffset, this.yOffset + 2, new AirBlock(world, false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 1, new AirBlock(world, false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset, new AirBlock(world, false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 2, new AirBlock(world, false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 3, new AirBlock(world, false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset, new AirBlock(world, false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 1, new AirBlock(world, false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 2, new AirBlock(world, false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 3, new AirBlock(world, false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 3, this.yOffset + 1, new AirBlock(world, false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 3, this.yOffset + 2, new AirBlock(world, false)));
 
             //Add the bordercomponents to the list
             borderComponents.Add(new BorderComponent(Direction.LEFT, this.xOffset, this.yOffset + 1));
@@ -74,8 +75,6 @@ namespace SeeloewenCraft
             borderComponents.Add(new BorderComponent(Direction.RIGHT, this.xOffset + 3, this.yOffset + 2));
             borderComponents.Add(new BorderComponent(Direction.UP, this.xOffset + 1, this.yOffset));
             borderComponents.Add(new BorderComponent(Direction.UP, this.xOffset + 2, this.yOffset));
-
-
         }
     }
 
@@ -200,9 +199,6 @@ namespace SeeloewenCraft
                 {
                     if (potentialBorders[random2].x == structureComponent.xOffset && potentialBorders[random2].y == structureComponent.yOffset)
                     {
-                        //Add a new cave component to the list
-                        world.log.Write(newDirection.ToString(), "Info");
-
                         caveComponents.Add(GetCaveComponent(structureComponent.xOffset, structureComponent.yOffset, chunk, world, newDirection, direction));
                     }
                 }

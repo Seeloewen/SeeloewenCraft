@@ -1,4 +1,6 @@
 ﻿
+using System.DirectoryServices.ActiveDirectory;
+
 namespace SeeloewenCraft
 {
     public partial class Chunk
@@ -84,7 +86,7 @@ namespace SeeloewenCraft
             return (x, y);
         }
 
-        private (int x, int y) GetCoordinatesOnSurface(int minX, int maxX)
+        private (int x, int y) GetCoordinatesOnSurface(int minX, int maxX, bool useFallBack)
         {
             //Generate random x coordinate
             int x = rnd.Next(minX, maxX + 1);
@@ -99,6 +101,21 @@ namespace SeeloewenCraft
                     break;
                 }
             }
+
+            if (useFallBack)
+            {
+                for (int i = 0; i < 74; i++)
+                {
+                    Block block = blockList.Get(x, i);
+
+                    if (block.tags.Contains("CanBeFloor"))
+                    {
+                        y = i;
+                        break;
+                    }
+                }
+            }
+
             return (x, y);
         }
 
@@ -112,18 +129,21 @@ namespace SeeloewenCraft
             {
                 if (rnd.Next(0, 3) == 0)
                 {
-                    (int x, int y) = GetCoordinatesOnSurface(0, 7);
+                    (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
                     //Decide which tree to generate, mostly generate oak trees, rarely spruce
-                    if (rnd.Next(0, 6) == 0)
+                    if(y != 0)
                     {
-                        structureList.Add(new SpruceTreeStructure(world, x, y - 1, index, true, this, false));
-                    }
-                    else
-                    {
-                        structureList.Add(new OakTreeStructure(world, x, y - 1, index, true, this, false));
-                    }
+                        if (rnd.Next(0, 6) == 0)
+                        {
+                            structureList.Add(new SpruceTreeStructure(world, x, y - 1, index, true, this, false));
+                        }
+                        else
+                        {
+                            structureList.Add(new OakTreeStructure(world, x, y - 1, index, true, this, false));
+                        }
 
+                    }
                 }
             }
         }
@@ -135,10 +155,13 @@ namespace SeeloewenCraft
             //Generate up to 1 lake
             if (rnd.Next(0, 6) == 0)
             {
-                (int x, int y) = GetCoordinatesOnSurface(0, 7);
+                (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
-                int floorHeight = rnd.Next(3, 8);
-                structureList.Add(new Lake(world, x, y + floorHeight, index, true, this, true, floorHeight));
+                if(y != 0)
+                {
+                    int depth = rnd.Next(3, 8);
+                    structureList.Add(new Lake(world, x, y + depth, index, true, this, true, depth));
+                }
             }
         }
 
@@ -152,8 +175,10 @@ namespace SeeloewenCraft
             {
                 if (rnd.Next(0, 3) == 0)
                 {
-                    (int x, int y) = GetCoordinatesOnSurface(0, 7);
+                    int y = 25;
 
+                    (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                    
                     structureList.Add(new OreStructure(world, x, y + rnd.Next(10, 70), index, true, this, true));
                 }
             }
@@ -166,7 +191,7 @@ namespace SeeloewenCraft
             //Generate up to 1 cave
             if (rnd.Next(0, 8) == 0)
             {
-                (int x, int y) = GetCoordinatesOnSurface(0, 7);
+                (int x, int y) = GetCoordinatesOnSurface(0, 7, true);
 
                 structureList.Add(new Cave(world, x, y + 15, index, true, this, true));
             }
