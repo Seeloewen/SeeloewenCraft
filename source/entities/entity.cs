@@ -17,8 +17,8 @@ namespace SeeloewenCraft
 
         public long lifeTime;
 
-        private static long nextID = 0;
-        public long id;
+        private static int nextID = 0;
+        public int id;
 
         public Canvas texture;
 
@@ -30,6 +30,57 @@ namespace SeeloewenCraft
 
         public int velX;
         public int velY;
+
+
+        public static Entity LoadFromJson(JsonToken token, World world)
+        {
+            Entity entity = null;
+            switch(token.GetString("/type"))
+            {
+                case "Entity":
+                    entity = new Entity(token, world);
+                    break;
+                case "ItemEntity":
+                    entity = new ItemEntity(token, world);
+                    break;
+            }
+            entity.id = token.GetInt("/id");
+            entity.posX = token.GetInt("/posX");
+            entity.posY = token.GetInt("/posY");
+            entity.velX = token.GetInt("/velX");
+            entity.velY = token.GetInt("/velY");
+            entity.lifeTime = token.GetInt("/life_time");
+
+            nextID = Math.Max(nextID, entity.id);
+
+            return entity;
+        }
+
+        public void SaveToJson(JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            writer.WritePropertyName("id");
+            writer.WriteValue(id);
+            writer.WritePropertyName("posX");
+            writer.WriteValue(posX);
+            writer.WritePropertyName("posY");
+            writer.WriteValue(posY);
+            writer.WritePropertyName("velX");
+            writer.WriteValue(velX);
+            writer.WritePropertyName("velY");
+            writer.WriteValue(velY);
+            writer.WritePropertyName("life_time");
+            writer.WriteValue(lifeTime);
+
+            SaveSpecialInfo(writer);
+            writer.WriteEndObject();
+        }
+
+        protected virtual void SaveSpecialInfo(JsonWriter writer)
+        {
+            writer.WritePropertyName("type");
+            writer.WriteValue("Entity");
+        }
 
 
         public virtual void DoPhysicsStep(int tps)
@@ -250,8 +301,12 @@ namespace SeeloewenCraft
             return (false, 0);
         }
 
+        protected Entity(JsonToken token, World world)
+        {
+            this.world = world;
+        }
 
-        protected Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Color color)
+        public Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Color color)
         {
             lifeTime = 0;
             this.id = nextID;

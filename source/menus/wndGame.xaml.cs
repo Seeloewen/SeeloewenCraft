@@ -345,6 +345,7 @@ namespace SeeloewenCraft
                     }
                     world.player.SaveInventory(world.worldDirectory);
                     world.player.SavePosition(world.worldDirectory);
+                    world.SaveEntities();
                     if(world.gameLoop.tmrGameLoop.IsRunning) world.gameLoop.tmrGameLoop.Stop();
                 }
             }
@@ -391,6 +392,7 @@ namespace SeeloewenCraft
             }
             world.player.SaveInventory(world.worldDirectory);
             world.player.SavePosition(world.worldDirectory);
+            world.SaveEntities();
             if (world.gameLoop.tmrGameLoop.IsRunning) world.gameLoop.tmrGameLoop.Stop();
 
             //Show confirmation

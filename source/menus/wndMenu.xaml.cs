@@ -17,7 +17,7 @@ namespace SeeloewenCraft
         private SplashTextHandler splashTextHandler;
 
         //Constants
-        public int worldVersion = 4;
+        public int worldVersion = 5;
         public string gameVersion = "Alpha 1.2.0-Dev1";
         public string versionDate = "17.07.2024";
         public int texturepackVersion;

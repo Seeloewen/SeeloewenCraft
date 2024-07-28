@@ -100,6 +100,25 @@ namespace SeeloewenCraft
 
         //creates and returns chunk and adds to total chunk list
 
+
+        public void SaveEntities()
+        {
+            using (JsonWriter writer = JsonWriter.Create())
+            {
+                writer.WriteStartObject();
+                writer.WritePropertyName("entities");
+                writer.WriteStartArray();
+                foreach (Entity entity in entities)
+                {
+                    entity.SaveToJson(writer);
+                }
+                writer.WriteEndArray();
+                writer.WriteEndObject();
+                writer.WriteToFile($"{worldDirectory}/entities.json");
+            }
+        }
+
+
         public Entity GetEntity(long id)
         {
             foreach (Entity entity in entities)
@@ -280,6 +299,15 @@ namespace SeeloewenCraft
             }
 
             entities = new List<Entity>();
+            if (!isNew)
+            {
+                JsonToken listToken = JsonUtil.ReadFile($"{worldDirectory}/entities.json").GetToken("/entities");
+                int l = listToken.GetArrayLength();
+                for (int i = 0; i < l; i++)
+                {
+                    AddEntity(Entity.LoadFromJson(listToken.GetToken($"/{i}"), this));
+                }
+            }
 
             //Check if the player position exists
             bool loadedPlayerPosExists = File.Exists($"{worldDirectory}/player_position.json");
@@ -350,6 +378,10 @@ namespace SeeloewenCraft
             finishedLoading = true;
             log.Write($"Loading of world {worldName} completed!", "Info");
 
+            worldRenderer.playerPosX = (double)player.posX / 1000;
+            worldRenderer.playerPosY = (double)player.posY / 1000;
+
+            worldRenderer.Render();
             //Start the main timer
             tmrMovement.Interval = 16;
             tmrMovement.Tick += tmrMovement_Tick;
@@ -521,7 +553,7 @@ namespace SeeloewenCraft
                         double xDir = xOffset / n;
                         double yDir = yOffset / n;
 
-                        ItemEntity itemEntity = new ItemEntity(item, player.posX + 500 - ItemEntity.itemSizeX/2, player.posY, (int)(15000 * xDir) + player.velX, (int)(20000 * yDir) + player.velY, this);
+                        ItemEntity itemEntity = new ItemEntity(item, player.posX + 500 - ItemEntity.itemSizeX / 2, player.posY, (int)(15000 * xDir) + player.velX, (int)(20000 * yDir) + player.velY, this);
                         AddEntity(itemEntity);
                         log.Write($"item entity created at {player.posX}, {player.posY}", "Info");
                         dropped = true;
@@ -538,7 +570,8 @@ namespace SeeloewenCraft
             foreach (Entity entity in entities)
             {
                 entity.DoPhysicsStep(63);
-                if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && wndGame.GetRectangle(entity.texture).IntersectsWith(wndGame.GetRectangle(player.texture))) {
+                if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && wndGame.GetRectangle(entity.texture).IntersectsWith(wndGame.GetRectangle(player.texture)))
+                {
                     pickedUpEntities.Add(itemEntity);
                 }
             }

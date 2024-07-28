@@ -15,6 +15,7 @@ namespace SeeloewenCraft
         private JsonWriter(StringBuilder sb, StringWriter sw) : base(sw)
         {
             this.sb = sb;
+            Formatting = Newtonsoft.Json.Formatting.Indented;
         }
 
         public void WriteToFile(string path)
@@ -40,7 +41,9 @@ namespace SeeloewenCraft
     {
         public static JsonToken ReadFile(string path)
         {
-            return new JsonToken(JToken.Parse(File.ReadAllText(path)));
+            string text = File.ReadAllText(path);
+            JToken token = JToken.Parse(text);
+            return new JsonToken(token);
         }
 
         public static JsonToken ReadResource(string name)
