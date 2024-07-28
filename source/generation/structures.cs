@@ -294,33 +294,6 @@ namespace SeeloewenCraft
             BeginGeneration(x, y, index, isNew);
 
         }
-
-        public void GetCoalOre(World world, int x, int y)
-        {
-            //50% chance to add a new ore block
-            if (rnd.Next(0, 2) == 0)
-            {
-                structureComponents.Add(new StructureComponent(x, y, new CoalOreBlock(world, false)));
-            }
-        }
-
-        public void GetIronOre(World world, int x, int y)
-        {
-            //50% chance to add a new ore block
-            if (rnd.Next(0, 2) == 0)
-            {
-                structureComponents.Add(new StructureComponent(x, y, new IronOreBlock(world, false)));
-            }
-        }
-
-        public void GetDiamondOre(World world, int x, int y)
-        {
-            //50% chance to add a new ore block
-            if (rnd.Next(0, 2) == 0)
-            {
-                structureComponents.Add(new StructureComponent(x, y, new DiamondOreBlock(world, false)));
-            }
-        }
     }
 
     public class AlphaCave : Structure //This was a test implementation of caves. It works partially, but has many issues and doesn't look good. Not used anymore.
