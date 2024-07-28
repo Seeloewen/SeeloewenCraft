@@ -52,18 +52,18 @@ namespace SeeloewenCraft
             }
 
             //Add all structurecomponents to the list
-            structureComponents.Add(new StructureComponent(world, this.xOffset, this.yOffset + 1, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, this.xOffset, this.yOffset + 2, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, this.xOffset + 1, this.yOffset + 1, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, this.xOffset + 1, this.yOffset, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, this.xOffset + 1, this.yOffset + 2, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, this.xOffset + 1, this.yOffset + 3, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, this.xOffset + 2, this.yOffset, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, this.xOffset + 2, this.yOffset + 1, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, this.xOffset + 2, this.yOffset + 2, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, this.xOffset + 2, this.yOffset + 3, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, this.xOffset + 3, this.yOffset + 1, new StoneBlock(world, true)));
-            structureComponents.Add(new StructureComponent(world, this.xOffset + 3, this.yOffset + 2, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(this.xOffset, this.yOffset + 1, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(this.xOffset, this.yOffset + 2, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 1, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 2, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 3, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 1, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 2, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 3, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 3, this.yOffset + 1, new StoneBlock(world, true)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 3, this.yOffset + 2, new StoneBlock(world, true)));
 
             //Add the bordercomponents to the list
             borderComponents.Add(new BorderComponent(Direction.LEFT, this.xOffset, this.yOffset + 1));

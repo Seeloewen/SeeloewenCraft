@@ -38,15 +38,15 @@ namespace SeeloewenCraft
             canReplaceSolidBlocks = true;
 
             //Add all structure components - It's meant to look like a bedrock pyramid
-            structureComponents.Add(new StructureComponent(world, 0, 0, new BedrockBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 1, 0, new BedrockBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 2, 0, new BedrockBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 3, 0, new BedrockBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 4, 0, new BedrockBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 1, 1, new BedrockBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 2, 1, new BedrockBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 3, 1, new BedrockBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 2, 2, new BedrockBlock(world, false)));
+            structureComponents.Add(new StructureComponent(0, 0, new BedrockBlock(world, false)));
+            structureComponents.Add(new StructureComponent(1, 0, new BedrockBlock(world, false)));
+            structureComponents.Add(new StructureComponent(2, 0, new BedrockBlock(world, false)));
+            structureComponents.Add(new StructureComponent(3, 0, new BedrockBlock(world, false)));
+            structureComponents.Add(new StructureComponent(4, 0, new BedrockBlock(world, false)));
+            structureComponents.Add(new StructureComponent(1, 1, new BedrockBlock(world, false)));
+            structureComponents.Add(new StructureComponent(2, 1, new BedrockBlock(world, false)));
+            structureComponents.Add(new StructureComponent(3, 1, new BedrockBlock(world, false)));
+            structureComponents.Add(new StructureComponent(2, 2, new BedrockBlock(world, false)));
 
             //Begin generating the alpha structure - was only meant for development purposes and is no longer in the game
             BeginGeneration(x, y, index, isNew);
@@ -80,18 +80,18 @@ namespace SeeloewenCraft
                     //Add dirt when below the currently observed ypos, else add water
                     if (i < yPos && i >= yPos - 2)
                     {
-                        structureComponents.Add(new StructureComponent(world, xPos, i, new DirtBlock(world, false)));
+                        structureComponents.Add(new StructureComponent(xPos, i, new DirtBlock(world, false)));
                     }
                     else if (i >= yPos)
                     {
-                        structureComponents.Add(new StructureComponent(world, xPos, i, new WaterBlock_6(world, false)));
+                        structureComponents.Add(new StructureComponent(xPos, i, new WaterBlock_6(world, false)));
                     }
                 }
 
                 //Generate a mirror of the lake above, but with air to clear potential blocks above
                 for (int i = floorHeight; i <= floorHeight + floorHeight - yPos + 2; i++)
                 {
-                    structureComponents.Add(new StructureComponent(world, xPos, i, new AirBlock(world, false)));
+                    structureComponents.Add(new StructureComponent(xPos, i, new AirBlock(world, false)));
                 }
 
 
@@ -140,28 +140,28 @@ namespace SeeloewenCraft
             totalWidth = 5;
 
             //Layer 1
-            structureComponents.Add(new StructureComponent(world, 2, 0, new OakLogBlock(world, true)));
+            structureComponents.Add(new StructureComponent(2, 0, new OakLogBlock(world, true)));
 
             //Layer 2
-            structureComponents.Add(new StructureComponent(world, 2, 1, new OakLogBlock(world, true)));
+            structureComponents.Add(new StructureComponent(2, 1, new OakLogBlock(world, true)));
 
             //Layer 3
-            structureComponents.Add(new StructureComponent(world, 2, 2, new OakLogBlock(world, true)));
+            structureComponents.Add(new StructureComponent(2, 2, new OakLogBlock(world, true)));
 
             //Layer 4
-            structureComponents.Add(new StructureComponent(world, 1, 3, new OakLeavesBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 2, 3, new OakLeavesBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 3, 3, new OakLeavesBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 4, 3, new OakLeavesBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 0, 3, new OakLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(1, 3, new OakLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(2, 3, new OakLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(3, 3, new OakLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(4, 3, new OakLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(0, 3, new OakLeavesBlock(world, false)));
 
             //Layer 5
-            structureComponents.Add(new StructureComponent(world, 1, 4, new OakLeavesBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 2, 4, new OakLeavesBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 3, 4, new OakLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(1, 4, new OakLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(2, 4, new OakLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(3, 4, new OakLeavesBlock(world, false)));
 
             //Layer 6
-            structureComponents.Add(new StructureComponent(world, 2, 5, new OakLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(2, 5, new OakLeavesBlock(world, false)));
 
             //Begin generating the trees
             BeginGeneration(x, y, index, isNew);
@@ -182,36 +182,36 @@ namespace SeeloewenCraft
             totalWidth = 5;
 
             //Layer 1
-            structureComponents.Add(new StructureComponent(world, 2, 0, new SpruceLogBlock(world, true)));
+            structureComponents.Add(new StructureComponent(2, 0, new SpruceLogBlock(world, true)));
 
             //Layer 2
-            structureComponents.Add(new StructureComponent(world, 2, 1, new SpruceLogBlock(world, true)));
+            structureComponents.Add(new StructureComponent(2, 1, new SpruceLogBlock(world, true)));
 
             //Layer 3
-            structureComponents.Add(new StructureComponent(world, 2, 2, new SpruceLogBlock(world, true)));
+            structureComponents.Add(new StructureComponent(2, 2, new SpruceLogBlock(world, true)));
 
             //Layer 4
-            structureComponents.Add(new StructureComponent(world, 1, 3, new SpruceLeavesBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 2, 3, new SpruceLeavesBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 3, 3, new SpruceLeavesBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 4, 3, new SpruceLeavesBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 0, 3, new SpruceLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(1, 3, new SpruceLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(2, 3, new SpruceLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(3, 3, new SpruceLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(4, 3, new SpruceLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(0, 3, new SpruceLeavesBlock(world, false)));
 
             //Layer 5
-            structureComponents.Add(new StructureComponent(world, 1, 4, new SpruceLeavesBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 2, 4, new SpruceLeavesBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 3, 4, new SpruceLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(1, 4, new SpruceLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(2, 4, new SpruceLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(3, 4, new SpruceLeavesBlock(world, false)));
 
             //Layer 6
-            structureComponents.Add(new StructureComponent(world, 1, 5, new SpruceLeavesBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 2, 5, new SpruceLeavesBlock(world, false)));
-            structureComponents.Add(new StructureComponent(world, 3, 5, new SpruceLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(1, 5, new SpruceLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(2, 5, new SpruceLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(3, 5, new SpruceLeavesBlock(world, false)));
 
             //Layer 7
-            structureComponents.Add(new StructureComponent(world, 2, 6, new SpruceLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(2, 6, new SpruceLeavesBlock(world, false)));
 
             //Layer 8
-            structureComponents.Add(new StructureComponent(world, 2, 7, new SpruceLeavesBlock(world, false)));
+            structureComponents.Add(new StructureComponent(2, 7, new SpruceLeavesBlock(world, false)));
 
             //Begin generating the trees
             BeginGeneration(x, y, index, isNew);
@@ -234,68 +234,63 @@ namespace SeeloewenCraft
 
             if (random1 >= 0 && random1 <= 15) //Coal Vein
             {
-                //Set the total width
-                totalWidth = 4;
-
-                //Generate ores
-                for (int i = 0; i < 3; i++) //Y
+                foreach (StructureComponent com in shapeCreator.GetCustomCircle(3, 2))
                 {
-                    for (int j = 0; j < 4; j++) //X
+                    com.block = new CoalOreBlock(world, false);
+                    structureComponents.Add(com);
+                }
+                if (rnd.Next(1, 11) > 2)
+                {
+                    StructureComponent ranCom = structureComponents[rnd.Next(0, structureComponents.Count)];
+                    foreach (StructureComponent com in shapeCreator.GetCustomCircle(3, 2))
                     {
-                        if (i == 0 && j == 0)
-                        {
-                            structureComponents.Add(new StructureComponent(world, 0, 0, new CoalOreBlock(world, false)));
-                        }
-                        else
-                        {
-                            GetCoalOre(world, j, i);
-                        }
+                        com.xOffset += ranCom.xOffset;
+                        com.yOffset += ranCom.yOffset;
+                        com.block = new CoalOreBlock(world, false);
+                        structureComponents.Add(com);
                     }
                 }
             }
             else if (random1 > 15 && random1 <= 25) //Iron Vein
             {
-                //Set the total width
-                totalWidth = 3;
-
-                //Generate ores
-                for (int i = 0; i < 3; i++) //Y
+                foreach (StructureComponent com in shapeCreator.GetCustomCircle(2, 1))
                 {
-                    for (int j = 0; j < 3; j++) //X
+                    com.block = new IronOreBlock(world, false);
+                    structureComponents.Add(com);
+                }
+                if (rnd.Next(1, 11) > 4)
+                {
+                    StructureComponent ranCom = structureComponents[rnd.Next(0, structureComponents.Count)];
+                    foreach (StructureComponent com in shapeCreator.GetCustomCircle(2, 1))
                     {
-                        if (i == 0 && j == 0)
-                        {
-                            structureComponents.Add(new StructureComponent(world, 0, 0, new IronOreBlock(world, false)));
-                        }
-                        else
-                        {
-                            GetIronOre(world, j, i);
-                        }
+                        com.xOffset += ranCom.xOffset;
+                        com.yOffset += ranCom.yOffset;
+                        com.block = new IronOreBlock(world, false);
+                        structureComponents.Add(com);
                     }
                 }
             }
             else if (random1 > 25 && random1 <= 30) //Diamond Vein
             {
-                //Set the total width
-                totalWidth = 2;
-
-                //Generate ores
-                for (int i = 0; i < 2; i++) //Y
+                foreach (StructureComponent com in shapeCreator.GetCustomCircle(1, 1))
                 {
-                    for (int j = 0; j < 2; j++) //X
+                    com.block = new DiamondOreBlock(world, false);
+                    structureComponents.Add(com);
+                }
+                if (rnd.Next(1, 11) > 9)
+                {
+                    StructureComponent ranCom = structureComponents[rnd.Next(0, structureComponents.Count)];
+                    foreach (StructureComponent com in shapeCreator.GetCustomCircle(2, 1))
                     {
-                        if (i == 0 && j == 0)
-                        {
-                            structureComponents.Add(new StructureComponent(world, 0, 0, new DiamondOreBlock(world, false)));
-                        }
-                        else
-                        {
-                            GetDiamondOre(world, j, i);
-                        }
+                        com.xOffset += ranCom.xOffset;
+                        com.yOffset += ranCom.yOffset;
+                        com.block = new DiamondOreBlock(world, false);
+                        structureComponents.Add(com);
                     }
                 }
             }
-
+            //Get total width
+            totalWidth = GetTotalWidth();
             BeginGeneration(x, y, index, isNew);
 
         }
@@ -305,7 +300,7 @@ namespace SeeloewenCraft
             //50% chance to add a new ore block
             if (rnd.Next(0, 2) == 0)
             {
-                structureComponents.Add(new StructureComponent(world, x, y, new CoalOreBlock(world, false)));
+                structureComponents.Add(new StructureComponent(x, y, new CoalOreBlock(world, false)));
             }
         }
 
@@ -314,7 +309,7 @@ namespace SeeloewenCraft
             //50% chance to add a new ore block
             if (rnd.Next(0, 2) == 0)
             {
-                structureComponents.Add(new StructureComponent(world, x, y, new IronOreBlock(world, false)));
+                structureComponents.Add(new StructureComponent(x, y, new IronOreBlock(world, false)));
             }
         }
 
@@ -323,7 +318,7 @@ namespace SeeloewenCraft
             //50% chance to add a new ore block
             if (rnd.Next(0, 2) == 0)
             {
-                structureComponents.Add(new StructureComponent(world, x, y, new DiamondOreBlock(world, false)));
+                structureComponents.Add(new StructureComponent(x, y, new DiamondOreBlock(world, false)));
             }
         }
     }
@@ -338,7 +333,7 @@ namespace SeeloewenCraft
 
             //Generate first air block (base of cave)
             List<StructureComponent> generatedComponents = new List<StructureComponent>();
-            structureComponents.Add(new StructureComponent(world, 0, 0, new AirBlock(world, false)));
+            structureComponents.Add(new StructureComponent(0, 0, new AirBlock(world, false)));
 
             //Go through all components
             for (int i = 0; i < 6; i++)
@@ -352,7 +347,7 @@ namespace SeeloewenCraft
                     if (randomNorth == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
-                        StructureComponent newComponent = new StructureComponent(world, structureComponent.xOffset, structureComponent.yOffset - 1, new AirBlock(world, false));
+                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset, structureComponent.yOffset - 1, new AirBlock(world, false));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
@@ -364,7 +359,7 @@ namespace SeeloewenCraft
                     if (randomEast == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
-                        StructureComponent newComponent = new StructureComponent(world, structureComponent.xOffset + 1, structureComponent.yOffset, new AirBlock(world, false));
+                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset + 1, structureComponent.yOffset, new AirBlock(world, false));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
@@ -377,7 +372,7 @@ namespace SeeloewenCraft
                     if (randomSouth == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
-                        StructureComponent newComponent = new StructureComponent(world, structureComponent.xOffset, structureComponent.yOffset + 1, new AirBlock(world, false));
+                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset, structureComponent.yOffset + 1, new AirBlock(world, false));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
@@ -390,7 +385,7 @@ namespace SeeloewenCraft
                     if (randomWest == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
-                        StructureComponent newComponent = new StructureComponent(world, structureComponent.xOffset - 1, structureComponent.yOffset, new AirBlock(world, false));
+                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset - 1, structureComponent.yOffset, new AirBlock(world, false));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
