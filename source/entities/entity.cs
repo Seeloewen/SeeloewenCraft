@@ -187,11 +187,17 @@ namespace SeeloewenCraft
             }
         }
 
-        protected int ConvertToBlockX(int i)
+        public int ConvertToBlockX(int i)
         {
             return i >= 0
                 ? i / 1000
                 : (i - 999) / 1000;
+        }
+        public int GetChunkIndex()
+        {
+            return posX >= 0
+                ? posX / 8000
+                : (posX - 7999) / 8000;
         }
 
         protected virtual (bool, int) DoCollisionCheck(Direction direction, int startX, int startY, int endX, int endY)

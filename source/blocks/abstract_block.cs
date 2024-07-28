@@ -314,23 +314,9 @@ namespace SeeloewenCraft
 
         public bool IsInRange()
         {
-            //Convert positions to screen coordinates
-            Point playerScreenPoint = world.player.texture.PointToScreen(new Point(0, 0));
-            Point otherScreenPoint = blockContainer.bdrBlock.PointToScreen(new Point(0, 0));
+            Block playerBlock = world.GetBlock(world.player.posX / 1000, (world.player.posY / 1000) + 1);
 
-            //Convert to coordinates considering scrolling
-            Point playerPosition = world.wndGame.svWorld.TranslatePoint(playerScreenPoint, world.wndGame.cvsWorld);
-            Point otherPosition = world.wndGame.svWorld.TranslatePoint(otherScreenPoint, world.wndGame.cvsWorld);
-
-            //Check if the distance between the player and the block is less than 200 pixels
-            if ((Math.Abs(playerPosition.X - otherPosition.X) < 200) && (Math.Abs(playerPosition.Y - otherPosition.Y) < 200))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (GetXRangeToBlock(playerBlock) < 5 && GetYRangeToBlock(playerBlock) < 5);
         }
 
         public bool IsLightSource(bool ignoreAir)
@@ -407,6 +393,18 @@ namespace SeeloewenCraft
         {
             int xDiff = block.xPos + block.chunk.index * 8 - xPos - chunk.index * 8;
             return Math.Abs(xDiff) + Math.Abs(block.yPos - yPos);
+        }
+
+        public int GetXRangeToBlock(Block block)
+        {
+            int xDiff = block.xPos + block.chunk.index * 8 - xPos - chunk.index * 8;
+            return Math.Abs(xDiff);
+        }
+
+        public int GetYRangeToBlock(Block block)
+        {
+            int yDiff = block.yPos - yPos;
+            return Math.Abs(yDiff);
         }
 
         public void UpdateNearbyBlocks()

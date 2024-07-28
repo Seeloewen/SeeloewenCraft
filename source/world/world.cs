@@ -264,7 +264,7 @@ namespace SeeloewenCraft
 
         public void GenerateBlockContainer()
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 7; i++)
             {
                 blockContainerList.Add(new BlockContainerList(this));
             }
@@ -420,9 +420,9 @@ namespace SeeloewenCraft
             {
                 //Calculate y position where the player starts
                 int yPos = 0;
-                foreach (Block block in loadedChunkList[2].blockList.blocks)
+                foreach (Block block in loadedChunkList[3].blockList.blocks)
                 {
-                    if (block.xPos == 4 && block is GrassBlock)
+                    if (block.xPos == 4 && block.isSolid)
                     {
                         yPos = block.yPos;
                         break;
@@ -430,7 +430,7 @@ namespace SeeloewenCraft
                 }
 
                 //Create the player and add it to the world canvas
-                player = new Player(this, 20050, Math.Max((yPos * 1000) - 1900, 2000));
+                player = new Player(this, 28050, Math.Max((yPos * 1000) - 1900, 2000));
                 log.Write("Generated player at start position", "Info");
             }
             else
@@ -447,7 +447,7 @@ namespace SeeloewenCraft
         private void GenerateChunks(int j)
         {
             //Load or generate the chunks
-            int c = 0;
+            /*int c = 0;
             for (int i = Math.Max(j, 0); i < Math.Max(j + 5, 0); i++)
             {
 
@@ -458,13 +458,22 @@ namespace SeeloewenCraft
             for (int i = Math.Min(j + 4, -1); i >= c + Math.Min(j, -5); i--)
             {
                 loadedChunkList.Add(GetChunk(i));
-            }
+            }*/
 
-            worldRenderer.AddChunk(GetLoadedChunk(j));
-            worldRenderer.AddChunk(GetLoadedChunk(j + 1));
-            worldRenderer.AddChunk(GetLoadedChunk(j + 2));
-            worldRenderer.AddChunk(GetLoadedChunk(j + 3));
-            worldRenderer.AddChunk(GetLoadedChunk(j + 4));
+            LoadChunk(GetChunk(j));
+            LoadChunk(GetChunk(j + 1));
+            LoadChunk(GetChunk(j + 2));
+            LoadChunk(GetChunk(j + 3));
+            LoadChunk(GetChunk(j + 4));
+            LoadChunk(GetChunk(j + 5));
+            LoadChunk(GetChunk(j + 6));
+            worldRenderer.AddChunk(GetChunk(j));
+            worldRenderer.AddChunk(GetChunk(j + 1));
+            worldRenderer.AddChunk(GetChunk(j + 2));
+            worldRenderer.AddChunk(GetChunk(j + 3));
+            worldRenderer.AddChunk(GetChunk(j + 4));
+            worldRenderer.AddChunk(GetChunk(j + 5));
+            worldRenderer.AddChunk(GetChunk(j + 6));
 
         }
 
@@ -570,7 +579,7 @@ namespace SeeloewenCraft
             foreach (Entity entity in entities)
             {
                 entity.DoPhysicsStep(63);
-                if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && wndGame.GetRectangle(entity.texture).IntersectsWith(wndGame.GetRectangle(player.texture)))
+                if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && entity.posX < player.posX + player.sizeX && entity.posX + entity.sizeX > player.posX && entity.posY < player.posY + player.sizeY && entity.posY + entity.sizeY > player.sizeY)
                 {
                     pickedUpEntities.Add(itemEntity);
                 }
