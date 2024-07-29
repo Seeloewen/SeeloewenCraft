@@ -346,7 +346,7 @@ namespace SeeloewenCraft
                     world.player.SaveInventory(world.worldDirectory);
                     world.player.SavePosition(world.worldDirectory);
                     world.SaveEntities();
-                    if(world.gameLoop.tmrGameLoop.IsRunning) world.gameLoop.tmrGameLoop.Stop();
+                    if (world.gameLoop.tmrGameLoop.IsRunning) world.gameLoop.tmrGameLoop.Stop();
                 }
             }
 
@@ -430,6 +430,17 @@ namespace SeeloewenCraft
             //Show the notification list gui
             world.notificationHandler.ShowGui();
             bdrMenu.Visibility = Visibility.Hidden;
+        }
+
+        private void wndGame1_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            // Berechne die Skalierung basierend auf der neuen Fenstergröße
+            double scaleX = e.NewSize.Width / 1280;
+            double scaleY = e.NewSize.Height / 720;
+
+            // Erstelle und setze das ScaleTransform
+            ScaleTransform scaleTransform = new ScaleTransform(scaleX, scaleY);
+            cvsGame.LayoutTransform = scaleTransform;
         }
     }
 }

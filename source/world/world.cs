@@ -317,7 +317,7 @@ namespace SeeloewenCraft
 
         public void GenerateBlockContainer()
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 7; i++)
             {
                 blockContainerList.Add(new BlockContainerList(this));
             }
@@ -452,9 +452,9 @@ namespace SeeloewenCraft
             {
                 //Calculate y position where the player starts
                 int yPos = 0;
-                foreach (Block block in GetChunk(2).blockList.blocks)
+                foreach (Block block in GetChunk(3).blockList.blocks)
                 {
-                    if (block.xPos == 4 && block is GrassBlock)
+                    if (block.xPos == 4 && block.isSolid)
                     {
                         yPos = block.yPos;
                         break;
@@ -483,7 +483,7 @@ namespace SeeloewenCraft
                 Chunk removeChunk = wndGame.world.GetLoadedChunk(wndGame.world.loadedChunkList[0].index);
                 wndGame.world.loadedChunkList.Remove(removeChunk);
                 worldRenderer.RemoveChunk(removeChunk);
-                Chunk addChunk = wndGame.world.GetChunk(wndGame.world.loadedChunkList[3].index + 1);
+                Chunk addChunk = wndGame.world.GetChunk(wndGame.world.loadedChunkList[5].index + 1);
                 wndGame.world.LoadChunk(addChunk);
 
 
@@ -493,7 +493,7 @@ namespace SeeloewenCraft
             }
             else if (dir.IsLeft())
             {
-                Chunk chunk = wndGame.world.GetLoadedChunk(wndGame.world.loadedChunkList[4].index);
+                Chunk chunk = wndGame.world.GetLoadedChunk(wndGame.world.loadedChunkList[6].index);
                 wndGame.world.UnloadChunk(chunk);
                 wndGame.world.LoadChunk(wndGame.world.GetChunk(wndGame.world.loadedChunkList[0].index - 1));
 
@@ -607,7 +607,7 @@ namespace SeeloewenCraft
             foreach (Entity entity in entities)
             {
                 entity.DoPhysicsStep(63);
-                if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && wndGame.GetRectangle(entity.texture).IntersectsWith(wndGame.GetRectangle(player.texture)))
+                if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && entity.posX < player.posX + player.sizeX && entity.posX + entity.sizeX > player.posX && entity.posY < player.posY + player.sizeY && entity.posY + entity.sizeY > player.sizeY)
                 {
                     pickedUpEntities.Add(itemEntity);
                 }
