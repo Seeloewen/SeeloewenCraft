@@ -44,18 +44,18 @@ namespace SeeloewenCraft
                 {
                     if (velX > 0)
                     {
-                        velX -= (int)(frictionWater  * velX / tps);
+                        velX -= (int)(frictionWater * velX / tps);
                     }
-                    else if(velX < 0) 
+                    else if (velX < 0)
                     {
-                        velX -= (int)(frictionWater  * velX / tps);
+                        velX -= (int)(frictionWater * velX / tps);
                     }
                     if (velY > 0)
                     {
 
-                        velY -= (int)(frictionWater  * velY / tps);
+                        velY -= (int)(frictionWater * velY / tps);
                     }
-                    else if(velY < 0)
+                    else if (velY < 0)
                     {
                         velY -= (int)(frictionWater * velY / tps);
                     }
@@ -201,21 +201,25 @@ namespace SeeloewenCraft
             {
                 for (int y = posY / 1000; y <= (posY + sizeY - 1) / 1000; y++)
                 {
-                    (bool touch, int xForce) = world.GetBlock(x, y).CheckWaterTouch(posX, posY, posX + sizeX - 1, posY + sizeY - 1);
-                    if(touch)
+
+                    int startX = posX - x * 1000;
+                    int endX = posX + sizeX - 1 - x * 1000;
+                    int startY = posY - y * 1000;
+                    int endY = posY + sizeY - 1 - y * 1000;
+                    (bool touch, int xForce) = world.GetBlock(x, y).CheckWaterTouch(startX, startY, endX, endY);
+                    if (touch)
                     {
                         touched = true;
-                    }
-                    //touched = touched || touch;
-                    if (xForce != 0)
-                    {
-                        if (xForce == 1)
+                        if (xForce != 0)
                         {
-                            totalForce = Math.Max(totalForce + 1, 1);
-                        }
-                        if (xForce == -1)
-                        {
-                            totalForce = Math.Max(totalForce - 1, -1);
+                            if (xForce == 1)
+                            {
+                                totalForce = Math.Min(totalForce + 1, 1);
+                            }
+                            if (xForce == -1)
+                            {
+                                totalForce = Math.Max(totalForce - 1, -1);
+                            }
                         }
                     }
                 }

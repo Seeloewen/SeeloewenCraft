@@ -42,7 +42,11 @@ namespace SeeloewenCraft
 
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
-            return (true, 1);
+            if(endY > startX * (1.0/5) + 800)
+            {
+                return (true, 1);
+            }
+            return (false, 0);
         }
 
         override public void GenerateItem(World world)
@@ -66,7 +70,11 @@ namespace SeeloewenCraft
         }
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
-            return (true, -1);
+            if (endY > endX * -(1.0 / 5) + 1000)
+            {
+                return (true, -1);
+            }
+            return (false, 0);
         }
         override public void GenerateItem(World world)
         {
@@ -89,7 +97,11 @@ namespace SeeloewenCraft
         }
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
-            return (true, 1);
+            if (endY > startX * (1.0 / 5) + 600)
+            {
+                return (true, 1);
+            }
+            return (false, 0);
         }
         override public void GenerateItem(World world)
         {
@@ -112,7 +124,11 @@ namespace SeeloewenCraft
         }
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
-            return (true, -1);
+            if (endY > endX * -(1.0 / 5) + 800)
+            {
+                return (true, -1);
+            }
+            return (false, 0);
         }
         override public void GenerateItem(World world)
         {
@@ -135,7 +151,11 @@ namespace SeeloewenCraft
         }
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
-            return (true, 1);
+            if (endY > startX * (1.0 / 5) + 400)
+            {
+                return (true, 1);
+            }
+            return (false, 0);
         }
         override public void GenerateItem(World world)
         {
@@ -158,7 +178,11 @@ namespace SeeloewenCraft
         }
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
-            return (true, -1);
+            if (endY > endX * -(1.0 / 5) + 600)
+            {
+                return (true, -1);
+            }
+            return (false, 0);
         }
         override public void GenerateItem(World world)
         {
@@ -181,7 +205,11 @@ namespace SeeloewenCraft
         }
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
-            return (true, 1);
+            if (endY > startX * (1.0 / 5) + 200)
+            {
+                return (true, 1);
+            }
+            return (false, 0);
         }
         override public void GenerateItem(World world)
         {
@@ -204,7 +232,11 @@ namespace SeeloewenCraft
         }
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
-            return (true, -1);
+            if (endY > endX * -(1.0 / 5) + 400)
+            {
+                return (true, -1);
+            }
+            return (false, 0);
         }
         override public void GenerateItem(World world)
         {
@@ -227,7 +259,11 @@ namespace SeeloewenCraft
         }
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
-            return (true, 1);
+            if (endY > startX * (1.0 / 5))
+            {
+                return (true, 1);
+            }
+            return (false, 0);
         }
         override public void GenerateItem(World world)
         {
@@ -250,7 +286,11 @@ namespace SeeloewenCraft
         }
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
-            return (true, -1);
+            if (endY > endX * -(1.0 / 5) + 200)
+            {
+                return (true, -1);
+            }
+            return (false, 0);
         }
         override public void GenerateItem(World world)
         {
