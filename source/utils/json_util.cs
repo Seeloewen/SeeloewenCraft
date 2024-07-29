@@ -68,39 +68,88 @@ namespace SeeloewenCraft
 
         public int GetArrayLength()
         {
-            return ((JArray)value).Count;
+            try
+            {
+                return ((JArray)value).Count;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public bool ContainsKey(string address)
         {
-            JObject objectToken = (JObject)value;
-            return objectToken.ContainsKey(address);
+            try
+            {
+                JObject objectToken = (JObject)value;
+                return objectToken.ContainsKey(address);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
 
         public JsonToken GetToken(string address)
         {
-            return new JsonToken(new JsonPointer(address).Evaluate(value));
+            try
+            {
+                return new JsonToken(new JsonPointer(address).Evaluate(value));
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public int GetInt(string address)
         {
-            return (int)new JsonPointer(address).Evaluate(value);
+            try
+            {
+                return (int)new JsonPointer(address).Evaluate(value);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public bool GetBool(string address)
         {
-            return (bool)new JsonPointer(address).Evaluate(value);
+            try
+            {
+                return (bool)new JsonPointer(address).Evaluate(value);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public string GetString(string address)
         {
-            return (string)new JsonPointer(address).Evaluate(value);
+            try
+            {
+                return (string)new JsonPointer(address).Evaluate(value);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public double GetDouble(string address)
         {
-            return (double)new JsonPointer(address).Evaluate(value);
+            try
+            {
+                return (double)new JsonPointer(address).Evaluate(value);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
     }

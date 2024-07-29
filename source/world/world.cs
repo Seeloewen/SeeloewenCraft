@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Input;
+using System.Linq;
 
 namespace SeeloewenCraft
 {
@@ -75,31 +76,101 @@ namespace SeeloewenCraft
 
             worldRenderer = new WorldRenderer(wndGame);
 
-            worldDirectory = $"{FolderUtil.worldsFolder}\\{worldName}";
+            InitGame(worldName, isNew, worldVersion);
+        }
 
-            if (!isNew && GetWorldVersion(worldName) < worldVersion)
+
+        //-- Custom Methods --//
+
+        //return true if proceed
+        private bool CheckWorldVersion(int currentWorldVersion)
+        {
+            int worldVersion;
+            if (File.Exists($"{worldDirectory}/world_settings.json"))
+            {
+                JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/world_settings.json");
+
+                worldVersion = documentToken.GetInt("/world_version");
+            }
+            else if (File.Exists($"{worldDirectory}/settings.txt"))
+            {
+                log.Write("Detected old saving system, can't load", "Error");
+                return false;
+            }
+            else
+            {
+                log.Write("Could not read world version from settings file because the settings file was not found", "Error");
+                return false;
+            }
+
+            if (worldVersion < currentWorldVersion)
             {
                 MessageBoxResult result = MessageBox.Show("You are trying to load an outdated world. This may lead to corruption or other issues. You have been warned! Do you wish to continue?", "Load outdated world", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        log.Write("You are loading an outdated world. This may cause issues or corruption.", "Info");
-                        CreateGame(worldName, isNew);
-                        break;
+                        log.Write("You are loading an outdated world. This may cause issues or corruption.", "Warning");
+                        return true;
                 }
+                return false;
             }
-            else
-            {
-                CreateGame(worldName, isNew);
-            }
+            return true;
         }
 
+        public void InitGame(string worldName, bool isNew, int worldVersion)
+        {
+            log.Write($"Beginning to init game for world {worldName}", "Info");
 
-        //-- Custom Methods --//
+            InitWorldDirectory();
 
-        //creates and returns chunk and adds to total chunk list
+            if (!isNew && !CheckWorldVersion(worldVersion))
+            {
+                throw new Exception();
+            }
 
+            SaveWorldSettings();
+
+            InitEntityList(!isNew);
+
+            GenerateBlockContainer();
+
+            (int x, int y) playerStartPos = FindPlayerStartPos(!isNew);
+
+            //this isnt exactly true as posX=-1000 should be chunk -1 but is loaded as chunk 0,
+            //however in first rendering tick it should get fixed automatically
+            LoadStartChunks(playerStartPos.x / 8000);
+
+            CreatePlayer(playerStartPos.x, playerStartPos.y);
+
+            //When the world is loaded, display the debug information
+            DisplayDebugInformation();
+
+            //Load the player inventory if the world is not new
+            InitPlayerInventory(!isNew);
+
+            log.Write($"Completed initializing of world {worldName}!", "Info");
+
+
+            //this is a temporary fix to avoid all item entities getting collected by the player
+            //before the first render call; probably because the collision system works through
+            //checking for collision between the rendered rectangles, should be improved 
+            {
+                worldRenderer.playerPosX = (double)player.posX / 1000;
+                worldRenderer.playerPosY = (double)player.posY / 1000;
+
+                worldRenderer.Render();
+            }
+
+
+            //Start the main timer
+            tmrMovement.Interval = 16;
+            tmrMovement.Tick += tmrMovement_Tick;
+            tmrMovement.Start();
+
+            //Start the game loop timer
+            gameLoop.Start();
+        }
 
         public void SaveEntities()
         {
@@ -165,15 +236,16 @@ namespace SeeloewenCraft
         public void UnloadChunk(Chunk chunk)
         {
             loadedChunkList.Remove(chunk);
+            worldRenderer.RemoveChunk(chunk);
         }
 
 
-        public Chunk LoadChunk(Chunk chunk)
+        public void LoadChunk(Chunk chunk)
         {
             chunk.SetContainerList();
             chunk.RenderChunk();
             loadedChunkList.Add(chunk);
-            return chunk;
+            worldRenderer.AddChunk(chunk);
         }
 
         public Chunk LoadChunk(int index)
@@ -241,26 +313,7 @@ namespace SeeloewenCraft
             log.Write("Refreshing Textures for items and blocks!", "Info");
         }
 
-        public int GetWorldVersion(string worldName)
-        {
-            //Check if the world settings file exists
-            if (File.Exists($"{worldDirectory}/world_settings.json"))
-            {
-                JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/world_settings.json");
 
-                return documentToken.GetInt("/world_version");
-            }
-            else if (File.Exists($"{worldDirectory}/settings.txt"))
-            {
-                log.Write("Detected old saving system, can't load", "Error");
-                return 0;
-            }
-            else
-            {
-                log.Write("Could not read world version from settings file because the settings file was not found", "Error");
-                return 0;
-            }
-        }
 
         public void GenerateBlockContainer()
         {
@@ -270,19 +323,10 @@ namespace SeeloewenCraft
             }
         }
 
-        public void CreateGame(string worldName, bool isNew)
+
+
+        private void SaveWorldSettings()
         {
-            log.Write($"Beginning to load game for world {worldName}", "Info");
-
-            //Check if the world directory exists and create it otherwise
-            if (!Directory.Exists($"{FolderUtil.worldsFolder}\\{worldName}"))
-            {
-                Directory.CreateDirectory($"{FolderUtil.worldsFolder}\\{worldName}");
-                log.Write($"Created directory for world {worldName}: {FolderUtil.worldsFolder}\\{worldName}", "Info");
-            }
-            worldDirectory = $"{FolderUtil.worldsFolder}\\{worldName}";
-            log.Write($"Set directory for world {worldName} to {worldDirectory}", "Info");
-
             //write world version to settings.json
             using (JsonWriter writer = JsonWriter.Create())
             {
@@ -297,9 +341,24 @@ namespace SeeloewenCraft
 
                 writer.WriteToFile($"{worldDirectory}/world_settings.json");
             }
+        }
 
+        private void InitWorldDirectory()
+        {
+            //Check if the world directory exists and create it otherwise
+            if (!Directory.Exists($"{FolderUtil.worldsFolder}\\{worldName}"))
+            {
+                Directory.CreateDirectory($"{FolderUtil.worldsFolder}\\{worldName}");
+                log.Write($"Created directory for world {worldName}: {FolderUtil.worldsFolder}\\{worldName}", "Info");
+            }
+            worldDirectory = $"{FolderUtil.worldsFolder}\\{worldName}";
+            log.Write($"Set directory for world {worldName} to {worldDirectory}", "Info");
+        }
+
+        private void InitEntityList(bool loaded)
+        {
             entities = new List<Entity>();
-            if (!isNew)
+            if (loaded)
             {
                 JsonToken listToken = JsonUtil.ReadFile($"{worldDirectory}/entities.json").GetToken("/entities");
                 int l = listToken.GetArrayLength();
@@ -308,58 +367,19 @@ namespace SeeloewenCraft
                     AddEntity(Entity.LoadFromJson(listToken.GetToken($"/{i}"), this));
                 }
             }
+        }
 
-            //Check if the player position exists
-            bool loadedPlayerPosExists = File.Exists($"{worldDirectory}/player_position.json");
-            int playerPosX = 0;
-            int playerPosY = 0;
-
-            //Load the player position if possible
-            if (loadedPlayerPosExists)
-            {
-                JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_position.json");
-                try
-                {
-                    playerPosX = documentToken.GetInt("/pos_x");
-                    playerPosY = documentToken.GetInt("/pos_y");
-                    log.Write($"Read player position from file: x{playerPosX} y{playerPosY}", "Info");
-                }
-                catch (Exception ex)
-                {
-                    loadedPlayerPosExists = false;
-                    log.Write($"Could not read player position from file: {ex.Message}", "Error");
-                }
-
-            }
-            else
-            {
-                log.Write("Player position file does not exist, skipping...", "Info");
-            }
-
-            //Create the game components
-            GenerateBlockContainer();
-            GenerateChunks(loadedPlayerPosExists ? (playerPosX / 8000) - 2 : 0);
-
-            //When the world is loaded, display the debug information
-            DisplayDebugInformation();
-
-            //Create the player
-            CreatePlayer(loadedPlayerPosExists, playerPosX, playerPosY);
-            player.inventory = new Inventory(this, true, 9, 4);
-            inventoryList.Add(player.inventory);
-            player.inventory.hotbarSlotList[0].SelectSlot();
-
-            //Load the player inventory if the world is not new
-            if (!isNew)
+        private void InitPlayerInventory(bool loaded)
+        {
+            if (loaded)
             {
                 JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_inventory.json");
                 player.inventory = Inventory.LoadFromJson(documentToken, this);
                 inventoryList.Add(player.inventory);
-
-                player.inventory.UpdateHotbar();
             }
             else
             {
+                player.inventory = new Inventory(this, true, 9, 4);
                 if (Settings.enableHammer) player.inventory.AddItem(new HammerItem(this));
                 for (int i = 0; i < 64; i++)
                 {
@@ -374,21 +394,10 @@ namespace SeeloewenCraft
 
                 }
             }
+            player.inventory.UpdateHotbar();
+            inventoryList.Add(player.inventory);
+            player.inventory.hotbarSlotList[0].SelectSlot();
 
-            finishedLoading = true;
-            log.Write($"Loading of world {worldName} completed!", "Info");
-
-            worldRenderer.playerPosX = (double)player.posX / 1000;
-            worldRenderer.playerPosY = (double)player.posY / 1000;
-
-            worldRenderer.Render();
-            //Start the main timer
-            tmrMovement.Interval = 16;
-            tmrMovement.Tick += tmrMovement_Tick;
-            tmrMovement.Start();
-
-            //Start the game loop timer
-            gameLoop.Start();
         }
 
         public bool HasOpenGui(bool ignoreInventory)
@@ -413,14 +422,37 @@ namespace SeeloewenCraft
             return false;
         }
 
-        public void CreatePlayer(bool isLoaded, int playerPosX, int playerPosY)
+        public void CreatePlayer(int playerPosX, int playerPosY)
         {
 
-            if (!isLoaded)
+
+            player = new Player(this, playerPosX, playerPosY);
+
+            wndGame.cvsWorld.Children.Add(player.texture);
+            Panel.SetZIndex(player.texture, 1);
+            wndGame.relativeSvPos = wndGame.svWorld.VerticalOffset;
+            wndGame.defaultSvPos = wndGame.svWorld.VerticalOffset;
+
+            log.Write($"Created player at position x:{playerPosX}, y:{playerPosY}", "Info");
+        }
+
+        private (int x, int y) FindPlayerStartPos(bool loaded)
+        {
+
+            //Load the player position if possible
+            if (loaded)
+            {
+                JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_position.json");
+                int x = documentToken.GetInt("/pos_x");
+                int y = documentToken.GetInt("/pos_y");
+                log.Write($"loaded player start point at: x{x} y{y}", "Info");
+                return (x, y);
+            }
+            else
             {
                 //Calculate y position where the player starts
                 int yPos = 0;
-                foreach (Block block in loadedChunkList[2].blockList.blocks)
+                foreach (Block block in GetChunk(2).blockList.blocks)
                 {
                     if (block.xPos == 4 && block is GrassBlock)
                     {
@@ -429,44 +461,49 @@ namespace SeeloewenCraft
                     }
                 }
 
-                //Create the player and add it to the world canvas
-                player = new Player(this, 20050, Math.Max((yPos * 1000) - 1900, 2000));
-                log.Write("Generated player at start position", "Info");
+                log.Write($"found player spawn point at pos: x: {20050}, y: {yPos}", "Info");
+                return (20050, Math.Max((yPos * 1000) - 1900, 2000));
             }
-            else
-            {
-                player = new Player(this, playerPosX, playerPosY);
-                log.Write("Generated player at loaded position", "Info");
-            }
-            wndGame.cvsWorld.Children.Add(player.texture);
-            Panel.SetZIndex(player.texture, 1);
-            wndGame.relativeSvPos = wndGame.svWorld.VerticalOffset;
-            wndGame.defaultSvPos = wndGame.svWorld.VerticalOffset;
+
         }
 
-        private void GenerateChunks(int j)
+        private void LoadStartChunks(int midChunk)
         {
-            //Load or generate the chunks
-            int c = 0;
-            for (int i = Math.Max(j, 0); i < Math.Max(j + 5, 0); i++)
+            for (int i = midChunk - 2; i <= midChunk + 2; i++)
             {
-
-                loadedChunkList.Add(GetChunk(i));
-                c++;
+                Chunk c = GetChunk(i);
+                LoadChunk(c);
             }
-
-            for (int i = Math.Min(j + 4, -1); i >= c + Math.Min(j, -5); i--)
-            {
-                loadedChunkList.Add(GetChunk(i));
-            }
-
-            worldRenderer.AddChunk(GetLoadedChunk(j));
-            worldRenderer.AddChunk(GetLoadedChunk(j + 1));
-            worldRenderer.AddChunk(GetLoadedChunk(j + 2));
-            worldRenderer.AddChunk(GetLoadedChunk(j + 3));
-            worldRenderer.AddChunk(GetLoadedChunk(j + 4));
-
         }
+
+        public void MoveLoadedChunks(Direction dir)
+        {
+            if (dir.IsRight())
+            {
+                Chunk removeChunk = wndGame.world.GetLoadedChunk(wndGame.world.loadedChunkList[0].index);
+                wndGame.world.loadedChunkList.Remove(removeChunk);
+                worldRenderer.RemoveChunk(removeChunk);
+                Chunk addChunk = wndGame.world.GetChunk(wndGame.world.loadedChunkList[3].index + 1);
+                wndGame.world.LoadChunk(addChunk);
+
+
+                //Sort the chunklist again
+                wndGame.world.loadedChunkList = wndGame.world.loadedChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+                worldRenderer.Render();
+            }
+            else if (dir.IsLeft())
+            {
+                Chunk chunk = wndGame.world.GetLoadedChunk(wndGame.world.loadedChunkList[4].index);
+                wndGame.world.UnloadChunk(chunk);
+                wndGame.world.LoadChunk(wndGame.world.GetChunk(wndGame.world.loadedChunkList[0].index - 1));
+
+                //Sort the list again
+                wndGame.world.loadedChunkList = wndGame.world.loadedChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+                worldRenderer.Render();
+            }
+        }
+
+
 
         public Chunk GetLoadedChunk(int index)
         {

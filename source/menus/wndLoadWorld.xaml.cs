@@ -17,7 +17,7 @@ namespace SeeloewenCraft
         public wndLoadWorld(wndMenu wndMenu)
         {
             InitializeComponent();
-            
+
             //Set the main menu
             this.wndMenu = wndMenu;
 
@@ -33,7 +33,7 @@ namespace SeeloewenCraft
             string[] worlds = Directory.GetDirectories(FolderUtil.worldsFolder);
 
             //List the worlds in the combobox
-            foreach(string world in worlds)
+            foreach (string world in worlds)
             {
                 cbxWorld.Items.Add(world.Replace(FolderUtil.worldsFolder + "\\", ""));
             }
@@ -43,15 +43,12 @@ namespace SeeloewenCraft
 
         private void btnLoad_Click(object sender, RoutedEventArgs e)
         {
-            if(string.IsNullOrEmpty(cbxWorld.Text) == false)
+            if (string.IsNullOrEmpty(cbxWorld.Text) == false)
             {
                 wndMenu.world = new World(wndMenu, cbxWorld.Text, false, wndMenu.worldVersion, wndMenu.gameVersion, wndMenu.log);
-                if (wndMenu.world.finishedLoading)
-                {
-                    wndMenu.Hide();
-                    wndMenu.world.wndGame.Show();
-                    Close();
-                }
+                wndMenu.Hide();
+                wndMenu.world.wndGame.Show();
+                Close();
             }
             else
             {
@@ -78,7 +75,7 @@ namespace SeeloewenCraft
                     case MessageBoxResult.Yes:
                         try
                         {
-                            Directory.Delete($"{FolderUtil.worldsFolder}\\{cbxWorld.Text}",true);
+                            Directory.Delete($"{FolderUtil.worldsFolder}\\{cbxWorld.Text}", true);
                             MessageBox.Show($"Successfully deleted world {cbxWorld.Text}!", "Delete world", MessageBoxButton.OK, MessageBoxImage.Information);
                             cbxWorld.Items.Remove(cbxWorld.Text);
                         }
