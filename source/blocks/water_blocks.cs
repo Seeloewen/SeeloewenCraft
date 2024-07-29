@@ -17,6 +17,11 @@ namespace SeeloewenCraft
             tags.Add("liquids/water");
         }
 
+        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        {
+            return (true, 0);
+        }
+
         public override void ShowAdditionalDebugInfo()
         {
             world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"waterLevel={waterLevel}");
@@ -33,6 +38,11 @@ namespace SeeloewenCraft
             waterLevel = 1;
             SetTexture();
             id = "sc:water_1_right_block";
+        }
+
+        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        {
+            return (true, 1);
         }
 
         override public void GenerateItem(World world)
@@ -54,7 +64,10 @@ namespace SeeloewenCraft
             SetTexture();
             id = "sc:water_1_left_block";
         }
-
+        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        {
+            return (true, -1);
+        }
         override public void GenerateItem(World world)
         {
             item = null;
@@ -74,7 +87,10 @@ namespace SeeloewenCraft
             SetTexture();
             id = "sc:water_2_right_block";
         }
-
+        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        {
+            return (true, 1);
+        }
         override public void GenerateItem(World world)
         {
             item = null;
@@ -94,7 +110,10 @@ namespace SeeloewenCraft
             SetTexture();
             id = "sc:water_2_left_block";
         }
-
+        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        {
+            return (true, -1);
+        }
         override public void GenerateItem(World world)
         {
             item = null;
@@ -114,7 +133,10 @@ namespace SeeloewenCraft
             SetTexture();
             id = "sc:water_3_right_block";
         }
-
+        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        {
+            return (true, 1);
+        }
         override public void GenerateItem(World world)
         {
             item = null;
@@ -134,7 +156,10 @@ namespace SeeloewenCraft
             id = "sc:water_3_left_block";
             SetTexture();
         }
-
+        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        {
+            return (true, -1);
+        }
         override public void GenerateItem(World world)
         {
             item = null;
@@ -154,7 +179,10 @@ namespace SeeloewenCraft
             SetTexture();
             id = "sc:water_4_right_block";
         }
-
+        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        {
+            return (true, 1);
+        }
         override public void GenerateItem(World world)
         {
             item = null;
@@ -174,7 +202,10 @@ namespace SeeloewenCraft
             SetTexture();
             id = "sc:water_4_left_block";
         }
-
+        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        {
+            return (true, -1);
+        }
         override public void GenerateItem(World world)
         {
             item = null;
@@ -194,7 +225,10 @@ namespace SeeloewenCraft
             SetTexture();
             id = "sc:water_5_right_block";
         }
-
+        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        {
+            return (true, 1);
+        }
         override public void GenerateItem(World world)
         {
             item = null;
@@ -214,7 +248,10 @@ namespace SeeloewenCraft
             SetTexture();
             id = "sc:water_5_left_block";
         }
-
+        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        {
+            return (true, -1);
+        }
         override public void GenerateItem(World world)
         {
             item = null;

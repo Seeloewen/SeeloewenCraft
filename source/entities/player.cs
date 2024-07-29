@@ -75,6 +75,7 @@ namespace SeeloewenCraft
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "velY");
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "blockPosX");
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "blockPosY");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "touchingWater");
 
 
 
@@ -93,7 +94,8 @@ namespace SeeloewenCraft
             // -- determine which sides of the player are touched by solid blocks --
 
             //reset
-            (bool onGround, _) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + 1);
+            (onGround, _) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + 1);
+            (touchingWater, int forceWaterX) = DoWaterTouchCheck();
             (bool touchingLeft, _) = DoCollisionCheck(Direction.LEFT, posX, posY, posX - 1, posY + sizeY);
             (bool touchingRight, _) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + 1, posY + sizeY);
 
@@ -113,6 +115,14 @@ namespace SeeloewenCraft
             if (pressedUp && onGround)
             {
                 velY = -jumpStartSpeed;
+            }
+
+            if (touchingWater)
+            {
+                if (pressedUp)
+                {
+                    velY -= 200000 / tps;
+                }
             }
 
             base.DoPhysicsStep(tps);
@@ -161,7 +171,7 @@ namespace SeeloewenCraft
         }
 
 
-       
+
 
         public void DisplayDebugInformation()
         {
@@ -175,8 +185,9 @@ namespace SeeloewenCraft
                 world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "posY", $"posY={posY}");
                 world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "velX", $"velX={velX}");
                 world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "velY", $"velY={velY}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "blockPosX", $"blockPosX={(posX/1000)%8}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "blockPosY", $"blockPosY={posY/1000}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "blockPosX", $"blockPosX={(posX / 1000) % 8}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "blockPosY", $"blockPosY={posY / 1000}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "touchingWater", $"touchingWater={touchingWater}");
             }
         }
     }
