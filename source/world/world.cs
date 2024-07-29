@@ -462,14 +462,14 @@ namespace SeeloewenCraft
                 }
 
                 log.Write($"found player spawn point at pos: x: {20050}, y: {yPos}", "Info");
-                return (20050, Math.Max((yPos * 1000) - 1900, 2000));
+                return (28050, Math.Max((yPos * 1000) - 1900, 2000));
             }
 
         }
 
         private void LoadStartChunks(int midChunk)
         {
-            for (int i = midChunk - 2; i <= midChunk + 2; i++)
+            for (int i = midChunk - 3; i <= midChunk + 3; i++)
             {
                 Chunk c = GetChunk(i);
                 LoadChunk(c);
