@@ -24,7 +24,6 @@ namespace SeeloewenCraft
         public List<CraftingRecipe> craftingRecipeList = new List<CraftingRecipe>();
         public Images images;
         public LootTables lootTables;
-        public wndMenu wndMenu;
         public Player player;
         public WaterHandler waterHandler;
         public ClickHandler clickHandler;
@@ -52,13 +51,12 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public World(wndMenu wndMenu, string worldName, bool isNew, int worldVersion, string gameVersion)
+        public World(string worldName, bool isNew, int worldVersion, string gameVersion)
         {
             //Set world name and create game and links
             this.worldName = worldName;
             this.worldVersion = worldVersion;
             this.gameVersion = gameVersion;
-            this.wndMenu = wndMenu;
 
             //Create objects
             wndGame = new wndGame(this);
@@ -75,6 +73,8 @@ namespace SeeloewenCraft
             worldRenderer = new WorldRenderer(wndGame);
 
             InitGame(worldName, isNew, worldVersion);
+
+            wndGame.Show();
         }
 
 
