@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Newtonsoft.Json;
 
 
 namespace SeeloewenCraft
@@ -29,6 +30,7 @@ namespace SeeloewenCraft
         {
             InitializeComponent();
             this.world = world;
+            ApplyVideoSettings();
         }
 
         //-- Custom Methods --//
@@ -272,6 +274,86 @@ namespace SeeloewenCraft
             }
         }
 
+        public void ApplyVideoSettings()
+        {
+            if (world != null)
+            {
+                //Apply resolution
+
+                //If a custom resolution is used
+                if (Settings.resolution == "Custom")
+                {
+                    Resize(Settings.customResX, Settings.customResY, false);
+
+                    //Allow user to change resolution for themselves
+                    ResizeMode = ResizeMode.CanResize;
+                }
+                else //If a preset resolution is used
+                {
+                    ResizeMode = ResizeMode.CanMinimize;
+
+                    switch (Settings.resolution)
+                    {
+                        case "320x180":
+                            Resize(640, 360, false);
+                            break;
+                        case "640x360":
+                            Resize(640, 360, false);
+                            break;
+                        case "1280x720":
+                            Resize(1280, 720, false);
+                            break;
+                        case "1920x1080":
+                            Resize(1920, 1080, false);
+                            break;
+                        case "2560x1440":
+                            Resize(2560, 1440, false);
+                            break;
+                        case "3840x2160":
+                            Resize(3840, 2160, false);
+                            break;
+                    }
+                }
+
+                //Apply video mode
+                if(Settings.videoMode == "Windowed")
+                {
+                    WindowStyle = WindowStyle.SingleBorderWindow;
+                    WindowState = WindowState.Normal;
+                    btnClose.Visibility = Visibility.Hidden;
+                }
+                else if(Settings.videoMode == "Borderless")
+                {
+                    WindowStyle = WindowStyle.None;
+                    WindowState = WindowState.Normal;
+                    btnClose.Visibility = Visibility.Visible;
+                }
+                else if (Settings.videoMode == "Fullscreen")
+                {
+                    WindowStyle = WindowStyle.None;
+                    WindowState = WindowState.Maximized;
+                    btnClose.Visibility = Visibility.Visible;
+                }
+            }
+        }
+        public void Resize(double width, double height, bool scaleOnly)
+        {
+            if (!scaleOnly)
+            {
+                WindowState = WindowState.Normal;
+                Width = width;
+                Height = height;
+            }
+
+            //Calculate new scaling based on resolution
+            double scaleX = width / 1280;
+            double scaleY = height / 720;
+
+            //Apply scaling
+            ScaleTransform scaleTransform = new ScaleTransform(scaleX, scaleY);
+            cvsGame.LayoutTransform = scaleTransform;
+        }
+
         //-- Event Handlers --//
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
@@ -350,6 +432,14 @@ namespace SeeloewenCraft
                 }
             }
 
+            //Save the user settings
+            using (JsonWriter writer = JsonWriter.Create())
+            {
+                writer.Formatting = Formatting.Indented;
+                Settings.Save(writer);
+                writer.WriteToFile($"{FolderUtil.gameFolder}\\clientSettings.json");
+            }
+
             //Check if the user wants to return to the menu, else close the entire app
             if (world.returnToMenu)
             {
@@ -371,7 +461,7 @@ namespace SeeloewenCraft
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             //Show settings window
-            world.wndMenu.wndSettings = new wndSettings(world.wndMenu);
+            world.wndMenu.wndSettings = new wndSettings(world.wndMenu, false);
             world.wndMenu.wndSettings.ShowDialog();
         }
 
@@ -434,13 +524,22 @@ namespace SeeloewenCraft
 
         private void wndGame1_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            // Berechne die Skalierung basierend auf der neuen Fenstergröße
-            double scaleX = e.NewSize.Width / 1280;
-            double scaleY = e.NewSize.Height / 720;
 
-            // Erstelle und setze das ScaleTransform
-            ScaleTransform scaleTransform = new ScaleTransform(scaleX, scaleY);
-            cvsGame.LayoutTransform = scaleTransform;
+            //If custom resolution is enabled, save the new resolution
+            if (Settings.resolution == "Custom")
+            {
+                Settings.customResX = Convert.ToInt32(e.NewSize.Width);
+                Settings.customResY = Convert.ToInt32(e.NewSize.Height);
+            }
+
+            //Rescale the game based on the new values
+            Resize(e.NewSize.Width, e.NewSize.Height, true);
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            //What did you expect this button to do?
+            Close();
         }
     }
 }

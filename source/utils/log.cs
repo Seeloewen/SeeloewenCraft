@@ -195,7 +195,15 @@ namespace SeeloewenCraft
         {
             //Log all relevant information for a crash
             Write("-------------------------------------", "Error");
-            Write($"SeeloewenCraft {wndMenu.gameVersion} - A crash has been detected!", "Error");
+            if (wndMenu != null)
+            {
+                Write($"SeeloewenCraft {wndMenu.gameVersion} - A crash has been detected!", "Error");
+            }
+            else
+            {
+                Write("SeeloewenCraft {Error getting version - Is wndMenu null?} - A crash has been detected!", "Error");
+
+            }
             Write($"Exception: {ex.GetType().ToString()}!", "Error");
             Write($"Message: {ex.Message}", "Error");
             Write($"Source: {ex.Source}", "Error");

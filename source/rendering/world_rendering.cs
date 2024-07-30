@@ -53,7 +53,7 @@ namespace SeeloewenCraft {
             }
 
 
-            if (Canvas.GetLeft(wndGame.world.loadedChunkList[3].grdChunk) <= 40)
+            if (Canvas.GetLeft(wndGame.world.loadedChunkList[3].grdChunk) <= 0)
             {
                 //Save the chunk that has moved to far and remove it. Add a new one at the opposite site.
                 Chunk removeChunk = wndGame.world.GetLoadedChunk(wndGame.world.loadedChunkList[0].index);
