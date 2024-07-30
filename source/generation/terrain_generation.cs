@@ -21,7 +21,7 @@ namespace SeeloewenCraft
                 else
                 {
                     //If it's not the first chunk, get the most right floor height from the chunk to the left
-                    floorHeight = world.GetLoadedChunk(index - 1).floorHeightRight;
+                    floorHeight = world.GetChunk(index - 1).floorHeightRight;
                 }
 
                 //Begin generating terrain from left to right
@@ -37,7 +37,7 @@ namespace SeeloewenCraft
             }
             else if (index < 0)
             {
-                floorHeight = world.GetLoadedChunk(index + 1).floorHeightLeft;
+                floorHeight = world.GetChunk(index + 1).floorHeightLeft;
 
                 //Begin generating terrain from right to left
                 for (int x = 7; x >= 0; x--)

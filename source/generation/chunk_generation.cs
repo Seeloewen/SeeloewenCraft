@@ -18,10 +18,10 @@ namespace SeeloewenCraft
                     biome = GetNewBiome(Biome.None);
                     break;
                 case > 0:
-                    biome = GetNewBiome(world.GetLoadedChunk(index - 1).biome);
+                    biome = GetNewBiome(world.GetChunk(index - 1).biome);
                     break;
                 case < 0:
-                    biome = GetNewBiome(world.GetLoadedChunk(index + 1).biome);
+                    biome = GetNewBiome(world.GetChunk(index + 1).biome);
                     break;
             }
 
@@ -205,7 +205,7 @@ namespace SeeloewenCraft
                 //Continue Structure Generation by adding a continuation strucutre, which contains the structure components that were previously cut off
                 if (index != 0)
                 {
-                    foreach (Structure structure in world.GetLoadedChunk(index + (index < 0 ? 1 : -1)).structureList)
+                    foreach (Structure structure in world.GetChunk(index + (index < 0 ? 1 : -1)).structureList)
                     {
                         //Check if the structure in the list is actually cut off and matches the id
                         if (structure.isCutOff && structure.name == structureName)
@@ -218,7 +218,7 @@ namespace SeeloewenCraft
             }
             else //If no id is given, generate all remaining structures in the list
             {
-                foreach (Structure structure in world.GetLoadedChunk(index + (index < 0 ? 1 : -1)).structureList)
+                foreach (Structure structure in world.GetChunk(index + (index < 0 ? 1 : -1)).structureList)
                 {
                     //Check if the structure in the list is actually cut off and matches the id
                     if (structure.isCutOff && !continuedStructureList.Contains(structure))

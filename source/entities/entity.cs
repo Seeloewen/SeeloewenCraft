@@ -13,7 +13,8 @@ namespace SeeloewenCraft
         private const int accGrav = 70000;
         protected int frictionGround = 10;
         protected int frictionAir = 10;
-        private const int slowestGroundSpeed = 400;
+        protected int frictionWater = 25;
+        private const int slowestGroundSpeed = 100;
 
         public long lifeTime;
 
@@ -31,90 +32,78 @@ namespace SeeloewenCraft
         public int velX;
         public int velY;
 
+        public bool onGround;
+        public bool touchingWater;
 
-        public static Entity LoadFromJson(JsonToken token, World world)
+        private void DoFrictionStep(int tps)
         {
-            Entity entity = null;
-            switch(token.GetString("/type"))
+            if (touchingWater)
             {
-                case "Entity":
-                    entity = new Entity(token, world);
-                    break;
-                case "ItemEntity":
-                    entity = new ItemEntity(token, world);
-                    break;
+                double velTotal = Math.Sqrt(velX * velX + velY * velY); //tactical pythagoras
+                if (velTotal != 0)
+                {
+                    if (velX > 0)
+                    {
+                        velX -= (int)(frictionWater * velX / tps);
+                    }
+                    else if (velX < 0)
+                    {
+                        velX -= (int)(frictionWater * velX / tps);
+                    }
+                    if (velY > 0)
+                    {
+
+                        velY -= (int)(frictionWater * velY / tps);
+                    }
+                    else if (velY < 0)
+                    {
+                        velY -= (int)(frictionWater * velY / tps);
+                    }
+                }
             }
-            entity.id = token.GetInt("/id");
-            entity.posX = token.GetInt("/posX");
-            entity.posY = token.GetInt("/posY");
-            entity.velX = token.GetInt("/velX");
-            entity.velY = token.GetInt("/velY");
-            entity.lifeTime = token.GetInt("/life_time");
-
-            nextID = Math.Max(nextID, entity.id);
-
-            return entity;
+            else
+            {
+                if (onGround)
+                {
+                    if (velX > 0)
+                    {
+                        //this reduces the velocity by f_ground * v_x * dt until v_x reaches a threshold with value slowest_ground_speed, when it gets set to zero
+                        int v_reduction = frictionGround * velX / tps;
+                        velX -= Math.Max(Math.Min(slowestGroundSpeed, velX), v_reduction);
+                    }
+                    else if (velX < 0)
+                    {
+                        int v_reduction = -frictionGround * velX / tps;
+                        velX += Math.Max(Math.Min(slowestGroundSpeed, -velX), v_reduction);
+                    }
+                }
+                else
+                {
+                    int v_reduction = frictionAir * velX / tps;
+                    velX -= v_reduction;
+                }
+            }
         }
-
-        public void SaveToJson(JsonWriter writer)
-        {
-            writer.WriteStartObject();
-            writer.WritePropertyName("id");
-            writer.WriteValue(id);
-            writer.WritePropertyName("posX");
-            writer.WriteValue(posX);
-            writer.WritePropertyName("posY");
-            writer.WriteValue(posY);
-            writer.WritePropertyName("velX");
-            writer.WriteValue(velX);
-            writer.WritePropertyName("velY");
-            writer.WriteValue(velY);
-            writer.WritePropertyName("life_time");
-            writer.WriteValue(lifeTime);
-
-            SaveSpecialInfo(writer);
-            writer.WriteEndObject();
-        }
-
-        protected virtual void SaveSpecialInfo(JsonWriter writer)
-        {
-            writer.WritePropertyName("type");
-            writer.WriteValue("Entity");
-        }
-
 
         public virtual void DoPhysicsStep(int tps)
         {
             lifeTime += 1000 / tps;
 
-            (bool onGround, _) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + 1);
+            (onGround, _) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + 1);
 
-            // -- friction --
-            if (onGround)
-            {
-                if (velX > 0)
-                {
-                    //this reduces the velocity by f_ground * v_x * dt until v_x reaches a threshold with value slowest_ground_speed, when it gets set to zero
-                    int v_reduction = frictionGround * velX / tps;
-                    velX -= Math.Max(Math.Min(slowestGroundSpeed / tps, velX), v_reduction);
-                }
-                else if (velX < 0)
-                {
-                    int v_reduction = -frictionGround * velX / tps;
-                    velX += Math.Max(Math.Min(slowestGroundSpeed / tps, -velX), v_reduction);
-                }
-            }
-            else
-            {
-                int v_reduction = frictionAir * velX / tps;
-                velX -= v_reduction;
-            }
+            (touchingWater, int forceWaterX) = DoWaterTouchCheck();
+
+            DoFrictionStep(tps);
 
             if (!onGround)
             {
                 velY += accGrav / tps;
             }
 
+            if (touchingWater)
+            {
+                velX += forceWaterX * 20000 / tps;
+            }
             Move(tps);
         }
 
@@ -187,6 +176,7 @@ namespace SeeloewenCraft
             }
         }
 
+
         public int ConvertToBlockX(int i)
         {
             return i >= 0
@@ -200,9 +190,46 @@ namespace SeeloewenCraft
                 : (posX - 7999) / 8000;
         }
 
-        protected virtual (bool, int) DoCollisionCheck(Direction direction, int startX, int startY, int endX, int endY)
+        protected (bool, int) DoWaterTouchCheck()
         {
-            if (endY < 0 || endY > 75000) return (false, 0);
+            if (posY < 0 || posY > 75000) return (false, 0);
+
+            bool touched = false;
+            int totalForce = 0;
+
+            for (int x = ConvertToBlockX(posX); x <= ConvertToBlockX(posX + sizeX - 1); x++)
+            {
+                for (int y = posY / 1000; y <= (posY + sizeY - 1) / 1000; y++)
+                {
+
+                    int startX = posX - x * 1000;
+                    int endX = posX + sizeX - 1 - x * 1000;
+                    int startY = posY - y * 1000;
+                    int endY = posY + sizeY - 1 - y * 1000;
+                    (bool touch, int xForce) = world.GetBlock(x, y).CheckWaterTouch(startX, startY, endX, endY);
+                    if (touch)
+                    {
+                        touched = true;
+                        if (xForce != 0)
+                        {
+                            if (xForce == 1)
+                            {
+                                totalForce = Math.Min(totalForce + 1, 1);
+                            }
+                            if (xForce == -1)
+                            {
+                                totalForce = Math.Max(totalForce - 1, -1);
+                            }
+                        }
+                    }
+                }
+            }
+            return (touched, totalForce);
+        }
+
+        protected (bool, int) DoCollisionCheck(Direction direction, int startX, int startY, int endX, int endY)
+        {
+            if (endY < 0 || endY > 75000 || posY < 0 || posY > 75000) return (false, 0);
 
             if (direction.IsRight())
             {
@@ -307,6 +334,8 @@ namespace SeeloewenCraft
             return (false, 0);
         }
 
+
+
         protected Entity(JsonToken token, World world)
         {
             this.world = world;
@@ -333,6 +362,55 @@ namespace SeeloewenCraft
 
         }
 
+        public static Entity LoadFromJson(JsonToken token, World world)
+        {
+            Entity entity = null;
+            switch (token.GetString("/type"))
+            {
+                case "Entity":
+                    entity = new Entity(token, world); //fatal recursion wtf??, i will leave it here because it is funny if someone crashes here
+                    break;
+                case "ItemEntity":
+                    entity = new ItemEntity(token, world);
+                    break;
+            }
+            entity.id = token.GetInt("/id");
+            entity.posX = token.GetInt("/posX");
+            entity.posY = token.GetInt("/posY");
+            entity.velX = token.GetInt("/velX");
+            entity.velY = token.GetInt("/velY");
+            entity.lifeTime = token.GetInt("/life_time");
+
+            nextID = Math.Max(nextID, entity.id);
+
+            return entity;
+        }
+
+        public void SaveToJson(JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            writer.WritePropertyName("id");
+            writer.WriteValue(id);
+            writer.WritePropertyName("posX");
+            writer.WriteValue(posX);
+            writer.WritePropertyName("posY");
+            writer.WriteValue(posY);
+            writer.WritePropertyName("velX");
+            writer.WriteValue(velX);
+            writer.WritePropertyName("velY");
+            writer.WriteValue(velY);
+            writer.WritePropertyName("life_time");
+            writer.WriteValue(lifeTime);
+
+            SaveSpecialInfo(writer);
+            writer.WriteEndObject();
+        }
+
+        protected virtual void SaveSpecialInfo(JsonWriter writer)
+        {
+            writer.WritePropertyName("type");
+            writer.WriteValue("Entity");
+        }
 
 
 
