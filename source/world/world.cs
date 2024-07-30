@@ -607,7 +607,7 @@ namespace SeeloewenCraft
             foreach (Entity entity in entities)
             {
                 entity.DoPhysicsStep(63);
-                if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && entity.posX < player.posX + player.sizeX && entity.posX + entity.sizeX > player.posX && entity.posY < player.posY + player.sizeY && entity.posY + entity.sizeY > player.sizeY)
+                if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && entity.posX < player.posX + player.sizeX && entity.posX + entity.sizeX > player.posX && entity.posY < player.posY + player.sizeY && entity.posY + entity.sizeY > player.posY)
                 {
                     pickedUpEntities.Add(itemEntity);
                 }
