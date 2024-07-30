@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 
 namespace SeeloewenCraft
 {
@@ -18,29 +12,27 @@ namespace SeeloewenCraft
 
         protected override void SaveSpecialInfo(JsonWriter writer)
         {
-            writer.WritePropertyName("type");
-            writer.WriteValue("ItemEntity");
             writer.WritePropertyName("item_id");
             writer.WriteValue(item.id);
         }
 
-        public ItemEntity(Item item, int posX, int posY, int velX, int velY, World world) : base(itemSizeX, itemSizeY, posX, posY, velX, velY, world, Colors.Yellow){
+        private void Init(Item item)
+        {
+            type = "ItemEntity";
             this.item = item;
             frictionAir = 2;
             frictionWater = 15;
 
             texture.Background = item.image;
-
         }
 
-        public ItemEntity(JsonToken token, World world) : base(itemSizeX, itemSizeY, 0, 0, 0, 0, world, Colors.Yellow)
+        public ItemEntity(Item item, int posX, int posY, int velX, int velY, World world) : base(itemSizeX, itemSizeY, posX, posY, velX, velY, world, Colors.Yellow){
+            Init(item);
+        }
+
+        public ItemEntity(JsonToken token, World world) : base(token, itemSizeX, itemSizeY, world, Colors.Yellow)
         {
-            this.item = ItemRegister.GenerateItem(token.GetString("/item_id"), world);
-
-            frictionAir = 2;
-            frictionWater = 15;
-
-            texture.Background = item.image;
+            Init(ItemRegister.GenerateItem(token.GetString("/item_id"), world));
         }
     }
 }

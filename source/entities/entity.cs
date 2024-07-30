@@ -10,6 +10,8 @@ namespace SeeloewenCraft
     {
         protected World world;
 
+        public string type;
+
         private const int accGrav = 70000;
         protected int frictionGround = 10;
         protected int frictionAir = 10;
@@ -336,9 +338,15 @@ namespace SeeloewenCraft
 
 
 
-        protected Entity(JsonToken token, World world)
+        protected Entity(JsonToken token, int sizeX, int sizeY, World world, Color color)
+            : this(sizeX, sizeY,
+                token.GetInt("/posX"),
+                token.GetInt("/posY"),
+                token.GetInt("/velX"),
+                token.GetInt("/velY"),
+                world, color)
         {
-            this.world = world;
+            lifeTime = token.GetInt("/life_time");
         }
 
         public Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Color color)
@@ -367,19 +375,12 @@ namespace SeeloewenCraft
             Entity entity = null;
             switch (token.GetString("/type"))
             {
-                case "Entity":
-                    entity = new Entity(token, world); //fatal recursion wtf??, i will leave it here because it is funny if someone crashes here
-                    break;
                 case "ItemEntity":
                     entity = new ItemEntity(token, world);
                     break;
+                default:
+                    throw new Exception();
             }
-            entity.id = token.GetInt("/id");
-            entity.posX = token.GetInt("/posX");
-            entity.posY = token.GetInt("/posY");
-            entity.velX = token.GetInt("/velX");
-            entity.velY = token.GetInt("/velY");
-            entity.lifeTime = token.GetInt("/life_time");
 
             nextID = Math.Max(nextID, entity.id);
 
@@ -389,6 +390,8 @@ namespace SeeloewenCraft
         public void SaveToJson(JsonWriter writer)
         {
             writer.WriteStartObject();
+            writer.WritePropertyName("type");
+            writer.WriteValue(type);
             writer.WritePropertyName("id");
             writer.WriteValue(id);
             writer.WritePropertyName("posX");
