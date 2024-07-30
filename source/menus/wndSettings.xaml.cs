@@ -38,14 +38,7 @@ namespace SeeloewenCraft
             {
                 JsonToken documentToken = JsonUtil.ReadFile($"{FolderUtil.gameFolder}\\clientSettings.json");
 
-                if (firstStart)
-                {
-                    LoadSettings(documentToken, true);
-                }
-                else
-                {
-                    LoadSettings(documentToken, false);
-                }
+                LoadSettings(documentToken, firstStart);
             }
             else
             {
