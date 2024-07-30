@@ -45,7 +45,7 @@ namespace SeeloewenCraft
         {
             if (string.IsNullOrEmpty(cbxWorld.Text) == false)
             {
-                wndMenu.world = new World(wndMenu, cbxWorld.Text, false, wndMenu.worldVersion, wndMenu.gameVersion, wndMenu.log);
+                wndMenu.world = new World(wndMenu, cbxWorld.Text, false, wndMenu.worldVersion, wndMenu.gameVersion);
                 wndMenu.Hide();
                 wndMenu.world.wndGame.Show();
                 Close();
@@ -81,9 +81,9 @@ namespace SeeloewenCraft
                         }
                         catch (Exception ex)
                         {
-                            wndMenu.log.Write($"Could not delete world {cbxWorld.SelectedItem}: {ex.Message}", "Info");
+                            Log.Write($"Could not delete world {cbxWorld.SelectedItem}: {ex.Message}", "Info");
                         }
-                        wndMenu.log.Write($"Deleted world {cbxWorld.SelectedItem}", "Info");
+                        Log.Write($"Deleted world {cbxWorld.SelectedItem}", "Info");
                         break;
                 }
             }

@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using System.IO;
+﻿using System.IO;
+using System.Windows;
 using static System.Environment;
 
 namespace SeeloewenCraft
@@ -7,7 +7,6 @@ namespace SeeloewenCraft
     public partial class App : Application
     {
         wndMenu wndMenu;
-        Log log;
 
         public App() : base()
         {
@@ -21,10 +20,8 @@ namespace SeeloewenCraft
             StartOptions.Parse(e.Args);
 
             //Initiliaze Game
-            log = new Log();
-            FolderUtil.InitializeDirectories(log);
+            FolderUtil.InitializeDirectories();
             wndMenu = new wndMenu();
-            log.wndMenu = wndMenu;
 
             //Do start options
             if (StartOptions.modded)
@@ -51,7 +48,7 @@ namespace SeeloewenCraft
                     Directory.Delete(string.Format("{0}/worlds/{1}", gameDirectory, "debug"), true);
                 }
 
-                World world = new World(wndMenu, "Debug", true, wndMenu.worldVersion, wndMenu.gameVersion, wndMenu.log);
+                World world = new World(wndMenu, "Debug", true, wndMenu.worldVersion, wndMenu.gameVersion);
                 world.wndGame.Show();
                 wndMenu.world = world;
                 wndMenu.Owner = world.wndGame;
@@ -59,20 +56,20 @@ namespace SeeloewenCraft
 
             if (StartOptions.showLog)
             {
-                wndMenu.log.Show();
+                Log.Show();
             }
 
         }
         void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             //Create crash dump
-            log.Write("An unhandled exception has occured. Creating crash dump...", "Error");
-            log.CreateCrashDump(wndMenu, e.Exception);
+            Log.Write("An unhandled exception has occured. Creating crash dump...", "Error");
+            Log.CreateCrashDump(wndMenu, e.Exception);
 
             //Save log before the game exits if enabled
             if (Settings.saveLogOnExit)
             {
-               log.Save(FolderUtil.logsFolder, false);
+               Log.Save(FolderUtil.logsFolder, false);
             }
         }
 

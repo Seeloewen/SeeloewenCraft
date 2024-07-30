@@ -25,7 +25,6 @@ namespace SeeloewenCraft
         public Images images;
         public LootTables lootTables;
         public wndMenu wndMenu;
-        public Log log;
         public Player player;
         public WaterHandler waterHandler;
         public ClickHandler clickHandler;
@@ -53,14 +52,13 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public World(wndMenu wndMenu, string worldName, bool isNew, int worldVersion, string gameVersion, Log log)
+        public World(wndMenu wndMenu, string worldName, bool isNew, int worldVersion, string gameVersion)
         {
             //Set world name and create game and links
             this.worldName = worldName;
             this.worldVersion = worldVersion;
             this.gameVersion = gameVersion;
             this.wndMenu = wndMenu;
-            this.log = log;
 
             //Create objects
             wndGame = new wndGame(this);
@@ -94,12 +92,12 @@ namespace SeeloewenCraft
             }
             else if (File.Exists($"{worldDirectory}/settings.txt"))
             {
-                log.Write("Detected old saving system, can't load", "Error");
+                Log.Write("Detected old saving system, can't load", "Error");
                 return false;
             }
             else
             {
-                log.Write("Could not read world version from settings file because the settings file was not found", "Error");
+                Log.Write("Could not read world version from settings file because the settings file was not found", "Error");
                 return false;
             }
 
@@ -110,7 +108,7 @@ namespace SeeloewenCraft
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        log.Write("You are loading an outdated world. This may cause issues or corruption.", "Warning");
+                        Log.Write("You are loading an outdated world. This may cause issues or corruption.", "Warning");
                         return true;
                 }
                 return false;
@@ -120,7 +118,7 @@ namespace SeeloewenCraft
 
         public void InitGame(string worldName, bool isNew, int worldVersion)
         {
-            log.Write($"Beginning to init game for world {worldName}", "Info");
+            Log.Write($"Beginning to init game for world {worldName}", "Info");
 
             InitWorldDirectory();
 
@@ -149,7 +147,7 @@ namespace SeeloewenCraft
             //Load the player inventory if the world is not new
             InitPlayerInventory(!isNew);
 
-            log.Write($"Completed initializing of world {worldName}!", "Info");
+            Log.Write($"Completed initializing of world {worldName}!", "Info");
 
 
             //this is a temporary fix to avoid all item entities getting collected by the player
@@ -310,7 +308,7 @@ namespace SeeloewenCraft
                 }
             }
 
-            log.Write("Refreshing Textures for items and blocks!", "Info");
+            Log.Write("Refreshing Textures for items and blocks!", "Info");
         }
 
 
@@ -349,10 +347,10 @@ namespace SeeloewenCraft
             if (!Directory.Exists($"{FolderUtil.worldsFolder}\\{worldName}"))
             {
                 Directory.CreateDirectory($"{FolderUtil.worldsFolder}\\{worldName}");
-                log.Write($"Created directory for world {worldName}: {FolderUtil.worldsFolder}\\{worldName}", "Info");
+                Log.Write($"Created directory for world {worldName}: {FolderUtil.worldsFolder}\\{worldName}", "Info");
             }
             worldDirectory = $"{FolderUtil.worldsFolder}\\{worldName}";
-            log.Write($"Set directory for world {worldName} to {worldDirectory}", "Info");
+            Log.Write($"Set directory for world {worldName} to {worldDirectory}", "Info");
         }
 
         private void InitEntityList(bool loaded)
@@ -433,7 +431,7 @@ namespace SeeloewenCraft
             wndGame.relativeSvPos = wndGame.svWorld.VerticalOffset;
             wndGame.defaultSvPos = wndGame.svWorld.VerticalOffset;
 
-            log.Write($"Created player at position x:{playerPosX}, y:{playerPosY}", "Info");
+            Log.Write($"Created player at position x:{playerPosX}, y:{playerPosY}", "Info");
         }
 
         private (int x, int y) FindPlayerStartPos(bool loaded)
@@ -445,7 +443,7 @@ namespace SeeloewenCraft
                 JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_position.json");
                 int x = documentToken.GetInt("/pos_x");
                 int y = documentToken.GetInt("/pos_y");
-                log.Write($"loaded player start point at: x{x} y{y}", "Info");
+                Log.Write($"loaded player start point at: x{x} y{y}", "Info");
                 return (x, y);
             }
             else
@@ -461,7 +459,7 @@ namespace SeeloewenCraft
                     }
                 }
 
-                log.Write($"found player spawn point at pos: x: {20050}, y: {yPos}", "Info");
+                Log.Write($"found player spawn point at pos: x: {20050}, y: {yPos}", "Info");
                 return (28050, Math.Max((yPos * 1000) - 1900, 2000));
             }
 
@@ -592,7 +590,7 @@ namespace SeeloewenCraft
 
                         ItemEntity itemEntity = new ItemEntity(item, player.posX + 500 - ItemEntity.itemSizeX / 2, player.posY, (int)(15000 * xDir) + player.velX, (int)(20000 * yDir) + player.velY, this);
                         AddEntity(itemEntity);
-                        log.Write($"item entity created at {player.posX}, {player.posY}", "Info");
+                        Log.Write($"item entity created at {player.posX}, {player.posY}", "Info");
                         dropped = true;
                         player.inventory.RemoveItem(item);
                     }

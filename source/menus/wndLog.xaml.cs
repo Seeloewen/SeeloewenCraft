@@ -5,14 +5,12 @@ namespace SeeloewenCraft
 
     public partial class wndLog : Window
     {
-        Log log;
 
         //-- Constructor --//
 
-        public wndLog(Log log)
+        public wndLog()
         {
             InitializeComponent();
-            this.log = log;
         }
 
         //-- Event Handlers --//
@@ -20,13 +18,13 @@ namespace SeeloewenCraft
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             //Save the log
-            log.Save(true);
+            Log.Save(true);
         }
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
             //Clear the log
-            log.Clear();
+            Log.Clear();
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -38,7 +36,7 @@ namespace SeeloewenCraft
         private void btnFind_Click(object sender, RoutedEventArgs e)
         {
             //Open the window for finding something in the log
-            wndFindInLog wndFindinLog = new wndFindInLog(log);
+            wndFindInLog wndFindinLog = new wndFindInLog();
             wndFindinLog.Show();
         }
     }

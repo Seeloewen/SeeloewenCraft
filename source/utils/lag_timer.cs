@@ -25,7 +25,6 @@ namespace SeeloewenCraft.util
         {
             if (id != idToBeTested) return;
 
-            //world.log.Write("*************************", "Info");
             timer.Start();
 
         }
@@ -38,7 +37,7 @@ namespace SeeloewenCraft.util
             long elapsedMicroseconds = timer.ElapsedTicks / (Stopwatch.Frequency / (1000L * 1000L));
             long milliSeconds = elapsedMicroseconds / 1000;
             long microSeconds = elapsedMicroseconds % 1000;
-            world.log.Write($"{label}: {milliSeconds}ms,{microSeconds} μs", "Info");
+            Log.Write($"{label}: {milliSeconds}ms,{microSeconds} μs", "Info");
             timer.Restart();
         }
 

@@ -13,7 +13,6 @@ namespace SeeloewenCraft
         private wndLoadWorld wndLoadWorld;
         public wndSettings wndSettings;
         public World world;
-        public Log log;
         private SplashTextHandler splashTextHandler;
 
         //Constants
@@ -39,12 +38,11 @@ namespace SeeloewenCraft
             tmrSplashText.Interval = 50;
             tmrSplashText.Start();
 
-            log = new Log();
             splashTextHandler = new SplashTextHandler(this);
 
             //Show the version
             tblVersion.Text = string.Format("Version {0}", gameVersion);
-            log.Write($"SeeloewenCraft Version {gameVersion} ({versionDate})", "Info");
+            Log.Write($"SeeloewenCraft Version {gameVersion} ({versionDate})", "Info");
 
             //set splashtext        
             tblSplashText.Text = splashTextHandler.GetText();;
@@ -98,7 +96,7 @@ namespace SeeloewenCraft
             //Save the log, if enabled
             if (Settings.saveLogOnExit)
             {
-                log.Save(FolderUtil.logsFolder, false);
+                Log.Save(FolderUtil.logsFolder, false);
             }
 
             //Close the app

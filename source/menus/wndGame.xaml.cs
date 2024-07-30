@@ -219,7 +219,7 @@ namespace SeeloewenCraft
             }
             catch (Exception ex)
             {
-                world.log.Write($"Could not get rectangle for canvas {canvas.Uid}: {ex.Message}", "Warning");
+                Log.Write($"Could not get rectangle for canvas {canvas.Uid}: {ex.Message}", "Warning");
                 return new Rect(1, 1, 1, 1);
             }
         }
@@ -243,7 +243,7 @@ namespace SeeloewenCraft
             }
             catch (Exception ex)
             {
-                world.log.Write($"Could not get rectangle for border {border.Uid}: {ex.Message}", "Warning");
+                Log.Write($"Could not get rectangle for border {border.Uid}: {ex.Message}", "Warning");
                 return new Rect(1, 1, 1, 1);
             }
         }
@@ -269,7 +269,7 @@ namespace SeeloewenCraft
             }
             catch (Exception ex)
             {
-                world.log.Write($"Could not get rectangle for grid {grid.Uid}: {ex.Message}", "Warning");
+                Log.Write($"Could not get rectangle for grid {grid.Uid}: {ex.Message}", "Warning");
                 return new Rect(1, 1, 1, 1);
             }
         }

@@ -69,7 +69,7 @@ namespace SeeloewenCraft
 
             gui.AddNotification(message, image);
 
-            world.log.Write($"Created new notification: {message}", "Info");
+            Log.Write($"Created new notification: {message}", "Info");
         }
 
         public void HideNotification()

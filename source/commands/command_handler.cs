@@ -13,7 +13,7 @@ namespace SeeloewenCraft
             command = command.ToLower();
             command = command.Remove(0, 1);
             
-            world.log.Write($"Handling command: {command}", "Info");
+            Log.Write($"Handling command: {command}", "Info");
 
             string[] args = command.Split(' ');
 
@@ -40,7 +40,7 @@ namespace SeeloewenCraft
 
         private static void Write(string msg)
         {
-            world.log.Write($"{msg}", "Info");
+            Log.Write($"{msg}", "Info");
         }
 
     }

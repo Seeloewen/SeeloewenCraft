@@ -22,12 +22,12 @@ namespace SeeloewenCraft
             if (world.wndMenu.selectedTexturepack == "default")
             {
                 textureDirectory = "pack://application:,,,/SeeloewenCraft;component/Resources";
-                world.log.Write($"Set texture directory to pack://application:,,,/SeeloewenCraft;component/Resources (internal resources)", "Info");
+                Log.Write($"Set texture directory to pack://application:,,,/SeeloewenCraft;component/Resources (internal resources)", "Info");
             }
             else
             {
                 textureDirectory = world.wndMenu.selectedTexturepack;
-                world.log.Write($"Set texture directory to {world.wndMenu.selectedTexturepack}", "Info");
+                Log.Write($"Set texture directory to {world.wndMenu.selectedTexturepack}", "Info");
             }
 
             //Actually load the resources

@@ -61,7 +61,7 @@ namespace SeeloewenCraft
             cvsPlayer.Height = 95;
             cvsPlayer.Background = new SolidColorBrush(Colors.Red);*/
 
-            world.log.Write($"Created player at position x{posX} y{posY}", "Info");
+            Log.Write($"Created player at position x{posX} y{posY}", "Info");
 
             //Add initial debug menu lines
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "Player Stats:");
@@ -140,7 +140,7 @@ namespace SeeloewenCraft
 
         public void SavePosition(string path)
         {
-            world.log.Write($"Saved player position to {path}", "Info");
+            Log.Write($"Saved player position to {path}", "Info");
 
             using (JsonWriter writer = JsonWriter.Create())
             {
