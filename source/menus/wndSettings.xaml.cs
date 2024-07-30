@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 
@@ -9,20 +10,42 @@ namespace SeeloewenCraft
     public partial class wndSettings : Window
     {
         wndMenu wndMenu;
-        KeyConverter keyConverter = new KeyConverter();
 
         //-- Constructor --//
 
-        public wndSettings(wndMenu wndMenu)
+        public wndSettings(wndMenu wndMenu, bool firstStart)
         {
             this.wndMenu = wndMenu;
             InitializeComponent();
 
+            //Add items to comboboxes
+            cbxMode.Items.Add("Windowed");
+            cbxMode.Items.Add("Borderless");
+            cbxMode.Items.Add("Fullscreen");
+            cbxMode.SelectedItem = "Fullscreen";
+
+            cbxResolution.Items.Add("320x180"); //Warning: WILL lead to problems
+            cbxResolution.Items.Add("640x360"); //Warning: Can lead to problems
+            cbxResolution.Items.Add("1280x720");
+            cbxResolution.Items.Add("1920x1080");
+            cbxResolution.Items.Add("2560x1440");
+            cbxResolution.Items.Add("3840x2160");
+            cbxResolution.Items.Add("Custom");
+            cbxResolution.SelectedItem = "1280x720";
+
             //If the settings file exists, load it
-            if(File.Exists($"{FolderUtil.gameFolder}\\clientSettings.json"))
+            if (File.Exists($"{FolderUtil.gameFolder}\\clientSettings.json"))
             {
                 JsonToken documentToken = JsonUtil.ReadFile($"{FolderUtil.gameFolder}\\clientSettings.json");
-                LoadSettings(documentToken);
+
+                if (firstStart)
+                {
+                    LoadSettings(documentToken, true);
+                }
+                else
+                {
+                    LoadSettings(documentToken, false);
+                }
             }
             else
             {
@@ -35,119 +58,71 @@ namespace SeeloewenCraft
                     SaveSettings(writer, true);
                     writer.WriteToFile($"{FolderUtil.gameFolder}\\clientSettings.json");
                 }
-            }        
+            }
         }
 
         //-- Custom Methods --//
         private void SaveSettings(JsonWriter writer, bool suppressConfirmation)
         {
-            writer.WriteStartObject();
-            writer.WritePropertyName("settings");
-
-            //Save all the settings 
-            writer.WriteStartObject();
-            writer.WritePropertyName("save_log_on_exit");
-            writer.WriteValue(cbSaveLogOnExit.IsChecked);
+            //Save the settings locally
             Settings.saveLogOnExit = Convert.ToBoolean(cbSaveLogOnExit.IsChecked);
             wndMenu.log.Write($"Saved setting saveLogOnExit as {Settings.saveLogOnExit}", "Info");
 
-            writer.WritePropertyName("save_world_on_close");
-            writer.WriteValue(cbSaveWorldWhenClosing.IsChecked);
             Settings.saveWorldOnClose = Convert.ToBoolean(cbSaveWorldWhenClosing.IsChecked);
             wndMenu.log.Write($"Saved setting saveWorldOnClose as {Settings.saveWorldOnClose}", "Info");
 
-            writer.WritePropertyName("enable_hammer");
-            writer.WriteValue(cbEnableHammer.IsChecked);
             Settings.enableHammer = Convert.ToBoolean(cbEnableHammer.IsChecked);
             wndMenu.log.Write($"Saved setting enableHammer as {Settings.enableHammer}", "Info");
 
-            writer.WritePropertyName("enable_cave_generation");
-            writer.WriteValue(cbEnableCaveGeneration.IsChecked);
             Settings.enableCaveGeneration = Convert.ToBoolean(cbEnableCaveGeneration.IsChecked);
             wndMenu.log.Write($"Saved setting enableCaveGeneration as {Settings.enableCaveGeneration}", "Info");
 
-            writer.WritePropertyName("enable_lighting");
-            writer.WriteValue(cbEnableLighting.IsChecked);
             Settings.enableLighting = Convert.ToBoolean(cbEnableLighting.IsChecked);
             wndMenu.log.Write($"Saved setting enableLighting as {Settings.enableLighting}", "Info");
 
-            writer.WritePropertyName("show_notifications");
-            writer.WriteValue(cbShowNotifications.IsChecked);
             Settings.showNotifications = Convert.ToBoolean(cbShowNotifications.IsChecked);
             wndMenu.log.Write($"Saved setting enableLighting as {Settings.showNotifications}", "Info");
 
-            writer.WritePropertyName("enable_health");
-            writer.WriteValue(cbEnableHealth.IsChecked);
             Settings.enableHealth = Convert.ToBoolean(cbEnableHealth.IsChecked);
-            wndMenu.log.Write($"Saved setting enableLighting as {Settings.enableHealth}", "Info");
+            wndMenu.log.Write($"Saved setting enableHealth as {Settings.enableHealth}", "Info");
 
-            writer.WritePropertyName("texturepack");
-            writer.WriteValue(cbxTexturepack.Text);
+            Settings.resolution = Convert.ToString(cbxResolution.SelectedItem);
+            wndMenu.log.Write($"Saved setting resolution as {Settings.resolution}", "Info");
+
+            Settings.videoMode = Convert.ToString(cbxMode.SelectedItem);
+            wndMenu.log.Write($"Saved setting videoMode as {Settings.videoMode}", "Info");
+
+            Settings.customResX = Convert.ToInt32(tbWidth.Text);
+            wndMenu.log.Write($"Saved setting customResX as {Settings.customResX}", "Info");
+
+            Settings.customResY = Convert.ToInt32(tbHeight.Text);
+            wndMenu.log.Write($"Saved setting customResY as {Settings.customResY}", "Info");
+
             Settings.texturepack = cbxTexturepack.Text;
             wndMenu.log.Write($"Saved setting texturepack as {Settings.texturepack}", "Info");
 
-            writer.WriteEndObject();
+            //Save the keybinds locally
+            Settings.cMoveRight = KeyConverter.StringToKey(tbMoveRight.Text);
+            Settings.cMoveLeft = KeyConverter.StringToKey(tbMoveLeft.Text);
+            Settings.cJump = KeyConverter.StringToKey(tbJump.Text);
+            Settings.cShowInv = KeyConverter.StringToKey(tbOpenInventory.Text);
+            Settings.cToggleDebug = KeyConverter.StringToKey(tbToggleDebugMenu.Text);
+            Settings.cNotifications = KeyConverter.StringToKey(tbShowNotificationList.Text);
 
-            writer.WritePropertyName("keybinds");
+            //Save the settings to file
+            Settings.Save(writer);
 
-            //Save all the keybinds
-            writer.WriteStartObject();
-            writer.WritePropertyName("move_right");
-            writer.WriteValue(tbMoveRight.Text);
-            Settings.cMoveRight = keyConverter.StringToKey(tbMoveRight.Text);
-            writer.WritePropertyName("move_left");
-            writer.WriteValue(tbMoveLeft.Text);
-            Settings.cMoveLeft = keyConverter.StringToKey(tbMoveLeft.Text);
-            writer.WritePropertyName("jump");
-            writer.WriteValue(tbJump.Text);
-            Settings.cJump = keyConverter.StringToKey(tbJump.Text);
-            writer.WritePropertyName("show_inventory");
-            writer.WriteValue(tbOpenInventory.Text);
-            Settings.cShowInv = keyConverter.StringToKey(tbOpenInventory.Text);
-            writer.WritePropertyName("toggle_debug_menu");
-            writer.WriteValue(tbToggleDebugMenu.Text);
-            Settings.cToggleDebug = keyConverter.StringToKey(tbToggleDebugMenu.Text);
-            writer.WritePropertyName("show_notification_list");
-            writer.WriteValue(tbShowNotificationList.Text);
-            Settings.cToggleDebug = keyConverter.StringToKey(tbShowNotificationList.Text);
-            writer.WriteEndObject();
+            if (wndMenu.world != null) wndMenu.world.wndGame.ApplyVideoSettings();
 
-            writer.WriteEndObject();
-
-            if(!suppressConfirmation)
+            if (!suppressConfirmation)
             {
                 MessageBox.Show("The settings have been saved successfully!", "Saved settings", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
-        private void LoadSettings(JsonToken fileToken)
+        private void LoadSettings(JsonToken fileToken, bool overwriteResolution)
         {
-            //Get the settings from the JSON file
-            try
-            {
-                JsonToken settingsToken = fileToken.GetToken("/settings");
-                JsonToken keybindsToken = fileToken.GetToken("/keybinds");
-
-                Settings.saveLogOnExit = settingsToken.GetBool("/save_log_on_exit");
-                Settings.saveWorldOnClose = settingsToken.GetBool("/save_world_on_close");
-                Settings.enableHammer = settingsToken.GetBool("/enable_hammer");
-                Settings.enableCaveGeneration = settingsToken.GetBool("/enable_cave_generation");
-                Settings.enableLighting = settingsToken.GetBool("/enable_lighting");
-                Settings.enableHealth = settingsToken.GetBool("/enable_health");
-                Settings.showNotifications = settingsToken.GetBool("/show_notifications");
-                Settings.texturepack = settingsToken.GetString("/texturepack");
-
-                Settings.cMoveRight = keyConverter.StringToKey(keybindsToken.GetString("/move_right"));
-                Settings.cMoveLeft = keyConverter.StringToKey(keybindsToken.GetString("/move_left"));
-                Settings.cJump = keyConverter.StringToKey(keybindsToken.GetString("/jump"));
-                Settings.cShowInv = keyConverter.StringToKey(keybindsToken.GetString("/show_inventory"));
-                Settings.cToggleDebug = keyConverter.StringToKey(keybindsToken.GetString("/toggle_debug_menu"));
-                Settings.cNotifications = keyConverter.StringToKey(keybindsToken.GetString("/show_notification_list"));
-            }
-            catch (Exception ex)
-            {
-                wndMenu.log.Write($"Error loading settings from file: {ex}", "Error");
-            }
+            Settings.Load(fileToken, overwriteResolution);
 
             //Change the checkboxes and textboxes to the loaded values
             cbSaveLogOnExit.IsChecked = Settings.saveLogOnExit;
@@ -158,13 +133,17 @@ namespace SeeloewenCraft
             cbEnableHealth.IsChecked = Settings.enableHealth;
             cbShowNotifications.IsChecked = Settings.showNotifications;
             cbxTexturepack.Text = Settings.texturepack;
+            cbxMode.Text = Settings.videoMode;
+            cbxResolution.Text = Settings.resolution;
+            tbHeight.Text = Settings.customResY.ToString();
+            tbWidth.Text = Settings.customResX.ToString();
 
-            tbMoveRight.Text = keyConverter.KeyToString(Settings.cMoveRight);
-            tbMoveLeft.Text = keyConverter.KeyToString(Settings.cMoveLeft);
-            tbJump.Text = keyConverter.KeyToString(Settings.cJump);
-            tbOpenInventory.Text = keyConverter.KeyToString(Settings.cShowInv);
-            tbToggleDebugMenu.Text = keyConverter.KeyToString(Settings.cToggleDebug);
-            tbShowNotificationList.Text = keyConverter.KeyToString(Settings.cNotifications);
+            tbMoveRight.Text = KeyConverter.KeyToString(Settings.cMoveRight);
+            tbMoveLeft.Text = KeyConverter.KeyToString(Settings.cMoveLeft);
+            tbJump.Text = KeyConverter.KeyToString(Settings.cJump);
+            tbOpenInventory.Text = KeyConverter.KeyToString(Settings.cShowInv);
+            tbToggleDebugMenu.Text = KeyConverter.KeyToString(Settings.cToggleDebug);
+            tbShowNotificationList.Text = KeyConverter.KeyToString(Settings.cNotifications);
 
             //Load the texturepacks
             GetTexturepacks();
@@ -298,7 +277,7 @@ namespace SeeloewenCraft
         {
             //Display key in textbox
             e.Handled = true;
-            string keyText = keyConverter.KeyToString(e.Key);
+            string keyText = KeyConverter.KeyToString(e.Key);
             tbMoveRight.Text = keyText;
         }
 
@@ -306,7 +285,7 @@ namespace SeeloewenCraft
         {
             //Display key in textbox
             e.Handled = true;
-            string keyText = keyConverter.KeyToString(e.Key);
+            string keyText = KeyConverter.KeyToString(e.Key);
             tbMoveLeft.Text = keyText;
         }
 
@@ -314,7 +293,7 @@ namespace SeeloewenCraft
         {
             //Display key in textbox
             e.Handled = true;
-            string keyText = keyConverter.KeyToString(e.Key);
+            string keyText = KeyConverter.KeyToString(e.Key);
             tbJump.Text = keyText;
         }
 
@@ -322,7 +301,7 @@ namespace SeeloewenCraft
         {
             //Display key in textbox
             e.Handled = true;
-            string keyText = keyConverter.KeyToString(e.Key);
+            string keyText = KeyConverter.KeyToString(e.Key);
             tbOpenInventory.Text = keyText;
         }
 
@@ -330,7 +309,7 @@ namespace SeeloewenCraft
         {
             //Display key in textbox
             e.Handled = true;
-            string keyText = keyConverter.KeyToString(e.Key);
+            string keyText = KeyConverter.KeyToString(e.Key);
             tbToggleDebugMenu.Text = keyText;
         }
 
@@ -338,8 +317,38 @@ namespace SeeloewenCraft
         {
             //Display key in textbox
             e.Handled = true;
-            string keyText = keyConverter.KeyToString(e.Key);
+            string keyText = KeyConverter.KeyToString(e.Key);
             tbShowNotificationList.Text = keyText;
+        }
+
+        private void tbHeight_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void tbWidth_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void cbxResolution_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Contains("Custom"))
+            {
+                tbWidth.Visibility = Visibility.Visible;
+                tbHeight.Visibility = Visibility.Visible;
+                tblWidth.Visibility = Visibility.Visible;
+                tblHeight.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                tbWidth.Visibility = Visibility.Hidden;
+                tbHeight.Visibility = Visibility.Hidden;
+                tblWidth.Visibility = Visibility.Hidden;
+                tblHeight.Visibility = Visibility.Hidden;
+            }
         }
     }
 }

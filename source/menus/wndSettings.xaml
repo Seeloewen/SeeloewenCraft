@@ -26,18 +26,22 @@
                     <TextBlock x:Name="tblTexturepack" TextWrapping="Wrap" RenderTransformOrigin="0.285,0.455" FontSize="18" Width="127" Height="27" FontWeight="DemiBold" HorizontalAlignment="Center" Canvas.Left="20" Canvas.Top="135" VerticalAlignment="Top"><Run Text="Texturepa"/><Run Language="de-de" Text="ck:"/><LineBreak/><Run Language="de-de"/></TextBlock>
                 </Canvas>
             </TabItem>
-            <TabItem x:Name="tiExperimental" Header="Experimental">
-                <Canvas x:Name="cvsExperimental">
-                    <TextBlock x:Name="tblExperimentalFeatures" TextWrapping="Wrap" Text="Experimental Features:" FontSize="18" FontWeight="DemiBold" HorizontalAlignment="Left" Canvas.Left="20" Canvas.Top="17" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="cbEnableCaveGeneration" Content="Enable Cave Generation" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" HorizontalAlignment="Left" Canvas.Left="20" Canvas.Top="47" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="cbEnableHammer" Content="Enable Hammer" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" HorizontalAlignment="Left" Canvas.Left="20" Canvas.Top="72" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="cbEnableLighting" Content="Enable Lighting" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" HorizontalAlignment="Left" Canvas.Left="20" Canvas.Top="97" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="cbEnableHealth" Content="Enable Health" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="False" Canvas.Left="20" Canvas.Top="123" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <TabItem Header="Video">
+                <Canvas x:Name="cvsVideo">
+                    <TextBlock x:Name="tblVideo" TextWrapping="Wrap" FontSize="18" FontWeight="DemiBold" Canvas.Left="20" Canvas.Top="17" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="Video"/><Run Language="de-de" Text=":"/></TextBlock>
+                    <ComboBox x:Name="cbxResolution" Canvas.Left="134" Canvas.Top="86" Width="159" HorizontalAlignment="Left" VerticalAlignment="Center" SelectionChanged="cbxResolution_SelectionChanged"/>
+                    <TextBlock x:Name="tblResolution" Canvas.Left="20" TextWrapping="Wrap" Text="Resolution:" Canvas.Top="83" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tblMode" Canvas.Left="20" TextWrapping="Wrap" Text="Mode:" Canvas.Top="54" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="cbxMode" Canvas.Left="134" Canvas.Top="57" Width="159" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="tblWidth" TextWrapping="Wrap" FontSize="14" HorizontalAlignment="Center" Canvas.Left="134" Canvas.Top="140" VerticalAlignment="Top" Text="Width:"/>
+                    <TextBox x:Name="tbHeight" Canvas.Left="192" TextWrapping="Wrap" Text="720" Canvas.Top="118" Width="69" HorizontalAlignment="Left" VerticalAlignment="Center" PreviewTextInput="tbHeight_PreviewTextInput" MaxLines="1"/>
+                    <TextBox x:Name="tbWidth" Canvas.Left="192" TextWrapping="Wrap" Text="1280" Canvas.Top="141" Width="69" HorizontalAlignment="Center" VerticalAlignment="Top" PreviewTextInput="tbWidth_PreviewTextInput" MaxLines="1"/>
+                    <TextBlock x:Name="tblHeight" TextWrapping="Wrap" FontSize="14" Canvas.Left="134" Canvas.Top="118" Text="Height:" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                 </Canvas>
             </TabItem>
             <TabItem x:Name="tiKeybinds" Header="Keybinds">
                 <Canvas x:Name="cvsKeybinds">
-                    <TextBlock x:Name="tblKeybinds" TextWrapping="Wrap" FontSize="18" FontWeight="DemiBold" Canvas.Left="20" Canvas.Top="17" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Language="de-de" Text="Keybinds"/></TextBlock>
+                    <TextBlock x:Name="tblKeybinds" TextWrapping="Wrap" FontSize="18" FontWeight="DemiBold" Canvas.Left="20" Canvas.Top="17" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="Keybinds"/><Run Language="de-de" Text=":"/></TextBlock>
                     <TextBlock x:Name="tblMoveRight" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="55" HorizontalAlignment="Center" VerticalAlignment="Top"><Run Language="de-de" Text="Move Right"/></TextBlock>
                     <TextBlock x:Name="tblMoveLeft" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="84" HorizontalAlignment="Center" VerticalAlignment="Top"><Run Language="de-de" Text="Move Left"/></TextBlock>
                     <TextBlock x:Name="tblOpenInventory" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="146" HorizontalAlignment="Center" VerticalAlignment="Top"><Run Language="de-de" Text="Open Inventory"/></TextBlock>
@@ -50,6 +54,15 @@
                     <TextBox x:Name="tbJump" Canvas.Left="339" TextWrapping="Wrap" Text="Space" Canvas.Top="113" Width="144" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" PreviewKeyDown="tbJump_PreviewKeyDown"/>
                     <TextBlock x:Name="tblShowNotificationList" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="208" HorizontalAlignment="Center" VerticalAlignment="Top"><Run Language="de-de" Text="Show Notification List"/></TextBlock>
                     <TextBox x:Name="tbShowNotificationList" Canvas.Left="339" TextWrapping="Wrap" Text="N" Canvas.Top="206" Width="144" Height="24" PreviewKeyDown="tbShowNotificationList_PreviewKeyDown" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                </Canvas>
+            </TabItem>
+            <TabItem x:Name="tiExperimental" Header="Experimental">
+                <Canvas x:Name="cvsExperimental">
+                    <TextBlock x:Name="tblExperimentalFeatures" TextWrapping="Wrap" Text="Experimental Features:" FontSize="18" FontWeight="DemiBold" HorizontalAlignment="Left" Canvas.Left="20" Canvas.Top="17" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbEnableCaveGeneration" Content="Enable Cave Generation" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" HorizontalAlignment="Left" Canvas.Left="20" Canvas.Top="47" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbEnableHammer" Content="Enable Hammer" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" HorizontalAlignment="Left" Canvas.Left="20" Canvas.Top="72" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbEnableLighting" Content="Enable Lighting" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" HorizontalAlignment="Left" Canvas.Left="20" Canvas.Top="97" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbEnableHealth" Content="Enable Health" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="False" Canvas.Left="20" Canvas.Top="123" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                 </Canvas>
             </TabItem>
         </TabControl>

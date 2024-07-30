@@ -20,5 +20,7 @@
                 <TextBlock x:Name="tblMenuHeader" Canvas.Left="96" TextWrapping="Wrap" Canvas.Top="11" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="DemiBold"><Run Language="de-de" Text="Game "/><Run Text="Menu"/></TextBlock>
             </Canvas>
         </Border>
+        <Button x:Name="btnClose" Content="X" Canvas.Left="1219" Canvas.Top="17" Height="45" Width="45" FontSize="27" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#FFFF5F5F" Click="btnClose_Click" FontWeight="DemiBold" IsTabStop="False"/>
+
     </Canvas>
 </Window>

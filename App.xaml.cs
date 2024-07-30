@@ -53,6 +53,7 @@ namespace SeeloewenCraft
 
                 World world = new World(wndMenu, "Debug", true, wndMenu.worldVersion, wndMenu.gameVersion, wndMenu.log);
                 world.wndGame.Show();
+                wndMenu.world = world;
                 wndMenu.Owner = world.wndGame;
             }
 
@@ -65,13 +66,13 @@ namespace SeeloewenCraft
         void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             //Create crash dump
-            wndMenu.log.Write("A crash has occured and an unhandled exception has occured. Creating crash dump...", "Error");
-            wndMenu.log.CreateCrashDump(wndMenu, e.Exception);
+            log.Write("An unhandled exception has occured. Creating crash dump...", "Error");
+            log.CreateCrashDump(wndMenu, e.Exception);
 
             //Save log before the game exits if enabled
             if (Settings.saveLogOnExit)
             {
-                wndMenu.log.Save(FolderUtil.logsFolder, false);
+               log.Save(FolderUtil.logsFolder, false);
             }
         }
 

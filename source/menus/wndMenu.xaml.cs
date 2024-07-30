@@ -49,7 +49,7 @@ namespace SeeloewenCraft
             //set splashtext        
             tblSplashText.Text = splashTextHandler.GetText();;
             
-            wndSettings = new wndSettings(this);
+            wndSettings = new wndSettings(this, true);
         }
 
         //-- Event Handlers --//
@@ -70,7 +70,7 @@ namespace SeeloewenCraft
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             //Show the settings window
-            wndSettings = new wndSettings(this);
+            wndSettings = new wndSettings(this, false);
             wndSettings.ShowDialog();
         }
 
