@@ -15,6 +15,7 @@ namespace SeeloewenCraft
     {
         //References
         public wndGame wndGame;
+        public wndMenu wndMenu;
         public System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
         public List<Chunk> loadedChunkList = new List<Chunk>();
         public List<Chunk> totalChunkList = new List<Chunk>();
@@ -51,12 +52,13 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public World(string worldName, bool isNew, int worldVersion, string gameVersion)
+        public World(wndMenu wndMenu, string worldName, bool isNew, int worldVersion, string gameVersion)
         {
             //Set world name and create game and links
             this.worldName = worldName;
             this.worldVersion = worldVersion;
             this.gameVersion = gameVersion;
+            this.wndMenu = wndMenu;
 
             //Create objects
             wndGame = new wndGame(this);

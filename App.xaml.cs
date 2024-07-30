@@ -24,10 +24,12 @@ namespace SeeloewenCraft
                 ModLoader.LoadMods();
             }
 
+            wndMenu wndMenu = new wndMenu();
+
             // if start option "-skipmenu" is disabled, proceed like normal
             if (!StartOptions.skipMenu) 
             {
-                new wndMenu().Show();
+                wndMenu.Show();
             }
             else // if start option "-skipmenu" is enabled
             {
@@ -38,7 +40,7 @@ namespace SeeloewenCraft
                 }
                 
                 //create new world with name "debug"
-                World world = new World("Debug", true, wndMenu.worldVersion, wndMenu.gameVersion);
+                World world = new World(wndMenu, "Debug", true, wndMenu.worldVersion, wndMenu.gameVersion);
             }
 
             //show start log on start of program if enabled through start options
