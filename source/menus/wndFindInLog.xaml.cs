@@ -7,13 +7,11 @@ namespace SeeloewenCraft
 {
     public partial class wndFindInLog : Window
     {
-        Log log;
 
-        public wndFindInLog(Log log)
+        public wndFindInLog()
         {
             InitializeComponent();
-            this.log = log;
-            UnhighlightAll(log.wndLog.rtbLog);
+            UnhighlightAll(Log.wndLog.rtbLog);
         }
 
         private void HighlightText(RichTextBox richTextBox, string searchText)
@@ -72,16 +70,16 @@ namespace SeeloewenCraft
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //Unhighlight all text before closing
-            UnhighlightAll(log.wndLog.rtbLog);
+            UnhighlightAll(Log.wndLog.rtbLog);
         }
 
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             //High the specified text
-            UnhighlightAll(log.wndLog.rtbLog);
+            UnhighlightAll(Log.wndLog.rtbLog);
             if (!string.IsNullOrEmpty(tbSearch.Text))
             {
-                HighlightText(log.wndLog.rtbLog, tbSearch.Text);
+                HighlightText(Log.wndLog.rtbLog, tbSearch.Text);
             }
         }
     }

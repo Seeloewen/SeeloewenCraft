@@ -36,7 +36,7 @@ namespace SeeloewenCraft
                     return container;
                 }
             }
-            world.log.Write($"Could not get container for position x{x} y{y}", "Warning");
+            Log.Write($"Could not get container for position x{x} y{y}", "Warning");
             return null;
         }
 

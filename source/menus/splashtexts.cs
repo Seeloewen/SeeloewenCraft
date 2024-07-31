@@ -26,7 +26,7 @@ namespace SeeloewenCraft
         public string GetText()
         {
             string splashText = texts[rnd.Next(texts.Length)];
-            wndMenu.log.Write($"Rolled splash text {splashText}", "Info");
+            Log.Write($"Rolled splash text {splashText}", "Info");
             return splashText;
         }
 

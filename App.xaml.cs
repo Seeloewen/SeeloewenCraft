@@ -1,78 +1,65 @@
-﻿using System.Windows;
-using System.IO;
-using static System.Environment;
+﻿using System.IO;
+using System.Windows;
 
 namespace SeeloewenCraft
 {
     public partial class App : Application
     {
-        wndMenu wndMenu;
-        Log log;
 
-        public App() : base()
+        //entry point of program
+        private void Application_Startup(object sender, StartupEventArgs e)
         {
             //add custom dipatcher method for unhandled exceptions to save them to the log
             Dispatcher.UnhandledException += OnDispatcherUnhandledException;
-        }
 
-        private void Application_Startup(object sender, StartupEventArgs e)
-        {
             //parse command line arguments to start option variables
             StartOptions.Parse(e.Args);
 
-            //Initiliaze Game
-            log = new Log();
-            FolderUtil.InitializeDirectories(log);
-            wndMenu = new wndMenu();
-            log.wndMenu = wndMenu;
+            //Initialize folders
+            FolderUtil.InitializeDirectories();
 
-            //Do start options
+            //load mods if enabled
             if (StartOptions.modded)
             {
                 ModLoader.LoadMods();
             }
 
-            if (!StartOptions.skipMenu)
+            wndMenu wndMenu = new wndMenu();
+
+            // if start option "-skipmenu" is disabled, proceed like normal
+            if (!StartOptions.skipMenu) 
             {
                 wndMenu.Show();
             }
-            else
+            else // if start option "-skipmenu" is enabled
             {
-                string appData = GetFolderPath(SpecialFolder.ApplicationData);
-
-                if (!Directory.Exists(string.Format("{0}/SeeloewenCraft/", appData)))
+                //delete world "debug" if it exists
+                if (Directory.Exists($"{FolderUtil.worldsFolder}/debug"))
                 {
-                    Directory.CreateDirectory(string.Format("{0}/SeeloewenCraft/", appData));
+                    Directory.Delete($"{FolderUtil.worldsFolder}/debug", true);
                 }
-                string gameDirectory = string.Format("{0}/SeeloewenCraft/", appData);
-
-                if (Directory.Exists(string.Format("{0}/worlds/{1}", gameDirectory, "debug")))
-                {
-                    Directory.Delete(string.Format("{0}/worlds/{1}", gameDirectory, "debug"), true);
-                }
-
-                World world = new World(wndMenu, "Debug", true, wndMenu.worldVersion, wndMenu.gameVersion, wndMenu.log);
-                world.wndGame.Show();
-                wndMenu.world = world;
-                wndMenu.Owner = world.wndGame;
+                
+                //create new world with name "debug"
+                World world = new World(wndMenu, "Debug", true, wndMenu.worldVersion, wndMenu.gameVersion);
             }
 
+            //show start log on start of program if enabled through start options
             if (StartOptions.showLog)
             {
-                wndMenu.log.Show();
+                Log.Show();
             }
 
         }
         void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             //Create crash dump
-            log.Write("An unhandled exception has occured. Creating crash dump...", "Error");
-            log.CreateCrashDump(wndMenu, e.Exception);
+            Log.Write("An unhandled exception has occured. Creating crash dump...", "Error");
+            Log.CreateCrashDump(e.Exception);
 
             //Save log before the game exits if enabled
             if (Settings.saveLogOnExit)
             {
-               log.Save(FolderUtil.logsFolder, false);
+               Log.Save(FolderUtil.logsFolder, false);
             }
         }
 

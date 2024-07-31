@@ -23,7 +23,7 @@ namespace SeeloewenCraft
                     break;
             }
 
-            world.log.Write($"Generating chunk {index} with biome {biome}", "Info");
+            Log.Write($"Generating chunk {index} with biome {biome}", "Info");
 
             //Generate terrain & structure
             GenerateTerrain();

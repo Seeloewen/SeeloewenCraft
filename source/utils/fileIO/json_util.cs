@@ -41,18 +41,32 @@ namespace SeeloewenCraft
     {
         public static JsonToken ReadFile(string path)
         {
-            string text = File.ReadAllText(path);
-            JToken token = JToken.Parse(text);
-            return new JsonToken(token);
+            try
+            {
+                string text = File.ReadAllText(path);
+                JToken token = JToken.Parse(text);
+                return new JsonToken(token);
+            }
+            catch (Exception ex)
+            {
+                throw new JsonUtilException("reading file to json token failed", ex);
+            }
         }
 
         public static JsonToken ReadResource(string name)
         {
-            //Read all texts from file
-            Uri uri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/{name}", UriKind.Absolute);
-            StreamResourceInfo info = Application.GetResourceStream(uri);
-            using StreamReader reader = new(info.Stream);
-            return new JsonToken(JToken.Parse(reader.ReadToEnd()));
+            try
+            {
+                //Read all texts from file
+                Uri uri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/{name}", UriKind.Absolute);
+                StreamResourceInfo info = Application.GetResourceStream(uri);
+                using StreamReader reader = new(info.Stream);
+                return new JsonToken(JToken.Parse(reader.ReadToEnd()));
+            }
+            catch (Exception ex)
+            {
+                throw new JsonUtilException("reading resource file to json token failed", ex);
+            }
         }
 
     }
@@ -74,7 +88,7 @@ namespace SeeloewenCraft
             }
             catch (Exception e)
             {
-                throw e;
+                throw new JsonUtilException("failed getting array length of token", e);
             }
         }
 
@@ -87,7 +101,7 @@ namespace SeeloewenCraft
             }
             catch (Exception e)
             {
-                throw e;
+                throw new JsonUtilException("failed checking if key exists", e);
             }
         }
 
@@ -100,7 +114,7 @@ namespace SeeloewenCraft
             }
             catch (Exception e)
             {
-                throw e;
+                throw new JsonUtilException("failed getting json token from json token", e);
             }
         }
 
@@ -112,7 +126,7 @@ namespace SeeloewenCraft
             }
             catch (Exception e)
             {
-                throw e;
+                throw new JsonUtilException("failed getting int from json token", e);
             }
         }
 
@@ -124,7 +138,7 @@ namespace SeeloewenCraft
             }
             catch (Exception e)
             {
-                throw e;
+                throw new JsonUtilException("failed getting bool from json token", e);
             }
         }
 
@@ -136,7 +150,7 @@ namespace SeeloewenCraft
             }
             catch (Exception e)
             {
-                throw e;
+                throw new JsonUtilException("failed getting string from json token", e);
             }
         }
 
@@ -148,7 +162,7 @@ namespace SeeloewenCraft
             }
             catch (Exception e)
             {
-                throw e;
+                throw new JsonUtilException("failed getting double from json token", e);
             }
         }
 

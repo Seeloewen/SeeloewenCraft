@@ -264,7 +264,7 @@ namespace SeeloewenCraft
 
                 //Show notification and log that crafting process is complete
                 world.notificationHandler.ShowNotification($"Crafting for x{amount} {selectedRecipe.displayName} completed!", 3000, world.images.AlphaCrafter);
-                world.log.Write($"Completed crafting for {amount}x {selectedRecipe.id} at workstation {workstation} (X: {block.xPos}, Y: {block.yPos}, Chunk: {block.chunk.index})", "Info");
+                Log.Write($"Completed crafting for {amount}x {selectedRecipe.id} at workstation {workstation} (X: {block.xPos}, Y: {block.yPos}, Chunk: {block.chunk.index})", "Info");
             }
         }
 

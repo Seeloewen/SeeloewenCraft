@@ -52,7 +52,7 @@ namespace SeeloewenCraft
             if (!Directory.Exists(chunkDirectory))
             {
                 Directory.CreateDirectory(chunkDirectory);
-                world.log.Write($"Created chunk directory {chunkDirectory}!", "Info");
+                Log.Write($"Created chunk directory {chunkDirectory}!", "Info");
             }
 
             //save blocks in blocks.json
@@ -145,7 +145,7 @@ namespace SeeloewenCraft
 
         public void Init()
         {
-            world.log.Write($"Beginning to initialize chunk {index}", "Info");
+            Log.Write($"Beginning to initialize chunk {index}", "Info");
 
             //Clear the chunk
             grdChunk.Children.Clear();
@@ -189,17 +189,17 @@ namespace SeeloewenCraft
                 }
                 RenderChunk();
 
-                world.log.Write($"Successfully initialized chunk {index}", "Info");
+                Log.Write($"Successfully initialized chunk {index}", "Info");
             }
             catch (Exception ex)
             {
-                world.log.Write($"Could not initialize chunk: {ex.Message}", "Error");
+                Log.Write($"Could not initialize chunk: {ex.Message}", "Error");
             }
         }
 
         private void Load()
         {
-            world.log.Write($"Loading chunk {index}", "Info");
+            Log.Write($"Loading chunk {index}", "Info");
 
             //load blocklist
             JsonToken documentToken = JsonUtil.ReadFile($"{world.worldDirectory}/chunk{index}/blocks.json");

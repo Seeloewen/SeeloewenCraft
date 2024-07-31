@@ -38,18 +38,11 @@ namespace SeeloewenCraft
             {
                 JsonToken documentToken = JsonUtil.ReadFile($"{FolderUtil.gameFolder}\\clientSettings.json");
 
-                if (firstStart)
-                {
-                    LoadSettings(documentToken, true);
-                }
-                else
-                {
-                    LoadSettings(documentToken, false);
-                }
+                LoadSettings(documentToken, firstStart);
             }
             else
             {
-                wndMenu.log.Write("No settings file was found, creating a new one...", "Info");
+                Log.Write("No settings file was found, creating a new one...", "Info");
 
                 //If not, create a new one
                 using (JsonWriter writer = JsonWriter.Create())
@@ -66,40 +59,40 @@ namespace SeeloewenCraft
         {
             //Save the settings locally
             Settings.saveLogOnExit = Convert.ToBoolean(cbSaveLogOnExit.IsChecked);
-            wndMenu.log.Write($"Saved setting saveLogOnExit as {Settings.saveLogOnExit}", "Info");
+            Log.Write($"Saved setting saveLogOnExit as {Settings.saveLogOnExit}", "Info");
 
             Settings.saveWorldOnClose = Convert.ToBoolean(cbSaveWorldWhenClosing.IsChecked);
-            wndMenu.log.Write($"Saved setting saveWorldOnClose as {Settings.saveWorldOnClose}", "Info");
+            Log.Write($"Saved setting saveWorldOnClose as {Settings.saveWorldOnClose}", "Info");
 
             Settings.enableHammer = Convert.ToBoolean(cbEnableHammer.IsChecked);
-            wndMenu.log.Write($"Saved setting enableHammer as {Settings.enableHammer}", "Info");
+            Log.Write($"Saved setting enableHammer as {Settings.enableHammer}", "Info");
 
             Settings.enableCaveGeneration = Convert.ToBoolean(cbEnableCaveGeneration.IsChecked);
-            wndMenu.log.Write($"Saved setting enableCaveGeneration as {Settings.enableCaveGeneration}", "Info");
+            Log.Write($"Saved setting enableCaveGeneration as {Settings.enableCaveGeneration}", "Info");
 
             Settings.enableLighting = Convert.ToBoolean(cbEnableLighting.IsChecked);
-            wndMenu.log.Write($"Saved setting enableLighting as {Settings.enableLighting}", "Info");
+            Log.Write($"Saved setting enableLighting as {Settings.enableLighting}", "Info");
 
             Settings.showNotifications = Convert.ToBoolean(cbShowNotifications.IsChecked);
-            wndMenu.log.Write($"Saved setting enableLighting as {Settings.showNotifications}", "Info");
+            Log.Write($"Saved setting enableLighting as {Settings.showNotifications}", "Info");
 
             Settings.enableHealth = Convert.ToBoolean(cbEnableHealth.IsChecked);
-            wndMenu.log.Write($"Saved setting enableHealth as {Settings.enableHealth}", "Info");
+            Log.Write($"Saved setting enableHealth as {Settings.enableHealth}", "Info");
 
             Settings.resolution = Convert.ToString(cbxResolution.SelectedItem);
-            wndMenu.log.Write($"Saved setting resolution as {Settings.resolution}", "Info");
+            Log.Write($"Saved setting resolution as {Settings.resolution}", "Info");
 
             Settings.videoMode = Convert.ToString(cbxMode.SelectedItem);
-            wndMenu.log.Write($"Saved setting videoMode as {Settings.videoMode}", "Info");
+            Log.Write($"Saved setting videoMode as {Settings.videoMode}", "Info");
 
             Settings.customResX = Convert.ToInt32(tbWidth.Text);
-            wndMenu.log.Write($"Saved setting customResX as {Settings.customResX}", "Info");
+            Log.Write($"Saved setting customResX as {Settings.customResX}", "Info");
 
             Settings.customResY = Convert.ToInt32(tbHeight.Text);
-            wndMenu.log.Write($"Saved setting customResY as {Settings.customResY}", "Info");
+            Log.Write($"Saved setting customResY as {Settings.customResY}", "Info");
 
             Settings.texturepack = cbxTexturepack.Text;
-            wndMenu.log.Write($"Saved setting texturepack as {Settings.texturepack}", "Info");
+            Log.Write($"Saved setting texturepack as {Settings.texturepack}", "Info");
 
             //Save the keybinds locally
             Settings.cMoveRight = KeyConverter.StringToKey(tbMoveRight.Text);
@@ -188,24 +181,24 @@ namespace SeeloewenCraft
                     //Try to read the texturepack version
                     try
                     {
-                        wndMenu.log.Write($"Detected texturepack version {fileContent[1].Replace("texturepackVersion=", "")}", "Info");
+                        Log.Write($"Detected texturepack version {fileContent[1].Replace("texturepackVersion=", "")}", "Info");
                         return Convert.ToInt32(fileContent[1].Replace("texturepackVersion=", ""));
                     }
                     catch (Exception ex)
                     {
-                        wndMenu.log.Write($"Could not get texturepack version: {ex.Message}", "Error");
+                        Log.Write($"Could not get texturepack version: {ex.Message}", "Error");
                         return 0;
                     }
                 }
                 else
                 {
-                    wndMenu.log.Write($"Could not get texturepack version because the file is empty", "Error");
+                    Log.Write($"Could not get texturepack version because the file is empty", "Error");
                     return 0;
                 }
             }
             else
             {
-                wndMenu.log.Write($"Could not get texturepack version because the pack.txt file does not exist", "Error");
+                Log.Write($"Could not get texturepack version because the pack.txt file does not exist", "Error");
                 return 0;
             }
         }
@@ -223,11 +216,11 @@ namespace SeeloewenCraft
                 //Check the texturepack version and apply that if possible
                 if (GetTexturepackVersion($"{FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}") < wndMenu.texturepackVersion)
                 {
-                    wndMenu.log.Write($"The texture pack you are trying to load ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}) is outdated", "Warning");
+                    Log.Write($"The texture pack you are trying to load ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}) is outdated", "Warning");
                     MessageBox.Show("Warning: The texturepack that you are trying to load is outdated. This may lead to issues.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 wndMenu.selectedTexturepack = $"{FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}";
-                wndMenu.log.Write($"Successfully applied texturepack ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem})", "Warning");
+                Log.Write($"Successfully applied texturepack ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem})", "Warning");
             }
 
             if (wndMenu.world != null)
@@ -270,7 +263,7 @@ namespace SeeloewenCraft
         private void btnOpenLog_Click(object sender, RoutedEventArgs e)
         {
             //Show the log
-            wndMenu.log.Show();
+            Log.Show();
         }
 
         private void tbMoveRight_PreviewKeyDown(object sender, KeyEventArgs e)

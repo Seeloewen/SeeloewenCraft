@@ -13,15 +13,13 @@ namespace SeeloewenCraft
         private wndLoadWorld wndLoadWorld;
         public wndSettings wndSettings;
         public World world;
-        public Log log;
         private SplashTextHandler splashTextHandler;
 
         //Constants
-        public int worldVersion = 5;
-        public string gameVersion = "Alpha 1.2.0-Dev3";
-        public string versionDate = "29.07.2024";
+        public const int worldVersion = 5;
+        public const string gameVersion = "Alpha 1.2.0-Dev3";
+        public const string versionDate = "29.07.2024";
         public int texturepackVersion;
-        private string appData = GetFolderPath(SpecialFolder.ApplicationData);
 
         //Variables
         private int splashTextSize = 0;
@@ -39,12 +37,11 @@ namespace SeeloewenCraft
             tmrSplashText.Interval = 50;
             tmrSplashText.Start();
 
-            log = new Log();
             splashTextHandler = new SplashTextHandler(this);
 
             //Show the version
             tblVersion.Text = string.Format("Version {0}", gameVersion);
-            log.Write($"SeeloewenCraft Version {gameVersion} ({versionDate})", "Info");
+            Log.Write($"SeeloewenCraft Version {gameVersion} ({versionDate})", "Info");
 
             //set splashtext        
             tblSplashText.Text = splashTextHandler.GetText();;
@@ -98,7 +95,7 @@ namespace SeeloewenCraft
             //Save the log, if enabled
             if (Settings.saveLogOnExit)
             {
-                log.Save(FolderUtil.logsFolder, false);
+                Log.Save(FolderUtil.logsFolder, false);
             }
 
             //Close the app

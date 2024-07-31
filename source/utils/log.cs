@@ -10,20 +10,20 @@ using static System.Environment;
 
 namespace SeeloewenCraft
 {
-    public class Log
+    public static class Log
     {
-        public wndMenu wndMenu;
-        private Paragraph paragraph;
-        public wndLog wndLog;
-        private SeeloewenLibTools seeloewenLibTools = new SeeloewenLibTools();
-        private List<string> messages = new List<string>();
+        public static wndMenu wndMenu;
+        private static Paragraph paragraph;
+        public static wndLog wndLog;
+        private static SeeloewenLibTools seeloewenLibTools = new SeeloewenLibTools();
+        private static List<string> messages = new List<string>();
 
         //-- Custom Methods --//
 
-        public void Show()
+        public static void Show()
         {
             //Create the log window
-            wndLog = new wndLog(this);
+            wndLog = new wndLog();
 
             //Add all messages to the log richtextbox in the respective color
             paragraph = new Paragraph();
@@ -52,7 +52,7 @@ namespace SeeloewenCraft
             wndLog.Show();
         }
 
-        public void Save(bool showMessageBoxes)
+        public static void Save(bool showMessageBoxes)
         {
             //Setup the save file dialog
             SaveFileDialog sfdLog = new SaveFileDialog();
@@ -87,7 +87,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public void Save(string location, bool showMessageBoxes)
+        public static void Save(string location, bool showMessageBoxes)
         {
             //If location is invalid, use fallback
             if (string.IsNullOrEmpty(location) || !File.Exists(location))
@@ -124,7 +124,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public void Clear()
+        public static void Clear()
         {
             //Ask the user whether they want to clear the log
             MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure that you want to clear your current log? You will not be able to recover it!", "Clear Log", MessageBoxButton.YesNo, MessageBoxImage.Warning);
@@ -139,7 +139,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public void Write(string message, string type)
+        public static void Write(string message, string type)
         {
             //Write a message to log depending on the message type.
             string prefix = "";
@@ -191,19 +191,11 @@ namespace SeeloewenCraft
             }
         }
 
-        public void CreateCrashDump(wndMenu wndMenu, Exception ex)
+        public static void CreateCrashDump(Exception ex)
         {
             //Log all relevant information for a crash
             Write("-------------------------------------", "Error");
-            if (wndMenu != null)
-            {
-                Write($"SeeloewenCraft {wndMenu.gameVersion} - A crash has been detected!", "Error");
-            }
-            else
-            {
-                Write("SeeloewenCraft {Error getting version - Is wndMenu null?} - A crash has been detected!", "Error");
-
-            }
+            Write($"SeeloewenCraft {wndMenu.gameVersion} - A crash has been detected!", "Error");
             Write($"Exception: {ex.GetType().ToString()}!", "Error");
             Write($"Message: {ex.Message}", "Error");
             Write($"Source: {ex.Source}", "Error");
