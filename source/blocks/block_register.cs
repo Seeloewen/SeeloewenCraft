@@ -89,11 +89,11 @@
                     return new CobbleStoneBlock_StairBottomRight(world, false);
                 case "sc:cobblestone_stairbottomleft":
                     return new CobbleStoneBlock_StairBottomLeft(world, false);
-                case "sc:cobblestone":
+                case "sc:cobblestone_block":
                     return new CobbleStoneBlock(world, false);
-                case "sc:chiseler":
+                case "sc:chiseler_block":
                     return new ChiselerBlock(world, false);
-                case "sc:unchiseler":
+                case "sc:unchiseler_block":
                     return new UnchiselerBlock(world, false);
                 case "sc:cobblestone_center":
                     return new CobbleStoneBlock_Center(world, false);
