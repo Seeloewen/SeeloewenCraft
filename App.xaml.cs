@@ -41,6 +41,7 @@ namespace SeeloewenCraft
                 
                 //create new world with name "debug"
                 World world = new World(wndMenu, "Debug", true, wndMenu.worldVersion, wndMenu.gameVersion);
+                wndMenu.world = world;
             }
 
             //show start log on start of program if enabled through start options
