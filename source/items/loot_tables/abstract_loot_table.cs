@@ -21,7 +21,7 @@ namespace SeeloewenCraft
         //-- Custom Methods --//
 
         public LootTableEntry RollEntry()
-        {     
+        {
             rnd = new Random(DateTime.Now.Millisecond + offset);
             offset++;
 
@@ -32,7 +32,7 @@ namespace SeeloewenCraft
                 entry.numbersInPool.Clear();
 
                 //Add the numbers into the loot tables pool
-                
+
                 for (int i = poolNumber; i < (poolNumber + entry.weight); i++)
                 {
                     entry.numbersInPool.Add(i);
@@ -47,7 +47,7 @@ namespace SeeloewenCraft
                 if (entry.numbersInPool.Contains(random))
                 {
                     return entry;
-                } 
+                }
             }
 
             return null;
@@ -62,6 +62,16 @@ namespace SeeloewenCraft
         {
             lootTableEntries.Add(new LootTableEntry(new StoneItem(world), 1, 3, 5, world));
             lootTableEntries.Add(new LootTableEntry(new GrassItem(world), 1, 3, 1, world));
+        }
+    }
+    public class PlainsDungeonChest1 : LootTable
+    {
+        public PlainsDungeonChest1(World world) : base(world)
+        {
+            lootTableEntries.Add(new LootTableEntry(new OakLogItem(world), 1, 5, 3, world));
+            lootTableEntries.Add(new LootTableEntry(new GrassItem(world), 1, 3, 2, world));
+            lootTableEntries.Add(new LootTableEntry(new CobbleStoneItem(world), 1, 7, 5, world));
+            lootTableEntries.Add(new LootTableEntry(new IronOreItem(world), 1, 2, 1, world));
         }
     }
 }

@@ -43,7 +43,7 @@ namespace SeeloewenCraft
             for(int i = 0; i < amount; i++)
             {
                 Type itemType = item.GetType();
-                Item newItem = (Item)Activator.CreateInstance(itemType, world, 0, null);
+                Item newItem = (Item)Activator.CreateInstance(itemType, world);
                 items.Add(newItem);
             }
 

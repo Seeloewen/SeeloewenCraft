@@ -1,0 +1,122 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SeeloewenCraft
+{
+    public abstract class DungeonRoom
+    {
+        public List<DungeonBlock> blocks = new List<DungeonBlock>();
+        public World world;
+        public string type;
+        public string id;
+
+        //-- Constructor --//
+
+        public DungeonRoom(World world)
+        {
+            this.world = world;
+        }
+
+        //-- Custom Methods --//
+
+        public (int top, int bottom, int right, int left) GetNecessarySpace(int x, int y)
+        {
+            int top = 0;
+            int bottom = 0;
+            int right = 0;
+            int left = 0;
+            int i;
+
+            //Get space above
+            i = 1;
+            while (true)
+            {
+                if (GetBlock(x, y + i) != null)
+                {
+                    top++;
+                }
+                else
+                {
+                    break;
+                }
+                i++;
+            }
+
+            //Get space below
+            i = 1;
+            while (true)
+            {
+                if (GetBlock(x, y - i) != null)
+                {
+                    bottom++;
+                }
+                else
+                {
+                    break;
+                }
+                i++;
+            }
+
+            //Get space to the right
+            i = 1;
+            while (true)
+            {
+                if (GetBlock(x + i, y) != null)
+                {
+                    right++;
+                }
+                else
+                {
+                    break;
+                }
+                i++;
+            }
+
+            //Get space to the left
+            i = 1;
+            while (true)
+            {
+                if (GetBlock(x - i, y) != null)
+                {
+                    left++;
+                }
+                else
+                {
+                    break;
+                }
+                i++;
+            }
+
+            return (top, bottom, right, left);
+        }
+        public DungeonBlock GetBlock(int x, int y)
+        {
+            //Compare x and y pos and return the correct block
+            foreach (DungeonBlock block in blocks)
+            {
+                if (block.x == x && block.y == y)
+                {
+                    return block;
+                }
+            }
+            return null;
+        }
+
+        public void SetDoor(int x, int y, Direction dir)
+        {
+            //Replace the block with an air-door (later maybe a real door?)
+            GetBlock(x, y).isDoor = true;
+            GetBlock(x, y).doorDirection = dir;
+            GetBlock(x, y).block = new AirBlock(world, false);
+
+            //If direction is right or left, add additional airblock for the player to pass through
+            if (!dir.IsDown() && !dir.IsUp())
+            {
+                GetBlock(x, y + 1).block = new AirBlock(world, false);
+            }
+        }
+    }
+}

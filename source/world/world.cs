@@ -74,11 +74,21 @@ namespace SeeloewenCraft
 
             worldRenderer = new WorldRenderer(wndGame);
 
+            CreateDungeonRooms();
             InitGame(worldName, isNew, worldVersion);
 
             wndGame.Show();
         }
 
+        private void CreateDungeonRooms()
+        {
+            RoomLibrary.roomList.Add(new Room1(this));
+            RoomLibrary.roomList.Add(new Room2(this));
+            RoomLibrary.roomList.Add(new Room3(this));
+            RoomLibrary.roomList.Add(new Room4(this));
+            RoomLibrary.roomList.Add(new Room5(this));
+
+        }
 
         //-- Custom Methods --//
 
@@ -317,13 +327,11 @@ namespace SeeloewenCraft
 
         public void GenerateBlockContainer()
         {
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 8; i++)
             {
                 blockContainerList.Add(new BlockContainerList(this));
             }
         }
-
-
 
         private void SaveWorldSettings()
         {

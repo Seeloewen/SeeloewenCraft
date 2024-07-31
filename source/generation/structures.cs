@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Documents;
 
 namespace SeeloewenCraft
 {
@@ -53,6 +55,27 @@ namespace SeeloewenCraft
         }
     }
 
+
+    public class PlainsDungeon : Structure
+    {
+        public PlainsDungeon(World world, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(world, chunk, canFloat)
+        {
+            id = "sc:plains_dungeon";
+            name = "Plains Dungeon";
+
+            //Set the total width of the structure
+            canReplaceSolidBlocks = true;
+
+            Dungeon dung = new Dungeon();
+            dung.CreateDungeon(100, 40, "plains");
+            structureComponents.AddRange(dung.GenerateDungeon(0, 0));
+
+            totalWidth = GetTotalWidth();
+
+            //Begin generation
+            BeginGeneration(x, y, index, isNew);
+        }
+    }
 
     public class Lake : Structure
     {

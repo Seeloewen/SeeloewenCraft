@@ -20,10 +20,12 @@ namespace SeeloewenCraft
         {
             //Generate all the loot tables
             stoneLootTable = new StoneLootTable(world);
+            plainsDungeonChest1 = new PlainsDungeonChest1(world);
         }
 
         //-- Loot Tables --//
 
         public StoneLootTable stoneLootTable;
+        public PlainsDungeonChest1 plainsDungeonChest1;
     }
 }
