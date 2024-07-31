@@ -1,6 +1,6 @@
      Early Alpha;
  Also Try Minecraft!;
-  Also TryTerraria!;
+  Also Try Terraria!;
   Made by Seeloewen;
  Physics by CDLemmi;
  Totally not stolen;
@@ -31,3 +31,4 @@ Random Item Giver!;
 SplashtextNotFound!;
   Marktwirtschaft;
     I see you!;
+ Obamna approved!;

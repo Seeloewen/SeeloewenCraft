@@ -567,6 +567,8 @@ namespace SeeloewenCraft
         //-- Event Handlers --//
 
         private static bool dropped = false;
+        private static bool spawned = false;
+
         private void tmrMovement_Tick(object sender, EventArgs e)
         {
             //Movement timer, ticks at a rate of approximitely 60 fps (every 16 ms)
@@ -602,6 +604,22 @@ namespace SeeloewenCraft
             {
                 dropped = false;
             }
+
+            if (wndGame.pressedKeys.Contains(Key.G))
+            {
+                if (!spawned)
+                {
+                    Animal animal = new Animal(30000, 5000, 0, 0, this);
+                    AddEntity(animal);
+
+                    spawned = true;
+                }
+            }
+            else
+            {
+                spawned = false;
+            }
+
 
             List<ItemEntity> pickedUpEntities = new List<ItemEntity>();
             foreach (Entity entity in entities)
