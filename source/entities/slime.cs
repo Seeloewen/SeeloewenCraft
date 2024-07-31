@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace SeeloewenCraft
 {
-    public class Animal : Entity
+    public class Slime : MovingEntity
     {
 
         public const int animalSizeX = 1300;
@@ -15,7 +15,7 @@ namespace SeeloewenCraft
         private Random rnd;
         
 
-        public Animal(int posX, int posY, int velX, int velY, World world) : base(animalSizeX, animalSizeY, posX, posY, velX, velY, world, Colors.Green)
+        public Slime(int posX, int posY, int velX, int velY, World world) : base(0, animalSizeX, animalSizeY, posX, posY, velX, velY, world, Colors.Green)
         {
             rnd = new Random(DateTime.Now.Millisecond);
             frictionAir = 1;

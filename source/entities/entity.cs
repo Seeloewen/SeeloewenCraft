@@ -338,7 +338,7 @@ namespace SeeloewenCraft
 
 
 
-        protected Entity(JsonToken token, int sizeX, int sizeY, World world, Color color)
+        public Entity(JsonToken token, int sizeX, int sizeY, World world, Color color)
             : this(sizeX, sizeY,
                 token.GetInt("/posX"),
                 token.GetInt("/posY"),

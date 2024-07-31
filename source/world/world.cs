@@ -602,7 +602,6 @@ namespace SeeloewenCraft
 
                         ItemEntity itemEntity = new ItemEntity(item, player.posX + 500 - ItemEntity.itemSizeX / 2, player.posY, (int)(15000 * xDir) + player.velX, (int)(20000 * yDir) + player.velY, this);
                         AddEntity(itemEntity);
-                        Log.Write($"item entity created at {player.posX}, {player.posY}", "Info");
                         dropped = true;
                         player.inventory.RemoveItem(item);
                     }
@@ -613,20 +612,6 @@ namespace SeeloewenCraft
                 dropped = false;
             }
 
-            if (wndGame.pressedKeys.Contains(Key.G))
-            {
-                if (!spawned)
-                {
-                    Animal animal = new Animal(30000, 5000, 0, 0, this);
-                    AddEntity(animal);
-
-                    spawned = true;
-                }
-            }
-            else
-            {
-                spawned = false;
-            }
 
 
             List<ItemEntity> pickedUpEntities = new List<ItemEntity>();

@@ -1,7 +1,7 @@
 ﻿
 namespace SeeloewenCraft
 {
-     public static partial class CommandHandler
+    public static partial class CommandHandler
     {
         static World world;
 
@@ -12,18 +12,21 @@ namespace SeeloewenCraft
 
             command = command.ToLower();
             command = command.Remove(0, 1);
-            
+
             Log.Write($"Handling command: {command}", "Info");
 
             string[] args = command.Split(' ');
 
-            switch(args[0])
+            switch (args[0])
             {
                 case "give":
                     HandleGiveCommand(args);
                     break;
                 case "setblock":
                     HandleSetBlockCommand(args);
+                    break;
+                case "spawn":
+                    HandleSpawnCommand(args);
                     break;
                 case "ping":
                     Write("pong");

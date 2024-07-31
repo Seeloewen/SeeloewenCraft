@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace SeeloewenCraft
 {
-    public class Player : Entity
+    public class Player : MovingEntity
     {
         //public Canvas cvsPlayer = new Canvas();
         //World world;
@@ -16,23 +16,9 @@ namespace SeeloewenCraft
         //-- Variables for physics --/
 
         //constants:
-        private const int accWalking = 70000; // a: acceleration
-        private const int jumpStartSpeed = 15000;
 
 
-        public bool pressedUp;
-        public bool pressedRight;
-        public bool pressedLeft;
 
-        //variables
-
-        /*int sizeX = 900;
-        int sizeY = 1900;
-
-        public int posX = 20050; //1/1000 of a block (1 mm)
-        public int posY = 5000;
-        int velX = 0; //(mm/s)
-        int velY = 0;*/
 
 
 
@@ -42,7 +28,7 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Player(World world, int x, int y) : base(900, 1900, x, y, 0, 0, world, Colors.Red)
+        public Player(World world, int x, int y) : base(70000, 900, 1900, x, y, 0, 0, world, Colors.Red)
         {
             //Set the attributes
             this.world = world;
@@ -91,39 +77,7 @@ namespace SeeloewenCraft
         public override void DoPhysicsStep(int tps)
         {
 
-            // -- determine which sides of the player are touched by solid blocks --
-
-            //reset
-            (onGround, _) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + 1);
-            (touchingWater, int forceWaterX) = DoWaterTouchCheck();
-            (bool touchingLeft, _) = DoCollisionCheck(Direction.LEFT, posX, posY, posX - 1, posY + sizeY);
-            (bool touchingRight, _) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + 1, posY + sizeY);
-
-
-
-            // -- change velocity depending on inputs --
-            if (pressedRight && !touchingRight)
-            {
-                velX += accWalking / tps;
-            }
-            if (pressedLeft && !touchingLeft)
-            {
-                velX -= accWalking / tps;
-            }
-
-            //jump
-            if (pressedUp && onGround)
-            {
-                velY = -jumpStartSpeed;
-            }
-
-            if (touchingWater)
-            {
-                if (pressedUp)
-                {
-                    velY -= 200000 / tps;
-                }
-            }
+            
 
             base.DoPhysicsStep(tps);
 
