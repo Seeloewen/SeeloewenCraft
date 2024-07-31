@@ -124,7 +124,7 @@ namespace SeeloewenCraft
             bool isAdded = false;
 
             //Go through each inventory slot
-            foreach (InventorySlot slot in world.player.inventory.slotList)
+            foreach (InventorySlot slot in slotList)
             {
                 if (slot.items.Count > 0)
                 {
@@ -149,7 +149,7 @@ namespace SeeloewenCraft
             if (isAdded == false)
             {
                 //If the item couldn't be added to existing stacks
-                foreach (InventorySlot slot in world.player.inventory.slotList)
+                foreach (InventorySlot slot in slotList)
                 {
                     //Check for empty slots and add it to that
                     if (slot.items.Count == 0)
@@ -176,7 +176,7 @@ namespace SeeloewenCraft
             List<Item> removeList = new List<Item>();
 
             //Go through each inventory slot to find the item
-            foreach (InventorySlot slot in world.player.inventory.slotList)
+            foreach (InventorySlot slot in slotList)
             {
                 if (slot.items.Count > 0)
                 {
@@ -209,7 +209,7 @@ namespace SeeloewenCraft
                 //Clear all slots in the clear list
                 slot.ClearSlot();
             }
-            foreach (InventorySlot slot in world.player.inventory.slotList)
+            foreach (InventorySlot slot in slotList)
             {
                 //Remove every slot in the remove list
                 foreach (Item item in removeList)
@@ -229,7 +229,7 @@ namespace SeeloewenCraft
 
             bool itemFound = false;
             //Go through each inventory slot to find the item
-            foreach (InventorySlot slot in world.player.inventory.slotList)
+            foreach (InventorySlot slot in slotList)
             {
                 if (slot.items.Count > 0 && !itemFound)
                 {
@@ -264,7 +264,7 @@ namespace SeeloewenCraft
                 //Clear all slots in the clear list
                 slot.ClearSlot();
             }
-            foreach (InventorySlot slot in world.player.inventory.slotList)
+            foreach (InventorySlot slot in slotList)
             {
                 //Remove every slot in the remove list
                 foreach (Item item in removeList)

@@ -19,9 +19,9 @@ namespace SeeloewenCraft
             InitializeComponent();
 
             //Add items to comboboxes
+            cbxMode.Items.Add("Fullscreen");
             cbxMode.Items.Add("Windowed");
             cbxMode.Items.Add("Borderless");
-            cbxMode.Items.Add("Fullscreen");
             cbxMode.SelectedItem = "Fullscreen";
 
             cbxResolution.Items.Add("320x180"); //Warning: WILL lead to problems

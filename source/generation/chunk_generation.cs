@@ -1,6 +1,4 @@
 ﻿
-using System.DirectoryServices.ActiveDirectory;
-
 namespace SeeloewenCraft
 {
     public partial class Chunk
@@ -74,6 +72,7 @@ namespace SeeloewenCraft
                 GenerateTrees();
                 GenerateOres();
                 if (Settings.enableCaveGeneration) GenerateCaves();
+                GeneratePlainsDungeon();
                 ContinueStructureGeneration("");
             }
         }
@@ -132,7 +131,7 @@ namespace SeeloewenCraft
                     (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
                     //Decide which tree to generate, mostly generate oak trees, rarely spruce
-                    if(y != 0)
+                    if (y != 0)
                     {
                         if (rnd.Next(0, 6) == 0)
                         {
@@ -157,7 +156,7 @@ namespace SeeloewenCraft
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
-                if(y != 0)
+                if (y != 0)
                 {
                     int depth = rnd.Next(3, 8);
                     structureList.Add(new Lake(world, x, y + depth, index, true, this, true, depth));
@@ -165,6 +164,21 @@ namespace SeeloewenCraft
             }
         }
 
+        private void GeneratePlainsDungeon()
+        {
+            ContinueStructureGeneration("Plains Dungeon");
+
+            //Generate up to 1 plains dungeon
+            if (rnd.Next(0, 15) == 0)
+            {
+                (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
+
+                if (y != 0)
+                {
+                    structureList.Add(new PlainsDungeon(world, x, rnd.Next(62, 72), index, true, this, true));
+                }
+            }
+        }
 
         private void GenerateOres()
         {
@@ -178,7 +192,7 @@ namespace SeeloewenCraft
                     int y = 25;
 
                     (int x, y) = GetCoordinatesOnSurface(0, 7, true);
-                    
+
                     structureList.Add(new OreStructure(world, x, y + rnd.Next(10, 70), index, true, this, true));
                 }
             }
@@ -193,7 +207,7 @@ namespace SeeloewenCraft
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7, true);
 
-                structureList.Add(new Cave(world, x, y + 15, index, true, this, true));
+                structureList.Add(new Cave(world, x, y + 30, index, true, this, true));
             }
         }
 
