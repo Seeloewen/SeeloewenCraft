@@ -12,9 +12,6 @@ namespace SeeloewenCraft
         public bool pressedRight;
         public bool pressedLeft;
 
-
-
-
         public MovingEntity(int accWalking, int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Color color)
             : base(sizeX, sizeY, posX, posY, velX, velY, world, color)
         {
@@ -30,7 +27,6 @@ namespace SeeloewenCraft
             (touchingWater, int forceWaterX) = DoWaterTouchCheck();
             (bool touchingLeft, _) = DoCollisionCheck(Direction.LEFT, posX, posY, posX - 1, posY + sizeY);
             (bool touchingRight, _) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + 1, posY + sizeY);
-
 
 
             // -- change velocity depending on inputs --
@@ -59,7 +55,5 @@ namespace SeeloewenCraft
 
             base.DoPhysicsStep(tps);
         }
-
-
     }
 }

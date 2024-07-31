@@ -1,22 +1,24 @@
-﻿
+﻿using System.Windows;
+
 namespace SeeloewenCraft
 {
     public static partial class CommandHandler
     {
         static World world;
 
-
         public static void HandleCommand(string command, World world)
         {
             CommandHandler.world = world;
 
-            command = command.ToLower();
-            command = command.Remove(0, 1);
+            //Remove the slash at the beginning
+            command = command.ToLower().Remove(0, 1);
 
             Log.Write($"Handling command: {command}", "Info");
 
+            //Split up the command into args so it can be handled
             string[] args = command.Split(' ');
 
+            //Handle the given command
             switch (args[0])
             {
                 case "give":
@@ -32,19 +34,22 @@ namespace SeeloewenCraft
                     Write("pong");
                     break;
                 case "help":
-                    Write("not implemented yet lol");
+                    MessageBox.Show("List of commands:" +
+                        "\n/help - Shows this menu" +
+                        "\n/give [itemId] [amount] - Gives you a specific item" +
+                        "\n/setblock [blockId] [posX] [posY] [chunkId] - Places a block at a specific location" +
+                        "\n/spawn [entityId] [absPosX] [absPosY] - Spawns an entity at a given location" +
+                        "\n/ping - Return pong, used as a test command");
                     break;
                 default:
-                    Write("Command not found. Type /help for a list of commands.");
+                    Write("Invalid command! Type /help for a list of commands.");
                     break;
             }
         }
-
 
         private static void Write(string msg)
         {
             Log.Write($"{msg}", "Info");
         }
-
     }
 }

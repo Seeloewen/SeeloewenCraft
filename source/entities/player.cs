@@ -8,23 +8,8 @@ namespace SeeloewenCraft
 {
     public class Player : MovingEntity
     {
-        //public Canvas cvsPlayer = new Canvas();
-        //World world;
         public Inventory inventory;
         public HealthBar healthBar;
-
-        //-- Variables for physics --/
-
-        //constants:
-
-
-
-
-
-
-
-
-
 
         //-- Constructor --//
 
@@ -42,10 +27,6 @@ namespace SeeloewenCraft
         public void GeneratePlayer()
         {
             //Setup the character canvas that is shown but does not count in movement checks
-            /*cvsPlayer.Margin = new Thickness(0, 0, 0, 0);
-            cvsPlayer.Width = 45;
-            cvsPlayer.Height = 95;
-            cvsPlayer.Background = new SolidColorBrush(Colors.Red);*/
 
             Log.Write($"Created player at position x{posX} y{posY}", "Info");
 
@@ -63,8 +44,6 @@ namespace SeeloewenCraft
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "blockPosY");
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "touchingWater");
 
-
-
             //Setup health bar
             if (Settings.enableHealth)
             {
@@ -72,25 +51,12 @@ namespace SeeloewenCraft
             }
         }
 
-
         //physics
         public override void DoPhysicsStep(int tps)
-        {
-
-            
-
+        {        
             base.DoPhysicsStep(tps);
-
-            //
-
-            // -- check if moving into blocks --
-
-            //move with amount of acual pixels
-
             DisplayDebugInformation();
         }
-
-
 
         public void SavePosition(string path)
         {
@@ -111,7 +77,6 @@ namespace SeeloewenCraft
 
                 writer.WriteToFile($"{path}/player_position.json");
             }
-
         }
 
         public void SaveInventory(string path)
@@ -123,9 +88,6 @@ namespace SeeloewenCraft
                 writer.WriteToFile($"{path}/player_inventory.json");
             }
         }
-
-
-
 
         public void DisplayDebugInformation()
         {

@@ -7,11 +7,11 @@ namespace SeeloewenCraft
     public class DebugMenu
     {
         World world;
-        public Canvas cvsDebugMenu = new Canvas() { Height = 630, Width = 1180 };
+        public Canvas cvsDebugMenu = new Canvas() { Height = 630, Width = 1250 };
         public TextBlock tblGameStats = new TextBlock() { FontSize = 20, FontWeight = FontWeights.Bold };
         public TextBlock tblBlockStats = new TextBlock() { FontSize = 20, FontWeight = FontWeights.Bold};
         public TextBlock tblPlayerStats = new TextBlock() { FontSize = 20, FontWeight = FontWeights.Bold };
-        public TextBox tbDebug = new TextBox() { TextWrapping = TextWrapping.Wrap, Width = 1032, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Top, Height = 28, FontSize = 15 };
+        public TextBox tbDebug = new TextBox() { TextWrapping = TextWrapping.Wrap, Width = 1090, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Top, Height = 28, FontSize = 15 };
         public Button btnDebug = new Button() { Content = "Send", Width = 115, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Top, Height = 28, FontSize = 15 };
         public bool isEnabled = false;
 
@@ -43,14 +43,14 @@ namespace SeeloewenCraft
             //Setup debug chat button
             cvsDebugMenu.Children.Add(btnDebug);
             btnDebug.Click += btnDebug_Click;
-            Canvas.SetLeft(btnDebug, 1053);
-            Canvas.SetTop(btnDebug, 600);
+            Canvas.SetLeft(btnDebug, 1113);
+            Canvas.SetTop(btnDebug, 535);
             Panel.SetZIndex(btnDebug, 1);
 
             //Setup debug chat textbox
             cvsDebugMenu.Children.Add(tbDebug);
             Canvas.SetLeft(tbDebug, 10);
-            Canvas.SetTop(tbDebug, 600);
+            Canvas.SetTop(tbDebug, 535);
             Panel.SetZIndex(tbDebug, 1);
 
             Hide();
@@ -133,47 +133,15 @@ namespace SeeloewenCraft
 
         private void btnDebug_Click(object sender, RoutedEventArgs e)
         {
-
-            if (tbDebug.Text[0] == '/')
+            //Check if the first character is a "/" and handle the command
+            if (tbDebug.Text.Length > 0 && tbDebug.Text[0] == '/')
             {
                 CommandHandler.HandleCommand(tbDebug.Text, world);
             }
-            
-
-            //Perform an action based on the entered command
-            /*if (tbDebug.Text == "/help")
-            {
-                //Show help messaged
-                MessageBox.Show("List of commands (For debug purposes only!):\n/help - Shows this page\n/generateplayer - Runs the generation method of player\n/toggleinv - Opens or closes the inventory\n/give chest - Gives the player a chest item\n/resetview - Reset the scrollviewer location\n/give magmablock - Gives the player a magma block", "/help");
-            }
-            else if (tbDebug.Text == "/generateplayer")
-            {
-                //Generate player at preset position, might not work correctly
-                world.player.GeneratePlayer(600, 50);
-            }
-            else if (tbDebug.Text.Contains("/give chest"))
-            {
-                world.player.inventory.AddItem(new ChestItem(world));
-            }
-            else if (tbDebug.Text.Contains("/give magmablock"))
-            {
-                world.player.inventory.AddItem(new MagmaBlockItem(world));
-            }
-            else if (tbDebug.Text == "/resetview")
-            {
-                world.wndGame.svWorld.ScrollToVerticalOffset(world.player.cvsPlayer.Margin.Top - 400);
-            }
-            else if (tbDebug.Text == "/night")
-            {
-                world.SetNight(5);
-            }
             else
             {
-                //Show error message if the command is unknown
-                MessageBox.Show("Unknown command. Type /help for a list of commands.", "Error");
-            }*/
-
-            //Clear the chat box after execution
+                MessageBox.Show("Invalid command! Type /help for a list of commands.", "Invalid command", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             tbDebug.Clear();
         }
     }

@@ -106,7 +106,7 @@ namespace SeeloewenCraft
             Settings.Save(writer);
 
             if (wndMenu.world != null) wndMenu.world.wndGame.ApplyVideoSettings();
-
+            
             if (!suppressConfirmation)
             {
                 MessageBox.Show("The settings have been saved successfully!", "Saved settings", MessageBoxButton.OK, MessageBoxImage.Information);

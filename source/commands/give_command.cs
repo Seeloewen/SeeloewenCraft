@@ -1,14 +1,15 @@
 ﻿
+using System.Windows;
+
 namespace SeeloewenCraft
 {
     partial class CommandHandler
     {
-
         private static void HandleGiveCommand(string[] args)
         {
             if (!(args.Length == 2 || args.Length == 3))
             {
-                Write("error: incorrect number of arguments");
+                MessageBox.Show("Invalid command syntax: incorrect number of arguments", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             string id = args[1];
@@ -21,7 +22,7 @@ namespace SeeloewenCraft
                 }
                 catch
                 {
-                    Write("error: cant parse amount to int");
+                    MessageBox.Show("Invalid command syntax: can't parse amount to int", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
             }
@@ -30,12 +31,12 @@ namespace SeeloewenCraft
                 Item item = ItemRegister.GenerateItem(id, world);
                 if(i == 0 && item == null)
                 {
-                    Write("error: item id not found");
+                    MessageBox.Show("Invalid command syntax: item id was not found", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 world.player.inventory.AddItem(item);
             }
-            Write($"succesfully gave player {amount} of {id}");
+            MessageBox.Show($"Succesfully gave {amount}x {id} to player.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
     }

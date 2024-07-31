@@ -1,4 +1,5 @@
-﻿
+﻿using System.Windows;
+
 namespace SeeloewenCraft
 {
     partial class CommandHandler
@@ -7,14 +8,14 @@ namespace SeeloewenCraft
         {
             if (args.Length != 4)
             {
-                Write("error: incorrect command length");
+                MessageBox.Show("Invalid command syntax: incorrect number of arguments", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             Entity entity = EntityRegister.GenerateEntity(args[1], world);
             if (entity == null)
             {
-                Write("error: entity id not found");
+                MessageBox.Show("Invalid command syntax: entity id was not found", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -22,14 +23,15 @@ namespace SeeloewenCraft
             {
                 entity.posX = int.Parse(args[2]);
                 entity.posY = int.Parse(args[3]);
-            } catch
+            } 
+            catch
             {
-                Write("error: couldnt parse coordinates");
+                MessageBox.Show("Invalid command syntax: couldn't parse coordinates to int", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             world.AddEntity(entity);
-            Write("successfully spawned entity");
+            MessageBox.Show($"Successfully spawned entity {entity.id} at x{entity.posX} y{entity.posY}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
