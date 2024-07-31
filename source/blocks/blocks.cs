@@ -33,6 +33,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Stone Block";
             id = "sc:stone_block";
+            breakTime = 1250;
             tags.Add("CanBeFloor");
         }
 
@@ -121,6 +122,7 @@ namespace SeeloewenCraft
         {
             SetTexture();
             name = "Coal Ore";
+            breakTime = 1500;
             id = "sc:coal_ore_block";
         }
 
@@ -141,6 +143,7 @@ namespace SeeloewenCraft
         {
             SetTexture();
             name = "Diamond Ore";
+            breakTime = 2000;
             id = "sc:coal_ore_block";
         }
 
@@ -161,6 +164,7 @@ namespace SeeloewenCraft
         {
             SetTexture();
             name = "Iron Ore";
+            breakTime = 1750;
             id = "sc:iron_ore_block";
         }
 
@@ -181,6 +185,7 @@ namespace SeeloewenCraft
         {
             SetTexture();
             name = "Oak Log";
+            breakTime = 350;
             id = "sc:oak_log_block";
         }
 
@@ -201,6 +206,7 @@ namespace SeeloewenCraft
         {
             SetTexture();
             name = "Oak Leaves";
+            breakTime = 125;
             id = "sc:oak_leaves_block";
         }
 
@@ -221,6 +227,7 @@ namespace SeeloewenCraft
         {
             SetTexture();
             name = "Spruce Log";
+            breakTime = 300;
             id = "sc:spruce_log_block";
         }
 
@@ -242,6 +249,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Spruce Leaves";
             id = "sc:spruce_leaves_block";
+            breakTime = 125;
         }
 
         override public void GenerateItem(World world)
@@ -266,6 +274,7 @@ namespace SeeloewenCraft
             name = "Chest";
             id = "sc:chest_block";
             hasRightClickAction = true;
+            breakTime = 500;
         }
 
         override public void GenerateItem(World world)
@@ -299,6 +308,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Magma Block";
             id = "sc:magma_block";
+            breakTime = 750;
         }
 
         override public void GenerateItem(World world)
@@ -310,6 +320,7 @@ namespace SeeloewenCraft
         {
             image = world.images.MagmaBlock;
         }
+
     }
 
     public class TorchBlock : Block
@@ -322,6 +333,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Torch";
             id = "sc:torch_block";
+            breakTime = 0;
         }
 
         override public void GenerateItem(World world)
@@ -346,6 +358,7 @@ namespace SeeloewenCraft
             connectedBlocks.Add(new Plant2Block_Top(world, isInBackground));
             connectedBlocks[0].yOffset = -1;
             connectedBlocks[0].baseBlock = this;
+            breakTime = 0;
         }
 
         override public void GenerateItem(World world)
@@ -367,6 +380,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Cactus Plant Top";
             id = "sc:cactus_plant_top_block";
+            breakTime = 0;
         }
 
         override public void GenerateItem(World world)
@@ -389,6 +403,7 @@ namespace SeeloewenCraft
             id = "sc:alpha_crafter_block";
             tags.Add("workstation");
             hasRightClickAction = true;
+            breakTime = 500;
 
             craftingHandler = new CraftingHandler(world, this);
             gui = new AlphaCrafterGui(world, 535, 720, 120, 200, "sc:alpha_crafter", null, this);
@@ -436,6 +451,7 @@ namespace SeeloewenCraft
             name = "Chiseler";
             id = "sc:chiseler_block";
             tags.Add("workstation");
+            breakTime = 500;
             hasRightClickAction = true;
 
             craftingHandler = new CraftingHandler(world, this);
@@ -483,6 +499,7 @@ namespace SeeloewenCraft
             id = "sc:unchiseler_block";
             hasRightClickAction = true;
             collision = new RectangleCollision(0, 1000, 565, 1000);
+            breakTime = 500;
 
             craftingHandler = new CraftingHandler(world, this);
             gui = new UnchiselerGui(world, 225, 225, 465, 475, "sc:unchiseler");
@@ -516,6 +533,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Cobblestone";
             id = "sc:cobblestone_block";
+            breakTime = 1250;
         }
 
         override public void GenerateItem(World world)

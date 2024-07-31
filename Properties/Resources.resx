@@ -283,4 +283,19 @@
   <data name="Unchiseler" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Textures\Blocks\Unchiseler.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Break_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Textures\Break_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Break_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Textures\Break_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Break_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Textures\Break_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Break_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Textures\Break_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Break_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Textures\Break_5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

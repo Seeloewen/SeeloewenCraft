@@ -49,7 +49,6 @@ namespace SeeloewenCraft
         public bool showBlockInfo = false;
         public int nightState = 0;
 
-
         //-- Constructor --//
 
         public World(wndMenu wndMenu, string worldName, bool isNew, int worldVersion, string gameVersion)

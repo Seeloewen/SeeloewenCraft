@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows;
 
 namespace SeeloewenCraft
 {
@@ -9,6 +10,7 @@ namespace SeeloewenCraft
         private World world;
         public Canvas cvsBlock = new Canvas();
         public Canvas cvsForegroundBlock = new Canvas();
+        public Canvas cvsBreak = new Canvas();
         public Border bdrBlock = new Border();
         public Rectangle rectDarkOverlay = new Rectangle();
         public Rectangle rectDarkOverlayLight = new Rectangle();
@@ -19,6 +21,7 @@ namespace SeeloewenCraft
         public int yPos;
         public bool previousBlockWasLightSource;
         public bool previousForegroundBlockWasLightSource;
+        public int breakState = 0;
 
 
         //-- Constructor --//
@@ -43,18 +46,26 @@ namespace SeeloewenCraft
             rectDarkOverlay.Visibility = System.Windows.Visibility.Hidden;
             cvsBlock.Children.Add(rectDarkOverlay);
 
+            //Setup foregroundblock canvas
             cvsForegroundBlock.Width = 50;
             cvsForegroundBlock.Height = 50;
             cvsForegroundBlock.Background = new SolidColorBrush(Colors.Transparent);
             cvsBlock.Children.Add(cvsForegroundBlock);
             previousForegroundBlockWasLightSource = false;
 
+            //Setup foregroundblock canvas
+            cvsBreak.Width = 50;
+            cvsBreak.Height = 50;
+            cvsBreak.Background = new SolidColorBrush(Colors.Transparent);
+            cvsBlock.Children.Add(cvsBreak);
+            cvsBreak.Visibility = Visibility.Hidden;
+
             //Setup the light Rectangle
             rectDarkOverlayLight.Width = 50;
             rectDarkOverlayLight.Height = 50;
             rectDarkOverlayLight.Fill = new SolidColorBrush(Colors.Black);
             rectDarkOverlayLight.Opacity = 0;
-            rectDarkOverlayLight.Visibility = System.Windows.Visibility.Visible;
+            rectDarkOverlayLight.Visibility = Visibility.Visible;
             cvsBlock.Children.Add(rectDarkOverlayLight);
 
             //Setup the light Rectangle
@@ -62,7 +73,7 @@ namespace SeeloewenCraft
             rectDarkOverlayNight.Height = 50;
             rectDarkOverlayNight.Fill = new SolidColorBrush(Colors.Black);
             rectDarkOverlayNight.Opacity = 0;
-            rectDarkOverlayNight.Visibility = System.Windows.Visibility.Visible;
+            rectDarkOverlayNight.Visibility = Visibility.Visible;
             cvsBlock.Children.Add(rectDarkOverlayNight);
         }
 
@@ -195,6 +206,43 @@ namespace SeeloewenCraft
                 }
             }
             return false;
+        }
+
+        public void SetBreakState(int state)
+        {
+            switch(state)
+            {
+                case 0:
+                    breakState = 0;
+                    cvsBreak.Background = new SolidColorBrush(Colors.Transparent);
+                    cvsBreak.Visibility = Visibility.Hidden;
+                    break;
+                case 1:
+                    breakState = 1;
+                    cvsBreak.Background = world.images.Break_1; ;
+                    cvsBreak.Visibility = Visibility.Visible;
+                    break;
+                case 2:
+                    breakState = 2;
+                    cvsBreak.Background = world.images.Break_2;
+                    break;
+                case 3:
+                    breakState = 3;
+                    cvsBreak.Background = world.images.Break_3; ;
+                    break;
+                case 4:
+                    breakState = 4;
+                    cvsBreak.Background = world.images.Break_4; ;
+                    break;
+                case 5:
+                    breakState = 5;
+                    cvsBreak.Background = world.images.Break_5; ;
+                    break;
+                default:
+                    breakState = 5;
+                    cvsBreak.Background = world.images.Break_5; ;
+                    break;
+            }
         }
 
         public double GetNightOpacity(int nightState)

@@ -338,8 +338,6 @@ namespace SeeloewenCraft
         private void tmrCrafting_Tick(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(new Action(() => { UpdateCraftingProgress(); }));
-
-
         }
     }
 }

@@ -153,6 +153,12 @@ namespace SeeloewenCraft
             CobbleStoneBlock_Center = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_Center.png") };
             Chiseler = new ImageBrush { ImageSource = GetImageSource("Chiseler.png") };
             Unchiseler = new ImageBrush { ImageSource = GetImageSource("Unchiseler.png") };
+            Break_1 = new ImageBrush { ImageSource = GetImageSource("Break_1.png") };
+            Break_2 = new ImageBrush { ImageSource = GetImageSource("Break_2.png") };
+            Break_3 = new ImageBrush { ImageSource = GetImageSource("Break_3.png") };
+            Break_4 = new ImageBrush { ImageSource = GetImageSource("Break_4.png") };
+            Break_5 = new ImageBrush { ImageSource = GetImageSource("Break_5.png") };
+
         }
 
         //-- Images --//
@@ -210,5 +216,10 @@ namespace SeeloewenCraft
         public ImageBrush CobbleStoneBlock_Center;
         public ImageBrush Chiseler;
         public ImageBrush Unchiseler;
+        public ImageBrush Break_1;
+        public ImageBrush Break_2;
+        public ImageBrush Break_3;
+        public ImageBrush Break_4;
+        public ImageBrush Break_5;
     }
 }

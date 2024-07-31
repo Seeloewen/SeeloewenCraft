@@ -13,6 +13,7 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Chiseled Cobblestone";
             id = "sc:cobblestone_bottomleft";
+            breakTime = 1250;
             collision = new RectangleCollision(0, 500, 500, 1000);
         }
 
@@ -35,6 +36,7 @@ namespace SeeloewenCraft
             name = "Chiseled Cobblestone";
             id = "sc:cobblestone_bottomright";
             collision = new RectangleCollision(500, 1000, 500, 1000);
+            breakTime = 1250;
         }
 
         override public void GenerateItem(World world)
@@ -56,6 +58,7 @@ namespace SeeloewenCraft
             name = "Chiseled Cobblestone";
             id = "sc:cobblestone_topleft";
             collision = new RectangleCollision(0, 500, 0, 500);
+            breakTime = 1250;
         }
 
         override public void GenerateItem(World world)
@@ -77,6 +80,7 @@ namespace SeeloewenCraft
             name = "Chiseled Cobblestone";
             id = "sc:cobblestone_topright";
             collision = new RectangleCollision(500, 1000, 0, 500);
+            breakTime = 1250;
         }
 
         override public void GenerateItem(World world)
@@ -98,6 +102,7 @@ namespace SeeloewenCraft
             name = "Chiseled Cobblestone";
             id = "sc:cobblestone_slabright";
             collision = new RectangleCollision(500, 1000, 0, 1000);
+            breakTime = 1250;
         }
 
         override public void GenerateItem(World world)
@@ -119,6 +124,7 @@ namespace SeeloewenCraft
             name = "Chiseled Cobblestone";
             id = "sc:cobblestone_slableft";
             collision = new RectangleCollision(0, 500, 0, 1000);
+            breakTime = 1250;
         }
 
         override public void GenerateItem(World world)
@@ -140,6 +146,7 @@ namespace SeeloewenCraft
             name = "Chiseled Cobblestone";
             id = "sc:cobblestone_slabtop";
             collision = new RectangleCollision(0, 1000, 0, 500);
+            breakTime = 1250;
         }
 
         override public void GenerateItem(World world)
@@ -161,6 +168,7 @@ namespace SeeloewenCraft
             name = "Chiseled Cobblestone";
             id = "sc:cobblestone_slabbottom";
             collision = new RectangleCollision(0,1000,500,1000);
+            breakTime = 1250;
         }
 
         override public void GenerateItem(World world)
@@ -182,6 +190,7 @@ namespace SeeloewenCraft
             name = "Chiseled Cobblestone";
             id = "sc:cobblestone_stairtopright";
             collision = new MultipleRectangleCollision([0, 500], [1000, 1000], [0, 500], [500, 1000]);
+            breakTime = 1250;
         }
 
         override public void GenerateItem(World world)
@@ -202,8 +211,8 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Chiseled Cobblestone";
             id = "sc:cobblestone_stairtopleft";
-
             collision = new MultipleRectangleCollision([0, 500], [500, 1000], [0, 0], [1000, 500]);
+            breakTime = 1250;
         }
 
         override public void GenerateItem(World world)
@@ -225,6 +234,7 @@ namespace SeeloewenCraft
             name = "Chiseled Cobblestone";
             id = "sc:cobblestone_stairbottomright";
             collision = new MultipleRectangleCollision([500, 0], [1000, 1000], [0, 500], [500, 1000]);
+            breakTime = 1250;
         }
 
         override public void GenerateItem(World world)
@@ -259,7 +269,7 @@ namespace SeeloewenCraft
         }
     }
 
-    public class CobbleStoneBlock_Center : Block
+    public class CobbleStoneBlock_Center: Block
     {
         public CobbleStoneBlock_Center(World world, bool isInBackground) : base(world, isInBackground)
         {
@@ -267,6 +277,7 @@ namespace SeeloewenCraft
             name = "Chiseled Cobblestone";
             id = "sc:cobblestone_center";
             collision = new RectangleCollision(333, 666, 333, 666);
+            breakTime = 1250;
 
         }
 

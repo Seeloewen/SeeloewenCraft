@@ -11,6 +11,7 @@ namespace SeeloewenCraft
     public abstract class Block
     {
         //references
+        private HighPrecisionTimer.MultimediaTimer tmrBreak = new HighPrecisionTimer.MultimediaTimer();
         public List<string> tags = new List<string>();
         public World world;
         public ImageBrush image = new ImageBrush();
@@ -37,6 +38,7 @@ namespace SeeloewenCraft
         public bool isLightSource = false;
         public bool isBase = false;
         public bool hasRightClickAction = false;
+        public int breakTime = 150;
         protected Collision collision;
 
         //variables
@@ -74,13 +76,15 @@ namespace SeeloewenCraft
             //Set the attributes
             this.world = world;
             this.isBackground = isBackground;
+
+            tmrBreak.Elapsed += tmrBreak_Tick;
         }
 
         //-- Custom Methods --//
 
         public virtual (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
-            if(isBackground && foregroundBlock != null)
+            if (isBackground && foregroundBlock != null)
             {
                 return foregroundBlock.CheckWaterTouch(startX, startY, endX, endY);
             }
@@ -257,6 +261,7 @@ namespace SeeloewenCraft
             this.blockContainer = blockContainer;
             this.blockContainer.cvsBlock.Background = image;
             this.blockContainer.cvsBlock.MouseLeftButtonDown += cvsBlock_MouseLeftButtonDown;
+            this.blockContainer.cvsBlock.MouseLeftButtonUp += cvsBlock_MouseLeftButtonUp;
             this.blockContainer.cvsBlock.MouseRightButtonDown += cvsBlock_MouseRightButtonDown;
             this.blockContainer.cvsBlock.MouseEnter += cvsBlock_MouseEnter;
             this.blockContainer.cvsBlock.MouseLeave += cvsBlock_MouseLeave;
@@ -283,6 +288,7 @@ namespace SeeloewenCraft
         {
             //Remove the events from the container
             blockContainer.cvsBlock.MouseLeftButtonDown -= cvsBlock_MouseLeftButtonDown;
+            blockContainer.cvsBlock.MouseLeftButtonUp -= cvsBlock_MouseLeftButtonUp;
             blockContainer.cvsBlock.MouseRightButtonDown -= cvsBlock_MouseRightButtonDown;
             blockContainer.cvsBlock.MouseEnter -= cvsBlock_MouseEnter;
             blockContainer.cvsBlock.MouseLeave -= cvsBlock_MouseLeave;
@@ -881,6 +887,8 @@ namespace SeeloewenCraft
 
         //-- Event Handlers --//
 
+
+
         private void cvsBlock_MouseEnter(object sender, EventArgs e)
         {
             //Display the debug information of the block
@@ -900,17 +908,67 @@ namespace SeeloewenCraft
             //Remove the border from the block
             blockContainer.bdrBlock.BorderThickness = new Thickness(0, 0, 0, 0);
             blockContainer.bdrBlock.BorderBrush = new SolidColorBrush(Colors.Transparent);
+
+            //Stop a possible block breaking progress
+            tmrBreak.Stop();
+            blockContainer.SetBreakState(0);
         }
 
         private void cvsBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            //If the block is in range, check if it has a foreground block or not and check if that block is breakable before starting the break animation
+            if (IsInRange())
+            {
+                if (foregroundBlock != null)
+                {
+                    if (foregroundBlock.isBreakable)
+                    {
+                        tmrBreak.Interval = foregroundBlock.breakTime; //Will later also include tool in hand
+                        tmrBreak.Start();
+                    }
+                }
+                else
+                {
+                    if (isBreakable)
+                    {
+                        tmrBreak.Interval = breakTime; //Will later also include tool in hand
+                        tmrBreak.Start();
+                    }
+                }
+            }
 
-            world.clickHandler.DoLeftClick(this, sender);
+        }
+
+        private void cvsBlock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {            
+            //Stop a possible block breaking progress
+            tmrBreak.Stop();
+            blockContainer.SetBreakState(0);
         }
 
         private void cvsBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             world.clickHandler.DoRightClick(this, sender);
+        }
+
+        private void tmrBreak_Tick(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                //If the block is broken, drop it
+                if (blockContainer.breakState == 5)
+                {
+                    world.clickHandler.DoLeftClick(this, sender);
+                    blockContainer.SetBreakState(0);
+                    tmrBreak.Stop();
+                    return;
+                }
+
+                //Increase the broken state
+                blockContainer.SetBreakState(blockContainer.breakState + 1);
+
+            }));
+
         }
     }
 }

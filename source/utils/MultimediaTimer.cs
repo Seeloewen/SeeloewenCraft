@@ -141,10 +141,6 @@ namespace HighPrecisionTimer
         public void Stop()
         {
             CheckDisposed();
-
-            if (!IsRunning)
-                throw new InvalidOperationException("Timer has not been started");
-
             StopInternal();
         }
 

@@ -40,6 +40,11 @@
     <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_TopLeft.png" />
     <Resource Include="Resources\Textures\Blocks\CobbleStoneBlock_TopRight.png" />
     <Resource Include="Resources\Textures\Blocks\Unchiseler.png" />
+    <Resource Include="Resources\Textures\Break_1.png" />
+    <Resource Include="Resources\Textures\Break_2.png" />
+    <Resource Include="Resources\Textures\Break_3.png" />
+    <Resource Include="Resources\Textures\Break_4.png" />
+    <Resource Include="Resources\Textures\Break_5.png" />
     <Resource Include="Resources\Textures\Gui\Background.png" />
     <Resource Include="Resources\Textures\Blocks\ChestBlock.png" />
     <Resource Include="Resources\Textures\Gui\Gui.png" />
@@ -90,10 +95,7 @@
     <Compile Remove="frmLog.cs" />
     <Compile Remove="frmLog.Designer.cs" />
     <EmbeddedResource Remove="frmLog.resx" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Resources\Textures\Blocks\Unchiseler.png" />
-  </ItemGroup>
+  </ItemGroup>    
   <ItemGroup>
     <Content Include="SeeloewenCraft.ico" />
   </ItemGroup>
