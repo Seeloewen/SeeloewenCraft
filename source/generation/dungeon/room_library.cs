@@ -29,5 +29,15 @@ namespace SeeloewenCraft
 
             return null;
         }
+
+        public static void CreateDungeonRooms(World world)
+        {
+            //Add all the rooms to the library
+            roomList.Add(new Room1(world));
+            roomList.Add(new Room2(world));
+            roomList.Add(new Room3(world));
+            roomList.Add(new Room4(world));
+            roomList.Add(new Room5(world));
+        }
     }
 }

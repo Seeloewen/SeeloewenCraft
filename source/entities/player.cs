@@ -45,9 +45,11 @@ namespace SeeloewenCraft
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "touchingWater");
 
             //Setup health bar
-            if (Settings.enableHealth)
+            healthBar = new HealthBar(world, 10, 740);
+            
+            if(world.gamemode == Gamemode.Creative)
             {
-                healthBar = new HealthBar(world, 10, 740);
+                healthBar.Hide();
             }
         }
 

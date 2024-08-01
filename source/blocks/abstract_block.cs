@@ -576,8 +576,7 @@ namespace SeeloewenCraft
                         foregroundBlock.GenerateItem(world);
                         if (foregroundBlock.item != null)
                         {
-                            //world.player.inventory.AddItem(foregroundBlock.item);
-                            world.AddEntity(new ItemEntity(item, (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
+                            world.AddEntity(new ItemEntity(foregroundBlock.item, (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
                         }
                         blockContainer.RemoveForegroundBlock();
                     }
@@ -589,9 +588,7 @@ namespace SeeloewenCraft
                     //Remove the block from the chunks blocklist and add an airblock
                     Block block = new AirBlock(world, false);
                     PlaceNewBlock(block);
-                    /*xPos = 0; // what is this
-                    yPos = 0;
-                    */
+
                     //Add the block's item to the inventory
                     GenerateItem(world);
 
@@ -601,14 +598,12 @@ namespace SeeloewenCraft
                         List<Item> items = lootTable.RollEntry().RollItems();
                         foreach (Item item in items)
                         {
-                            //world.player.inventory.AddItem(item);
                             world.AddEntity(new ItemEntity(item, (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
                         }
                     }
                     //If has only an item, only give that item
                     else if (item != null)
                     {
-                        //world.player.inventory.AddItem(item);
                         world.AddEntity(new ItemEntity(item, (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
                     }
                 }
@@ -923,16 +918,30 @@ namespace SeeloewenCraft
                 {
                     if (foregroundBlock.isBreakable)
                     {
-                        tmrBreak.Interval = foregroundBlock.breakTime; //Will later also include tool in hand
-                        tmrBreak.Start();
+                        if(world.gamemode == Gamemode.Creative || foregroundBlock.breakTime == 0)
+                        {
+                            world.clickHandler.DoLeftClick(this, sender);
+                        }
+                        else
+                        {
+                            tmrBreak.Interval = foregroundBlock.breakTime; //Will later also include tool in hand
+                            tmrBreak.Start();
+                        }
                     }
                 }
                 else
                 {
                     if (isBreakable)
                     {
-                        tmrBreak.Interval = breakTime; //Will later also include tool in hand
-                        tmrBreak.Start();
+                        if (world.gamemode == Gamemode.Creative || breakTime == 0)
+                        {
+                            world.clickHandler.DoLeftClick(this, sender);
+                        }
+                        else
+                        {
+                            tmrBreak.Interval = breakTime; //Will later also include tool in hand
+                            tmrBreak.Start();
+                        }
                     }
                 }
             }

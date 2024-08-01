@@ -19,5 +19,13 @@ namespace SeeloewenCraft
             imgElementHalf = world.images.HealthHalf;
             imgElementFull = world.images.HealthFull;
         }
+
+        public override void SetValue(double value)
+        {
+            if (world.gamemode == Gamemode.Survival)
+            {
+                base.SetValue(value);
+            }
+        }
     }
 }

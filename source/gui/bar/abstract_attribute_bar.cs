@@ -57,13 +57,13 @@ namespace SeeloewenCraft
 
         public abstract void SetupTextures();
 
-        private void Show()
+        public void Show()
         {
             //Show the bar
             cvsBar.Visibility = Visibility.Visible;
         }
 
-        private void Hide()
+        public void Hide()
         {
             //Hide the bar
             cvsBar.Visibility = Visibility.Hidden;
@@ -83,7 +83,7 @@ namespace SeeloewenCraft
             SetValue(newValue);
         }
 
-        public void SetValue(double value)
+        public virtual void SetValue(double value)
         {
             if (value % 0.5 == 0 && value >= 0 && value <= 10)
             {

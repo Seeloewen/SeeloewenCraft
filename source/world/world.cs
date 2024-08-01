@@ -8,6 +8,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Input;
 using System.Linq;
+using System.Windows.Documents;
+using Windows.Media.Capture;
 
 namespace SeeloewenCraft
 {
@@ -48,6 +50,7 @@ namespace SeeloewenCraft
         public bool returnToMenu = false;
         public bool showBlockInfo = false;
         public int nightState = 0;
+        public Gamemode gamemode = Gamemode.Survival;
 
         //-- Constructor --//
 
@@ -68,25 +71,19 @@ namespace SeeloewenCraft
             debugMenu = new DebugMenu(this);
             gameLoop = new GameLoop(this, 25);
             recipeCreator = new RecipeCreator(this);
-            notificationHandler = new NotificationHandler(this);
-            recipeCreator.CreateRecipes();
-
+            notificationHandler = new NotificationHandler(this);        
             worldRenderer = new WorldRenderer(wndGame);
 
-            CreateDungeonRooms();
+            if (StartOptions.startCreative)
+            {
+                SetGamemode(Gamemode.Creative);
+            }
+
+            recipeCreator.CreateRecipes();
+            RoomLibrary.CreateDungeonRooms(this);
             InitGame(worldName, isNew, worldVersion);
 
             wndGame.Show();
-        }
-
-        private void CreateDungeonRooms()
-        {
-            RoomLibrary.roomList.Add(new Room1(this));
-            RoomLibrary.roomList.Add(new Room2(this));
-            RoomLibrary.roomList.Add(new Room3(this));
-            RoomLibrary.roomList.Add(new Room4(this));
-            RoomLibrary.roomList.Add(new Room5(this));
-
         }
 
         //-- Custom Methods --//
@@ -179,6 +176,20 @@ namespace SeeloewenCraft
 
             //Start the game loop timer
             gameLoop.Start();
+        }
+
+        public void SetGamemode(Gamemode gamemode)
+        {
+            if(gamemode == Gamemode.Creative)
+            {
+                this.gamemode = gamemode;
+                player.healthBar.Hide();
+            }
+            else if(gamemode == Gamemode.Survival)
+            {
+                this.gamemode = gamemode;
+                player.healthBar.Show();
+            }
         }
 
         public void SaveEntities()
@@ -636,5 +647,11 @@ namespace SeeloewenCraft
 
 
         }
+    }
+
+    public enum Gamemode
+    {
+        Survival,
+        Creative
     }
 }

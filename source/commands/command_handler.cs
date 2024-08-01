@@ -30,15 +30,19 @@ namespace SeeloewenCraft
                 case "spawn":
                     HandleSpawnCommand(args);
                     break;
+                case "gamemode":
+                    HandleGamemodeCommand(args);
+                    break;
                 case "ping":
                     Write("pong");
                     break;
                 case "help":
                     MessageBox.Show("List of commands:" +
                         "\n/help - Shows this menu" +
-                        "\n/give [itemId] [amount] - Gives you a specific item" +
+                        "\n/give [itemId] <amount> - Gives you a specific item (+ optional amount)" +
                         "\n/setblock [blockId] [posX] [posY] [chunkId] - Places a block at a specific location" +
                         "\n/spawn [entityId] [absPosX] [absPosY] - Spawns an entity at a given location" +
+                        "\n/gamemode [type] - Switches your gamemode" +
                         "\n/ping - Return pong, used as a test command");
                     break;
                 default:
