@@ -381,7 +381,6 @@ namespace SeeloewenCraft
             isPlacable = true;
             name = "Torch";
             id = "sc:torch_item";
-            canBeForeground = true;
             SetTexture();
         }
 
@@ -406,7 +405,6 @@ namespace SeeloewenCraft
             isPlacable = true;
             name = "Water";
             id = "sc:water_item";
-            canBeForeground = false;
             SetTexture();
         }
 
@@ -429,7 +427,6 @@ namespace SeeloewenCraft
     {
         public Plant2Item(World world) : base(world)
         {
-            canBeForeground = true;
             isPlacable = true;
             name = "Plant2";
             id = "sc:plant_2_item";

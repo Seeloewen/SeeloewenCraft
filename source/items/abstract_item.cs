@@ -18,7 +18,6 @@ namespace SeeloewenCraft
         public int xPos;
         public int yPos;
         public bool isPlacable = false;
-        public bool canBeForeground = false;
         public bool hasRightClickAction = false;
 
 

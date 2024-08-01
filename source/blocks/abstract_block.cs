@@ -93,17 +93,58 @@ namespace SeeloewenCraft
 
         public virtual (bool, int) CheckCollision(Direction direction, int startX, int endX, int startY, int endY)
         {
+            bool b1;
+            int i1;
+
             if (!isSolid || isBackground)
             {
-                return (false, 0);
+                b1 = false;
+                i1 = 0;
+            }
+            else
+            {
+                startX -= (xPos + chunk.index * 8) * 1000;
+                endX -= (xPos + chunk.index * 8) * 1000;
+                startY -= yPos * 1000;
+                endY -= yPos * 1000;
+
+                (b1, i1) = collision.CheckCollision(direction, startX, endX, startY, endY);
+            }
+            bool b2 = false;
+            int i2 = 0;
+            if (foregroundBlock != null)
+            {
+                startX -= (xPos + chunk.index * 8) * 1000;
+                endX -= (xPos + chunk.index * 8) * 1000;
+                startY -= yPos * 1000;
+                endY -= yPos * 1000;
+
+                (b2, i2) = foregroundBlock.collision.CheckCollision(direction, startX, endX, startY, endY);
             }
 
-            startX -= (xPos + chunk.index * 8) * 1000;
-            endX -= (xPos + chunk.index * 8) * 1000;
-            startY -= yPos * 1000;
-            endY -= yPos * 1000;
+            if (b1)
+            {
+                if (b2)
+                {
+                    return (true, Math.Min(i1, i2));
+                }
+                else
+                {
+                    return (true, i1);
+                }
+            }
+            else
+            {
+                if (b2)
+                {
+                    return (true, i2);
+                }
+                else
+                {
+                    return (false, 0);
+                }
+            }
 
-            return collision.CheckCollision(direction, startX, endX, startY, endY);
 
         }
 
