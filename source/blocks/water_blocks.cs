@@ -56,7 +56,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.Water_1_Right;
+            image = Images.Water_1_Right;
         }
     }
 
@@ -83,7 +83,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.Water_1_Left;
+            image = Images.Water_1_Left;
         }
     }
 
@@ -110,7 +110,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.Water_2_Right;
+            image = Images.Water_2_Right;
         }
     }
 
@@ -137,7 +137,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.Water_2_Left;
+            image = Images.Water_2_Left;
         }
     }
 
@@ -164,7 +164,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.Water_3_Right;
+            image = Images.Water_3_Right;
         }
     }
 
@@ -191,7 +191,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.Water_3_Left;
+            image = Images.Water_3_Left;
         }
     }
 
@@ -218,7 +218,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.Water_4_Right;
+            image = Images.Water_4_Right;
         }
     }
 
@@ -245,7 +245,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.Water_4_Left;
+            image = Images.Water_4_Left;
         }
     }
 
@@ -272,7 +272,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.Water_5_Right;
+            image = Images.Water_5_Right;
         }
     }
 
@@ -299,7 +299,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.Water_5_Left;
+            image = Images.Water_5_Left;
         }
     }
 
@@ -319,7 +319,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.Water_6;
+            image = Images.Water_6;
         }
     }
 }

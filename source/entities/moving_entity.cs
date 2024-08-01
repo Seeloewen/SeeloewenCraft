@@ -12,8 +12,8 @@ namespace SeeloewenCraft
         public bool pressedRight;
         public bool pressedLeft;
 
-        public MovingEntity(int accWalking, int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Color color)
-            : base(sizeX, sizeY, posX, posY, velX, velY, world, color)
+        public MovingEntity(int accWalking, int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Brush image)
+            : base(sizeX, sizeY, posX, posY, velX, velY, world, image)
         {
             this.accWalking = accWalking;
         }

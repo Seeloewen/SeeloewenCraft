@@ -336,20 +336,18 @@ namespace SeeloewenCraft
             return (false, 0);
         }
 
-
-
-        public Entity(JsonToken token, int sizeX, int sizeY, World world, Color color)
+        public Entity(JsonToken token, int sizeX, int sizeY, World world, Brush image)
             : this(sizeX, sizeY,
                 token.GetInt("/posX"),
                 token.GetInt("/posY"),
                 token.GetInt("/velX"),
                 token.GetInt("/velY"),
-                world, color)
+                world, image)
         {
             lifeTime = token.GetInt("/life_time");
         }
 
-        public Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Color color)
+        public Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Brush image)
         {
             lifeTime = 0;
             this.id = nextID;
@@ -366,7 +364,7 @@ namespace SeeloewenCraft
             texture.Margin = new Thickness(0, 0, 0, 0);
             texture.Width = sizeX / 20;
             texture.Height = sizeY / 20;
-            texture.Background = new SolidColorBrush(color);
+            texture.Background = image;
 
         }
 

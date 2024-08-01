@@ -12,7 +12,7 @@ namespace SeeloewenCraft
 
 
         public Zombie(int posX, int posY, int velX, int velY, World world)
-            : base(20000, 900, 1800, posX, posY, velX, velY, world, Colors.LimeGreen)
+            : base(20000, 900, 1800, posX, posY, velX, velY, world, new SolidColorBrush(Colors.LimeGreen))
         {
             rnd = new Random(DateTime.Now.Millisecond);
         }

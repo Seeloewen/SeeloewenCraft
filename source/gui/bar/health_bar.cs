@@ -15,9 +15,9 @@ namespace SeeloewenCraft
 
         public override void SetupTextures()
         {
-            imgElementEmpty = world.images.HealthEmpty;
-            imgElementHalf = world.images.HealthHalf;
-            imgElementFull = world.images.HealthFull;
+            imgElementEmpty = Images.HealthEmpty;
+            imgElementHalf = Images.HealthHalf;
+            imgElementFull = Images.HealthFull;
         }
 
         public override void SetValue(double value)

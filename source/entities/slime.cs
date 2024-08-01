@@ -15,7 +15,7 @@ namespace SeeloewenCraft
         private Random rnd;
         
 
-        public Slime(int posX, int posY, int velX, int velY, World world) : base(0, animalSizeX, animalSizeY, posX, posY, velX, velY, world, Colors.Green)
+        public Slime(int posX, int posY, int velX, int velY, World world) : base(0, animalSizeX, animalSizeY, posX, posY, velX, velY, world, GetSlimeTexture())
         {
             rnd = new Random(DateTime.Now.Millisecond);
             frictionAir = 1;
@@ -37,5 +37,25 @@ namespace SeeloewenCraft
             base.DoPhysicsStep(tps);
         }
 
+        public static ImageBrush GetSlimeTexture()
+        {
+            Random random = new Random(DateTime.Now.Millisecond);
+
+            switch (random.Next(0, 5))
+            {
+                case 0:
+                    return Images.Slime_Blue;
+                case 1:
+                    return Images.Slime_Red;
+                case 2:
+                    return Images.Slime_Green;
+                case 3:
+                    return Images.Slime_Magenta;
+                case 4:
+                    return Images.Slime_Yellow;
+                default:
+                    return Images.Slime_Blue;    
+            }
+        }
     }
 }

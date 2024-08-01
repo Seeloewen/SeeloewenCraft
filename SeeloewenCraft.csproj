@@ -45,6 +45,11 @@
     <Resource Include="Resources\Textures\Break_3.png" />
     <Resource Include="Resources\Textures\Break_4.png" />
     <Resource Include="Resources\Textures\Break_5.png" />
+    <Resource Include="Resources\Textures\Entities\Slime_Blue.png" />
+    <Resource Include="Resources\Textures\Entities\Slime_Green.png" />
+    <Resource Include="Resources\Textures\Entities\Slime_Magenta.png" />
+    <Resource Include="Resources\Textures\Entities\Slime_Red.png" />
+    <Resource Include="Resources\Textures\Entities\Slime_Yellow.png" />
     <Resource Include="Resources\Textures\Gui\Background.png" />
     <Resource Include="Resources\Textures\Blocks\ChestBlock.png" />
     <Resource Include="Resources\Textures\Gui\Gui.png" />
@@ -95,6 +100,13 @@
     <Compile Remove="frmLog.cs" />
     <Compile Remove="frmLog.Designer.cs" />
     <EmbeddedResource Remove="frmLog.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\Textures\Entities\Slime_Blue.png" />
+    <None Remove="Resources\Textures\Entities\Slime_Green.png" />
+    <None Remove="Resources\Textures\Entities\Slime_Magenta.png" />
+    <None Remove="Resources\Textures\Entities\Slime_Red.png" />
+    <None Remove="Resources\Textures\Entities\Slime_Yellow.png" />
   </ItemGroup>    
   <ItemGroup>
     <Content Include="SeeloewenCraft.ico" />

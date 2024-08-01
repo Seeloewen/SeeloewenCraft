@@ -24,7 +24,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.CobbleStoneBlock_BottomLeft;
+            image = Images.CobbleStoneBlock_BottomLeft;
         }
     }
 
@@ -46,7 +46,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.CobbleStoneBlock_BottomRight;
+            image = Images.CobbleStoneBlock_BottomRight;
         }
     }
 
@@ -68,7 +68,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.CobbleStoneBlock_TopLeft;
+            image = Images.CobbleStoneBlock_TopLeft;
         }
     }
 
@@ -90,7 +90,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.CobbleStoneBlock_TopRight;
+            image = Images.CobbleStoneBlock_TopRight;
         }
     }
 
@@ -112,7 +112,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.CobbleStoneBlock_SlabRight;
+            image = Images.CobbleStoneBlock_SlabRight;
         }
     }
 
@@ -134,7 +134,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.CobbleStoneBlock_SlabLeft;
+            image = Images.CobbleStoneBlock_SlabLeft;
         }
     }
 
@@ -156,7 +156,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.CobbleStoneBlock_SlabTop;
+            image = Images.CobbleStoneBlock_SlabTop;
         }
     }
 
@@ -178,7 +178,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.CobbleStoneBlock_SlabBottom;
+            image = Images.CobbleStoneBlock_SlabBottom;
         }
     }
 
@@ -200,7 +200,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.CobbleStoneBlock_StairTopRight;
+            image = Images.CobbleStoneBlock_StairTopRight;
         }
     }
 
@@ -222,7 +222,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.CobbleStoneBlock_StairTopLeft;
+            image = Images.CobbleStoneBlock_StairTopLeft;
         }
     }
 
@@ -244,7 +244,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.CobbleStoneBlock_StairBottomRight;
+            image = Images.CobbleStoneBlock_StairBottomRight;
         }
     }
 
@@ -265,7 +265,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.CobbleStoneBlock_StairBottomLeft;
+            image = Images.CobbleStoneBlock_StairBottomLeft;
         }
     }
 
@@ -288,7 +288,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.CobbleStoneBlock_Center;
+            image = Images.CobbleStoneBlock_Center;
         }
     }
 }

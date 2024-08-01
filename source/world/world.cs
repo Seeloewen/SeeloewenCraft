@@ -25,7 +25,6 @@ namespace SeeloewenCraft
         public List<BlockContainerList> blockContainerList = new List<BlockContainerList>();
         public List<Gui> guiList = new List<Gui>();
         public List<CraftingRecipe> craftingRecipeList = new List<CraftingRecipe>();
-        public Images images;
         public LootTables lootTables;
         public Player player;
         public WaterHandler waterHandler;
@@ -64,7 +63,6 @@ namespace SeeloewenCraft
 
             //Create objects
             wndGame = new wndGame(this);
-            images = new Images(this);
             lootTables = new LootTables(this);
             waterHandler = new WaterHandler(this);
             clickHandler = new ClickHandler(this);
@@ -79,8 +77,7 @@ namespace SeeloewenCraft
                 SetGamemode(Gamemode.Creative);
             }
 
-            recipeCreator.CreateRecipes();
-            RoomLibrary.CreateDungeonRooms(this);
+            //Actually initialize the game
             InitGame(worldName, isNew, worldVersion);
 
             wndGame.Show();
@@ -127,6 +124,12 @@ namespace SeeloewenCraft
         public void InitGame(string worldName, bool isNew, int worldVersion)
         {
             Log.Write($"Beginning to init game for world {worldName}", "Info");
+
+            recipeCreator.CreateRecipes();
+
+            RoomLibrary.CreateDungeonRooms(this);
+
+            Images.Init(this);
 
             InitWorldDirectory();
 
@@ -310,7 +313,10 @@ namespace SeeloewenCraft
 
         public void RefreshTextures()
         {
-            images = new Images(this);
+            //Refresh the images to use the new textures
+            Images.Init(this);
+
+            //Update all textures in inventories
             foreach (Inventory inventory in inventoryList)
             {
                 foreach (InventorySlot slot in inventory.slotList)
@@ -321,6 +327,8 @@ namespace SeeloewenCraft
                     }
                 }
             }
+
+            //Update all loaded block textures
             foreach (Chunk chunk in loadedChunkList)
             {
                 foreach (Block block in chunk.blockList.blocks)
@@ -332,8 +340,6 @@ namespace SeeloewenCraft
 
             Log.Write("Refreshing Textures for items and blocks!", "Info");
         }
-
-
 
         public void GenerateBlockContainer()
         {

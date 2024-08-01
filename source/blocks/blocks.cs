@@ -21,7 +21,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.GrassBlock;
+            image = Images.GrassBlock;
         }
     }
 
@@ -44,7 +44,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.StoneBlock;
+            image = Images.StoneBlock;
         }
     }
 
@@ -65,7 +65,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.DirtBlock;
+            image = Images.DirtBlock;
         }
     }
 
@@ -90,7 +90,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.AirBlock;
+            image = Images.AirBlock;
         }
     }
 
@@ -112,7 +112,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.BedrockBlock;
+            image = Images.BedrockBlock;
         }
     }
 
@@ -133,7 +133,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.CoalOreBlock;
+            image = Images.CoalOreBlock;
         }
     }
 
@@ -154,7 +154,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.DiamondOreBlock;
+            image = Images.DiamondOreBlock;
         }
     }
 
@@ -175,7 +175,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.IronOreBlock;
+            image = Images.IronOreBlock;
         }
     }
 
@@ -196,7 +196,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.OakLogBlock;
+            image = Images.OakLogBlock;
         }
     }
 
@@ -217,7 +217,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.OakLeavesBlock;
+            image = Images.OakLeavesBlock;
         }
     }
 
@@ -238,7 +238,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.SpruceLogBlock;
+            image = Images.SpruceLogBlock;
         }
     }
 
@@ -259,7 +259,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.SpruceLeavesBlock;
+            image = Images.SpruceLeavesBlock;
         }
     }
 
@@ -284,7 +284,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.ChestBlock;
+            image = Images.ChestBlock;
         }
         public override void RightClickAction(object sender)
         {
@@ -318,7 +318,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.MagmaBlock;
+            image = Images.MagmaBlock;
         }
 
     }
@@ -343,7 +343,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.Torch;
+            image = Images.Torch;
         }
     }
     public class Plant2Block_Base : Block
@@ -368,7 +368,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.Plant2_Base;
+            image = Images.Plant2_Base;
         }
     }
 
@@ -390,7 +390,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.Plant2_Top;
+            image = Images.Plant2_Top;
         }
     }
 
@@ -416,7 +416,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.AlphaCrafter;
+            image = Images.AlphaCrafter;
         }
 
         public override void RightClickAction(object sender)
@@ -465,7 +465,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.Chiseler;
+            image = Images.Chiseler;
         }
 
         public override void RightClickAction(object sender)
@@ -512,7 +512,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.Unchiseler;
+            image = Images.Unchiseler;
         }
 
         public override void RightClickAction(object sender)
@@ -543,7 +543,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = world.images.CobbleStoneBlock;
+            image = Images.CobbleStoneBlock;
         }
     }
 }

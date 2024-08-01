@@ -3,31 +3,29 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace SeeloewenCraft
 {
-    public class Images //This class contains all the references to the image resources
+    public static class Images //This class contains all the references to the image resources
 
     {
         //-- Custom Methods --//
 
         public static string textureDirectory;
-        World world;
 
-        public Images(World world)
+        public static void Init(World world)
         {
-            this.world = world;
-
             //Check which texurepack is selected and set the directory based on that
             if (world.wndMenu.selectedTexturepack == "default")
             {
                 textureDirectory = "pack://application:,,,/SeeloewenCraft;component/Resources";
-                Log.Write($"Set texture directory to pack://application:,,,/SeeloewenCraft;component/Resources (internal resources)", "Info");
+                Log.Write($"Set texture directory to 'pack://application:,,,/SeeloewenCraft;component/Resources' (internal resources)", "Info");
             }
             else
             {
                 textureDirectory = world.wndMenu.selectedTexturepack;
-                Log.Write($"Set texture directory to {world.wndMenu.selectedTexturepack}", "Info");
+                Log.Write($"Set texture directory to '{world.wndMenu.selectedTexturepack}'", "Info");
             }
 
             //Actually load the resources
@@ -72,6 +70,7 @@ namespace SeeloewenCraft
             else if (File.Exists($"{textureDirectory}/Blocks/{resourceName}")) return new Uri($"{textureDirectory}/Blocks/{resourceName}", UriKind.Absolute);
             else if (File.Exists($"{textureDirectory}/Item/{resourceName}")) return new Uri($"{textureDirectory}/Items/{resourceName}", UriKind.Absolute);
             else if (File.Exists($"{textureDirectory}/Gui/{resourceName}")) return new Uri($"{textureDirectory}/Gui/{resourceName}", UriKind.Absolute);
+            else if (File.Exists($"{textureDirectory}/Entities/{resourceName}")) return new Uri($"{textureDirectory}/Entities/{resourceName}", UriKind.Absolute);
 
             return null;
         }
@@ -93,12 +92,15 @@ namespace SeeloewenCraft
             imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/Gui/{resourceName}", UriKind.Absolute);
             if (ResourceExists(imageUri)) return imageUri;
 
+            imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/Entities/{resourceName}", UriKind.Absolute);
+            if (ResourceExists(imageUri)) return imageUri;
+
             //If default one doesn't exist, use missing texture image
             return new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/MissingTexture.png", UriKind.Absolute);
 
         }
 
-        private void CreateResources()
+        private static void CreateResources()
         {
             Background = new ImageBrush { ImageSource = GetImageSource("Background.png") };
             GrassBlock = new ImageBrush { ImageSource = GetImageSource("GrassBlock.png") };
@@ -158,68 +160,78 @@ namespace SeeloewenCraft
             Break_3 = new ImageBrush { ImageSource = GetImageSource("Break_3.png") };
             Break_4 = new ImageBrush { ImageSource = GetImageSource("Break_4.png") };
             Break_5 = new ImageBrush { ImageSource = GetImageSource("Break_5.png") };
+            Slime_Green = new ImageBrush { ImageSource = GetImageSource("Slime_Green.png") };
+            Slime_Blue = new ImageBrush { ImageSource = GetImageSource("Slime_Blue.png") };
+            Slime_Red = new ImageBrush { ImageSource = GetImageSource("Slime_Red.png") };
+            Slime_Magenta = new ImageBrush { ImageSource = GetImageSource("Slime_Magenta.png") };
+            Slime_Yellow = new ImageBrush { ImageSource = GetImageSource("Slime_Yellow.png") };
 
         }
 
         //-- Images --//
 
-        public ImageBrush Background;
-        public ImageBrush GrassBlock;
-        public ImageBrush StoneBlock;
-        public ImageBrush DirtBlock;
-        public ImageBrush AirBlock;
-        public ImageBrush BedrockBlock;
-        public ImageBrush CoalOreBlock;
-        public ImageBrush DiamondOreBlock;
-        public ImageBrush IronOreBlock;
-        public ImageBrush OakLogBlock;
-        public ImageBrush OakLeavesBlock;
-        public ImageBrush ChestBlock;
-        public ImageBrush MagmaBlock;
-        public ImageBrush MissingTexture;
-        public ImageBrush Hammer;
-        public ImageBrush SpruceLogBlock;
-        public ImageBrush SpruceLeavesBlock;
-        public ImageBrush Torch;
-        public ImageBrush Plant2_Top;
-        public ImageBrush Plant2_Base;
-        public ImageBrush Plant2;
-        public ImageBrush Water_1_Right;
-        public ImageBrush Water_1_Left;
-        public ImageBrush Water_2_Right;
-        public ImageBrush Water_2_Left;
-        public ImageBrush Water_3_Right;
-        public ImageBrush Water_3_Left;
-        public ImageBrush Water_4_Right;
-        public ImageBrush Water_4_Left;
-        public ImageBrush Water_5_Right;
-        public ImageBrush Water_5_Left;
-        public ImageBrush Water_6;
-        public ImageBrush Gui;
-        public ImageBrush HealthFull;
-        public ImageBrush HealthHalf;
-        public ImageBrush HealthEmpty;
-        public ImageBrush AlphaCrafter;
-        public ImageBrush CobbleStoneBlock;
-        public ImageBrush CobbleStoneBlock_BottomRight;
-        public ImageBrush CobbleStoneBlock_BottomLeft;
-        public ImageBrush CobbleStoneBlock_TopRight;
-        public ImageBrush CobbleStoneBlock_TopLeft;
-        public ImageBrush CobbleStoneBlock_SlabBottom;
-        public ImageBrush CobbleStoneBlock_SlabTop;
-        public ImageBrush CobbleStoneBlock_SlabLeft;
-        public ImageBrush CobbleStoneBlock_SlabRight;
-        public ImageBrush CobbleStoneBlock_StairBottomRight;
-        public ImageBrush CobbleStoneBlock_StairBottomLeft;
-        public ImageBrush CobbleStoneBlock_StairTopRight;
-        public ImageBrush CobbleStoneBlock_StairTopLeft;
-        public ImageBrush CobbleStoneBlock_Center;
-        public ImageBrush Chiseler;
-        public ImageBrush Unchiseler;
-        public ImageBrush Break_1;
-        public ImageBrush Break_2;
-        public ImageBrush Break_3;
-        public ImageBrush Break_4;
-        public ImageBrush Break_5;
+        public static ImageBrush Background;
+        public static ImageBrush GrassBlock;
+        public static ImageBrush StoneBlock;
+        public static ImageBrush DirtBlock;
+        public static ImageBrush AirBlock;
+        public static ImageBrush BedrockBlock;
+        public static ImageBrush CoalOreBlock;
+        public static ImageBrush DiamondOreBlock;
+        public static ImageBrush IronOreBlock;
+        public static ImageBrush OakLogBlock;
+        public static ImageBrush OakLeavesBlock;
+        public static ImageBrush ChestBlock;
+        public static ImageBrush MagmaBlock;
+        public static ImageBrush MissingTexture;
+        public static ImageBrush Hammer;
+        public static ImageBrush SpruceLogBlock;
+        public static ImageBrush SpruceLeavesBlock;
+        public static ImageBrush Torch;
+        public static ImageBrush Plant2_Top;
+        public static ImageBrush Plant2_Base;
+        public static ImageBrush Plant2;
+        public static ImageBrush Water_1_Right;
+        public static ImageBrush Water_1_Left;
+        public static ImageBrush Water_2_Right;
+        public static ImageBrush Water_2_Left;
+        public static ImageBrush Water_3_Right;
+        public static ImageBrush Water_3_Left;
+        public static ImageBrush Water_4_Right;
+        public static ImageBrush Water_4_Left;
+        public static ImageBrush Water_5_Right;
+        public static ImageBrush Water_5_Left;
+        public static ImageBrush Water_6;
+        public static ImageBrush Gui;
+        public static ImageBrush HealthFull;
+        public static ImageBrush HealthHalf;
+        public static ImageBrush HealthEmpty;
+        public static ImageBrush AlphaCrafter;
+        public static ImageBrush CobbleStoneBlock;
+        public static ImageBrush CobbleStoneBlock_BottomRight;
+        public static ImageBrush CobbleStoneBlock_BottomLeft;
+        public static ImageBrush CobbleStoneBlock_TopRight;
+        public static ImageBrush CobbleStoneBlock_TopLeft;
+        public static ImageBrush CobbleStoneBlock_SlabBottom;
+        public static ImageBrush CobbleStoneBlock_SlabTop;
+        public static ImageBrush CobbleStoneBlock_SlabLeft;
+        public static ImageBrush CobbleStoneBlock_SlabRight;
+        public static ImageBrush CobbleStoneBlock_StairBottomRight;
+        public static ImageBrush CobbleStoneBlock_StairBottomLeft;
+        public static ImageBrush CobbleStoneBlock_StairTopRight;
+        public static ImageBrush CobbleStoneBlock_StairTopLeft;
+        public static ImageBrush CobbleStoneBlock_Center;
+        public static ImageBrush Chiseler;
+        public static ImageBrush Unchiseler;
+        public static ImageBrush Break_1; 
+        public static ImageBrush Break_2;
+        public static ImageBrush Break_3;
+        public static ImageBrush Break_4;
+        public static ImageBrush Break_5;
+        public static ImageBrush Slime_Green;
+        public static ImageBrush Slime_Blue;
+        public static ImageBrush Slime_Magenta;
+        public static ImageBrush Slime_Yellow;
+        public static ImageBrush Slime_Red;
     }
 }

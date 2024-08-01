@@ -219,28 +219,28 @@ namespace SeeloewenCraft
                     break;
                 case 1:
                     breakState = 1;
-                    cvsBreak.Background = world.images.Break_1; ;
+                    cvsBreak.Background = Images.Break_1; ;
                     cvsBreak.Visibility = Visibility.Visible;
                     break;
                 case 2:
                     breakState = 2;
-                    cvsBreak.Background = world.images.Break_2;
+                    cvsBreak.Background = Images.Break_2;
                     break;
                 case 3:
                     breakState = 3;
-                    cvsBreak.Background = world.images.Break_3; ;
+                    cvsBreak.Background = Images.Break_3; ;
                     break;
                 case 4:
                     breakState = 4;
-                    cvsBreak.Background = world.images.Break_4; ;
+                    cvsBreak.Background = Images.Break_4; ;
                     break;
                 case 5:
                     breakState = 5;
-                    cvsBreak.Background = world.images.Break_5; ;
+                    cvsBreak.Background = Images.Break_5; ;
                     break;
                 default:
                     breakState = 5;
-                    cvsBreak.Background = world.images.Break_5; ;
+                    cvsBreak.Background = Images.Break_5; ;
                     break;
             }
         }

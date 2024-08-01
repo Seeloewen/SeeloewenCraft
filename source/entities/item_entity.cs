@@ -26,12 +26,12 @@ namespace SeeloewenCraft
             texture.Background = item.image;
         }
 
-        public ItemEntity(Item item, int posX, int posY, int velX, int velY, World world) : base(itemSizeX, itemSizeY, posX, posY, velX, velY, world, Colors.Yellow)
+        public ItemEntity(Item item, int posX, int posY, int velX, int velY, World world) : base(itemSizeX, itemSizeY, posX, posY, velX, velY, world, new SolidColorBrush(Colors.Yellow))
         {
             Init(item);
         }
 
-        public ItemEntity(JsonToken token, World world) : base(token, itemSizeX, itemSizeY, world, Colors.Yellow)
+        public ItemEntity(JsonToken token, World world) : base(token, itemSizeX, itemSizeY, world, new SolidColorBrush(Colors.Yellow))
         {
             Init(ItemRegister.GenerateItem(token.GetString("/item_id"), world));
         }
