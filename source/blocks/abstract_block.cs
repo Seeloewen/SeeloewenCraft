@@ -112,7 +112,7 @@ namespace SeeloewenCraft
             }
             bool b2 = false;
             int i2 = 0;
-            if (foregroundBlock != null)
+            if (foregroundBlock != null && foregroundBlock.isSolid)
             {
                 startX -= (xPos + chunk.index * 8) * 1000;
                 endX -= (xPos + chunk.index * 8) * 1000;
