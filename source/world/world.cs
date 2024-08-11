@@ -61,6 +61,9 @@ namespace SeeloewenCraft
             this.gameVersion = gameVersion;
             this.wndMenu = wndMenu;
 
+            //Initialize textures before anything else
+            Images.Init(this);
+
             //Create objects
             wndGame = new wndGame(this);
             lootTables = new LootTables(this);
@@ -128,8 +131,6 @@ namespace SeeloewenCraft
             recipeCreator.CreateRecipes();
 
             RoomLibrary.CreateDungeonRooms(this);
-
-            Images.Init(this);
 
             InitWorldDirectory();
 
@@ -404,14 +405,14 @@ namespace SeeloewenCraft
             else
             {
                 player.inventory = new Inventory(this, true, 9, 4);
-                if (Settings.enableHammer) player.inventory.AddItem(new HammerItem(this));
+                if (Settings.enableHammer) player.inventory.AddItem(new StoneHammerItem(this));
                 for (int i = 0; i < 64; i++)
                 {
                     player.inventory.AddItem(new TorchItem(this));
                     player.inventory.AddItem(new WaterItem(this));
-                    player.inventory.AddItem(new Plant2Item(this));
+                    player.inventory.AddItem(new PottedCactusItem(this));
                     player.inventory.AddItem(new ChiselerItem(this));
-                    player.inventory.AddItem(new AlphaCrafterItem(this));
+                    player.inventory.AddItem(new CraftingTable(this));
                     player.inventory.AddItem(new ChestItem(this));
                     player.inventory.AddItem(new CobbleStoneItem_StairTopLeft(this));
                     player.inventory.AddItem(new UnchiselerItem(this));

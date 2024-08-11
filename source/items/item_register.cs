@@ -49,14 +49,14 @@ namespace SeeloewenCraft
                 case "sc:torch_item":
                     return new TorchItem(world);
 
-                case "sc:plant_2_item":
-                    return new Plant2Item(world);
+                case "sc:potted_cactus_item":
+                    return new PottedCactusItem(world);
 
                 case "sc:water_item":
                     return new WaterItem(world);
 
-                case "sc:hammer_item":
-                    return new HammerItem(world);
+                case "sc:stone_hammer_item":
+                    return new StoneHammerItem(world);
 
                 case "sc:air_item":
                     return new AirItem(world);
@@ -64,8 +64,8 @@ namespace SeeloewenCraft
                 case "sc:diamond_ore_item":
                     return new DiamondOreItem(world);
 
-                case "sc:alpha_crafter_item":
-                    return new AlphaCrafterItem(world);
+                case "sc:crafting_table_item":
+                    return new CraftingTable(world);
 
                 case "sc:cobblestone_topleft_item":
                     return new CobbleStoneItem_TopLeft(world);

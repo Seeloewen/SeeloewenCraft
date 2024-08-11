@@ -32,6 +32,8 @@ namespace SeeloewenCraft
             cvsItem.Width = 67;
             cvsItem.Height = 67;
             cvsItem.Background = image;
+
+            SetTexture();
         }
 
         //-- Custom Methods --//

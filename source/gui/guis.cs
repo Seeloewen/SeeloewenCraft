@@ -19,7 +19,7 @@ namespace SeeloewenCraft
         }
     }
 
-    public class AlphaCrafterGui : Gui
+    public class CraftingTableGui : Gui
     {
         public TextBlock tblRecipesHeader = new TextBlock() { FontSize = 18, Text = "Available Recipes", FontWeight = FontWeights.DemiBold };
         public TextBlock tblIngredients = new TextBlock() { FontSize = 18, Text = "Ingredients", FontWeight = FontWeights.DemiBold };
@@ -35,12 +35,12 @@ namespace SeeloewenCraft
         public CraftingHandler craftingHandler;
 
 
-        public AlphaCrafterGui(World world, int height, int width, int top, int left, string id, Inventory inventory, Block block) : base(world, height, width, top, left, id)
+        public CraftingTableGui(World world, int height, int width, int top, int left, string id, Inventory inventory, Block block) : base(world, height, width, top, left, id)
         {
             this.inventory = inventory;
             craftingHandler = block.craftingHandler;
 
-            tblHeader.Text = "Alpha Crafter";
+            tblHeader.Text = "Crafting Table";
 
             //Add all the necessary components to the gui
             Canvas.SetLeft(tblRecipesHeader, 46);
@@ -87,7 +87,7 @@ namespace SeeloewenCraft
             tbAmount.PreviewTextInput += tbAmount_PreviewTextInput;
 
             //Render the recipes
-            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, "AlphaCrafter");
+            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, "Crafting_Table");
         }
 
         public override void Show()
@@ -97,7 +97,7 @@ namespace SeeloewenCraft
             world.guiList.Add(this);
 
             //Render the recipes
-            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, "AlphaCrafter");
+            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, "Crafting_Table");
         }
 
         private void tbAmount_TextChanged(object sender, EventArgs e)

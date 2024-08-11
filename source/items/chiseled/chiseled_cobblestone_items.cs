@@ -19,7 +19,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobbleStoneBlock_TopRight(world, isInBackground);
+            block = new CobblestoneBlock_TopRight(world, isInBackground);
             return block;
         }
 
@@ -68,7 +68,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobbleStoneBlock_BottomRight(world, isInBackground);
+            block = new CobblestoneBlock_BottomRight(world, isInBackground);
             return block;
         }
 
@@ -92,7 +92,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobbleStoneBlock_BottomLeft(world, isInBackground);
+            block = new CobblestoneBlock_BottomLeft(world, isInBackground);
             return block;
         }
 
@@ -120,7 +120,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobbleStoneBlock_SlabRight(world, isInBackground);
+            block = new CobblestoneBlock_SlabRight(world, isInBackground);
             return block;
         }
 
@@ -148,7 +148,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobbleStoneBlock_SlabLeft(world, isInBackground);
+            block = new CobblestoneBlock_SlabLeft(world, isInBackground);
             return block;
         }
 
@@ -176,7 +176,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobbleStoneBlock_SlabTop(world, isInBackground);
+            block = new CobblestoneBlock_SlabTop(world, isInBackground);
             return block;
         }
 
@@ -204,7 +204,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobbleStoneBlock_SlabBottom(world, isInBackground);
+            block = new CobblestoneBlock_SlabBottom(world, isInBackground);
             return block;
         }
 
@@ -232,7 +232,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobbleStoneBlock_StairTopRight(world, isInBackground);
+            block = new CobblestoneBlock_StairTopRight(world, isInBackground);
             return block;
         }
 
@@ -260,7 +260,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobbleStoneBlock_StairTopLeft(world, isInBackground);
+            block = new CobblestoneBlock_StairTopLeft(world, isInBackground);
             return block;
         }
 
@@ -288,7 +288,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobbleStoneBlock_StairBottomRight(world, isInBackground);
+            block = new CobblestoneBlock_StairBottomRight(world, isInBackground);
             return block;
         }
 
@@ -316,7 +316,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobbleStoneBlock_StairBottomLeft(world, isInBackground);
+            block = new CobblestoneBlock_StairBottomLeft(world, isInBackground);
             return block;
         }
 

@@ -10,8 +10,8 @@
         <Grid.Background>
             <ImageBrush ImageSource="/Resources/Textures/Gui/Background.png" Stretch="None" TileMode="Tile"/>
         </Grid.Background>
-        <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Create World" VerticalAlignment="Top" FontSize="28" FontWeight="DemiBold"/>
-        <TextBlock x:Name="tblWorldName" Margin="14,61,173,0" TextWrapping="Wrap" Text="World name:" VerticalAlignment="Top" RenderTransformOrigin="0.37,0.394" FontSize="18"/>
+        <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Create World" VerticalAlignment="Top" FontSize="28" FontWeight="DemiBold" Foreground="White"/>
+        <TextBlock x:Name="tblWorldName" Margin="14,61,173,0" TextWrapping="Wrap" Text="World name:" VerticalAlignment="Top" RenderTransformOrigin="0.37,0.394" FontSize="18" Foreground="White"/>
         <TextBox x:Name="tbWorldName" HorizontalAlignment="Left" Margin="14,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="358" FontSize="16"/>
         <Button x:Name="btrnCreateWorld" Content="Create world" HorizontalAlignment="Left" Margin="247,148,0,0" VerticalAlignment="Top" Height="32" Width="125" FontSize="16" Click="btnCreateWorld_Click"/>
     </Grid>

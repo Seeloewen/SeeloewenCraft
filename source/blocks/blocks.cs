@@ -65,7 +65,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.DirtBlock;
+            image = Images.Dirt;
         }
     }
 
@@ -90,7 +90,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.AirBlock;
+            image = Images.Air;
         }
     }
 
@@ -112,7 +112,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.BedrockBlock;
+            image = Images.Bedrock;
         }
     }
 
@@ -133,7 +133,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.CoalOreBlock;
+            image = Images.CoalOre;
         }
     }
 
@@ -154,7 +154,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.DiamondOreBlock;
+            image = Images.DiamondOre;
         }
     }
 
@@ -175,7 +175,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.IronOreBlock;
+            image = Images.IronOre;
         }
     }
 
@@ -196,7 +196,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.OakLogBlock;
+            image = Images.OakLog;
         }
     }
 
@@ -217,7 +217,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.OakLeavesBlock;
+            image = Images.OakLeaves;
         }
     }
 
@@ -238,7 +238,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.SpruceLogBlock;
+            image = Images.SpruceLog;
         }
     }
 
@@ -259,7 +259,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.SpruceLeavesBlock;
+            image = Images.SpruceLeaves;
         }
     }
 
@@ -284,7 +284,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.ChestBlock;
+            image = Images.Chest;
         }
         public override void RightClickAction(object sender)
         {
@@ -346,16 +346,16 @@ namespace SeeloewenCraft
             image = Images.Torch;
         }
     }
-    public class Plant2Block_Base : Block
+    public class PottedCactus_Base : Block
     {
-        public Plant2Block_Base(World world, bool isInBackground) : base(world, isInBackground)
+        public PottedCactus_Base(World world, bool isInBackground) : base(world, isInBackground)
         {
             isSolid = false;
             isBase = true;
             SetTexture();
-            name = "Cactus Plant Base";
-            id = "sc:cactus_plant_base_block";
-            connectedBlocks.Add(new Plant2Block_Top(world, isInBackground));
+            name = "Potted Cactus Base";
+            id = "sc:potted_cactus_base";
+            connectedBlocks.Add(new PottedCactus_Top(world, isInBackground));
             connectedBlocks[0].yOffset = -1;
             connectedBlocks[0].baseBlock = this;
             breakTime = 0;
@@ -363,23 +363,23 @@ namespace SeeloewenCraft
 
         override public void GenerateItem(World world)
         {
-            item = new Plant2Item(world);
+            item = new PottedCactusItem(world);
         }
 
         public override void SetTexture()
         {
-            image = Images.Plant2_Base;
+            image = Images.PottedCactus_Base;
         }
     }
 
-    public class Plant2Block_Top : Block
+    public class PottedCactus_Top : Block
     {
-        public Plant2Block_Top(World world, bool isInBackground) : base(world, isInBackground)
+        public PottedCactus_Top(World world, bool isInBackground) : base(world, isInBackground)
         {
             isSolid = false;
             SetTexture();
-            name = "Cactus Plant Top";
-            id = "sc:cactus_plant_top_block";
+            name = "Potted Cactus Top";
+            id = "sc:potted_cactus_top";
             breakTime = 0;
         }
 
@@ -390,33 +390,33 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.Plant2_Top;
+            image = Images.PottedCactus_Top;
         }
     }
 
-    public class AlphaCrafterBlock : Block
+    public class CraftingTableBlock : Block
     {
-        public AlphaCrafterBlock(World world, bool isInBackground) : base(world, isInBackground)
+        public CraftingTableBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
-            name = "Alpha Crafter";
-            id = "sc:alpha_crafter_block";
+            name = "Crafting Table";
+            id = "sc:crafting_table_block";
             tags.Add("workstation");
             hasRightClickAction = true;
             breakTime = 500;
 
             craftingHandler = new CraftingHandler(world, this);
-            gui = new AlphaCrafterGui(world, 535, 720, 120, 200, "sc:alpha_crafter", null, this);
+            gui = new CraftingTableGui(world, 535, 720, 120, 200, "sc:crafting_table", null, this);
         }
 
         override public void GenerateItem(World world)
         {
-            item = new AlphaCrafterItem(world);
+            item = new CraftingTable(world);
         }
 
         public override void SetTexture()
         {
-            image = Images.AlphaCrafter;
+            image = Images.CraftingTable;
         }
 
         public override void RightClickAction(object sender)
@@ -526,9 +526,9 @@ namespace SeeloewenCraft
         }
     }
 
-    public class CobbleStoneBlock : Block
+    public class CobblestoneBlock : Block
     {
-        public CobbleStoneBlock(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Cobblestone";

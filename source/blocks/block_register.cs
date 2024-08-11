@@ -63,40 +63,44 @@
                     //if()
                     string type = blockToken.GetString("/type");
                     return new ModdedBlock(type, world, false);*/
-                case "sc:alpha_crafter_block":
-                    return new AlphaCrafterBlock(world, false);
+                case "sc:crafting_table_block":
+                    return new CraftingTableBlock(world, false);
                 case "sc:cobblestone_topleft":
                     return new CobbleStoneBlock_TopLeft(world, false);
                 case "sc:cobblestone_topright":
-                    return new CobbleStoneBlock_TopRight(world, false);
+                    return new CobblestoneBlock_TopRight(world, false);
                 case "sc:cobblestone_bottomleft":
-                    return new CobbleStoneBlock_BottomLeft(world, false);
+                    return new CobblestoneBlock_BottomLeft(world, false);
                 case "sc:cobblestone_bottomright":
-                    return new CobbleStoneBlock_BottomRight(world, false);
+                    return new CobblestoneBlock_BottomRight(world, false);
                 case "sc:cobblestone_slabright":
-                    return new CobbleStoneBlock_SlabRight(world, false);
+                    return new CobblestoneBlock_SlabRight(world, false);
                 case "sc:cobblestone_slableft":
-                    return new CobbleStoneBlock_SlabLeft(world, false);
+                    return new CobblestoneBlock_SlabLeft(world, false);
                 case "sc:cobblestone_slabtop":
-                    return new CobbleStoneBlock_SlabTop(world, false);
+                    return new CobblestoneBlock_SlabTop(world, false);
                 case "sc:cobblestone_slabbottom":
-                    return new CobbleStoneBlock_SlabBottom(world, false);
+                    return new CobblestoneBlock_SlabBottom(world, false);
                 case "sc:cobblestone_stairtopright":
-                    return new CobbleStoneBlock_StairTopRight(world, false);
+                    return new CobblestoneBlock_StairTopRight(world, false);
                 case "sc:cobblestone_stairtopleft":
-                    return new CobbleStoneBlock_StairTopLeft(world, false);
+                    return new CobblestoneBlock_StairTopLeft(world, false);
                 case "sc:cobblestone_stairbottomright":
-                    return new CobbleStoneBlock_StairBottomRight(world, false);
+                    return new CobblestoneBlock_StairBottomRight(world, false);
                 case "sc:cobblestone_stairbottomleft":
-                    return new CobbleStoneBlock_StairBottomLeft(world, false);
+                    return new CobblestoneBlock_StairBottomLeft(world, false);
                 case "sc:cobblestone_block":
-                    return new CobbleStoneBlock(world, false);
+                    return new CobblestoneBlock(world, false);
                 case "sc:chiseler_block":
                     return new ChiselerBlock(world, false);
                 case "sc:unchiseler_block":
                     return new UnchiselerBlock(world, false);
                 case "sc:cobblestone_center":
                     return new CobbleStoneBlock_Center(world, false);
+                case "sc:potted_cactus_base":
+                    return new PottedCactus_Base(world, false);
+                case "sc:potted_cactus_top":
+                    return new PottedCactus_Top(world, false);
                 default:
                     return null;
 

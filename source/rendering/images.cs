@@ -68,6 +68,8 @@ namespace SeeloewenCraft
             //Go through all possible folders in the texturepack and search for the image
             if (File.Exists($"{textureDirectory}/{resourceName}")) return new Uri($"{textureDirectory}/{resourceName}", UriKind.Absolute);
             else if (File.Exists($"{textureDirectory}/Blocks/{resourceName}")) return new Uri($"{textureDirectory}/Blocks/{resourceName}", UriKind.Absolute);
+            else if (File.Exists($"{textureDirectory}/Blocks/Chiseled/{resourceName}")) return new Uri($"{textureDirectory}/Blocks/Chiseled/{resourceName}", UriKind.Absolute);
+            else if (File.Exists($"{textureDirectory}/Blocks/Connected/{resourceName}")) return new Uri($"{textureDirectory}/Blocks/Connected/{resourceName}", UriKind.Absolute);
             else if (File.Exists($"{textureDirectory}/Item/{resourceName}")) return new Uri($"{textureDirectory}/Items/{resourceName}", UriKind.Absolute);
             else if (File.Exists($"{textureDirectory}/Gui/{resourceName}")) return new Uri($"{textureDirectory}/Gui/{resourceName}", UriKind.Absolute);
             else if (File.Exists($"{textureDirectory}/Entities/{resourceName}")) return new Uri($"{textureDirectory}/Entities/{resourceName}", UriKind.Absolute);
@@ -86,6 +88,12 @@ namespace SeeloewenCraft
             imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/Blocks/{resourceName}", UriKind.Absolute);
             if (ResourceExists(imageUri)) return imageUri;
 
+            imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/Blocks/Chiseled/{resourceName}", UriKind.Absolute);
+            if (ResourceExists(imageUri)) return imageUri;
+
+            imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/Blocks/Connected/{resourceName}", UriKind.Absolute);
+            if (ResourceExists(imageUri)) return imageUri;
+
             imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/Items/{resourceName}", UriKind.Absolute);
             if (ResourceExists(imageUri)) return imageUri;
 
@@ -96,33 +104,33 @@ namespace SeeloewenCraft
             if (ResourceExists(imageUri)) return imageUri;
 
             //If default one doesn't exist, use missing texture image
-            return new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/MissingTexture.png", UriKind.Absolute);
+            return new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/Missing_Texture.png", UriKind.Absolute);
 
         }
 
         private static void CreateResources()
         {
             Background = new ImageBrush { ImageSource = GetImageSource("Background.png") };
-            GrassBlock = new ImageBrush { ImageSource = GetImageSource("GrassBlock.png") };
-            StoneBlock = new ImageBrush { ImageSource = GetImageSource("StoneBlock.png") };
-            DirtBlock = new ImageBrush { ImageSource = GetImageSource("DirtBlock.png") };
-            AirBlock = new ImageBrush { ImageSource = GetImageSource("AirBlock.png") };
-            BedrockBlock = new ImageBrush { ImageSource = GetImageSource("BedrockBlock.png") };
-            CoalOreBlock = new ImageBrush { ImageSource = GetImageSource("CoalOreBlock.png") };
-            DiamondOreBlock = new ImageBrush { ImageSource = GetImageSource("DiamondOreBlock.png") };
-            IronOreBlock = new ImageBrush { ImageSource = GetImageSource("IronOreBlock.png") };
-            OakLogBlock = new ImageBrush { ImageSource = GetImageSource("OakLogBlock.png") };
-            OakLeavesBlock = new ImageBrush { ImageSource = GetImageSource("OakLeavesBlock.png") };
-            ChestBlock = new ImageBrush { ImageSource = GetImageSource("ChestBlock.png") };
-            MagmaBlock = new ImageBrush { ImageSource = GetImageSource("MagmaBlock.png") };
-            MissingTexture = new ImageBrush { ImageSource = GetImageSource("MissingTexture.png") };
-            Hammer = new ImageBrush { ImageSource = GetImageSource("Hammer.png") };
-            SpruceLogBlock = new ImageBrush { ImageSource = GetImageSource("SpruceLogBlock.png") };
-            SpruceLeavesBlock = new ImageBrush { ImageSource = GetImageSource("SpruceLeavesBlock.png") };
+            GrassBlock = new ImageBrush { ImageSource = GetImageSource("Grass_Block.png") };
+            StoneBlock = new ImageBrush { ImageSource = GetImageSource("Stone_Block.png") };
+            Dirt = new ImageBrush { ImageSource = GetImageSource("Dirt.png") };
+            Air = new ImageBrush { ImageSource = GetImageSource("Air.png") };
+            Bedrock = new ImageBrush { ImageSource = GetImageSource("Bedrock.png") };
+            CoalOre = new ImageBrush { ImageSource = GetImageSource("Coal_Ore.png") };
+            DiamondOre = new ImageBrush { ImageSource = GetImageSource("Diamond_Ore.png") };
+            IronOre = new ImageBrush { ImageSource = GetImageSource("Iron_Ore.png") };
+            OakLog = new ImageBrush { ImageSource = GetImageSource("Oak_Log.png") };
+            OakLeaves = new ImageBrush { ImageSource = GetImageSource("Oak_Leaves.png") };
+            Chest = new ImageBrush { ImageSource = GetImageSource("Chest.png") };
+            MagmaBlock = new ImageBrush { ImageSource = GetImageSource("Magma_Block.png") };
+            MissingTexture = new ImageBrush { ImageSource = GetImageSource("Missing_Texture.png") };
+            Stone_Hammer = new ImageBrush { ImageSource = GetImageSource("Stone_Hammer.png") };
+            SpruceLog = new ImageBrush { ImageSource = GetImageSource("Spruce_Log.png") };
+            SpruceLeaves = new ImageBrush { ImageSource = GetImageSource("Spruce_Leaves.png") };
             Torch = new ImageBrush { ImageSource = GetImageSource("Torch.png") };
-            Plant2_Base = new ImageBrush { ImageSource = GetImageSource("Plant2_Base.png") };
-            Plant2_Top = new ImageBrush { ImageSource = GetImageSource("Plant2_Top.png") };
-            Plant2 = new ImageBrush { ImageSource = GetImageSource("Plant2.png") };
+            PottedCactus_Base = new ImageBrush { ImageSource = GetImageSource("Potted_Cactus_Base.png") };
+            PottedCactus_Top = new ImageBrush { ImageSource = GetImageSource("Potted_Cactus_Top.png") };
+            PottedCactus = new ImageBrush { ImageSource = GetImageSource("Potted_Cactus.png") };
             Water_1_Right = new ImageBrush { ImageSource = GetImageSource("Water_1_Right.png") };
             Water_1_Left = new ImageBrush { ImageSource = GetImageSource("Water_1_Left.png") };
             Water_2_Right = new ImageBrush { ImageSource = GetImageSource("Water_2_Right.png") };
@@ -135,24 +143,24 @@ namespace SeeloewenCraft
             Water_5_Left = new ImageBrush { ImageSource = GetImageSource("Water_5_Left.png") };
             Water_6 = new ImageBrush { ImageSource = GetImageSource("Water_6.png") };
             Gui = new ImageBrush { ImageSource = GetImageSource("Gui.png") };
-            HealthFull = new ImageBrush { ImageSource = GetImageSource("HealthFull.png") };
-            HealthHalf = new ImageBrush { ImageSource = GetImageSource("HealthHalf.png") };
-            HealthEmpty = new ImageBrush { ImageSource = GetImageSource("HealthEmpty.png") };
-            AlphaCrafter = new ImageBrush { ImageSource = GetImageSource("AlphaCrafter.png") };
-            CobbleStoneBlock = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock.png") };
-            CobbleStoneBlock_BottomRight = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_BottomRight.png") };
-            CobbleStoneBlock_BottomLeft = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_BottomLeft.png") };
-            CobbleStoneBlock_TopRight = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_TopRight.png") };
-            CobbleStoneBlock_TopLeft = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_TopLeft.png") };
-            CobbleStoneBlock_SlabBottom = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_SlabBottom.png") };
-            CobbleStoneBlock_SlabTop = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_SlabTop.png") };
-            CobbleStoneBlock_SlabLeft = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_SlabLeft.png") };
-            CobbleStoneBlock_SlabRight = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_SlabRight.png") };
-            CobbleStoneBlock_StairBottomRight = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_StairBottomRight.png") };
-            CobbleStoneBlock_StairBottomLeft = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_StairBottomLeft.png") };
-            CobbleStoneBlock_StairTopRight = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_StairTopRight.png") };
-            CobbleStoneBlock_StairTopLeft = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_StairTopLeft.png") };
-            CobbleStoneBlock_Center = new ImageBrush { ImageSource = GetImageSource("CobbleStoneBlock_Center.png") };
+            Heart_Full = new ImageBrush { ImageSource = GetImageSource("Heart_Full.png") };
+            Heart_Half = new ImageBrush { ImageSource = GetImageSource("Heart_Half.png") };
+            Heart_Empty = new ImageBrush { ImageSource = GetImageSource("Heart_Empty.png") };
+            CraftingTable = new ImageBrush { ImageSource = GetImageSource("Crafting_Table.png") };
+            CobbleStoneBlock = new ImageBrush { ImageSource = GetImageSource("Cobblestone.png") };
+            CobbleStoneBlock_BottomRight = new ImageBrush { ImageSource = GetImageSource("Cobblestone_BottomRight.png") };
+            CobbleStoneBlock_BottomLeft = new ImageBrush { ImageSource = GetImageSource("Cobblestone_BottomLeft.png") };
+            CobbleStoneBlock_TopRight = new ImageBrush { ImageSource = GetImageSource("Cobblestone_TopRight.png") };
+            CobbleStoneBlock_TopLeft = new ImageBrush { ImageSource = GetImageSource("Cobblestone_TopLeft.png") };
+            CobbleStoneBlock_SlabBottom = new ImageBrush { ImageSource = GetImageSource("Cobblestone_SlabBottom.png") };
+            CobbleStoneBlock_SlabTop = new ImageBrush { ImageSource = GetImageSource("Cobblestone_SlabTop.png") };
+            CobbleStoneBlock_SlabLeft = new ImageBrush { ImageSource = GetImageSource("Cobblestone_SlabLeft.png") };
+            CobbleStoneBlock_SlabRight = new ImageBrush { ImageSource = GetImageSource("Cobblestone_SlabRight.png") };
+            CobbleStoneBlock_StairBottomRight = new ImageBrush { ImageSource = GetImageSource("Cobblestone_StairBottomRight.png") };
+            CobbleStoneBlock_StairBottomLeft = new ImageBrush { ImageSource = GetImageSource("Cobblestone_StairBottomLeft.png") };
+            CobbleStoneBlock_StairTopRight = new ImageBrush { ImageSource = GetImageSource("Cobblestone_StairTopRight.png") };
+            CobbleStoneBlock_StairTopLeft = new ImageBrush { ImageSource = GetImageSource("Cobblestone_StairTopLeft.png") };
+            CobbleStoneBlock_Center = new ImageBrush { ImageSource = GetImageSource("Cobblestone_Center.png") };
             Chiseler = new ImageBrush { ImageSource = GetImageSource("Chiseler.png") };
             Unchiseler = new ImageBrush { ImageSource = GetImageSource("Unchiseler.png") };
             Break_1 = new ImageBrush { ImageSource = GetImageSource("Break_1.png") };
@@ -173,24 +181,24 @@ namespace SeeloewenCraft
         public static ImageBrush Background;
         public static ImageBrush GrassBlock;
         public static ImageBrush StoneBlock;
-        public static ImageBrush DirtBlock;
-        public static ImageBrush AirBlock;
-        public static ImageBrush BedrockBlock;
-        public static ImageBrush CoalOreBlock;
-        public static ImageBrush DiamondOreBlock;
-        public static ImageBrush IronOreBlock;
-        public static ImageBrush OakLogBlock;
-        public static ImageBrush OakLeavesBlock;
-        public static ImageBrush ChestBlock;
+        public static ImageBrush Dirt;
+        public static ImageBrush Air;
+        public static ImageBrush Bedrock;
+        public static ImageBrush CoalOre;
+        public static ImageBrush DiamondOre;
+        public static ImageBrush IronOre;
+        public static ImageBrush OakLog;
+        public static ImageBrush OakLeaves;
+        public static ImageBrush Chest;
         public static ImageBrush MagmaBlock;
         public static ImageBrush MissingTexture;
-        public static ImageBrush Hammer;
-        public static ImageBrush SpruceLogBlock;
-        public static ImageBrush SpruceLeavesBlock;
+        public static ImageBrush Stone_Hammer;
+        public static ImageBrush SpruceLog;
+        public static ImageBrush SpruceLeaves;
         public static ImageBrush Torch;
-        public static ImageBrush Plant2_Top;
-        public static ImageBrush Plant2_Base;
-        public static ImageBrush Plant2;
+        public static ImageBrush PottedCactus_Top;
+        public static ImageBrush PottedCactus_Base;
+        public static ImageBrush PottedCactus;
         public static ImageBrush Water_1_Right;
         public static ImageBrush Water_1_Left;
         public static ImageBrush Water_2_Right;
@@ -203,10 +211,10 @@ namespace SeeloewenCraft
         public static ImageBrush Water_5_Left;
         public static ImageBrush Water_6;
         public static ImageBrush Gui;
-        public static ImageBrush HealthFull;
-        public static ImageBrush HealthHalf;
-        public static ImageBrush HealthEmpty;
-        public static ImageBrush AlphaCrafter;
+        public static ImageBrush Heart_Full;
+        public static ImageBrush Heart_Half;
+        public static ImageBrush Heart_Empty;
+        public static ImageBrush CraftingTable;
         public static ImageBrush CobbleStoneBlock;
         public static ImageBrush CobbleStoneBlock_BottomRight;
         public static ImageBrush CobbleStoneBlock_BottomLeft;
