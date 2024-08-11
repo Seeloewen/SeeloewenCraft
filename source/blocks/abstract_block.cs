@@ -12,6 +12,7 @@ namespace SeeloewenCraft
     {
         //references
         private HighPrecisionTimer.MultimediaTimer tmrBreak = new HighPrecisionTimer.MultimediaTimer();
+        private HighPrecisionTimer.MultimediaTimer tmrHammer = new HighPrecisionTimer.MultimediaTimer();
         public List<string> tags = new List<string>();
         public World world;
         public ImageBrush image = new ImageBrush();
@@ -78,6 +79,7 @@ namespace SeeloewenCraft
             this.isBackground = isBackground;
 
             tmrBreak.Elapsed += tmrBreak_Tick;
+            tmrHammer.Elapsed += tmrHammer_Tick;
         }
 
         //-- Custom Methods --//
@@ -303,6 +305,7 @@ namespace SeeloewenCraft
             this.blockContainer.cvsBlock.Background = image;
             this.blockContainer.cvsBlock.MouseLeftButtonDown += cvsBlock_MouseLeftButtonDown;
             this.blockContainer.cvsBlock.MouseLeftButtonUp += cvsBlock_MouseLeftButtonUp;
+            this.blockContainer.cvsBlock.MouseRightButtonUp += cvsBlock_MouseRightButtonUp;
             this.blockContainer.cvsBlock.MouseRightButtonDown += cvsBlock_MouseRightButtonDown;
             this.blockContainer.cvsBlock.MouseEnter += cvsBlock_MouseEnter;
             this.blockContainer.cvsBlock.MouseLeave += cvsBlock_MouseLeave;
@@ -330,6 +333,7 @@ namespace SeeloewenCraft
             //Remove the events from the container
             blockContainer.cvsBlock.MouseLeftButtonDown -= cvsBlock_MouseLeftButtonDown;
             blockContainer.cvsBlock.MouseLeftButtonUp -= cvsBlock_MouseLeftButtonUp;
+            blockContainer.cvsBlock.MouseRightButtonUp -= cvsBlock_MouseRightButtonUp;
             blockContainer.cvsBlock.MouseRightButtonDown -= cvsBlock_MouseRightButtonDown;
             blockContainer.cvsBlock.MouseEnter -= cvsBlock_MouseEnter;
             blockContainer.cvsBlock.MouseLeave -= cvsBlock_MouseLeave;
@@ -945,13 +949,18 @@ namespace SeeloewenCraft
             blockContainer.bdrBlock.BorderThickness = new Thickness(0, 0, 0, 0);
             blockContainer.bdrBlock.BorderBrush = new SolidColorBrush(Colors.Transparent);
 
-            //Stop a possible block breaking progress
+            //Stop a possible block modification progress
             tmrBreak.Stop();
             blockContainer.SetBreakState(0);
+            tmrHammer.Stop();
+            blockContainer.SetHammerState(0);
         }
 
         private void cvsBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            //Stop possible hammer process
+            tmrHammer.Stop();
+
             //If the block is in range, check if it has a foreground block or not and check if that block is breakable before starting the break animation
             if (IsInRange())
             {
@@ -959,7 +968,7 @@ namespace SeeloewenCraft
                 {
                     if (foregroundBlock.isBreakable)
                     {
-                        if(world.gamemode == Gamemode.Creative || foregroundBlock.breakTime == 0)
+                        if (world.gamemode == Gamemode.Creative || foregroundBlock.breakTime == 0)
                         {
                             world.clickHandler.DoLeftClick(this, sender);
                         }
@@ -990,15 +999,38 @@ namespace SeeloewenCraft
         }
 
         private void cvsBlock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {            
-            //Stop a possible block breaking progress
+        {
+            //Stop a possible block modification progress
             tmrBreak.Stop();
             blockContainer.SetBreakState(0);
         }
 
         private void cvsBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
+            //Stop possible breaking process
+            tmrBreak.Stop();
+
+            if (world.player.inventory.GetSelectedItem() != null && world.player.inventory.GetSelectedItem().tags.Contains("tools/hammer"))
+            {
+                //If the player holds a hammer, is in gamemode survival, the block is in range and doesn't have a foreground block
+                if (world.gamemode == Gamemode.Survival && IsInRange() && foregroundBlock == null && canBeMovedToBackground)
+                {
+                    //Start the timer for the hammer
+                    tmrHammer.Interval = breakTime; //TO-DO: Include tool efficiency
+                    tmrHammer.Start();
+                    return;
+                }
+            }
+
+            //If all of the checks above fail, handle it the normal way
             world.clickHandler.DoRightClick(this, sender);
+        }
+
+        private void cvsBlock_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //Stop a possible block modification progress
+            tmrHammer.Stop();
+            blockContainer.SetHammerState(0);
         }
 
         private void tmrBreak_Tick(object sender, EventArgs e)
@@ -1016,9 +1048,25 @@ namespace SeeloewenCraft
 
                 //Increase the broken state
                 blockContainer.SetBreakState(blockContainer.breakState + 1);
-
             }));
+        }
 
+        private void tmrHammer_Tick(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                //If the hammer is done, do right-click
+                if (blockContainer.hammerState == 5)
+                {
+                    world.clickHandler.DoRightClick(this, sender);
+                    blockContainer.SetHammerState(0);
+                    tmrHammer.Stop();
+                    return;
+                }
+
+                //Increase the hammer state
+                blockContainer.SetHammerState(blockContainer.hammerState + 1);
+            }));
         }
     }
 }

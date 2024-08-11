@@ -173,7 +173,11 @@ namespace SeeloewenCraft
             Slime_Red = new ImageBrush { ImageSource = GetImageSource("Slime_Red.png") };
             Slime_Magenta = new ImageBrush { ImageSource = GetImageSource("Slime_Magenta.png") };
             Slime_Yellow = new ImageBrush { ImageSource = GetImageSource("Slime_Yellow.png") };
-
+            Hammer_1 = new ImageBrush { ImageSource = GetImageSource("Hammer_1.png") };
+            Hammer_2 = new ImageBrush { ImageSource = GetImageSource("Hammer_2.png") };
+            Hammer_3 = new ImageBrush { ImageSource = GetImageSource("Hammer_3.png") };
+            Hammer_4 = new ImageBrush { ImageSource = GetImageSource("Hammer_4.png") };
+            Hammer_5 = new ImageBrush { ImageSource = GetImageSource("Hammer_5.png") };
         }
 
         //-- Images --//
@@ -241,5 +245,10 @@ namespace SeeloewenCraft
         public static ImageBrush Slime_Magenta;
         public static ImageBrush Slime_Yellow;
         public static ImageBrush Slime_Red;
+        public static ImageBrush Hammer_1;
+        public static ImageBrush Hammer_2;
+        public static ImageBrush Hammer_3;
+        public static ImageBrush Hammer_4;
+        public static ImageBrush Hammer_5;
     }
 }

@@ -10,7 +10,7 @@ namespace SeeloewenCraft
         private World world;
         public Canvas cvsBlock = new Canvas();
         public Canvas cvsForegroundBlock = new Canvas();
-        public Canvas cvsBreak = new Canvas();
+        public Canvas cvsChanges = new Canvas();
         public Border bdrBlock = new Border();
         public Rectangle rectDarkOverlay = new Rectangle();
         public Rectangle rectDarkOverlayLight = new Rectangle();
@@ -22,6 +22,7 @@ namespace SeeloewenCraft
         public bool previousBlockWasLightSource;
         public bool previousForegroundBlockWasLightSource;
         public int breakState = 0;
+        public int hammerState = 0;
 
 
         //-- Constructor --//
@@ -43,7 +44,7 @@ namespace SeeloewenCraft
             rectDarkOverlay.Height = 50;
             rectDarkOverlay.Fill = new SolidColorBrush(Colors.Black);
             rectDarkOverlay.Opacity = 0.3;
-            rectDarkOverlay.Visibility = System.Windows.Visibility.Hidden;
+            rectDarkOverlay.Visibility = Visibility.Hidden;
             cvsBlock.Children.Add(rectDarkOverlay);
 
             //Setup foregroundblock canvas
@@ -54,11 +55,11 @@ namespace SeeloewenCraft
             previousForegroundBlockWasLightSource = false;
 
             //Setup foregroundblock canvas
-            cvsBreak.Width = 50;
-            cvsBreak.Height = 50;
-            cvsBreak.Background = new SolidColorBrush(Colors.Transparent);
-            cvsBlock.Children.Add(cvsBreak);
-            cvsBreak.Visibility = Visibility.Hidden;
+            cvsChanges.Width = 50;
+            cvsChanges.Height = 50;
+            cvsChanges.Background = new SolidColorBrush(Colors.Transparent);
+            cvsBlock.Children.Add(cvsChanges);
+            cvsChanges.Visibility = Visibility.Hidden;
 
             //Setup the light Rectangle
             rectDarkOverlayLight.Width = 50;
@@ -214,33 +215,70 @@ namespace SeeloewenCraft
             {
                 case 0:
                     breakState = 0;
-                    cvsBreak.Background = new SolidColorBrush(Colors.Transparent);
-                    cvsBreak.Visibility = Visibility.Hidden;
+                    cvsChanges.Background = new SolidColorBrush(Colors.Transparent);
+                    cvsChanges.Visibility = Visibility.Hidden;
                     break;
                 case 1:
                     breakState = 1;
-                    cvsBreak.Background = Images.Break_1; ;
-                    cvsBreak.Visibility = Visibility.Visible;
+                    cvsChanges.Background = Images.Break_1; ;
+                    cvsChanges.Visibility = Visibility.Visible;
                     break;
                 case 2:
                     breakState = 2;
-                    cvsBreak.Background = Images.Break_2;
+                    cvsChanges.Background = Images.Break_2;
                     break;
                 case 3:
                     breakState = 3;
-                    cvsBreak.Background = Images.Break_3; ;
+                    cvsChanges.Background = Images.Break_3; ;
                     break;
                 case 4:
                     breakState = 4;
-                    cvsBreak.Background = Images.Break_4; ;
+                    cvsChanges.Background = Images.Break_4; ;
                     break;
                 case 5:
                     breakState = 5;
-                    cvsBreak.Background = Images.Break_5; ;
+                    cvsChanges.Background = Images.Break_5; ;
                     break;
                 default:
                     breakState = 5;
-                    cvsBreak.Background = Images.Break_5; ;
+                    cvsChanges.Background = Images.Break_5; ;
+                    break;
+            }
+        }
+
+        public void SetHammerState(int state)
+        {
+            switch (state)
+            {
+                case 0:
+                    hammerState = 0;
+                    cvsChanges.Background = new SolidColorBrush(Colors.Transparent);
+                    cvsChanges.Visibility = Visibility.Hidden;
+                    break;
+                case 1:
+                    hammerState = 1;
+                    cvsChanges.Background = Images.Hammer_1; ;
+                    cvsChanges.Visibility = Visibility.Visible;
+                    break;
+                case 2:
+                    hammerState = 2;
+                    cvsChanges.Background = Images.Hammer_2;
+                    break;
+                case 3:
+                    hammerState = 3;
+                    cvsChanges.Background = Images.Hammer_3; ;
+                    break;
+                case 4:
+                    hammerState = 4;
+                    cvsChanges.Background = Images.Hammer_4; ;
+                    break;
+                case 5:
+                    hammerState = 5;
+                    cvsChanges.Background = Images.Hammer_5; ;
+                    break;
+                default:
+                    hammerState = 5;
+                    cvsChanges.Background = Images.Hammer_5; ;
                     break;
             }
         }
@@ -310,12 +348,12 @@ namespace SeeloewenCraft
 
         public void ShowDarkRectangle()
         {
-            rectDarkOverlay.Visibility = System.Windows.Visibility.Visible;
+            rectDarkOverlay.Visibility = Visibility.Visible;
         }
 
         public void HideDarkRectangle()
         {
-            rectDarkOverlay.Visibility = System.Windows.Visibility.Hidden;
+            rectDarkOverlay.Visibility = Visibility.Hidden;
         }
 
         public void ClearFromChunk()
