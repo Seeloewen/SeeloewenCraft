@@ -56,7 +56,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.Water_1_Right;
+            image = Images.Water_1_Right.GetTexture();
         }
     }
 
@@ -83,7 +83,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.Water_1_Left;
+            image = Images.Water_1_Left.GetTexture();
         }
     }
 
@@ -110,7 +110,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.Water_2_Right;
+            image = Images.Water_2_Right.GetTexture()   ;
         }
     }
 
@@ -137,7 +137,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.Water_2_Left;
+            image = Images.Water_2_Left.GetTexture();
         }
     }
 
@@ -164,7 +164,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.Water_3_Right;
+            image = Images.Water_3_Right.GetTexture();
         }
     }
 
@@ -191,7 +191,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.Water_3_Left;
+            image = Images.Water_3_Left.GetTexture();
         }
     }
 
@@ -218,7 +218,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.Water_4_Right;
+            image = Images.Water_4_Right.GetTexture();
         }
     }
 
@@ -245,7 +245,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.Water_4_Left;
+            image = Images.Water_4_Left.GetTexture();
         }
     }
 
@@ -272,7 +272,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.Water_5_Right;
+            image = Images.Water_5_Right.GetTexture();
         }
     }
 
@@ -299,7 +299,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.Water_5_Left;
+            image = Images.Water_5_Left.GetTexture();
         }
     }
 
@@ -319,7 +319,7 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.Water_6;
+            image = Images.Water_6.GetTexture();
         }
     }
 }

@@ -220,28 +220,28 @@ namespace SeeloewenCraft
                     break;
                 case 1:
                     breakState = 1;
-                    cvsChanges.Background = Images.Break_1; ;
+                    cvsChanges.Background = Images.Break_1.GetTexture() ; ;
                     cvsChanges.Visibility = Visibility.Visible;
                     break;
                 case 2:
                     breakState = 2;
-                    cvsChanges.Background = Images.Break_2;
+                    cvsChanges.Background = Images.Break_2.GetTexture();
                     break;
                 case 3:
                     breakState = 3;
-                    cvsChanges.Background = Images.Break_3; ;
+                    cvsChanges.Background = Images.Break_3.GetTexture(); ;
                     break;
                 case 4:
                     breakState = 4;
-                    cvsChanges.Background = Images.Break_4; ;
+                    cvsChanges.Background = Images.Break_4.GetTexture(); ;
                     break;
                 case 5:
                     breakState = 5;
-                    cvsChanges.Background = Images.Break_5; ;
+                    cvsChanges.Background = Images.Break_5.GetTexture(); ;
                     break;
                 default:
                     breakState = 5;
-                    cvsChanges.Background = Images.Break_5; ;
+                    cvsChanges.Background = Images.Break_5.GetTexture(); ;
                     break;
             }
         }
@@ -257,28 +257,28 @@ namespace SeeloewenCraft
                     break;
                 case 1:
                     hammerState = 1;
-                    cvsChanges.Background = Images.Hammer_1; ;
+                    cvsChanges.Background = Images.Hammer_1.GetTexture(); ;
                     cvsChanges.Visibility = Visibility.Visible;
                     break;
                 case 2:
                     hammerState = 2;
-                    cvsChanges.Background = Images.Hammer_2;
+                    cvsChanges.Background = Images.Hammer_2.GetTexture();
                     break;
                 case 3:
                     hammerState = 3;
-                    cvsChanges.Background = Images.Hammer_3; ;
+                    cvsChanges.Background = Images.Hammer_3.GetTexture(); ;
                     break;
                 case 4:
                     hammerState = 4;
-                    cvsChanges.Background = Images.Hammer_4; ;
+                    cvsChanges.Background = Images.Hammer_4.GetTexture(); ;
                     break;
                 case 5:
                     hammerState = 5;
-                    cvsChanges.Background = Images.Hammer_5; ;
+                    cvsChanges.Background = Images.Hammer_5.GetTexture(); ;
                     break;
                 default:
                     hammerState = 5;
-                    cvsChanges.Background = Images.Hammer_5; ;
+                    cvsChanges.Background = Images.Hammer_5.GetTexture(); ;
                     break;
             }
         }

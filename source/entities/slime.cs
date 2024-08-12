@@ -44,17 +44,17 @@ namespace SeeloewenCraft
             switch (random.Next(0, 5))
             {
                 case 0:
-                    return Images.Slime_Blue;
+                    return Images.Slime_Blue.GetTexture();
                 case 1:
-                    return Images.Slime_Red;
+                    return Images.Slime_Red.GetTexture();
                 case 2:
-                    return Images.Slime_Green;
+                    return Images.Slime_Green.GetTexture();
                 case 3:
-                    return Images.Slime_Magenta;
+                    return Images.Slime_Magenta.GetTexture();
                 case 4:
-                    return Images.Slime_Yellow;
+                    return Images.Slime_Yellow.GetTexture();
                 default:
-                    return Images.Slime_Blue;    
+                    return Images.Slime_Blue.GetTexture();    
             }
         }
     }

@@ -22,7 +22,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.GrassBlock;
+            image = Images.GrassBlock.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -45,7 +45,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.StoneBlock;
+            image = Images.StoneBlock.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -69,7 +69,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.Dirt;
+            image = Images.Dirt.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -93,7 +93,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.CoalOre;
+            image = Images.CoalOre.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -117,7 +117,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.DiamondOre;
+            image = Images.DiamondOre.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -141,7 +141,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.IronOre;
+            image = Images.IronOre.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -165,7 +165,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.OakLog;
+            image = Images.OakLog.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -189,7 +189,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.OakLeaves;
+            image = Images.OakLeaves.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -213,7 +213,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.SpruceLog;
+            image = Images.SpruceLog.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -237,7 +237,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.SpruceLeaves;
+            image = Images.SpruceLeaves.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -260,7 +260,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.Bedrock;
+            image = Images.Bedrock.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -284,7 +284,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.Air;
+            image = Images.Air.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -308,7 +308,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.Chest;
+            image = Images.Chest.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -332,7 +332,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.MagmaBlock;
+            image = Images.MagmaBlock.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -357,7 +357,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.Stone_Hammer;
+            image = Images.StoneHammer.GetTexture();
             cvsItem.Background = image;
         }
 
@@ -395,7 +395,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.Torch;
+            image = Images.Torch.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -420,7 +420,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.Water_6;
+            image = Images.Water_6.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -444,7 +444,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.PottedCactus;
+            image = Images.PottedCactus.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -468,7 +468,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.CraftingTable;
+            image = Images.CraftingTable.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -492,7 +492,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.CobbleStoneBlock;
+            image = Images.CobbleStoneBlock.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -516,7 +516,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.Chiseler;
+            image = Images.Chiseler.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -540,7 +540,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.Unchiseler;
+            image = Images.Unchiseler.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -563,7 +563,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.Bone;
+            image = Images.Bone.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -586,7 +586,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.Arrow;
+            image = Images.Arrow.GetTexture();
             cvsItem.Background = image;
         }
     }
@@ -609,7 +609,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.Snowball;
+            image = Images.Snowball.GetTexture()    ;
             cvsItem.Background = image;
         }
     }
