@@ -544,4 +544,73 @@ namespace SeeloewenCraft
             cvsItem.Background = image;
         }
     }
+
+    public class BoneItem : Item
+    {
+        public BoneItem(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Bone";
+            id = "sc:bone_item";
+            SetTexture();
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            return null;
+        }
+
+        override public void SetTexture()
+        {
+            //Set the texture of the block on the canvas
+            image = Images.Bone;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class ArrowItem : Item
+    {
+        public ArrowItem(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Arrow";
+            id = "sc:arrow_item";
+            SetTexture();
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            return null;
+        }
+
+        override public void SetTexture()
+        {
+            //Set the texture of the block on the canvas
+            image = Images.Arrow;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class SnowballItem : Item
+    {
+        public SnowballItem(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Snowball";
+            id = "sc:snowball_item";
+            SetTexture();
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            return null;
+        }
+
+        override public void SetTexture()
+        {
+            //Set the texture of the block on the canvas
+            image = Images.Snowball;
+            cvsItem.Background = image;
+        }
+    }
 }

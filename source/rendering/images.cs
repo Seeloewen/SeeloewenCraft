@@ -178,6 +178,9 @@ namespace SeeloewenCraft
             Hammer_3 = new ImageBrush { ImageSource = GetImageSource("Hammer_3.png") };
             Hammer_4 = new ImageBrush { ImageSource = GetImageSource("Hammer_4.png") };
             Hammer_5 = new ImageBrush { ImageSource = GetImageSource("Hammer_5.png") };
+            Bone = new ImageBrush { ImageSource = GetImageSource("Bone.png") };
+            Arrow = new ImageBrush { ImageSource = GetImageSource("Arrow.png") };
+            Snowball = new ImageBrush { ImageSource = GetImageSource("Snowball.png") };
         }
 
         //-- Images --//
@@ -250,5 +253,8 @@ namespace SeeloewenCraft
         public static ImageBrush Hammer_3;
         public static ImageBrush Hammer_4;
         public static ImageBrush Hammer_5;
+        public static ImageBrush Bone;
+        public static ImageBrush Arrow;
+        public static ImageBrush Snowball;
     }
 }

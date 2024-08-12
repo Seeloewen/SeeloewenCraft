@@ -76,6 +76,9 @@
     <Resource Include="Resources\Textures\Hammer_3.png" />
     <Resource Include="Resources\Textures\Hammer_4.png" />
     <Resource Include="Resources\Textures\Hammer_5.png" />
+    <Resource Include="Resources\Textures\Items\Arrow.png" />
+    <Resource Include="Resources\Textures\Items\Bone.png" />
+    <Resource Include="Resources\Textures\Items\Snowball.png" />
     <Resource Include="Resources\Textures\Missing_Texture.png" />
     <Resource Include="Resources\Textures\Items\Stone_Hammer.png" />
     <Resource Include="Resources\Textures\Blocks\Spruce_Leaves.png" />
@@ -112,6 +115,9 @@
     <None Remove="Resources\Textures\Hammer_3.png" />
     <None Remove="Resources\Textures\Hammer_4.png" />
     <None Remove="Resources\Textures\Hammer_5.png" />
+    <None Remove="Resources\Textures\Items\Arrow.png" />
+    <None Remove="Resources\Textures\Items\Bone.png" />
+    <None Remove="Resources\Textures\Items\Snowball.png" />
   </ItemGroup>   
   <ItemGroup>
     <Content Include="SeeloewenCraft.ico" />

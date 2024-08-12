@@ -114,6 +114,15 @@ namespace SeeloewenCraft
 
                 case "sc:unchiseler_item":
                     return new UnchiselerItem(world);
+
+                case "sc:snowball_item":
+                    return new SnowballItem(world);
+
+                case "sc:bone_item":
+                    return new BoneItem(world);
+
+                case "sc:arrow_item":
+                    return new ArrowItem(world);
             }
             return null;
         }
