@@ -72,16 +72,17 @@ namespace SeeloewenCraft
             debugMenu = new DebugMenu(this);
             gameLoop = new GameLoop(this, 25);
             recipeCreator = new RecipeCreator(this);
-            notificationHandler = new NotificationHandler(this);        
+            notificationHandler = new NotificationHandler(this);
             worldRenderer = new WorldRenderer(wndGame);
+
+
+            //Actually initialize the game
+            InitGame(worldName, isNew, worldVersion);
 
             if (StartOptions.startCreative)
             {
                 SetGamemode(Gamemode.Creative);
             }
-
-            //Actually initialize the game
-            InitGame(worldName, isNew, worldVersion);
 
             wndGame.Show();
         }
@@ -184,16 +185,8 @@ namespace SeeloewenCraft
 
         public void SetGamemode(Gamemode gamemode)
         {
-            if(gamemode == Gamemode.Creative)
-            {
-                this.gamemode = gamemode;
-                player.healthBar.Hide();
-            }
-            else if(gamemode == Gamemode.Survival)
-            {
-                this.gamemode = gamemode;
-                player.healthBar.Show();
-            }
+            this.gamemode = gamemode;
+            player.SetGamemode(gamemode);
         }
 
         public void SaveEntities()

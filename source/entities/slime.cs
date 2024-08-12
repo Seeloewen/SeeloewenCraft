@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Windows.Media;
 
 namespace SeeloewenCraft
@@ -19,6 +18,12 @@ namespace SeeloewenCraft
         {
             rnd = new Random(DateTime.Now.Millisecond);
             frictionAir = 1;
+        }
+
+        public override void Die()
+        {
+            Drop("sc:crafting_table_item");
+            base.Die();
         }
 
         public override void DoPhysicsStep(int tps)

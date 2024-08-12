@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace SeeloewenCraft
@@ -11,6 +9,11 @@ namespace SeeloewenCraft
         public Inventory inventory;
         public HealthBar healthBar;
 
+        public Gamemode gamemode = Gamemode.Survival;
+
+        public const double HIT_RANGE = 4000.0;
+        public const double HIT_DAMAGE = 2.0;
+
         //-- Constructor --//
 
         public Player(World world, int x, int y) : base(70000, 900, 1900, x, y, 0, 0, world, new SolidColorBrush(Colors.Red))
@@ -19,12 +22,25 @@ namespace SeeloewenCraft
             this.world = world;
 
             //Generate the player
-            GeneratePlayer();
+            InitPlayer();
         }
 
         //-- Custom Methods --//
 
-        public void GeneratePlayer()
+        public void SetGamemode(Gamemode gamemode)
+        {
+            this.gamemode = gamemode;
+            if (gamemode == Gamemode.Creative)
+            {
+                healthBar.Hide();
+            }
+            else if (gamemode == Gamemode.Survival)
+            {
+                healthBar.Show();
+            }
+        }
+
+        public void InitPlayer()
         {
             //Setup the character canvas that is shown but does not count in movement checks
 
@@ -52,6 +68,23 @@ namespace SeeloewenCraft
                 healthBar.Hide();
             }
         }
+
+        public override void Die()
+        {
+            MessageBox.Show("You experienced a severe skill issue and as a consequence have vanished from this world (death has not been implemented yet)");
+        }
+
+        public override void SetHP(double hp)
+        {
+            base.SetHP(hp);
+            healthBar.SetValue((int)(hp*2)*0.5);
+        }
+
+        public override void Damage(double damage)
+        {
+            if(gamemode == Gamemode.Survival) base.Damage(damage);
+        }
+
 
         //physics
         public override void DoPhysicsStep(int tps)
