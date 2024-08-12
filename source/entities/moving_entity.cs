@@ -4,6 +4,7 @@ namespace SeeloewenCraft
 {
     public class MovingEntity : Entity
     {
+        protected double hp = 10.0;
 
         protected int accWalking = 70000;
         private const int jumpStartSpeed = 15000;
@@ -16,6 +17,44 @@ namespace SeeloewenCraft
             : base(sizeX, sizeY, posX, posY, velX, velY, world, image)
         {
             this.accWalking = accWalking;
+
+            texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
+        }
+
+        //hit by player
+        private void Texture_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            int playerX = world.player.posX;
+            int playerY = world.player.posY;
+
+            if (playerX - (posX + sizeX) < Player.HIT_RANGE
+                && playerY - (posY + sizeY) < Player.HIT_RANGE
+                && (playerX + world.player.sizeX) - posX < Player.HIT_RANGE
+                && (playerY +  world.player.sizeY) - posY < Player.HIT_RANGE)
+            {
+                Damage(Player.HIT_DAMAGE);
+            }
+
+
+        }
+
+        public virtual void Die()
+        {
+            world.RemoveEntity(this);
+        }
+
+        public virtual void SetHP(double hp)
+        {
+            this.hp = hp;
+            if(hp <= 0)
+            {
+                Die();
+            }
+        }
+
+        public virtual void Damage(double damage)
+        {
+            SetHP(hp - damage);
         }
 
         public override void DoPhysicsStep(int tps)

@@ -15,7 +15,7 @@ namespace SeeloewenCraft
             Entity entity = EntityRegister.GenerateEntity(args[1], world);
             if (entity == null)
             {
-                MessageBox.Show("Invalid command syntax: entity id was not found", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Invalid command syntax: entity id was not found ({args[1]})", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
