@@ -69,7 +69,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.DirtBlock;
+            image = Images.Dirt;
             cvsItem.Background = image;
         }
     }
@@ -93,7 +93,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.CoalOreBlock;
+            image = Images.CoalOre;
             cvsItem.Background = image;
         }
     }
@@ -117,7 +117,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.DiamondOreBlock;
+            image = Images.DiamondOre;
             cvsItem.Background = image;
         }
     }
@@ -141,7 +141,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.IronOreBlock;
+            image = Images.IronOre;
             cvsItem.Background = image;
         }
     }
@@ -165,7 +165,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.OakLogBlock;
+            image = Images.OakLog;
             cvsItem.Background = image;
         }
     }
@@ -189,7 +189,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.OakLeavesBlock;
+            image = Images.OakLeaves;
             cvsItem.Background = image;
         }
     }
@@ -213,7 +213,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.SpruceLogBlock;
+            image = Images.SpruceLog;
             cvsItem.Background = image;
         }
     }
@@ -237,7 +237,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.SpruceLeavesBlock;
+            image = Images.SpruceLeaves;
             cvsItem.Background = image;
         }
     }
@@ -260,7 +260,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.BedrockBlock;
+            image = Images.Bedrock;
             cvsItem.Background = image;
         }
     }
@@ -284,7 +284,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.AirBlock;
+            image = Images.Air;
             cvsItem.Background = image;
         }
     }
@@ -308,7 +308,7 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.ChestBlock;
+            image = Images.Chest;
             cvsItem.Background = image;
         }
     }
@@ -337,14 +337,14 @@ namespace SeeloewenCraft
         }
     }
 
-    public class HammerItem : Item
+    public class StoneHammerItem : Item
     {
-        public HammerItem(World world) : base(world)
+        public StoneHammerItem(World world) : base(world)
         {
             isPlacable = false;
             hasRightClickAction = true;
-            name = "Hammer";
-            id = "sc:hammer_item";
+            name = "Stone Hammer";
+            id = "sc:stone_hammer_item";
             SetTexture();
             tags.Add("tools/hammer");
         }
@@ -357,12 +357,14 @@ namespace SeeloewenCraft
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.Hammer;
+            image = Images.Stone_Hammer;
             cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
         {
+            //TO-DO: Implement timer when moving blocks to background
+
             if (block.isBackground && block.canBeMovedToBackground && block.IsInRange() && block.foregroundBlock == null)
             {
                 block.MoveToForeground();
@@ -423,50 +425,50 @@ namespace SeeloewenCraft
         }
     }
 
-    public class Plant2Item : Item
+    public class PottedCactusItem : Item
     {
-        public Plant2Item(World world) : base(world)
+        public PottedCactusItem(World world) : base(world)
         {
             isPlacable = true;
-            name = "Plant2";
-            id = "sc:plant_2_item";
+            name = "Potted Cactus";
+            id = "sc:potted_cactus_item";
             SetTexture();
         }
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new Plant2Block_Base(world, isInBackground);
+            block = new PottedCactus_Base(world, isInBackground);
             return block;
         }
 
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.Plant2;
+            image = Images.PottedCactus;
             cvsItem.Background = image;
         }
     }
 
-    public class AlphaCrafterItem : Item
+    public class CraftingTable : Item
     {
-        public AlphaCrafterItem(World world) : base(world)
+        public CraftingTable(World world) : base(world)
         {
             isPlacable = true;
-            name = "Alpha Crafter";
-            id = "sc:alpha_crafter_item";
+            name = "Crafting Table";
+            id = "sc:crafting_table_item";
             SetTexture();
         }
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new AlphaCrafterBlock(world, isInBackground);
+            block = new CraftingTableBlock(world, isInBackground);
             return block;
         }
 
         override public void SetTexture()
         {
             //Set the texture of the block on the canvas
-            image = Images.AlphaCrafter;
+            image = Images.CraftingTable;
             cvsItem.Background = image;
         }
     }
@@ -483,7 +485,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobbleStoneBlock(world, isInBackground);
+            block = new CobblestoneBlock(world, isInBackground);
             return block;
         }
 
@@ -539,6 +541,75 @@ namespace SeeloewenCraft
         {
             //Set the texture of the block on the canvas
             image = Images.Unchiseler;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class BoneItem : Item
+    {
+        public BoneItem(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Bone";
+            id = "sc:bone_item";
+            SetTexture();
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            return null;
+        }
+
+        override public void SetTexture()
+        {
+            //Set the texture of the block on the canvas
+            image = Images.Bone;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class ArrowItem : Item
+    {
+        public ArrowItem(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Arrow";
+            id = "sc:arrow_item";
+            SetTexture();
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            return null;
+        }
+
+        override public void SetTexture()
+        {
+            //Set the texture of the block on the canvas
+            image = Images.Arrow;
+            cvsItem.Background = image;
+        }
+    }
+
+    public class SnowballItem : Item
+    {
+        public SnowballItem(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Snowball";
+            id = "sc:snowball_item";
+            SetTexture();
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            return null;
+        }
+
+        override public void SetTexture()
+        {
+            //Set the texture of the block on the canvas
+            image = Images.Snowball;
             cvsItem.Background = image;
         }
     }

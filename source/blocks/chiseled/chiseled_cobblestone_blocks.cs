@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SeeloewenCraft
 {
-    public class CobbleStoneBlock_BottomLeft : Block
+    public class CobblestoneBlock_BottomLeft : Block
     {
-        public CobbleStoneBlock_BottomLeft(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_BottomLeft(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -28,9 +28,9 @@ namespace SeeloewenCraft
         }
     }
 
-    public class CobbleStoneBlock_BottomRight : Block
+    public class CobblestoneBlock_BottomRight : Block
     {
-        public CobbleStoneBlock_BottomRight(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_BottomRight(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -72,9 +72,9 @@ namespace SeeloewenCraft
         }
     }
 
-    public class CobbleStoneBlock_TopRight : Block
+    public class CobblestoneBlock_TopRight : Block
     {
-        public CobbleStoneBlock_TopRight(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_TopRight(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -94,9 +94,9 @@ namespace SeeloewenCraft
         }
     }
 
-    public class CobbleStoneBlock_SlabRight : Block
+    public class CobblestoneBlock_SlabRight : Block
     {
-        public CobbleStoneBlock_SlabRight(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_SlabRight(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -116,9 +116,9 @@ namespace SeeloewenCraft
         }
     }
 
-    public class CobbleStoneBlock_SlabLeft : Block
+    public class CobblestoneBlock_SlabLeft : Block
     {
-        public CobbleStoneBlock_SlabLeft(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_SlabLeft(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -138,9 +138,9 @@ namespace SeeloewenCraft
         }
     }
 
-    public class CobbleStoneBlock_SlabTop : Block
+    public class CobblestoneBlock_SlabTop : Block
     {
-        public CobbleStoneBlock_SlabTop(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_SlabTop(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -160,9 +160,9 @@ namespace SeeloewenCraft
         }
     }
 
-    public class CobbleStoneBlock_SlabBottom : Block
+    public class CobblestoneBlock_SlabBottom : Block
     {
-        public CobbleStoneBlock_SlabBottom(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_SlabBottom(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -182,9 +182,9 @@ namespace SeeloewenCraft
         }
     }
 
-    public class CobbleStoneBlock_StairTopRight : Block
+    public class CobblestoneBlock_StairTopRight : Block
     {
-        public CobbleStoneBlock_StairTopRight(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_StairTopRight(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -204,9 +204,9 @@ namespace SeeloewenCraft
         }
     }
 
-    public class CobbleStoneBlock_StairTopLeft : Block
+    public class CobblestoneBlock_StairTopLeft : Block
     {
-        public CobbleStoneBlock_StairTopLeft(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_StairTopLeft(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -226,9 +226,9 @@ namespace SeeloewenCraft
         }
     }
 
-    public class CobbleStoneBlock_StairBottomRight : Block
+    public class CobblestoneBlock_StairBottomRight : Block
     {
-        public CobbleStoneBlock_StairBottomRight(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_StairBottomRight(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -248,9 +248,9 @@ namespace SeeloewenCraft
         }
     }
 
-    public class CobbleStoneBlock_StairBottomLeft : Block
+    public class CobblestoneBlock_StairBottomLeft : Block
     {
-        public CobbleStoneBlock_StairBottomLeft(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_StairBottomLeft(World world, bool isInBackground) : base(world, isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";

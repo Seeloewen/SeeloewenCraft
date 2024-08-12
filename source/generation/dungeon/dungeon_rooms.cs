@@ -20,7 +20,7 @@ namespace SeeloewenCraft
                 {
                     if (y == 0 || y == 11 || x == 0 || x == 6)
                     {
-                        blocks.Add(new DungeonBlock(x, y) { block = new CobbleStoneBlock(world, false), isOccupied = true });
+                        blocks.Add(new DungeonBlock(x, y) { block = new CobblestoneBlock(world, false), isOccupied = true });
                     }
                     else
                     {
@@ -29,10 +29,10 @@ namespace SeeloewenCraft
                 }
             }
 
-            GetBlock(1, 3).block = new CobbleStoneBlock_StairTopLeft(world, false);
-            GetBlock(5, 7).block = new CobbleStoneBlock_StairTopRight(world, false);
-            GetBlock(4, 7).block = new CobbleStoneBlock_SlabTop(world, false);
-            GetBlock(2, 3).block = new CobbleStoneBlock_SlabTop(world, false);
+            GetBlock(1, 3).block = new CobblestoneBlock_StairTopLeft(world, false);
+            GetBlock(5, 7).block = new CobblestoneBlock_StairTopRight(world, false);
+            GetBlock(4, 7).block = new CobblestoneBlock_SlabTop(world, false);
+            GetBlock(2, 3).block = new CobblestoneBlock_SlabTop(world, false);
 
             SetDoor(6, 8, Direction.RIGHT);
             SetDoor(0, 4, Direction.LEFT);
@@ -52,7 +52,7 @@ namespace SeeloewenCraft
                 {
                     if (y == 0 || y == 4 || x == 0 || x == 9)
                     {
-                        blocks.Add(new DungeonBlock(x, y) { block = new CobbleStoneBlock(world, false), isOccupied = true });
+                        blocks.Add(new DungeonBlock(x, y) { block = new CobblestoneBlock(world, false), isOccupied = true });
                     }
                     else
                     {
@@ -82,7 +82,7 @@ namespace SeeloewenCraft
                 {
                     if (y == 0 || y == 4 || x == 0 || x == 4)
                     {
-                        blocks.Add(new DungeonBlock(x, y) { block = new CobbleStoneBlock(world, false), isOccupied = true });
+                        blocks.Add(new DungeonBlock(x, y) { block = new CobblestoneBlock(world, false), isOccupied = true });
                     }
                     else
                     {
@@ -111,7 +111,7 @@ namespace SeeloewenCraft
                 {
                     if (y == 0 || y == 9 || x == 0 || x == 9)
                     {
-                        blocks.Add(new DungeonBlock(x, y) { block = new CobbleStoneBlock(world, false), isOccupied = true });
+                        blocks.Add(new DungeonBlock(x, y) { block = new CobblestoneBlock(world, false), isOccupied = true });
                     }
                     else
                     {
@@ -120,14 +120,14 @@ namespace SeeloewenCraft
                 }
             }
 
-            GetBlock(3, 1).block = new CobbleStoneBlock_StairTopRight(world, false);
-            GetBlock(7, 1).block = new CobbleStoneBlock_StairTopLeft(world, false);
-            GetBlock(5, 1).block = new CobbleStoneBlock(world, false);
-            GetBlock(5, 2).block = new CobbleStoneBlock(world, false);
-            GetBlock(5, 3).block = new CobbleStoneBlock(world, false);
+            GetBlock(3, 1).block = new CobblestoneBlock_StairTopRight(world, false);
+            GetBlock(7, 1).block = new CobblestoneBlock_StairTopLeft(world, false);
+            GetBlock(5, 1).block = new CobblestoneBlock(world, false);
+            GetBlock(5, 2).block = new CobblestoneBlock(world, false);
+            GetBlock(5, 3).block = new CobblestoneBlock(world, false);
             GetBlock(5, 4).block = new WaterBlock_6(world, false);
-            GetBlock(1, 6).block = new CobbleStoneBlock_StairTopLeft(world, false);
-            GetBlock(2, 6).block = new CobbleStoneBlock_SlabTop(world, false);
+            GetBlock(1, 6).block = new CobblestoneBlock_StairTopLeft(world, false);
+            GetBlock(2, 6).block = new CobblestoneBlock_SlabTop(world, false);
 
             //Create a chest with random loot
             List<Item> chestLoot = new List<Item>();
@@ -161,7 +161,7 @@ namespace SeeloewenCraft
                 {
                     if (y == 0 || y == 8 || x == 0 || x == 4)
                     {
-                        blocks.Add(new DungeonBlock(x, y) { block = new CobbleStoneBlock(world, false), isOccupied = true });
+                        blocks.Add(new DungeonBlock(x, y) { block = new CobblestoneBlock(world, false), isOccupied = true });
                     }
                     else
                     {

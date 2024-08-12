@@ -1,9 +1,9 @@
 {
   "recipes": [
     {
-      "id": "sc:recipe_hammer",
-      "workstation": "AlphaCrafter",
-      "display_name": "Hammer",
+      "id": "sc:recipe_stone_hammer",
+      "workstation": "Crafting_Table",
+      "display_name": "Stone Hammer",
       "required_time": 3000,
       "ingredients": [
         {
@@ -17,14 +17,14 @@
       ],
       "outgredients": [
         {
-          "item_id": "sc:hammer_item",
+          "item_id": "sc:stone_hammer_item",
           "amount": 1
         }
       ]
     },
     {
       "id": "sc:recipe_chest",
-      "workstation": "AlphaCrafter",
+      "workstation": "Crafting_Table",
       "display_name": "Chest",
       "required_time": 10000,
       "ingredients": [

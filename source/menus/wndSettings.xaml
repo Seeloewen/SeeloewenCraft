@@ -10,7 +10,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="/Resources/Textures/Gui/Background.png" TileMode="Tile" Stretch="None"/>
         </Grid.Background>
-        <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="11,10,0,0" TextWrapping="Wrap" Text="Settings" VerticalAlignment="Top" FontSize="28" FontWeight="DemiBold"/>
+        <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="11,10,0,0" TextWrapping="Wrap" Text="Settings" VerticalAlignment="Top" FontSize="28" FontWeight="DemiBold" Foreground="White"/>
         <Button x:Name="btnSaveClose" Content="Save" HorizontalAlignment="Left" Margin="371,438,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.337,0.169" Height="29" Width="149" FontSize="16" Click="btnSaveClose_Click"/>
         <Button x:Name="btnAbout" Content="About" HorizontalAlignment="Left" Margin="13,438,0,0" VerticalAlignment="Top" Height="29" Width="159" FontSize="16" Click="btnAbout_Click"/>
         <Button x:Name="btnOpenLog" Content="Open Log" HorizontalAlignment="Left" Margin="187,438,0,0" VerticalAlignment="Top" Width="168" FontSize="16" Height="29" Click="btnOpenLog_Click"/>

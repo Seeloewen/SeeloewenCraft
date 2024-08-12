@@ -56,6 +56,7 @@ namespace SeeloewenCraft
                 outgredients.Add(new CraftingIngredient(outgredientToken, world));
             }
 
+
             displayImage = outgredients[0].item.image;
         }
     }
