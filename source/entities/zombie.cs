@@ -17,6 +17,13 @@ namespace SeeloewenCraft
             rnd = new Random(DateTime.Now.Millisecond);
         }
 
+        public override void Die()
+        {
+            Drop("sc:dirt_item");
+            base.Die();
+        }
+
+
         public override void DoPhysicsStep(int tps)
         {
             if (timeSinceMove > 1000)

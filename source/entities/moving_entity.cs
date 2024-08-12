@@ -1,9 +1,12 @@
-﻿using System.Windows.Media;
+﻿using System;
+using System.Windows.Media;
 
 namespace SeeloewenCraft
 {
     public class MovingEntity : Entity
     {
+        static Random rnd = new Random(DateTime.Now.Millisecond);
+
         protected double hp = 10.0;
 
         protected int accWalking = 70000;
@@ -36,6 +39,11 @@ namespace SeeloewenCraft
             }
 
 
+        }
+
+        public virtual void Drop(string id)
+        {
+            world.AddEntity(new ItemEntity(ItemRegister.GenerateItem(id, world), posX + sizeX/2 - ItemEntity.itemSizeX / 2, posY + sizeY*2/3 - ItemEntity.itemSizeY / 2, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
         }
 
         public virtual void Die()
