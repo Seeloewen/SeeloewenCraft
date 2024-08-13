@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-using System.Windows;
-using System;
+﻿using System;
 using System.Windows.Input;
 
 namespace SeeloewenCraft
