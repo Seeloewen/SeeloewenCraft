@@ -123,7 +123,11 @@ namespace SeeloewenCraft
 
         public virtual void Drop(string id)
         {
-            world.AddEntity(new ItemEntity(ItemRegister.GenerateItem(id, world), posX + sizeX / 2 - ItemEntity.itemSizeX / 2, posY + sizeY * 2 / 3 - ItemEntity.itemSizeY / 2, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
+            world.AddEntity(new ItemEntity(ItemRegister.GenerateItem(id, world), //item type
+                posX + sizeX / 2 - ItemEntity.itemSizeX / 2, //posX
+                posY + sizeY * 2 / 3 - ItemEntity.itemSizeY / 2, //posY
+                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), //velX and velY
+                world));
         }
 
         public virtual void Die()
