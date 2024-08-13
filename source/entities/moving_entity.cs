@@ -9,7 +9,8 @@ namespace SeeloewenCraft
 
         public const int MAX_STEPUP_HEIGHT = 505;
 
-        protected double hp = 10.0;
+        public const double MAX_HP = 10.0;
+        public double hp;
 
         protected int accWalking = 70000;
         private const int jumpStartSpeed = 15000;
@@ -22,6 +23,7 @@ namespace SeeloewenCraft
             : base(sizeX, sizeY, posX, posY, velX, velY, world, image)
         {
             this.accWalking = accWalking;
+            hp = MAX_HP;
 
             texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
         }
@@ -95,11 +97,16 @@ namespace SeeloewenCraft
 
         public virtual void SetHP(double hp)
         {
-            this.hp = hp;
+            this.hp = Math.Min(hp, MAX_HP);
             if (hp <= 0)
             {
                 Die();
             }
+        }
+
+        public virtual void Heal(double amount)
+        {
+            SetHP(hp + amount);
         }
 
         public virtual void Damage(double damage)

@@ -37,6 +37,15 @@ namespace SeeloewenCraft
                 case "teleport":
                     HandleTPCommand(args);
                     break;
+                case "heal":
+                    HandleHealCommand(args);
+                    break;
+                case "damage":
+                    HandleDamageCommand(args);
+                    break;
+                case "hp":
+                    HandleHPCommand(args);
+                    break;
                 case "ping":
                     Write("pong");
                     break;
