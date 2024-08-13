@@ -33,6 +33,10 @@ namespace SeeloewenCraft
                 case "gamemode":
                     HandleGamemodeCommand(args);
                     break;
+                case "tp":
+                case "teleport":
+                    HandleTPCommand(args);
+                    break;
                 case "ping":
                     Write("pong");
                     break;
@@ -40,9 +44,10 @@ namespace SeeloewenCraft
                     MessageBox.Show("List of commands:" +
                         "\n/help - Shows this menu" +
                         "\n/give [itemId] <amount> - Gives you a specific item (+ optional amount)" +
-                        "\n/setblock [blockId] [posX] [posY] [chunkId] - Places a block at a specific location" +
+                        "\n/setblock [blockId] [posX] [posY] <chunkId> - Places a block at a specific location" +
                         "\n/spawn [entityId] [absPosX] [absPosY] - Spawns an entity at a given location" +
                         "\n/gamemode [type] - Switches your gamemode" +
+                        "\n/tp [absPosX] [absPosY] - Teleports you to specified position" +
                         "\n/ping - Return pong, used as a test command");
                     break;
                 default:

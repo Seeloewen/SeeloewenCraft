@@ -374,8 +374,14 @@ namespace SeeloewenCraft
         public bool IsInRange()
         {
             Block playerBlock = world.GetBlock(world.player.posX / 1000, (world.player.posY / 1000) + 1);
-
-            return (GetXRangeToBlock(playerBlock) < 5 && GetYRangeToBlock(playerBlock) < 5);
+            if (playerBlock != null)
+            {
+                return (GetXRangeToBlock(playerBlock) < 5 && GetYRangeToBlock(playerBlock) < 5);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool IsLightSource(bool ignoreAir)
