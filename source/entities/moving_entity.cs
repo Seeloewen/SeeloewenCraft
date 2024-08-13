@@ -7,6 +7,8 @@ namespace SeeloewenCraft
     {
         static Random rnd = new Random(DateTime.Now.Millisecond);
 
+        public const int MAX_STEPUP_HEIGHT = 505;
+
         protected double hp = 10.0;
 
         protected int accWalking = 70000;
@@ -24,6 +26,46 @@ namespace SeeloewenCraft
             texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
         }
 
+        protected override bool CheckUpStep(Direction direction, int remaining, int tps)
+        {
+            if (!onGround) return false;
+
+            (_, int open) = direction.IsRight()
+                ? DoCollisionCheck(Direction.DOWN, posX + sizeX, posY, posX + sizeX + 1, posY + sizeY)
+                : DoCollisionCheck(Direction.DOWN, posX - 1, posY, posX, posY + sizeY);
+
+            int amount = sizeY - open;
+            if (amount <= MAX_STEPUP_HEIGHT)
+            {
+                bool collided;
+                int maxMovement;
+                if (direction.IsRight())
+                {
+                    (collided, maxMovement) = DoCollisionCheck(Direction.UP, posX + sizeX, posY, posX + sizeX + 1, posY - amount);
+                }
+                else
+                {
+                    (collided, maxMovement) = DoCollisionCheck(Direction.UP, posX - 1, posY, posX, posY - amount);
+                }
+                if (!collided) maxMovement = amount;
+                if (maxMovement < amount)
+                {
+                    return false;
+                }
+                else
+                {
+                    Move(0, -maxMovement, tps);
+                    Move(direction.IsRight() ? remaining : -remaining, 0, tps);
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
         //hit by player
         private void Texture_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -33,7 +75,7 @@ namespace SeeloewenCraft
             if (playerX - (posX + sizeX) < Player.HIT_RANGE
                 && playerY - (posY + sizeY) < Player.HIT_RANGE
                 && (playerX + world.player.sizeX) - posX < Player.HIT_RANGE
-                && (playerY +  world.player.sizeY) - posY < Player.HIT_RANGE)
+                && (playerY + world.player.sizeY) - posY < Player.HIT_RANGE)
             {
                 Damage(Player.HIT_DAMAGE);
             }
@@ -43,7 +85,7 @@ namespace SeeloewenCraft
 
         public virtual void Drop(string id)
         {
-            world.AddEntity(new ItemEntity(ItemRegister.GenerateItem(id, world), posX + sizeX/2 - ItemEntity.itemSizeX / 2, posY + sizeY*2/3 - ItemEntity.itemSizeY / 2, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
+            world.AddEntity(new ItemEntity(ItemRegister.GenerateItem(id, world), posX + sizeX / 2 - ItemEntity.itemSizeX / 2, posY + sizeY * 2 / 3 - ItemEntity.itemSizeY / 2, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
         }
 
         public virtual void Die()
@@ -54,7 +96,7 @@ namespace SeeloewenCraft
         public virtual void SetHP(double hp)
         {
             this.hp = hp;
-            if(hp <= 0)
+            if (hp <= 0)
             {
                 Die();
             }
@@ -77,13 +119,19 @@ namespace SeeloewenCraft
 
 
             // -- change velocity depending on inputs --
-            if (pressedRight && !touchingRight)
+            if (pressedRight)
             {
-                velX += accWalking / tps;
+                if (!touchingRight || CheckUpStep(Direction.RIGHT, 1, tps))
+                {
+                    velX += accWalking / tps;
+                }
             }
-            if (pressedLeft && !touchingLeft)
+            if (pressedLeft)
             {
-                velX -= accWalking / tps;
+                if (!touchingLeft || CheckUpStep(Direction.LEFT, -1, tps))
+                {
+                    velX -= accWalking / tps;
+                }
             }
 
             //jump

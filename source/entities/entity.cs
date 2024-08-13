@@ -111,73 +111,80 @@ namespace SeeloewenCraft
 
         protected void Move(int tps)
         {
-
             int dX = velX / tps;
             int dY = velY / tps;
 
-            if (velX > 0)
+            Move(dX, dY, tps);
+        }
+
+        protected void Move(int dX, int dY, int tps)
+        {
+            if (dX > 0)
             {
                 (bool collided, int maxMovement) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + dX, posY + sizeY);
                 if (collided)
                 {
-                    velX = 0;
                     posX += maxMovement;
-                    //MoveHorizontal(maxMovement / 20);
+                    if (!CheckUpStep(Direction.RIGHT, dX - maxMovement, tps))
+                    {
+                        velX = 0;
+                    }
                 }
                 else
                 {
-                    posX += velX / tps;
-                    //MoveHorizontal(dX / 20);
+                    posX += dX;
                 }
             }
-            if (velX < 0)
+            if (dX < 0)
             {
                 (bool collided, int maxMovement) = DoCollisionCheck(Direction.LEFT, posX, posY, posX + dX, posY + sizeY);
                 if (collided)
                 {
-                    velX = 0;
                     posX -= maxMovement;
-                    //MoveHorizontal(-maxMovement / 20);
+                    if (!CheckUpStep(Direction.LEFT, dX + maxMovement, tps))
+                    {
+                        velX = 0;
+                    }
                 }
                 else
                 {
-                    posX += velX / tps;
-                    //MoveHorizontal(dX / 20);
+                    posX += dX;
                 }
             }
 
-            if (velY > 0)
+            if (dY > 0)
             {
                 (bool collided, int maxMovement) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + dY);
                 if (collided)
                 {
                     velY = 0;
                     posY += maxMovement;
-                    //MoveVertical(-maxMovement / 20);
                 }
                 else
                 {
-                    posY += velY / tps;
-                    //MoveVertical(-dY / 20);
+                    posY += dY;
                 }
             }
-            if (velY < 0)
+            if (dY < 0)
             {
                 (bool collided, int maxMovement) = DoCollisionCheck(Direction.UP, posX, posY, posX + sizeX, posY + dY);
                 if (collided)
                 {
                     velY = 0;
                     posY -= maxMovement;
-                    //MoveVertical(maxMovement / 20);
                 }
                 else
                 {
-                    posY += velY / tps;
-                    //MoveVertical(-dY / 20);
+                    posY += dY;
                 }
             }
         }
 
+        //return true if stepped up
+        protected virtual bool CheckUpStep(Direction direction, int remaining, int tps)
+        {
+            return false;
+        }
 
         public int ConvertToBlockX(int i)
         {
