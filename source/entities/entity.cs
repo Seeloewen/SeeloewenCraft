@@ -96,15 +96,34 @@ namespace SeeloewenCraft
             }
         }
 
-        public virtual void DoPhysicsStep(int tps)
+        public virtual void OnUpdate(int tps) //temp virtual
+        {
+            OnUpdateStart(tps);
+
+            DoPhysicsStep(tps);
+
+            Move(tps);
+
+            OnUpdateEnd(tps);
+        }
+
+        protected virtual void OnUpdateStart(int tps)
         {
             lifeTime += 1000 / tps;
 
             (onGround, _) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + 1);
 
             DoTouchCheck();
+        }
 
-            DoFrictionStep(tps);
+        protected virtual void OnUpdateEnd(int tps)
+        {
+
+        }
+
+        public virtual void DoPhysicsStep(int tps)
+        {
+
 
             if (!onGround)
             {
@@ -122,7 +141,10 @@ namespace SeeloewenCraft
                     velX += 20000 / tps;
                 }
             }
-            Move(tps);
+
+            DoFrictionStep(tps);
+
+
         }
 
         protected void Move(int tps)
@@ -173,8 +195,9 @@ namespace SeeloewenCraft
                 (bool collided, int maxMovement) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + dY);
                 if (collided)
                 {
-                    velY = 0;
                     posY += maxMovement;
+                    DoFallDamage();
+                    velY = 0;
                 }
                 else
                 {
@@ -194,6 +217,11 @@ namespace SeeloewenCraft
                     posY += dY;
                 }
             }
+        }
+
+        protected virtual void DoFallDamage()
+        {
+            return;
         }
 
         //return true if stepped up

@@ -27,6 +27,14 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
+        protected override void DoFallDamage()
+        {
+            if (lifeTime > 5000)
+            {
+                base.DoFallDamage();
+            }
+        }
+
         public void SetGamemode(Gamemode gamemode)
         {
             this.gamemode = gamemode;
@@ -62,8 +70,8 @@ namespace SeeloewenCraft
 
             //Setup health bar
             healthBar = new HealthBar(world, 10, 740);
-            
-            if(world.gamemode == Gamemode.Creative)
+
+            if (world.gamemode == Gamemode.Creative)
             {
                 healthBar.Hide();
             }
@@ -77,19 +85,24 @@ namespace SeeloewenCraft
         public override void SetHP(double hp)
         {
             base.SetHP(hp);
-            healthBar.SetValue((int)(hp*2)*0.5);
+            healthBar.SetValue((int)(hp * 2) * 0.5);
         }
 
         public override void Damage(double damage)
         {
-            if(gamemode == Gamemode.Survival) base.Damage(damage);
+            if (gamemode == Gamemode.Survival) base.Damage(damage);
         }
 
 
-        //physics
-        public override void DoPhysicsStep(int tps)
-        {        
-            base.DoPhysicsStep(tps);
+        protected override void OnUpdateStart(int tps)
+        {
+            base.OnUpdateStart(tps);
+            DisplayDebugInformation();
+        }
+
+        protected override void OnUpdateEnd(int tps)
+        {
+            base.OnUpdateEnd(tps);
             DisplayDebugInformation();
         }
 

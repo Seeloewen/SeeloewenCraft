@@ -594,7 +594,7 @@ namespace SeeloewenCraft
             player.pressedRight = wndGame.pressedKeys.Contains(Settings.cMoveRight);
             player.pressedUp = wndGame.pressedKeys.Contains(Settings.cJump);
 
-            player.DoPhysicsStep(63); // tps: 1/0.016
+            player.OnUpdate(63); // tps: 1/0.016
 
             if (wndGame.pressedKeys.Contains(Key.Q))
             {
@@ -626,7 +626,7 @@ namespace SeeloewenCraft
 
             foreach (Entity entity in entities)
             {
-                entity.DoPhysicsStep(63);
+                entity.OnUpdate(63);
                 if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && entity.posX < player.posX + player.sizeX && entity.posX + entity.sizeX > player.posX && entity.posY < player.posY + player.sizeY && entity.posY + entity.sizeY > player.posY)
                 {
                     player.inventory.AddItem(itemEntity.item);

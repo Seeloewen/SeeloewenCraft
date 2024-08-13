@@ -15,12 +15,16 @@ namespace SeeloewenCraft
         protected int accWalking = 70000;
         private const int jumpStartSpeed = 15000;
 
+        private int fallMaxHeight = 0;
+
         public bool pressedUp;
         public bool pressedRight;
         public bool pressedLeft;
 
+        bool touchingRight;
+        bool touchingLeft;
 
-        
+
 
         public MovingEntity(int accWalking, int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Brush image)
             : base(sizeX, sizeY, posX, posY, velX, velY, world, image)
@@ -29,6 +33,16 @@ namespace SeeloewenCraft
             hp = MAX_HP;
 
             texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
+        }
+
+        protected override void DoFallDamage()
+        {
+            int fallHeight = posY - fallMaxHeight;
+            if (fallHeight > 3950)
+            {
+                Damage((fallHeight - 2000) / 3000.0);
+                Log.Write($"new hp after fall damage applied: {hp}", "Info");
+            }
         }
 
         protected override bool CheckUpStep(Direction direction, int remaining, int tps)
@@ -87,7 +101,24 @@ namespace SeeloewenCraft
                     Damage(Player.HIT_DAMAGE);
                 }
             }
+        }
 
+        public override void OnUpdate(int tps) //temporary because player death is not handled properly
+        {
+            if (hp != 0)
+            {
+                base.OnUpdate(tps);
+            }
+        }
+
+        protected override void OnUpdateEnd(int tps)
+        {
+            if (velY <= 0)
+            {
+                fallMaxHeight = posY;
+            }
+
+            base.OnUpdateEnd(tps);
         }
 
         public virtual void Drop(string id)
@@ -119,17 +150,20 @@ namespace SeeloewenCraft
             SetHP(hp - damage);
         }
 
+        protected override void OnUpdateStart(int tps)
+        {
+            base.OnUpdateStart(tps);
+            (touchingLeft, _) = DoCollisionCheck(Direction.LEFT, posX, posY, posX - 1, posY + sizeY);
+            (touchingRight, _) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + 1, posY + sizeY);
+
+            if (touchingStatus[TOUCHING_CACTUS])
+            {
+                Damage((1000 / tps) * 0.001);
+            }
+        }
+
         public override void DoPhysicsStep(int tps)
         {
-            DoTouchCheck();
-            // -- determine which sides of the player are touched by solid blocks --
-
-            //reset
-            (onGround, _) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + 1);
-            (bool touchingLeft, _) = DoCollisionCheck(Direction.LEFT, posX, posY, posX - 1, posY + sizeY);
-            (bool touchingRight, _) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + 1, posY + sizeY);
-
-
             // -- change velocity depending on inputs --
             if (pressedRight)
             {
@@ -146,23 +180,18 @@ namespace SeeloewenCraft
                 }
             }
 
-            //jump
-            if (pressedUp && onGround)
+            //handle jump key
+            if (pressedUp)
             {
-                velY = -jumpStartSpeed;
-            }
+                if (onGround)
+                {
+                    velY = -jumpStartSpeed;
+                }
 
-            if (touchingStatus[TOUCHING_WATER])
-            {
-                if (pressedUp)
+                if (touchingStatus[TOUCHING_WATER])
                 {
                     velY -= 200000 / tps;
                 }
-            }
-
-            if (touchingStatus[TOUCHING_CACTUS])
-            {
-                Damage((1000 / tps) * 0.001);
             }
 
             base.DoPhysicsStep(tps);

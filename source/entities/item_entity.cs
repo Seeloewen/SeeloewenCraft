@@ -26,9 +26,10 @@ namespace SeeloewenCraft
             texture.Background = item.image;
         }
 
-        public override void DoPhysicsStep(int tps)
+
+        protected override void OnUpdateStart(int tps)
         {
-            base.DoPhysicsStep(tps);
+            base.OnUpdateStart(tps);
 
             if (touchingStatus[TOUCHING_CACTUS])
             {
