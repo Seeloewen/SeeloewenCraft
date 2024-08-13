@@ -19,6 +19,9 @@ namespace SeeloewenCraft
         public bool pressedRight;
         public bool pressedLeft;
 
+
+        
+
         public MovingEntity(int accWalking, int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Brush image)
             : base(sizeX, sizeY, posX, posY, velX, velY, world, image)
         {
@@ -71,17 +74,19 @@ namespace SeeloewenCraft
         //hit by player
         private void Texture_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            int playerX = world.player.posX;
-            int playerY = world.player.posY;
-
-            if (playerX - (posX + sizeX) < Player.HIT_RANGE
-                && playerY - (posY + sizeY) < Player.HIT_RANGE
-                && (playerX + world.player.sizeX) - posX < Player.HIT_RANGE
-                && (playerY + world.player.sizeY) - posY < Player.HIT_RANGE)
+            if (this is not Player)
             {
-                Damage(Player.HIT_DAMAGE);
-            }
+                int playerX = world.player.posX;
+                int playerY = world.player.posY;
 
+                if (playerX - (posX + sizeX) < Player.HIT_RANGE
+                    && playerY - (posY + sizeY) < Player.HIT_RANGE
+                    && (playerX + world.player.sizeX) - posX < Player.HIT_RANGE
+                    && (playerY + world.player.sizeY) - posY < Player.HIT_RANGE)
+                {
+                    Damage(Player.HIT_DAMAGE);
+                }
+            }
 
         }
 
