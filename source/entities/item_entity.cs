@@ -26,6 +26,16 @@ namespace SeeloewenCraft
             texture.Background = item.image;
         }
 
+        public override void DoPhysicsStep(int tps)
+        {
+            base.DoPhysicsStep(tps);
+
+            if (touchingStatus[TOUCHING_CACTUS])
+            {
+                world.toDieEntities.Add(this);
+            }
+        }
+
         public ItemEntity(Item item, int posX, int posY, int velX, int velY, World world) : base(itemSizeX, itemSizeY, posX, posY, velX, velY, world, new SolidColorBrush(Colors.Yellow))
         {
             Init(item);

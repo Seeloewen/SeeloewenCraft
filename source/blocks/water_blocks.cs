@@ -17,7 +17,26 @@ namespace SeeloewenCraft
             tags.Add("liquids/water");
         }
 
-        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        public override bool[] CheckTouch(int startX, int startY, int endX, int endY)
+        {
+            (bool c, int d) = CheckWaterTouch(startX, startY, endX, endY);
+            bool[] touchingStatus = new bool[Entity.TOUCHING_STATUS_COUNT];
+            touchingStatus[Entity.TOUCHING_WATER] = c;
+            switch(d)
+            {
+                case -1:
+                    touchingStatus[Entity.TOUCHING_WATER_LEFT] = true;
+                    break;
+                case 1:
+                    touchingStatus[Entity.TOUCHING_WATER_RIGHT] = true;
+                    break;
+                case 0:
+                    break;
+            }
+            return touchingStatus;
+        }
+
+        public virtual (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
             return (true, 0);
         }

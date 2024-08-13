@@ -90,7 +90,7 @@ namespace SeeloewenCraft
 
         public virtual void Die()
         {
-            world.RemoveEntity(this);
+            world.toDieEntities.Add(this);
         }
 
         public virtual void SetHP(double hp)
@@ -109,11 +109,11 @@ namespace SeeloewenCraft
 
         public override void DoPhysicsStep(int tps)
         {
+            DoTouchCheck();
             // -- determine which sides of the player are touched by solid blocks --
 
             //reset
             (onGround, _) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + 1);
-            (touchingWater, int forceWaterX) = DoWaterTouchCheck();
             (bool touchingLeft, _) = DoCollisionCheck(Direction.LEFT, posX, posY, posX - 1, posY + sizeY);
             (bool touchingRight, _) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + 1, posY + sizeY);
 
@@ -140,12 +140,17 @@ namespace SeeloewenCraft
                 velY = -jumpStartSpeed;
             }
 
-            if (touchingWater)
+            if (touchingStatus[TOUCHING_WATER])
             {
                 if (pressedUp)
                 {
                     velY -= 200000 / tps;
                 }
+            }
+
+            if (touchingStatus[TOUCHING_CACTUS])
+            {
+                Damage((1000 / tps) * 0.001);
             }
 
             base.DoPhysicsStep(tps);

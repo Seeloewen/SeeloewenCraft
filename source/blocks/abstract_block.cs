@@ -84,13 +84,13 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-        public virtual (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        public virtual bool[] CheckTouch(int startX, int startY, int endX, int endY)
         {
             if (isBackground && foregroundBlock != null)
             {
-                return foregroundBlock.CheckWaterTouch(startX, startY, endX, endY);
+                return foregroundBlock.CheckTouch(startX, startY, endX, endY);
             }
-            return (false, 0);
+            return new bool[Entity.TOUCHING_STATUS_COUNT];
         }
 
         public virtual (bool, int) CheckCollision(Direction direction, int startX, int endX, int startY, int endY)

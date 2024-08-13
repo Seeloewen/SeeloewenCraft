@@ -33,6 +33,7 @@ namespace SeeloewenCraft
         public NotificationHandler notificationHandler;
         public WorldRenderer worldRenderer;
         public List<Entity> entities;
+        public List<Entity> toDieEntities;
 
         //Constants
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
@@ -373,6 +374,7 @@ namespace SeeloewenCraft
 
         private void InitEntityList(bool loaded)
         {
+            toDieEntities = new List<Entity>();
             entities = new List<Entity>();
             if (loaded)
             {
@@ -622,19 +624,19 @@ namespace SeeloewenCraft
 
 
 
-            List<ItemEntity> pickedUpEntities = new List<ItemEntity>();
             foreach (Entity entity in entities)
             {
                 entity.DoPhysicsStep(63);
                 if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && entity.posX < player.posX + player.sizeX && entity.posX + entity.sizeX > player.posX && entity.posY < player.posY + player.sizeY && entity.posY + entity.sizeY > player.posY)
                 {
-                    pickedUpEntities.Add(itemEntity);
+                    player.inventory.AddItem(itemEntity.item);
+                    toDieEntities.Add(itemEntity);
                 }
             }
-            foreach (ItemEntity itemEntity in pickedUpEntities)
+
+            foreach (Entity entity in toDieEntities)
             {
-                player.inventory.AddItem(itemEntity.item);
-                RemoveEntity(itemEntity);
+                RemoveEntity(entity);
             }
 
 
@@ -642,7 +644,6 @@ namespace SeeloewenCraft
             worldRenderer.playerPosY = (double)player.posY / 1000;
 
             worldRenderer.Render();
-
 
         }
     }
