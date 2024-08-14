@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Eventing.Reader;
 using System.Windows.Media;
 
 namespace SeeloewenCraft
@@ -12,7 +13,11 @@ namespace SeeloewenCraft
         public const double MAX_HP = 10.0;
         public double hp;
 
-        protected int accWalking = 70000;
+        protected int ACC_WALKING = 50000;
+        protected int ACC_SPRINTING = 90000;
+
+
+        protected int currentAcc;
         private const int jumpStartSpeed = 15000;
 
         private int fallMaxHeight = 0;
@@ -30,11 +35,11 @@ namespace SeeloewenCraft
 
 
 
-        public MovingEntity(int accWalking, int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Brush image)
+        public MovingEntity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Brush image)
             : base(sizeX, sizeY, posX, posY, velX, velY, world, image)
         {
-            this.accWalking = accWalking;
             hp = MAX_HP;
+            currentAcc = ACC_WALKING;
 
             texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
         }
@@ -172,19 +177,32 @@ namespace SeeloewenCraft
 
         public override void DoPhysicsStep(int tps)
         {
+            if (pressedSneak)
+            {
+                currentAcc = 10000; //temporary
+            }
+            else if (pressedSprint)
+            {
+                currentAcc = ACC_SPRINTING;
+            }
+            else
+            {
+                currentAcc = ACC_WALKING;
+            }
+
             // -- change velocity depending on inputs --
             if (pressedRight)
             {
                 if (!touchingRight || CheckUpStep(Direction.RIGHT, 1, tps))
                 {
-                    velX += accWalking / tps;
+                    velX += currentAcc / tps;
                 }
             }
             if (pressedLeft)
             {
                 if (!touchingLeft || CheckUpStep(Direction.LEFT, -1, tps))
                 {
-                    velX -= accWalking / tps;
+                    velX -= currentAcc / tps;
                 }
             }
 

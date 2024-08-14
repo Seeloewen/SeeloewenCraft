@@ -17,7 +17,7 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Player(World world, int x, int y) : base(70000, 900, 1900, x, y, 0, 0, world, new SolidColorBrush(Colors.Red))
+        public Player(World world, int x, int y) : base(900, 1900, x, y, 0, 0, world, new SolidColorBrush(Colors.Red))
         {
             //Set the attributes
             this.world = world;

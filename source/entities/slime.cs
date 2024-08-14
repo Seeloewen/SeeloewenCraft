@@ -14,10 +14,12 @@ namespace SeeloewenCraft
         private Random rnd;
         
 
-        public Slime(int posX, int posY, int velX, int velY, World world) : base(0, animalSizeX, animalSizeY, posX, posY, velX, velY, world, GetSlimeTexture())
+        public Slime(int posX, int posY, int velX, int velY, World world) : base(animalSizeX, animalSizeY, posX, posY, velX, velY, world, GetSlimeTexture())
         {
             rnd = new Random(DateTime.Now.Millisecond);
             frictionAir = 1;
+            ACC_WALKING = 0;
+            ACC_SPRINTING = 0;
         }
 
         public override void Die()
