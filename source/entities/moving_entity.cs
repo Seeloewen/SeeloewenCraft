@@ -33,6 +33,7 @@ namespace SeeloewenCraft
         bool touchingRight;
         bool touchingLeft;
 
+        public bool flying;
 
 
         public MovingEntity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Brush image)
@@ -173,11 +174,20 @@ namespace SeeloewenCraft
             {
                 Damage((1000 / tps) * 0.001);
             }
+
+            if (flying) 
+            { 
+                accGrav = 0;
+            }
+            else
+            {
+                accGrav = DEFAULT_GRAV;
+            }
         }
 
         public override void DoPhysicsStep(int tps)
         {
-            if (pressedSneak)
+            if (pressedSneak && !flying)
             {
                 currentAcc = 10000; //temporary
             }
@@ -207,16 +217,31 @@ namespace SeeloewenCraft
             }
 
             //handle jump key
-            if (pressedUp)
+            if (flying)
             {
-                if (onGround)
+                velY = 0;
+                if(pressedUp)
                 {
-                    velY = -jumpStartSpeed;
+                    velY = -4000;
+                } 
+                if(pressedSneak)
+                {
+                    velY = 4000;
                 }
-
-                if (touchingStatus[TOUCHING_WATER])
+            }
+            else
+            {
+                if (pressedUp)
                 {
-                    velY -= 200000 / tps;
+                    if (onGround)
+                    {
+                        velY = -jumpStartSpeed;
+                    }
+
+                    if (touchingStatus[TOUCHING_WATER])
+                    {
+                        velY -= 200000 / tps;
+                    }
                 }
             }
 

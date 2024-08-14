@@ -46,6 +46,9 @@ namespace SeeloewenCraft
                 case "hp":
                     HandleHPCommand(args);
                     break;
+                case "fly":
+                    HandleFlyCommand(args);
+                    break;
                 case "ping":
                     Write("pong");
                     break;

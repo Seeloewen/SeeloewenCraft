@@ -20,7 +20,8 @@ namespace SeeloewenCraft
         public const int TOUCHING_CACTUS = 3;
 
         //physics constants
-        private const int accGrav = 70000;
+        public const int DEFAULT_GRAV = 70000;
+        protected int accGrav = DEFAULT_GRAV;
         protected int frictionGround = 10;
         protected int frictionAir = 10;
         protected int frictionWater = 25;
