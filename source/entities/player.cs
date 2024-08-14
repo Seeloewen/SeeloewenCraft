@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Windows;
 using System.Windows.Media;
 
@@ -26,6 +27,53 @@ namespace SeeloewenCraft
         }
 
         //-- Custom Methods --//
+
+        private void HandleThrow()
+        {
+            if (pressedThrow)
+            {
+                if (!thrown)
+                {
+                    Item item = inventory.GetSelectedItem();
+                    if (item != null)
+                    {
+                        (double mousePosX, double mousePosY) = world.worldRenderer.GetMouseOffset();
+                        double xOffset = mousePosX - posX - 450;
+                        double yOffset = mousePosY - posY;
+                        double n = Math.Sqrt(xOffset * xOffset + yOffset * yOffset);
+                        double xDir = xOffset / n;
+                        double yDir = yOffset / n;
+
+                        ItemEntity itemEntity = new ItemEntity(item, posX + 500 - ItemEntity.itemSizeX / 2, posY, (int)(15000 * xDir) + velX, (int)(20000 * yDir) + velY, world);
+                        world.AddEntity(itemEntity);
+                        thrown = true;
+                        inventory.RemoveItem(item);
+                    }
+                }
+            }
+            else
+            {
+                thrown = false;
+            }
+        }
+
+        private void HandleInputs()
+        {
+            pressedLeft = world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            pressedRight = world.wndGame.pressedKeys.Contains(Settings.cMoveRight);
+            pressedUp = world.wndGame.pressedKeys.Contains(Settings.cJump);
+            pressedSneak = world.wndGame.pressedKeys.Contains(Settings.cSneak);
+            pressedSprint = world.wndGame.pressedKeys.Contains(Settings.cSprint);
+            pressedThrow = world.wndGame.pressedKeys.Contains(Settings.cThrowItem);
+        }
+
+        protected override void DoFallDamage()
+        {
+            if (lifeTime > 5000)
+            {
+                base.DoFallDamage();
+            }
+        }
 
         public void SetGamemode(Gamemode gamemode)
         {
@@ -62,8 +110,8 @@ namespace SeeloewenCraft
 
             //Setup health bar
             healthBar = new HealthBar(world, 10, 740);
-            
-            if(world.gamemode == Gamemode.Creative)
+
+            if (world.gamemode == Gamemode.Creative)
             {
                 healthBar.Hide();
             }
@@ -77,19 +125,26 @@ namespace SeeloewenCraft
         public override void SetHP(double hp)
         {
             base.SetHP(hp);
-            healthBar.SetValue((int)(hp*2)*0.5);
+            healthBar.SetValue((int)(hp * 2) * 0.5);
         }
 
         public override void Damage(double damage)
         {
-            if(gamemode == Gamemode.Survival) base.Damage(damage);
+            if (gamemode == Gamemode.Survival) base.Damage(damage);
         }
 
 
-        //physics
-        public override void DoPhysicsStep(int tps)
-        {        
-            base.DoPhysicsStep(tps);
+        protected override void OnUpdateStart(int tps)
+        {
+            HandleInputs();
+            HandleThrow();
+            base.OnUpdateStart(tps);
+            DisplayDebugInformation();
+        }
+
+        protected override void OnUpdateEnd(int tps)
+        {
+            base.OnUpdateEnd(tps);
             DisplayDebugInformation();
         }
 
@@ -138,7 +193,7 @@ namespace SeeloewenCraft
                 world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "velY", $"velY={velY}");
                 world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "blockPosX", $"blockPosX={(posX / 1000) % 8}");
                 world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "blockPosY", $"blockPosY={posY / 1000}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "touchingWater", $"touchingWater={touchingWater}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "touchingWater", $"touchingWater={touchingStatus[TOUCHING_WATER]}");
             }
         }
     }

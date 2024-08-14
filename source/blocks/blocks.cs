@@ -350,7 +350,6 @@ namespace SeeloewenCraft
     {
         public PottedCactus_Base(World world, bool isInBackground) : base(world, isInBackground)
         {
-            isSolid = false;
             isBase = true;
             SetTexture();
             name = "Potted Cactus Base";
@@ -359,6 +358,16 @@ namespace SeeloewenCraft
             connectedBlocks[0].yOffset = -1;
             connectedBlocks[0].baseBlock = this;
             breakTime = 0;
+            collision = new MultipleRectangleCollision([ 125, 251 ], [875, 749], [375, 1], [1000, 375]);
+        }
+
+        public override bool[] CheckTouch(int startX, int startY, int endX, int endY)
+        {
+            bool[] touchingStatus = new bool[Entity.TOUCHING_STATUS_COUNT];
+            touchingStatus[Entity.TOUCHING_CACTUS] = 
+                (250 < endX) && (750 > startX) 
+                && (0 < endY) && (500 > startY);
+            return touchingStatus;
         }
 
         override public void GenerateItem(World world)
@@ -376,11 +385,20 @@ namespace SeeloewenCraft
     {
         public PottedCactus_Top(World world, bool isInBackground) : base(world, isInBackground)
         {
-            isSolid = false;
             SetTexture();
             name = "Potted Cactus Top";
             id = "sc:potted_cactus_top";
             breakTime = 0;
+            collision = new RectangleCollision(251, 749, 188, 999);
+        }
+
+        public override bool[] CheckTouch(int startX, int startY, int endX, int endY)
+        {
+            bool[] touchingStatus = new bool[Entity.TOUCHING_STATUS_COUNT];
+            touchingStatus[Entity.TOUCHING_CACTUS] =
+                (250 <= endX) && (750 >= startX)
+                && (187 <= endY) && (1000 >= startY);
+            return touchingStatus;
         }
 
         override public void GenerateItem(World world)

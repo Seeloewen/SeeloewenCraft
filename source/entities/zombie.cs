@@ -23,9 +23,9 @@ namespace SeeloewenCraft
             base.Die();
         }
 
-
-        public override void DoPhysicsStep(int tps)
+        protected override void OnUpdateStart(int tps)
         {
+            base.OnUpdateStart(tps);
             if (timeSinceMove > 1000)
             {
                 int dir = rnd.Next(-1, 2);
@@ -47,11 +47,9 @@ namespace SeeloewenCraft
                 }
                 timeSinceMove = 0;
             }
-
             timeSinceMove += 1000/tps;
-
-            base.DoPhysicsStep(tps);
         }
+
 
     }
 }

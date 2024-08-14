@@ -12,6 +12,14 @@ namespace SeeloewenCraft
 
         public string type;
 
+        //touching status constants
+        public const int TOUCHING_STATUS_COUNT = 4;
+        public const int TOUCHING_WATER = 0;
+        public const int TOUCHING_WATER_LEFT = 1;
+        public const int TOUCHING_WATER_RIGHT = 2;
+        public const int TOUCHING_CACTUS = 3;
+
+        //physics constants
         private const int accGrav = 70000;
         protected int frictionGround = 10;
         protected int frictionAir = 10;
@@ -35,11 +43,12 @@ namespace SeeloewenCraft
         public int velY;
 
         public bool onGround;
-        public bool touchingWater;
+
+        public bool[] touchingStatus;
 
         private void DoFrictionStep(int tps)
         {
-            if (touchingWater)
+            if (touchingStatus[TOUCHING_WATER])
             {
                 double velTotal = Math.Sqrt(velX * velX + velY * velY); //tactical pythagoras
                 if (velTotal != 0)
@@ -87,26 +96,55 @@ namespace SeeloewenCraft
             }
         }
 
-        public virtual void DoPhysicsStep(int tps)
+        public virtual void OnUpdate(int tps) //temp virtual
+        {
+            OnUpdateStart(tps);
+
+            DoPhysicsStep(tps);
+
+            Move(tps);
+
+            OnUpdateEnd(tps);
+        }
+
+        protected virtual void OnUpdateStart(int tps)
         {
             lifeTime += 1000 / tps;
 
             (onGround, _) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + 1);
 
-            (touchingWater, int forceWaterX) = DoWaterTouchCheck();
+            DoTouchCheck();
+        }
 
-            DoFrictionStep(tps);
+        protected virtual void OnUpdateEnd(int tps)
+        {
+
+        }
+
+        public virtual void DoPhysicsStep(int tps)
+        {
+
 
             if (!onGround)
             {
                 velY += accGrav / tps;
             }
 
-            if (touchingWater)
+            if (touchingStatus[TOUCHING_WATER])
             {
-                velX += forceWaterX * 20000 / tps;
+                if (touchingStatus[TOUCHING_WATER_LEFT])
+                {
+                    velX -= 20000 / tps;
+                }
+                if (touchingStatus[TOUCHING_WATER_RIGHT])
+                {
+                    velX += 20000 / tps;
+                }
             }
-            Move(tps);
+
+            DoFrictionStep(tps);
+
+
         }
 
         protected void Move(int tps)
@@ -157,8 +195,9 @@ namespace SeeloewenCraft
                 (bool collided, int maxMovement) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + dY);
                 if (collided)
                 {
-                    velY = 0;
                     posY += maxMovement;
+                    DoFallDamage();
+                    velY = 0;
                 }
                 else
                 {
@@ -180,6 +219,11 @@ namespace SeeloewenCraft
             }
         }
 
+        protected virtual void DoFallDamage()
+        {
+            return;
+        }
+
         //return true if stepped up
         protected virtual bool CheckUpStep(Direction direction, int remaining, int tps)
         {
@@ -192,6 +236,7 @@ namespace SeeloewenCraft
                 ? i / 1000
                 : (i - 999) / 1000;
         }
+
         public int GetChunkIndex()
         {
             return posX >= 0
@@ -199,12 +244,11 @@ namespace SeeloewenCraft
                 : (posX - 7999) / 8000;
         }
 
-        protected (bool, int) DoWaterTouchCheck()
+        protected void DoTouchCheck()
         {
-            if (posY < 0 || posY > 75000) return (false, 0);
+            touchingStatus = new bool[TOUCHING_STATUS_COUNT];
+            if (posY < 0 || posY > 75000) return;
 
-            bool touched = false;
-            int totalForce = 0;
 
             for (int x = ConvertToBlockX(posX); x <= ConvertToBlockX(posX + sizeX - 1); x++)
             {
@@ -215,25 +259,13 @@ namespace SeeloewenCraft
                     int endX = posX + sizeX - 1 - x * 1000;
                     int startY = posY - y * 1000;
                     int endY = posY + sizeY - 1 - y * 1000;
-                    (bool touch, int xForce) = world.GetBlock(x, y).CheckWaterTouch(startX, startY, endX, endY);
-                    if (touch)
+                    bool[] blockTouching = world.GetBlock(x, y).CheckTouch(startX, startY, endX, endY);
+                    for (int i = 0; i < blockTouching.Length; i++)
                     {
-                        touched = true;
-                        if (xForce != 0)
-                        {
-                            if (xForce == 1)
-                            {
-                                totalForce = Math.Min(totalForce + 1, 1);
-                            }
-                            if (xForce == -1)
-                            {
-                                totalForce = Math.Max(totalForce - 1, -1);
-                            }
-                        }
+                        touchingStatus[i] = touchingStatus[i] || blockTouching[i];
                     }
                 }
             }
-            return (touched, totalForce);
         }
 
         protected (bool, int) DoCollisionCheck(Direction direction, int startX, int startY, int endX, int endY)
@@ -373,6 +405,7 @@ namespace SeeloewenCraft
             texture.Height = sizeY / 20;
             texture.Background = image;
 
+            touchingStatus = new bool[TOUCHING_STATUS_COUNT];
         }
 
         public static Entity LoadFromJson(JsonToken token, World world)

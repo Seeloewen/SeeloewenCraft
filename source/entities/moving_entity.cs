@@ -9,21 +9,44 @@ namespace SeeloewenCraft
 
         public const int MAX_STEPUP_HEIGHT = 505;
 
-        protected double hp = 10.0;
+        public const double MAX_HP = 10.0;
+        public double hp;
 
         protected int accWalking = 70000;
         private const int jumpStartSpeed = 15000;
 
+        private int fallMaxHeight = 0;
+
         public bool pressedUp;
         public bool pressedRight;
         public bool pressedLeft;
+        public bool pressedSneak;
+        public bool pressedSprint;
+        public bool pressedThrow;
+        protected bool thrown;
+
+        bool touchingRight;
+        bool touchingLeft;
+
+
 
         public MovingEntity(int accWalking, int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Brush image)
             : base(sizeX, sizeY, posX, posY, velX, velY, world, image)
         {
             this.accWalking = accWalking;
+            hp = MAX_HP;
 
             texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
+        }
+
+        protected override void DoFallDamage()
+        {
+            int fallHeight = posY - fallMaxHeight;
+            if (fallHeight > 3950)
+            {
+                Damage((fallHeight - 2000) / 3000.0);
+                Log.Write($"new hp after fall damage applied: {hp}", "Info");
+            }
         }
 
         protected override bool CheckUpStep(Direction direction, int remaining, int tps)
@@ -69,37 +92,65 @@ namespace SeeloewenCraft
         //hit by player
         private void Texture_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            int playerX = world.player.posX;
-            int playerY = world.player.posY;
-
-            if (playerX - (posX + sizeX) < Player.HIT_RANGE
-                && playerY - (posY + sizeY) < Player.HIT_RANGE
-                && (playerX + world.player.sizeX) - posX < Player.HIT_RANGE
-                && (playerY + world.player.sizeY) - posY < Player.HIT_RANGE)
+            if (this is not Player)
             {
-                Damage(Player.HIT_DAMAGE);
+                int playerX = world.player.posX;
+                int playerY = world.player.posY;
+
+                if (playerX - (posX + sizeX) < Player.HIT_RANGE
+                    && playerY - (posY + sizeY) < Player.HIT_RANGE
+                    && (playerX + world.player.sizeX) - posX < Player.HIT_RANGE
+                    && (playerY + world.player.sizeY) - posY < Player.HIT_RANGE)
+                {
+                    Damage(Player.HIT_DAMAGE);
+                }
+            }
+        }
+
+        public override void OnUpdate(int tps) //temporary because player death is not handled properly
+        {
+            if (hp != 0)
+            {
+                base.OnUpdate(tps);
+            }
+        }
+
+        protected override void OnUpdateEnd(int tps)
+        {
+            if (velY <= 0)
+            {
+                fallMaxHeight = posY;
             }
 
-
+            base.OnUpdateEnd(tps);
         }
 
         public virtual void Drop(string id)
         {
-            world.AddEntity(new ItemEntity(ItemRegister.GenerateItem(id, world), posX + sizeX / 2 - ItemEntity.itemSizeX / 2, posY + sizeY * 2 / 3 - ItemEntity.itemSizeY / 2, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
+            world.AddEntity(new ItemEntity(ItemRegister.GenerateItem(id, world), //item type
+                posX + sizeX / 2 - ItemEntity.itemSizeX / 2, //posX
+                posY + sizeY * 2 / 3 - ItemEntity.itemSizeY / 2, //posY
+                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), //velX and velY
+                world));
         }
 
         public virtual void Die()
         {
-            world.RemoveEntity(this);
+            world.toDieEntities.Add(this);
         }
 
         public virtual void SetHP(double hp)
         {
-            this.hp = hp;
+            this.hp = Math.Min(hp, MAX_HP);
             if (hp <= 0)
             {
                 Die();
             }
+        }
+
+        public virtual void Heal(double amount)
+        {
+            SetHP(hp + amount);
         }
 
         public virtual void Damage(double damage)
@@ -107,17 +158,20 @@ namespace SeeloewenCraft
             SetHP(hp - damage);
         }
 
+        protected override void OnUpdateStart(int tps)
+        {
+            base.OnUpdateStart(tps);
+            (touchingLeft, _) = DoCollisionCheck(Direction.LEFT, posX, posY, posX - 1, posY + sizeY);
+            (touchingRight, _) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + 1, posY + sizeY);
+
+            if (touchingStatus[TOUCHING_CACTUS])
+            {
+                Damage((1000 / tps) * 0.001);
+            }
+        }
+
         public override void DoPhysicsStep(int tps)
         {
-            // -- determine which sides of the player are touched by solid blocks --
-
-            //reset
-            (onGround, _) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + 1);
-            (touchingWater, int forceWaterX) = DoWaterTouchCheck();
-            (bool touchingLeft, _) = DoCollisionCheck(Direction.LEFT, posX, posY, posX - 1, posY + sizeY);
-            (bool touchingRight, _) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + 1, posY + sizeY);
-
-
             // -- change velocity depending on inputs --
             if (pressedRight)
             {
@@ -134,15 +188,15 @@ namespace SeeloewenCraft
                 }
             }
 
-            //jump
-            if (pressedUp && onGround)
+            //handle jump key
+            if (pressedUp)
             {
-                velY = -jumpStartSpeed;
-            }
+                if (onGround)
+                {
+                    velY = -jumpStartSpeed;
+                }
 
-            if (touchingWater)
-            {
-                if (pressedUp)
+                if (touchingStatus[TOUCHING_WATER])
                 {
                     velY -= 200000 / tps;
                 }

@@ -26,9 +26,12 @@ namespace SeeloewenCraft
             base.Die();
         }
 
-        public override void DoPhysicsStep(int tps)
+        protected override void OnUpdateStart(int tps)
         {
-            if(timeSinceJump > 2000)
+            base.OnUpdateStart(tps);
+
+            //ai
+            if(timeSinceJump > 2000 && onGround)
             {
                 int dir = rnd.Next(-3, 4);
                 velY = -20000;
@@ -36,11 +39,9 @@ namespace SeeloewenCraft
 
                 timeSinceJump = 0;
             }
-
             timeSinceJump += 1000/tps;
-
-            base.DoPhysicsStep(tps);
         }
+
 
         public static ImageBrush GetSlimeTexture()
         {

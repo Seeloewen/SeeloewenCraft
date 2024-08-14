@@ -27,6 +27,9 @@ namespace SeeloewenCraft
         public static Key cToggleDebug = Key.F3;
         public static Key cJump = Key.Space;
         public static Key cNotifications = Key.N;
+        public static Key cThrowItem = Key.Q;
+        public static Key cSneak = Key.LeftShift;
+        public static Key cSprint = Key.LeftCtrl;
 
         public static void Save(JsonWriter writer)
         {
@@ -97,6 +100,15 @@ namespace SeeloewenCraft
             writer.WritePropertyName("show_notification_list");
             writer.WriteValue(cNotifications);
 
+            writer.WritePropertyName("throw_item");
+            writer.WriteValue(cThrowItem);
+
+            writer.WritePropertyName("sneak");
+            writer.WriteValue(cSneak);
+
+            writer.WritePropertyName("sprint");
+            writer.WriteValue(cSprint);
+
             writer.WriteEndObject();
 
             writer.WriteEndObject();
@@ -132,6 +144,10 @@ namespace SeeloewenCraft
                 cShowInv = KeyConverter.StringToKey(keybindsToken.GetString("/show_inventory"));
                 cToggleDebug = KeyConverter.StringToKey(keybindsToken.GetString("/toggle_debug_menu"));
                 cNotifications = KeyConverter.StringToKey(keybindsToken.GetString("/show_notification_list"));
+                cThrowItem = KeyConverter.StringToKey(keybindsToken.GetString("/throw_item"));
+                cSneak = KeyConverter.StringToKey(keybindsToken.GetString("/sneak"));
+                cSprint = KeyConverter.StringToKey(keybindsToken.GetString("/sprint"));
+
             }
             catch (Exception ex)
             {

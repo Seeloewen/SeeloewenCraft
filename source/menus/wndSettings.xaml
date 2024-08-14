@@ -54,6 +54,12 @@
                     <TextBox x:Name="tbJump" Canvas.Left="339" TextWrapping="Wrap" Text="Space" Canvas.Top="113" Width="144" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" PreviewKeyDown="tbJump_PreviewKeyDown"/>
                     <TextBlock x:Name="tblShowNotificationList" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="208" HorizontalAlignment="Center" VerticalAlignment="Top"><Run Language="de-de" Text="Show Notification List"/></TextBlock>
                     <TextBox x:Name="tbShowNotificationList" Canvas.Left="339" TextWrapping="Wrap" Text="N" Canvas.Top="206" Width="144" Height="24" PreviewKeyDown="tbShowNotificationList_PreviewKeyDown" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tblThrowItem" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="237" HorizontalAlignment="Center" VerticalAlignment="Top"><Run Language="de-de" Text="Throw Item"/></TextBlock>
+                    <TextBlock x:Name="tblSneak" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="266" HorizontalAlignment="Center" VerticalAlignment="Top"><Run Language="de-de" Text="Sneak"/></TextBlock>
+                    <TextBlock x:Name="tblSprint" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="295" HorizontalAlignment="Center" VerticalAlignment="Top"><Run Language="de-de" Text="Sprint"/></TextBlock>
+                    <TextBox x:Name="tbThrowItem" Canvas.Left="339" TextWrapping="Wrap" Text="Q" Canvas.Top="237" Width="144" Height="24" PreviewKeyDown="tbThrowItem_PreviewKeyDown" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBox x:Name="tbSneak" Canvas.Left="339" TextWrapping="Wrap" Text="LeftSneak" Canvas.Top="266" Width="144" Height="24" PreviewKeyDown="tbSneak_PreviewKeyDown" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBox x:Name="tbSprint" Canvas.Left="339" TextWrapping="Wrap" Text="LeftCtrl" Canvas.Top="295" Width="144" Height="24" PreviewKeyDown="tbSprint_PreviewKeyDown" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                 </Canvas>
             </TabItem>
             <TabItem x:Name="tiExperimental" Header="Experimental">

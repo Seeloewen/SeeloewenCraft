@@ -85,13 +85,13 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-        public virtual (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        public virtual bool[] CheckTouch(int startX, int startY, int endX, int endY)
         {
             if (isBackground && foregroundBlock != null)
             {
-                return foregroundBlock.CheckWaterTouch(startX, startY, endX, endY);
+                return foregroundBlock.CheckTouch(startX, startY, endX, endY);
             }
-            return (false, 0);
+            return new bool[Entity.TOUCHING_STATUS_COUNT];
         }
 
         public virtual (bool, int) CheckCollision(Direction direction, int startX, int endX, int startY, int endY)
@@ -383,8 +383,14 @@ namespace SeeloewenCraft
         public bool IsInRange()
         {
             Block playerBlock = world.GetBlock(world.player.posX / 1000, (world.player.posY / 1000) + 1);
-
-            return (GetXRangeToBlock(playerBlock) < 5 && GetYRangeToBlock(playerBlock) < 5);
+            if (playerBlock != null)
+            {
+                return (GetXRangeToBlock(playerBlock) < 5 && GetYRangeToBlock(playerBlock) < 5);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool IsLightSource(bool ignoreAir)
@@ -630,7 +636,11 @@ namespace SeeloewenCraft
                         foregroundBlock.GenerateItem(world);
                         if (foregroundBlock.item != null)
                         {
-                            world.AddEntity(new ItemEntity(foregroundBlock.item, (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
+                            world.AddEntity(new ItemEntity(foregroundBlock.item, //item type
+                                (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
+                                yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
+                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), //velX and velY 
+                                world));
                         }
                         blockContainer.RemoveForegroundBlock();
                     }
@@ -656,13 +666,21 @@ namespace SeeloewenCraft
                         List<Item> items = lootTable.RollEntry().RollItems();
                         foreach (Item item in items)
                         {
-                            world.AddEntity(new ItemEntity(item, (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
+                            world.AddEntity(new ItemEntity(item, //item type
+                                (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
+                                yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
+                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), //velX and velY 
+                                world));
                         }
                     }
                     //If has only an item, only give that item
                     else if (item != null)
                     {
-                        world.AddEntity(new ItemEntity(item, (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
+                        world.AddEntity(new ItemEntity(item, //item type
+                                (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
+                                yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
+                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), //velX and velY 
+                                world));
                     }
 
                     if(hasInventory)

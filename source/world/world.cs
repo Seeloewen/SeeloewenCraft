@@ -34,6 +34,7 @@ namespace SeeloewenCraft
         public NotificationHandler notificationHandler;
         public WorldRenderer worldRenderer;
         public List<Entity> entities;
+        public List<Entity> toDieEntities;
 
         //Constants
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
@@ -374,6 +375,7 @@ namespace SeeloewenCraft
 
         private void InitEntityList(bool loaded)
         {
+            toDieEntities = new List<Entity>();
             entities = new List<Entity>();
             if (loaded)
             {
@@ -601,75 +603,32 @@ namespace SeeloewenCraft
 
         private void tmrMovement_Tick(object sender, EventArgs e)
         {
-            //Movement timer, ticks at a rate of approximitely 60 fps (every 16 ms)
-            player.pressedLeft = wndGame.pressedKeys.Contains(Settings.cMoveLeft);
-            player.pressedRight = wndGame.pressedKeys.Contains(Settings.cMoveRight);
-            player.pressedUp = wndGame.pressedKeys.Contains(Settings.cJump);
-
-            player.DoPhysicsStep(63); // tps: 1/0.016
-
-            if (wndGame.pressedKeys.Contains(Key.Q))
-            {
-                if (!dropped)
-                {
-                    //Get the selected slot and selected item
-                    InventorySlot selectedSlot = player.inventory.GetSelectedHotbarSlot().slot;
-                    Item item = null;
-                    if (!selectedSlot.IsEmpty())
-                    {
-                        item = ItemRegister.GenerateItem(selectedSlot.itemId, this);
-                    }
-
-                    //If the selected item is not null, drop it
-                    if (item != null)
-                    {
-                        (double mousePosX, double mousePosY) = worldRenderer.GetMouseOffset();
-                        double xOffset = mousePosX - player.posX - 450;
-                        double yOffset = mousePosY - player.posY;
-                        double n = Math.Sqrt(xOffset * xOffset + yOffset * yOffset);
-                        double xDir = xOffset / n;
-                        double yDir = yOffset / n;
-
-                        ItemEntity itemEntity = new ItemEntity(item, player.posX + 500 - ItemEntity.itemSizeX / 2, player.posY, (int)(15000 * xDir) + player.velX, (int)(20000 * yDir) + player.velY, this);
-                        AddEntity(itemEntity);
-                        dropped = true;
-                        selectedSlot.Remove(1);
-                        selectedSlot.inventory.UpdateHotbar();
-                    }
-                }
-            }
-            else
-            {
-                dropped = false;
-            }
-
-
+            player.OnUpdate(63); // tps: 1/0.016
 
             List<ItemEntity> pickedUpEntities = new List<ItemEntity>();
+
             foreach (Entity entity in entities)
             {
-                entity.DoPhysicsStep(63);
+                entity.OnUpdate(63);
                 if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && entity.posX < player.posX + player.sizeX && entity.posX + entity.sizeX > player.posX && entity.posY < player.posY + player.sizeY && entity.posY + entity.sizeY > player.posY)
                 {
-                    pickedUpEntities.Add(itemEntity);
-                }
-            }
-            foreach (ItemEntity itemEntity in pickedUpEntities)
-            {
-                player.inventory.AddItem(itemEntity.item.id, 1, out int remainingItem);
-                if(remainingItem == 0)
-                {
-                    RemoveEntity(itemEntity);
+                    player.inventory.AddItem(itemEntity.item.id, 1, out int remainingItem);
+                    if (remainingItem == 0)
+                    {
+                        toDieEntities.Add(itemEntity);
+                    }
                 }
             }
 
+            foreach (Entity entity in toDieEntities)
+            {
+                RemoveEntity(entity);
+            }
 
             worldRenderer.playerPosX = (double)player.posX / 1000;
             worldRenderer.playerPosY = (double)player.posY / 1000;
 
             worldRenderer.Render();
-
-
         }
     }
 
