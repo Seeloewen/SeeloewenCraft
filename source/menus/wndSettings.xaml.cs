@@ -101,6 +101,9 @@ namespace SeeloewenCraft
             Settings.cShowInv = KeyConverter.StringToKey(tbOpenInventory.Text);
             Settings.cToggleDebug = KeyConverter.StringToKey(tbToggleDebugMenu.Text);
             Settings.cNotifications = KeyConverter.StringToKey(tbShowNotificationList.Text);
+            Settings.cThrowItem = KeyConverter.StringToKey(tbThrowItem.Text);
+            Settings.cSneak = KeyConverter.StringToKey(tbSneak.Text);
+            Settings.cSprint = KeyConverter.StringToKey(tbSprint.Text);
 
             //Save the settings to file
             Settings.Save(writer);
@@ -137,6 +140,9 @@ namespace SeeloewenCraft
             tbOpenInventory.Text = KeyConverter.KeyToString(Settings.cShowInv);
             tbToggleDebugMenu.Text = KeyConverter.KeyToString(Settings.cToggleDebug);
             tbShowNotificationList.Text = KeyConverter.KeyToString(Settings.cNotifications);
+            tbThrowItem.Text = KeyConverter.KeyToString(Settings.cThrowItem);
+            tbSneak.Text = KeyConverter.KeyToString(Settings.cSneak);
+            tbSprint.Text = KeyConverter.KeyToString(Settings.cSprint);
 
             //Load the texturepacks
             GetTexturepacks();
@@ -312,6 +318,30 @@ namespace SeeloewenCraft
             e.Handled = true;
             string keyText = KeyConverter.KeyToString(e.Key);
             tbShowNotificationList.Text = keyText;
+        }
+
+        private void tbThrowItem_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            //Display key in textbox
+            e.Handled = true;
+            string keyText = KeyConverter.KeyToString(e.Key);
+            tbThrowItem.Text = keyText;
+        }
+
+        private void tbSneak_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            //Display key in textbox
+            e.Handled = true;
+            string keyText = KeyConverter.KeyToString(e.Key);
+            tbSneak.Text = keyText;
+        }
+
+        private void tbSprint_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            //Display key in textbox
+            e.Handled = true;
+            string keyText = KeyConverter.KeyToString(e.Key);
+            tbSprint.Text = keyText;
         }
 
         private void tbHeight_PreviewTextInput(object sender, TextCompositionEventArgs e)
