@@ -34,7 +34,14 @@ namespace SeeloewenCraft
             {
                 if (!thrown)
                 {
-                    Item item = inventory.GetSelectedItem();
+                    //Get the selected slot and selected item
+                    InventorySlot selectedSlot = inventory.GetSelectedHotbarSlot().slot;
+                    Item item = null;
+                    if (!selectedSlot.IsEmpty())
+                    {
+                        item = ItemRegister.GenerateItem(selectedSlot.itemId, world);
+                    }
+
                     if (item != null)
                     {
                         (double mousePosX, double mousePosY) = world.worldRenderer.GetMouseOffset();
@@ -47,7 +54,8 @@ namespace SeeloewenCraft
                         ItemEntity itemEntity = new ItemEntity(item, posX + 500 - ItemEntity.itemSizeX / 2, posY, (int)(15000 * xDir) + velX, (int)(20000 * yDir) + velY, world);
                         world.AddEntity(itemEntity);
                         thrown = true;
-                        inventory.RemoveItem(item);
+                        selectedSlot.Remove(1);
+                        selectedSlot.inventory.UpdateHotbar();
                     }
                 }
             }
