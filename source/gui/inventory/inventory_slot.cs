@@ -1,185 +1,242 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Input;
 
 namespace SeeloewenCraft
 {
     public class InventorySlot
     {
+        //References
+        private World world;
+        public Inventory inventory;
         public Border bdrSlot = new Border();
+        public Canvas cvsItem = new Canvas();
         public TextBlock tblItemAmount = new TextBlock();
-        public List<Item> items = new List<Item>();
-        World world;
+
+        //Variables
+        public string itemId;
         public int xPos;
         public int yPos;
-        public int itemAmount;
         public bool isSelected;
+        private int amount;
+
+        public int Amount
+        {
+            set
+            {
+                //When setting the amount, also update the item amount textblock
+                amount = value;
+                tblItemAmount.Text = value.ToString();
+
+                //If the amount is bigger than 0, show the textblock - if not, hide it
+                if (amount > 0)
+                {
+                    tblItemAmount.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    tblItemAmount.Visibility = Visibility.Hidden;
+                }
+            }
+            get
+            {
+                return amount;
+            }
+        }
 
         //-- Constructor --//
 
-        public InventorySlot(World world, int xPos, int yPos)
+        public InventorySlot(World world, Inventory inventory, int xPos, int yPos)
         {
             //Set the attributes
             this.world = world;
+            this.inventory = inventory;
             this.xPos = xPos;
             this.yPos = yPos;
 
             //Setup the slot border
-            bdrSlot.Width = 91;
-            bdrSlot.Height = 91;
+            bdrSlot.Width = 74;
+            bdrSlot.Height = 74;
             bdrSlot.BorderThickness = new Thickness(3, 3, 3, 3);
             bdrSlot.Background = new SolidColorBrush(Colors.DarkGray);
-            bdrSlot.MouseDown += bdrSlot_MouseDown;
+            bdrSlot.MouseLeftButtonDown += bdrSlot_LeftMouseButtonDown;
+            bdrSlot.MouseRightButtonDown += bdrSlot_RightMouseButtonDown;
+            bdrSlot.Child = cvsItem;
 
             //Setup the slot textblock
-            tblItemAmount.FontSize = 20;
-            Canvas.SetLeft(tblItemAmount, 45);
-            Canvas.SetTop(tblItemAmount, 40);
+            tblItemAmount.FontSize = 18;
+            Canvas.SetLeft(tblItemAmount, 38);
+            Canvas.SetTop(tblItemAmount, 34);
+
+            //Setup canvas
+            cvsItem.Width = 50;
+            cvsItem.Height = 50;
+            cvsItem.Children.Add(tblItemAmount);
+            cvsItem.Margin = new Thickness(3, 3, 2.5, 2.5);
         }
 
         //-- Custom Methods --//
 
-        public void SetItem(Item item)
+        public void Add(string id, int amount)
         {
-            //Remove the item's canvas and the current slots textblock from previous parents
-            world.wndGame.RemoveFromParent(item.cvsItem);
-            world.wndGame.RemoveFromParent(tblItemAmount);
 
-            //Add the item to the current slot and set the amount to 1 since it's the first item in the slot
-            items.Add(item);
-            bdrSlot.Child = item.cvsItem;
-            item.cvsItem.Children.Add(tblItemAmount);
-            itemAmount = 1;
-            tblItemAmount.Text = "1";
-        }
-
-        public void AddToSlot(Item item)
-        {
-            if (items.Count != 0)
+            //Check if the slot already has the specified id or is empty
+            if (itemId == id || IsEmpty())
             {
-                //Check if the slot already contains items of the same type
-                if (item.name == items[0].name)
+                //Check if total amount would be above 64, which shouldn't be possible
+                if (Amount + amount <= 64)
                 {
-                    //Add the item to the slot and increase the amount
-                    items.Add(item);
-                    itemAmount++;
-                    tblItemAmount.Text = itemAmount.ToString();
+                    //Update the slot
+                    itemId = id;
+                    Amount += amount;
+                    cvsItem.Background = ItemRegister.GenerateItem(id, world).image;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("Total item amount cannot be above 64");
                 }
             }
             else
             {
-                //If the slot is empty, set the item
-                SetItem(item);
+                throw new InvalidOperationException("Cannot add item of different id to the slot");
             }
         }
-        public void ClearSlot()
+
+        public void Remove(int amount)
         {
-            //Remove all items from the slot and reset the border & textblock
-            bdrSlot.Child = null;
-            items.Clear();
-            itemAmount = 0;
-            tblItemAmount.Text = "";
+            //Check if the total amount would be below 0, which shouldn't be possible
+            if (Amount - amount >= 0)
+            {
+                //Update the slot and clear it if the amount is 0
+                Amount -= amount;
+
+                
+                if (Amount == 0)
+                {
+                    cvsItem.Background = new SolidColorBrush(Colors.Transparent);
+                    itemId = "";
+                }
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("Total item amount cannot be below 0");
+            }
         }
 
-        //-- Event Handlers --//
-
-        private void bdrSlot_MouseDown(object sender, EventArgs e)
+        public int GetAvailableSpace()
         {
-            bool wasJustSelected = false;
+            //Return the available space, obviously
+            return 64 - Amount;
+        }
+
+        public void Select()
+        {
+            //Select the slot and make it follow the mouse by selecting it in the game window
+            world.wndGame.ShowInvItem(this);
+            cvsItem.Visibility = Visibility.Hidden;
+            isSelected = true;
+        }
+
+        public void Unselect()
+        {
+            //Unselect the slot and make it no longer follow the mouse in the game window
+            world.wndGame.HideInvItem();
+            cvsItem.Visibility = Visibility.Visible;
+            isSelected = false;
+        }
+
+        public void MoveItem(InventorySlot newSlot, int amount)
+        {
+            //Check if enough space is in the new slot available, if not, only add the amount of possible space
+            if (newSlot.GetAvailableSpace() < amount)
+            {
+                amount = newSlot.GetAvailableSpace();
+            }
+
+            //Add to the new slot and remove from the old one
+            newSlot.Add(itemId, amount);
+            Remove(amount);
+        }
+
+        public bool IsEmpty()
+        {
+            //Check if no string is given and the amount is 0
+            return string.IsNullOrEmpty(itemId) && Amount == 0;
+        }
+
+        public Inventory GetOtherInventory()
+        {
+            //Get the first other inventory that's in the list and is currently open. Since there should in most cases only be
+            //One other inventory besides the main one, this works. It might cause issues with multiple issues, would need some
+            //Improvements then to search for specific inventories.
+
             foreach (Inventory inventory in world.inventoryList)
             {
-                foreach (InventorySlot slot in inventory.slotList)
+                if (inventory != this.inventory && inventory.inventoryGui.isOpen)
                 {
-                    //Go through every slot in the inventory and check if it's selected, not the currently clicked one and doesn't contain items
-                    if (slot.isSelected && slot != this && items.Count == 0)
-                    {
-                        //Add all items from the other slot to this slot
-                        foreach (Item item in slot.items)
-                        {
-                            items.Add(item);
-                        }
-                        itemAmount = slot.itemAmount;
-
-                        foreach (Item item in items)
-                        {
-                            //Change the attributes of the items to the current slot
-                            item.xPos = xPos;
-                            item.yPos = yPos;
-
-                            //Remove the item canvas from it's old parent border
-                            world.wndGame.RemoveFromParent(item.cvsItem);
-
-                            //Remove the item textblock from it's old parent object and update it
-                            world.wndGame.RemoveFromParent(tblItemAmount);
-                            tblItemAmount.Text = itemAmount.ToString();
-                        }
-
-                        //Add the canvas of item in the slot to the current slots border
-                        bdrSlot.Child = items[0].cvsItem;
-                        items[0].cvsItem.Children.Clear();
-                        items[0].cvsItem.Children.Add(tblItemAmount);
-
-                        //Unselect and clear the old slot
-                        slot.isSelected = false;
-                        slot.ClearSlot();
-
-                        //Make sure that the slot that was currently clicked to place an item doesn't pick up the item instantly again
-                        wasJustSelected = true;
-                    }
-                    else if (slot.isSelected && slot == this)
-                    {
-                        //If the slot is selected and it's also the currently clicked slot
-                        foreach (Item item in items)
-                        {
-                            //Remove all items from the previous parent
-                            world.wndGame.RemoveFromParent(item.cvsItem);
-                        }
-                        //Add the canvas back to this border
-                        bdrSlot.Child = items[0].cvsItem;
-
-                        //Unselect the slot
-                        slot.isSelected = false;
-
-                        //Make sure it doesn't select the slot instantly again
-                        wasJustSelected = true;
-                    }
+                    return inventory;
                 }
             }
+            return null;
+        }
+        //-- Event Handlers --//
 
-            bool canBeSelected = true;
-            foreach (Inventory inventory2 in world.inventoryList)
+        private void bdrSlot_LeftMouseButtonDown(object sender, EventArgs e)
+        {
+            InventorySlot selectedSlot = world.GetSelectedInvSlot();
+
+            //If no other slot is currently selected, select this slot
+            if (selectedSlot == null && !IsEmpty())
             {
-                foreach (InventorySlot slot in inventory2.slotList)
+                Select();
+
+                //If shift is pressed, try to move the items to another inventory 
+                if (world.wndGame.pressedKeys.Contains(Key.LeftShift))
                 {
-                    //Check if any other slots are currently selected
-                    if (slot.isSelected == true)
+                    Inventory otherInv = GetOtherInventory();
+
+                    if (otherInv != null)
                     {
-                        canBeSelected = false;
-                        break;
+                        otherInv.AddItem(itemId, amount, out int remainingAmount);
+                        Remove(Amount - remainingAmount);
+                        Unselect();
                     }
                 }
             }
 
-            //If the slot wasn't just selected and no other slot is currently selected
-            if (wasJustSelected == false && canBeSelected == true)
+            //If this slot is already selected and clicked again, simply unselect it to paste the items back in it
+            else if (selectedSlot == this)
             {
-                if (items.Count > 0)
-                {
-                    //If there's actually items in the slot, select it
-                    isSelected = true;
-
-                    //Remove the item from the slot and add it to the main window to make it follow the mouse while being selected
-                    world.wndGame.RemoveFromParent(items[0].cvsItem);
-                    world.wndGame.cvsGame.Children.Add(items[0].cvsItem);
-                    Panel.SetZIndex(items[0].cvsItem, 5);
-                    Canvas.SetLeft(items[0].cvsItem, world.wndGame.mousePosition.X + 5);
-                    Canvas.SetTop(items[0].cvsItem, world.wndGame.mousePosition.Y + 5);
-                }
-
+                Unselect();
             }
+            //If a different slot from this one is selected
+            else if (selectedSlot != null && selectedSlot != this)
+            {
+                //Check if it's empty or contains the same item - May need a check for space
+                if (itemId == selectedSlot.itemId || IsEmpty())
+                {
+                    //Try to move the items there
+                    selectedSlot.MoveItem(this, selectedSlot.amount);
+                    selectedSlot.Unselect();
+                }
+            }
+        }
 
+        private void bdrSlot_RightMouseButtonDown(object sender, EventArgs e)
+        {
+            InventorySlot selectedSlot = world.GetSelectedInvSlot();
+
+            if (selectedSlot != null)
+            {
+                //If a slot is selected and the slot has more than 1 item, move one singular item to that slot
+                if ((itemId == selectedSlot.itemId || IsEmpty()) && selectedSlot.Amount > 0)
+                {
+                    selectedSlot.MoveItem(this, 1);
+                    world.wndGame.tblInvItem.Text = selectedSlot.Amount.ToString();
+                }
+            }
         }
     }
 }

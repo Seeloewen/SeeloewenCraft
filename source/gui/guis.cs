@@ -15,7 +15,7 @@ namespace SeeloewenCraft
 
             tblHeader.Text = "Inventory";
             tblHeader.FontSize = 18;
-            Canvas.SetLeft(tblHeader, 20);
+            Canvas.SetLeft(tblHeader, 18);
         }
     }
 
@@ -325,7 +325,7 @@ namespace SeeloewenCraft
         public UnchiselerGui(World world, int height, int width, int top, int left, string id) : base(world, height, width, top, left, id)
         {
             //Setup the gui
-            inventory = new Inventory(world, false, 1, 1);
+            inventory = new Inventory(world, 1, 1);
             world.inventoryList.Add(inventory);
             tblHeader.Visibility = Visibility.Hidden;
 
@@ -353,31 +353,41 @@ namespace SeeloewenCraft
         private void Unchisel()
         {
             //Check if there's an item in the slot and the item is a chiselitem
-            if (inventory.slotList[0].items.Count > 0)
+            if (!inventory.slotList[0].IsEmpty())
             {
+                Item item = ItemRegister.GenerateItem(inventory.slotList[0].itemId, world);
                 bool unchiselSuccess = false;
+                int successItems = 0;
 
-                for (int i = 0; i < inventory.slotList[0].items.Count; i++)
-                {
-                    if (inventory.slotList[0].items[i] is ChiseledItem chisItem && chisItem.isChiseled)
+                if (item is ChiseledItem chisItem && chisItem.isChiseled)
+                {         
+                    for (int i = 0; i < inventory.slotList[0].Amount; i++)
                     {
                         //Add the output to the inventory
-                        foreach (Item item in chisItem.Unchisel())
+                        foreach (Item outItem in chisItem.Unchisel())
                         {
-                            world.player.inventory.AddItem(item);
+                            world.player.inventory.AddItem(outItem.id, 1, out int remainingItems);
+
+                            if(remainingItems > 0)
+                            {
+                                inventory.slotList[0].Remove(successItems);
+                                MessageBox.Show("This item cannot be unchiseled!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                return;
+                            }                           
                         }
 
-                        unchiselSuccess = true;
+                        successItems++;
                     }
-                    else
-                    {
-                        MessageBox.Show("This item cannot be unchiseled!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        break;
-                    }
+
+                    unchiselSuccess = true;
+                }
+                else
+                {
+                    MessageBox.Show("This item cannot be unchiseled!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
                 //If an item was unchiseled, clear the slot
-                if (unchiselSuccess) inventory.slotList[0].ClearSlot();
+                if (unchiselSuccess) inventory.slotList[0].Remove(inventory.slotList[0].Amount);
 
             }
             else

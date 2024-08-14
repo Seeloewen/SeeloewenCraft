@@ -13,7 +13,14 @@ namespace SeeloewenCraft
         public void DoRightClick(Block block, object sender)
         {
             //Check if selected item should do an action
-            Item selectedItem = world.player.inventory.GetSelectedItem();
+            HotbarSlot selectedSlot = world.player.inventory.GetSelectedHotbarSlot();
+            Item selectedItem = null;
+
+            if (selectedSlot != null && !string.IsNullOrEmpty(selectedSlot.slot.itemId))
+            {
+                selectedItem = ItemRegister.GenerateItem(selectedSlot.slot.itemId, world);
+            }
+
             if (selectedItem != null && selectedItem.hasRightClickAction)
             {
                 selectedItem.RightClickAction(block, sender);
@@ -30,7 +37,7 @@ namespace SeeloewenCraft
                 //Check if the block meets all requirements to be placed in foreground of another block
                 if (block.IsInRange() && selectedItem != null && block.foregroundBlock == null && block.isBackground)
                 {
-                    if (selectedItem.block == null) selectedItem.GenerateBlock( block.isBackground);
+                    if (selectedItem.block == null) selectedItem.GenerateBlock(block.isBackground);
 
                     if (selectedItem.block != null)
                     {
@@ -41,14 +48,16 @@ namespace SeeloewenCraft
                             block.PlaceConnectedForegroundBlocks(selectedItem.block);
 
                             //Remove the item from the inventory
-                            world.player.inventory.RemoveItem(selectedItem);
+                            selectedSlot.slot.Remove(1);
+                            selectedSlot.slot.inventory.UpdateHotbar();
                         }
                         else if (!selectedItem.block.isBase)
                         {
                             block.PlaceInForeground(selectedItem.block);
 
                             //Remove the item from the inventory
-                            world.player.inventory.RemoveItem(selectedItem);
+                            selectedSlot.slot.Remove(1);
+                            selectedSlot.slot.inventory.UpdateHotbar();
                         }
 
                     }
@@ -58,7 +67,7 @@ namespace SeeloewenCraft
                 {
                     if (selectedItem.block == null)
                     {
-                        selectedItem.GenerateBlock( block.isBackground);
+                        selectedItem.GenerateBlock(block.isBackground);
                     }
 
                     if (selectedItem.block != null)
@@ -70,14 +79,16 @@ namespace SeeloewenCraft
                             block.PlaceConnectedBlocks(selectedItem.block);
 
                             //Remove the item from the inventory
-                            world.player.inventory.RemoveItem(selectedItem);
+                            selectedSlot.slot.Remove(1);
+                            selectedSlot.slot.inventory.UpdateHotbar();
                         }
                         else if (!selectedItem.block.isBase)
                         {
                             block.PlaceNewBlock(selectedItem.block);
 
                             //Remove the item from the inventory
-                            world.player.inventory.RemoveItem(selectedItem);
+                            selectedSlot.slot.Remove(1);
+                            selectedSlot.slot.inventory.UpdateHotbar();
                         }
                     }
 

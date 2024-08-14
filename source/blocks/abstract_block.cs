@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows;
 using System;
 using System.Windows.Automation;
+using System.Runtime.CompilerServices;
 
 namespace SeeloewenCraft
 {
@@ -247,7 +248,13 @@ namespace SeeloewenCraft
             if (block.hasInventory)
             {
                 JsonToken invToken = blockToken.GetToken("/inventory");
-                block.SetInventory(Inventory.LoadFromJson(invToken, world));
+                Inventory inventory = Inventory.LoadFromJson(invToken, world);
+
+                block.blockInventory = inventory;
+                if(block.gui != null && block.gui.inventory != null)
+                {
+                    block.gui.inventory = inventory;
+                }
             }
 
             if (block.tags.Contains("liquids/water"))
@@ -292,7 +299,9 @@ namespace SeeloewenCraft
             return block;
         }
 
-        public void SetInventory(Inventory inv)
+
+
+        public void LoadInventory(Inventory inv)
         {
             blockInventory = inv;
             Canvas.SetTop(inv.grdInventory, 410);
@@ -626,6 +635,10 @@ namespace SeeloewenCraft
                         blockContainer.RemoveForegroundBlock();
                     }
 
+                    if (hasInventory)
+                    {
+                        blockInventory.Drop(xPos + 8 * chunk.index, yPos);
+                    }
                 }
                 //If it has no foreground block, check if the normal block is breakable
                 else if (foregroundBlock == null && (isBreakable || skipBreakableCheck))
@@ -650,6 +663,11 @@ namespace SeeloewenCraft
                     else if (item != null)
                     {
                         world.AddEntity(new ItemEntity(item, (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), world));
+                    }
+
+                    if(hasInventory)
+                    {
+                        blockInventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
                     }
                 }
             }

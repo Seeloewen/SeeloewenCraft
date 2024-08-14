@@ -46,7 +46,11 @@ namespace SeeloewenCraft
                 if (gameEvent.IsReady())
                 {
                     //If the event is ready, do the event and if it's only a single event, reset the counter
-                    Application.Current.Dispatcher.Invoke(new Action(() => { gameEvent.DoEvent(); }));                          
+                    if(Application.Current != null)
+                    {
+                        Application.Current.Dispatcher.Invoke(new Action(() => { gameEvent.DoEvent(); }));
+                    }
+
                     if (gameEvent.singleEvent)
                     {
                         gameEvent.Reset();

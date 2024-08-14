@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Windows;
-using static System.Environment;
 
 namespace SeeloewenCraft
 {
@@ -17,8 +15,8 @@ namespace SeeloewenCraft
 
         //Constants
         public const int worldVersion = 5;
-        public const string gameVersion = "Alpha 1.2.0-Dev5";
-        public const string versionDate = "11.08.2024";
+        public const string gameVersion = "Alpha 1.2.0-Dev6";
+        public const string versionDate = "14.08.2024";
         public int texturepackVersion;
 
         //Variables

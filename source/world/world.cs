@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Input;
 using System.Linq;
+using System.Windows.Documents;
 
 namespace SeeloewenCraft
 {
@@ -313,9 +314,9 @@ namespace SeeloewenCraft
             {
                 foreach (InventorySlot slot in inventory.slotList)
                 {
-                    foreach (Item item in slot.items)
+                    if (!slot.IsEmpty())
                     {
-                        item.SetTexture();
+                        slot.cvsItem.Background = ItemRegister.GenerateItem(slot.itemId, this).image;
                     }
                 }
             }
@@ -395,24 +396,21 @@ namespace SeeloewenCraft
             }
             else
             {
-                player.inventory = new Inventory(this, true, 9, 4);
-                if (Settings.enableHammer) player.inventory.AddItem(new StoneHammerItem(this));
-                for (int i = 0; i < 64; i++)
-                {
-                    player.inventory.AddItem(new TorchItem(this));
-                    player.inventory.AddItem(new WaterItem(this));
-                    player.inventory.AddItem(new PottedCactusItem(this));
-                    player.inventory.AddItem(new ChiselerItem(this));
-                    player.inventory.AddItem(new CraftingTable(this));
-                    player.inventory.AddItem(new ChestItem(this));
-                    player.inventory.AddItem(new CobbleStoneItem_StairTopLeft(this));
-                    player.inventory.AddItem(new UnchiselerItem(this));
-
-                }
+                player.inventory = new Inventory(this, 9, 4);
+                player.inventory.InitHotbar();
+                if (Settings.enableHammer) player.inventory.AddItem("sc:stone_hammer_item", 1);
+                player.inventory.AddItem("sc:torch_item", 64);
+                player.inventory.AddItem("sc:water_item", 64);
+                player.inventory.AddItem("sc:potted_cactus_item", 64);
+                player.inventory.AddItem("sc:chiseler_item", 64);
+                player.inventory.AddItem("sc:crafting_table_item", 64);
+                player.inventory.AddItem("sc:chest_item", 64);
+                player.inventory.AddItem("sc:cobblestone_stairtopleft_item", 64);
+                player.inventory.AddItem("sc:unchiseler_item", 64);
             }
             player.inventory.UpdateHotbar();
             inventoryList.Add(player.inventory);
-            player.inventory.hotbarSlotList[0].SelectSlot();
+            player.inventory.hotbarSlotList[0].Select();
 
         }
 
@@ -580,6 +578,22 @@ namespace SeeloewenCraft
             }
         }
 
+        public InventorySlot GetSelectedInvSlot()
+        {
+            InventorySlot selectedSlot;
+
+            foreach (Inventory inventory in inventoryList)
+            {
+                selectedSlot = inventory.GetSelectedInvSlot();
+                if (selectedSlot != null)
+                {
+                    return selectedSlot;
+                }
+            }
+
+            return null;
+        }
+
         //-- Event Handlers --//
 
         private static bool dropped = false;
@@ -598,7 +612,15 @@ namespace SeeloewenCraft
             {
                 if (!dropped)
                 {
-                    Item item = player.inventory.GetSelectedItem();
+                    //Get the selected slot and selected item
+                    InventorySlot selectedSlot = player.inventory.GetSelectedHotbarSlot().slot;
+                    Item item = null;
+                    if (!selectedSlot.IsEmpty())
+                    {
+                        item = ItemRegister.GenerateItem(selectedSlot.itemId, this);
+                    }
+
+                    //If the selected item is not null, drop it
                     if (item != null)
                     {
                         (double mousePosX, double mousePosY) = worldRenderer.GetMouseOffset();
@@ -611,7 +633,8 @@ namespace SeeloewenCraft
                         ItemEntity itemEntity = new ItemEntity(item, player.posX + 500 - ItemEntity.itemSizeX / 2, player.posY, (int)(15000 * xDir) + player.velX, (int)(20000 * yDir) + player.velY, this);
                         AddEntity(itemEntity);
                         dropped = true;
-                        player.inventory.RemoveItem(item);
+                        selectedSlot.Remove(1);
+                        selectedSlot.inventory.UpdateHotbar();
                     }
                 }
             }
@@ -633,8 +656,11 @@ namespace SeeloewenCraft
             }
             foreach (ItemEntity itemEntity in pickedUpEntities)
             {
-                player.inventory.AddItem(itemEntity.item);
-                RemoveEntity(itemEntity);
+                player.inventory.AddItem(itemEntity.item.id, 1, out int remainingItem);
+                if(remainingItem == 0)
+                {
+                    RemoveEntity(itemEntity);
+                }
             }
 
 

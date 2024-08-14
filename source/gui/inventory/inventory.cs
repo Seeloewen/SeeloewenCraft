@@ -2,35 +2,44 @@
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media;
+using System;
 
 namespace SeeloewenCraft
 {
     public class Inventory
     {
-        World world;
+        //References
+        public World world;
+        private Random rnd;
         public InventoryGui inventoryGui;
         public List<InventorySlot> slotList = new List<InventorySlot>();
         public List<HotbarSlot> hotbarSlotList = new List<HotbarSlot>();
         public Grid grdInventory = new Grid();
         public Grid grdHotbar = new Grid();
-        public string inventoryDirectory;
+
+        //Variables
+        private static int rndOffset;
         public bool hasHotbar = false;
+        private int slotsX;
+        private int slotsY;
 
-        //-- Constructuror --//
+        //-- Constructor --//
 
-        public Inventory(World world, bool hasHotbar, int slotsX, int slotsY)
+        public Inventory(World world, int slotsX, int slotsY)
         {
             //Set the attributes
             this.world = world;
-            this.hasHotbar = hasHotbar;
+            this.slotsX = slotsX;
+            this.slotsY = slotsY;
+            rnd = new Random(DateTime.Now.Millisecond + rndOffset);
 
-            inventoryGui = new InventoryGui(world, 412, 859, 150, 175, "sc:inventory", this);
+            inventoryGui = new InventoryGui(world, 349, 695, 175, 290, "sc:inventory", this);
 
             //Create the inventory grid
-            grdInventory.Width = 89 * slotsX;
-            grdInventory.Height = 89 * slotsY;
-            Canvas.SetLeft(grdInventory, 28);
-            Canvas.SetTop(grdInventory, 36);
+            grdInventory.Width = 72 * slotsX;
+            grdInventory.Height = 72 * slotsY;
+            Canvas.SetLeft(grdInventory, 22);
+            Canvas.SetTop(grdInventory, 40);
             inventoryGui.cvsGui.Children.Add(grdInventory);
 
             //Add colums and rows to the grid
@@ -44,261 +53,316 @@ namespace SeeloewenCraft
             }
 
             //Create inventory slots
-            for (int x = 0; x < slotsX; x++)
+            for (int y = slotsY - 1; y >= 0; y--)
             {
-                for (int y = 0; y < slotsY; y++)
-                {
-                    slotList.Add(new InventorySlot(world, x, y));
-                }
-            }
-
-            //Add all inventory slots to the inventory
-            foreach (InventorySlot slot in slotList)
-            {
-                grdInventory.Children.Add(slot.bdrSlot);
-                Grid.SetRow(slot.bdrSlot, slot.yPos);
-                Grid.SetColumn(slot.bdrSlot, slot.xPos);
-            }
-
-            if (hasHotbar == true)
-            {
-                //Create the hotbar grid
-                grdHotbar.Width = 75 * slotsX;
-                grdHotbar.Height = 75;
-                grdHotbar.Visibility = Visibility.Visible;
-                grdHotbar.Background = new SolidColorBrush(Colors.Gray);
-                Canvas.SetLeft(grdHotbar, 10);
-                Canvas.SetTop(grdHotbar, 10);
-                Panel.SetZIndex(grdHotbar, 4);
-                world.wndGame.cvsGame.Children.Add(grdHotbar);
-
-                //Create the hotbar rows and colums
-                for (int i = 0; i < slotsX; i++)
-                {
-                    grdHotbar.ColumnDefinitions.Add(new ColumnDefinition());
-                }
-                grdHotbar.RowDefinitions.Add(new RowDefinition());
-
-                //Create the hotbar slots
                 for (int x = 0; x < slotsX; x++)
                 {
-                    foreach (InventorySlot slot in slotList)
-                    {
-                        if (slot.yPos == 3 && slot.xPos == x)
-                        {
-                            hotbarSlotList.Add(new HotbarSlot(world, x, slot));
-                        }
-                    }
+                    InventorySlot slot = new InventorySlot(world, this, x, y);
 
-                }
-
-                //Add all hotbar slots to the hotbar grid
-                foreach (HotbarSlot slot in hotbarSlotList)
-                {
-                    grdHotbar.Children.Add(slot.bdrSlot);
-                    Grid.SetRow(slot.bdrSlot, 0);
+                    //Add the slot to the grid and slotlist
+                    grdInventory.Children.Add(slot.bdrSlot);
+                    Grid.SetRow(slot.bdrSlot, slot.yPos);
                     Grid.SetColumn(slot.bdrSlot, slot.xPos);
+                    slotList.Add(slot);
                 }
             }
         }
 
         //-- Custom Methods --//
 
-        public int GetSelectedIndex()
+        public void InitHotbar()
         {
+            hasHotbar = true;
 
-            int c = 0;
-            foreach (HotbarSlot slot in hotbarSlotList)
+            //Create the hotbar grid
+            grdHotbar.Width = 75 * slotsX;
+            grdHotbar.Height = 75;
+            grdHotbar.Visibility = Visibility.Visible;
+            grdHotbar.Background = new SolidColorBrush(Colors.Gray);
+            Canvas.SetLeft(grdHotbar, 10);
+            Canvas.SetTop(grdHotbar, 10);
+            Panel.SetZIndex(grdHotbar, 4);
+            world.wndGame.cvsGame.Children.Add(grdHotbar);
+
+            //Create the hotbar rows and colums
+            for (int i = 0; i < slotsX; i++)
             {
-                if (slot.isSelected)
-                {
-                    return c;
-                }
-                c++;
+                grdHotbar.ColumnDefinitions.Add(new ColumnDefinition());
             }
+            grdHotbar.RowDefinitions.Add(new RowDefinition());
+
+            //Create the hotbar slots
+            for (int x = 0; x < slotsX; x++)
+            {
+                foreach (InventorySlot slot in slotList)
+                {
+                    if (slot.yPos == 3 && slot.xPos == x)
+                    {
+                        HotbarSlot hSlot = new HotbarSlot(world, x, slot);
+
+                        //Add the hotbar slot to the grid and slotlist
+                        grdHotbar.Children.Add(hSlot.bdrSlot);
+                        Grid.SetRow(hSlot.bdrSlot, 0);
+                        Grid.SetColumn(hSlot.bdrSlot, hSlot.xPos);
+                        hotbarSlotList.Add(hSlot);
+                    }
+                }
+
+            }
+        }
+
+        public int GetSelectedHotbarIndex()
+        {
+            if (hasHotbar)
+            {
+                int index = 0;
+
+                //Go through the hotbar slots and get the index of the selected slot
+                foreach (HotbarSlot slot in hotbarSlotList)
+                {
+                    if (slot.isSelected)
+                    {
+                        return index;
+                    }
+                    index++;
+                }
+            }
+
             return 0;
         }
 
-        public void AddItem(Item item)
+        public HotbarSlot GetSelectedHotbarSlot()
         {
-            bool isAdded = false;
-
-            //Go through each inventory slot
-            foreach (InventorySlot slot in slotList)
+            if (hasHotbar)
             {
-                if (slot.items.Count > 0)
+                //Get the currently selected hotbar slot, not the inventory slot!
+                foreach (HotbarSlot slot in hotbarSlotList)
                 {
-                    //Check if the item is already in the slot and the max amount is not reached
-                    if (slot.items[0].id == item.id && slot.itemAmount < 64)
+                    if (slot.isSelected)
                     {
-                        //Add the item to the slot and update it's attributes
-                        slot.AddToSlot(item);
-                        item.slot = slot;
-                        item.xPos = slot.xPos;
-                        item.yPos = slot.yPos;
-                        isAdded = true;
-
-                        //Update the hotbar
-                        UpdateHotbar();
-
-                        break;
+                        return slot;
                     }
                 }
             }
 
-            if (isAdded == false)
-            {
-                //If the item couldn't be added to existing stacks
-                foreach (InventorySlot slot in slotList)
-                {
-                    //Check for empty slots and add it to that
-                    if (slot.items.Count == 0)
-                    {
-                        //Add the item to the slot and set the attributes
-                        slot.SetItem(item);
-                        item.slot = slot;
-                        item.xPos = slot.xPos;
-                        item.yPos = slot.yPos;
-                        isAdded = true;
-
-                        //Update the hotbar
-                        UpdateHotbar();
-
-                        break;
-                    }
-                }
-            }
+            return null;
         }
 
-        public void RemoveItem(Item rItem)
+        public InventorySlot GetSelectedInvSlot()
         {
-            List<InventorySlot> clearList = new List<InventorySlot>();
-            List<Item> removeList = new List<Item>();
-
-            //Go through each inventory slot to find the item
+            //Get the currently selected inventory slot, NOT the hotbar slot
             foreach (InventorySlot slot in slotList)
             {
-                if (slot.items.Count > 0)
+                if (slot.isSelected)
                 {
-                    foreach (Item item in slot.items)
-                    {
-                        //If the item is found
-                        if (item == rItem)
-                        {
-                            //Check if it's only 1 item or a stack of multiple
-                            if (slot.itemAmount > 1)
-                            {
-                                //If it's a stack, add the item to a remove list
-                                removeList.Add(item);
-                                slot.itemAmount--;
-                                slot.tblItemAmount.Text = slot.itemAmount.ToString();
-                                break;
-                            }
-                            else
-                            {
-                                //If not, add the slot to the clear list
-                                clearList.Add(slot);
-                            }
-                        }
-                    }
+                    return slot;
                 }
             }
 
-            foreach (InventorySlot slot in clearList)
-            {
-                //Clear all slots in the clear list
-                slot.ClearSlot();
-            }
+            return null;
+        }
+
+        public int GetItemAmount(string id)
+        {
+            //Gets the total amount of an item in your inventory
+            int amount = 0;
+
             foreach (InventorySlot slot in slotList)
             {
-                //Remove every slot in the remove list
-                foreach (Item item in removeList)
+                //Sums up all the amounts of the different slots
+                if (slot.itemId == id)
                 {
-                    slot.items.Remove(item);
+                    amount += slot.Amount;
                 }
             }
 
-            //Update the hotbar because of possible changes
+            return amount;
+        }
+
+        public int GetAvailableSpace()
+        {
+            int space = 0;
+
+            //Get the space that's available in total in the inventory by summing up all possible space in the slots
+            foreach (InventorySlot slot in slotList)
+            {
+                space += slot.GetAvailableSpace();
+            }
+
+            return space;
+        }
+
+        public Item GetSelectedItem()
+        {
+            //Get the item from the currently selected Hotbar slot
+            if (GetSelectedHotbarSlot() != null)
+            {
+                return ItemRegister.GenerateItem(GetSelectedHotbarSlot().slot.itemId, world);
+            }
+
+            return null;
+        }
+
+        public void AddItem(string id, int amount, out int remainingAmount)
+        {
+            //Add the item by first checking if a slot already has the item, otherwise add it to a new slot. Also update the hotbar.
+            AddToExistingSlot(id, ref amount);
+            AddToNewSlot(id, ref amount);
+            UpdateHotbar();
+
+            //Output the remaining amount of items that couldn't be added
+            remainingAmount = amount; 
+        }
+
+        public void AddItem(string id, int amount)
+        {            
+            //Add the item by first checking if a slot already has the item, otherwise add it to a new slot. Also update the hotbar.
+            AddToExistingSlot(id, ref amount);
+            AddToNewSlot(id, ref amount);
             UpdateHotbar();
         }
 
-        public void RemoveItem(string id)
+        private void AddToExistingSlot(string id, ref int amount)
         {
-            List<InventorySlot> clearList = new List<InventorySlot>();
-            List<Item> removeList = new List<Item>();
-
-            bool itemFound = false;
-            //Go through each inventory slot to find the item
+            //Go through all inventory slots and check if the slot has the specified id
             foreach (InventorySlot slot in slotList)
             {
-                if (slot.items.Count > 0 && !itemFound)
+                if (slot.itemId == id)
                 {
-                    foreach (Item item in slot.items)
+                    //Check if the slot has enough space available
+                    if (slot.GetAvailableSpace() >= amount)
                     {
-                        //If the item is found
-                        if (item.id == id)
-                        {
-                            //Check if it's only 1 item or a stack of multiple
-                            if (slot.itemAmount > 1)
-                            {
-                                //If it's a stack, add the item to a remove list
-                                removeList.Add(item);
-                                slot.itemAmount--;
-                                slot.tblItemAmount.Text = slot.itemAmount.ToString();
-                            }
-                            else
-                            {
-                                //If not, add the slot to the clear list
-                                clearList.Add(slot);
-                            }
-
-                            itemFound = true;
-                            break;
-                        }
+                        slot.Add(id, amount);
+                        amount = 0;
                     }
+                    else
+                    {
+                        //If not, only add the amount of possible space to the slot and edit amount to continue afterwards
+                        amount -= slot.GetAvailableSpace();
+                        slot.Add(id, slot.GetAvailableSpace());
+                    }
+
+                }
+
+                //If amount is 0, all items have been added and the process is done
+                if (amount == 0)
+                {
+                    break;
                 }
             }
+        }
 
-            foreach (InventorySlot slot in clearList)
-            {
-                //Clear all slots in the clear list
-                slot.ClearSlot();
-            }
+        private void AddToNewSlot(string id, ref int amount)
+        {
+            //Go through all inventory slots and check if the slot is empty
             foreach (InventorySlot slot in slotList)
             {
-                //Remove every slot in the remove list
-                foreach (Item item in removeList)
+                if (string.IsNullOrEmpty(slot.itemId))
                 {
-                    slot.items.Remove(item);
+                    //Check if the slot has enough space available
+                    if (slot.GetAvailableSpace() >= amount)
+                    {
+                        slot.Add(id, amount);
+                        amount = 0;
+                    }
+                    else
+                    {
+                        //If not, only add the amount of possible space to the slot and edit amount to continue afterwards
+                        amount -= slot.GetAvailableSpace();
+                        slot.Add(id, slot.GetAvailableSpace());
+                    }
+
+                }
+
+                //If amount is 0, all items have been added and the process is done
+                if (amount == 0)
+                {
+                    UpdateHotbar();
+                    break;
+                }
+            }
+        }
+
+
+        public void RemoveItem(string id, int amount)
+        {
+            //Go through all slots and check if the slot has the specified id
+            foreach (InventorySlot slot in slotList)
+            {
+                if (slot.itemId == id)
+                {
+                    //If the amount in the slot is bigger than the amount that should be removed, simply remove it
+                    if (slot.Amount >= amount)
+                    {
+                        slot.Remove(amount);
+                        amount = 0;
+                    }
+                    else
+                    {
+                        //If not, only remove the possible amount from the slot and subtract amount so the process can continue
+                        slot.Remove(slot.Amount);
+                        amount -= slot.Amount;
+                    }
+
+                }
+
+                //If the amount is 0, all items have been removed and the process is done
+                if (amount == 0)
+                {
+                    break;
                 }
             }
 
-            //Update the hotbar because of possible changes
             UpdateHotbar();
         }
 
-        public void ShowInventory()
+        public bool HasItem(string id)
+        {
+            //Go through each slot and check for the id to see if the inventory contains the item at all
+            foreach (InventorySlot slot in slotList)
+            {
+                if (slot.itemId.Contains(id))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool HasEmptySlot()
+        {
+            //Go through each slot and check if it's empty to see if the inventory contains at least one empty slot
+            foreach (InventorySlot slot in slotList)
+            {
+                if (slot.IsEmpty())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void Show()
         {
             //Show the inventory and hide the hotbar
             if (world.wndGame.bdrMenu.Visibility != Visibility.Visible)
             {
-                Canvas.SetTop(grdInventory, 36);
                 inventoryGui.Show();
                 HideHotbar();
             }
         }
 
-        public void HideInventory()
+        public void Hide()
         {
             //Hide the inventoy, update and show the hotbar
+            inventoryGui.Hide();
             UpdateHotbar();
             ShowHotbar();
-            inventoryGui.Hide();
         }
 
         public void ShowHotbar()
         {
-            if (hasHotbar == true)
+            if (hasHotbar)
             {
                 //Show the hotbar
                 grdHotbar.Visibility = Visibility.Visible;
@@ -307,7 +371,7 @@ namespace SeeloewenCraft
 
         public void HideHotbar()
         {
-            if (hasHotbar == true)
+            if (hasHotbar)
             {
                 //Hide the hotbar
                 grdHotbar.Visibility = Visibility.Hidden;
@@ -316,16 +380,16 @@ namespace SeeloewenCraft
         public void UpdateHotbar()
         {
             //Check if the inventory has a hotbar in the first place
-            if (hasHotbar == true)
+            if (hasHotbar)
             {
                 //Go through each hotbar slot
                 foreach (HotbarSlot hotbarSlot in hotbarSlotList)
                 {
-                    if (hotbarSlot.slot.items.Count > 0)
+                    if (!string.IsNullOrEmpty(hotbarSlot.slot.itemId))
                     {
-                        //If there's an item in the inventory slot mapped to the hotbar slot, show it in the hotbar
-                        hotbarSlot.cvsSlot.Background = hotbarSlot.slot.items[0].cvsItem.Background;
-                        hotbarSlot.tblItemAmount.Text = hotbarSlot.slot.itemAmount.ToString();
+                        //If there's an item in the inventory slot bound to the hotbar slot, show it in the hotbar
+                        hotbarSlot.cvsSlot.Background = hotbarSlot.slot.cvsItem.Background;
+                        hotbarSlot.tblItemAmount.Text = hotbarSlot.slot.Amount.ToString();
                     }
                     else
                     {
@@ -337,15 +401,48 @@ namespace SeeloewenCraft
             }
         }
 
+        public void Drop(int x, int y)
+        {
+            //Get the selected slot and selected item
+            foreach (InventorySlot slot in slotList)
+            {
+                Item item = null;
+                if (!slot.IsEmpty())
+                {
+                    for (int i = 0; i < slot.Amount; i++)
+                    {
+                        item = ItemRegister.GenerateItem(slot.itemId, world);
+
+                        //If the selected item is not null, drop it
+                        if (item != null)
+                        {
+
+                            ItemEntity itemEntity = new ItemEntity(item, x + rnd.Next(-200, 201), y, 0, 0, world);
+                            world.AddEntity(itemEntity);
+                            slot.inventory.UpdateHotbar();
+                        }
+                    }
+                }
+            }
+        }
+
         public void SaveToJson(JsonWriter writer)
         {
+            //Write all properties to json
             writer.WriteStartObject();
+
+            writer.WritePropertyName("size_x");
+            writer.WriteValue(slotsX);
+
+            writer.WritePropertyName("size_y");
+            writer.WriteValue(slotsY);
 
             writer.WritePropertyName("has_hotbar");
             writer.WriteValue(hasHotbar);
 
             writer.WritePropertyName("slots");
             writer.WriteStartArray();
+
             foreach (InventorySlot slot in slotList)
             {
                 writer.WriteStartObject();
@@ -354,18 +451,10 @@ namespace SeeloewenCraft
                 writer.WriteStartObject();
 
                 writer.WritePropertyName("id");
-                if (slot.items.Count > 0)
-                {
-                    writer.WriteValue(slot.items[0].id);
-                }
-                else
-                {
-                    writer.WriteValue("Null");
-                }
-
+                writer.WriteValue(slot.itemId);
 
                 writer.WritePropertyName("amount");
-                writer.WriteValue(slot.itemAmount);
+                writer.WriteValue(slot.Amount);
 
                 writer.WriteEndObject();
                 writer.WriteEndObject();
@@ -375,64 +464,42 @@ namespace SeeloewenCraft
             writer.WriteEndObject();
         }
 
-        public Item GetSelectedItem()
-        {
-            foreach (HotbarSlot slot in world.player.inventory.hotbarSlotList)
-            {
-                //Check if the slot is selected and has an item
-                if (slot.isSelected == true && slot.slot.items.Count > 0)
-                {
-                    return slot.slot.items[slot.slot.items.Count - 1];
-                }
-            }
-            return null;
-        }
-
         public static Inventory LoadFromJson(JsonToken token, World world)
         {
-            bool hasHotbar = token.GetBool("/has_hotbar");
-            Inventory inventory = new Inventory(world, hasHotbar,9,4);
-            JsonToken slotArrayToken = token.GetToken("/slots");
 
+            //Get the inventory size
+            int slotsX = token.GetInt("/size_x");
+            int slotsY = token.GetInt("/size_y");
+
+            Inventory inventory = new Inventory(world, slotsX, slotsY);
+
+            //Get a possible hotbar
+            bool hasHotbar = token.GetBool("/has_hotbar");
+            if (hasHotbar)
+            {
+                inventory.InitHotbar();
+            }
+
+            JsonToken slotArrayToken = token.GetToken("/slots");
             int slotNum = 0;
 
             foreach (InventorySlot slot in inventory.slotList)
             {
+                //Go trough each slot and load the item and amount
                 JsonToken slotToken = token.GetToken($"/slots/{slotNum}/item");
 
                 string id = slotToken.GetString("/id");
                 int amount = slotToken.GetInt("/amount");
 
-                for (int i = 0; i < amount; i++)
+                if (!string.IsNullOrEmpty(id))
                 {
-                    Item item = ItemRegister.GenerateItem(id, world);
-                    if (item != null)
-                    {
-                        slot.AddToSlot(item);
-                    }
+                    slot.Add(id, amount);
                 }
+
                 slotNum++;
             }
+            
             return inventory;
-        }
-
-        public int GetItemAmount(string id)
-        {
-            //Checks the total amount of an item in your inventory
-            int amount = 0;
-
-            foreach(InventorySlot slot in slotList)
-            {
-                foreach(Item item in slot.items)
-                {
-                    if(item.id == id)
-                    {
-                        amount++;
-                    }
-                }
-            }
-
-            return amount;
         }
     }
 }

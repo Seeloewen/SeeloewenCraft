@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.TextFormatting;
 using Newtonsoft.Json;
 
 
@@ -13,6 +14,8 @@ namespace SeeloewenCraft
     {
         //References
         public HashSet<Key> pressedKeys = new HashSet<Key>();
+        public Canvas cvsInvItem = new Canvas();
+        public TextBlock tblInvItem = new TextBlock();
         public World world;
         public Point mousePosition;
 
@@ -31,6 +34,18 @@ namespace SeeloewenCraft
             InitializeComponent();
             this.world = world;
             ApplyVideoSettings();
+
+            //Setup canvas for the item currently held in inventory
+            cvsGame.Children.Add(cvsInvItem);
+            cvsInvItem.Width = 55;
+            cvsInvItem.Height = 55;
+            Panel.SetZIndex(cvsInvItem, 5);
+
+            //Setup textblock for the item currently held in inventory
+            tblInvItem.FontSize = 18;
+            Canvas.SetTop(tblInvItem, 40);
+            Canvas.SetLeft(tblInvItem, 45);
+            cvsInvItem.Children.Add(tblInvItem);
         }
 
         //-- Custom Methods --//
@@ -59,7 +74,7 @@ namespace SeeloewenCraft
                     {
                         if (gui.id == "sc:inventory")
                         {
-                            gui.inventory.HideInventory();
+                            gui.inventory.Hide();
                         }
                         else
                         {
@@ -70,53 +85,54 @@ namespace SeeloewenCraft
                 else
                 {
                     Canvas.SetTop(world.player.inventory.inventoryGui.cvsGui, 175);
-                    world.player.inventory.ShowInventory();
+                    Canvas.SetLeft(world.player.inventory.inventoryGui.cvsGui, 290);
+                    world.player.inventory.Show();
                 }
             }
             if (pressedKeys.Contains(Key.D1)) //Num Key 1 (Not numpad)
             {
                 //Select Hotbar Slot 1
-                world.player.inventory.hotbarSlotList[0].SelectSlot();
+                world.player.inventory.hotbarSlotList[0].Select();
             }
             if (pressedKeys.Contains(Key.D2)) //Num Key 2 (Not numpad)
             {
                 //Select Hotbar Slot 2
-                world.player.inventory.hotbarSlotList[1].SelectSlot();
+                world.player.inventory.hotbarSlotList[1].Select();
             }
             if (pressedKeys.Contains(Key.D3)) //Num Key 3 (Not numpad)
             {
                 //Select Hotbar Slot 3
-                world.player.inventory.hotbarSlotList[2].SelectSlot();
+                world.player.inventory.hotbarSlotList[2].Select();
             }
             if (pressedKeys.Contains(Key.D4)) //Num Key 4 (Not numpad)
             {
                 //Select Hotbar Slot 4
-                world.player.inventory.hotbarSlotList[3].SelectSlot();
+                world.player.inventory.hotbarSlotList[3].Select();
             }
             if (pressedKeys.Contains(Key.D5)) //Num Key 5 (Not numpad)
             {
                 //Select Hotbar Slot 5
-                world.player.inventory.hotbarSlotList[4].SelectSlot();
+                world.player.inventory.hotbarSlotList[4].Select();
             }
             if (pressedKeys.Contains(Key.D6)) //Num Key 6 (Not numpad)
             {
                 //Select Hotbar Slot 6
-                world.player.inventory.hotbarSlotList[5].SelectSlot();
+                world.player.inventory.hotbarSlotList[5].Select();
             }
             if (pressedKeys.Contains(Key.D7)) //Num Key 7 (Not numpad)
             {
                 //Select Hotbar Slot 7
-                world.player.inventory.hotbarSlotList[6].SelectSlot();
+                world.player.inventory.hotbarSlotList[6].Select();
             }
             if (pressedKeys.Contains(Key.D8)) //Num Key 8 (Not numpad)
             {
                 //Select Hotbar Slot 8
-                world.player.inventory.hotbarSlotList[7].SelectSlot();
+                world.player.inventory.hotbarSlotList[7].Select();
             }
             if (pressedKeys.Contains(Key.D9)) //Num Key 9 (Not numpad)
             {
                 //Select Hotbar Slot 9
-                world.player.inventory.hotbarSlotList[8].SelectSlot();
+                world.player.inventory.hotbarSlotList[8].Select();
             }
             if (pressedKeys.Contains(Key.Escape)) //Num Key 9 (Not numpad)
             {
@@ -144,7 +160,7 @@ namespace SeeloewenCraft
                     {
                         if (gui.id == "sc:inventory")
                         {
-                            gui.inventory.HideInventory();
+                            gui.inventory.Hide();
                         }
                         else
                         {
@@ -316,13 +332,13 @@ namespace SeeloewenCraft
                 }
 
                 //Apply video mode
-                if(Settings.videoMode == "Windowed")
+                if (Settings.videoMode == "Windowed")
                 {
                     WindowStyle = WindowStyle.SingleBorderWindow;
                     WindowState = WindowState.Normal;
                     btnClose.Visibility = Visibility.Hidden;
                 }
-                else if(Settings.videoMode == "Borderless")
+                else if (Settings.videoMode == "Borderless")
                 {
                     WindowStyle = WindowStyle.None;
                     WindowState = WindowState.Normal;
@@ -354,6 +370,20 @@ namespace SeeloewenCraft
             cvsGame.LayoutTransform = scaleTransform;
         }
 
+        public void ShowInvItem(InventorySlot slot)
+        {
+            cvsInvItem.Visibility = Visibility.Visible;
+            cvsInvItem.Background = slot.cvsItem.Background;
+            Canvas.SetLeft(cvsInvItem, mousePosition.X + 5);
+            Canvas.SetTop(cvsInvItem, mousePosition.Y + 5);
+            tblInvItem.Text = slot.Amount.ToString();
+        }
+
+        public void HideInvItem()
+        {
+            cvsInvItem.Visibility = Visibility.Hidden;
+        }
+
         //-- Event Handlers --//
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
@@ -382,23 +412,14 @@ namespace SeeloewenCraft
         {
             //Get the current mouse position
             mousePosition = e.GetPosition(cvsGame);
-            foreach (Inventory inventory in world.inventoryList)
-            {
-                foreach (InventorySlot slot in inventory.slotList)
-                {
-                    //Go through every slot and check which one is selected
-                    if (slot.isSelected == true)
-                    {
-                        //Remove the canvas from its spot in the inventory
-                        RemoveFromParent(slot.items[0].cvsItem);
 
-                        //Add the canvas to the main game canvas to make it follow the mouse
-                        cvsGame.Children.Add(slot.items[0].cvsItem);
-                        Panel.SetZIndex(slot.items[0].cvsItem, 5);
-                        Canvas.SetLeft(slot.items[0].cvsItem, mousePosition.X + 5);
-                        Canvas.SetTop(slot.items[0].cvsItem, mousePosition.Y + 5);
-                    }
-                }
+            InventorySlot selectedSlot = world.GetSelectedInvSlot();
+
+            //Make the canvas follow the mouse
+            if (selectedSlot != null)
+            {
+                Canvas.SetLeft(cvsInvItem, mousePosition.X + 5);
+                Canvas.SetTop(cvsInvItem, mousePosition.Y + 5);
             }
         }
 
@@ -428,7 +449,7 @@ namespace SeeloewenCraft
                     world.player.SaveInventory(world.worldDirectory);
                     world.player.SavePosition(world.worldDirectory);
                     world.SaveEntities();
-                    if (world.gameLoop.tmrGameLoop.IsRunning) world.gameLoop.tmrGameLoop.Stop();
+                    world.gameLoop.tmrGameLoop.Stop();
                 }
             }
 
@@ -503,14 +524,14 @@ namespace SeeloewenCraft
             int newSlot;
             if (e.Delta < 0)
             {
-                newSlot = (world.player.inventory.GetSelectedIndex() + 1) % 9;
+                newSlot = (world.player.inventory.GetSelectedHotbarIndex() + 1) % 9;
             }
             else
             {
-                newSlot = (world.player.inventory.GetSelectedIndex() - 1) % 9;
+                newSlot = (world.player.inventory.GetSelectedHotbarIndex() - 1) % 9;
                 if (newSlot == -1) newSlot = 8;
             }
-            world.player.inventory.hotbarSlotList[newSlot].SelectSlot();
+            world.player.inventory.hotbarSlotList[newSlot].Select();
 
             e.Handled = true;
         }

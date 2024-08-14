@@ -123,10 +123,10 @@ namespace SeeloewenCraft
 
                 case "sc:arrow_item":
                     return new ArrowItem(world);
+
+                default:
+                    return new BedrockItem(world);
             }
-            return null;
         }
-
-
     }
 }

@@ -160,20 +160,26 @@ namespace SeeloewenCraft
             }
         }
 
-        public void Claim(CraftingRecipe recipe)
+        public void Claim(CraftingRecipe recipe, out bool success)
         {
-            recipeClaimable = false;
-            //Add all outcome items to the players inventory
-            for (int i = 0; i < amount; i++)
+            bool claimed = false;
+
+            if (world.player.inventory.GetAvailableSpace() >= recipe.outgredients.Count && (world.player.inventory.HasEmptySlot() || world.player.inventory.HasItem(recipe.outgredients[0].item.id)))
             {
-                foreach (CraftingIngredient craftingIngredient in recipe.outgredients)
+                recipeClaimable = false;
+                claimed = true;
+
+                //Add all outcome items to the players inventory
+                for (int i = 0; i < amount; i++)
                 {
-                    for (int j = 0; j < craftingIngredient.amount; j++)
+                    foreach (CraftingIngredient craftingIngredient in recipe.outgredients)
                     {
-                        world.player.inventory.AddItem(craftingIngredient.item);
+                        world.player.inventory.AddItem(craftingIngredient.item.id, craftingIngredient.amount);
                     }
                 }
             }
+
+            success = claimed;
         }
 
         public bool RequiredItemsAvailable()
@@ -197,10 +203,7 @@ namespace SeeloewenCraft
                 //If it's new, remove the required materials based on the amount from the players inventory
                 foreach (CraftingIngredient ingredient in recipe.ingredients)
                 {
-                    for (int i = 0; i < ingredient.amount * amount; i++)
-                    {
-                        world.player.inventory.RemoveItem(ingredient.item.id);
-                    }
+                    world.player.inventory.RemoveItem(ingredient.item.id, ingredient.amount * amount);
                 }
                 RenderCraftingDetails(cvsIngredients, recipe);
             }
@@ -317,22 +320,25 @@ namespace SeeloewenCraft
         public void btnClaim_Click(object sender, RoutedEventArgs e)
         {
             //Claim the item
-            Claim(selectedRecipe);
+            Claim(selectedRecipe, out bool success);
 
             //Refresh the UI
-            string tempRecipe = selectedRecipe.id;
-            RenderCraftingRecipes(cvsRecipes, cvsIngredients, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, workstation);
-            selectedRecipe = GetRecipe(tempRecipe);
-            RenderCraftingDetails(cvsIngredients, selectedRecipe);
-
-            //Hide progress bar
-            if (block.blockContainer != null)
+            if(success)
             {
-                block.blockContainer.cvsBlock.Children.Remove(pbCraftingBlock);
-            }
+                string tempRecipe = selectedRecipe.id;
+                RenderCraftingRecipes(cvsRecipes, cvsIngredients, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, workstation);
+                selectedRecipe = GetRecipe(tempRecipe);
+                RenderCraftingDetails(cvsIngredients, selectedRecipe);
 
-            //Check if all requirements for crafting the recipe are met
-            btnCraft.IsEnabled = RequiredItemsAvailable();
+                //Hide progress bar
+                if (block.blockContainer != null)
+                {
+                    block.blockContainer.cvsBlock.Children.Remove(pbCraftingBlock);
+                }
+
+                //Check if all requirements for crafting the recipe are met
+                btnCraft.IsEnabled = RequiredItemsAvailable();
+            }
         }
 
         private void tmrCrafting_Tick(object sender, EventArgs e)

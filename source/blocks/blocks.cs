@@ -268,7 +268,7 @@ namespace SeeloewenCraft
         public ChestBlock(World world, bool isInBackground) : base(world, isInBackground)
         {
             hasInventory = true;
-            blockInventory = new Inventory(world, false, 9, 4);
+            blockInventory = new Inventory(world, 9, 4);
             world.inventoryList.Add(blockInventory);
             SetTexture();
             name = "Chest";
@@ -292,11 +292,11 @@ namespace SeeloewenCraft
             if (IsInRange() && isSolid && hasInventory)
             {
                 //If the block has an inventory, open it as well as the players inventory
-                world.player.inventory.inventoryGui.SetTop(0);
-                world.player.inventory.ShowInventory();
-                blockInventory.inventoryGui.SetTop(400);
+                blockInventory.inventoryGui.SetTop(355);
                 blockInventory.inventoryGui.tblHeader.Text = "Chest";
-                blockInventory.ShowInventory();
+                blockInventory.Show();
+                world.player.inventory.inventoryGui.SetTop(20);
+                world.player.inventory.Show();
             }
         }
     }
@@ -503,6 +503,8 @@ namespace SeeloewenCraft
 
             craftingHandler = new CraftingHandler(world, this);
             gui = new UnchiselerGui(world, 225, 225, 465, 475, "sc:unchiseler");
+            blockInventory = gui.inventory;
+            hasInventory = true;
         }
 
         override public void GenerateItem(World world)
@@ -520,7 +522,7 @@ namespace SeeloewenCraft
             if (IsInRange())
             {
                 world.player.inventory.inventoryGui.SetTop(25);
-                world.player.inventory.ShowInventory();
+                world.player.inventory.Show();
                 gui.Show();
             }
         }

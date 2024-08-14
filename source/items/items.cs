@@ -295,7 +295,7 @@ namespace SeeloewenCraft
         {
             isPlacable = true;
             name = "Chest";
-            id = "chest_item";
+            id = "sc:chest_item";
             SetTexture();
         }
 

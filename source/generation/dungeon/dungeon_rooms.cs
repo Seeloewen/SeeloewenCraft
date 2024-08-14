@@ -138,7 +138,7 @@ namespace SeeloewenCraft
             ChestBlock chest = new ChestBlock(world, false);
             foreach (Item item in chestLoot)
             {
-                chest.blockInventory.AddItem(item);
+                chest.blockInventory.AddItem(item.id, 1);
             }
             GetBlock(2, 7).block = chest;
 
