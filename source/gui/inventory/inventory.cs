@@ -417,14 +417,11 @@ namespace SeeloewenCraft
                         //If the selected item is not null, drop it
                         if (item != null)
                         {
-
-                            //ItemEntity itemEntity = new ItemEntity(item, x + rnd.Next(-200, 201), y, 0, 0, world);
                             world.AddEntity(new ItemEntity(item, //item type
                                 x + 500 - ItemEntity.itemSizeX / 2, //posX
                                 y + 500 - ItemEntity.itemSizeY / 2, //posY
                                 rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), //velX and velY 
                                 world));
-                            //world.AddEntity(itemEntity);
                             slot.inventory.UpdateHotbar();
                         }
                     }
