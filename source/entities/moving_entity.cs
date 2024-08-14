@@ -20,6 +20,10 @@ namespace SeeloewenCraft
         public bool pressedUp;
         public bool pressedRight;
         public bool pressedLeft;
+        public bool pressedSneak;
+        public bool pressedSprint;
+        public bool pressedThrow;
+        protected bool thrown;
 
         bool touchingRight;
         bool touchingLeft;

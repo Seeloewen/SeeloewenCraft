@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Windows;
 using System.Windows.Media;
 
@@ -26,6 +27,45 @@ namespace SeeloewenCraft
         }
 
         //-- Custom Methods --//
+
+        private void HandleThrow()
+        {
+            if (pressedThrow)
+            {
+                if (!thrown)
+                {
+                    Item item = inventory.GetSelectedItem();
+                    if (item != null)
+                    {
+                        (double mousePosX, double mousePosY) = world.worldRenderer.GetMouseOffset();
+                        double xOffset = mousePosX - posX - 450;
+                        double yOffset = mousePosY - posY;
+                        double n = Math.Sqrt(xOffset * xOffset + yOffset * yOffset);
+                        double xDir = xOffset / n;
+                        double yDir = yOffset / n;
+
+                        ItemEntity itemEntity = new ItemEntity(item, posX + 500 - ItemEntity.itemSizeX / 2, posY, (int)(15000 * xDir) + velX, (int)(20000 * yDir) + velY, world);
+                        world.AddEntity(itemEntity);
+                        thrown = true;
+                        inventory.RemoveItem(item);
+                    }
+                }
+            }
+            else
+            {
+                thrown = false;
+            }
+        }
+
+        private void HandleInputs()
+        {
+            pressedLeft = world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            pressedRight = world.wndGame.pressedKeys.Contains(Settings.cMoveRight);
+            pressedUp = world.wndGame.pressedKeys.Contains(Settings.cJump);
+            pressedSneak = world.wndGame.pressedKeys.Contains(Settings.cSneak);
+            pressedSprint = world.wndGame.pressedKeys.Contains(Settings.cSprint);
+            pressedThrow = world.wndGame.pressedKeys.Contains(Settings.cThrowItem);
+        }
 
         protected override void DoFallDamage()
         {
@@ -96,6 +136,8 @@ namespace SeeloewenCraft
 
         protected override void OnUpdateStart(int tps)
         {
+            HandleInputs();
+            HandleThrow();
             base.OnUpdateStart(tps);
             DisplayDebugInformation();
         }

@@ -596,34 +596,6 @@ namespace SeeloewenCraft
 
             player.OnUpdate(63); // tps: 1/0.016
 
-            if (wndGame.pressedKeys.Contains(Key.Q))
-            {
-                if (!dropped)
-                {
-                    Item item = player.inventory.GetSelectedItem();
-                    if (item != null)
-                    {
-                        (double mousePosX, double mousePosY) = worldRenderer.GetMouseOffset();
-                        double xOffset = mousePosX - player.posX - 450;
-                        double yOffset = mousePosY - player.posY;
-                        double n = Math.Sqrt(xOffset * xOffset + yOffset * yOffset);
-                        double xDir = xOffset / n;
-                        double yDir = yOffset / n;
-
-                        ItemEntity itemEntity = new ItemEntity(item, player.posX + 500 - ItemEntity.itemSizeX / 2, player.posY, (int)(15000 * xDir) + player.velX, (int)(20000 * yDir) + player.velY, this);
-                        AddEntity(itemEntity);
-                        dropped = true;
-                        player.inventory.RemoveItem(item);
-                    }
-                }
-            }
-            else
-            {
-                dropped = false;
-            }
-
-
-
             foreach (Entity entity in entities)
             {
                 entity.OnUpdate(63);
