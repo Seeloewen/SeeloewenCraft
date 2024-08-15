@@ -86,6 +86,9 @@ namespace SeeloewenCraft
                 case TextureType.Connected_Block:
                     imageUri = new Uri($"{textureDirectory}/Blocks/Connected/{resourceName}", UriKind.Absolute);
                     break;
+                case TextureType.States_Block:
+                    imageUri = new Uri($"{textureDirectory}/Blocks/States/{resourceName}", UriKind.Absolute);
+                    break;
                 case TextureType.General:
                     imageUri = new Uri($"{textureDirectory}/{resourceName}", UriKind.Absolute);
                     break;
@@ -128,6 +131,9 @@ namespace SeeloewenCraft
                     break;
                 case TextureType.Connected_Block:
                     imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/Blocks/Connected/{resourceName}", UriKind.Absolute);
+                    break;
+                case TextureType.States_Block:
+                    imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/Blocks/States/{resourceName}", UriKind.Absolute);
                     break;
                 case TextureType.General:
                     imageUri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/{resourceName}", UriKind.Absolute);
@@ -222,6 +228,11 @@ namespace SeeloewenCraft
             Bone = new SealImage(TextureType.Item, "Bone.png");
             Arrow = new SealImage(TextureType.Item, "Arrow.png");
             Snowball = new SealImage(TextureType.Item, "Snowball.png");
+            SpruceDoor_Closed_Top = new SealImage(TextureType.States_Block, "Spruce_Door_Closed_Top.png");
+            SpruceDoor_Closed_Base = new SealImage(TextureType.States_Block, "Spruce_Door_Closed_Base.png");
+            SpruceDoor_Open_Top = new SealImage(TextureType.States_Block, "Spruce_Door_Open_Top.png");
+            SpruceDoor_Open_Base = new SealImage(TextureType.States_Block, "Spruce_Door_Open_Base.png");
+            SpruceDoor = new SealImage(TextureType.Item, "Spruce_Door_Item.png");
         }
 
         //-- Images --//
@@ -297,6 +308,11 @@ namespace SeeloewenCraft
         public static SealImage Bone;
         public static SealImage Arrow;
         public static SealImage Snowball;
+        public static SealImage SpruceDoor_Open_Top;
+        public static SealImage SpruceDoor_Open_Base;
+        public static SealImage SpruceDoor_Closed_Top;
+        public static SealImage SpruceDoor_Closed_Base;
+        public static SealImage SpruceDoor;
     }
 
     public class SealImage
@@ -327,6 +343,7 @@ namespace SeeloewenCraft
         Entity,
         Chiseled_Block,
         Connected_Block,
+        States_Block,
         General
     }
 }

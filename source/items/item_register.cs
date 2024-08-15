@@ -124,6 +124,9 @@ namespace SeeloewenCraft
                 case "sc:arrow_item":
                     return new ArrowItem(world);
 
+                case "sc:spruce_door_item":
+                    return new SpruceDoorItem(world);
+
                 default:
                     return new BedrockItem(world);
             }

@@ -42,6 +42,10 @@
     <Resource Include="Resources\Textures\Blocks\Connected\Potted_Cactus.png" />
     <Resource Include="Resources\Textures\Blocks\Connected\Potted_Cactus_Base.png" />
     <Resource Include="Resources\Textures\Blocks\Connected\Potted_Cactus_Top.png" />
+    <Resource Include="Resources\Textures\Blocks\States\Spruce_Door_Closed_Base.png" />
+    <Resource Include="Resources\Textures\Blocks\States\Spruce_Door_Closed_Top.png" />
+    <Resource Include="Resources\Textures\Blocks\States\Spruce_Door_Open_Base.png" />
+    <Resource Include="Resources\Textures\Blocks\States\Spruce_Door_Open_Top.png" />
     <Resource Include="Resources\Textures\Blocks\Unchiseler.png" />
     <Resource Include="Resources\Textures\Break_1.png" />
     <Resource Include="Resources\Textures\Break_2.png" />
@@ -79,6 +83,7 @@
     <Resource Include="Resources\Textures\Items\Arrow.png" />
     <Resource Include="Resources\Textures\Items\Bone.png" />
     <Resource Include="Resources\Textures\Items\Snowball.png" />
+    <Resource Include="Resources\Textures\Items\Spruce_Door_Item.png" />
     <Resource Include="Resources\Textures\Missing_Texture.png" />
     <Resource Include="Resources\Textures\Items\Stone_Hammer.png" />
     <Resource Include="Resources\Textures\Blocks\Spruce_Leaves.png" />
@@ -109,6 +114,10 @@
     <EmbeddedResource Remove="frmLog.resx" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Resources\Textures\Blocks\States\Spruce_Door_Closed_Base.png" />
+    <None Remove="Resources\Textures\Blocks\States\Spruce_Door_Closed_Top.png" />
+    <None Remove="Resources\Textures\Blocks\States\Spruce_Door_Open_Base.png" />
+    <None Remove="Resources\Textures\Blocks\States\Spruce_Door_Open_Top.png" />
     <None Remove="Resources\Textures\Gui\Background.png" />
     <None Remove="Resources\Textures\Hammer_1.png" />
     <None Remove="Resources\Textures\Hammer_2.png" />
@@ -118,6 +127,7 @@
     <None Remove="Resources\Textures\Items\Arrow.png" />
     <None Remove="Resources\Textures\Items\Bone.png" />
     <None Remove="Resources\Textures\Items\Snowball.png" />
+    <None Remove="Resources\Textures\Items\Spruce_Door_Item.png" />
   </ItemGroup>   
   <ItemGroup>
     <Content Include="SeeloewenCraft.ico" />

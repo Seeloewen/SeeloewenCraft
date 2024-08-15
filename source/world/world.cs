@@ -409,6 +409,7 @@ namespace SeeloewenCraft
                 player.inventory.AddItem("sc:chest_item", 64);
                 player.inventory.AddItem("sc:cobblestone_stairtopleft_item", 64);
                 player.inventory.AddItem("sc:unchiseler_item", 64);
+                player.inventory.AddItem("sc:spruce_door_item", 64);
             }
             player.inventory.UpdateHotbar();
             inventoryList.Add(player.inventory);

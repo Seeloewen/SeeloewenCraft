@@ -358,14 +358,14 @@ namespace SeeloewenCraft
             connectedBlocks[0].yOffset = -1;
             connectedBlocks[0].baseBlock = this;
             breakTime = 0;
-            collision = new MultipleRectangleCollision([ 125, 251 ], [875, 749], [375, 1], [1000, 375]);
+            collision = new MultipleRectangleCollision([125, 251], [875, 749], [375, 1], [1000, 375]);
         }
 
         public override bool[] CheckTouch(int startX, int startY, int endX, int endY)
         {
             bool[] touchingStatus = new bool[Entity.TOUCHING_STATUS_COUNT];
-            touchingStatus[Entity.TOUCHING_CACTUS] = 
-                (250 < endX) && (750 > startX) 
+            touchingStatus[Entity.TOUCHING_CACTUS] =
+                (250 < endX) && (750 > startX)
                 && (0 < endY) && (500 > startY);
             return touchingStatus;
         }
@@ -563,7 +563,74 @@ namespace SeeloewenCraft
 
         public override void SetTexture()
         {
-            image = Images.CobbleStoneBlock.GetTexture()    ;
+            image = Images.CobbleStoneBlock.GetTexture();
+        }
+    }
+
+
+    public class SpruceDoor_Base : DoorBlock
+    {
+        public SpruceDoor_Base(World world, bool isInBackground) : base(world, isInBackground)
+        {
+            SetTexture();
+            isBase = true;
+            name = "Spruce Door Base";
+            id = "sc:spruce_door_base";
+            hasRightClickAction = true;
+            collision = new RectangleCollision(720, 1000, 0, 1000);
+            breakTime = 500;
+
+            connectedBlocks.Add(new SpruceDoor_Top(world, isInBackground));
+            connectedBlocks[0].yOffset = -1;
+            connectedBlocks[0].baseBlock = this;
+
+            imgClose = Images.SpruceDoor_Closed_Base.GetTexture();
+            imgOpen = Images.SpruceDoor_Open_Base.GetTexture();
+        }
+
+        override public void GenerateItem(World world)
+        {
+            item = new SpruceDoorItem(world);
+        }
+
+        public override void SetTexture()
+        {
+            image = Images.SpruceDoor_Closed_Base.GetTexture();
+        }   
+    }
+
+
+    public class SpruceDoor_Top : DoorBlock
+    {
+        public SpruceDoor_Top(World world, bool isInBackground) : base(world, isInBackground)
+        {
+            SetTexture();
+            name = "Spruce Door Top";
+            id = "sc:spruce_door_top";
+            hasRightClickAction = true;
+            collision = new RectangleCollision(720, 1000, 0, 1000);
+            breakTime = 500;
+
+            imgClose = Images.SpruceDoor_Closed_Top.GetTexture();
+            imgOpen = Images.SpruceDoor_Open_Top.GetTexture();
+        }
+
+        override public void GenerateItem(World world)
+        {
+            item = new SpruceDoorItem(world);
+        }
+
+        public override void SetTexture()
+        {
+            image = Images.SpruceDoor_Closed_Top.GetTexture();
+        }
+
+        public override void RightClickAction(object sender)
+        {
+            if (baseBlock is DoorBlock block)
+            {
+                block.RightClickAction(sender);
+            }
         }
     }
 }

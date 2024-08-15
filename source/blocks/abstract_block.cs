@@ -41,7 +41,7 @@ namespace SeeloewenCraft
         public bool isBase = false;
         public bool hasRightClickAction = false;
         public int breakTime = 150;
-        protected Collision collision;
+        public Collision collision;
 
         //variables
         public int xPos;

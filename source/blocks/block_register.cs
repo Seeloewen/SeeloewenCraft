@@ -101,6 +101,10 @@
                     return new PottedCactus_Base(world, false);
                 case "sc:potted_cactus_top":
                     return new PottedCactus_Top(world, false);
+                case "sc:spruce_door_base":
+                    return new SpruceDoor_Base(world, false);
+                case "sc:spruce_door_top":
+                    return new SpruceDoor_Top(world, false);
                 default:
                     return null;
 

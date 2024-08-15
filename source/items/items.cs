@@ -613,4 +613,29 @@ namespace SeeloewenCraft
             cvsItem.Background = image;
         }
     }
+
+
+    public class SpruceDoorItem : Item
+    {
+        public SpruceDoorItem(World world) : base(world)
+        {
+            isPlacable = true;
+            name = "Spruce Door";
+            id = "sc:spruce_door_item";
+            SetTexture();
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new SpruceDoor_Base(world, isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            //Set the texture of the block on the canvas
+            image = Images.SpruceDoor.GetTexture();
+            cvsItem.Background = image;
+        }
+    }
 }
