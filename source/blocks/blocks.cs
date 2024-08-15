@@ -424,7 +424,7 @@ namespace SeeloewenCraft
             breakTime = 500;
 
             craftingHandler = new CraftingHandler(world, this);
-            gui = new CraftingTableGui(world, 535, 720, 120, 200, "sc:crafting_table", null, this);
+            gui = new CraftingTableGui(world, 535, 720, 120, 285, "sc:crafting_table", null, this);
         }
 
         override public void GenerateItem(World world)
@@ -473,7 +473,7 @@ namespace SeeloewenCraft
             hasRightClickAction = true;
 
             craftingHandler = new CraftingHandler(world, this);
-            gui = new ChiselerGui(world, 535, 720, 120, 200, "sc:chiseler", null, this);
+            gui = new ChiselerGui(world, 535, 720, 120, 285, "sc:chiseler", null, this);
         }
 
         override public void GenerateItem(World world)
@@ -520,7 +520,7 @@ namespace SeeloewenCraft
             breakTime = 500;
 
             craftingHandler = new CraftingHandler(world, this);
-            gui = new UnchiselerGui(world, 225, 225, 465, 475, "sc:unchiseler");
+            gui = new UnchiselerGui(world, 225, 225, 420, 530, "sc:unchiseler");
             blockInventory = gui.inventory;
             hasInventory = true;
         }

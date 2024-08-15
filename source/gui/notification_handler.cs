@@ -25,11 +25,11 @@ namespace SeeloewenCraft
         public NotificationHandler(World world)
         {
             this.world = world;
-            gui = new NotificationGui(world, 600, 375, 117, 400, "sc:notifications", this);
+            gui = new NotificationGui(world, 550, 375, 112, 445, "sc:notifications", this);
 
             //Setup necessary components for showing the message
-            Canvas.SetTop(bdrNotification, 660);
-            Canvas.SetLeft(bdrNotification, 800);
+            Canvas.SetTop(bdrNotification, 585);
+            Canvas.SetLeft(bdrNotification, 870);
             bdrNotification.Child = cvsNotification;
 
             Canvas.SetTop(tblNotification, 10);

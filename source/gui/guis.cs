@@ -26,9 +26,9 @@ namespace SeeloewenCraft
         public TextBlock tblAmount = new TextBlock() { FontSize = 18, Text = "Amount:", FontWeight = FontWeights.DemiBold };
         public TextBox tbAmount = new TextBox() { FontSize = 18, Text = "1", FontWeight = FontWeights.DemiBold, Width = 45 };
         public ScrollViewer svRecipeDetails = new ScrollViewer() { Width = 400, Height = 375, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
-        public Canvas cvsRecipeDetails = new Canvas() { Background = new SolidColorBrush(Colors.LightGray) };
+        public Canvas cvsRecipeDetails = new Canvas() { Background = new SolidColorBrush(Color.FromArgb(130, 240, 240, 240)) };
         public ScrollViewer svRecipes = new ScrollViewer() { Width = 200, Height = 375, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
-        public Canvas cvsRecipes = new Canvas() { Background = new SolidColorBrush(Colors.LightGray) };
+        public Canvas cvsRecipes = new Canvas() { Background = new SolidColorBrush(Color.FromArgb(130, 240, 240, 240)) };
         public Button btnCraft = new Button() { Width = 125, Height = 30, Content = "Craft Item", FontSize = 18 };
         public Button btnClaim = new Button() { Width = 125, Height = 30, Content = "Claim Item", FontSize = 18, Visibility = Visibility.Hidden, Background = new SolidColorBrush(Colors.LightGreen) };
         public ProgressBar pbCrafting = new ProgressBar() { Width = 380, Height = 30, Visibility = Visibility.Hidden };
@@ -41,23 +41,25 @@ namespace SeeloewenCraft
             craftingHandler = block.craftingHandler;
 
             tblHeader.Text = "Crafting Table";
+            Canvas.SetTop(tblHeader, 11);
+            Canvas.SetLeft(tblHeader, 15);
 
             //Add all the necessary components to the gui
             Canvas.SetLeft(tblRecipesHeader, 46);
-            Canvas.SetTop(tblRecipesHeader, 45);
+            Canvas.SetTop(tblRecipesHeader, 58);
             cvsGui.Children.Add(tblRecipesHeader);
 
             Canvas.SetLeft(tblIngredients, 271);
-            Canvas.SetTop(tblIngredients, 45);
+            Canvas.SetTop(tblIngredients, 58);
             cvsGui.Children.Add(tblIngredients);
 
             Canvas.SetLeft(svRecipeDetails, 270);
-            Canvas.SetTop(svRecipeDetails, 80);
+            Canvas.SetTop(svRecipeDetails, 84);
             svRecipeDetails.Content = cvsRecipeDetails;
             cvsGui.Children.Add(svRecipeDetails);
 
             Canvas.SetLeft(svRecipes, 45);
-            Canvas.SetTop(svRecipes, 80);
+            Canvas.SetTop(svRecipes, 84);
             svRecipes.Content = cvsRecipes;
             cvsGui.Children.Add(svRecipes);
 
@@ -129,7 +131,7 @@ namespace SeeloewenCraft
     public class NotificationGui : Gui
     {
         //Controls
-        ScrollViewer svNotifications = new ScrollViewer() { Width = 356, Height = 495, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
+        ScrollViewer svNotifications = new ScrollViewer() { Width = 357, Height = 430, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
         ListView lvNotifications = new ListView() { Background = new SolidColorBrush(Colors.Transparent) };
         Button btnClose = new Button() { Width = 160, Height = 30, Content = "Close", FontSize = 16 };
         Button btnClearAll = new Button() { Width = 160, Height = 30, Content = "Clear All", FontSize = 16 };
@@ -143,18 +145,18 @@ namespace SeeloewenCraft
             tblHeader.Text = "Notifications";
             this.notificationHandler = notificationHandler;
 
-            Canvas.SetTop(tblHeader, 8);
+            Canvas.SetTop(tblHeader, 12);
             Canvas.SetLeft(tblHeader, 10);
 
             Canvas.SetLeft(svNotifications, 9);
-            Canvas.SetTop(svNotifications, 40);
+            Canvas.SetTop(svNotifications, 53);
             cvsGui.Children.Add(svNotifications);
 
-            Canvas.SetTop(btnClose, 545);
+            Canvas.SetTop(btnClose, 492);
             Canvas.SetLeft(btnClose, 192);
             cvsGui.Children.Add(btnClose);
 
-            Canvas.SetTop(btnClearAll, 545);
+            Canvas.SetTop(btnClearAll, 492);
             Canvas.SetLeft(btnClearAll, 20);
             cvsGui.Children.Add(btnClearAll);
 
@@ -217,9 +219,9 @@ namespace SeeloewenCraft
         public TextBlock tblAmount = new TextBlock() { FontSize = 18, Text = "Amount:", FontWeight = FontWeights.DemiBold };
         public TextBox tbAmount = new TextBox() { FontSize = 18, Text = "1", FontWeight = FontWeights.DemiBold, Width = 45 };
         public ScrollViewer svRecipeDetails = new ScrollViewer() { Width = 290, Height = 375, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
-        public Canvas cvsRecipeDetails = new Canvas() { Background = new SolidColorBrush(Colors.LightGray) };
+        public Canvas cvsRecipeDetails = new Canvas() { Background = new SolidColorBrush(Color.FromArgb(130, 240, 240, 240)) };
         public ScrollViewer svRecipes = new ScrollViewer() { Width = 305, Height = 375, VerticalScrollBarVisibility = ScrollBarVisibility.Visible };
-        public Canvas cvsRecipes = new Canvas() { Background = new SolidColorBrush(Colors.LightGray) };
+        public Canvas cvsRecipes = new Canvas() { Background = new SolidColorBrush(Color.FromArgb(130, 240,240,240)) };
         public Button btnCraft = new Button() { Width = 125, Height = 30, Content = "Craft Item", FontSize = 18 };
         public Button btnClaim = new Button() { Width = 125, Height = 30, Content = "Claim Item", FontSize = 18, Visibility = Visibility.Hidden, Background = new SolidColorBrush(Colors.LightGreen) };
         public ProgressBar pbCrafting = new ProgressBar() { Width = 380, Height = 30, Visibility = Visibility.Hidden };
@@ -232,22 +234,25 @@ namespace SeeloewenCraft
 
             tblHeader.Text = "Chiseler";
 
+            Canvas.SetTop(tblHeader, 11);
+            Canvas.SetLeft(tblHeader, 15);
+
             //Add all the necessary components to the gui
             Canvas.SetLeft(tblRecipesHeader, 46);
-            Canvas.SetTop(tblRecipesHeader, 45);
+            Canvas.SetTop(tblRecipesHeader, 58);
             cvsGui.Children.Add(tblRecipesHeader);
 
             Canvas.SetLeft(tblIngredients, 391);
-            Canvas.SetTop(tblIngredients, 45);
+            Canvas.SetTop(tblIngredients, 58);
             cvsGui.Children.Add(tblIngredients);
 
             Canvas.SetLeft(svRecipeDetails, 390);
-            Canvas.SetTop(svRecipeDetails, 80);
+            Canvas.SetTop(svRecipeDetails, 84);
             svRecipeDetails.Content = cvsRecipeDetails;
             cvsGui.Children.Add(svRecipeDetails);
 
             Canvas.SetLeft(svRecipes, 45);
-            Canvas.SetTop(svRecipes, 80);
+            Canvas.SetTop(svRecipes, 84);
             svRecipes.Content = cvsRecipes;
             cvsGui.Children.Add(svRecipes);
 
@@ -329,7 +334,7 @@ namespace SeeloewenCraft
             world.inventoryList.Add(inventory);
             tblHeader.Visibility = Visibility.Hidden;
 
-            Canvas.SetLeft(inventory.grdInventory, 67);
+            Canvas.SetLeft(inventory.grdInventory, 72);
             Canvas.SetTop(inventory.grdInventory, 67);
             world.wndGame.RemoveFromParent(inventory.grdInventory);
             cvsGui.Children.Add(inventory.grdInventory);
@@ -339,7 +344,7 @@ namespace SeeloewenCraft
             cvsGui.Children.Add(btnUnchisel);
 
             Canvas.SetLeft(tblUnchisel, 35);
-            Canvas.SetTop(tblUnchisel, 25);
+            Canvas.SetTop(tblUnchisel, 28);
             cvsGui.Children.Add(tblUnchisel);
 
             btnUnchisel.Click += BtnUnchisel_Click;

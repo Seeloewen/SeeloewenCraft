@@ -10,7 +10,7 @@
             <Canvas x:Name="cvsWorld" Height="3785" Background="#FFBCF4F7">
             </Canvas>
         </ScrollViewer>
-        <Border x:Name="bdrMenu" BorderBrush="#FF252525" BorderThickness="2" Height="382" Width="379" Canvas.Left="396" Canvas.Top="152" HorizontalAlignment="Center" VerticalAlignment="Top" Panel.ZIndex="6" Background="#FFC8C8C8" Visibility="Hidden">
+        <Border x:Name="bdrMenu" BorderBrush="#FF252525" BorderThickness="2" Height="382" Width="379" Canvas.Left="455" Canvas.Top="152" HorizontalAlignment="Center" VerticalAlignment="Top" Panel.ZIndex="6" Background="#FFC8C8C8" Visibility="Hidden">
             <Canvas x:Name ="cvsMenu" RenderTransformOrigin="0.86,0.68" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFCECCCC" Visibility="Visible" Margin="15,15,0,0">
                 <Button x:Name="btnBackToGame" Content="Back to Game" Canvas.Left="10" Canvas.Top="69" Height="47" Width="327" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="22" Click="btnBackToGame_Click"/>
                 <Button x:Name="btnSettings" Content="Settings" Canvas.Left="10" Canvas.Top="186" Height="47" Width="327" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="22" Click="btnSettings_Click"/>
