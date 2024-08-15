@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -13,11 +12,12 @@ namespace SeeloewenCraft
         public string type;
 
         //touching status constants
-        public const int TOUCHING_STATUS_COUNT = 4;
+        public const int TOUCHING_STATUS_COUNT = 5;
         public const int TOUCHING_WATER = 0;
         public const int TOUCHING_WATER_LEFT = 1;
         public const int TOUCHING_WATER_RIGHT = 2;
         public const int TOUCHING_CACTUS = 3;
+        public const int TOUCHING_AIR = 4;
 
         //physics constants
         public const int DEFAULT_GRAV = 70000;

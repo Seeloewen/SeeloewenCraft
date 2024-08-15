@@ -36,6 +36,8 @@ namespace SeeloewenCraft
 
         public bool flying;
 
+        public bool breathing;
+
 
         public MovingEntity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Brush image)
             : base(sizeX, sizeY, posX, posY, velX, velY, world, image)
@@ -173,6 +175,8 @@ namespace SeeloewenCraft
             (touchingRight, _) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + 1, posY + sizeY);
 
             allowOverCliffWalking = !pressedSneak;
+
+            breathing = touchingStatus[TOUCHING_AIR];
 
             if (touchingStatus[TOUCHING_CACTUS])
             {

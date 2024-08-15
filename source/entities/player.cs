@@ -115,6 +115,7 @@ namespace SeeloewenCraft
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "blockPosX");
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "blockPosY");
             world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "touchingWater");
+            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "breathing");
 
             //Setup health bar
             healthBar = new HealthBar(world, 10, 740);
@@ -202,6 +203,7 @@ namespace SeeloewenCraft
                 world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "blockPosX", $"blockPosX={(posX / 1000) % 8}");
                 world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "blockPosY", $"blockPosY={posY / 1000}");
                 world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "touchingWater", $"touchingWater={touchingStatus[TOUCHING_WATER]}");
+                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "breathing", $"breathing={breathing}");
             }
         }
     }

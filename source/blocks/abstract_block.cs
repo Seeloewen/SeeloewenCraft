@@ -4,8 +4,6 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows;
 using System;
-using System.Windows.Automation;
-using System.Runtime.CompilerServices;
 
 namespace SeeloewenCraft
 {
@@ -91,7 +89,9 @@ namespace SeeloewenCraft
             {
                 return foregroundBlock.CheckTouch(startX, startY, endX, endY);
             }
-            return new bool[Entity.TOUCHING_STATUS_COUNT];
+            bool[] touchingStatus =  new bool[Entity.TOUCHING_STATUS_COUNT];
+            touchingStatus[Entity.TOUCHING_AIR] = true;
+            return touchingStatus;
         }
 
         public virtual (bool, int) CheckCollision(Direction direction, int startX, int endX, int startY, int endY)
