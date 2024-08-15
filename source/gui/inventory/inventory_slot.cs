@@ -223,7 +223,7 @@ namespace SeeloewenCraft
                     selectedSlot.MoveItem(this, selectedSlot.amount);
                     selectedSlot.Unselect();
                 }
-                else
+                else //Switch two slots
                 {
                     //Save the old slot values and clear the slot
                     (string oldId, int oldAmount) = (itemId, amount);
@@ -253,7 +253,22 @@ namespace SeeloewenCraft
                     selectedSlot.MoveItem(this, 1);
                     world.wndGame.tblInvItem.Text = selectedSlot.Amount.ToString();
                 }
+            }else if(selectedSlot == null && Amount > 1)
+            {
+                //If no slot is selected and this slot has more than one item
+                foreach(InventorySlot slot in inventory.slotList)
+                {
+                    //Search for an empty slot and move half of this slots items there, then select it.
+                    //This will look like you halfed the stack at hand
+                    if(slot.IsEmpty())
+                    {
+                        MoveItem(slot, Amount / 2);
+                        slot.Select();
+                        break;
+                    }
+                }
             }
+
         }
     }
 }
