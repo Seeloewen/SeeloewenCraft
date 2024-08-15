@@ -15,6 +15,7 @@ namespace SeeloewenCraft
 
         protected int ACC_WALKING = 50000;
         protected int ACC_SPRINTING = 90000;
+        protected int ACC_SNEAKING = 30000;
 
 
         protected int currentAcc;
@@ -113,6 +114,7 @@ namespace SeeloewenCraft
             }
         }
 
+
         public override void OnUpdate(int tps) //temporary because player death is not handled properly
         {
             if (hp != 0)
@@ -170,13 +172,15 @@ namespace SeeloewenCraft
             (touchingLeft, _) = DoCollisionCheck(Direction.LEFT, posX, posY, posX - 1, posY + sizeY);
             (touchingRight, _) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + 1, posY + sizeY);
 
+            allowOverCliffWalking = !pressedSneak;
+
             if (touchingStatus[TOUCHING_CACTUS])
             {
                 Damage((1000 / tps) * 0.001);
             }
 
-            if (flying) 
-            { 
+            if (flying)
+            {
                 accGrav = 0;
             }
             else
@@ -185,20 +189,40 @@ namespace SeeloewenCraft
             }
         }
 
+
+        
+
         public override void DoPhysicsStep(int tps)
         {
             if (pressedSneak && !flying)
             {
-                currentAcc = 10000; //temporary
+                currentAcc = ACC_SNEAKING;
+                if(sizeY == 1900)
+                {
+                    posY += 450;
+                }
+                sizeY = 1450;
             }
             else if (pressedSprint)
             {
                 currentAcc = ACC_SPRINTING;
+                if (sizeY == 1450)
+                {
+                    posY -= 450;
+                }
+                sizeY = 1900;
             }
             else
             {
                 currentAcc = ACC_WALKING;
+                if (sizeY == 1450)
+                {
+                    posY -= 450;
+                }
+                sizeY = 1900;
             }
+
+            texture.Height = sizeY / 20;
 
             // -- change velocity depending on inputs --
             if (pressedRight)
@@ -220,11 +244,11 @@ namespace SeeloewenCraft
             if (flying)
             {
                 velY = 0;
-                if(pressedUp)
+                if (pressedUp)
                 {
                     velY = -4000;
-                } 
-                if(pressedSneak)
+                }
+                if (pressedSneak)
                 {
                     velY = 4000;
                 }
