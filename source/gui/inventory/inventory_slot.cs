@@ -248,7 +248,7 @@ namespace SeeloewenCraft
             if (selectedSlot != null)
             {
                 //If a slot is selected and the slot has more than 1 item, move one singular item to that slot
-                if ((itemId == selectedSlot.itemId || IsEmpty()) && selectedSlot.Amount > 0)
+                if ((itemId == selectedSlot.itemId || IsEmpty()) && selectedSlot.Amount > 1)
                 {
                     selectedSlot.MoveItem(this, 1);
                     world.wndGame.tblInvItem.Text = selectedSlot.Amount.ToString();
