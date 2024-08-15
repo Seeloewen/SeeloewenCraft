@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -13,20 +12,24 @@ namespace SeeloewenCraft
         public string type;
 
         //touching status constants
-        public const int TOUCHING_STATUS_COUNT = 4;
+        public const int TOUCHING_STATUS_COUNT = 5;
         public const int TOUCHING_WATER = 0;
         public const int TOUCHING_WATER_LEFT = 1;
         public const int TOUCHING_WATER_RIGHT = 2;
         public const int TOUCHING_CACTUS = 3;
+        public const int TOUCHING_AIR = 4;
 
         //physics constants
-        private const int accGrav = 70000;
+        public const int DEFAULT_GRAV = 70000;
+        protected int accGrav = DEFAULT_GRAV;
         protected int frictionGround = 10;
         protected int frictionAir = 10;
         protected int frictionWater = 25;
         private const int slowestGroundSpeed = 100;
 
         public long lifeTime;
+
+        protected bool allowOverCliffWalking = true;
 
         private static int nextID = 0;
         public int id;
@@ -159,11 +162,13 @@ namespace SeeloewenCraft
         {
             if (dX > 0)
             {
+                int prevPosX = posX;
+                int prevPosY = posY;
                 (bool collided, int maxMovement) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + dX, posY + sizeY);
                 if (collided)
                 {
                     posX += maxMovement;
-                    if (!CheckUpStep(Direction.RIGHT, dX - maxMovement, tps))
+                    if (dX - maxMovement != 0 && !CheckUpStep(Direction.RIGHT, dX - maxMovement, tps))
                     {
                         velX = 0;
                     }
@@ -171,15 +176,27 @@ namespace SeeloewenCraft
                 else
                 {
                     posX += dX;
+                }
+                if (!allowOverCliffWalking && onGround)
+                {
+                    (bool onGround, _) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + 1);
+                    if (!onGround)
+                    {
+                        posX = prevPosX;
+                        posY = prevPosY;
+                        Move(dX / 2, dY / 2, tps);
+                    }
                 }
             }
             if (dX < 0)
             {
+                int prevPosX = posX;
+                int prevPosY = posY;
                 (bool collided, int maxMovement) = DoCollisionCheck(Direction.LEFT, posX, posY, posX + dX, posY + sizeY);
                 if (collided)
                 {
                     posX -= maxMovement;
-                    if (!CheckUpStep(Direction.LEFT, dX + maxMovement, tps))
+                    if (dX + maxMovement != 0 && !CheckUpStep(Direction.LEFT, dX + maxMovement, tps))
                     {
                         velX = 0;
                     }
@@ -187,6 +204,16 @@ namespace SeeloewenCraft
                 else
                 {
                     posX += dX;
+                }
+                if (!allowOverCliffWalking && onGround)
+                {
+                    (bool onGround, _) = DoCollisionCheck(Direction.DOWN, posX, posY + sizeY, posX + sizeX, posY + sizeY + 1);
+                    if (!onGround)
+                    {
+                        posX = prevPosX;
+                        posY = prevPosY;
+                        Move(dX / 2, dY / 2, tps);
+                    }
                 }
             }
 

@@ -4,8 +4,6 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows;
 using System;
-using System.Windows.Automation;
-using System.Runtime.CompilerServices;
 
 namespace SeeloewenCraft
 {
@@ -91,64 +89,33 @@ namespace SeeloewenCraft
             {
                 return foregroundBlock.CheckTouch(startX, startY, endX, endY);
             }
-            return new bool[Entity.TOUCHING_STATUS_COUNT];
+            bool[] touchingStatus = new bool[Entity.TOUCHING_STATUS_COUNT];
+            touchingStatus[Entity.TOUCHING_AIR] = true;
+            return touchingStatus;
         }
 
         public virtual (bool, int) CheckCollision(Direction direction, int startX, int endX, int startY, int endY)
         {
-            bool b1;
-            int i1;
+            startX -= (xPos + chunk.index * 8) * 1000;
+            endX -= (xPos + chunk.index * 8) * 1000;
+            startY -= yPos * 1000;
+            endY -= yPos * 1000;
 
             if (!isSolid || isBackground)
             {
-                b1 = false;
-                i1 = 0;
-            }
-            else
-            {
-                startX -= (xPos + chunk.index * 8) * 1000;
-                endX -= (xPos + chunk.index * 8) * 1000;
-                startY -= yPos * 1000;
-                endY -= yPos * 1000;
-
-                (b1, i1) = collision.CheckCollision(direction, startX, endX, startY, endY);
-            }
-            bool b2 = false;
-            int i2 = 0;
-            if (foregroundBlock != null && foregroundBlock.isSolid)
-            {
-                startX -= (xPos + chunk.index * 8) * 1000;
-                endX -= (xPos + chunk.index * 8) * 1000;
-                startY -= yPos * 1000;
-                endY -= yPos * 1000;
-
-                (b2, i2) = foregroundBlock.collision.CheckCollision(direction, startX, endX, startY, endY);
-            }
-
-            if (b1)
-            {
-                if (b2)
+                if (foregroundBlock != null && foregroundBlock.isSolid)
                 {
-                    return (true, Math.Min(i1, i2));
-                }
-                else
-                {
-                    return (true, i1);
-                }
-            }
-            else
-            {
-                if (b2)
-                {
-                    return (true, i2);
+                return foregroundBlock.collision.CheckCollision(direction, startX, endX, startY, endY);
                 }
                 else
                 {
                     return (false, 0);
                 }
             }
-
-
+            else
+            {
+                return collision.CheckCollision(direction, startX, endX, startY, endY);
+            }
         }
 
 
@@ -251,7 +218,7 @@ namespace SeeloewenCraft
                 Inventory inventory = Inventory.LoadFromJson(invToken, world);
 
                 block.blockInventory = inventory;
-                if(block.gui != null && block.gui.inventory != null)
+                if (block.gui != null && block.gui.inventory != null)
                 {
                     block.gui.inventory = inventory;
                 }
@@ -683,7 +650,7 @@ namespace SeeloewenCraft
                                 world));
                     }
 
-                    if(hasInventory)
+                    if (hasInventory)
                     {
                         blockInventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
                     }

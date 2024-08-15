@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Eventing.Reader;
 using System.Windows.Media;
 
 namespace SeeloewenCraft
@@ -12,7 +13,12 @@ namespace SeeloewenCraft
         public const double MAX_HP = 10.0;
         public double hp;
 
-        protected int accWalking = 70000;
+        protected int ACC_WALKING = 50000;
+        protected int ACC_SPRINTING = 90000;
+        protected int ACC_SNEAKING = 30000;
+
+
+        protected int currentAcc;
         private const int jumpStartSpeed = 15000;
 
         private int fallMaxHeight = 0;
@@ -28,13 +34,16 @@ namespace SeeloewenCraft
         bool touchingRight;
         bool touchingLeft;
 
+        public bool flying;
+
+        public bool breathing;
 
 
-        public MovingEntity(int accWalking, int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Brush image)
+        public MovingEntity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Brush image)
             : base(sizeX, sizeY, posX, posY, velX, velY, world, image)
         {
-            this.accWalking = accWalking;
             hp = MAX_HP;
+            currentAcc = ACC_WALKING;
 
             texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
         }
@@ -107,6 +116,7 @@ namespace SeeloewenCraft
             }
         }
 
+
         public override void OnUpdate(int tps) //temporary because player death is not handled properly
         {
             if (hp != 0)
@@ -164,41 +174,102 @@ namespace SeeloewenCraft
             (touchingLeft, _) = DoCollisionCheck(Direction.LEFT, posX, posY, posX - 1, posY + sizeY);
             (touchingRight, _) = DoCollisionCheck(Direction.RIGHT, posX + sizeX, posY, posX + sizeX + 1, posY + sizeY);
 
+            allowOverCliffWalking = !pressedSneak;
+
+            breathing = touchingStatus[TOUCHING_AIR];
+
             if (touchingStatus[TOUCHING_CACTUS])
             {
                 Damage((1000 / tps) * 0.001);
             }
+
+            if (flying)
+            {
+                accGrav = 0;
+            }
+            else
+            {
+                accGrav = DEFAULT_GRAV;
+            }
         }
+
+
+        
 
         public override void DoPhysicsStep(int tps)
         {
+            if (pressedSneak && !flying)
+            {
+                currentAcc = ACC_SNEAKING;
+                if(sizeY == 1900)
+                {
+                    posY += 450;
+                }
+                sizeY = 1450;
+            }
+            else if (pressedSprint)
+            {
+                currentAcc = ACC_SPRINTING;
+                if (sizeY == 1450)
+                {
+                    posY -= 450;
+                }
+                sizeY = 1900;
+            }
+            else
+            {
+                currentAcc = ACC_WALKING;
+                if (sizeY == 1450)
+                {
+                    posY -= 450;
+                }
+                sizeY = 1900;
+            }
+
+            texture.Height = sizeY / 20;
+
             // -- change velocity depending on inputs --
             if (pressedRight)
             {
                 if (!touchingRight || CheckUpStep(Direction.RIGHT, 1, tps))
                 {
-                    velX += accWalking / tps;
+                    velX += currentAcc / tps;
                 }
             }
             if (pressedLeft)
             {
                 if (!touchingLeft || CheckUpStep(Direction.LEFT, -1, tps))
                 {
-                    velX -= accWalking / tps;
+                    velX -= currentAcc / tps;
                 }
             }
 
             //handle jump key
-            if (pressedUp)
+            if (flying)
             {
-                if (onGround)
+                velY = 0;
+                if (pressedUp)
                 {
-                    velY = -jumpStartSpeed;
+                    velY = -4000;
                 }
-
-                if (touchingStatus[TOUCHING_WATER])
+                if (pressedSneak)
                 {
-                    velY -= 200000 / tps;
+                    velY = 4000;
+                }
+            }
+            else
+            {
+                if (pressedUp)
+                {
+                    if (onGround)
+                    {
+                        velY = -jumpStartSpeed;
+                    }
+
+                    if (touchingStatus[TOUCHING_WATER])
+                    {
+                        velY -= 200000 / tps;
+                    }
                 }
             }
 
