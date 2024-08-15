@@ -181,6 +181,8 @@ namespace SeeloewenCraft
 
             //Start the game loop timer
             gameLoop.Start();
+
+            finishedLoading = true;
         }
 
         public void SetGamemode(Gamemode gamemode)

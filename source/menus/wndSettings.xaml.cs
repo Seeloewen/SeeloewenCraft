@@ -219,13 +219,13 @@ namespace SeeloewenCraft
             }
             else
             {
+                wndMenu.selectedTexturepack = $"{FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}";
                 //Check the texturepack version and apply that if possible
                 if (GetTexturepackVersion($"{FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}") < wndMenu.texturepackVersion)
                 {
                     Log.Write($"The texture pack you are trying to load ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}) is outdated", "Warning");
                     MessageBox.Show("Warning: The texturepack that you are trying to load is outdated. This may lead to issues.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
-                wndMenu.selectedTexturepack = $"{FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}";
                 Log.Write($"Successfully applied texturepack ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem})", "Warning");
             }
 
@@ -249,6 +249,7 @@ namespace SeeloewenCraft
                 SaveSettings(writer, false);
                 writer.WriteToFile($"{FolderUtil.gameFolder}\\clientSettings.json");
             }
+            ApplyTexturepack();
             Close();
         }
 
