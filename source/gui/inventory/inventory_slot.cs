@@ -112,7 +112,7 @@ namespace SeeloewenCraft
                 //Update the slot and clear it if the amount is 0
                 Amount -= amount;
 
-                
+
                 if (Amount == 0)
                 {
                     cvsItem.Background = new SolidColorBrush(Colors.Transparent);
@@ -149,6 +149,8 @@ namespace SeeloewenCraft
 
         public void MoveItem(InventorySlot newSlot, int amount)
         {
+            //Move item from this slot to another one
+
             //Check if enough space is in the new slot available, if not, only add the amount of possible space
             if (newSlot.GetAvailableSpace() < amount)
             {
@@ -220,6 +222,21 @@ namespace SeeloewenCraft
                     //Try to move the items there
                     selectedSlot.MoveItem(this, selectedSlot.amount);
                     selectedSlot.Unselect();
+                }
+                else
+                {
+                    //Save the old slot values and clear the slot
+                    (string oldId, int oldAmount) = (itemId, amount);
+                    itemId = "";
+                    amount = 0;
+
+                    //Try to move the items here
+                    selectedSlot.MoveItem(this, selectedSlot.amount);
+                    selectedSlot.Unselect();
+
+                    //Move the items from this slot to the other one
+                    selectedSlot.Add(oldId, oldAmount);
+                    selectedSlot.Select();
                 }
             }
         }
