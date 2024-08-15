@@ -5,7 +5,6 @@ namespace SeeloewenCraft
 
     public partial class wndLog : Window
     {
-
         //-- Constructor --//
 
         public wndLog()
@@ -38,6 +37,11 @@ namespace SeeloewenCraft
             //Open the window for finding something in the log
             wndFindInLog wndFindinLog = new wndFindInLog();
             wndFindinLog.Show();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Log.isOpen = false;
         }
     }
 }

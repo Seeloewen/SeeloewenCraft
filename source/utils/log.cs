@@ -6,6 +6,7 @@ using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Media;
 using SeeloewenLib;
+using Windows.Security.Isolation;
 using static System.Environment;
 
 namespace SeeloewenCraft
@@ -17,39 +18,43 @@ namespace SeeloewenCraft
         public static wndLog wndLog;
         private static SeeloewenLibTools seeloewenLibTools = new SeeloewenLibTools();
         private static List<string> messages = new List<string>();
+        public static bool isOpen;
 
         //-- Custom Methods --//
 
         public static void Show()
         {
-            //Create the log window
-            wndLog = new wndLog();
-
-            //Add all messages to the log richtextbox in the respective color
-            paragraph = new Paragraph();
-            foreach (string message in messages)
+            if (!isOpen)
             {
-                string[] messageSplit = message.Split(';');
-                Run line;
-                if (messageSplit[1] == "red")
-                {
-                    line = new Run($"{messageSplit[0]}\n") { Foreground = new SolidColorBrush(Colors.Red) };
-                }
-                else if (messageSplit[1] == "orange")
-                {
-                    line = new Run($"{messageSplit[0]}\n") { Foreground = new SolidColorBrush(Colors.DarkOrange) };
-                }
-                else
-                {
-                    line = new Run($"{messageSplit[0]}\n") { Foreground = new SolidColorBrush(Colors.Blue) };
-                }
-                paragraph.Inlines.Add(line);
-            }
-            wndLog.rtbLog.Document.Blocks.Clear();
-            wndLog.rtbLog.Document.Blocks.Add(paragraph);
+                wndLog = new wndLog();
 
-            //Show the log
-            wndLog.Show();
+                //Add all messages to the log richtextbox in the respective color
+                paragraph = new Paragraph();
+                foreach (string message in messages)
+                {
+                    string[] messageSplit = message.Split(';');
+                    Run line;
+                    if (messageSplit[1] == "red")
+                    {
+                        line = new Run($"{messageSplit[0]}\n") { Foreground = new SolidColorBrush(Colors.Red) };
+                    }
+                    else if (messageSplit[1] == "orange")
+                    {
+                        line = new Run($"{messageSplit[0]}\n") { Foreground = new SolidColorBrush(Colors.DarkOrange) };
+                    }
+                    else
+                    {
+                        line = new Run($"{messageSplit[0]}\n") { Foreground = new SolidColorBrush(Colors.Blue) };
+                    }
+                    paragraph.Inlines.Add(line);
+                }
+                wndLog.rtbLog.Document.Blocks.Clear();
+                wndLog.rtbLog.Document.Blocks.Add(paragraph);
+
+                //Show the log
+                wndLog.Show();
+                isOpen = true;
+            }
         }
 
         public static void Save(bool showMessageBoxes)
