@@ -6,6 +6,7 @@ using System.Windows;
 using System;
 
 using SeeloewenCraft.entity;
+using System.Windows.Documents;
 
 namespace SeeloewenCraft
 {
@@ -22,7 +23,7 @@ namespace SeeloewenCraft
         public Inventory blockInventory;
         private Block foregroundBlock;
         public List<(int xOffset, int yOffset, string blockId)> connectedBlocks = new List<(int, int, string)>();
-        public (int xPos, int yPos, int chunk) baseBlock;
+        public (int? xPos, int? yPos, int? chunk) baseBlock;
         public LootTable lootTable;
         public Gui gui;
         public CraftingHandler craftingHandler;
@@ -147,6 +148,36 @@ namespace SeeloewenCraft
                 foregroundBlock.SaveToJson(writer);
             }
 
+            if (connectedBlocks.Count > 0)
+            {
+                writer.WritePropertyName("connected_blocks");
+                writer.WriteStartArray();
+
+                foreach (var block in connectedBlocks)
+                {
+                    writer.WriteStartObject();
+                    writer.WritePropertyName("x_offset");
+                    writer.WriteValue(block.xOffset);
+                    writer.WritePropertyName("y_offset");
+                    writer.WriteValue(block.yOffset);
+                    writer.WritePropertyName("block_id");
+                    writer.WriteValue(block.blockId);
+                    writer.WriteEndObject();
+                }
+
+                writer.WriteEndArray();
+            }
+
+            if (baseBlock.xPos != null && baseBlock.yPos != null && baseBlock.chunk != null)
+            {
+                writer.WritePropertyName("baseblock_x_pos");
+                writer.WriteValue(baseBlock.xPos);
+                writer.WritePropertyName("baseblock_y_pos");
+                writer.WriteValue(baseBlock.yPos);
+                writer.WritePropertyName("baseblock_chunk");
+                writer.WriteValue(baseBlock.chunk);
+            }
+
             if (tags.Contains("liquids/water"))
             {
                 writer.WritePropertyName("water_is_source");
@@ -257,6 +288,26 @@ namespace SeeloewenCraft
                 block.foregroundBlock = Block.LoadFromJson(blockToken.GetToken("/foreground_block"), chunk);
             }
 
+            if (blockToken.ContainsKey("connected_blocks"))
+            {
+                JsonToken conArrayToken = blockToken.GetToken("/connected_blocks");
+
+                for (int i = 0; i < conArrayToken.GetArrayLength(); i++)
+                {
+                    JsonToken conBlockToken = conArrayToken.GetToken($"/{i}");
+
+                    int xOffset = conBlockToken.GetInt("/x_offset");
+                    int yOffset = conBlockToken.GetInt("/y_offset");
+                    string blockId = conBlockToken.GetString("/block_id");
+
+                    block.connectedBlocks.Add((xOffset, yOffset, blockId));
+                }
+            }
+
+            if (blockToken.ContainsKey("baseblock_x_pos") && blockToken.ContainsKey("baseblock_y_pos") && blockToken.ContainsKey("baseblock_chunk"))
+            {
+                block.baseBlock = (blockToken.GetInt("/baseblock_x_pos"), blockToken.GetInt("/baseblock_y_pos"), blockToken.GetInt("/baseblock_chunk"));
+            }
 
             //Set block stats
             block.xPos = posX;
@@ -266,14 +317,6 @@ namespace SeeloewenCraft
             return block;
         }
 
-
-
-        public void LoadInventory(Inventory inv)
-        {
-            blockInventory = inv;
-            Canvas.SetTop(inv.grdInventory, 410);
-            Game.world.inventoryList.Add(inv);
-        }
 
         public void SetContainer(BlockContainer blockContainer)
         {
@@ -616,9 +659,9 @@ namespace SeeloewenCraft
 
         public Block GetBaseBlock()
         {
-            if (baseBlock != (0, 0, 0))
+            if (baseBlock.xPos != null && baseBlock.yPos != null && baseBlock.chunk != null)
             {
-                return Game.world.GetBlock(baseBlock.xPos + 8 * baseBlock.chunk, baseBlock.yPos);
+                return Game.world.GetBlock((int)baseBlock.xPos + 8 * (int)baseBlock.chunk, (int)baseBlock.yPos);
             }
             return null;
         }
