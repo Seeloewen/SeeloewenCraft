@@ -356,6 +356,7 @@ namespace SeeloewenCraft
             name = "Potted Cactus Base";
             id = "sc:potted_cactus_base";
             connectedBlocks.Add((0, -1, "sc:potted_cactus_top"));
+
             breakTime = 0;
             collision = new MultipleRectangleCollision([125, 251], [875, 749], [375, 1], [1000, 375]);
         }

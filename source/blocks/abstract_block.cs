@@ -605,13 +605,14 @@ namespace SeeloewenCraft
             }
         }
 
-        public bool ConnectedBlocksHaveEnoughSpace(Block baseBlock, bool isForeground)
+        public bool ConBlocksHaveSpace(Block baseBlock, bool isForeground)
         {
             if (!isForeground)
             {
-                for (int i = 0; i < baseBlock.connectedBlocks.Count; i++)
+                foreach (var conBlockInfo in baseBlock.connectedBlocks)
                 {
-                    Block block = Game.world.GetBlock(xPos + 8 * chunk.index + baseBlock.connectedBlocks[i].xOffset, yPos + yOffset);
+                    //Goes through all connected blocks and checks whether the block at the location, that they should be placed, at is solid
+                    Block block = Game.world.GetBlock(xPos + 8 * chunk.index + conBlockInfo.xOffset, yPos + conBlockInfo.yOffset);
                     if (block != null && (block.isSolid || block.isBackground))
                     {
                         return false;
@@ -621,9 +622,10 @@ namespace SeeloewenCraft
             }
             else if (isForeground)
             {
-                for (int i = 0; i < baseBlock.connectedBlocks.Count; i++)
+                foreach (var conBlockInfo in baseBlock.connectedBlocks)
                 {
-                    Block block = Game.world.GetBlock(xPos + 8 * chunk.index + baseBlock.connectedBlocks[i].xOffset, yPos + yOffset);
+                    //Goes through all connected blocks and checks whether the block at the location, that they should be placed, has a foreground block
+                    Block block = Game.world.GetBlock(xPos + 8 * chunk.index + conBlockInfo.xOffset, yPos + conBlockInfo.yOffset);
                     if (block != null && (block.foregroundBlock != null || !block.isBackground))
                     {
                         return false;

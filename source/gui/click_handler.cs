@@ -40,7 +40,7 @@ namespace SeeloewenCraft
                     if (selectedItem.block != null)
                     {
                         //If it`s part of a construct, check if it has enough space
-                        if (selectedItem.block.isBase && block.ConnectedBlocksHaveEnoughSpace(selectedItem.block, true))
+                        if (selectedItem.block.isBase && block.ConBlocksHaveSpace(selectedItem.block, true))
                         {
                             block.SetForegroundBlock(selectedItem.block);
                             block.PlaceConnectedForegroundBlocks(selectedItem.block);
@@ -71,7 +71,7 @@ namespace SeeloewenCraft
                     if (selectedItem.block != null)
                     {
                         //If it`s part of a construct, check if it has enough space
-                        if (selectedItem.block.isBase && block.ConnectedBlocksHaveEnoughSpace(selectedItem.block, false))
+                        if (selectedItem.block.isBase && block.ConBlocksHaveSpace(selectedItem.block, false))
                         {
                             block.SetBlock(selectedItem.block);
                             block.PlaceConnectedBlocks(selectedItem.block);
