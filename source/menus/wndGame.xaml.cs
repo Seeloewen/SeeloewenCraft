@@ -409,7 +409,7 @@ namespace SeeloewenCraft
         private void Window_MouseMove(object sender, MouseEventArgs e)
         {
             //Get the current mouse position
-            mousePosition = e.GetPosition(this);
+            mousePosition = e.GetPosition(cvsGame);
 
             InventorySlot selectedSlot = world.GetSelectedInvSlot();
 
