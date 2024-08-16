@@ -242,7 +242,7 @@ namespace SeeloewenCraft
 
         public void SetBlock(Block block, int posX, int posY)
         {
-            GetBlock(posX, posY).PlaceNewBlock(block);
+            GetBlock(posX, posY).SetBlock(block);
         }
 
         public Chunk CreateChunk(int index)

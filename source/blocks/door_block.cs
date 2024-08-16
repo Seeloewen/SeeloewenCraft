@@ -34,8 +34,7 @@ namespace SeeloewenCraft
             //If it's a base block, also open all connected doorblocks
             if (isBase)
             {
-                foreach (DoorBlock block in connectedBlocks)
-
+                foreach (DoorBlock block in GetConnectedBlocks())
                 {
                     block.Open();
                 }
@@ -53,7 +52,7 @@ namespace SeeloewenCraft
             //If it's a base block, also close all connected doorblocks
             if (isBase)
             {
-                foreach (DoorBlock block in connectedBlocks)
+                foreach (DoorBlock block in GetConnectedBlocks())
 
                 {
                     block.Close();

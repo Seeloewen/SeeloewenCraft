@@ -354,9 +354,10 @@ namespace SeeloewenCraft
             SetTexture();
             name = "Potted Cactus Base";
             id = "sc:potted_cactus_base";
-            connectedBlocks.Add(new PottedCactus_Top(isInBackground));
-            connectedBlocks[0].yOffset = -1;
-            connectedBlocks[0].baseBlock = this;
+            connectedBlocks.Add((0, -1, "sc:magma_block"));
+            connectedBlocks.Add((0, 1, "sc:magma_block"));
+            connectedBlocks.Add((1, 0, "sc:magma_block"));
+            connectedBlocks.Add((-1, 0, "sc:magma_block"));
             breakTime = 0;
             collision = new MultipleRectangleCollision([125, 251], [875, 749], [375, 1], [1000, 375]);
         }
@@ -580,9 +581,7 @@ namespace SeeloewenCraft
             collision = new RectangleCollision(720, 1000, 0, 1000);
             breakTime = 500;
 
-            connectedBlocks.Add(new SpruceDoor_Top(isInBackground));
-            connectedBlocks[0].yOffset = -1;
-            connectedBlocks[0].baseBlock = this;
+            connectedBlocks.Add((0, -1, "sc:spruce_door_top"));
 
             imgClose = Images.SpruceDoor_Closed_Base.GetTexture();
             imgOpen = Images.SpruceDoor_Open_Base.GetTexture();
@@ -627,7 +626,7 @@ namespace SeeloewenCraft
 
         public override void RightClickAction(object sender)
         {
-            if (baseBlock is DoorBlock block)
+            if (GetBaseBlock() is DoorBlock block)
             {
                 block.RightClickAction(sender);
             }

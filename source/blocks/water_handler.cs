@@ -184,7 +184,7 @@ namespace SeeloewenCraft
                         else if (!block.chunk.GetBlock(block.xPos, block.yPos).isBackground)
                         {
                             //If it's not in the background, just place it in the foreground
-                            block.chunk.GetBlock(block.xPos, block.yPos).PlaceNewBlock(block);
+                            block.chunk.GetBlock(block.xPos, block.yPos).SetBlock(block);
                         }
                     }
                     else

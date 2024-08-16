@@ -20,8 +20,8 @@ namespace SeeloewenCraft
         public Item item;
         public Inventory blockInventory;
         private Block foregroundBlock;
-        public List<Block> connectedBlocks = new List<Block>();
-        public Block baseBlock;
+        public List<(int xOffset, int yOffset, string blockId)> connectedBlocks = new List<(int, int, string)>();
+        public (int xPos, int yPos, int chunk) baseBlock;
         public LootTable lootTable;
         public Gui gui;
         public CraftingHandler craftingHandler;
@@ -104,7 +104,7 @@ namespace SeeloewenCraft
             {
                 if (foregroundBlock != null && foregroundBlock.isSolid)
                 {
-                return foregroundBlock.collision.CheckCollision(direction, startX, endX, startY, endY);
+                    return foregroundBlock.collision.CheckCollision(direction, startX, endX, startY, endY);
                 }
                 else
                 {
@@ -204,7 +204,7 @@ namespace SeeloewenCraft
 
             if (block == null)
             {
-                block = new AirBlock( false);
+                block = new AirBlock(false);
             }
             else
             {
@@ -359,11 +359,11 @@ namespace SeeloewenCraft
             }
         }
 
-        
+
 
         public void RemoveForegroundBlock()
         {
-            if(blockContainer != null)
+            if (blockContainer != null)
             {
                 //First unrender the block, then set the foreground block to null and finally update the lighting
                 blockContainer.UnrenderForegroundBlock();
@@ -451,7 +451,7 @@ namespace SeeloewenCraft
         {
             int yDiff = block.yPos - yPos;
             return Math.Abs(yDiff);
-        }        
+        }
 
         public void BreakBlock(bool skipRangeCheck, bool skipBreakableCheck)
         {
@@ -484,8 +484,8 @@ namespace SeeloewenCraft
                 else if (foregroundBlock == null && (isBreakable || skipBreakableCheck))
                 {
                     //Remove the block from the chunks blocklist and add an airblock
-                    Block block = new AirBlock( false);
-                    PlaceNewBlock(block);
+                    Block block = new AirBlock(false);
+                    SetBlock(block);
 
                     //Add the block's item to the inventory
                     GenerateItem();
@@ -521,9 +521,8 @@ namespace SeeloewenCraft
             }
         }
 
-        public void PlaceNewBlock(Block block)
+        public void SetBlock(Block block)
         {
-
             //Show the progressbar based on if it's workstation or not
             if (craftingHandler != null && (craftingHandler.recipeRunning || craftingHandler.recipeClaimable))
             {
@@ -545,7 +544,7 @@ namespace SeeloewenCraft
 
         public void SetForegroundBlock(Block block)
         {
-            if(block == null)
+            if (block == null)
             {
                 return;
             }
@@ -566,72 +565,24 @@ namespace SeeloewenCraft
         {
             if (!isForeground)
             {
-                foreach (Block block in baseBlock.connectedBlocks)
+                for (int i = 0; i < baseBlock.connectedBlocks.Count; i++)
                 {
-                    int actualXPos = xPos + block.xOffset;
-                    int actualYPos = yPos + block.yOffset;
-
-                    if (actualXPos > 8)
+                    Block block = Game.world.GetBlock(xPos + 8 * chunk.index + baseBlock.connectedBlocks[i].xOffset, yPos + yOffset);
+                    if (block != null && (block.isSolid || block.isBackground))
                     {
-                        Chunk newChunk = Game.world.GetLoadedChunk(chunk.index + 1);
-                        block.chunk = newChunk;
-                        if (newChunk.GetBlock(actualXPos - 8, actualYPos).isSolid || newChunk.GetBlock(actualXPos - 8, actualYPos).isBackground)
-                        {
-                            return false;
-                        }
-                    }
-                    else if (actualXPos < 1)
-                    {
-                        Chunk newChunk = Game.world.GetLoadedChunk(chunk.index - 1);
-                        block.chunk = newChunk;
-                        if (newChunk.GetBlock(actualXPos + 8, actualYPos).isSolid || newChunk.GetBlock(actualXPos + 8, actualYPos).isBackground)
-                        {
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        block.chunk = chunk;
-                        if (chunk.GetBlock(actualXPos, actualYPos).isSolid || chunk.GetBlock(actualXPos, actualYPos).isBackground)
-                        {
-                            return false;
-                        }
+                        return false;
                     }
                 }
                 return true;
             }
             else if (isForeground)
             {
-                foreach (Block block in baseBlock.connectedBlocks)
+                for (int i = 0; i < baseBlock.connectedBlocks.Count; i++)
                 {
-                    int actualXPos = xPos + block.xOffset;
-                    int actualYPos = yPos + block.yOffset;
-
-                    if (actualXPos > 8)
+                    Block block = Game.world.GetBlock(xPos + 8 * chunk.index + baseBlock.connectedBlocks[i].xOffset, yPos + yOffset);
+                    if (block != null && (block.foregroundBlock != null || !block.isBackground))
                     {
-                        Chunk newChunk = Game.world.GetLoadedChunk(chunk.index + 1);
-                        block.chunk = newChunk;
-                        if (newChunk.GetBlock(actualXPos - 8, actualYPos).foregroundBlock != null || !newChunk.GetBlock(actualXPos - 8, actualYPos).isBackground)
-                        {
-                            return false;
-                        }
-                    }
-                    else if (actualXPos < 1)
-                    {
-                        Chunk newChunk = Game.world.GetLoadedChunk(chunk.index - 1);
-                        block.chunk = newChunk;
-                        if (newChunk.GetBlock(actualXPos + 8, actualYPos).foregroundBlock != null || !newChunk.GetBlock(actualXPos + 8, actualYPos).isBackground)
-                        {
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        block.chunk = chunk;
-                        if (chunk.GetBlock(actualXPos, actualYPos).foregroundBlock != null || !chunk.GetBlock(actualXPos, actualYPos).isBackground)
-                        {
-                            return false;
-                        }
+                        return false;
                     }
                 }
                 return true;
@@ -642,69 +593,60 @@ namespace SeeloewenCraft
             }
         }
 
-        public void SetCoords(int x, int y, Chunk chunk)
+        public void SetCoords(int xPos, int yPos, Chunk chunk)
         {
             //Warning: Only sets coords inside blocks, not inside chunk/blocklist
             this.chunk = chunk;
-            xPos = x;
-            yPos = y;
+            this.xPos = xPos;
+            this.yPos = yPos;
+        }
+
+        public List<Block> GetConnectedBlocks() //Assumes this is a base block
+        {
+            //Get all connected blocks from the given coordinates
+            List<Block> connectedBlocks = new List<Block>();
+            foreach (var entry in this.connectedBlocks)
+            {
+                connectedBlocks.Add(Game.world.GetBlock(xPos + 8 * chunk.index + entry.xOffset, yPos + entry.yOffset));
+            }
+
+            return connectedBlocks;
+        }
+
+        public Block GetBaseBlock()
+        {
+            if (baseBlock != (0, 0, 0))
+            {
+                return Game.world.GetBlock(baseBlock.xPos + 8 * baseBlock.chunk, baseBlock.yPos);
+            }
+            return null;
         }
 
         public void PlaceConnectedForegroundBlocks(Block baseBlock)
         {
-            foreach (Block conBlock in baseBlock.connectedBlocks)
+            foreach (var conBlock in baseBlock.connectedBlocks)
             {
-                //Get the actual positions for each connected block based on the offset
-                int actualXPos = xPos + conBlock.xOffset;
-                int actualYPos = yPos + conBlock.yOffset;
+                //Place the connected block
+                Block oldBlock = Game.world.GetBlock(xPos + 8 * chunk.index + conBlock.xOffset, yPos + conBlock.yOffset);
+                Block newBlock = BlockRegister.GenerateBlock(conBlock.blockId);
+                newBlock.baseBlock = (baseBlock.xPos, baseBlock.yPos, baseBlock.chunk.index);
 
-                //Since the actual pos is potentially in another chunk, get the pos in that chunk
-                if (actualXPos > 8)
-                {
-                    Chunk newChunk = Game.world.GetLoadedChunk(chunk.index + 1);
-                    newChunk.GetBlock(actualXPos - 8, actualYPos).SetForegroundBlock(conBlock);
-                }
-                else if (actualXPos < 1)
-                {
-                    Chunk newChunk = Game.world.GetLoadedChunk(chunk.index - 1);
-                    newChunk.GetBlock(actualXPos + 8, actualYPos).SetForegroundBlock(conBlock);
-                }
-                else
-                {
-                    chunk.GetBlock(actualXPos, actualYPos).SetForegroundBlock(conBlock);
-                }
+                oldBlock.SetForegroundBlock(newBlock);
             }
         }
 
         public void PlaceConnectedBlocks(Block baseBlock)
         {
-            foreach (Block conBlock in baseBlock.connectedBlocks)
+            foreach (var conBlock in baseBlock.connectedBlocks)
             {
-                //Get the actual positions for each connected block based on the offset
-                int actualXPos = xPos + conBlock.xOffset;
-                int actualYPos = yPos + conBlock.yOffset;
+                //Place the connected block
+                Block oldBlock = Game.world.GetBlock(xPos + 8 * chunk.index + conBlock.xOffset, yPos + conBlock.yOffset);
+                Block newBlock = BlockRegister.GenerateBlock(conBlock.blockId);
+                newBlock.baseBlock = (baseBlock.xPos, baseBlock.yPos, baseBlock.chunk.index);
 
-                //Since the actual pos is potentially in another chunk, get the pos in that chunk
-                if (actualXPos > 8)
-                {
-                    Chunk newChunk = Game.world.GetLoadedChunk(chunk.index + 1);
-                    conBlock.chunk = newChunk;
-                    newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceNewBlock(conBlock);
-                }
-                else if (actualXPos < 1)
-                {
-                    Chunk newChunk = Game.world.GetLoadedChunk(chunk.index - 1);
-                    conBlock.chunk = newChunk;
-                    newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceNewBlock(conBlock);
-                }
-                else
-                {
-                    conBlock.chunk = chunk;
-                    chunk.GetBlock(actualXPos, actualYPos).PlaceNewBlock(conBlock);
-                }
-
+                oldBlock.SetBlock(newBlock);
             }
-        }        
+        }
 
         public void DisplayDebugInformation()
         {
@@ -731,9 +673,9 @@ namespace SeeloewenCraft
                 Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"hasInventory={hasInventory}");
                 Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"isBase={isBase}");
                 Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"isSurface={isSurface}");
-                if (baseBlock != null)
+                if (GetBaseBlock() != null)
                 {
-                    Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"baseBlock={baseBlock.id} at x{baseBlock.xPos} y{baseBlock.yPos}");
+                    Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"baseBlock={GetBaseBlock().id} at x{baseBlock.xPos} y{baseBlock.yPos}");
                 }
 
                 //Try to show the additional debug information

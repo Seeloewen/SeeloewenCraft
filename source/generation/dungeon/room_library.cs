@@ -49,8 +49,7 @@ namespace SeeloewenCraft
                 case DungeonType.Plains:
                     if (dir == Direction.RIGHT || dir == Direction.LEFT)
                     {
-                        SpruceDoor_Base door = new SpruceDoor_Base(false);
-                        return (door, door.connectedBlocks[0]);
+                        return (new SpruceDoor_Base(false), new SpruceDoor_Top(false));
                     }
                     else
                     {

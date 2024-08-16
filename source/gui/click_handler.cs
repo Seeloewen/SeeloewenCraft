@@ -1,8 +1,12 @@
 ﻿
+using System.Windows;
+using System.Windows.Documents;
+using Windows.Web.Http;
+
 namespace SeeloewenCraft
 {
     public class ClickHandler
-    {      
+    {
 
         public void DoRightClick(Block block, object sender)
         {
@@ -69,7 +73,7 @@ namespace SeeloewenCraft
                         //If it`s part of a construct, check if it has enough space
                         if (selectedItem.block.isBase && block.ConnectedBlocksHaveEnoughSpace(selectedItem.block, false))
                         {
-                            block.PlaceNewBlock(selectedItem.block);
+                            block.SetBlock(selectedItem.block);
                             block.PlaceConnectedBlocks(selectedItem.block);
 
                             //Remove the item from the inventory
@@ -78,7 +82,7 @@ namespace SeeloewenCraft
                         }
                         else if (!selectedItem.block.isBase)
                         {
-                            block.PlaceNewBlock(selectedItem.block);
+                            block.SetBlock(selectedItem.block);
 
                             //Remove the item from the inventory
                             selectedSlot.slot.Remove(1);
@@ -100,54 +104,72 @@ namespace SeeloewenCraft
             //If the block is in range
             if (block.IsInRange())
             {
-                //Check if the block is foreground or background
                 if (block.GetForegroundBlock() == null)
                 {
+                    //If the block is a base block
                     if (block.isBase)
                     {
-                        //If the block is base of construct, also delete the construct blocks
-                        foreach (Block conBlock in block.connectedBlocks)
-                        {
-                            conBlock.BreakBlock(true, false);
-                        }
+                        BreakConstruct(block);
+                    }
+                    //If the block is part of a construct
+                    else if (block.GetBaseBlock() != null)
+                    {
+                        BreakConstruct(block.GetBaseBlock());
+
+                    }
+                    //If it's just a normal block
+                    else
+                    {
                         block.BreakBlock(true, false);
                     }
-                    else if (block.baseBlock != null)
-                    {
-                        //If the block is part of construct, delete base block
-                        block.baseBlock.BreakBlock(true, false);
-                        foreach (Block conBlock in block.baseBlock.connectedBlocks)
-                        {
-                            conBlock.BreakBlock(true, false);
-                        }
-                    }
-                    else block.BreakBlock(true, false);
                 }
                 else
                 {
+                    //If the foreground block is a base block
                     if (block.GetForegroundBlock().isBase)
                     {
-                        //If the block is base of construct, also delete the construct blocks
-                        foreach (Block conBlock in block.GetForegroundBlock().connectedBlocks)
-                        {
-                            conBlock.chunk.GetBlock(conBlock.xPos, conBlock.yPos).BreakBlock(true, false);
-                        }
+                        BreakForegroundConstruct(block);
+                    }
+                    //If the foreground block is part of a construct
+                    else if (block.GetForegroundBlock().GetBaseBlock() != null)
+                    {
+                        Block baseBlock = block.GetForegroundBlock().GetBaseBlock();
+                        BreakForegroundConstruct(baseBlock.chunk.GetBlock(baseBlock.xPos, baseBlock.yPos));
+                    }
+                    else
+                    {
+                        //If it's just a normal foreground block
                         block.BreakBlock(true, false);
                     }
-                    else if (block.GetForegroundBlock().baseBlock != null)
-                    {
-                        //If the block is part of construct, delete base block
-                        block.GetForegroundBlock().baseBlock.chunk.GetBlock(block.GetForegroundBlock().baseBlock.xPos, block.GetForegroundBlock().baseBlock.yPos).BreakBlock(true, false);
-                        foreach (Block conBlock in block.GetForegroundBlock().baseBlock.connectedBlocks)
-                        {
-                            conBlock.chunk.GetBlock(conBlock.xPos, conBlock.yPos).BreakBlock(true, false);
-                        }
-                    }
-                    else block.BreakBlock(true, false);
                 }
             }
 
+
             block.chunk.GetBlock(oldXPos, oldYPos).DisplayDebugInformation();
+        }
+
+        private void BreakConstruct(Block baseBlock)
+        {
+            //Remove all connected blocks that are part of the construct
+            foreach (Block conBlock in baseBlock.GetConnectedBlocks())
+            {
+                conBlock.BreakBlock(true, false);
+            }
+
+            //Finally remove the base
+            baseBlock.BreakBlock(true, false);
+        }
+
+        private void BreakForegroundConstruct(Block baseBlock)
+        {
+            //Remove all connected blocks that are part of the construct (foreground variant)
+            foreach (Block conBlock in baseBlock.GetForegroundBlock().GetConnectedBlocks())
+            {
+                conBlock.BreakBlock(true, false);
+            }
+
+            //Finally remove the base
+            baseBlock.BreakBlock(true, false);
         }
     }
 }
