@@ -19,7 +19,7 @@ namespace SeeloewenCraft
         public Chunk chunk;
         public Item item;
         public Inventory blockInventory;
-        public Block foregroundBlock;
+        private Block foregroundBlock;
         public List<Block> connectedBlocks = new List<Block>();
         public Block baseBlock;
         public LootTable lootTable;
@@ -295,7 +295,7 @@ namespace SeeloewenCraft
                 }
                 else
                 {
-                    MoveToForeground();
+                    MoveToNormal();
                 }
             }
             else
@@ -341,7 +341,7 @@ namespace SeeloewenCraft
             blockContainer.ShowDarkRectangle();
         }
 
-        public void MoveToForeground()
+        public void MoveToNormal()
         {
             isBackground = false;
             blockContainer.HideDarkRectangle();
@@ -374,6 +374,26 @@ namespace SeeloewenCraft
                 }
             }
             return false;
+        }
+
+        public void RemoveForegroundBlock()
+        {
+            if(blockContainer != null)
+            {
+                //First unrender the block, then set the foreground block to null and finally update the lighting
+                blockContainer.UnrenderForegroundBlock();
+                foregroundBlock = null;
+                blockContainer.UpdateLighting();
+            }
+            else
+            {
+                foregroundBlock = null;
+            }
+        }
+
+        public Block GetForegroundBlock()
+        {
+            return foregroundBlock;
         }
 
         //Create the item that corresponds to the block
@@ -609,7 +629,7 @@ namespace SeeloewenCraft
                                 rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), //velX and velY 
                                 world));
                         }
-                        blockContainer.RemoveForegroundBlock();
+                        RemoveForegroundBlock();
                     }
 
                     if (hasInventory)
@@ -677,15 +697,26 @@ namespace SeeloewenCraft
             block.rangeToNearestLightSource = rangeToNearestLightSource;
             chunk.SetBlock(block, xPos, yPos);
             UpdateAirLightsources(block);
-            block.MoveToForeground();
+            block.MoveToNormal();
         }
 
-        public void PlaceInForeground(Block block)
+        public void SetForegroundBlock(Block block)
         {
-            blockContainer.RenderForegroundBlock(block);
+            if(block == null)
+            {
+                return;
+            }
+
+            foregroundBlock = block;
+            block.isForeground = true;
             block.xPos = xPos;
             block.yPos = yPos;
             block.chunk = chunk;
+
+            if (blockContainer != null)
+            {
+                blockContainer.RenderForegroundBlock(block);
+            }
         }
 
         public bool ConnectedBlocksHaveEnoughSpace(Block baseBlock, bool isForeground)
@@ -788,16 +819,16 @@ namespace SeeloewenCraft
                 if (actualXPos > 8)
                 {
                     Chunk newChunk = world.GetLoadedChunk(chunk.index + 1);
-                    newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceInForeground(conBlock);
+                    newChunk.GetBlock(actualXPos - 8, actualYPos).SetForegroundBlock(conBlock);
                 }
                 else if (actualXPos < 1)
                 {
                     Chunk newChunk = world.GetLoadedChunk(chunk.index - 1);
-                    newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceInForeground(conBlock);
+                    newChunk.GetBlock(actualXPos + 8, actualYPos).SetForegroundBlock(conBlock);
                 }
                 else
                 {
-                    chunk.GetBlock(actualXPos, actualYPos).PlaceInForeground(conBlock);
+                    chunk.GetBlock(actualXPos, actualYPos).SetForegroundBlock(conBlock);
                 }
             }
         }

@@ -40,12 +40,12 @@ namespace SeeloewenCraft
                             }
                         }
                     }
-                    else if (block.foregroundBlock != null && block.foregroundBlock.tags.Contains("liquids/water"))
+                    else if (block.GetForegroundBlock() != null && block.GetForegroundBlock().tags.Contains("liquids/water"))
                     {
                         //For each water block, check first if it can expand
-                        ExpandWater(chunk, block.foregroundBlock, newBlocks);
+                        ExpandWater(chunk, block.GetForegroundBlock(), newBlocks);
 
-                        if (block.foregroundBlock.hasWaterSource)
+                        if (block.GetForegroundBlock().hasWaterSource)
                         {
                             if (!SourceBlockExists(block, "foreground"))
                             {
@@ -70,16 +70,16 @@ namespace SeeloewenCraft
 
             if (blockState == "foreground")
             {
-                sourceChunk = world.GetLoadedChunk(block.foregroundBlock.waterSourceChunkIndex);
+                sourceChunk = world.GetLoadedChunk(block.GetForegroundBlock().waterSourceChunkIndex);
                 if (sourceChunk != null)
                 {
-                    sourceBlock = sourceChunk.GetBlock(block.foregroundBlock.waterSourceXPos, block.foregroundBlock.waterSourceYPos);
+                    sourceBlock = sourceChunk.GetBlock(block.GetForegroundBlock().waterSourceXPos, block.GetForegroundBlock().waterSourceYPos);
 
-                    if (sourceBlock != null && sourceBlock.foregroundBlock == null && !sourceBlock.isWaterSource)
+                    if (sourceBlock != null && sourceBlock.GetForegroundBlock() == null && !sourceBlock.isWaterSource)
                     {
                         return false;
                     }
-                    else if (sourceBlock != null && sourceBlock.foregroundBlock != null && !sourceBlock.foregroundBlock.isWaterSource)
+                    else if (sourceBlock != null && sourceBlock.GetForegroundBlock() != null && !sourceBlock.GetForegroundBlock().isWaterSource)
                     {
                         return false;
                     }
@@ -92,11 +92,11 @@ namespace SeeloewenCraft
                 {
                     sourceBlock = sourceChunk.GetBlock(block.waterSourceXPos, block.waterSourceYPos);
 
-                    if (sourceBlock != null && sourceBlock.foregroundBlock == null && !sourceBlock.isWaterSource)
+                    if (sourceBlock != null && sourceBlock.GetForegroundBlock() == null && !sourceBlock.isWaterSource)
                     {
                         return false;
                     }
-                    else if (sourceBlock != null && sourceBlock.foregroundBlock != null && !sourceBlock.foregroundBlock.isWaterSource)
+                    else if (sourceBlock != null && sourceBlock.GetForegroundBlock() != null && !sourceBlock.GetForegroundBlock().isWaterSource)
                     {
                         return false;
                     }
@@ -112,7 +112,7 @@ namespace SeeloewenCraft
             {
                 Block blockBelow = chunk.GetBlock(block.xPos, block.yPos + 1);
 
-                if (blockBelow != null && (blockBelow.isReplacable && (!blockBelow.tags.Contains("liquids/water") || blockBelow.waterLevel < 6)) || (blockBelow.isBackground && (blockBelow.foregroundBlock == null || (block.foregroundBlock != null && block.foregroundBlock.waterLevel < 6))))
+                if (blockBelow != null && (blockBelow.isReplacable && (!blockBelow.tags.Contains("liquids/water") || blockBelow.waterLevel < 6)) || (blockBelow.isBackground && (blockBelow.GetForegroundBlock() == null || (block.GetForegroundBlock()   != null && block.GetForegroundBlock().waterLevel < 6))))
                 {
                     Block newWater = new WaterBlock_6(world, false);
                     newWater.SetCoords(block.xPos, block.yPos + 1, block.chunk);
@@ -130,7 +130,7 @@ namespace SeeloewenCraft
 
                         if (blockRight != null && blockLeft != null)
                         {
-                            if ((blockRight.isReplacable && (!blockRight.tags.Contains("liquids/water") || blockRight.waterLevel < block.waterLevel - 1)) || (blockRight.isBackground && blockRight.foregroundBlock == null))
+                            if ((blockRight.isReplacable && (!blockRight.tags.Contains("liquids/water") || blockRight.waterLevel < block.waterLevel - 1)) || (blockRight.isBackground && blockRight.GetForegroundBlock() == null))
                             {
                                 //Expand to the right
                                 Block newWater = CreateWaterBlock(block.waterLevel - 1, "right");
@@ -138,7 +138,7 @@ namespace SeeloewenCraft
                                 SetSourceBlock(block, newWater);
                                 newBlocks.Add(newWater);
                             }
-                            if ((blockLeft.isReplacable && (!blockLeft.tags.Contains("liquids/water") || blockLeft.waterLevel < block.waterLevel - 1)) || (blockLeft.isBackground && blockLeft.foregroundBlock == null))
+                            if ((blockLeft.isReplacable && (!blockLeft.tags.Contains("liquids/water") || blockLeft.waterLevel < block.waterLevel - 1)) || (blockLeft.isBackground && blockLeft.GetForegroundBlock() == null))
                             {
                                 //Expand to the left
                                 Block newWater = CreateWaterBlock(block.waterLevel - 1, "left");
@@ -165,7 +165,7 @@ namespace SeeloewenCraft
                 }
                 else
                 {
-                    if (blockBelow.foregroundBlock != null && !blockBelow.foregroundBlock.tags.Contains("liquids/water"))
+                    if (blockBelow.GetForegroundBlock() != null && !blockBelow.GetForegroundBlock().tags.Contains("liquids/water"))
                     {
                         return true;
                     }
@@ -183,10 +183,10 @@ namespace SeeloewenCraft
                     //Check if a new water blocks needs to be placed or a block needs to be removed
                     if (block.tags.Contains("liquids/water"))
                     {
-                        if (block.chunk.GetBlock(block.xPos, block.yPos).isBackground && block.chunk.GetBlock(block.xPos, block.yPos).foregroundBlock == null)
+                        if (block.chunk.GetBlock(block.xPos, block.yPos).isBackground && block.chunk.GetBlock(block.xPos, block.yPos).GetForegroundBlock() == null)
                         {
                             //If the block is in the background, place the block in the foreground
-                            block.chunk.GetBlock(block.xPos, block.yPos).PlaceInForeground(block);
+                            block.chunk.GetBlock(block.xPos, block.yPos).SetForegroundBlock(block);
                         }
                         else if (!block.chunk.GetBlock(block.xPos, block.yPos).isBackground)
                         {
@@ -255,10 +255,10 @@ namespace SeeloewenCraft
         private void SetSourceBlock(Block currentBlock, Block newBlock)
         {
             //If the block at the location is a background block
-            if (currentBlock.isBackground && currentBlock.foregroundBlock != null)
+            if (currentBlock.isBackground && currentBlock.GetForegroundBlock() != null)
             {
                 //If the current block is not a source block, set its source block as the source
-                currentBlock.foregroundBlock.isWaterSource = true;
+                currentBlock.GetForegroundBlock().isWaterSource = true;
 
             }
             else //If it's just a normal non-solid replacable block

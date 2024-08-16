@@ -365,9 +365,9 @@ namespace SeeloewenCraft
         {
             //TO-DO: Implement timer when moving blocks to background
 
-            if (block.isBackground && block.canBeMovedToBackground && block.IsInRange() && block.foregroundBlock == null)
+            if (block.isBackground && block.canBeMovedToBackground && block.IsInRange() && block.GetForegroundBlock() == null)
             {
-                block.MoveToForeground();
+                block.MoveToNormal();
             }
             else if (!block.isBackground && block.IsInRange() && block.canBeMovedToBackground)
             {

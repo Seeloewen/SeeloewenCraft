@@ -82,6 +82,7 @@ namespace SeeloewenCraft
 
         public void RenderBlock(Block block)
         {
+            ClearRender();
 
             if (this.block != null)
             {
@@ -89,7 +90,6 @@ namespace SeeloewenCraft
                 this.block.RemoveHandlersFromContainer();
                 previousBlockWasLightSource = this.block.isLightSource;
             }
-
 
             //Pass the new position to the block and make a reference
             this.block = block;
@@ -103,14 +103,7 @@ namespace SeeloewenCraft
                 block.craftingHandler.ShowBlockProgressbar();
             }
 
-            //Check if the block has a lightsource in range and set lightlevel
-            if (Settings.enableLighting)
-            {
-                block.SetLightLevel(block.RangeToLightSource());
-                block.UpdateNearbyBlocks();
-                SetLightOpacity();
-                SetNightState(world.nightState);
-            }
+            UpdateLighting();
         }
 
         public void SetLightOpacity()
@@ -313,36 +306,28 @@ namespace SeeloewenCraft
                 block.craftingHandler.ShowBlockProgressbar();
             }
 
-            this.block.foregroundBlock = block;
-            block.isForeground = true;
             cvsForegroundBlock.Background = block.image;
+            UpdateLighting();
+        }
 
-            //Check if the block has a lightsource in range and set lightlevel
-            if (Settings.enableLighting)
+        public void UnrenderForegroundBlock()
+        {
+            if (block != null && block.GetForegroundBlock() != null)
             {
-                this.block.SetLightLevel(this.block.RangeToLightSource());
-                this.block.UpdateNearbyBlocks();
-                SetLightOpacity();
-                SetNightState(world.nightState);
+                previousForegroundBlockWasLightSource = block.GetForegroundBlock().isLightSource;
+                cvsForegroundBlock.Background = new SolidColorBrush(Colors.Transparent);
             }
         }
 
-        public void RemoveForegroundBlock()
+        public void UpdateLighting()
         {
-            if (block != null && block.foregroundBlock != null)
+            //Check if the block has a lightsource in range and set lightlevel
+            if (Settings.enableLighting)
             {
-                previousForegroundBlockWasLightSource = block.foregroundBlock.isLightSource;
-                block.foregroundBlock = null;
-                cvsForegroundBlock.Background = new SolidColorBrush(Colors.Transparent);
-
-                //Check if the block has a lightsource in range and set lightlevel
-                if (Settings.enableLighting)
-                {
-                    block.SetLightLevel(block.RangeToLightSource());
-                    block.UpdateNearbyBlocks();
-                    SetLightOpacity();
-                    SetNightState(world.nightState);
-                }
+                block.SetLightLevel(block.RangeToLightSource());
+                block.UpdateNearbyBlocks();
+                SetLightOpacity();
+                SetNightState(world.nightState);
             }
         }
 
@@ -360,26 +345,44 @@ namespace SeeloewenCraft
         {
             if (block != null)
             {
-                //If it's a workstation that has an action running, hide the progressbar before assigning to new block
+                //If it's a workstation that has an action running, hide the progressbar
                 if (block.craftingHandler != null && (block.craftingHandler.recipeRunning || block.craftingHandler.recipeClaimable))
                 {
                     block.craftingHandler.HideBlockProgressbar();
                 }
 
-                //Remove the event handlers of the previous block
+                //Remove the event handlers, like click events
                 block.RemoveHandlersFromContainer();
             }
 
+            //Clear the link and unrender everything
+            ClearLink();
+            ClearRender();
+
+            //Remove the border from the canvas so it can be assigned to a new one
             world.wndGame.RemoveFromParent(bdrBlock);
-            RemoveForegroundBlock();
-            block = null;
-            previousBlockWasLightSource = false;
         }
 
-        public void Clear()
+        public void ClearLink()
         {
-            //Remove the link between container and block
-            RemoveForegroundBlock();
+            //Remove the link between block and container
+            if (block != null)
+            {
+                block.blockContainer = null;
+            }
+            block = null;
+            previousBlockWasLightSource = false;
+            previousForegroundBlockWasLightSource = false;
+        }
+
+        public void ClearRender()
+        {
+            //Clear the display slot
+            UnrenderForegroundBlock();
+
+            cvsBlock.Background = new SolidColorBrush(Colors.Transparent);
+            cvsForegroundBlock.Background = new SolidColorBrush(Colors.Transparent);
+
             if (block != null)
             {
                 //If it's a workstation that has an action running, hide the progressbar before assigning to new block
@@ -387,10 +390,7 @@ namespace SeeloewenCraft
                 {
                     block.craftingHandler.HideBlockProgressbar();
                 }
-
-                block.blockContainer = null;
             }
-            block = null;
         }
     }
 }

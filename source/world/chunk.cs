@@ -121,6 +121,10 @@ namespace SeeloewenCraft
                 if (blockContainerList.GetContainer(x, y) != null)
                 {
                     blockContainerList.GetContainer(x, y).RenderBlock(block);
+                    if(block.GetForegroundBlock() != null)
+                    {
+                        blockContainerList.GetContainer(x, y).RenderForegroundBlock(block.GetForegroundBlock());
+                    }
                 }
                 else
                 {
@@ -231,9 +235,9 @@ namespace SeeloewenCraft
                 }
 
                 //Render foreground blocks
-                if (block.foregroundBlock != null)
+                if (block.GetForegroundBlock() != null)
                 {
-                    block.PlaceInForeground(block.foregroundBlock);
+                    block.SetForegroundBlock(block.GetForegroundBlock());
                 }
             }
         }

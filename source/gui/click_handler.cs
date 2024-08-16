@@ -35,7 +35,7 @@ namespace SeeloewenCraft
             else if (block != null && !block.hasRightClickAction)
             {
                 //Check if the block meets all requirements to be placed in foreground of another block
-                if (block.IsInRange() && selectedItem != null && block.foregroundBlock == null && block.isBackground)
+                if (block.IsInRange() && selectedItem != null && block.GetForegroundBlock() == null && block.isBackground)
                 {
                     if (selectedItem.block == null) selectedItem.GenerateBlock(block.isBackground);
 
@@ -44,7 +44,7 @@ namespace SeeloewenCraft
                         //If it`s part of a construct, check if it has enough space
                         if (selectedItem.block.isBase && block.ConnectedBlocksHaveEnoughSpace(selectedItem.block, true))
                         {
-                            block.PlaceInForeground(selectedItem.block);
+                            block.SetForegroundBlock(selectedItem.block);
                             block.PlaceConnectedForegroundBlocks(selectedItem.block);
 
                             //Remove the item from the inventory
@@ -53,7 +53,7 @@ namespace SeeloewenCraft
                         }
                         else if (!selectedItem.block.isBase)
                         {
-                            block.PlaceInForeground(selectedItem.block);
+                            block.SetForegroundBlock(selectedItem.block);
 
                             //Remove the item from the inventory
                             selectedSlot.slot.Remove(1);
@@ -107,7 +107,7 @@ namespace SeeloewenCraft
             if (block.IsInRange())
             {
                 //Check if the block is foreground or background
-                if (block.foregroundBlock == null)
+                if (block.GetForegroundBlock() == null)
                 {
                     if (block.isBase)
                     {
@@ -131,20 +131,20 @@ namespace SeeloewenCraft
                 }
                 else
                 {
-                    if (block.foregroundBlock.isBase)
+                    if (block.GetForegroundBlock().isBase)
                     {
                         //If the block is base of construct, also delete the construct blocks
-                        foreach (Block conBlock in block.foregroundBlock.connectedBlocks)
+                        foreach (Block conBlock in block.GetForegroundBlock().connectedBlocks)
                         {
                             conBlock.chunk.GetBlock(conBlock.xPos, conBlock.yPos).BreakBlock(true, false);
                         }
                         block.BreakBlock(true, false);
                     }
-                    else if (block.foregroundBlock.baseBlock != null)
+                    else if (block.GetForegroundBlock().baseBlock != null)
                     {
                         //If the block is part of construct, delete base block
-                        block.foregroundBlock.baseBlock.chunk.GetBlock(block.foregroundBlock.baseBlock.xPos, block.foregroundBlock.baseBlock.yPos).BreakBlock(true, false);
-                        foreach (Block conBlock in block.foregroundBlock.baseBlock.connectedBlocks)
+                        block.GetForegroundBlock().baseBlock.chunk.GetBlock(block.GetForegroundBlock().baseBlock.xPos, block.GetForegroundBlock().baseBlock.yPos).BreakBlock(true, false);
+                        foreach (Block conBlock in block.GetForegroundBlock().baseBlock.connectedBlocks)
                         {
                             conBlock.chunk.GetBlock(conBlock.xPos, conBlock.yPos).BreakBlock(true, false);
                         }
