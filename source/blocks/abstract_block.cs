@@ -4,7 +4,8 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows;
 using System;
-using System.Windows.Documents;
+
+using SeeloewenCraft.entity;
 
 namespace SeeloewenCraft
 {

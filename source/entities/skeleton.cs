@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.entity
 {
     class Skeleton : MovingEntity
     {
