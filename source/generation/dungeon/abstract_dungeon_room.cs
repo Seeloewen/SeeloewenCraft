@@ -9,16 +9,8 @@ namespace SeeloewenCraft
     public abstract class DungeonRoom
     {
         public List<DungeonBlock> blocks = new List<DungeonBlock>();
-        public World world;
-        public string type;
+        public DungeonType type;
         public string id;
-
-        //-- Constructor --//
-
-        public DungeonRoom(World world)
-        {
-            this.world = world;
-        }
 
         //-- Custom Methods --//
 
@@ -108,15 +100,7 @@ namespace SeeloewenCraft
         public void SetDoor(int x, int y, Direction dir)
         {
             //Replace the block with an air-door (later maybe a real door?)
-            GetBlock(x, y).isDoor = true;
-            GetBlock(x, y).doorDirection = dir;
-            GetBlock(x, y).block = new AirBlock(world, false);
-
-            //If direction is right or left, add additional airblock for the player to pass through
-            if (!dir.IsDown() && !dir.IsUp())
-            {
-                GetBlock(x, y + 1).block = new AirBlock(world, false);
-            }
+            GetBlock(x, y).SetDoor( type, dir, GetBlock(x, y + 1));
         }
     }
 }

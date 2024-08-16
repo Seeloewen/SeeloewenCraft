@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,7 +23,7 @@ namespace SeeloewenCraft
                 {
                     //Create a new block of the same type and place it below the original block
                     Type roomType = room.GetType();
-                    DungeonRoom newRoom = (DungeonRoom)Activator.CreateInstance(roomType, room.world);
+                    DungeonRoom newRoom = (DungeonRoom)Activator.CreateInstance(roomType);
                     return newRoom;
                 }
             }
@@ -30,14 +31,52 @@ namespace SeeloewenCraft
             return null;
         }
 
-        public static void CreateDungeonRooms(World world)
+        public static void CreateDungeonRooms()
         {
             //Add all the rooms to the library
-            roomList.Add(new Room1(world));
-            roomList.Add(new Room2(world));
-            roomList.Add(new Room3(world));
-            roomList.Add(new Room4(world));
-            roomList.Add(new Room5(world));
+            roomList.Add(new PlainsRoom1());
+            roomList.Add(new PlainsRoom2());
+            roomList.Add(new PlainsRoom3());
+            roomList.Add(new PlainsRoom4());
+            roomList.Add(new PlainsRoom5());
+        }
+
+        public static (Block, Block) GetDoorBlock(DungeonType type, Direction dir)
+        {
+            //Returns the block that is used for creating a door, based on dungeon type and door direction
+            switch (type)
+            {
+                case DungeonType.Plains:
+                    if (dir == Direction.RIGHT || dir == Direction.LEFT)
+                    {
+                        SpruceDoor_Base door = new SpruceDoor_Base(false);
+                        return (door, door.connectedBlocks[0]);
+                    }
+                    else
+                    {
+                        return (new OakLeavesBlock(false), null);
+                    }
+                default:
+                    return (null, null);
+            }
+        }
+
+        public static (Block, Block) GetDoorReplacementBlock(DungeonType type, Direction dir)
+        {
+            switch (type)
+            {
+                case DungeonType.Plains:
+                    if (dir == Direction.RIGHT || dir == Direction.LEFT)
+                    {
+                        return (new CobblestoneBlock(false), new CobblestoneBlock(false));
+                    }
+                    else
+                    {
+                        return (new CobblestoneBlock(false), null);
+                    }
+                default:
+                    return (null, null);
+            }
         }
     }
 }

@@ -67,7 +67,7 @@ namespace SeeloewenCraft
             canReplaceSolidBlocks = true;
 
             Dungeon dung = new Dungeon();
-            dung.CreateDungeon(100, 40, "plains");
+            dung.CreateDungeon(100, 40, DungeonType.Plains);
             structureComponents.AddRange(dung.GenerateDungeon(0, 0));
 
             totalWidth = GetTotalWidth();

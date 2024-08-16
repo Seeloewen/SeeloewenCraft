@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
 
 namespace SeeloewenCraft
 {
+    public enum DungeonType
+    {
+        Plains
+    }
+
     public class Dungeon
     {
         private List<DungeonBlock> blocks = new List<DungeonBlock>();
@@ -15,7 +16,7 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-        public void CreateDungeon(int width, int height, string type)
+        public void CreateDungeon(int width, int height, DungeonType type)
         {
             //Create all dungeon blocks depending on with and height
             for (int x = 0; x < width; x++)
@@ -34,23 +35,20 @@ namespace SeeloewenCraft
             GenerateRooms(7, type);
         }
 
-        public void GenerateRooms(int iterationAmount, string type)
+        public void GenerateRooms(int iterationAmount, DungeonType type)
         {
             //WARNING: iterationAmount does not mean the amount of rooms that are created.
             //The actual amount of created rooms can vary because of door amounts. This int
             //simply tells you how often it will check for doors to append rooms to.
 
+
+            List<DungeonBlock> doors;
+
+            //Go a set amount of times through the process to place enough rooms
             for (int i = 0; i < iterationAmount; i++)
             {
                 //Get all possible doors
-                List<DungeonBlock> doors = new List<DungeonBlock>();
-                foreach (DungeonBlock block in blocks)
-                {
-                    if (block.isDoor)
-                    {
-                        doors.Add(block);
-                    }
-                }
+                doors = GetDoors();
 
                 //Get a possible room for each door
                 foreach (DungeonBlock door in doors)
@@ -60,16 +58,45 @@ namespace SeeloewenCraft
                     {
                         //If a possible room was found, place that room
                         PlaceRoom(roomDetails.room, door.x, door.y, door.doorDirection, roomDetails.doorX, roomDetails.doorY);
+                        door.RemoveDoor();
                     }
                     else
 
                     {
                         //If no room is found, the door is no longer a door
-                        door.isDoor = false;
+                        door.RemoveDoor();
+                        door.CloseDoor(type, door.doorDirection, GetBlock(door.x, door.y + 1));
                     }
                 }
             }
+
+            //Get all possible doors once again
+            doors = GetDoors();
+
+            //Go through all doors one last time to close all non-connected doors (doors that are still marked as doors)
+            foreach (DungeonBlock door in doors)
+            {
+                door.RemoveDoor();
+                door.CloseDoor(type, door.doorDirection, GetBlock(door.x, door.y + 1));
+            }
         }
+
+        private List<DungeonBlock> GetDoors()
+        {
+            List<DungeonBlock> doors = new List<DungeonBlock>();
+
+            //Go through all dungeon blocks and get all doors
+            foreach (DungeonBlock block in blocks)
+            {
+                if (block.IsDoor())
+                {
+                    doors.Add(block);
+                }
+            }
+
+            return doors;
+        }
+
         public DungeonBlock GetBlock(int x, int y)
         {
             //Compare x and y pos and return the correct block from the list
@@ -83,7 +110,7 @@ namespace SeeloewenCraft
             return null;
         }
 
-        public (DungeonRoom room, int doorX, int doorY) GetRoom(Direction doorDirection, DungeonBlock sourceDoor, string type)
+        public (DungeonRoom room, int doorX, int doorY) GetRoom(Direction doorDirection, DungeonBlock sourceDoor, DungeonType type)
         {
             offset++;
             rnd = new Random(DateTime.Now.Millisecond + offset);
@@ -98,7 +125,7 @@ namespace SeeloewenCraft
                     foreach (DungeonBlock block in room.blocks)
                     {
                         //Check all doors if a door is available that has the needed direction
-                        if (block.isDoor && block.doorDirection == TurnDirection(doorDirection))
+                        if (block.IsDoor() && block.doorDirection == TurnDirection(doorDirection))
                         {
                             //Get offset based on direction
                             int xOffset = 0;
@@ -129,7 +156,13 @@ namespace SeeloewenCraft
                                 && possibleSpace.left >= necessarySpace.left
                                 && possibleSpace.right >= necessarySpace.right)
                             {
-                                possibleRooms.Add((RoomLibrary.GetRoom(room.id), block.x - xOffset, block.y - yOffset));
+                                //Mark the door as no longer being a possible door so it doesn't get checked again in the next iteration if this room gets chosen
+                                DungeonRoom newRoom = RoomLibrary.GetRoom(room.id);
+                                newRoom.GetBlock(block.x, block.y).RemoveDoor();
+                                newRoom.GetBlock(block.x, block.y).HideDoor(block.doorDirection, newRoom.GetBlock(block.x, block.y + 1));
+
+                                //Add the room to the possible rooms
+                                possibleRooms.Add((newRoom, block.x - xOffset, block.y - yOffset));
                             }
                         }
                     }
