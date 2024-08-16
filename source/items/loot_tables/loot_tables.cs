@@ -3,14 +3,14 @@ namespace SeeloewenCraft
 {
     public class LootTables
     {
-        World world;
+        
 
         //-- Constructor --//
 
-        public LootTables(World world)
+        public LootTables()
         {
             //Create link to game window
-            this.world = world;
+            
 
             //Generate the loot tables
             GenerateLootTables();
@@ -19,8 +19,8 @@ namespace SeeloewenCraft
         public void GenerateLootTables()
         {
             //Generate all the loot tables
-            stoneLootTable = new StoneLootTable(world);
-            plainsDungeonChest1 = new PlainsDungeonChest1(world);
+            stoneLootTable = new StoneLootTable();
+            plainsDungeonChest1 = new PlainsDungeonChest1();
         }
 
         //-- Loot Tables --//

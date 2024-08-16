@@ -6,7 +6,7 @@ namespace SeeloewenCraft
     public class CraftingRecipe
     {
         //References
-        World World;
+        
         public ImageBrush displayImage;
         public List<CraftingIngredient> outgredients = new List<CraftingIngredient>();
         public List<CraftingIngredient> ingredients = new List<CraftingIngredient>();
@@ -19,7 +19,7 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public CraftingRecipe(World world, string workstation, string id, string displayName, ImageBrush displayImage, int requiredTime)
+        public CraftingRecipe( string workstation, string id, string displayName, ImageBrush displayImage, int requiredTime)
         {
             //Set all constants
             this.workstation = workstation;
@@ -29,10 +29,10 @@ namespace SeeloewenCraft
             this.requiredTime = requiredTime;
 
             //Add the recipe to the main list so it can be accessed in the future
-            world.craftingRecipeList.Add(this);
+            Game.world.craftingRecipeList.Add(this);
         }
 
-        public CraftingRecipe(JsonToken token, World world)
+        public CraftingRecipe(JsonToken token)
         {
             //Get general constants
             id = token.GetString("/id");
@@ -45,7 +45,7 @@ namespace SeeloewenCraft
             for (int i = 0; i < ingredientListToken.GetArrayLength(); i++)
             {
                 JsonToken ingredientToken = ingredientListToken.GetToken($"/{i}");
-                ingredients.Add(new CraftingIngredient(ingredientToken, world));
+                ingredients.Add(new CraftingIngredient(ingredientToken));
             }
 
             //Get Outgredients
@@ -53,7 +53,7 @@ namespace SeeloewenCraft
             for (int i = 0; i < outgredientListToken.GetArrayLength(); i++)
             {
                 JsonToken outgredientToken = outgredientListToken.GetToken($"/{i}");
-                outgredients.Add(new CraftingIngredient(outgredientToken, world));
+                outgredients.Add(new CraftingIngredient(outgredientToken));
             }
 
 

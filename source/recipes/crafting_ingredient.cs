@@ -14,9 +14,9 @@ namespace SeeloewenCraft
             this.item = item;
             this.amount = amount;
         }
-        public CraftingIngredient(JsonToken token, World world)
+        public CraftingIngredient(JsonToken token)
         {
-            item = ItemRegister.GenerateItem(token.GetString("/item_id"), world);
+            item = ItemRegister.GenerateItem(token.GetString("/item_id"));
 
             amount = token.GetInt("/amount");
         }

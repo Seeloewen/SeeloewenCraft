@@ -6,7 +6,7 @@ namespace SeeloewenCraft
 
     public class HealthBar : AttributeBar
     {
-        public HealthBar(World world, int top, int left) : base(world, top, left)
+        public HealthBar( int top, int left) : base( top, left)
         {
             name = "Health";
             id = "sc:health_bar";
@@ -22,7 +22,7 @@ namespace SeeloewenCraft
 
         public override void SetValue(double value)
         {
-            if (world.gamemode == Gamemode.Survival)
+            if (Game.world.gamemode == Gamemode.Survival)
             {
                 base.SetValue(value);
             }

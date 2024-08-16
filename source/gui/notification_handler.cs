@@ -17,15 +17,15 @@ namespace SeeloewenCraft
         Button btnDismiss = new Button() { Width = 65, Height = 35, Content = "Dismiss", Visibility = Visibility.Hidden };
 
         //References
-        World world;
+        
         public NotificationGui gui;
 
         //-- Constructor --//
 
-        public NotificationHandler(World world)
+        public NotificationHandler()
         {
-            this.world = world;
-            gui = new NotificationGui(world, 550, 375, 112, 445, "sc:notifications", this);
+            
+            gui = new NotificationGui( 550, 375, 112, 445, "sc:notifications", this);
 
             //Setup necessary components for showing the message
             Canvas.SetTop(bdrNotification, 585);
@@ -47,7 +47,7 @@ namespace SeeloewenCraft
             cvsNotification.MouseEnter += cvsNotification_MouseEnter;
             cvsNotification.MouseLeave += cvsNotification_MouseLeave;
             btnDismiss.Click += btnDismiss_Click;
-            world.wndGame.cvsGame.Children.Add(bdrNotification);
+            Game.world.wndGame.cvsGame.Children.Add(bdrNotification);
         }
 
         //-- Custom Methods --//

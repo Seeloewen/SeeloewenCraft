@@ -8,7 +8,6 @@ namespace SeeloewenCraft
     public abstract class AttributeBar
     {
         //References
-        public World world;
         private Canvas cvsBar = new Canvas();
         private List<AttributeBarElement> elements = new List<AttributeBarElement>();
         public ImageBrush imgElementFull;
@@ -25,16 +24,13 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public AttributeBar(World world, int top, int left)
+        public AttributeBar( int top, int left)
         {
-            //Create references
-            this.world = world;
-
             //Create the bar
             cvsBar.Height = 35;
             cvsBar.Width = 410;
             cvsBar.Background = new SolidColorBrush(Colors.Transparent);
-            world.wndGame.cvsGame.Children.Add(cvsBar);
+            Game.world.wndGame.cvsGame.Children.Add(cvsBar);
             Canvas.SetLeft(cvsBar, left);
             Canvas.SetTop(cvsBar, top);
 

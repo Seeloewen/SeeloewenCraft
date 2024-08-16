@@ -39,8 +39,8 @@ namespace SeeloewenCraft
         public bool breathing;
 
 
-        public MovingEntity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Brush image)
-            : base(sizeX, sizeY, posX, posY, velX, velY, world, image)
+        public MovingEntity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, Brush image)
+            : base(sizeX, sizeY, posX, posY, velX, velY,  image)
         {
             hp = MAX_HP;
             currentAcc = ACC_WALKING;
@@ -103,13 +103,13 @@ namespace SeeloewenCraft
         {
             if (this is not Player)
             {
-                int playerX = world.player.posX;
-                int playerY = world.player.posY;
+                int playerX = Game.world.player.posX;
+                int playerY = Game.world.player.posY;
 
                 if (playerX - (posX + sizeX) < Player.HIT_RANGE
                     && playerY - (posY + sizeY) < Player.HIT_RANGE
-                    && (playerX + world.player.sizeX) - posX < Player.HIT_RANGE
-                    && (playerY + world.player.sizeY) - posY < Player.HIT_RANGE)
+                    && (playerX + Game.world.player.sizeX) - posX < Player.HIT_RANGE
+                    && (playerY + Game.world.player.sizeY) - posY < Player.HIT_RANGE)
                 {
                     Damage(Player.HIT_DAMAGE);
                 }
@@ -137,16 +137,15 @@ namespace SeeloewenCraft
 
         public virtual void Drop(string id)
         {
-            world.AddEntity(new ItemEntity(ItemRegister.GenerateItem(id, world), //item type
+            Game.world.AddEntity(new ItemEntity(ItemRegister.GenerateItem(id), //item type
                 posX + sizeX / 2 - ItemEntity.itemSizeX / 2, //posX
                 posY + sizeY * 2 / 3 - ItemEntity.itemSizeY / 2, //posY
-                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), //velX and velY
-                world));
+                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY
         }
 
         public virtual void Die()
         {
-            world.toDieEntities.Add(this);
+            Game.world.toDieEntities.Add(this);
         }
 
         public virtual void SetHP(double hp)

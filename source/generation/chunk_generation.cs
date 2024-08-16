@@ -9,7 +9,7 @@ namespace SeeloewenCraft
         private void Generate()
         {
             blockList = new BlockList(this);
-            chunkDirectory = string.Format("{0}/chunk{1}", world.worldDirectory, index);
+            chunkDirectory = string.Format("{0}/chunk{1}", Game.world.worldDirectory, index);
 
             //Determine the biome
             switch (index)
@@ -19,10 +19,10 @@ namespace SeeloewenCraft
                     biome = GetNewBiome(Biome.None);
                     break;
                 case > 0:
-                    biome = GetNewBiome(world.GetChunk(index - 1).biome);
+                    biome = GetNewBiome(Game.world.GetChunk(index - 1).biome);
                     break;
                 case < 0:
-                    biome = GetNewBiome(world.GetChunk(index + 1).biome);
+                    biome = GetNewBiome(Game.world.GetChunk(index + 1).biome);
                     break;
             }
 
@@ -138,11 +138,11 @@ namespace SeeloewenCraft
                     {
                         if (rnd.Next(0, 6) == 0)
                         {
-                            structureList.Add(new SpruceTreeStructure(world, x, y - 1, index, true, this, false));
+                            structureList.Add(new SpruceTreeStructure( x, y - 1, index, true, this, false));
                         }
                         else
                         {
-                            structureList.Add(new OakTreeStructure(world, x, y - 1, index, true, this, false));
+                            structureList.Add(new OakTreeStructure( x, y - 1, index, true, this, false));
                         }
 
                     }
@@ -162,7 +162,7 @@ namespace SeeloewenCraft
                 if (y != 0)
                 {
                     int depth = rnd.Next(3, 8);
-                    structureList.Add(new Lake(world, x, y + depth, index, true, this, true, depth));
+                    structureList.Add(new Lake( x, y + depth, index, true, this, true, depth));
                 }
             }
         }
@@ -178,7 +178,7 @@ namespace SeeloewenCraft
 
                 if (y != 0 && !generatedDungeon)
                 {
-                    structureList.Add(new PlainsDungeon(world, x, rnd.Next(62, 72), index, true, this, true));
+                    structureList.Add(new PlainsDungeon( x, rnd.Next(62, 72), index, true, this, true));
                     generatedDungeon = true;
                 }
             }
@@ -197,7 +197,7 @@ namespace SeeloewenCraft
 
                     (int x, y) = GetCoordinatesOnSurface(0, 7, true);
 
-                    structureList.Add(new OreStructure(world, x, y + rnd.Next(10, 70), index, true, this, true));
+                    structureList.Add(new OreStructure( x, y + rnd.Next(10, 70), index, true, this, true));
                 }
             }
         }
@@ -211,7 +211,7 @@ namespace SeeloewenCraft
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7, true);
 
-                structureList.Add(new Cave(world, x, y + 30, index, true, this, true));
+                structureList.Add(new Cave( x, y + 30, index, true, this, true));
             }
         }
 
@@ -223,12 +223,12 @@ namespace SeeloewenCraft
                 //Continue Structure Generation by adding a continuation strucutre, which contains the structure components that were previously cut off
                 if (index != 0)
                 {
-                    foreach (Structure structure in world.GetChunk(index + (index < 0 ? 1 : -1)).structureList)
+                    foreach (Structure structure in Game.world.GetChunk(index + (index < 0 ? 1 : -1)).structureList)
                     {
                         //Check if the structure in the list is actually cut off and matches the id
                         if (structure.isCutOff && structure.name == structureName)
                         {
-                            structureList.Add(new ContinuationStructure(structure.cutOffComponents, world, index < 0 ? 7 : 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
+                            structureList.Add(new ContinuationStructure(structure.cutOffComponents,  index < 0 ? 7 : 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
                             continuedStructureList.Add(structure);
                         }
                     }
@@ -236,12 +236,12 @@ namespace SeeloewenCraft
             }
             else //If no id is given, generate all remaining structures in the list
             {
-                foreach (Structure structure in world.GetChunk(index + (index < 0 ? 1 : -1)).structureList)
+                foreach (Structure structure in Game.world.GetChunk(index + (index < 0 ? 1 : -1)).structureList)
                 {
                     //Check if the structure in the list is actually cut off and matches the id
                     if (structure.isCutOff && !continuedStructureList.Contains(structure))
                     {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, world, index < 0 ? 7 : 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents,  index < 0 ? 7 : 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
                         continuedStructureList.Add(structure);
                     }
                 }

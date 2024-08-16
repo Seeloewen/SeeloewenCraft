@@ -7,14 +7,8 @@ using System.Threading.Tasks;
 namespace SeeloewenCraft
 {
     public class StructureShapeCreator
-    {
-        World world;
+    {      
         static int rndOffset;
-
-        public StructureShapeCreator(World world)
-        {
-            this.world = world;
-        }
 
         //Used to get specific shapes of structure components for structures
 

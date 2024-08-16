@@ -8,18 +8,18 @@ namespace SeeloewenCraft
 {
     public class CobbleStoneItem_TopRight : ChiseledItem
     {
-        public CobbleStoneItem_TopRight(World world) : base(world)
+        public CobbleStoneItem_TopRight() : base()
         {
             isPlacable = true;
             name = "Chiseled Cobblestone";
             id = "sc:cobblestone_topright_item";
             SetTexture();
-            unchiselItems.Add(new CobbleStoneItem_Center(world));
+            unchiselItems.Add(new CobbleStoneItem_Center());
         }
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobblestoneBlock_TopRight(world, isInBackground);
+            block = new CobblestoneBlock_TopRight( isInBackground);
             return block;
         }
 
@@ -33,18 +33,18 @@ namespace SeeloewenCraft
 
     public class CobbleStoneItem_TopLeft : ChiseledItem
     {
-        public CobbleStoneItem_TopLeft(World world) : base(world)
+        public CobbleStoneItem_TopLeft() : base()
         {
             isPlacable = true;
             name = "Chiseled Cobblestone";
             id = "sc:cobblestone_topleft_item";
             SetTexture();
-            unchiselItems.Add(new CobbleStoneItem_Center(world));
+            unchiselItems.Add(new CobbleStoneItem_Center());
         }
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobbleStoneBlock_TopLeft(world, isInBackground);
+            block = new CobbleStoneBlock_TopLeft( isInBackground);
             return block;
         }
 
@@ -57,18 +57,18 @@ namespace SeeloewenCraft
 
     public class CobbleStoneItem_BottomRight : ChiseledItem
     {
-        public CobbleStoneItem_BottomRight(World world) : base(world)
+        public CobbleStoneItem_BottomRight() : base()
         {
             isPlacable = true;
             name = "Chiseled Cobblestone";
             id = "sc:cobblestone_bottomright_item";
             SetTexture();
-            unchiselItems.Add(new CobbleStoneItem_Center(world));
+            unchiselItems.Add(new CobbleStoneItem_Center());
         }
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobblestoneBlock_BottomRight(world, isInBackground);
+            block = new CobblestoneBlock_BottomRight( isInBackground);
             return block;
         }
 
@@ -81,18 +81,18 @@ namespace SeeloewenCraft
 
     public class CobbleStoneItem_BottomLeft : ChiseledItem
     {
-        public CobbleStoneItem_BottomLeft(World world) : base(world)
+        public CobbleStoneItem_BottomLeft() : base()
         {
             isPlacable = true;
             name = "Chiseled Cobblestone";
             id = "sc:cobblestone_bottomleft_item";
             SetTexture();
-            unchiselItems.Add(new CobbleStoneItem_Center(world));
+            unchiselItems.Add(new CobbleStoneItem_Center());
         }
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobblestoneBlock_BottomLeft(world, isInBackground);
+            block = new CobblestoneBlock_BottomLeft( isInBackground);
             return block;
         }
 
@@ -105,7 +105,7 @@ namespace SeeloewenCraft
 
     public class CobbleStoneItem_SlabRight : ChiseledItem
     {
-        public CobbleStoneItem_SlabRight(World world) : base(world)
+        public CobbleStoneItem_SlabRight() : base()
         {
             isPlacable = true;
             name = "Chiseled Cobblestone";
@@ -114,13 +114,13 @@ namespace SeeloewenCraft
 
             for (int i = 0; i < 2; i++)
             {
-                unchiselItems.Add(new CobbleStoneItem_Center(world));
+                unchiselItems.Add(new CobbleStoneItem_Center());
             }
         }
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobblestoneBlock_SlabRight(world, isInBackground);
+            block = new CobblestoneBlock_SlabRight( isInBackground);
             return block;
         }
 
@@ -133,7 +133,7 @@ namespace SeeloewenCraft
 
     public class CobbleStoneItem_SlabLeft : ChiseledItem
     {
-        public CobbleStoneItem_SlabLeft(World world) : base(world)
+        public CobbleStoneItem_SlabLeft() : base()
         {
             isPlacable = true;
             name = "Chiseled Cobblestone";
@@ -142,13 +142,13 @@ namespace SeeloewenCraft
 
             for (int i = 0; i < 2; i++)
             {
-                unchiselItems.Add(new CobbleStoneItem_Center(world));
+                unchiselItems.Add(new CobbleStoneItem_Center());
             }
         }
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobblestoneBlock_SlabLeft(world, isInBackground);
+            block = new CobblestoneBlock_SlabLeft( isInBackground);
             return block;
         }
 
@@ -161,7 +161,7 @@ namespace SeeloewenCraft
 
     public class CobbleStoneItem_SlabTop : ChiseledItem
     {
-        public CobbleStoneItem_SlabTop(World world) : base(world)
+        public CobbleStoneItem_SlabTop() : base()
         {
             isPlacable = true;
             name = "Chiseled Cobblestone";
@@ -170,13 +170,13 @@ namespace SeeloewenCraft
 
             for (int i = 0; i < 2; i++)
             {
-                unchiselItems.Add(new CobbleStoneItem_Center(world));
+                unchiselItems.Add(new CobbleStoneItem_Center());
             }
         }
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobblestoneBlock_SlabTop(world, isInBackground);
+            block = new CobblestoneBlock_SlabTop( isInBackground);
             return block;
         }
 
@@ -189,7 +189,7 @@ namespace SeeloewenCraft
 
     public class CobbleStoneItem_SlabBottom : ChiseledItem
     {
-        public CobbleStoneItem_SlabBottom(World world) : base(world)
+        public CobbleStoneItem_SlabBottom() : base()
         {
             isPlacable = true;
             name = "Chiseled Cobblestone";
@@ -198,13 +198,13 @@ namespace SeeloewenCraft
 
             for (int i = 0; i < 2; i++)
             {
-                unchiselItems.Add(new CobbleStoneItem_Center(world));
+                unchiselItems.Add(new CobbleStoneItem_Center());
             }
         }
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobblestoneBlock_SlabBottom(world, isInBackground);
+            block = new CobblestoneBlock_SlabBottom( isInBackground);
             return block;
         }
 
@@ -217,7 +217,7 @@ namespace SeeloewenCraft
 
     public class CobbleStoneItem_StairTopRight : ChiseledItem
     {
-        public CobbleStoneItem_StairTopRight(World world) : base(world)
+        public CobbleStoneItem_StairTopRight() : base()
         {
             isPlacable = true;
             name = "Chiseled Cobblestone";
@@ -226,13 +226,13 @@ namespace SeeloewenCraft
 
             for (int i = 0; i < 3; i++)
             {
-                unchiselItems.Add(new CobbleStoneItem_Center(world));
+                unchiselItems.Add(new CobbleStoneItem_Center());
             }
         }
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobblestoneBlock_StairTopRight(world, isInBackground);
+            block = new CobblestoneBlock_StairTopRight( isInBackground);
             return block;
         }
 
@@ -245,7 +245,7 @@ namespace SeeloewenCraft
 
     public class CobbleStoneItem_StairTopLeft : ChiseledItem
     {
-        public CobbleStoneItem_StairTopLeft(World world) : base(world)
+        public CobbleStoneItem_StairTopLeft() : base()
         {
             isPlacable = true;
             name = "Chiseled Cobblestone";
@@ -254,13 +254,13 @@ namespace SeeloewenCraft
 
             for (int i = 0; i < 3; i++)
             {
-                unchiselItems.Add(new CobbleStoneItem_Center(world));
+                unchiselItems.Add(new CobbleStoneItem_Center());
             }
         }
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobblestoneBlock_StairTopLeft(world, isInBackground);
+            block = new CobblestoneBlock_StairTopLeft( isInBackground);
             return block;
         }
 
@@ -273,7 +273,7 @@ namespace SeeloewenCraft
 
     public class CobbleStoneItem_StairBottomRight : ChiseledItem
     {
-        public CobbleStoneItem_StairBottomRight(World world) : base(world)
+        public CobbleStoneItem_StairBottomRight() : base()
         {
             isPlacable = true;
             name = "Chiseled Cobblestone";
@@ -282,13 +282,13 @@ namespace SeeloewenCraft
 
             for (int i = 0; i < 3; i++)
             {
-                unchiselItems.Add(new CobbleStoneItem_Center(world));
+                unchiselItems.Add(new CobbleStoneItem_Center());
             }
         }
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobblestoneBlock_StairBottomRight(world, isInBackground);
+            block = new CobblestoneBlock_StairBottomRight( isInBackground);
             return block;
         }
 
@@ -301,7 +301,7 @@ namespace SeeloewenCraft
 
     public class CobbleStoneItem_StairBottomLeft : ChiseledItem
     {
-        public CobbleStoneItem_StairBottomLeft(World world) : base(world)
+        public CobbleStoneItem_StairBottomLeft() : base()
         {
             isPlacable = true;
             name = "Chiseled Cobblestone";
@@ -310,13 +310,13 @@ namespace SeeloewenCraft
 
             for (int i = 0; i < 3; i++)
             {
-                unchiselItems.Add(new CobbleStoneItem_Center(world));
+                unchiselItems.Add(new CobbleStoneItem_Center());
             }
         }
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobblestoneBlock_StairBottomLeft(world, isInBackground);
+            block = new CobblestoneBlock_StairBottomLeft( isInBackground);
             return block;
         }
 
@@ -329,7 +329,7 @@ namespace SeeloewenCraft
 
     public class CobbleStoneItem_Center : ChiseledItem
     {
-        public CobbleStoneItem_Center(World world) : base(world)
+        public CobbleStoneItem_Center() : base()
         {
             isChiseled = false;
             isPlacable = true;
@@ -340,7 +340,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobbleStoneBlock_Center(world, isInBackground);
+            block = new CobbleStoneBlock_Center( isInBackground);
             return block;
         }
 

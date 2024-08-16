@@ -32,7 +32,7 @@ namespace SeeloewenCraft
             writer.WriteEndObject();
         }
 
-        static public BlockList LoadFromJson(JsonToken documentToken, Chunk chunk, World world)
+        static public BlockList LoadFromJson(JsonToken documentToken, Chunk chunk)
         {
             BlockList blockList = new BlockList(chunk);
 
@@ -42,7 +42,7 @@ namespace SeeloewenCraft
             {
                 JsonToken blockToken = blockArrayToken.GetToken($"/{i}");
 
-                Block loadedBlock = Block.LoadFromJson(blockToken, chunk, world);
+                Block loadedBlock = Block.LoadFromJson(blockToken, chunk);
                 blockList.Add(loadedBlock, loadedBlock.xPos, loadedBlock.yPos);
             }
             return blockList;

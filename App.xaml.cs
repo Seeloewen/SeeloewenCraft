@@ -5,12 +5,14 @@ namespace SeeloewenCraft
 {
     public partial class App : Application
     {
-
         //entry point of program
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             //add custom dipatcher method for unhandled exceptions to save them to the log
             Dispatcher.UnhandledException += OnDispatcherUnhandledException;
+
+            //Show the version in log
+            Log.Write($"SeeloewenCraft Version {Game.GAME_VERSION} ({Game.VERSION_DATE})", "Info");
 
             //parse command line arguments to start option variables
             StartOptions.Parse(e.Args);
@@ -40,8 +42,7 @@ namespace SeeloewenCraft
                 }
                 
                 //create new world with name "debug"
-                World world = new World(wndMenu, "Debug", true, wndMenu.worldVersion, wndMenu.gameVersion);
-                wndMenu.world = world;
+                World world = new World(wndMenu, "Debug", true, Game.WORLD_VERSION, Game.GAME_VERSION);
             }
 
             //show start log on start of program if enabled through start options

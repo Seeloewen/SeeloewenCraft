@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SeeloewenCraft
 {
     public partial class Chunk
     {
+        
         private void GenerateTerrain()
         {
+            
             //Set the floorheight based on the chunk index
             if (index >= 0)
             {
@@ -21,7 +24,7 @@ namespace SeeloewenCraft
                 else
                 {
                     //If it's not the first chunk, get the most right floor height from the chunk to the left
-                    floorHeight = world.GetChunk(index - 1).floorHeightRight;
+                    floorHeight = Game.world.GetChunk(index - 1).floorHeightRight;
                 }
 
                 //Begin generating terrain from left to right
@@ -37,7 +40,7 @@ namespace SeeloewenCraft
             }
             else if (index < 0)
             {
-                floorHeight = world.GetChunk(index + 1).floorHeightLeft;
+                floorHeight = Game.world.GetChunk(index + 1).floorHeightLeft;
 
                 //Begin generating terrain from right to left
                 for (int x = 7; x >= 0; x--)
@@ -80,7 +83,7 @@ namespace SeeloewenCraft
                 if (y == floorHeight)
                 {
                     //If the block is exactly on floor height add a grass block
-                    blockList.Add(new GrassBlock(world, false) { isSurface = true }, x, y);
+                    blockList.Add(new GrassBlock( false) { isSurface = true }, x, y);
 
                     //If it's at one of the corners, set the left or right floor height variable
                     if (x == 0)
@@ -95,7 +98,7 @@ namespace SeeloewenCraft
                 else if (y == floorHeight + 1 || y == floorHeight + 2)
                 {
                     //If it's 1 or 2 blocks below the floor height, add dirt
-                    blockList.Add(new DirtBlock(world, false), x, y);
+                    blockList.Add(new DirtBlock( false), x, y);
                 }
                 else if (y == floorHeight + 3)
                 {
@@ -103,27 +106,27 @@ namespace SeeloewenCraft
                     int random = rnd.Next(1, 3);
                     if (random == 1)
                     {
-                        blockList.Add(new DirtBlock(world, false), x, y);
+                        blockList.Add(new DirtBlock( false), x, y);
                     }
                     else
                     {
-                        blockList.Add(new StoneBlock(world, false), x, y);
+                        blockList.Add(new StoneBlock( false), x, y);
                     }
                 }
                 else if (y > floorHeight + 3 && y < 74)
                 {
                     //If it's 3 blocks below floor height and above y 75, set stone blocks
-                    blockList.Add(new StoneBlock(world, false), x, y);
+                    blockList.Add(new StoneBlock( false), x, y);
                 }
                 else if (y < floorHeight)
                 {
                     //If it's above floor height, generate air
-                    blockList.Add(new AirBlock(world, false), x, y);
+                    blockList.Add(new AirBlock( false), x, y);
                 }
                 else if (y == 74)
                 {
                     //If it's exactly at bottom layer y 75, set bedrock block
-                    blockList.Add(new BedrockBlock(world, false), x, y);
+                    blockList.Add(new BedrockBlock( false), x, y);
                 }
             }
         }

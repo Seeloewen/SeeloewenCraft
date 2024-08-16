@@ -9,7 +9,6 @@ namespace SeeloewenCraft
     public class InventorySlot
     {
         //References
-        private World world;
         public Inventory inventory;
         public Border bdrSlot = new Border();
         public Canvas cvsItem = new Canvas();
@@ -48,10 +47,9 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public InventorySlot(World world, Inventory inventory, int xPos, int yPos)
+        public InventorySlot( Inventory inventory, int xPos, int yPos)
         {
             //Set the attributes
-            this.world = world;
             this.inventory = inventory;
             this.xPos = xPos;
             this.yPos = yPos;
@@ -91,7 +89,7 @@ namespace SeeloewenCraft
                     //Update the slot
                     itemId = id;
                     Amount += amount;
-                    cvsItem.Background = ItemRegister.GenerateItem(id, world).image;
+                    cvsItem.Background = ItemRegister.GenerateItem(id).image;
                 }
                 else
                 {
@@ -134,7 +132,7 @@ namespace SeeloewenCraft
         public void Select()
         {
             //Select the slot and make it follow the mouse by selecting it in the game window
-            world.wndGame.ShowInvItem(this);
+            Game.world.wndGame.ShowInvItem(this);
             cvsItem.Visibility = Visibility.Hidden;
             isSelected = true;
         }
@@ -142,7 +140,7 @@ namespace SeeloewenCraft
         public void Unselect()
         {
             //Unselect the slot and make it no longer follow the mouse in the game window
-            world.wndGame.HideInvItem();
+            Game.world.wndGame.HideInvItem();
             cvsItem.Visibility = Visibility.Visible;
             isSelected = false;
         }
@@ -174,7 +172,7 @@ namespace SeeloewenCraft
             //One other inventory besides the main one, this works. It might cause issues with multiple issues, would need some
             //Improvements then to search for specific inventories.
 
-            foreach (Inventory inventory in world.inventoryList)
+            foreach (Inventory inventory in Game.world.inventoryList)
             {
                 if (inventory != this.inventory && inventory.inventoryGui.isOpen)
                 {
@@ -187,7 +185,7 @@ namespace SeeloewenCraft
 
         private void bdrSlot_LeftMouseButtonDown(object sender, EventArgs e)
         {
-            InventorySlot selectedSlot = world.GetSelectedInvSlot();
+            InventorySlot selectedSlot = Game.world.GetSelectedInvSlot();
 
             //If no other slot is currently selected, select this slot
             if (selectedSlot == null && !IsEmpty())
@@ -195,7 +193,7 @@ namespace SeeloewenCraft
                 Select();
 
                 //If shift is pressed, try to move the items to another inventory 
-                if (world.wndGame.pressedKeys.Contains(Key.LeftShift))
+                if (Game.world.wndGame.pressedKeys.Contains(Key.LeftShift))
                 {
                     Inventory otherInv = GetOtherInventory();
 
@@ -243,7 +241,7 @@ namespace SeeloewenCraft
 
         private void bdrSlot_RightMouseButtonDown(object sender, EventArgs e)
         {
-            InventorySlot selectedSlot = world.GetSelectedInvSlot();
+            InventorySlot selectedSlot = Game.world.GetSelectedInvSlot();
 
             if (selectedSlot != null)
             {
@@ -251,7 +249,7 @@ namespace SeeloewenCraft
                 if ((itemId == selectedSlot.itemId || IsEmpty()) && selectedSlot.Amount > 1)
                 {
                     selectedSlot.MoveItem(this, 1);
-                    world.wndGame.tblInvItem.Text = selectedSlot.Amount.ToString();
+                    Game.world.wndGame.tblInvItem.Text = selectedSlot.Amount.ToString();
                 }
             }else if(selectedSlot == null && Amount > 1)
             {

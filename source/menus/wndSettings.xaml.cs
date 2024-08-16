@@ -108,7 +108,7 @@ namespace SeeloewenCraft
             //Save the settings to file
             Settings.Save(writer);
 
-            if (wndMenu.world != null) wndMenu.world.wndGame.ApplyVideoSettings();
+            if (Game.world != null) Game.world.wndGame.ApplyVideoSettings();
             
             if (!suppressConfirmation)
             {
@@ -178,9 +178,9 @@ namespace SeeloewenCraft
         private int GetTexturepackVersion(string texturepack)
         {
             //Check if the pack file exists
-            if (File.Exists($"{wndMenu.selectedTexturepack}\\pack.txt"))
+            if (File.Exists($"{Game.selectedTexturepack}\\pack.txt"))
             {
-                string[] fileContent = File.ReadAllLines($"{wndMenu.selectedTexturepack}\\pack.txt");
+                string[] fileContent = File.ReadAllLines($"{Game.selectedTexturepack}\\pack.txt");
 
                 if (fileContent.Length > 1)
                 {
@@ -215,13 +215,13 @@ namespace SeeloewenCraft
             if (cbxTexturepack.SelectedItem.ToString() == "default")
             {
                 //Default texturepack
-                wndMenu.selectedTexturepack = "default";
+                Game.selectedTexturepack = "default";
             }
             else
             {
-                wndMenu.selectedTexturepack = $"{FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}";
+                Game.selectedTexturepack = $"{FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}";
                 //Check the texturepack version and apply that if possible
-                if (GetTexturepackVersion($"{FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}") < wndMenu.texturepackVersion)
+                if (GetTexturepackVersion($"{FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}") < Game.TEXTUREPACK_VERSION)
                 {
                     Log.Write($"The texture pack you are trying to load ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}) is outdated", "Warning");
                     MessageBox.Show("Warning: The texturepack that you are trying to load is outdated. This may lead to issues.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -229,11 +229,11 @@ namespace SeeloewenCraft
                 Log.Write($"Successfully applied texturepack ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem})", "Warning");
             }
 
-            if (wndMenu.world != null)
+            if (Game.world != null)
             {
-                if (wndMenu.world.finishedLoading)
+                if (Game.world.finishedLoading)
                 {
-                    wndMenu.world.RefreshTextures();
+                    Game.world.RefreshTextures();
                 }
             }
         }

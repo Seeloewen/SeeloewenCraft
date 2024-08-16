@@ -4,14 +4,7 @@ namespace SeeloewenCraft
 {
     public class WaterHandler
     {
-        World world;
-
-        //-- Constructor --//
-
-        public WaterHandler(World world)
-        {
-            this.world = world;
-        }
+        
 
         //-- Custom Methods --//
 
@@ -20,7 +13,7 @@ namespace SeeloewenCraft
             List<Block> newBlocks = new List<Block>();
 
             //Water timer, ticks at a rate of 1 second
-            foreach (Chunk chunk in world.loadedChunkList)
+            foreach (Chunk chunk in Game.world.loadedChunkList)
             {
                 foreach (Block block in chunk.blockList.blocks)
                 {
@@ -34,7 +27,7 @@ namespace SeeloewenCraft
                         {
                             if (!SourceBlockExists(block, "normal"))
                             {
-                                Block newBlock = new AirBlock(world, false);
+                                Block newBlock = new AirBlock( false);
                                 newBlock.SetCoords(block.xPos, block.yPos, block.chunk);
                                 newBlocks.Add(newBlock);
                             }
@@ -49,7 +42,7 @@ namespace SeeloewenCraft
                         {
                             if (!SourceBlockExists(block, "foreground"))
                             {
-                                Block newBlock = new AirBlock(world, false);
+                                Block newBlock = new AirBlock( false);
                                 newBlock.SetCoords(block.xPos, block.yPos, block.chunk);
                                 newBlocks.Add(newBlock);
                             }
@@ -70,7 +63,7 @@ namespace SeeloewenCraft
 
             if (blockState == "foreground")
             {
-                sourceChunk = world.GetLoadedChunk(block.GetForegroundBlock().waterSourceChunkIndex);
+                sourceChunk = Game.world.GetLoadedChunk(block.GetForegroundBlock().waterSourceChunkIndex);
                 if (sourceChunk != null)
                 {
                     sourceBlock = sourceChunk.GetBlock(block.GetForegroundBlock().waterSourceXPos, block.GetForegroundBlock().waterSourceYPos);
@@ -87,7 +80,7 @@ namespace SeeloewenCraft
             }
             else if (blockState == "normal")
             {
-                sourceChunk = world.GetLoadedChunk(block.waterSourceChunkIndex);
+                sourceChunk = Game.world.GetLoadedChunk(block.waterSourceChunkIndex);
                 if (sourceChunk != null)
                 {
                     sourceBlock = sourceChunk.GetBlock(block.waterSourceXPos, block.waterSourceYPos);
@@ -114,7 +107,7 @@ namespace SeeloewenCraft
 
                 if (blockBelow != null && (blockBelow.isReplacable && (!blockBelow.tags.Contains("liquids/water") || blockBelow.waterLevel < 6)) || (blockBelow.isBackground && (blockBelow.GetForegroundBlock() == null || (block.GetForegroundBlock()   != null && block.GetForegroundBlock().waterLevel < 6))))
                 {
-                    Block newWater = new WaterBlock_6(world, false);
+                    Block newWater = new WaterBlock_6( false);
                     newWater.SetCoords(block.xPos, block.yPos + 1, block.chunk);
                     SetSourceBlock(block, newWater);
                     newBlocks.Add(newWater);
@@ -210,17 +203,17 @@ namespace SeeloewenCraft
                 switch (level)
                 {
                     case 1:
-                        return new WaterBlock_1_Right(world, false);
+                        return new WaterBlock_1_Right( false);
                     case 2:
-                        return new WaterBlock_2_Right(world, false);
+                        return new WaterBlock_2_Right( false);
                     case 3:
-                        return new WaterBlock_3_Right(world, false);
+                        return new WaterBlock_3_Right( false);
                     case 4:
-                        return new WaterBlock_4_Right(world, false);
+                        return new WaterBlock_4_Right( false);
                     case 5:
-                        return new WaterBlock_5_Right(world, false);
+                        return new WaterBlock_5_Right( false);
                     case 6:
-                        return new WaterBlock_6(world, false);
+                        return new WaterBlock_6( false);
                     default:
                         return null;
                 }
@@ -230,17 +223,17 @@ namespace SeeloewenCraft
                 switch (level)
                 {
                     case 1:
-                        return new WaterBlock_1_Left(world, false);
+                        return new WaterBlock_1_Left( false);
                     case 2:
-                        return new WaterBlock_2_Left(world, false);
+                        return new WaterBlock_2_Left( false);
                     case 3:
-                        return new WaterBlock_3_Left(world, false);
+                        return new WaterBlock_3_Left( false);
                     case 4:
-                        return new WaterBlock_4_Left(world, false);
+                        return new WaterBlock_4_Left( false);
                     case 5:
-                        return new WaterBlock_5_Left(world, false);
+                        return new WaterBlock_5_Left( false);
                     case 6:
-                        return new WaterBlock_6(world, false);
+                        return new WaterBlock_6( false);
                     default:
                         return null;
                 }

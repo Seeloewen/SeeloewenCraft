@@ -9,7 +9,7 @@ namespace SeeloewenCraft
 {
     public class InventoryGui : Gui
     {
-        public InventoryGui(World world, int height, int width, int top, int left, string id, Inventory inventory) : base(world, height, width, top, left, id)
+        public InventoryGui( int height, int width, int top, int left, string id, Inventory inventory) : base( height, width, top, left, id)
         {
             this.inventory = inventory;
 
@@ -35,7 +35,7 @@ namespace SeeloewenCraft
         public CraftingHandler craftingHandler;
 
 
-        public CraftingTableGui(World world, int height, int width, int top, int left, string id, Inventory inventory, Block block) : base(world, height, width, top, left, id)
+        public CraftingTableGui( int height, int width, int top, int left, string id, Inventory inventory, Block block) : base( height, width, top, left, id)
         {
             this.inventory = inventory;
             craftingHandler = block.craftingHandler;
@@ -96,7 +96,7 @@ namespace SeeloewenCraft
         {
             cvsGui.Visibility = Visibility.Visible;
             isOpen = true;
-            world.guiList.Add(this);
+            Game.world.guiList.Add(this);
 
             //Render the recipes
             craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, "Crafting_Table");
@@ -139,7 +139,7 @@ namespace SeeloewenCraft
         //References
         NotificationHandler notificationHandler;
 
-        public NotificationGui(World world, int height, int width, int top, int left, string id, NotificationHandler notificationHandler) : base(world, height, width, top, left, id)
+        public NotificationGui( int height, int width, int top, int left, string id, NotificationHandler notificationHandler) : base( height, width, top, left, id)
         {
             //Setup gui
             tblHeader.Text = "Notifications";
@@ -227,7 +227,7 @@ namespace SeeloewenCraft
         public ProgressBar pbCrafting = new ProgressBar() { Width = 380, Height = 30, Visibility = Visibility.Hidden };
         public CraftingHandler craftingHandler;
 
-        public ChiselerGui(World world, int height, int width, int top, int left, string id, Inventory inventory, Block block) : base(world, height, width, top, left, id)
+        public ChiselerGui( int height, int width, int top, int left, string id, Inventory inventory, Block block) : base( height, width, top, left, id)
         {
             this.inventory = inventory;
             craftingHandler = block.craftingHandler;
@@ -289,7 +289,7 @@ namespace SeeloewenCraft
         {
             cvsGui.Visibility = Visibility.Visible;
             isOpen = true;
-            world.guiList.Add(this);
+            Game.world.guiList.Add(this);
 
             //Render the recipes
             craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, "Chiseler");
@@ -327,16 +327,16 @@ namespace SeeloewenCraft
         TextBlock tblUnchisel = new TextBlock() { Text = "Unchisel a block:", FontSize = 20, FontWeight = FontWeights.DemiBold };
         Button btnUnchisel = new Button() { Content = "Break down", Width = 125, Height = 30, FontSize = 16 };
 
-        public UnchiselerGui(World world, int height, int width, int top, int left, string id) : base(world, height, width, top, left, id)
+        public UnchiselerGui( int height, int width, int top, int left, string id) : base( height, width, top, left, id)
         {
             //Setup the gui
-            inventory = new Inventory(world, 1, 1);
-            world.inventoryList.Add(inventory);
+            inventory = new Inventory( 1, 1);
+            Game.world.inventoryList.Add(inventory);
             tblHeader.Visibility = Visibility.Hidden;
 
             Canvas.SetLeft(inventory.grdInventory, 72);
             Canvas.SetTop(inventory.grdInventory, 67);
-            world.wndGame.RemoveFromParent(inventory.grdInventory);
+            Game.world.wndGame.RemoveFromParent(inventory.grdInventory);
             cvsGui.Children.Add(inventory.grdInventory);
 
             Canvas.SetLeft(btnUnchisel, 48);
@@ -360,7 +360,7 @@ namespace SeeloewenCraft
             //Check if there's an item in the slot and the item is a chiselitem
             if (!inventory.slotList[0].IsEmpty())
             {
-                Item item = ItemRegister.GenerateItem(inventory.slotList[0].itemId, world);
+                Item item = ItemRegister.GenerateItem(inventory.slotList[0].itemId);
                 bool unchiselSuccess = false;
                 int successItems = 0;
 
@@ -371,7 +371,7 @@ namespace SeeloewenCraft
                         //Add the output to the inventory
                         foreach (Item outItem in chisItem.Unchisel())
                         {
-                            world.player.inventory.AddItem(outItem.id, 1, out int remainingItems);
+                            Game.world.player.inventory.AddItem(outItem.id, 1, out int remainingItems);
 
                             if(remainingItems > 0)
                             {

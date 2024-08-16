@@ -7,7 +7,6 @@ namespace SeeloewenCraft
     public class CaveComponent
     {
         //References
-        public World world;
         public List<StructureComponent> structureComponents = new List<StructureComponent>();
         public List<BorderComponent> borderComponents = new List<BorderComponent>();
         public Random rnd;
@@ -19,10 +18,9 @@ namespace SeeloewenCraft
         public Direction previousDirection;
 
         //This class contains the structure components used by the component
-        public CaveComponent(int xOffset, int yOffset, Chunk chunk, World world, Direction previousDirection, Direction offsetDirection)
+        public CaveComponent(int xOffset, int yOffset, Chunk chunk, Direction previousDirection, Direction offsetDirection)
         {
             //Pass the variables
-            this.world = world;
             this.previousDirection = previousDirection;
             rnd = new Random(DateTime.Now.Millisecond + rndOffset);
             rndOffset++;
@@ -31,7 +29,7 @@ namespace SeeloewenCraft
 
     public class CaveComponent1 : CaveComponent
     {
-        public CaveComponent1(int xOffset, int yOffset, Chunk chunk, World world, Direction previousDirection, Direction offsetDirection) : base(xOffset, yOffset, chunk, world, previousDirection, offsetDirection)
+        public CaveComponent1(int xOffset, int yOffset, Chunk chunk, Direction previousDirection, Direction offsetDirection) : base(xOffset, yOffset, chunk,  previousDirection, offsetDirection)
         {
             this.xOffset = xOffset;
             this.yOffset = yOffset;
@@ -53,18 +51,18 @@ namespace SeeloewenCraft
             }
 
             //Add all structurecomponents to the list
-            structureComponents.Add(new StructureComponent(this.xOffset, this.yOffset + 1, new AirBlock(world, false)));
-            structureComponents.Add(new StructureComponent(this.xOffset, this.yOffset + 2, new AirBlock(world, false)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 1, new AirBlock(world, false)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset, new AirBlock(world, false)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 2, new AirBlock(world, false)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 3, new AirBlock(world, false)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset, new AirBlock(world, false)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 1, new AirBlock(world, false)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 2, new AirBlock(world, false)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 3, new AirBlock(world, false)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 3, this.yOffset + 1, new AirBlock(world, false)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 3, this.yOffset + 2, new AirBlock(world, false)));
+            structureComponents.Add(new StructureComponent(this.xOffset, this.yOffset + 1, new AirBlock( false)));
+            structureComponents.Add(new StructureComponent(this.xOffset, this.yOffset + 2, new AirBlock( false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 1, new AirBlock( false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset, new AirBlock( false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 2, new AirBlock( false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 3, new AirBlock( false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset, new AirBlock( false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 1, new AirBlock( false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 2, new AirBlock( false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 3, new AirBlock( false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 3, this.yOffset + 1, new AirBlock( false)));
+            structureComponents.Add(new StructureComponent(this.xOffset + 3, this.yOffset + 2, new AirBlock( false)));
 
             //Add the bordercomponents to the list
             borderComponents.Add(new BorderComponent(Direction.LEFT, this.xOffset, this.yOffset + 1));
@@ -97,12 +95,10 @@ namespace SeeloewenCraft
 
     //These are the actual caves, made up of the components above
     public class Cave : Structure
-    {
-        World world;
+    {   
 
-        public Cave(World world, int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(world, chunk, canFloat)
+        public Cave( int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base( chunk, canFloat)
         {
-            this.world = world;
             canReplaceSolidBlocks = false;
             id = "sc:cave_1_structure";
             name = "Cave1";
@@ -122,11 +118,11 @@ namespace SeeloewenCraft
             List<CaveComponent> caveComponents = new List<CaveComponent>();
             if (direction.IsRight())
             {
-                caveComponents.Add(GetCaveComponent(0, 0, chunk, world, Direction.RIGHT, Direction.RIGHT));
+                caveComponents.Add(GetCaveComponent(0, 0, chunk,  Direction.RIGHT, Direction.RIGHT));
             }
             else if (direction.IsLeft())
             {
-                caveComponents.Add(GetCaveComponent(0, 0, chunk, world, Direction.LEFT, Direction.LEFT));
+                caveComponents.Add(GetCaveComponent(0, 0, chunk,  Direction.LEFT, Direction.LEFT));
             }
 
             //Use random numbers to add new cave components to random sides
@@ -199,7 +195,7 @@ namespace SeeloewenCraft
                 {
                     if (potentialBorders[random2].x == structureComponent.xOffset && potentialBorders[random2].y == structureComponent.yOffset)
                     {
-                        caveComponents.Add(GetCaveComponent(structureComponent.xOffset, structureComponent.yOffset, chunk, world, newDirection, direction));
+                        caveComponents.Add(GetCaveComponent(structureComponent.xOffset, structureComponent.yOffset, chunk,  newDirection, direction));
                     }
                 }
             }
@@ -220,10 +216,10 @@ namespace SeeloewenCraft
             BeginGeneration(x, y, index, isNew);
         }
 
-        public CaveComponent GetCaveComponent(int xOffset, int yOffset, Chunk chunk, World world, Direction previousDirection, Direction offsetDirection)
+        public CaveComponent GetCaveComponent(int xOffset, int yOffset, Chunk chunk, Direction previousDirection, Direction offsetDirection)
         {
             //Will later return a random component
-            return new CaveComponent1(xOffset, yOffset, chunk, world, previousDirection, offsetDirection);
+            return new CaveComponent1(xOffset, yOffset, chunk,  previousDirection, offsetDirection);
         }
     }
 }

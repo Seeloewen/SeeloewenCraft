@@ -5,7 +5,7 @@ namespace SeeloewenCraft
 {
     public class LootTableEntry
     {
-        World world;
+        
         public Item item;
         public int minAmount;
         public int maxAmount;
@@ -16,19 +16,19 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public LootTableEntry(Item item, int minAmount, int maxAmount, int weight, World world)
+        public LootTableEntry(Item item, int minAmount, int maxAmount, int weight)
         {
             //Generate the random object
             rnd = new Random(DateTime.Now.Millisecond + offset);
             offset++;
 
             //Create links
-            this.world = world;
+            
             this.item = item;
             this.minAmount = minAmount;
             this.maxAmount = maxAmount;
             this.weight = weight;
-            this.world = world;
+            
         }
 
         //-- Custom Methods --//
@@ -43,7 +43,7 @@ namespace SeeloewenCraft
             for(int i = 0; i < amount; i++)
             {
                 Type itemType = item.GetType();
-                Item newItem = (Item)Activator.CreateInstance(itemType, world);
+                Item newItem = (Item)Activator.CreateInstance(itemType);
                 items.Add(newItem);
             }
 

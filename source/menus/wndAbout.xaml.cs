@@ -18,7 +18,7 @@ namespace SeeloewenCraft
             this.wndMenu = wndMenu;
 
             //Display the game version and release date
-            tblVersion.Text = $"Version {wndMenu.gameVersion} ({wndMenu.versionDate})";
+            tblVersion.Text = $"Version {Game.GAME_VERSION} ({Game.VERSION_DATE})";
 
             //Show the changelog
             LoadChangelog();

@@ -11,8 +11,8 @@ namespace SeeloewenCraft
                 int posX = int.Parse(args[1]);
                 int posY = int.Parse(args[2]);
 
-                world.player.posX = posX;
-                world.player.posY = posY;
+                Game.world.player.posX = posX;
+                Game.world.player.posY = posY;
                 MessageBox.Show($"Succesfully teleported player to position x={posX}, y={posY}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch 

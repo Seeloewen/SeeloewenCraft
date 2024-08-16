@@ -15,8 +15,8 @@ namespace SeeloewenCraft
     public class World
     {
         //References
-        public wndGame wndGame;
         public wndMenu wndMenu;
+        public wndGame wndGame;
         public System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
         public List<Chunk> loadedChunkList = new List<Chunk>();
         public List<Chunk> totalChunkList = new List<Chunk>();
@@ -60,21 +60,21 @@ namespace SeeloewenCraft
             this.worldVersion = worldVersion;
             this.gameVersion = gameVersion;
             this.wndMenu = wndMenu;
+            Game.world = this;
 
             //Initialize textures before anything else
-            Images.Init(this);
+            Images.Init();
 
             //Create objects
-            wndGame = new wndGame(this);
-            lootTables = new LootTables(this);
-            waterHandler = new WaterHandler(this);
-            clickHandler = new ClickHandler(this);
-            debugMenu = new DebugMenu(this);
-            gameLoop = new GameLoop(this, 25);
-            recipeCreator = new RecipeCreator(this);
-            notificationHandler = new NotificationHandler(this);
-            worldRenderer = new WorldRenderer(wndGame);
-
+            wndGame = new wndGame();
+            lootTables = new LootTables();
+            waterHandler = new WaterHandler();
+            clickHandler = new ClickHandler();
+            debugMenu = new DebugMenu();
+            gameLoop = new GameLoop(25);
+            recipeCreator = new RecipeCreator();
+            notificationHandler = new NotificationHandler();
+            worldRenderer = new WorldRenderer();
 
             //Actually initialize the game
             InitGame(worldName, isNew, worldVersion);
@@ -84,7 +84,7 @@ namespace SeeloewenCraft
                 SetGamemode(Gamemode.Creative);
             }
 
-            wndGame.Show();
+            Game.world.wndGame.Show();
         }
 
         //-- Custom Methods --//
@@ -112,12 +112,12 @@ namespace SeeloewenCraft
 
             if (worldVersion < currentWorldVersion)
             {
-                MessageBoxResult result = MessageBox.Show("You are trying to load an outdated world. This may lead to corruption or other issues. You have been warned! Do you wish to continue?", "Load outdated world", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                MessageBoxResult result = MessageBox.Show("You are trying to load an outdated Game.world. This may lead to corruption or other issues. You have been warned! Do you wish to continue?", "Load outdated world", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        Log.Write("You are loading an outdated world. This may cause issues or corruption.", "Warning");
+                        Log.Write("You are loading an outdated Game.world. This may cause issues or corruption.", "Warning");
                         return true;
                 }
                 return false;
@@ -131,7 +131,7 @@ namespace SeeloewenCraft
 
             recipeCreator.CreateRecipes();
 
-            RoomLibrary.CreateDungeonRooms(this);
+            RoomLibrary.CreateDungeonRooms();
 
             InitWorldDirectory();
 
@@ -225,7 +225,7 @@ namespace SeeloewenCraft
         public void AddEntity(Entity entity)
         {
             entities.Add(entity);
-            wndGame.cvsWorld.Children.Add(entity.texture);
+            Game.world.wndGame.cvsWorld.Children.Add(entity.texture);
             Panel.SetZIndex(entity.texture, 1);
             worldRenderer.AddEntity(entity);
         }
@@ -235,7 +235,7 @@ namespace SeeloewenCraft
             if (entities.Contains(entity))
             {
                 entities.Remove(entity);
-                wndGame.cvsWorld.Children.Remove(entity.texture);
+                Game.world.wndGame.cvsWorld.Children.Remove(entity.texture);
                 worldRenderer.Remove(entity);
             }
         }
@@ -247,7 +247,7 @@ namespace SeeloewenCraft
 
         public Chunk CreateChunk(int index)
         {
-            Chunk newChunk = new Chunk(this, index);
+            Chunk newChunk = new Chunk(index);
             totalChunkList.Add(newChunk);
             return newChunk;
         }
@@ -310,7 +310,7 @@ namespace SeeloewenCraft
         public void RefreshTextures()
         {
             //Refresh the images to use the new textures
-            Images.Init(this);
+            Images.Init();
 
             //Update all textures in inventories
             foreach (Inventory inventory in inventoryList)
@@ -319,7 +319,7 @@ namespace SeeloewenCraft
                 {
                     if (!slot.IsEmpty())
                     {
-                        slot.cvsItem.Background = ItemRegister.GenerateItem(slot.itemId, this).image;
+                        slot.cvsItem.Background = ItemRegister.GenerateItem(slot.itemId).image;
                     }
                 }
             }
@@ -341,7 +341,7 @@ namespace SeeloewenCraft
         {
             for (int i = 0; i < 8; i++)
             {
-                blockContainerList.Add(new BlockContainerList(this));
+                blockContainerList.Add(new BlockContainerList());
             }
         }
 
@@ -395,12 +395,12 @@ namespace SeeloewenCraft
             if (loaded)
             {
                 JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_inventory.json");
-                player.inventory = Inventory.LoadFromJson(documentToken, this);
+                player.inventory = Inventory.LoadFromJson(documentToken);
                 inventoryList.Add(player.inventory);
             }
             else
             {
-                player.inventory = new Inventory(this, 9, 4);
+                player.inventory = new Inventory(9, 4);
                 player.inventory.InitHotbar();
                 if (Settings.enableHammer) player.inventory.AddItem("sc:stone_hammer_item", 1);
                 player.inventory.AddItem("sc:torch_item", 64);
@@ -444,13 +444,12 @@ namespace SeeloewenCraft
         public void CreatePlayer(int playerPosX, int playerPosY)
         {
 
+            player = new Player(playerPosX, playerPosY);
 
-            player = new Player(this, playerPosX, playerPosY);
-
-            wndGame.cvsWorld.Children.Add(player.texture);
+            Game.world.wndGame.cvsWorld.Children.Add(player.texture);
             Panel.SetZIndex(player.texture, 1);
-            wndGame.relativeSvPos = wndGame.svWorld.VerticalOffset;
-            wndGame.defaultSvPos = wndGame.svWorld.VerticalOffset;
+            Game.world.wndGame.relativeSvPos = Game.world.wndGame.svWorld.VerticalOffset;
+            Game.world.wndGame.defaultSvPos = Game.world.wndGame.svWorld.VerticalOffset;
 
             Log.Write($"Created player at position x:{playerPosX}, y:{playerPosY}", "Info");
         }
@@ -499,25 +498,25 @@ namespace SeeloewenCraft
         {
             if (dir.IsRight())
             {
-                Chunk removeChunk = wndGame.world.GetLoadedChunk(wndGame.world.loadedChunkList[0].index);
-                wndGame.world.loadedChunkList.Remove(removeChunk);
+                Chunk removeChunk = Game.world.GetLoadedChunk(Game.world.loadedChunkList[0].index);
+                Game.world.loadedChunkList.Remove(removeChunk);
                 worldRenderer.RemoveChunk(removeChunk);
-                Chunk addChunk = wndGame.world.GetChunk(wndGame.world.loadedChunkList[5].index + 1);
-                wndGame.world.LoadChunk(addChunk);
+                Chunk addChunk = Game.world.GetChunk(Game.world.loadedChunkList[5].index + 1);
+                Game.world.LoadChunk(addChunk);
 
 
                 //Sort the chunklist again
-                wndGame.world.loadedChunkList = wndGame.world.loadedChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+                Game.world.loadedChunkList = Game.world.loadedChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
                 worldRenderer.Render();
             }
             else if (dir.IsLeft())
             {
-                Chunk chunk = wndGame.world.GetLoadedChunk(wndGame.world.loadedChunkList[6].index);
-                wndGame.world.UnloadChunk(chunk);
-                wndGame.world.LoadChunk(wndGame.world.GetChunk(wndGame.world.loadedChunkList[0].index - 1));
+                Chunk chunk = Game.world.GetLoadedChunk(Game.world.loadedChunkList[6].index);
+                Game.world.UnloadChunk(chunk);
+                Game.world.LoadChunk(Game.world.GetChunk(Game.world.loadedChunkList[0].index - 1));
 
                 //Sort the list again
-                wndGame.world.loadedChunkList = wndGame.world.loadedChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+                Game.world.loadedChunkList = Game.world.loadedChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
                 worldRenderer.Render();
             }
         }
@@ -541,7 +540,7 @@ namespace SeeloewenCraft
         {
             //Show the debug information for the world in the debug menu
             debugMenu.tblGameStats.Text = "";
-            debugMenu.AddLine(debugMenu.tblGameStats, $"SeeloewenCraft {wndMenu.gameVersion} ({wndMenu.versionDate})");
+            debugMenu.AddLine(debugMenu.tblGameStats, $"SeeloewenCraft {Game.GAME_VERSION} ({Game.VERSION_DATE})");
             debugMenu.AddLine(debugMenu.tblGameStats, $"worldName: {worldName}");
             debugMenu.AddLine(debugMenu.tblGameStats, $"worldVersion: {worldVersion}");
         }
@@ -563,22 +562,22 @@ namespace SeeloewenCraft
             switch (nightState)
             {
                 case 0:
-                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 188, 244, 247));
+                    Game.world.wndGame.cvsGame.Background = new SolidColorBrush(Color.FromArgb(255, 188, 244, 247));
                     break;
                 case 1:
-                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 150, 195, 198));
+                    Game.world.wndGame.cvsGame.Background = new SolidColorBrush(Color.FromArgb(255, 150, 195, 198));
                     break;
                 case 2:
-                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 113, 146, 148));
+                    Game.world.wndGame.cvsGame.Background = new SolidColorBrush(Color.FromArgb(255, 113, 146, 148));
                     break;
                 case 3:
-                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 75, 98, 99));
+                    Game.world.wndGame.cvsGame.Background = new SolidColorBrush(Color.FromArgb(255, 75, 98, 99));
                     break;
                 case 4:
-                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 38, 49, 49));
+                    Game.world.wndGame.cvsGame.Background = new SolidColorBrush(Color.FromArgb(255, 38, 49, 49));
                     break;
                 case 5:
-                    wndGame.cvsWorld.Background = new SolidColorBrush(Color.FromArgb(255, 10, 12, 13));
+                    Game.world.wndGame.cvsGame.Background = new SolidColorBrush(Color.FromArgb(255, 10, 12, 13));
                     break;
             }
         }

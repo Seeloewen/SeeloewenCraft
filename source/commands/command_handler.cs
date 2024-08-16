@@ -4,12 +4,8 @@ namespace SeeloewenCraft
 {
     public static partial class CommandHandler
     {
-        static World world;
-
-        public static void HandleCommand(string command, World world)
+        public static void HandleCommand(string command)
         {
-            CommandHandler.world = world;
-
             //Remove the slash at the beginning
             command = command.ToLower().Remove(0, 1);
 

@@ -45,9 +45,8 @@ namespace SeeloewenCraft
         {
             if (string.IsNullOrEmpty(cbxWorld.Text) == false)
             {
-                wndMenu.world = new World(wndMenu, cbxWorld.Text, false, wndMenu.worldVersion, wndMenu.gameVersion);
+                World world = new World(wndMenu, cbxWorld.Text, false, Game.WORLD_VERSION, Game.GAME_VERSION); 
                 wndMenu.Hide();
-                wndMenu.world.wndGame.Show();
                 Close();
             }
             else

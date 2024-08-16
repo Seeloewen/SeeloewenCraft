@@ -5,7 +5,6 @@ namespace SeeloewenCraft
 {
     public abstract class Gui
     {
-        public World world;
         public Inventory inventory;
         public Canvas cvsGui;
         public TextBlock tblHeader;
@@ -14,10 +13,9 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Gui(World world, int height, int width, int top, int left, string id)
+        public Gui( int height, int width, int top, int left, string id)
         {
             //Create references
-            this.world = world;
             this.id = id;
 
             //Setup Canvas
@@ -29,7 +27,7 @@ namespace SeeloewenCraft
             Canvas.SetTop(cvsGui, top);
             Canvas.SetLeft(cvsGui, left);
             Panel.SetZIndex(cvsGui, 4);
-            world.wndGame.cvsGame.Children.Add(cvsGui);
+            Game.world.wndGame.cvsGame.Children.Add(cvsGui);
 
             //Setup Header
             tblHeader = new TextBlock();
@@ -45,14 +43,14 @@ namespace SeeloewenCraft
         {
             cvsGui.Visibility = Visibility.Visible;
             isOpen = true;
-            world.guiList.Add(this);
+            Game.world.guiList.Add(this);
         }
 
         public void Hide()
         {
             cvsGui.Visibility = Visibility.Hidden;
             isOpen = false;
-            world.guiList.Remove(this);
+            Game.world.guiList.Remove(this);
 
         }
 

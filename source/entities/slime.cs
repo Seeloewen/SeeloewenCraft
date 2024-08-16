@@ -14,7 +14,7 @@ namespace SeeloewenCraft
         private Random rnd;
         
 
-        public Slime(int posX, int posY, int velX, int velY, World world) : base(animalSizeX, animalSizeY, posX, posY, velX, velY, world, GetSlimeTexture())
+        public Slime(int posX, int posY, int velX, int velY) : base(animalSizeX, animalSizeY, posX, posY, velX, velY,  GetSlimeTexture())
         {
             rnd = new Random(DateTime.Now.Millisecond);
             frictionAir = 1;

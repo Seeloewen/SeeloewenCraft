@@ -45,7 +45,7 @@ namespace SeeloewenCraft
     {
         public string type;
 
-        public ModdedItem(string type, World world, Block block) : base(world)
+        public ModdedItem(string type, Block block) : base()
         {
             this.type = type;
             name = "Modded Item";
@@ -55,7 +55,7 @@ namespace SeeloewenCraft
 
         public override Block GenerateBlock(bool isInBackground)
         {
-            return new ModdedBlock(type, world, isInBackground);
+            return new ModdedBlock(type,  isInBackground);
         }
 
         public override void RightClickAction(Block block, object sender)

@@ -8,7 +8,7 @@ namespace SeeloewenCraft
 {
     public class CobblestoneBlock_BottomLeft : Block
     {
-        public CobblestoneBlock_BottomLeft(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_BottomLeft( bool isInBackground) : base( isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -17,9 +17,9 @@ namespace SeeloewenCraft
             collision = new RectangleCollision(0, 500, 500, 1000);
         }
 
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
-            item = new CobbleStoneItem_BottomLeft(world);
+            item = new CobbleStoneItem_BottomLeft();
         }
 
         public override void SetTexture()
@@ -30,7 +30,7 @@ namespace SeeloewenCraft
 
     public class CobblestoneBlock_BottomRight : Block
     {
-        public CobblestoneBlock_BottomRight(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_BottomRight( bool isInBackground) : base( isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -39,9 +39,9 @@ namespace SeeloewenCraft
             breakTime = 1250;
         }
 
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
-            item = new CobbleStoneItem_BottomRight(world);
+            item = new CobbleStoneItem_BottomRight();
         }
 
         public override void SetTexture()
@@ -52,7 +52,7 @@ namespace SeeloewenCraft
 
     public class CobbleStoneBlock_TopLeft : Block
     {
-        public CobbleStoneBlock_TopLeft(World world, bool isInBackground) : base(world, isInBackground)
+        public CobbleStoneBlock_TopLeft( bool isInBackground) : base( isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -61,9 +61,9 @@ namespace SeeloewenCraft
             breakTime = 1250;
         }
 
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
-            item = new CobbleStoneItem_TopLeft(world);
+            item = new CobbleStoneItem_TopLeft();
         }
 
         public override void SetTexture()
@@ -74,7 +74,7 @@ namespace SeeloewenCraft
 
     public class CobblestoneBlock_TopRight : Block
     {
-        public CobblestoneBlock_TopRight(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_TopRight( bool isInBackground) : base( isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -83,9 +83,9 @@ namespace SeeloewenCraft
             breakTime = 1250;
         }
 
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
-            item = new CobbleStoneItem_TopRight(world);
+            item = new CobbleStoneItem_TopRight();
         }
 
         public override void SetTexture()
@@ -96,7 +96,7 @@ namespace SeeloewenCraft
 
     public class CobblestoneBlock_SlabRight : Block
     {
-        public CobblestoneBlock_SlabRight(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_SlabRight( bool isInBackground) : base( isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -105,9 +105,9 @@ namespace SeeloewenCraft
             breakTime = 1250;
         }
 
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
-            item = new CobbleStoneItem_SlabRight(world);
+            item = new CobbleStoneItem_SlabRight();
         }
 
         public override void SetTexture()
@@ -118,7 +118,7 @@ namespace SeeloewenCraft
 
     public class CobblestoneBlock_SlabLeft : Block
     {
-        public CobblestoneBlock_SlabLeft(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_SlabLeft( bool isInBackground) : base( isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -127,9 +127,9 @@ namespace SeeloewenCraft
             breakTime = 1250;
         }
 
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
-            item = new CobbleStoneItem_SlabLeft(world);
+            item = new CobbleStoneItem_SlabLeft();
         }
 
         public override void SetTexture()
@@ -140,7 +140,7 @@ namespace SeeloewenCraft
 
     public class CobblestoneBlock_SlabTop : Block
     {
-        public CobblestoneBlock_SlabTop(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_SlabTop( bool isInBackground) : base( isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -149,9 +149,9 @@ namespace SeeloewenCraft
             breakTime = 1250;
         }
 
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
-            item = new CobbleStoneItem_SlabTop(world);
+            item = new CobbleStoneItem_SlabTop();
         }
 
         public override void SetTexture()
@@ -162,7 +162,7 @@ namespace SeeloewenCraft
 
     public class CobblestoneBlock_SlabBottom : Block
     {
-        public CobblestoneBlock_SlabBottom(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_SlabBottom( bool isInBackground) : base( isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -171,9 +171,9 @@ namespace SeeloewenCraft
             breakTime = 1250;
         }
 
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
-            item = new CobbleStoneItem_SlabBottom(world);
+            item = new CobbleStoneItem_SlabBottom();
         }
 
         public override void SetTexture()
@@ -184,7 +184,7 @@ namespace SeeloewenCraft
 
     public class CobblestoneBlock_StairTopRight : Block
     {
-        public CobblestoneBlock_StairTopRight(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_StairTopRight( bool isInBackground) : base( isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -193,9 +193,9 @@ namespace SeeloewenCraft
             breakTime = 1250;
         }
 
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
-            item = new CobbleStoneItem_StairTopRight(world);
+            item = new CobbleStoneItem_StairTopRight();
         }
 
         public override void SetTexture()
@@ -206,7 +206,7 @@ namespace SeeloewenCraft
 
     public class CobblestoneBlock_StairTopLeft : Block
     {
-        public CobblestoneBlock_StairTopLeft(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_StairTopLeft( bool isInBackground) : base( isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -215,9 +215,9 @@ namespace SeeloewenCraft
             breakTime = 1250;
         }
 
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
-            item = new CobbleStoneItem_StairTopLeft(world);
+            item = new CobbleStoneItem_StairTopLeft();
         }
 
         public override void SetTexture()
@@ -228,7 +228,7 @@ namespace SeeloewenCraft
 
     public class CobblestoneBlock_StairBottomRight : Block
     {
-        public CobblestoneBlock_StairBottomRight(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_StairBottomRight( bool isInBackground) : base( isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -237,9 +237,9 @@ namespace SeeloewenCraft
             breakTime = 1250;
         }
 
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
-            item = new CobbleStoneItem_StairBottomRight(world);
+            item = new CobbleStoneItem_StairBottomRight();
         }
 
         public override void SetTexture()
@@ -250,7 +250,7 @@ namespace SeeloewenCraft
 
     public class CobblestoneBlock_StairBottomLeft : Block
     {
-        public CobblestoneBlock_StairBottomLeft(World world, bool isInBackground) : base(world, isInBackground)
+        public CobblestoneBlock_StairBottomLeft( bool isInBackground) : base( isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -258,9 +258,9 @@ namespace SeeloewenCraft
             collision = new MultipleRectangleCollision([0, 500], [500, 1000], [0, 500], [1000, 1000]);
         }
 
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
-            item = new CobbleStoneItem_StairBottomLeft(world);
+            item = new CobbleStoneItem_StairBottomLeft();
         }
 
         public override void SetTexture()
@@ -271,7 +271,7 @@ namespace SeeloewenCraft
 
     public class CobbleStoneBlock_Center: Block
     {
-        public CobbleStoneBlock_Center(World world, bool isInBackground) : base(world, isInBackground)
+        public CobbleStoneBlock_Center( bool isInBackground) : base( isInBackground)
         {
             SetTexture();
             name = "Chiseled Cobblestone";
@@ -281,9 +281,9 @@ namespace SeeloewenCraft
 
         }
 
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
-            item = new CobbleStoneItem_Center(world);
+            item = new CobbleStoneItem_Center();
         }
 
         public override void SetTexture()

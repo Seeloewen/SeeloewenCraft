@@ -11,7 +11,6 @@ namespace SeeloewenCraft
         //References
         public HighPrecisionTimer.MultimediaTimer tmrCrafting = new HighPrecisionTimer.MultimediaTimer();
         public ProgressBar pbCraftingBlock = new ProgressBar() { Height = 12, Width = 40 };
-        public World world;
         private Block block;
         private Canvas cvsRecipes;
         private ScrollViewer svRecipes;
@@ -34,9 +33,8 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public CraftingHandler(World world, Block block)
+        public CraftingHandler( Block block)
         {
-            this.world = world;
             this.block = block;
 
             //Setup some components
@@ -52,7 +50,7 @@ namespace SeeloewenCraft
         public CraftingRecipe GetRecipe(string id)
         {
             //Go through the recipe list and find the recipe with the specified id
-            foreach (CraftingRecipe recipe in world.craftingRecipeList)
+            foreach (CraftingRecipe recipe in Game.world.craftingRecipeList)
             {
                 if (recipe.id == id)
                 {
@@ -91,7 +89,7 @@ namespace SeeloewenCraft
                 int top = 0;
                 cvsRecipes.Height = 0;
 
-                foreach (CraftingRecipe recipe in world.craftingRecipeList)
+                foreach (CraftingRecipe recipe in Game.world.craftingRecipeList)
                 {
                     //Go through recipes and find the correct one
                     if (recipe.workstation == workstation)
@@ -133,10 +131,10 @@ namespace SeeloewenCraft
                 {
                     //Create a canvas with details for each ingredient
                     Canvas cvsItem = new Canvas() { Width = 200, Height = 50 };
-                    TextBlock tblItem = new TextBlock() { Text = $"{ingredient.item.name} - {world.player.inventory.GetItemAmount(ingredient.item.id)}/{ingredient.amount * amount}", FontSize = 17, FontWeight = FontWeights.DemiBold };
+                    TextBlock tblItem = new TextBlock() { Text = $"{ingredient.item.name} - {Game.world.player.inventory.GetItemAmount(ingredient.item.id)}/{ingredient.amount * amount}", FontSize = 17, FontWeight = FontWeights.DemiBold };
                     Canvas cvsImage = new Canvas() { Background = ingredient.item.image, Width = 30, Height = 30 };
 
-                    if (world.player.inventory.GetItemAmount(ingredient.item.id) < ingredient.amount * amount)
+                    if (Game.world.player.inventory.GetItemAmount(ingredient.item.id) < ingredient.amount * amount)
                     {
                         tblItem.Foreground = new SolidColorBrush(Colors.Red);
                     }
@@ -164,7 +162,7 @@ namespace SeeloewenCraft
         {
             bool claimed = false;
 
-            if (world.player.inventory.GetAvailableSpace() >= recipe.outgredients.Count && (world.player.inventory.HasEmptySlot() || world.player.inventory.HasItem(recipe.outgredients[0].item.id)))
+            if (Game.world.player.inventory.GetAvailableSpace() >= recipe.outgredients.Count && (Game.world.player.inventory.HasEmptySlot() || Game.world.player.inventory.HasItem(recipe.outgredients[0].item.id)))
             {
                 recipeClaimable = false;
                 claimed = true;
@@ -174,7 +172,7 @@ namespace SeeloewenCraft
                 {
                     foreach (CraftingIngredient craftingIngredient in recipe.outgredients)
                     {
-                        world.player.inventory.AddItem(craftingIngredient.item.id, craftingIngredient.amount);
+                        Game.world.player.inventory.AddItem(craftingIngredient.item.id, craftingIngredient.amount);
                     }
                 }
             }
@@ -187,7 +185,7 @@ namespace SeeloewenCraft
             //Check for each ingredient
             foreach (CraftingIngredient ingredient in selectedRecipe.ingredients)
             {
-                if (world.player.inventory.GetItemAmount(ingredient.item.id) < ingredient.amount * amount)
+                if (Game.world.player.inventory.GetItemAmount(ingredient.item.id) < ingredient.amount * amount)
                 {
                     return false;
                 }
@@ -203,7 +201,7 @@ namespace SeeloewenCraft
                 //If it's new, remove the required materials based on the amount from the players inventory
                 foreach (CraftingIngredient ingredient in recipe.ingredients)
                 {
-                    world.player.inventory.RemoveItem(ingredient.item.id, ingredient.amount * amount);
+                    Game.world.player.inventory.RemoveItem(ingredient.item.id, ingredient.amount * amount);
                 }
                 RenderCraftingDetails(cvsIngredients, recipe);
             }
@@ -266,7 +264,7 @@ namespace SeeloewenCraft
                 tbAmount.IsEnabled = true;
 
                 //Show notification and log that crafting process is complete
-                world.notificationHandler.ShowNotification($"Crafting for x{amount} {selectedRecipe.displayName} completed!", 3000, Images.CraftingTable.GetTexture());
+                Game.world.notificationHandler.ShowNotification($"Crafting for x{amount} {selectedRecipe.displayName} completed!", 3000, Images.CraftingTable.GetTexture());
                 Log.Write($"Completed crafting for {amount}x {selectedRecipe.id} at workstation {workstation} (X: {block.xPos}, Y: {block.yPos}, Chunk: {block.chunk.index})", "Info");
             }
         }

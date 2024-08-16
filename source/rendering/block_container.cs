@@ -7,7 +7,6 @@ namespace SeeloewenCraft
 {
     public class BlockContainer
     {
-        private World world;
         public Canvas cvsBlock = new Canvas();
         public Canvas cvsForegroundBlock = new Canvas();
         public Canvas cvsChanges = new Canvas();
@@ -27,12 +26,11 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public BlockContainer(World world, int xPos, int yPos)
+        public BlockContainer( int xPos, int yPos)
         {
             //Pass the arguments
             this.xPos = xPos;
             this.yPos = yPos;
-            this.world = world;
 
             //Setup the block canvas and border
             bdrBlock.Width = 50;
@@ -158,7 +156,7 @@ namespace SeeloewenCraft
         private void UpdateNearbyBlocksNightState(int nightState)
         {
             //Go through each block nearby and check if it has a light in range
-            foreach (Block block in block.GetBlocksInRange(world.lightRange))
+            foreach (Block block in block.GetBlocksInRange(Game.world.lightRange))
             {
                 if (block != null && block.blockContainer != null)
                 {
@@ -179,7 +177,7 @@ namespace SeeloewenCraft
         {
             //Update all blocks nearby to have light state during night
             block.blockContainer.rectDarkOverlayNight.Opacity = 0;
-            foreach (Block block in block.GetBlocksInRange(world.lightRange))
+            foreach (Block block in block.GetBlocksInRange(Game.world.lightRange))
             {
                 if (block != null && block.blockContainer != null && block.id != "sc:air_block")
                 {
@@ -191,7 +189,7 @@ namespace SeeloewenCraft
         private bool HasLightInRange(Block block) //Note that air blocks do not count as light sources in this check because this is for night lighting
         {
             //Check each block in range if it's a light source
-            foreach (Block bl in block.GetBlocksInRange(world.lightRange))
+            foreach (Block bl in block.GetBlocksInRange(Game.world.lightRange))
             {
                 //If the block is a lightsource or its foregoundblock is a lightsource
                 if (bl != null && bl.IsLightSource(true))
@@ -327,7 +325,7 @@ namespace SeeloewenCraft
                 block.SetLightLevel(block.RangeToLightSource());
                 block.UpdateNearbyBlocks();
                 SetLightOpacity();
-                SetNightState(world.nightState);
+                SetNightState(Game.world.nightState);
             }
         }
 
@@ -360,7 +358,7 @@ namespace SeeloewenCraft
             ClearRender();
 
             //Remove the border from the canvas so it can be assigned to a new one
-            world.wndGame.RemoveFromParent(bdrBlock);
+            Game.world.wndGame.RemoveFromParent(bdrBlock);
         }
 
         public void ClearLink()

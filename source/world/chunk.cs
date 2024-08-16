@@ -20,7 +20,7 @@ namespace SeeloewenCraft
         public BlockContainerList blockContainerList;
         public Grid grdChunk = new Grid();
         private Random rnd;
-        World world;
+        
         public int index;
         private int floorHeight; //Only used while generating
         public int floorHeightRight;
@@ -31,16 +31,16 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Chunk(World world, int index)
+        public Chunk( int index)
         {
             //Set the attributes
-            this.world = world;
+            
             this.index = index;
             rnd = new Random(DateTime.Now.Millisecond);
             o++;
 
             //Begin loading the chunk
-            chunkDirectory = string.Format("{0}/chunk{1}", world.worldDirectory, index);
+            chunkDirectory = string.Format("{0}/chunk{1}", Game.world.worldDirectory, index);
             Init();
         }
 
@@ -60,7 +60,7 @@ namespace SeeloewenCraft
             {
                 writer.Formatting = Formatting.Indented;
                 blockList.SaveToJson(writer);
-                writer.WriteToFile($"{world.worldDirectory}/chunk{index}/blocks.json");
+                writer.WriteToFile($"{Game.world.worldDirectory}/chunk{index}/blocks.json");
             }
 
             //save settings in settings.json
@@ -68,7 +68,7 @@ namespace SeeloewenCraft
             {
                 writer.Formatting = Formatting.Indented;
                 SaveSettingsToJson(writer);
-                writer.WriteToFile($"{world.worldDirectory}/chunk{index}/settings.json");
+                writer.WriteToFile($"{Game.world.worldDirectory}/chunk{index}/settings.json");
             }
 
         }
@@ -94,7 +94,7 @@ namespace SeeloewenCraft
             //Check if the coordinate has a container and place the block into that container if possible
             if (x > 7)
             {
-                Chunk chunk = world.GetLoadedChunk(index + 1);
+                Chunk chunk = Game.world.GetLoadedChunk(index + 1);
 
                 if (chunk != null)
                 {
@@ -103,7 +103,7 @@ namespace SeeloewenCraft
             }
             else if (x < 0)
             {
-                Chunk chunk = world.GetLoadedChunk(index - 1);
+                Chunk chunk = Game.world.GetLoadedChunk(index - 1);
 
                 if (chunk != null)
                 {
@@ -136,7 +136,7 @@ namespace SeeloewenCraft
         public void SetContainerList()
         {
             //Get the container list
-            foreach (BlockContainerList containerList in world.blockContainerList)
+            foreach (BlockContainerList containerList in Game.world.blockContainerList)
             {
                 if (containerList.IsAvailable())
                 {
@@ -172,7 +172,7 @@ namespace SeeloewenCraft
             SetContainerList();
 
             //Check if the chunk doesn't already exist
-            if (Directory.Exists($"{world.worldDirectory}/chunk{index}"))
+            if (Directory.Exists($"{Game.world.worldDirectory}/chunk{index}"))
             {
                 Load();
             }
@@ -206,11 +206,11 @@ namespace SeeloewenCraft
             Log.Write($"Loading chunk {index}", "Info");
 
             //load blocklist
-            JsonToken documentToken = JsonUtil.ReadFile($"{world.worldDirectory}/chunk{index}/blocks.json");
-            blockList = BlockList.LoadFromJson(documentToken, this, world);
+            JsonToken documentToken = JsonUtil.ReadFile($"{Game.world.worldDirectory}/chunk{index}/blocks.json");
+            blockList = BlockList.LoadFromJson(documentToken, this);
 
             //load settings
-            documentToken = JsonUtil.ReadFile($"{world.worldDirectory}/chunk{index}/settings.json");
+            documentToken = JsonUtil.ReadFile($"{Game.world.worldDirectory}/chunk{index}/settings.json");
 
             index = documentToken.GetInt("/index");
             floorHeightLeft = documentToken.GetInt("/floor_height_left");
@@ -246,9 +246,9 @@ namespace SeeloewenCraft
         {
             if (x > 7)
             {
-                if (world.GetLoadedChunk(index + 1) != null)
+                if (Game.world.GetLoadedChunk(index + 1) != null)
                 {
-                    return world.GetLoadedChunk(index + 1).GetBlock(x - 8, y);
+                    return Game.world.GetLoadedChunk(index + 1).GetBlock(x - 8, y);
                 }
                 else
                 {
@@ -257,9 +257,9 @@ namespace SeeloewenCraft
             }
             else if (x < 0)
             {
-                if (world.GetLoadedChunk(index - 1) != null)
+                if (Game.world.GetLoadedChunk(index - 1) != null)
                 {
-                    return world.GetLoadedChunk(index - 1).GetBlock(x + 8, y);
+                    return Game.world.GetLoadedChunk(index - 1).GetBlock(x + 8, y);
                 }
                 else
                 {

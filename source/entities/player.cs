@@ -17,11 +17,8 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Player(World world, int x, int y) : base(900, 1900, x, y, 0, 0, world, new SolidColorBrush(Colors.Red))
+        public Player( int x, int y) : base(900, 1900, x, y, 0, 0,  new SolidColorBrush(Colors.Red))
         {
-            //Set the attributes
-            this.world = world;
-
             //Generate the player
             InitPlayer();
         }
@@ -39,20 +36,20 @@ namespace SeeloewenCraft
                     Item item = null;
                     if (!selectedSlot.IsEmpty())
                     {
-                        item = ItemRegister.GenerateItem(selectedSlot.itemId, world);
+                        item = ItemRegister.GenerateItem(selectedSlot.itemId);
                     }
 
                     if (item != null)
                     {
-                        (double mousePosX, double mousePosY) = world.worldRenderer.GetMouseOffset();
+                        (double mousePosX, double mousePosY) = Game.world.worldRenderer.GetMouseOffset();
                         double xOffset = mousePosX - posX - 450;
                         double yOffset = mousePosY - posY;
                         double n = Math.Sqrt(xOffset * xOffset + yOffset * yOffset);
                         double xDir = xOffset / n;
                         double yDir = yOffset / n;
 
-                        ItemEntity itemEntity = new ItemEntity(item, posX + 500 - ItemEntity.itemSizeX / 2, posY, (int)(15000 * xDir) + velX, (int)(20000 * yDir) + velY, world);
-                        world.AddEntity(itemEntity);
+                        ItemEntity itemEntity = new ItemEntity(item, posX + 500 - ItemEntity.itemSizeX / 2, posY, (int)(15000 * xDir) + velX, (int)(20000 * yDir) + velY);
+                        Game.world.AddEntity(itemEntity);
                         thrown = true;
                         selectedSlot.Remove(1);
                         selectedSlot.inventory.UpdateHotbar();
@@ -67,12 +64,12 @@ namespace SeeloewenCraft
 
         private void HandleInputs()
         {
-            pressedLeft = world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
-            pressedRight = world.wndGame.pressedKeys.Contains(Settings.cMoveRight);
-            pressedUp = world.wndGame.pressedKeys.Contains(Settings.cJump);
-            pressedSneak = world.wndGame.pressedKeys.Contains(Settings.cSneak);
-            pressedSprint = world.wndGame.pressedKeys.Contains(Settings.cSprint);
-            pressedThrow = world.wndGame.pressedKeys.Contains(Settings.cThrowItem);
+            pressedLeft = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            pressedRight = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveRight);
+            pressedUp = Game.world.wndGame.pressedKeys.Contains(Settings.cJump);
+            pressedSneak = Game.world.wndGame.pressedKeys.Contains(Settings.cSneak);
+            pressedSprint = Game.world.wndGame.pressedKeys.Contains(Settings.cSprint);
+            pressedThrow = Game.world.wndGame.pressedKeys.Contains(Settings.cThrowItem);
         }
 
         protected override void DoFallDamage()
@@ -103,24 +100,24 @@ namespace SeeloewenCraft
             Log.Write($"Created player at position x{posX} y{posY}", "Info");
 
             //Add initial debug menu lines
-            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "Player Stats:");
+            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "Player Stats:");
             if (Settings.enableHealth)
             {
-                world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "health");
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "health");
             }
-            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "posX");
-            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "posY");
-            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "velX");
-            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "velY");
-            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "blockPosX");
-            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "blockPosY");
-            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "touchingWater");
-            world.debugMenu.AddLine(world.debugMenu.tblPlayerStats, "breathing");
+            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "posX");
+            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "posY");
+            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "velX");
+            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "velY");
+            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "blockPosX");
+            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "blockPosY");
+            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "touchingWater");
+            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "breathing");
 
             //Setup health bar
-            healthBar = new HealthBar(world, 10, 740);
+            healthBar = new HealthBar( 10, 740);
 
-            if (world.gamemode == Gamemode.Creative)
+            if (Game.world.gamemode == Gamemode.Creative)
             {
                 healthBar.Hide();
             }
@@ -190,20 +187,20 @@ namespace SeeloewenCraft
 
         public void DisplayDebugInformation()
         {
-            if (world.debugMenu.isEnabled)
+            if (Game.world.debugMenu.isEnabled)
             {
                 if (Settings.enableHealth)
                 {
-                    world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "health", $"health={healthBar.value}");
+                    Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "health", $"health={healthBar.value}");
                 }
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "posX", $"posX={posX}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "posY", $"posY={posY}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "velX", $"velX={velX}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "velY", $"velY={velY}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "blockPosX", $"blockPosX={(posX / 1000) % 8}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "blockPosY", $"blockPosY={posY / 1000}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "touchingWater", $"touchingWater={touchingStatus[TOUCHING_WATER]}");
-                world.debugMenu.ChangeLine(world.debugMenu.tblPlayerStats, "breathing", $"breathing={breathing}");
+                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "posX", $"posX={posX}");
+                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "posY", $"posY={posY}");
+                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "velX", $"velX={velX}");
+                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "velY", $"velY={velY}");
+                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "blockPosX", $"blockPosX={(posX / 1000) % 8}");
+                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "blockPosY", $"blockPosY={posY / 1000}");
+                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "touchingWater", $"touchingWater={touchingStatus[TOUCHING_WATER]}");
+                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "breathing", $"breathing={breathing}");
             }
         }
     }

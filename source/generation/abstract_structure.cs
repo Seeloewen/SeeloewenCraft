@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
+using System.Reflection;
 using System.Text.Json.Serialization.Metadata;
 
 namespace SeeloewenCraft
@@ -13,7 +15,7 @@ namespace SeeloewenCraft
         public Random rnd;
         public Chunk chunk;
         public StructureShapeCreator shapeCreator;
-        World world;
+        
 
         //Constants
         public string name;
@@ -33,13 +35,12 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Structure(World world, Chunk chunk, bool canFloat)
+        public Structure( Chunk chunk, bool canFloat)
         {
             //Set the attributes
             blockList = new BlockList(chunk);
-            shapeCreator = new StructureShapeCreator(world);
+            shapeCreator = new StructureShapeCreator();
             this.chunk = chunk;
-            this.world = world;
             this.canFloat = canFloat;
             rnd = new Random(DateTime.Now.Millisecond + o * 2);
             o++;
@@ -143,7 +144,7 @@ namespace SeeloewenCraft
             {
                 //Create a new block of the same type and place it below the original block
                 Type blockType = block.GetType();
-                Block newBlock = (Block)Activator.CreateInstance(blockType, world, block.isBackground);
+                Block newBlock = (Block)Activator.CreateInstance(blockType, args: block.isBackground);
                 chunk.SetBlock(newBlock, block.xPos, block.yPos + 1);
                 //Repeat until floor is reached
                 MakeBaseSolid(chunk.GetBlock(block.xPos, block.yPos + 1));

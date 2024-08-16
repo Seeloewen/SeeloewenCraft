@@ -10,7 +10,6 @@ namespace SeeloewenCraft
     public class Inventory
     {
         //References
-        public World world;
         private Random rnd;
         public InventoryGui inventoryGui;
         public List<InventorySlot> slotList = new List<InventorySlot>();
@@ -26,15 +25,14 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Inventory(World world, int slotsX, int slotsY)
+        public Inventory(int slotsX, int slotsY)
         {
             //Set the attributes
-            this.world = world;
             this.slotsX = slotsX;
             this.slotsY = slotsY;
             rnd = new Random(DateTime.Now.Millisecond + rndOffset);
 
-            inventoryGui = new InventoryGui(world, 349, 695, 175, 290, "sc:inventory", this);
+            inventoryGui = new InventoryGui(349, 695, 175, 290, "sc:inventory", this);
 
             //Create the inventory grid
             grdInventory.Width = 72 * slotsX;
@@ -58,7 +56,7 @@ namespace SeeloewenCraft
             {
                 for (int x = 0; x < slotsX; x++)
                 {
-                    InventorySlot slot = new InventorySlot(world, this, x, y);
+                    InventorySlot slot = new InventorySlot(this, x, y);
 
                     //Add the slot to the grid and slotlist
                     grdInventory.Children.Add(slot.bdrSlot);
@@ -83,7 +81,7 @@ namespace SeeloewenCraft
             Canvas.SetLeft(grdHotbar, 10);
             Canvas.SetTop(grdHotbar, 10);
             Panel.SetZIndex(grdHotbar, 4);
-            world.wndGame.cvsGame.Children.Add(grdHotbar);
+            Game.world.wndGame.cvsGame.Children.Add(grdHotbar);
 
             //Create the hotbar rows and colums
             for (int i = 0; i < slotsX; i++)
@@ -99,7 +97,7 @@ namespace SeeloewenCraft
                 {
                     if (slot.yPos == 3 && slot.xPos == x)
                     {
-                        HotbarSlot hSlot = new HotbarSlot(world, x, slot);
+                        HotbarSlot hSlot = new HotbarSlot(x, slot);
 
                         //Add the hotbar slot to the grid and slotlist
                         grdHotbar.Children.Add(hSlot.bdrSlot);
@@ -198,7 +196,7 @@ namespace SeeloewenCraft
             //Get the item from the currently selected Hotbar slot
             if (GetSelectedHotbarSlot() != null)
             {
-                return ItemRegister.GenerateItem(GetSelectedHotbarSlot().slot.itemId, world);
+                return ItemRegister.GenerateItem(GetSelectedHotbarSlot().slot.itemId);
             }
 
             return null;
@@ -346,7 +344,7 @@ namespace SeeloewenCraft
         public void Show()
         {
             //Show the inventory and hide the hotbar
-            if (world.wndGame.bdrMenu.Visibility != Visibility.Visible)
+            if (Game.world.wndGame.bdrMenu.Visibility != Visibility.Visible)
             {
                 inventoryGui.Show();
                 HideHotbar();
@@ -412,16 +410,16 @@ namespace SeeloewenCraft
                 {
                     for (int i = 0; i < slot.Amount; i++)
                     {
-                        item = ItemRegister.GenerateItem(slot.itemId, world);
+                        item = ItemRegister.GenerateItem(slot.itemId);
 
                         //If the selected item is not null, drop it
                         if (item != null)
                         {
-                            world.AddEntity(new ItemEntity(item, //item type
+                            Game.world.AddEntity(new ItemEntity(item, //item type
                                 x + 500 - ItemEntity.itemSizeX / 2, //posX
                                 y + 500 - ItemEntity.itemSizeY / 2, //posY
-                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), //velX and velY 
-                                world));
+                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
+
                             slot.inventory.UpdateHotbar();
                         }
                     }
@@ -467,14 +465,14 @@ namespace SeeloewenCraft
             writer.WriteEndObject();
         }
 
-        public static Inventory LoadFromJson(JsonToken token, World world)
+        public static Inventory LoadFromJson(JsonToken token)
         {
 
             //Get the inventory size
             int slotsX = token.GetInt("/size_x");
             int slotsY = token.GetInt("/size_y");
 
-            Inventory inventory = new Inventory(world, slotsX, slotsY);
+            Inventory inventory = new Inventory(slotsX, slotsY);
 
             //Get a possible hotbar
             bool hasHotbar = token.GetBool("/has_hotbar");

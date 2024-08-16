@@ -4,6 +4,7 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows;
 using System;
+using System.Windows.Documents;
 
 namespace SeeloewenCraft
 {
@@ -13,7 +14,6 @@ namespace SeeloewenCraft
         private HighPrecisionTimer.MultimediaTimer tmrBreak = new HighPrecisionTimer.MultimediaTimer();
         private HighPrecisionTimer.MultimediaTimer tmrHammer = new HighPrecisionTimer.MultimediaTimer();
         public List<string> tags = new List<string>();
-        public World world;
         public ImageBrush image = new ImageBrush();
         public BlockContainer blockContainer;
         public Chunk chunk;
@@ -66,7 +66,7 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Block(World world, bool isBackground)
+        public Block(bool isBackground)
         {
             rnd = new Random(DateTime.Now.Millisecond + offset);
             offset++;
@@ -74,7 +74,6 @@ namespace SeeloewenCraft
             collision = new EntireBlockCollision();
 
             //Set the attributes
-            this.world = world;
             this.isBackground = isBackground;
 
             tmrBreak.Elapsed += tmrBreak_Tick;
@@ -193,7 +192,7 @@ namespace SeeloewenCraft
         }
 
 
-        static public Block LoadFromJson(JsonToken blockToken, Chunk chunk, World world)
+        static public Block LoadFromJson(JsonToken blockToken, Chunk chunk)
         {
             int posX = blockToken.GetInt("/pos_x");
             int posY = blockToken.GetInt("/pos_y");
@@ -201,11 +200,11 @@ namespace SeeloewenCraft
             string id = blockToken.GetString("/id");
 
 
-            Block block = BlockRegister.GenerateBlock(id, world);
+            Block block = BlockRegister.GenerateBlock(id);
 
             if (block == null)
             {
-                block = new AirBlock(world, false);
+                block = new AirBlock( false);
             }
             else
             {
@@ -215,7 +214,7 @@ namespace SeeloewenCraft
             if (block.hasInventory)
             {
                 JsonToken invToken = blockToken.GetToken("/inventory");
-                Inventory inventory = Inventory.LoadFromJson(invToken, world);
+                Inventory inventory = Inventory.LoadFromJson(invToken);
 
                 block.blockInventory = inventory;
                 if (block.gui != null && block.gui.inventory != null)
@@ -254,7 +253,7 @@ namespace SeeloewenCraft
 
             if (blockToken.ContainsKey("foreground_block"))
             {
-                block.foregroundBlock = Block.LoadFromJson(blockToken.GetToken("/foreground_block"), chunk, world);
+                block.foregroundBlock = Block.LoadFromJson(blockToken.GetToken("/foreground_block"), chunk);
             }
 
 
@@ -272,7 +271,7 @@ namespace SeeloewenCraft
         {
             blockInventory = inv;
             Canvas.SetTop(inv.grdInventory, 410);
-            world.inventoryList.Add(inv);
+            Game.world.inventoryList.Add(inv);
         }
 
         public void SetContainer(BlockContainer blockContainer)
@@ -320,7 +319,7 @@ namespace SeeloewenCraft
             if (element is Canvas)
             {
                 //Check for collision
-                if (world.wndGame.GetRectangle(world.player.texture).IntersectsWith(world.wndGame.GetRectangle(blockContainer.cvsBlock)))
+                if (Game.world.wndGame.GetRectangle(Game.world.player.texture).IntersectsWith(Game.world.wndGame.GetRectangle(blockContainer.cvsBlock)))
                 {
                     return true;
                 }
@@ -349,7 +348,7 @@ namespace SeeloewenCraft
 
         public bool IsInRange()
         {
-            Block playerBlock = world.GetBlock(world.player.posX / 1000, (world.player.posY / 1000) + 1);
+            Block playerBlock = Game.world.GetBlock(Game.world.player.posX / 1000, (Game.world.player.posY / 1000) + 1);
             if (playerBlock != null)
             {
                 return (GetXRangeToBlock(playerBlock) < 5 && GetYRangeToBlock(playerBlock) < 5);
@@ -397,7 +396,7 @@ namespace SeeloewenCraft
         }
 
         //Create the item that corresponds to the block
-        public virtual void GenerateItem(World world)
+        public virtual void GenerateItem()
         {
             return;
         }
@@ -422,7 +421,7 @@ namespace SeeloewenCraft
             //Generate a new item if necessary and return the item
             if (item == null)
             {
-                GenerateItem(world);
+                GenerateItem();
             }
             return item;
         }
@@ -470,7 +469,7 @@ namespace SeeloewenCraft
 
         public void UpdateNearbyBlocks()
         {
-            List<Block> blocksInRange = GetBlocksInRange(world.lightRange);
+            List<Block> blocksInRange = GetBlocksInRange(Game.world.lightRange);
 
             foreach (Block block in blocksInRange)
             {
@@ -510,9 +509,9 @@ namespace SeeloewenCraft
 
         public int RangeToLightSource()
         {
-            List<Block> blocksInRange = GetBlocksInRange(world.lightRange);
+            List<Block> blocksInRange = GetBlocksInRange(Game.world.lightRange);
 
-            int minRange = world.lightRange + 1;
+            int minRange = Game.world.lightRange + 1;
             foreach (Block block in blocksInRange)
             {
                 if (block != null)
@@ -538,11 +537,11 @@ namespace SeeloewenCraft
             {
                 lightLevel = 0;
             }
-            else if (rangeToLightSource < world.lightRange)
+            else if (rangeToLightSource < Game.world.lightRange)
             {
-                lightLevel = 1.0 / (world.lightRange - 3) * rangeToLightSource - 0.75;
+                lightLevel = 1.0 / (Game.world.lightRange - 3) * rangeToLightSource - 0.75;
             }
-            else if (rangeToLightSource == world.lightRange)
+            else if (rangeToLightSource == Game.world.lightRange)
             {
                 lightLevel = 0.9;
             }
@@ -579,7 +578,7 @@ namespace SeeloewenCraft
 
             if (xPos + xOffset < 0)
             {
-                Chunk chunk = world.GetLoadedChunk(this.chunk.index - 1);
+                Chunk chunk = Game.world.GetLoadedChunk(this.chunk.index - 1);
 
                 if (chunk != null)
                 {
@@ -592,7 +591,7 @@ namespace SeeloewenCraft
             }
             else if (xPos + xOffset > 7)
             {
-                Chunk chunk = world.GetLoadedChunk(this.chunk.index + 1);
+                Chunk chunk = Game.world.GetLoadedChunk(this.chunk.index + 1);
 
                 if (chunk != null)
                 {
@@ -620,14 +619,13 @@ namespace SeeloewenCraft
                     if (foregroundBlock.isBreakable || skipBreakableCheck)
                     {
                         //Add the foreground block's item to the inventory
-                        foregroundBlock.GenerateItem(world);
+                        foregroundBlock.GenerateItem();
                         if (foregroundBlock.item != null)
                         {
-                            world.AddEntity(new ItemEntity(foregroundBlock.item, //item type
+                            Game.world.AddEntity(new ItemEntity(foregroundBlock.item, //item type
                                 (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
                                 yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
-                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), //velX and velY 
-                                world));
+                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
                         }
                         RemoveForegroundBlock();
                     }
@@ -641,11 +639,11 @@ namespace SeeloewenCraft
                 else if (foregroundBlock == null && (isBreakable || skipBreakableCheck))
                 {
                     //Remove the block from the chunks blocklist and add an airblock
-                    Block block = new AirBlock(world, false);
+                    Block block = new AirBlock( false);
                     PlaceNewBlock(block);
 
                     //Add the block's item to the inventory
-                    GenerateItem(world);
+                    GenerateItem();
 
                     //If the block has a loot table, roll an entry and give the items to player
                     if (lootTable != null)
@@ -653,21 +651,21 @@ namespace SeeloewenCraft
                         List<Item> items = lootTable.RollEntry().RollItems();
                         foreach (Item item in items)
                         {
-                            world.AddEntity(new ItemEntity(item, //item type
+                            Game.world.AddEntity(new ItemEntity(item, //item type
                                 (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
                                 yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
-                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), //velX and velY 
-                                world));
+                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
+
                         }
                     }
                     //If has only an item, only give that item
                     else if (item != null)
                     {
-                        world.AddEntity(new ItemEntity(item, //item type
+                        Game.world.AddEntity(new ItemEntity(item, //item type
                                 (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
                                 yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
-                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000), //velX and velY 
-                                world));
+                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
+
                     }
 
                     if (hasInventory)
@@ -730,7 +728,7 @@ namespace SeeloewenCraft
 
                     if (actualXPos > 8)
                     {
-                        Chunk newChunk = world.GetLoadedChunk(chunk.index + 1);
+                        Chunk newChunk = Game.world.GetLoadedChunk(chunk.index + 1);
                         block.chunk = newChunk;
                         if (newChunk.GetBlock(actualXPos - 8, actualYPos).isSolid || newChunk.GetBlock(actualXPos - 8, actualYPos).isBackground)
                         {
@@ -739,7 +737,7 @@ namespace SeeloewenCraft
                     }
                     else if (actualXPos < 1)
                     {
-                        Chunk newChunk = world.GetLoadedChunk(chunk.index - 1);
+                        Chunk newChunk = Game.world.GetLoadedChunk(chunk.index - 1);
                         block.chunk = newChunk;
                         if (newChunk.GetBlock(actualXPos + 8, actualYPos).isSolid || newChunk.GetBlock(actualXPos + 8, actualYPos).isBackground)
                         {
@@ -766,7 +764,7 @@ namespace SeeloewenCraft
 
                     if (actualXPos > 8)
                     {
-                        Chunk newChunk = world.GetLoadedChunk(chunk.index + 1);
+                        Chunk newChunk = Game.world.GetLoadedChunk(chunk.index + 1);
                         block.chunk = newChunk;
                         if (newChunk.GetBlock(actualXPos - 8, actualYPos).foregroundBlock != null || !newChunk.GetBlock(actualXPos - 8, actualYPos).isBackground)
                         {
@@ -775,7 +773,7 @@ namespace SeeloewenCraft
                     }
                     else if (actualXPos < 1)
                     {
-                        Chunk newChunk = world.GetLoadedChunk(chunk.index - 1);
+                        Chunk newChunk = Game.world.GetLoadedChunk(chunk.index - 1);
                         block.chunk = newChunk;
                         if (newChunk.GetBlock(actualXPos + 8, actualYPos).foregroundBlock != null || !newChunk.GetBlock(actualXPos + 8, actualYPos).isBackground)
                         {
@@ -818,12 +816,12 @@ namespace SeeloewenCraft
                 //Since the actual pos is potentially in another chunk, get the pos in that chunk
                 if (actualXPos > 8)
                 {
-                    Chunk newChunk = world.GetLoadedChunk(chunk.index + 1);
+                    Chunk newChunk = Game.world.GetLoadedChunk(chunk.index + 1);
                     newChunk.GetBlock(actualXPos - 8, actualYPos).SetForegroundBlock(conBlock);
                 }
                 else if (actualXPos < 1)
                 {
-                    Chunk newChunk = world.GetLoadedChunk(chunk.index - 1);
+                    Chunk newChunk = Game.world.GetLoadedChunk(chunk.index - 1);
                     newChunk.GetBlock(actualXPos + 8, actualYPos).SetForegroundBlock(conBlock);
                 }
                 else
@@ -844,13 +842,13 @@ namespace SeeloewenCraft
                 //Since the actual pos is potentially in another chunk, get the pos in that chunk
                 if (actualXPos > 8)
                 {
-                    Chunk newChunk = world.GetLoadedChunk(chunk.index + 1);
+                    Chunk newChunk = Game.world.GetLoadedChunk(chunk.index + 1);
                     conBlock.chunk = newChunk;
                     newChunk.GetBlock(actualXPos - 8, actualYPos).PlaceNewBlock(conBlock);
                 }
                 else if (actualXPos < 1)
                 {
-                    Chunk newChunk = world.GetLoadedChunk(chunk.index - 1);
+                    Chunk newChunk = Game.world.GetLoadedChunk(chunk.index - 1);
                     conBlock.chunk = newChunk;
                     newChunk.GetBlock(actualXPos + 8, actualYPos).PlaceNewBlock(conBlock);
                 }
@@ -872,7 +870,7 @@ namespace SeeloewenCraft
                 if (chunk.GetBlock(xPos, y).id == "sc:air_block")
                 {
                     //If the block at that position is air, update it accordingly
-                    AirBlock newBlock = new AirBlock(world, false);
+                    AirBlock newBlock = new AirBlock( false);
                     newBlock.rangeToNearestLightSource = chunk.GetBlock(xPos, y).rangeToNearestLightSource;
 
                     //If the placed block is air, the blocks below should be a lightsource, if not, then no light source
@@ -911,31 +909,31 @@ namespace SeeloewenCraft
         public void DisplayDebugInformation()
         {
             //Show the debug information for the block in debug menu
-            if (world.debugMenu.isEnabled)
+            if (Game.world.debugMenu.isEnabled)
             {
-                world.debugMenu.tblBlockStats.Text = "";
-                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, "Selected Block:");
-                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"id={id}");
-                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"name={name}");
-                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"xPos={xPos}");
-                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"yPos={yPos}");
-                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"chunk={chunk.index}");
-                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"isSolid={isSolid}");
-                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"isBackground={isBackground}");
+                Game.world.debugMenu.tblBlockStats.Text = "";
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, "Selected Block:");
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"id={id}");
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"name={name}");
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"xPos={xPos}");
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"yPos={yPos}");
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"chunk={chunk.index}");
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"isSolid={isSolid}");
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"isBackground={isBackground}");
                 if (foregroundBlock != null)
                 {
-                    world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"foregroundBlock={foregroundBlock.id}");
+                    Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"foregroundBlock={foregroundBlock.id}");
                 }
-                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"lightLevel={lightLevel}");
-                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"isLightSource={isLightSource}");
-                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"rangeToNearestLightSource={rangeToNearestLightSource}");
-                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"hasRightClickAction={hasRightClickAction}");
-                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"hasInventory={hasInventory}");
-                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"isBase={isBase}");
-                world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"isSurface={isSurface}");
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"lightLevel={lightLevel}");
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"isLightSource={isLightSource}");
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"rangeToNearestLightSource={rangeToNearestLightSource}");
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"hasRightClickAction={hasRightClickAction}");
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"hasInventory={hasInventory}");
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"isBase={isBase}");
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"isSurface={isSurface}");
                 if (baseBlock != null)
                 {
-                    world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"baseBlock={baseBlock.id} at x{baseBlock.xPos} y{baseBlock.yPos}");
+                    Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"baseBlock={baseBlock.id} at x{baseBlock.xPos} y{baseBlock.yPos}");
                 }
 
                 //Try to show the additional debug information
@@ -950,10 +948,10 @@ namespace SeeloewenCraft
 
                 if (tags.Count > 0)
                 {
-                    world.debugMenu.AddLine(world.debugMenu.tblBlockStats, "Tags:");
+                    Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, "Tags:");
                     foreach (string tag in tags)
                     {
-                        world.debugMenu.AddLine(world.debugMenu.tblBlockStats, tag);
+                        Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, tag);
                     }
                 }
             }
@@ -1002,9 +1000,9 @@ namespace SeeloewenCraft
                 {
                     if (foregroundBlock.isBreakable)
                     {
-                        if (world.gamemode == Gamemode.Creative || foregroundBlock.breakTime == 0)
+                        if (Game.world.gamemode == Gamemode.Creative || foregroundBlock.breakTime == 0)
                         {
-                            world.clickHandler.DoLeftClick(this, sender);
+                            Game.world.clickHandler.DoLeftClick(this, sender);
                         }
                         else
                         {
@@ -1017,9 +1015,9 @@ namespace SeeloewenCraft
                 {
                     if (isBreakable)
                     {
-                        if (world.gamemode == Gamemode.Creative || breakTime == 0)
+                        if (Game.world.gamemode == Gamemode.Creative || breakTime == 0)
                         {
-                            world.clickHandler.DoLeftClick(this, sender);
+                            Game.world.clickHandler.DoLeftClick(this, sender);
                         }
                         else
                         {
@@ -1044,10 +1042,10 @@ namespace SeeloewenCraft
             //Stop possible breaking process
             tmrBreak.Stop();
 
-            if (world.player.inventory.GetSelectedItem() != null && world.player.inventory.GetSelectedItem().tags.Contains("tools/hammer"))
+            if (Game.world.player.inventory.GetSelectedItem() != null && Game.world.player.inventory.GetSelectedItem().tags.Contains("tools/hammer"))
             {
                 //If the player holds a hammer, is in gamemode survival, the block is in range and doesn't have a foreground block
-                if (world.gamemode == Gamemode.Survival && IsInRange() && foregroundBlock == null && canBeMovedToBackground)
+                if (Game.world.gamemode == Gamemode.Survival && IsInRange() && foregroundBlock == null && canBeMovedToBackground)
                 {
                     //Start the timer for the hammer
                     tmrHammer.Interval = breakTime; //TO-DO: Include tool efficiency
@@ -1057,7 +1055,7 @@ namespace SeeloewenCraft
             }
 
             //If all of the checks above fail, handle it the normal way
-            world.clickHandler.DoRightClick(this, sender);
+            Game.world.clickHandler.DoRightClick(this, sender);
         }
 
         private void cvsBlock_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -1074,7 +1072,7 @@ namespace SeeloewenCraft
                 //If the block is broken, drop it
                 if (blockContainer.breakState == 5)
                 {
-                    world.clickHandler.DoLeftClick(this, sender);
+                    Game.world.clickHandler.DoLeftClick(this, sender);
                     blockContainer.SetBreakState(0);
                     tmrBreak.Stop();
                     return;
@@ -1092,7 +1090,7 @@ namespace SeeloewenCraft
                 //If the hammer is done, do right-click
                 if (blockContainer.hammerState == 5)
                 {
-                    world.clickHandler.DoRightClick(this, sender);
+                    Game.world.clickHandler.DoRightClick(this, sender);
                     blockContainer.SetHammerState(0);
                     tmrHammer.Stop();
                     return;

@@ -6,20 +6,20 @@ namespace SeeloewenCraft
     public class BlockContainerList
     {
         List<BlockContainer> containerList = new List<BlockContainer>();
-        World world;
+        
         int chunkIndex = 10000000; //Chunk index needs to be some random (preferebly unused number) to not be Null for the IsAvailable() check
 
         //-- Constructor --//
 
-        public BlockContainerList(World world)
+        public BlockContainerList()
         {
             //Add all necessary block containers to the list
-            this.world = world;
+            
             for (int x = 0; x < 8; x++)
             {
                 for (int y = 0; y < 75; y++)
                 {
-                    containerList.Add(new BlockContainer(world, x, y));
+                    containerList.Add(new BlockContainer( x, y));
                 }
             }
         }
@@ -43,7 +43,7 @@ namespace SeeloewenCraft
         public bool IsAvailable()
         {
             //Check if a chunk with the index of this list is currently loaded (which means it's not available)
-            if (world.GetLoadedChunk(chunkIndex) == null)
+            if (Game.world.GetLoadedChunk(chunkIndex) == null)
             {
                 return true;
             }

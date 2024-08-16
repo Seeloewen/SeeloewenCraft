@@ -8,7 +8,7 @@ namespace SeeloewenCraft
         public ImageBrush imgClose;
         public bool isOpen;
 
-        public DoorBlock(World world, bool isInBackground) : base(world, isInBackground) { }
+        public DoorBlock( bool isInBackground) : base( isInBackground) { }
 
         public override void RightClickAction(object sender)
         {

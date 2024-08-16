@@ -5,18 +5,11 @@ namespace SeeloewenCraft
 {
     public abstract class LootTable
     {
-        World world;
         static int offset;
         public List<LootTableEntry> lootTableEntries = new List<LootTableEntry>();
         Random rnd;
 
         //-- Constructor --//
-
-        public LootTable(World world)
-        {
-            //Create link to game window
-            this.world = world;
-        }
 
         //-- Custom Methods --//
 
@@ -58,20 +51,20 @@ namespace SeeloewenCraft
 
     public class StoneLootTable : LootTable
     {
-        public StoneLootTable(World world) : base(world)
+        public StoneLootTable() : base()
         {
-            lootTableEntries.Add(new LootTableEntry(new StoneItem(world), 1, 3, 5, world));
-            lootTableEntries.Add(new LootTableEntry(new GrassItem(world), 1, 3, 1, world));
+            lootTableEntries.Add(new LootTableEntry(new StoneItem(), 1, 3, 5));
+            lootTableEntries.Add(new LootTableEntry(new GrassItem(), 1, 3, 1));
         }
     }
     public class PlainsDungeonChest1 : LootTable
     {
-        public PlainsDungeonChest1(World world) : base(world)
+        public PlainsDungeonChest1() : base()
         {
-            lootTableEntries.Add(new LootTableEntry(new OakLogItem(world), 1, 5, 3, world));
-            lootTableEntries.Add(new LootTableEntry(new GrassItem(world), 1, 3, 2, world));
-            lootTableEntries.Add(new LootTableEntry(new CobbleStoneItem(world), 1, 7, 5, world));
-            lootTableEntries.Add(new LootTableEntry(new IronOreItem(world), 1, 2, 1, world));
+            lootTableEntries.Add(new LootTableEntry(new OakLogItem(), 1, 5, 3));
+            lootTableEntries.Add(new LootTableEntry(new GrassItem(), 1, 3, 2));
+            lootTableEntries.Add(new LootTableEntry(new CobbleStoneItem(), 1, 7, 5));
+            lootTableEntries.Add(new LootTableEntry(new IronOreItem(), 1, 2, 1));
         }
     }
 }

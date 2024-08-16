@@ -13,15 +13,13 @@ namespace SeeloewenCraft
     public partial class wndGame : Window
     {
         //References
+        public World world;
         public HashSet<Key> pressedKeys = new HashSet<Key>();
         public Canvas cvsInvItem = new Canvas();
         public TextBlock tblInvItem = new TextBlock();
-        public World world;
         public Point mousePosition;
 
         //Variables
-        private bool goLeft = false;
-        private bool goRight = false;
         public int goLeftAmount = 10;
         public int goRightAmount = 10;
         public double relativeSvPos = 0;
@@ -29,10 +27,10 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public wndGame(World world)
+        public wndGame()
         {
+            world = Game.world;
             InitializeComponent();
-            this.world = world;
             ApplyVideoSettings();
 
             //Setup canvas for the item currently held in inventory
@@ -92,7 +90,7 @@ namespace SeeloewenCraft
             if (pressedKeys.Contains(Key.D1)) //Num Key 1 (Not numpad)
             {
                 //Select Hotbar Slot 1
-                world.player.inventory.hotbarSlotList[0].Select();
+               world.player.inventory.hotbarSlotList[0].Select();
             }
             if (pressedKeys.Contains(Key.D2)) //Num Key 2 (Not numpad)
             {
@@ -107,7 +105,7 @@ namespace SeeloewenCraft
             if (pressedKeys.Contains(Key.D4)) //Num Key 4 (Not numpad)
             {
                 //Select Hotbar Slot 4
-                world.player.inventory.hotbarSlotList[3].Select();
+               world.player.inventory.hotbarSlotList[3].Select();
             }
             if (pressedKeys.Contains(Key.D5)) //Num Key 5 (Not numpad)
             {
@@ -411,7 +409,7 @@ namespace SeeloewenCraft
         private void Window_MouseMove(object sender, MouseEventArgs e)
         {
             //Get the current mouse position
-            mousePosition = e.GetPosition(cvsGame);
+            mousePosition = e.GetPosition(this);
 
             InventorySlot selectedSlot = world.GetSelectedInvSlot();
 
@@ -433,7 +431,7 @@ namespace SeeloewenCraft
                 if (Settings.saveWorldOnClose)
                 {
                     //Save all chunks and the inventory of the player
-                    foreach (Chunk chunk in world.totalChunkList)
+                    foreach (Chunk chunk in Game.world.totalChunkList)
                     {
                         //Stop all running crafting timers
                         foreach (Block block in chunk.blockList.blocks)

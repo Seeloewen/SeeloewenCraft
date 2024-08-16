@@ -11,13 +11,13 @@ namespace SeeloewenCraft.util
 
         private int id;
         private Stopwatch timer;
-        World world;
+        
 
         public LagTimer(int id, World world)
         {
             this.id = id;
             timer = new Stopwatch();
-            this.world = world;
+            
         }
 
 

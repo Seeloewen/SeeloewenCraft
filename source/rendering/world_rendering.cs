@@ -4,12 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace SeeloewenCraft { 
+namespace SeeloewenCraft
+{
     public class WorldRenderer
     {
-        
-        wndGame wndGame;
-
         public double offsetX = 10; //block coordinates of center of frame
         public double offsetY = 20;
 
@@ -19,13 +17,10 @@ namespace SeeloewenCraft {
         List<Chunk> chunks;
         List<Entity> entities;
 
-        public WorldRenderer(wndGame wndGame)
+        public WorldRenderer()
         {
-            this.wndGame = wndGame;
-
             entities = new List<Entity>();
             chunks = new List<Chunk>();
-
         }
 
         public void Render()
@@ -33,45 +28,45 @@ namespace SeeloewenCraft {
             offsetX = playerPosX;
             offsetY = playerPosY;
 
-            foreach(Chunk chunk in chunks)
+            foreach (Chunk chunk in chunks)
             {
-                Canvas.SetLeft(chunk.grdChunk,(int) (600 - 50 * offsetX + 400 * chunk.index));
+                Canvas.SetLeft(chunk.grdChunk, (int)(600 - 50 * offsetX + 400 * chunk.index));
             }
-            wndGame.svWorld.ScrollToVerticalOffset((int)((offsetY-6) * 50));
+            Game.world.wndGame.svWorld.ScrollToVerticalOffset((int)((offsetY - 6) * 50));
 
-            Thickness currentMarginPlayer = wndGame.world.player.texture.Margin;
+            Thickness currentMarginPlayer = Game.world.player.texture.Margin;
             currentMarginPlayer.Top = playerPosY * 50;
-            currentMarginPlayer.Left = playerPosX * 50 - (offsetX-12) * 50;
-            wndGame.world.player.texture.Margin = currentMarginPlayer;
+            currentMarginPlayer.Left = playerPosX * 50 - (offsetX - 12) * 50;
+            Game.world.player.texture.Margin = currentMarginPlayer;
 
-            foreach(Entity entity in entities)
+            foreach (Entity entity in entities)
             {
                 Thickness currentMargin = entity.texture.Margin;
-                currentMargin.Top = entity.posY /20;
-                currentMargin.Left = entity.posX/20 - (offsetX - 12) * 50;
+                currentMargin.Top = entity.posY / 20;
+                currentMargin.Left = entity.posX / 20 - (offsetX - 12) * 50;
                 entity.texture.Margin = currentMargin;
             }
 
 
-            if (Canvas.GetLeft(wndGame.world.loadedChunkList[3].grdChunk) <= 0)
+            if (Canvas.GetLeft(Game.world.loadedChunkList[3].grdChunk) <= 0)
             {
                 //Save the chunk that has moved to far and remove it. Add a new one at the opposite site.
-                wndGame.world.MoveLoadedChunks(Direction.RIGHT);
+                Game.world.MoveLoadedChunks(Direction.RIGHT);
             }
-            else if (Canvas.GetLeft(wndGame.world.loadedChunkList[3].grdChunk) >= 800)
+            else if (Canvas.GetLeft(Game.world.loadedChunkList[3].grdChunk) >= 800)
             {
                 //Move the chunk on the right all the way to the left
-                wndGame.world.MoveLoadedChunks(Direction.LEFT);
+                Game.world.MoveLoadedChunks(Direction.LEFT);
             }
 
         }
 
         public (double, double) GetMouseOffset()
         {
-            Point p = Mouse.GetPosition(wndGame.cvsWorld);
+            Point p = Mouse.GetPosition(Game.world.wndGame.cvsWorld);
 
 
-            double x = 20*(p.X + (offsetX-12)*50);
+            double x = 20 * (p.X + (offsetX - 12) * 50);
             double y = p.Y * 20;
 
             return ((double)x, (double)y);
@@ -91,17 +86,17 @@ namespace SeeloewenCraft {
         public void AddChunk(Chunk chunk)
         {
             chunks.Add(chunk);
-            wndGame.cvsWorld.Children.Add(chunk.grdChunk);
+            Game.world.wndGame.cvsWorld.Children.Add(chunk.grdChunk);
         }
 
         public void RemoveChunk(int id)
         {
-            foreach(Chunk chunk in chunks)
+            foreach (Chunk chunk in chunks)
             {
-                if(chunk.index == id)
+                if (chunk.index == id)
                 {
                     chunks.Remove(chunk);
-                    wndGame.cvsWorld.Children.Remove(chunk.grdChunk);
+                    Game.world.wndGame.cvsWorld.Children.Remove(chunk.grdChunk);
                 }
             }
         }
@@ -109,10 +104,7 @@ namespace SeeloewenCraft {
         public void RemoveChunk(Chunk chunk)
         {
             chunks.Remove(chunk);
-            wndGame.cvsWorld.Children.Remove(chunk.grdChunk);
+            Game.world.wndGame.cvsWorld.Children.Remove(chunk.grdChunk);
         }
-        
-        
-        
     }
 }

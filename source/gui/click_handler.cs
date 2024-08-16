@@ -2,23 +2,17 @@
 namespace SeeloewenCraft
 {
     public class ClickHandler
-    {
-        World world;
-
-        public ClickHandler(World world)
-        {
-            this.world = world;
-        }
+    {      
 
         public void DoRightClick(Block block, object sender)
         {
             //Check if selected item should do an action
-            HotbarSlot selectedSlot = world.player.inventory.GetSelectedHotbarSlot();
+            HotbarSlot selectedSlot = Game.world.player.inventory.GetSelectedHotbarSlot();
             Item selectedItem = null;
 
             if (selectedSlot != null && !string.IsNullOrEmpty(selectedSlot.slot.itemId))
             {
-                selectedItem = ItemRegister.GenerateItem(selectedSlot.slot.itemId, world);
+                selectedItem = ItemRegister.GenerateItem(selectedSlot.slot.itemId);
             }
 
             if (selectedItem != null && selectedItem.hasRightClickAction)

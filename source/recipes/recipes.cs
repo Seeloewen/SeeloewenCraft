@@ -3,13 +3,13 @@ namespace SeeloewenCraft
 {
     public class RecipeCreator
     {
-        World world;
+        
 
         //-- Constructor --//
 
-        public RecipeCreator(World world)
+        public RecipeCreator()
         {
-            this.world = world;
+            
         }
 
         //-- Custom Methods --//
@@ -23,7 +23,7 @@ namespace SeeloewenCraft
             {
                 JsonToken recipeToken = recipeListToken.GetToken($"/{i}");
 
-                world.craftingRecipeList.Add(new CraftingRecipe(recipeToken, world));
+                Game.world.craftingRecipeList.Add(new CraftingRecipe(recipeToken));
             }
         }
     }

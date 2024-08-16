@@ -18,7 +18,7 @@ namespace SeeloewenCraft
                 int posY = int.Parse(args[3]);
                 int chunkID = int.Parse(args[4]);
 
-                Block block = BlockRegister.GenerateBlock(id, world);
+                Block block = BlockRegister.GenerateBlock(id);
 
                 if(block == null)
                 {
@@ -26,7 +26,7 @@ namespace SeeloewenCraft
                     return;
                 }
 
-                world.SetBlock(block , posX + 8 * chunkID, posY);
+                Game.world.SetBlock(block , posX + 8 * chunkID, posY);
                 MessageBox.Show($"Successfully placed block {id} at x{posX} and y{posY} in chunk {chunkID}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch

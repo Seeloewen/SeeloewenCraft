@@ -10,19 +10,10 @@ namespace SeeloewenCraft
         private System.Windows.Forms.Timer tmrSplashText = new System.Windows.Forms.Timer();
         private wndLoadWorld wndLoadWorld;
         public wndSettings wndSettings;
-        public World world;
         private SplashTextHandler splashTextHandler;
-
-        //Constants
-        public const int worldVersion = 5;
-        public const string gameVersion = "Alpha 1.2.0-Dev6";
-        public const string versionDate = "14.08.2024";
-        public int texturepackVersion = 2;
 
         //Variables
         private int splashTextSize = 0;
-        bool setSplashText = false;
-        public string selectedTexturepack;
 
         //-- Constructor --//
 
@@ -35,15 +26,13 @@ namespace SeeloewenCraft
             tmrSplashText.Interval = 50;
             tmrSplashText.Start();
 
+            //Display version
+            tblVersion.Text = string.Format("Version {0}", Game.GAME_VERSION);
+
+            //set splashtext
             splashTextHandler = new SplashTextHandler(this);
+            tblSplashText.Text = splashTextHandler.GetText(); ;
 
-            //Show the version
-            tblVersion.Text = string.Format("Version {0}", gameVersion);
-            Log.Write($"SeeloewenCraft Version {gameVersion} ({versionDate})", "Info");
-
-            //set splashtext        
-            tblSplashText.Text = splashTextHandler.GetText();;
-            
             wndSettings = new wndSettings(this, true);
         }
 
@@ -77,11 +66,11 @@ namespace SeeloewenCraft
             {
                 tblSplashText.FontSize -= 0.3;
             }
-            else if(splashTextSize >= 15 && splashTextSize < 30)
+            else if (splashTextSize >= 15 && splashTextSize < 30)
             {
                 tblSplashText.FontSize += 0.3;
             }
-            else if(splashTextSize == 30)
+            else if (splashTextSize == 30)
             {
                 //Reset the number
                 splashTextSize = 0;
@@ -102,6 +91,6 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-        
+
     }
 }

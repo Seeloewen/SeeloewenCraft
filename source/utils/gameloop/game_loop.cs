@@ -10,7 +10,7 @@ namespace SeeloewenCraft
         public HighPrecisionTimer.MultimediaTimer tmrGameLoop = new HighPrecisionTimer.MultimediaTimer();
         public List<GameLoopEvent> loopEvents;
         public int tickrate;
-        World world;
+        
 
         //Gameloops
         WaterUpdateEvent waterUpdateEvent;
@@ -18,10 +18,9 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public GameLoop(World world, int tickrate)
+        public GameLoop( int tickrate)
         {
             //Setup references
-            this.world = world;
             this.tickrate = tickrate;
             loopEvents = new List<GameLoopEvent>();
 
@@ -30,8 +29,8 @@ namespace SeeloewenCraft
             tmrGameLoop.Elapsed += tmrGameLoop_Tick;
 
             //Setup all game loops
-            waterUpdateEvent = new WaterUpdateEvent(world, this);
-            dayNightCycle = new DayNightCycle(world, this);
+            waterUpdateEvent = new WaterUpdateEvent( this);
+            dayNightCycle = new DayNightCycle( this);
         }
 
         //-- Custom Methods --//
@@ -82,18 +81,15 @@ namespace SeeloewenCraft
     //Abstract Game Loop
     public abstract class GameLoopEvent
     {
-
-        public World world;
         public int tick;
         public int maxTick;
         public bool singleEvent = true;
 
         //-- Constructor --//
 
-        public GameLoopEvent(World world, GameLoop gameLoop)
+        public GameLoopEvent( GameLoop gameLoop)
         {
             //Add the event to the loop events list so it can be accessed
-            this.world = world;
             gameLoop.loopEvents.Add(this);
         }
 

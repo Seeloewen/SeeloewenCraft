@@ -6,7 +6,7 @@ namespace SeeloewenCraft
 
     public class GrassItem : Item
     {
-        public GrassItem(World world) : base(world)
+        public GrassItem() : base()
         {
             isPlacable = true;
             name = "Grass";
@@ -16,7 +16,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new GrassBlock(world, isInBackground);
+            block = new GrassBlock( isInBackground);
             return block;
         }
         override public void SetTexture()
@@ -29,7 +29,7 @@ namespace SeeloewenCraft
 
     public class StoneItem : Item
     {
-        public StoneItem(World world) : base(world)
+        public StoneItem() : base()
         {
             isPlacable = true;
             name = "Stone";
@@ -39,7 +39,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new StoneBlock(world, isInBackground);
+            block = new StoneBlock( isInBackground);
             return block;
         }
         override public void SetTexture()
@@ -52,7 +52,7 @@ namespace SeeloewenCraft
 
     public class DirtItem : Item
     {
-        public DirtItem(World world) : base(world)
+        public DirtItem() : base()
         {
             isPlacable = true;
             name = "Dirt";
@@ -62,7 +62,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new DirtBlock(world, isInBackground);
+            block = new DirtBlock( isInBackground);
             return block;
         }
 
@@ -76,7 +76,7 @@ namespace SeeloewenCraft
 
     public class CoalOreItem : Item
     {
-        public CoalOreItem(World world) : base(world)
+        public CoalOreItem() : base()
         {
             isPlacable = true;
             name = "Coal Ore";
@@ -86,7 +86,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CoalOreBlock(world, isInBackground);
+            block = new CoalOreBlock( isInBackground);
             return block;
         }
 
@@ -100,7 +100,7 @@ namespace SeeloewenCraft
 
     public class DiamondOreItem : Item
     {
-        public DiamondOreItem(World world) : base(world)
+        public DiamondOreItem() : base()
         {
             isPlacable = true;
             name = "Diamond Ore";
@@ -110,7 +110,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new DiamondOreBlock(world, isInBackground);
+            block = new DiamondOreBlock( isInBackground);
             return block;
         }
 
@@ -124,7 +124,7 @@ namespace SeeloewenCraft
 
     public class IronOreItem : Item
     {
-        public IronOreItem(World world) : base(world)
+        public IronOreItem() : base()
         {
             isPlacable = true;
             name = "Iron Ore";
@@ -134,7 +134,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new IronOreBlock(world, isInBackground);
+            block = new IronOreBlock( isInBackground);
             return block;
         }
 
@@ -148,7 +148,7 @@ namespace SeeloewenCraft
 
     public class OakLogItem : Item
     {
-        public OakLogItem(World world) : base(world)
+        public OakLogItem() : base()
         {
             isPlacable = true;
             name = "Oak Log";
@@ -158,7 +158,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new OakLogBlock(world, isInBackground);
+            block = new OakLogBlock( isInBackground);
             return block;
         }
 
@@ -172,7 +172,7 @@ namespace SeeloewenCraft
 
     public class OakLeavesItem : Item
     {
-        public OakLeavesItem(World world) : base(world)
+        public OakLeavesItem() : base()
         {
             isPlacable = true;
             name = "Oak Leaves";
@@ -182,7 +182,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new OakLeavesBlock(world, isInBackground);
+            block = new OakLeavesBlock( isInBackground);
             return block;
         }
 
@@ -196,7 +196,7 @@ namespace SeeloewenCraft
 
     public class SpruceLogItem : Item
     {
-        public SpruceLogItem(World world) : base(world)
+        public SpruceLogItem() : base()
         {
             isPlacable = true;
             name = "Spruce Log";
@@ -206,7 +206,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new SpruceLogBlock(world, isInBackground);
+            block = new SpruceLogBlock( isInBackground);
             return block;
         }
 
@@ -220,7 +220,7 @@ namespace SeeloewenCraft
 
     public class SpruceLeavesItem : Item
     {
-        public SpruceLeavesItem(World world) : base(world)
+        public SpruceLeavesItem() : base()
         {
             isPlacable = true;
             name = "Spruce Leaves";
@@ -230,7 +230,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new SpruceLeavesBlock(world, isInBackground);
+            block = new SpruceLeavesBlock( isInBackground);
             return block;
         }
 
@@ -244,7 +244,7 @@ namespace SeeloewenCraft
 
     public class BedrockItem : Item
     {
-        public BedrockItem(World world) : base(world)
+        public BedrockItem() : base()
         {
             isPlacable = true;
             name = "Bedrock";
@@ -254,7 +254,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new BedrockBlock(world, isInBackground);
+            block = new BedrockBlock( isInBackground);
             return block;
         }
         override public void SetTexture()
@@ -267,7 +267,7 @@ namespace SeeloewenCraft
 
     public class AirItem : Item
     {
-        public AirItem(World world) : base(world)
+        public AirItem() : base()
         {
             isPlacable = true;
             name = "Air";
@@ -277,7 +277,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new AirBlock(world, isInBackground);
+            block = new AirBlock( isInBackground);
             return block;
         }
 
@@ -291,7 +291,7 @@ namespace SeeloewenCraft
 
     public class ChestItem : Item
     {
-        public ChestItem(World world) : base(world)
+        public ChestItem() : base()
         {
             isPlacable = true;
             name = "Chest";
@@ -301,7 +301,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new ChestBlock(world, isInBackground);
+            block = new ChestBlock( isInBackground);
             return block;
         }
 
@@ -315,7 +315,7 @@ namespace SeeloewenCraft
 
     public class MagmaBlockItem : Item
     {
-        public MagmaBlockItem(World world) : base(world)
+        public MagmaBlockItem() : base()
         {
             isPlacable = true;
             name = "Magma Block";
@@ -325,7 +325,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new MagmaBlock(world, isInBackground);
+            block = new MagmaBlock( isInBackground);
             return block;
         }
 
@@ -339,7 +339,7 @@ namespace SeeloewenCraft
 
     public class StoneHammerItem : Item
     {
-        public StoneHammerItem(World world) : base(world)
+        public StoneHammerItem() : base()
         {
             isPlacable = false;
             hasRightClickAction = true;
@@ -378,7 +378,7 @@ namespace SeeloewenCraft
 
     public class TorchItem : Item
     {
-        public TorchItem(World world) : base(world)
+        public TorchItem() : base()
         {
             isPlacable = true;
             name = "Torch";
@@ -388,7 +388,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new TorchBlock(world, isInBackground);
+            block = new TorchBlock( isInBackground);
             return block;
         }
 
@@ -402,7 +402,7 @@ namespace SeeloewenCraft
 
     public class WaterItem : Item
     {
-        public WaterItem(World world) : base(world)
+        public WaterItem() : base()
         {
             isPlacable = true;
             name = "Water";
@@ -412,7 +412,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new WaterBlock_6(world, isInBackground);
+            block = new WaterBlock_6( isInBackground);
             block.isWaterSource = true;
             return block;
         }
@@ -427,7 +427,7 @@ namespace SeeloewenCraft
 
     public class PottedCactusItem : Item
     {
-        public PottedCactusItem(World world) : base(world)
+        public PottedCactusItem() : base()
         {
             isPlacable = true;
             name = "Potted Cactus";
@@ -437,7 +437,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new PottedCactus_Base(world, isInBackground);
+            block = new PottedCactus_Base( isInBackground);
             return block;
         }
 
@@ -451,7 +451,7 @@ namespace SeeloewenCraft
 
     public class CraftingTable : Item
     {
-        public CraftingTable(World world) : base(world)
+        public CraftingTable() : base()
         {
             isPlacable = true;
             name = "Crafting Table";
@@ -461,7 +461,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CraftingTableBlock(world, isInBackground);
+            block = new CraftingTableBlock( isInBackground);
             return block;
         }
 
@@ -475,7 +475,7 @@ namespace SeeloewenCraft
 
     public class CobbleStoneItem : Item
     {
-        public CobbleStoneItem(World world) : base(world)
+        public CobbleStoneItem() : base()
         {
             isPlacable = true;
             name = "Cobblestone";
@@ -485,7 +485,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new CobblestoneBlock(world, isInBackground);
+            block = new CobblestoneBlock( isInBackground);
             return block;
         }
 
@@ -499,7 +499,7 @@ namespace SeeloewenCraft
 
     public class ChiselerItem : Item
     {
-        public ChiselerItem(World world) : base(world)
+        public ChiselerItem() : base()
         {
             isPlacable = true;
             name = "Chiseler";
@@ -509,7 +509,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new ChiselerBlock(world, isInBackground);
+            block = new ChiselerBlock( isInBackground);
             return block;
         }
 
@@ -523,7 +523,7 @@ namespace SeeloewenCraft
 
     public class UnchiselerItem : Item
     {
-        public UnchiselerItem(World world) : base(world)
+        public UnchiselerItem() : base()
         {
             isPlacable = true;
             name = "Unchiseler";
@@ -533,7 +533,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new UnchiselerBlock(world, isInBackground);
+            block = new UnchiselerBlock( isInBackground);
             return block;
         }
 
@@ -547,7 +547,7 @@ namespace SeeloewenCraft
 
     public class BoneItem : Item
     {
-        public BoneItem(World world) : base(world)
+        public BoneItem() : base()
         {
             isPlacable = true;
             name = "Bone";
@@ -570,7 +570,7 @@ namespace SeeloewenCraft
 
     public class ArrowItem : Item
     {
-        public ArrowItem(World world) : base(world)
+        public ArrowItem() : base()
         {
             isPlacable = true;
             name = "Arrow";
@@ -593,7 +593,7 @@ namespace SeeloewenCraft
 
     public class SnowballItem : Item
     {
-        public SnowballItem(World world) : base(world)
+        public SnowballItem() : base()
         {
             isPlacable = true;
             name = "Snowball";
@@ -617,7 +617,7 @@ namespace SeeloewenCraft
 
     public class SpruceDoorItem : Item
     {
-        public SpruceDoorItem(World world) : base(world)
+        public SpruceDoorItem() : base()
         {
             isPlacable = true;
             name = "Spruce Door";
@@ -627,7 +627,7 @@ namespace SeeloewenCraft
 
         override public Block GenerateBlock(bool isInBackground)
         {
-            block = new SpruceDoor_Base(world, isInBackground);
+            block = new SpruceDoor_Base( isInBackground);
             return block;
         }
 

@@ -16,12 +16,12 @@ namespace SeeloewenCraft
             //Set gamemode based on given input
             if (gamemode == "0" || gamemode == "survival")
             {
-                world.SetGamemode(Gamemode.Survival);
+                Game.world.SetGamemode(Gamemode.Survival);
                 MessageBox.Show("Gamemode was changed to survival mode", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else if (gamemode == "1" || gamemode == "creative")
             {
-                world.SetGamemode(Gamemode.Creative);
+                Game.world.SetGamemode(Gamemode.Creative);
                 MessageBox.Show("Gamemode was changed to creative mode", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else

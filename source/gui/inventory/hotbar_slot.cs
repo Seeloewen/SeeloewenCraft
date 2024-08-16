@@ -8,7 +8,6 @@ namespace SeeloewenCraft
     public class HotbarSlot
     {
         //References
-        private World world;
         public Border bdrSlot = new Border();
         public Canvas cvsSlot = new Canvas();
         public TextBlock tblItemAmount = new TextBlock();
@@ -20,10 +19,9 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public HotbarSlot(World world, int xPos, InventorySlot slot)
+        public HotbarSlot( int xPos, InventorySlot slot)
         {
             //Set the hotbar slot attributes
-            this.world = world;
             this.xPos = xPos;
             this.slot = slot;
 

@@ -33,18 +33,18 @@ namespace SeeloewenCraft
 
             if (touchingStatus[TOUCHING_CACTUS])
             {
-                world.toDieEntities.Add(this);
+                Game.world.toDieEntities.Add(this);
             }
         }
 
-        public ItemEntity(Item item, int posX, int posY, int velX, int velY, World world) : base(itemSizeX, itemSizeY, posX, posY, velX, velY, world, new SolidColorBrush(Colors.Yellow))
+        public ItemEntity(Item item, int posX, int posY, int velX, int velY) : base(itemSizeX, itemSizeY, posX, posY, velX, velY, new SolidColorBrush(Colors.Yellow))
         {
             Init(item);
         }
 
-        public ItemEntity(JsonToken token, World world) : base(token, itemSizeX, itemSizeY, world, new SolidColorBrush(Colors.Yellow))
+        public ItemEntity(JsonToken token) : base(token, itemSizeX, itemSizeY,  new SolidColorBrush(Colors.Yellow))
         {
-            Init(ItemRegister.GenerateItem(token.GetString("/item_id"), world));
+            Init(ItemRegister.GenerateItem(token.GetString("/item_id")));
         }
     }
 }

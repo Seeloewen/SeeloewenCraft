@@ -7,8 +7,6 @@ namespace SeeloewenCraft
 {
     public class Entity
     {
-        protected World world;
-
         public string type;
 
         //touching status constants
@@ -286,7 +284,7 @@ namespace SeeloewenCraft
                     int endX = posX + sizeX - 1 - x * 1000;
                     int startY = posY - y * 1000;
                     int endY = posY + sizeY - 1 - y * 1000;
-                    bool[] blockTouching = world.GetBlock(x, y).CheckTouch(startX, startY, endX, endY);
+                    bool[] blockTouching = Game.world.GetBlock(x, y).CheckTouch(startX, startY, endX, endY);
                     for (int i = 0; i < blockTouching.Length; i++)
                     {
                         touchingStatus[i] = touchingStatus[i] || blockTouching[i];
@@ -308,7 +306,7 @@ namespace SeeloewenCraft
 
                     for (int y = startY / 1000; y <= endY / 1000; y++)
                     {
-                        Block b = world.GetBlock(x, y);
+                        Block b = Game.world.GetBlock(x, y);
                         (bool newCollision, int newMaxMovement) = b.CheckCollision(Direction.RIGHT, startX, endX, startY, endY);
                         if (newCollision)
                         {
@@ -333,7 +331,7 @@ namespace SeeloewenCraft
 
                     for (int y = startY / 1000; y <= endY / 1000; y++)
                     {
-                        (bool newCollision, int newMaxMovement) = world.GetBlock(x, y).CheckCollision(Direction.LEFT, startX, endX, startY, endY);
+                        (bool newCollision, int newMaxMovement) = Game.world.GetBlock(x, y).CheckCollision(Direction.LEFT, startX, endX, startY, endY);
                         if (newCollision)
                         {
                             collision = true;
@@ -359,7 +357,7 @@ namespace SeeloewenCraft
 
                     for (int x = ConvertToBlockX(startX); x <= ConvertToBlockX(endX); x++)
                     {
-                        (bool newCollision, int newMaxMovement) = world.GetBlock(x, y).CheckCollision(Direction.DOWN, startX, endX, startY, endY);
+                        (bool newCollision, int newMaxMovement) = Game.world.GetBlock(x, y).CheckCollision(Direction.DOWN, startX, endX, startY, endY);
                         if (newCollision)
                         {
                             collision = true;
@@ -384,7 +382,7 @@ namespace SeeloewenCraft
 
                     for (int x = ConvertToBlockX(startX); x <= ConvertToBlockX(endX); x++)
                     {
-                        (bool newCollision, int newMaxMovement) = world.GetBlock(x, y).CheckCollision(Direction.UP, startX, endX, startY, endY);
+                        (bool newCollision, int newMaxMovement) = Game.world.GetBlock(x, y).CheckCollision(Direction.UP, startX, endX, startY, endY);
                         if (newCollision)
                         {
                             collision = true;
@@ -402,18 +400,18 @@ namespace SeeloewenCraft
             return (false, 0);
         }
 
-        public Entity(JsonToken token, int sizeX, int sizeY, World world, Brush image)
+        public Entity(JsonToken token, int sizeX, int sizeY, Brush image)
             : this(sizeX, sizeY,
                 token.GetInt("/posX"),
                 token.GetInt("/posY"),
                 token.GetInt("/velX"),
                 token.GetInt("/velY"),
-                world, image)
+                 image)
         {
             lifeTime = token.GetInt("/life_time");
         }
 
-        public Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, World world, Brush image)
+        public Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, Brush image)
         {
             lifeTime = 0;
             this.id = nextID;
@@ -424,7 +422,6 @@ namespace SeeloewenCraft
             this.posY = posY;
             this.velX = velX;
             this.velY = velY;
-            this.world = world;
 
             texture = new Canvas();
             texture.Margin = new Thickness(0, 0, 0, 0);
@@ -441,7 +438,7 @@ namespace SeeloewenCraft
             switch (token.GetString("/type"))
             {
                 case "ItemEntity":
-                    entity = new ItemEntity(token, world);
+                    entity = new ItemEntity(token);
                     break;
                 default:
                     throw new Exception();

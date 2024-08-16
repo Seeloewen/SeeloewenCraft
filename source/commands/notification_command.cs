@@ -28,7 +28,7 @@ namespace SeeloewenCraft
             }
 
             //Get the image
-            ImageBrush image = ItemRegister.GenerateItem(args[2], world).image;
+            ImageBrush image = ItemRegister.GenerateItem(args[2]).image;
 
             //Append all parts of the message to the message string
             string message = args[3];
@@ -39,7 +39,7 @@ namespace SeeloewenCraft
             }
 
             //Show the notification
-            world.notificationHandler.ShowNotification(message, time, image);
+            Game.world.notificationHandler.ShowNotification(message, time, image);
         }
     }
 }

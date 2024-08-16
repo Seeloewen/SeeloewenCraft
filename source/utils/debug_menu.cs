@@ -6,7 +6,7 @@ namespace SeeloewenCraft
 {
     public class DebugMenu
     {
-        World world;
+        
         public Canvas cvsDebugMenu = new Canvas() { Height = 630, Width = 1250 };
         public TextBlock tblGameStats = new TextBlock() { FontSize = 20, FontWeight = FontWeights.Bold };
         public TextBlock tblBlockStats = new TextBlock() { FontSize = 20, FontWeight = FontWeights.Bold};
@@ -17,12 +17,12 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public DebugMenu(World world)
+        public DebugMenu()
         {
-            this.world = world;
+            
 
             //Setup debug canvas
-            world.wndGame.cvsGame.Children.Add(cvsDebugMenu);
+            Game.world.wndGame.cvsGame.Children.Add(cvsDebugMenu);
             Canvas.SetLeft(cvsDebugMenu, 10);
             Canvas.SetTop(cvsDebugMenu, 100);
 
@@ -136,7 +136,7 @@ namespace SeeloewenCraft
             //Check if the first character is a "/" and handle the command
             if (tbDebug.Text.Length > 0 && tbDebug.Text[0] == '/')
             {
-                CommandHandler.HandleCommand(tbDebug.Text, world);
+                CommandHandler.HandleCommand(tbDebug.Text);
             }
             else
             {

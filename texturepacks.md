@@ -5,13 +5,13 @@ Since version Alpha 1.1.3 the game also supports changing the vanilla textures t
 ## How are texturepacks structured?
 The root of a texturepack is a basic folder. In there are two components: The 'textures' folder and the 'pack.txt' file.
 
-The textures folder contains all the textures of the game. Those are also categorised into subfolders. The exact folder structure can be seen when going into the 'Resources' folder in the root of this repository, that's basically the texture folder for internal usage. Make sure your folder structure and also file names match the one provided here.
+The textures folder contains all the textures of the Those are also categorised into subfolders. The exact folder structure can be seen when going into the 'Resources' folder in the root of this repository, that's basically the texture folder for internal usage. Make sure your folder structure and also file names match the one provided here.
 
 The pack.txt file contains all the general information about the texturepack. You can find an example structure with the detailed explanation down below.
 
 ## How is pack.txt structured?
 
-Line 1: This line gets ignored by the game. It can contain the name, author or some other information.\
+Line 1: This line gets ignored by the It can contain the name, author or some other information.\
 Line 2: This line contains the texturepackVersion in the format 'texturepackVersion=1'. The texturepack version gets changed when there are massive changes to the texturepack structure or the textures in general. The addition of new textures does generally not change the version.
 
 **Example:**

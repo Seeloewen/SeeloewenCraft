@@ -11,7 +11,7 @@ namespace SeeloewenCraft
         public bool isChiseled;
         public List<Item> unchiselItems = new List<Item>();
 
-        public ChiseledItem(World world) : base(world)
+        public ChiseledItem() : base()
         {
             isChiseled = true;
         }

@@ -13,8 +13,8 @@ namespace SeeloewenCraft
             {
                 double amount = double.Parse(args[1], CultureInfo.InvariantCulture);
 
-                world.player.Heal(amount);
-                MessageBox.Show($"Succesfully healed player {amount}hp to {world.player.hp}hp", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                Game.world.player.Heal(amount);
+                MessageBox.Show($"Succesfully healed player {amount}hp to {Game.world.player.hp}hp", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             } catch {
                 MessageBox.Show("Invalid command syntax: can't parse healing amount to double", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -27,8 +27,8 @@ namespace SeeloewenCraft
             {
                 double amount = double.Parse(args[1], CultureInfo.InvariantCulture);
 
-                world.player.Damage(amount);
-                MessageBox.Show($"Succesfully damaged player {amount}hp to {world.player.hp}hp", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                Game.world.player.Damage(amount);
+                MessageBox.Show($"Succesfully damaged player {amount}hp to {Game.world.player.hp}hp", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch
             {
@@ -39,7 +39,7 @@ namespace SeeloewenCraft
 
         public static void HandleHPCommand(string[] args)
         {
-            MessageBox.Show($"current hp: {world.player.hp}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show($"current hp: {Game.world.player.hp}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
     }

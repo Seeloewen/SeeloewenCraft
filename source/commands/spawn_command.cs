@@ -12,7 +12,7 @@ namespace SeeloewenCraft
                 return;
             }
 
-            Entity entity = EntityRegister.GenerateEntity(args[1], world);
+            Entity entity = EntityRegister.GenerateEntity(args[1]);
             if (entity == null)
             {
                 MessageBox.Show($"Invalid command syntax: entity id was not found ({args[1]})", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -30,7 +30,7 @@ namespace SeeloewenCraft
                 return;
             }
 
-            world.AddEntity(entity);
+            Game.world.AddEntity(entity);
             MessageBox.Show($"Successfully spawned entity {entity.id} at x{entity.posX} y{entity.posY}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }

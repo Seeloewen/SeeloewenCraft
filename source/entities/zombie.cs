@@ -11,8 +11,8 @@ namespace SeeloewenCraft
         private int timeSinceMove;
 
 
-        public Zombie(int posX, int posY, int velX, int velY, World world)
-            : base(900, 1800, posX, posY, velX, velY, world, new SolidColorBrush(Colors.LimeGreen))
+        public Zombie(int posX, int posY, int velX, int velY)
+            : base(900, 1800, posX, posY, velX, velY,  new SolidColorBrush(Colors.LimeGreen))
         {
             rnd = new Random(DateTime.Now.Millisecond);
             ACC_WALKING = 20000;

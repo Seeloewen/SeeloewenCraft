@@ -48,7 +48,7 @@ namespace SeeloewenCraft
 
         string type;
 
-        public ModdedBlock(string type, World world, bool isInBackground) : base(world, isInBackground)
+        public ModdedBlock(string type, bool isInBackground) : base( isInBackground)
         {
             this.type = type;
             SetTexture();
@@ -89,9 +89,9 @@ namespace SeeloewenCraft
             image = BlockLoader.blockTypes[type].texture;
         }
 
-        public override void GenerateItem(World world)
+        public override void GenerateItem()
         {
-            item = new ModdedItem(type, world, this);
+            item = new ModdedItem(type,  this);
         }
 
         public override void RightClickAction(object sender)

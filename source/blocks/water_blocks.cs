@@ -7,7 +7,7 @@ namespace SeeloewenCraft
 
     public abstract class WaterBlock : Block
     {
-        public WaterBlock(World world, bool isInBackground) : base(world, isInBackground)
+        public WaterBlock( bool isInBackground) : base( isInBackground)
         {
             isSolid = false;
             isReplacable = true;
@@ -43,7 +43,7 @@ namespace SeeloewenCraft
 
         public override void ShowAdditionalDebugInfo()
         {
-            world.debugMenu.AddLine(world.debugMenu.tblBlockStats, $"waterLevel={waterLevel}");
+            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"waterLevel={waterLevel}");
         }
     }
 
@@ -52,7 +52,7 @@ namespace SeeloewenCraft
     public class WaterBlock_1_Right : WaterBlock
     {
 
-        public WaterBlock_1_Right(World world, bool isInBackground) : base(world, isInBackground)
+        public WaterBlock_1_Right( bool isInBackground) : base( isInBackground)
         {
             waterLevel = 1;
             SetTexture();
@@ -68,7 +68,7 @@ namespace SeeloewenCraft
             return (false, 0);
         }
 
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
             item = null;
         }
@@ -81,7 +81,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_1_Left : WaterBlock
     {
-        public WaterBlock_1_Left(World world, bool isInBackground) : base(world, isInBackground)
+        public WaterBlock_1_Left( bool isInBackground) : base( isInBackground)
         {
             waterLevel = 1;
             SetTexture();
@@ -95,7 +95,7 @@ namespace SeeloewenCraft
             }
             return (false, 0);
         }
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
             item = null;
         }
@@ -108,7 +108,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_2_Right : WaterBlock
     {
-        public WaterBlock_2_Right(World world, bool isInBackground) : base(world, isInBackground)
+        public WaterBlock_2_Right( bool isInBackground) : base( isInBackground)
         {
             waterLevel = 2;
             SetTexture();
@@ -122,7 +122,7 @@ namespace SeeloewenCraft
             }
             return (false, 0);
         }
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
             item = null;
         }
@@ -135,7 +135,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_2_Left : WaterBlock
     {
-        public WaterBlock_2_Left(World world, bool isInBackground) : base(world, isInBackground)
+        public WaterBlock_2_Left( bool isInBackground) : base( isInBackground)
         {
             waterLevel = 2;
             SetTexture();
@@ -149,7 +149,7 @@ namespace SeeloewenCraft
             }
             return (false, 0);
         }
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
             item = null;
         }
@@ -162,7 +162,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_3_Right : WaterBlock
     {
-        public WaterBlock_3_Right(World world, bool isInBackground) : base(world, isInBackground)
+        public WaterBlock_3_Right( bool isInBackground) : base( isInBackground)
         {
             waterLevel = 3;
             SetTexture();
@@ -176,7 +176,7 @@ namespace SeeloewenCraft
             }
             return (false, 0);
         }
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
             item = null;
         }
@@ -189,7 +189,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_3_Left : WaterBlock
     {
-        public WaterBlock_3_Left(World world, bool isInBackground) : base(world, isInBackground)
+        public WaterBlock_3_Left( bool isInBackground) : base( isInBackground)
         {
             waterLevel = 3;
             id = "sc:water_3_left_block";
@@ -203,7 +203,7 @@ namespace SeeloewenCraft
             }
             return (false, 0);
         }
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
             item = null;
         }
@@ -216,7 +216,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_4_Right : WaterBlock
     {
-        public WaterBlock_4_Right(World world, bool isInBackground) : base(world, isInBackground)
+        public WaterBlock_4_Right( bool isInBackground) : base( isInBackground)
         {
             waterLevel = 4;
             SetTexture();
@@ -230,7 +230,7 @@ namespace SeeloewenCraft
             }
             return (false, 0);
         }
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
             item = null;
         }
@@ -243,7 +243,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_4_Left : WaterBlock
     {
-        public WaterBlock_4_Left(World world, bool isInBackground) : base(world, isInBackground)
+        public WaterBlock_4_Left( bool isInBackground) : base( isInBackground)
         {
             waterLevel = 4;
             SetTexture();
@@ -257,7 +257,7 @@ namespace SeeloewenCraft
             }
             return (false, 0);
         }
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
             item = null;
         }
@@ -270,7 +270,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_5_Right : WaterBlock
     {
-        public WaterBlock_5_Right(World world, bool isInBackground) : base(world, isInBackground)
+        public WaterBlock_5_Right( bool isInBackground) : base( isInBackground)
         {
             waterLevel = 5;
             SetTexture();
@@ -284,7 +284,7 @@ namespace SeeloewenCraft
             }
             return (false, 0);
         }
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
             item = null;
         }
@@ -297,7 +297,7 @@ namespace SeeloewenCraft
 
     public class WaterBlock_5_Left : WaterBlock
     {
-        public WaterBlock_5_Left(World world, bool isInBackground) : base(world, isInBackground)
+        public WaterBlock_5_Left( bool isInBackground) : base( isInBackground)
         {
             waterLevel = 5;
             SetTexture();
@@ -311,7 +311,7 @@ namespace SeeloewenCraft
             }
             return (false, 0);
         }
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
             item = null;
         }
@@ -324,14 +324,14 @@ namespace SeeloewenCraft
 
     public class WaterBlock_6 : WaterBlock
     {
-        public WaterBlock_6(World world, bool isInBackground) : base(world, isInBackground)
+        public WaterBlock_6( bool isInBackground) : base( isInBackground)
         {
             waterLevel = 6;
             SetTexture();
             id = "sc:water_6_block";
         }
 
-        override public void GenerateItem(World world)
+        override public void GenerateItem()
         {
             item = null;
         }
