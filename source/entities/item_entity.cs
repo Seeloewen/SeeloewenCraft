@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.entity
 {
     public class ItemEntity : Entity
     {

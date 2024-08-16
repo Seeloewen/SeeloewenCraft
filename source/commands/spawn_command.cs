@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 
+using SeeloewenCraft.entity;
+
 namespace SeeloewenCraft
 {
     partial class CommandHandler

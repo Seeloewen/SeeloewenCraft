@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Diagnostics.Eventing.Reader;
 using System.Windows.Media;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.entity
 {
     public class MovingEntity : Entity
     {

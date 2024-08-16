@@ -3,7 +3,8 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media;
 using System;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
+
+using SeeloewenCraft.entity;
 
 namespace SeeloewenCraft
 {
