@@ -516,12 +516,13 @@ namespace SeeloewenCraft
                                 yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
                                 rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
                         }
-                        RemoveForegroundBlock();
-                    }
 
-                    if (hasInventory)
-                    {
-                        blockInventory.Drop(xPos + 8 * chunk.index, yPos);
+                        if (foregroundBlock.hasInventory)
+                        {
+                            foregroundBlock.blockInventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
+                        }
+
+                        RemoveForegroundBlock();
                     }
                 }
                 //If it has no foreground block, check if the normal block is breakable
@@ -647,13 +648,20 @@ namespace SeeloewenCraft
             this.yPos = yPos;
         }
 
-        public List<Block> GetConnectedBlocks() //Assumes this is a base block
+        public List<Block> GetConnectedBlocks(bool inForeground) //Assumes this is a base block
         {
             //Get all connected blocks from the given coordinates
             List<Block> connectedBlocks = new List<Block>();
             foreach (var entry in this.connectedBlocks)
             {
-                connectedBlocks.Add(Game.world.GetBlock(xPos + 8 * chunk.index + entry.xOffset, yPos + entry.yOffset));
+                if(!inForeground)
+                {
+                    connectedBlocks.Add(Game.world.GetBlock(xPos + 8 * chunk.index + entry.xOffset, yPos + entry.yOffset));
+                }
+                else
+                {
+                    connectedBlocks.Add(Game.world.GetBlock(xPos + 8 * chunk.index + entry.xOffset, yPos + entry.yOffset).foregroundBlock);
+                }
             }
 
             return connectedBlocks;

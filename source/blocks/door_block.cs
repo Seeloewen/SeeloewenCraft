@@ -12,14 +12,28 @@ namespace SeeloewenCraft
 
         public override void RightClickAction(object sender)
         {
-            //Open or close the door, based on the current state
+            //Open or close the door, based on the current state and whether it's a foreground block
             if (isOpen)
             {
-                Close();
+                if (isForeground)
+                {
+                    CloseForeground();
+                }
+                else
+                {
+                    Close();
+                }
             }
             else
             {
-                Open();
+                if (isForeground)
+                {
+                    OpenForeground();
+                }
+                else
+                {
+                    Open();
+                }
             }
         }
 
@@ -34,9 +48,27 @@ namespace SeeloewenCraft
             //If it's a base block, also open all connected doorblocks
             if (isBase)
             {
-                foreach (DoorBlock block in GetConnectedBlocks())
+                foreach (DoorBlock block in GetConnectedBlocks(false))
                 {
                     block.Open();
+                }
+            }
+        }
+
+        public void OpenForeground()
+        {
+            //Open the current door block
+            isOpen = true;
+            image = imgOpen;
+            chunk.GetBlock(xPos, yPos).blockContainer.cvsForegroundBlock.Background = image;
+            isSolid = false;
+
+            //If it's a base block, also open all connected doorblocks
+            if (isBase)
+            {
+                foreach (DoorBlock block in GetConnectedBlocks(true))
+                {
+                    block.OpenForeground();
                 }
             }
         }
@@ -52,10 +84,29 @@ namespace SeeloewenCraft
             //If it's a base block, also close all connected doorblocks
             if (isBase)
             {
-                foreach (DoorBlock block in GetConnectedBlocks())
+                foreach (DoorBlock block in GetConnectedBlocks(false))
 
                 {
                     block.Close();
+                }
+            }
+        }
+
+        public void CloseForeground()
+        {
+            //Close the current door block
+            isOpen = false;
+            image = imgClose;
+            isSolid = true;
+            chunk.GetBlock(xPos, yPos).blockContainer.cvsForegroundBlock.Background = image;
+
+            //If it's a base block, also close all connected doorblocks
+            if (isBase)
+            {
+                foreach (DoorBlock block in GetConnectedBlocks(true))
+
+                {
+                    block.CloseForeground();
                 }
             }
         }

@@ -401,11 +401,6 @@ namespace SeeloewenCraft
             return touchingStatus;
         }
 
-        override public void GenerateItem()
-        {
-            item = null;
-        }
-
         public override void SetTexture()
         {
             image = Images.PottedCactus_Top.GetTexture();
@@ -613,11 +608,6 @@ namespace SeeloewenCraft
             imgOpen = Images.SpruceDoor_Open_Top.GetTexture();
         }
 
-        override public void GenerateItem()
-        {
-            item = new SpruceDoorItem();
-        }
-
         public override void SetTexture()
         {
             image = Images.SpruceDoor_Closed_Top.GetTexture();
@@ -625,9 +615,19 @@ namespace SeeloewenCraft
 
         public override void RightClickAction(object sender)
         {
-            if (GetBaseBlock() is DoorBlock block)
+            if (!isForeground)
             {
-                block.RightClickAction(sender);
+                if (GetBaseBlock() is DoorBlock block)
+                {
+                    block.RightClickAction(sender);
+                }
+            }
+            else
+            {
+                if (GetBaseBlock().GetForegroundBlock() is DoorBlock block)
+                {
+                    block.RightClickAction(sender);
+                }
             }
         }
     }

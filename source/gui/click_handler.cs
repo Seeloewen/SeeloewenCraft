@@ -25,71 +25,80 @@ namespace SeeloewenCraft
                 return;
             }
 
-            //Check if the block has action, else place it 
-            if (block != null && block.hasRightClickAction)
+            if (block != null)
             {
-                block.RightClickAction(sender);
-            }
-            else if (block != null && !block.hasRightClickAction)
-            {
-                //Check if the block meets all requirements to be placed in foreground of another block
-                if (block.IsInRange() && selectedItem != null && block.GetForegroundBlock() == null && block.isBackground)
+                //Check if the block has a foreground block that has an action
+                if (block.GetForegroundBlock() != null && block.GetForegroundBlock().hasRightClickAction)
                 {
-                    if (selectedItem.block == null) selectedItem.GenerateBlock(block.isBackground);
-
-                    if (selectedItem.block != null)
-                    {
-                        //If it`s part of a construct, check if it has enough space
-                        if (selectedItem.block.isBase && block.ConBlocksHaveSpace(selectedItem.block, true))
-                        {
-                            block.SetForegroundBlock(selectedItem.block);
-                            block.PlaceConnectedForegroundBlocks(selectedItem.block);
-
-                            //Remove the item from the inventory
-                            selectedSlot.slot.Remove(1);
-                            selectedSlot.slot.inventory.UpdateHotbar();
-                        }
-                        else if (!selectedItem.block.isBase)
-                        {
-                            block.SetForegroundBlock(selectedItem.block);
-
-                            //Remove the item from the inventory
-                            selectedSlot.slot.Remove(1);
-                            selectedSlot.slot.inventory.UpdateHotbar();
-                        }
-
-                    }
+                    block.GetForegroundBlock().RightClickAction(sender);
                 }
-                //Check if the block isn't in background and can be replaced
-                else if (block.IsInRange() && block.isReplacable && !block.IsCollidingWithPlayer(sender) && !block.isBackground && selectedItem != null)
+                //Check if the block has an action
+                else if (block.hasRightClickAction)
                 {
-                    if (selectedItem.block == null)
+                    block.RightClickAction(sender);
+                }
+                //Place the block
+                else if (!block.hasRightClickAction)
+                {
+                    //Check if the block meets all requirements to be placed in foreground of another block
+                    if (block.IsInRange() && selectedItem != null && block.GetForegroundBlock() == null && block.isBackground)
                     {
-                        selectedItem.GenerateBlock(block.isBackground);
-                    }
+                        if (selectedItem.block == null) selectedItem.GenerateBlock(block.isBackground);
 
-                    if (selectedItem.block != null)
+                        if (selectedItem.block != null)
+                        {
+                            //If it`s part of a construct, check if it has enough space
+                            if (selectedItem.block.isBase && block.ConBlocksHaveSpace(selectedItem.block, true))
+                            {
+                                block.SetForegroundBlock(selectedItem.block);
+                                block.PlaceConnectedForegroundBlocks(selectedItem.block);
+
+                                //Remove the item from the inventory
+                                selectedSlot.slot.Remove(1);
+                                selectedSlot.slot.inventory.UpdateHotbar();
+                            }
+                            else if (!selectedItem.block.isBase)
+                            {
+                                block.SetForegroundBlock(selectedItem.block);
+
+                                //Remove the item from the inventory
+                                selectedSlot.slot.Remove(1);
+                                selectedSlot.slot.inventory.UpdateHotbar();
+                            }
+
+                        }
+                    }
+                    //Check if the block isn't in background and can be replaced
+                    else if (block.IsInRange() && block.isReplacable && !block.IsCollidingWithPlayer(sender) && !block.isBackground && selectedItem != null)
                     {
-                        //If it`s part of a construct, check if it has enough space
-                        if (selectedItem.block.isBase && block.ConBlocksHaveSpace(selectedItem.block, false))
+                        if (selectedItem.block == null)
                         {
-                            block.SetBlock(selectedItem.block);
-                            block.PlaceConnectedBlocks(selectedItem.block);
-
-                            //Remove the item from the inventory
-                            selectedSlot.slot.Remove(1);
-                            selectedSlot.slot.inventory.UpdateHotbar();
+                            selectedItem.GenerateBlock(block.isBackground);
                         }
-                        else if (!selectedItem.block.isBase)
+
+                        if (selectedItem.block != null)
                         {
-                            block.SetBlock(selectedItem.block);
+                            //If it`s part of a construct, check if it has enough space
+                            if (selectedItem.block.isBase && block.ConBlocksHaveSpace(selectedItem.block, false))
+                            {
+                                block.SetBlock(selectedItem.block);
+                                block.PlaceConnectedBlocks(selectedItem.block);
 
-                            //Remove the item from the inventory
-                            selectedSlot.slot.Remove(1);
-                            selectedSlot.slot.inventory.UpdateHotbar();
+                                //Remove the item from the inventory
+                                selectedSlot.slot.Remove(1);
+                                selectedSlot.slot.inventory.UpdateHotbar();
+                            }
+                            else if (!selectedItem.block.isBase)
+                            {
+                                block.SetBlock(selectedItem.block);
+
+                                //Remove the item from the inventory
+                                selectedSlot.slot.Remove(1);
+                                selectedSlot.slot.inventory.UpdateHotbar();
+                            }
                         }
+
                     }
-
                 }
 
                 block.chunk.GetBlock(block.xPos, block.yPos).DisplayDebugInformation();
@@ -151,7 +160,7 @@ namespace SeeloewenCraft
         private void BreakConstruct(Block baseBlock)
         {
             //Remove all connected blocks that are part of the construct
-            foreach (Block conBlock in baseBlock.GetConnectedBlocks())
+            foreach (Block conBlock in baseBlock.GetConnectedBlocks(false))
             {
                 conBlock.BreakBlock(true, false);
             }
@@ -163,7 +172,7 @@ namespace SeeloewenCraft
         private void BreakForegroundConstruct(Block baseBlock)
         {
             //Remove all connected blocks that are part of the construct (foreground variant)
-            foreach (Block conBlock in baseBlock.GetForegroundBlock().GetConnectedBlocks())
+            foreach (Block conBlock in baseBlock.GetForegroundBlock().GetConnectedBlocks(false))
             {
                 conBlock.BreakBlock(true, false);
             }
