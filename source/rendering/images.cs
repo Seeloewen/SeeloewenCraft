@@ -3,10 +3,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Windows;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
-using System.Threading;
-using System.Windows.Controls.Primitives;
-using System.Windows.Controls;
 
 namespace SeeloewenCraft
 {
@@ -161,6 +157,7 @@ namespace SeeloewenCraft
             else
             {
                 //If default one doesn't exist, use missing texture image
+                Log.Write($"Could not load texture {resourceName} (Type '{type}'): No image file in texturepack or internally found. Is the type and file name correct?", "Error");
                 return new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/Missing_Texture.png", UriKind.Absolute);
             }
         }
@@ -172,7 +169,7 @@ namespace SeeloewenCraft
             StoneBlock = new SealImage(TextureType.Block, "Stone_Block.png");
             Dirt = new SealImage(TextureType.Block, "Dirt.png");
             Air = new SealImage(TextureType.Block, "Air.png");
-            Bedrock = new SealImage(TextureType.Block, "Bedrock.png");
+            Bedrock = new SealImage(TextureType.Block, "Bedrockdsf.png");
             CoalOre = new SealImage(TextureType.Block, "Coal_Ore.png");
             DiamondOre = new SealImage(TextureType.Block, "Diamond_Ore.png");
             IronOre = new SealImage(TextureType.Block, "Iron_Ore.png");
@@ -627,17 +624,27 @@ namespace SeeloewenCraft
         public ImageBrush texture = new ImageBrush();
         public TextureType type;
         public string name;
+        public bool isCreated = false;
 
         public SealImage(TextureType type, string name)
         {
             this.type = type;
             this.name = name;
+        }
 
+        public void CreateImage()
+        {
             texture.ImageSource = Images.GetImageSource(name, type);
+            isCreated = true;
         }
 
         public ImageBrush GetTexture()
         {
+            if (!isCreated)
+            {
+                CreateImage();
+            }
+
             return texture;
         }
     }
