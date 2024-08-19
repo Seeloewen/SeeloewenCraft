@@ -126,6 +126,131 @@ namespace SeeloewenCraft
 
                 case "sc:spruce_door_item":
                     return new SpruceDoorItem();
+                case "sc:oak_planks_topleft_item":
+                    return new OakPlanksItem_TopLeft();
+
+                case "sc:oak_planks_topright_item":
+                    return new OakPlanksItem_TopRight();
+
+                case "sc:oak_planks_bottomleft_item":
+                    return new OakPlanksItem_BottomLeft();
+
+                case "sc:oak_planks_bottomright_item":
+                    return new OakPlanksItem_BottomRight();
+
+                case "sc:oak_planks_slabright_item":
+                    return new OakPlanksItem_SlabRight();
+
+                case "sc:oak_planks_slableft_item":
+                    return new OakPlanksItem_SlabLeft();
+
+                case "sc:oak_planks_slabtop_item":
+                    return new OakPlanksItem_SlabTop();
+
+                case "sc:oak_planks_slabbottom_item":
+                    return new OakPlanksItem_SlabBottom();
+
+                case "sc:oak_planks_stairtopright_item":
+                    return new OakPlanksItem_StairTopRight();
+
+                case "sc:oak_planks_stairtopleft_item":
+                    return new OakPlanksItem_StairTopLeft();
+
+                case "sc:oak_planks_stairbottomright_item":
+                    return new OakPlanksItem_StairBottomRight();
+
+                case "sc:oak_planks_stairbottomleft_item":
+                    return new OakPlanksItem_StairBottomLeft();
+
+                case "sc:oak_planks_item":
+                    return new OakPlanksItem();
+
+                case "sc:oak_planks_center_item":
+                    return new OakPlanksItem_Center();
+
+                case "sc:spruce_planks_topleft_item":
+                    return new SprucePlanksItem_TopLeft();
+
+                case "sc:spruce_planks_topright_item":
+                    return new SprucePlanksItem_TopRight();
+
+                case "sc:spruce_planks_bottomleft_item":
+                    return new SprucePlanksItem_BottomLeft();
+
+                case "sc:spruce_planks_bottomright_item":
+                    return new SprucePlanksItem_BottomRight();
+
+                case "sc:spruce_planks_slabright_item":
+                    return new SprucePlanksItem_SlabRight();
+
+                case "sc:spruce_planks_slableft_item":
+                    return new SprucePlanksItem_SlabLeft();
+
+                case "sc:spruce_planks_slabtop_item":
+                    return new SprucePlanksItem_SlabTop();
+
+                case "sc:spruce_planks_slabbottom_item":
+                    return new SprucePlanksItem_SlabBottom();
+
+                case "sc:spruce_planks_stairtopright_item":
+                    return new SprucePlanksItem_StairTopRight();
+
+                case "sc:spruce_planks_stairtopleft_item":
+                    return new SprucePlanksItem_StairTopLeft();
+
+                case "sc:spruce_planks_stairbottomright_item":
+                    return new SprucePlanksItem_StairBottomRight();
+
+                case "sc:spruce_planks_stairbottomleft_item":
+                    return new SprucePlanksItem_StairBottomLeft();
+
+                case "sc:spruce_planks_item":
+                    return new SprucePlanksItem();
+
+                case "sc:spruce_planks_center_item":
+                    return new SprucePlanksItem_Center();
+
+                case "sc:sand_stone_topleft_item":
+                    return new SandStoneItem_TopLeft();
+
+                case "sc:sand_stone_topright_item":
+                    return new SandStoneItem_TopRight();
+
+                case "sc:sand_stone_bottomleft_item":
+                    return new SandStoneItem_BottomLeft();
+
+                case "sc:sand_stone_bottomright_item":
+                    return new SandStoneItem_BottomRight();
+
+                case "sc:sand_stone_slabright_item":
+                    return new SandStoneItem_SlabRight();
+
+                case "sc:sand_stone_slableft_item":
+                    return new SandStoneItem_SlabLeft();
+
+                case "sc:sand_stone_slabtop_item":
+                    return new SandStoneItem_SlabTop();
+
+                case "sc:sand_stone_slabbottom_item":
+                    return new SandStoneItem_SlabBottom();
+
+                case "sc:sand_stone_stairtopright_item":
+                    return new SandStoneItem_StairTopRight();
+
+                case "sc:sand_stone_stairtopleft_item":
+                    return new SandStoneItem_StairTopLeft();
+
+                case "sc:sand_stone_stairbottomright_item":
+                    return new SandStoneItem_StairBottomRight();
+
+                case "sc:sand_stone_stairbottomleft_item":
+                    return new SandStoneItem_StairBottomLeft();
+
+                case "sc:sand_stone_item":
+                    return new SandStoneItem();
+
+                case "sc:sand_stone_center_item":
+                    return new SandStoneItem_Center();
 
                 default:
                     return new BedrockItem();

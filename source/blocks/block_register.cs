@@ -105,6 +105,84 @@
                     return new SpruceDoor_Base(false);
                 case "sc:spruce_door_top":
                     return new SpruceDoor_Top(false);
+                case "sc:oak_planks_topleft":
+                    return new OakPlanksBlock_TopLeft(false);
+                case "sc:oak_planks_topright":
+                    return new OakPlanksBlock_TopRight(false);
+                case "sc:oak_planks_bottomleft":
+                    return new OakPlanksBlock_BottomLeft(false);
+                case "sc:oak_planks_bottomright":
+                    return new OakPlanksBlock_BottomRight(false);
+                case "sc:oak_planks_slabright":
+                    return new OakPlanksBlock_SlabRight(false);
+                case "sc:oak_planks_slableft":
+                    return new OakPlanksBlock_SlabLeft(false);
+                case "sc:oak_planks_slabtop":
+                    return new OakPlanksBlock_SlabTop(false);
+                case "sc:oak_planks_slabbottom":
+                    return new OakPlanksBlock_SlabBottom(false);
+                case "sc:oak_planks_stairtopright":
+                    return new OakPlanksBlock_StairTopRight(false);
+                case "sc:oak_planks_stairtopleft":
+                    return new OakPlanksBlock_StairTopLeft(false);
+                case "sc:oak_planks_stairbottomright":
+                    return new OakPlanksBlock_StairBottomRight(false);
+                case "sc:oak_planks_stairbottomleft":
+                    return new OakPlanksBlock_StairBottomLeft(false);
+                case "sc:spruce_planks_topleft":
+                    return new SprucePlanksBlock_TopLeft(false);
+                case "sc:spruce_planks_topright":
+                    return new SprucePlanksBlock_TopRight(false);
+                case "sc:spruce_planks_bottomleft":
+                    return new SprucePlanksBlock_BottomLeft(false);
+                case "sc:spruce_planks_bottomright":
+                    return new SprucePlanksBlock_BottomRight(false);
+                case "sc:spruce_planks_slabright":
+                    return new SprucePlanksBlock_SlabRight(false);
+                case "sc:spruce_planks_slableft":
+                    return new SprucePlanksBlock_SlabLeft(false);
+                case "sc:spruce_planks_slabtop":
+                    return new SprucePlanksBlock_SlabTop(false);
+                case "sc:spruce_planks_slabbottom":
+                    return new SprucePlanksBlock_SlabBottom(false);
+                case "sc:spruce_planks_stairtopright":
+                    return new SprucePlanksBlock_StairTopRight(false);
+                case "sc:spruce_planks_stairtopleft":
+                    return new SprucePlanksBlock_StairTopLeft(false);
+                case "sc:spruce_planks_stairbottomright":
+                    return new SprucePlanksBlock_StairBottomRight(false);
+                case "sc:spruce_planks_stairbottomleft":
+                    return new SprucePlanksBlock_StairBottomLeft(false);
+                case "sc:sand_stone_topleft":
+                    return new SandStoneBlock_TopLeft(false);
+                case "sc:sand_stone_topright":
+                    return new SandStoneBlock_TopRight(false);
+                case "sc:sand_stone_bottomleft":
+                    return new SandStoneBlock_BottomLeft(false);
+                case "sc:sand_stone_bottomright":
+                    return new SandStoneBlock_BottomRight(false);
+                case "sc:sand_stone_slabright":
+                    return new SandStoneBlock_SlabRight(false);
+                case "sc:sand_stone_slableft":
+                    return new SandStoneBlock_SlabLeft(false);
+                case "sc:sand_stone_slabtop":
+                    return new SandStoneBlock_SlabTop(false);
+                case "sc:sand_stone_slabbottom":
+                    return new SandStoneBlock_SlabBottom(false);
+                case "sc:sand_stone_stairtopright":
+                    return new SandStoneBlock_StairTopRight(false);
+                case "sc:sand_stone_stairtopleft":
+                    return new SandStoneBlock_StairTopLeft(false);
+                case "sc:sand_stone_stairbottomright":
+                    return new SandStoneBlock_StairBottomRight(false);
+                case "sc:sand_stone_stairbottomleft":
+                    return new SandStoneBlock_StairBottomLeft(false);
+                case "sc:sand_stone_block":
+                    return new SandStoneBlock(false);
+                case "sc:oak_planks_block":
+                    return new OakPlanksBlock(false);
+                case "sc:spruce_planks_block":
+                    return new SprucePlanksBlock(false);
                 default:
                     return null;
 

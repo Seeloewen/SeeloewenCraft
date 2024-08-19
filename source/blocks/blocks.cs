@@ -631,4 +631,67 @@ namespace SeeloewenCraft
             }
         }
     }
+
+    public class SandStoneBlock : Block
+    {
+        public SandStoneBlock(bool isInBackground) : base(isInBackground)
+        {
+            SetTexture();
+            name = "Sand Stone";
+            id = "sc:sand_stone_block";
+            breakTime = 1250;
+        }
+
+        override public void GenerateItem()
+        {
+            item = new SandStoneItem();
+        }
+
+        public override void SetTexture()
+        {
+            image = Images.SandStone.GetTexture();
+        }
+    }
+
+    public class OakPlanksBlock : Block
+    {
+        public OakPlanksBlock(bool isInBackground) : base(isInBackground)
+        {
+            SetTexture();
+            name = "Oak Plank";
+            id = "sc:oak_planks_block";
+            breakTime = 500;
+        }
+
+        override public void GenerateItem()
+        {
+            item = new OakPlanksItem();
+        }
+
+        public override void SetTexture()
+        {
+            image = Images.OakPlanks.GetTexture();
+        }
+    }
+
+    public class SprucePlanksBlock : Block
+    {
+        public SprucePlanksBlock(bool isInBackground) : base(isInBackground)
+        {
+            SetTexture();
+            name = "Spruce Planks";
+            id = "sc:spruce_plankss_block";
+            breakTime = 500;
+        }
+
+        override public void GenerateItem()
+        {
+            item = new SprucePlanksItem();
+        }
+
+        public override void SetTexture()
+        {
+            image = Images.SprucePlanks.GetTexture();
+        }
+    }
 }

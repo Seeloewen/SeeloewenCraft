@@ -638,4 +638,73 @@ namespace SeeloewenCraft
             cvsItem.Background = image;
         }
     }
+    public class OakPlanksItem : Item
+    {
+        public OakPlanksItem() : base()
+        {
+            isPlacable = true;
+            name = "Oak Planks";
+            id = "sc:oak_plankss_item";
+            SetTexture();
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new OakPlanksBlock(isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            //Set the texture of the block on the canvas
+            image = Images.OakPlanks.GetTexture();
+            cvsItem.Background = image;
+        }
+    }
+    public class SprucePlanksItem : Item
+    {
+        public SprucePlanksItem() : base()
+        {
+            isPlacable = true;
+            name = "Spruce Planks";
+            id = "sc:spruce_planks_item";
+            SetTexture();
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new SprucePlanksBlock(isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            //Set the texture of the block on the canvas
+            image = Images.SprucePlanks.GetTexture();
+            cvsItem.Background = image;
+        }
+    }
+    public class SandStoneItem : Item
+    {
+        public SandStoneItem() : base()
+        {
+            isPlacable = true;
+            name = "Sand Stone";
+            id = "sc:sand_stone_item";
+            SetTexture();
+        }
+
+        override public Block GenerateBlock(bool isInBackground)
+        {
+            block = new SandStoneBlock(isInBackground);
+            return block;
+        }
+
+        override public void SetTexture()
+        {
+            //Set the texture of the block on the canvas
+            image = Images.SandStone.GetTexture();
+            cvsItem.Background = image;
+        }
+    }
 }
