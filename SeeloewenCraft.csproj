@@ -1,148 +1,60 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
-    <OutputType>WinExe</OutputType>
-    <LangVersion>latest</LangVersion>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-	    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-	<PublishSingleFile>true</PublishSingleFile>
-    <SelfContained>false</SelfContained>
-    <UseWindowsForms>true</UseWindowsForms>
-    <UseWPF>true</UseWPF>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-    <SupportedOSPlatformVersion>10.0.20348.0</SupportedOSPlatformVersion>
-    <StartupObject>SeeloewenCraft.App</StartupObject>
-    <ApplicationIcon>SeeloewenCraft.ico</ApplicationIcon>
-    <GenerateDocumentationFile>False</GenerateDocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <Optimize>True</Optimize>
-  </PropertyGroup>
-  <ItemGroup>
-    <Resource Include="Resources\changelog.txt" />
-    <Resource Include="Resources\Textures\Blocks\Crafting_Table.png" />
-    <Resource Include="Resources\Textures\Blocks\Chiseler.png" />
-    <Resource Include="Resources\Textures\Blocks\Cobblestone.png" />
-    <Resource Include="Resources\Textures\Blocks\Chiseled\Cobblestone_BottomLeft.png" />
-    <Resource Include="Resources\Textures\Blocks\Chiseled\Cobblestone_BottomRight.png" />
-    <Resource Include="Resources\Textures\Blocks\Chiseled\Cobblestone_Center.png" />
-    <Resource Include="Resources\Textures\Blocks\Chiseled\Cobblestone_SlabBottom.png" />
-    <Resource Include="Resources\Textures\Blocks\Chiseled\Cobblestone_SlabLeft.png" />
-    <Resource Include="Resources\Textures\Blocks\Chiseled\Cobblestone_SlabRight.png" />
-    <Resource Include="Resources\Textures\Blocks\Chiseled\Cobblestone_SlabTop.png" />
-    <Resource Include="Resources\Textures\Blocks\Chiseled\Cobblestone_StairBottomLeft.png" />
-    <Resource Include="Resources\Textures\Blocks\Chiseled\Cobblestone_StairBottomRight.png" />
-    <Resource Include="Resources\Textures\Blocks\Chiseled\Cobblestone_StairTopLeft.png" />
-    <Resource Include="Resources\Textures\Blocks\Chiseled\Cobblestone_StairTopRight.png" />
-    <Resource Include="Resources\Textures\Blocks\Chiseled\Cobblestone_TopLeft.png" />
-    <Resource Include="Resources\Textures\Blocks\Chiseled\Cobblestone_TopRight.png" />
-    <Resource Include="Resources\Textures\Blocks\Connected\Potted_Cactus.png" />
-    <Resource Include="Resources\Textures\Blocks\Connected\Potted_Cactus_Base.png" />
-    <Resource Include="Resources\Textures\Blocks\Connected\Potted_Cactus_Top.png" />
-    <Resource Include="Resources\Textures\Blocks\States\Spruce_Door_Closed_Base.png" />
-    <Resource Include="Resources\Textures\Blocks\States\Spruce_Door_Closed_Top.png" />
-    <Resource Include="Resources\Textures\Blocks\States\Spruce_Door_Open_Base.png" />
-    <Resource Include="Resources\Textures\Blocks\States\Spruce_Door_Open_Top.png" />
-    <Resource Include="Resources\Textures\Blocks\Unchiseler.png" />
-    <Resource Include="Resources\Textures\Break_1.png" />
-    <Resource Include="Resources\Textures\Break_2.png" />
-    <Resource Include="Resources\Textures\Break_3.png" />
-    <Resource Include="Resources\Textures\Break_4.png" />
-    <Resource Include="Resources\Textures\Break_5.png" />
-    <Resource Include="Resources\Textures\Entities\Slime_Blue.png" />
-    <Resource Include="Resources\Textures\Entities\Slime_Green.png" />
-    <Resource Include="Resources\Textures\Entities\Slime_Magenta.png" />
-    <Resource Include="Resources\Textures\Entities\Slime_Red.png" />
-    <Resource Include="Resources\Textures\Entities\Slime_Yellow.png" />
-    <Resource Include="Resources\Textures\Blocks\Chest.png" />
-    <Resource Include="Resources\Textures\Gui\Background.png" />
-    <Resource Include="Resources\Textures\Gui\Gui.png" />
-    <Resource Include="Resources\Textures\Gui\Heart_Empty.png" />
-    <Resource Include="Resources\Textures\Gui\Heart_Full.png" />
-    <Resource Include="Resources\Textures\Gui\Heart_Half.png" />
-    <Resource Include="Resources\Textures\Blocks\Magma_Block.png" />
-    <Resource Include="Resources\recipes.json" />
-    <Resource Include="Resources\Textures\Blocks\Stone_Block.png" />
-    <Resource Include="Resources\Textures\Blocks\Air.png" />
-    <Resource Include="Resources\Textures\Blocks\Coal_Ore.png" />
-    <Resource Include="Resources\Textures\Blocks\Diamond_Ore.png" />
-    <Resource Include="Resources\Textures\Blocks\Dirt.png" />
-    <Resource Include="Resources\Textures\Blocks\Bedrock.png" />
-    <Resource Include="Resources\Textures\Blocks\Grass_Block.png" />
-    <Resource Include="Resources\Textures\Blocks\Iron_Ore.png" />
-    <Resource Include="Resources\Textures\Blocks\Oak_Leaves.png" />
-    <Resource Include="Resources\Textures\Blocks\Oak_Log.png" />
-    <Resource Include="Resources\Textures\Hammer_1.png" />
-    <Resource Include="Resources\Textures\Hammer_2.png" />
-    <Resource Include="Resources\Textures\Hammer_3.png" />
-    <Resource Include="Resources\Textures\Hammer_4.png" />
-    <Resource Include="Resources\Textures\Hammer_5.png" />
-    <Resource Include="Resources\Textures\Items\Arrow.png" />
-    <Resource Include="Resources\Textures\Items\Bone.png" />
-    <Resource Include="Resources\Textures\Items\Snowball.png" />
-    <Resource Include="Resources\Textures\Items\Spruce_Door_Item.png" />
-    <Resource Include="Resources\Textures\Missing_Texture.png" />
-    <Resource Include="Resources\Textures\Items\Stone_Hammer.png" />
-    <Resource Include="Resources\Textures\Blocks\Spruce_Leaves.png" />
-    <Resource Include="Resources\Textures\Blocks\Spruce_Log.png" />
-    <Resource Include="Resources\splash_texts.txt" />
-    <Resource Include="Resources\Textures\Blocks\Torch.png" />
-    <Resource Include="Resources\Textures\Blocks\Water_2_Left.png" />
-    <Resource Include="Resources\Textures\Blocks\Water_2_Right.png" />
-    <Resource Include="Resources\Textures\Blocks\Water_3_Left.png" />
-    <Resource Include="Resources\Textures\Blocks\Water_3_Right.png" />
-    <Resource Include="Resources\Textures\Blocks\Water_4_Left.png" />
-    <Resource Include="Resources\Textures\Blocks\Water_4_Right.png" />
-    <Resource Include="Resources\Textures\Blocks\Water_5_Left.png" />
-    <Resource Include="Resources\Textures\Blocks\Water_5_Right.png" />
-    <Resource Include="Resources\Textures\Blocks\Water_1_Left.png" />
-    <Resource Include="Resources\Textures\Blocks\Water_1_Right.png" />
-    <Resource Include="Resources\Textures\Blocks\Water_6.png" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Json.Pointer" Version="2.3.0" />
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="frmLog.cs" />
-    <Compile Remove="frmLog.Designer.cs" />
-    <EmbeddedResource Remove="frmLog.resx" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Resources\Textures\Blocks\States\Spruce_Door_Closed_Base.png" />
-    <None Remove="Resources\Textures\Blocks\States\Spruce_Door_Closed_Top.png" />
-    <None Remove="Resources\Textures\Blocks\States\Spruce_Door_Open_Base.png" />
-    <None Remove="Resources\Textures\Blocks\States\Spruce_Door_Open_Top.png" />
-    <None Remove="Resources\Textures\Gui\Background.png" />
-    <None Remove="Resources\Textures\Hammer_1.png" />
-    <None Remove="Resources\Textures\Hammer_2.png" />
-    <None Remove="Resources\Textures\Hammer_3.png" />
-    <None Remove="Resources\Textures\Hammer_4.png" />
-    <None Remove="Resources\Textures\Hammer_5.png" />
-    <None Remove="Resources\Textures\Items\Arrow.png" />
-    <None Remove="Resources\Textures\Items\Bone.png" />
-    <None Remove="Resources\Textures\Items\Snowball.png" />
-    <None Remove="Resources\Textures\Items\Spruce_Door_Item.png" />
-  </ItemGroup>   
-  <ItemGroup>
-    <Content Include="SeeloewenCraft.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
+		<OutputType>WinExe</OutputType>
+		<LangVersion>latest</LangVersion>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<PublishSingleFile>true</PublishSingleFile>
+		<SelfContained>false</SelfContained>
+		<UseWindowsForms>true</UseWindowsForms>
+		<UseWPF>true</UseWPF>
+		<ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+	</PropertyGroup>
+	<PropertyGroup>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<SupportedOSPlatformVersion>10.0.20348.0</SupportedOSPlatformVersion>
+		<StartupObject>SeeloewenCraft.App</StartupObject>
+		<ApplicationIcon>SeeloewenCraft.ico</ApplicationIcon>
+		<GenerateDocumentationFile>False</GenerateDocumentationFile>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<Optimize>True</Optimize>
+	</PropertyGroup>
+	<ItemGroup>
+		<Resource Include="Resources\**\*.*" />
+		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+		<PackageReference Include="Microsoft.Json.Pointer" Version="2.3.0" />
+		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
+		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="SeeloewenCraft.ico" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Properties\Settings.Designer.cs">
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
 </Project>
