@@ -4,9 +4,7 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows;
 using System;
-
 using SeeloewenCraft.entity;
-using System.Windows.Documents;
 
 namespace SeeloewenCraft
 {
@@ -17,9 +15,9 @@ namespace SeeloewenCraft
         private HighPrecisionTimer.MultimediaTimer tmrHammer = new HighPrecisionTimer.MultimediaTimer();
         public List<string> tags = new List<string>();
         public ImageBrush image = new ImageBrush();
+        public SealImage sImage;
         public BlockContainer blockContainer;
         public Chunk chunk;
-        public Item item;
         public Inventory blockInventory;
         private Block foregroundBlock;
         public List<(int xOffset, int yOffset, string blockId)> connectedBlocks = new List<(int, int, string)>();
@@ -33,6 +31,7 @@ namespace SeeloewenCraft
         //block type info
         public string name;
         public string id;
+        public string itemId;
         public bool canBeMovedToBackground = true;
         public bool isReplacable = false;
         public bool isBreakable = true;
@@ -42,6 +41,7 @@ namespace SeeloewenCraft
         public bool hasRightClickAction = false;
         public int breakTime = 150;
         public Collision collision;
+        public Tool effectiveTool;
 
         //variables
         public int xPos;
@@ -83,6 +83,17 @@ namespace SeeloewenCraft
         }
 
         //-- Custom Methods --//
+
+        public void Init(string name, string id, int breakTime, string itemId, Tool effectiveTool, SealImage sImage)
+        {
+            this.name = name;
+            this.id = id;
+            this.breakTime = breakTime;
+            this.itemId = itemId;
+            this.effectiveTool = effectiveTool;
+            this.sImage = sImage;
+            SetTexture();
+        }
 
         public virtual bool[] CheckTouch(int startX, int startY, int endX, int endY)
         {
@@ -425,15 +436,20 @@ namespace SeeloewenCraft
             return foregroundBlock;
         }
 
-        //Create the item that corresponds to the block
-        public virtual void GenerateItem()
+        public Item GetItem()
         {
-            return;
+            //If the item has an id, generate an item and return it
+            if (!string.IsNullOrEmpty(itemId))
+            {
+                return ItemRegister.GenerateItem(itemId);
+            }
+
+            return null;
         }
 
         public virtual void SetTexture()
         {
-            throw new Exception("No texture for block was set.");
+            image = sImage.GetTexture();
         }
 
         public virtual void RightClickAction(object sender)
@@ -444,16 +460,6 @@ namespace SeeloewenCraft
         public virtual void ShowAdditionalDebugInfo()
         {
             return;
-        }
-
-        public Item GetItem()
-        {
-            //Generate a new item if necessary and return the item
-            if (item == null)
-            {
-                GenerateItem();
-            }
-            return item;
         }
 
         public List<Block> GetBlocksInRange(int range)
@@ -508,10 +514,9 @@ namespace SeeloewenCraft
                     if (foregroundBlock.isBreakable || skipBreakableCheck)
                     {
                         //Add the foreground block's item to the inventory
-                        foregroundBlock.GenerateItem();
-                        if (foregroundBlock.item != null)
+                        if (foregroundBlock.GetItem() != null)
                         {
-                            Game.world.AddEntity(new ItemEntity(foregroundBlock.item, //item type
+                            Game.world.AddEntity(new ItemEntity(foregroundBlock.GetItem(), //item type
                                 (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
                                 yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
                                 rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
@@ -532,9 +537,6 @@ namespace SeeloewenCraft
                     Block block = new AirBlock(false);
                     SetBlock(block);
 
-                    //Add the block's item to the inventory
-                    GenerateItem();
-
                     //If the block has a loot table, roll an entry and give the items to player
                     if (lootTable != null)
                     {
@@ -549,9 +551,9 @@ namespace SeeloewenCraft
                         }
                     }
                     //If has only an item, only give that item
-                    else if (item != null)
+                    else if (GetItem() != null)
                     {
-                        Game.world.AddEntity(new ItemEntity(item, //item type
+                        Game.world.AddEntity(new ItemEntity(GetItem(), //item type
                                 (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
                                 yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
                                 rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
@@ -654,7 +656,7 @@ namespace SeeloewenCraft
             List<Block> connectedBlocks = new List<Block>();
             foreach (var entry in this.connectedBlocks)
             {
-                if(!inForeground)
+                if (!inForeground)
                 {
                     connectedBlocks.Add(Game.world.GetBlock(xPos + 8 * chunk.index + entry.xOffset, yPos + entry.yOffset));
                 }
@@ -750,6 +752,31 @@ namespace SeeloewenCraft
                         Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, tag);
                     }
                 }
+            }
+        }
+
+        public void RegisterTool(Tool tool)
+        {
+            switch (tool)
+            {
+                case Tool.Hammer:
+                    tags.Add("effectiveTools/hammer");
+                    break;
+                case Tool.Scythe:
+                    tags.Add("effectiveTools/scythe");
+                    break;
+                case Tool.Shovel:
+                    tags.Add("effectiveTools/shovel");
+                    break;
+                case Tool.Sword:
+                    tags.Add("effectiveTools/sword");
+                    break;
+                case Tool.Pickaxe:
+                    tags.Add("effectiveTools/pickaxe");
+                    break;
+                case Tool.Axe:
+                    tags.Add("effectiveTools/axe");
+                    break;
             }
         }
 
@@ -896,5 +923,16 @@ namespace SeeloewenCraft
                 blockContainer.SetHammerState(blockContainer.hammerState + 1);
             }));
         }
+    }
+
+    public enum Tool
+    {
+        Pickaxe,
+        Axe,
+        Shovel,
+        Scythe,
+        Sword,
+        Hammer,
+        None
     }
 }

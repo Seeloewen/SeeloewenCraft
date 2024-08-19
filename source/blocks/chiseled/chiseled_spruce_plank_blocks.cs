@@ -1,30 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SeeloewenCraft
+﻿namespace SeeloewenCraft
 {
     public class SprucePlanksBlock_BottomLeft : Block
     {
         public SprucePlanksBlock_BottomLeft(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Spruce Plank";
-            id = "sc:spruce_planks_bottomleft";
-            breakTime = 500;
+            Init("Chiseled Spruce Plank", "sc:spruce_planks_bottomleft", 500, "sc:spruce_planks_bottomleft_item", Tool.Axe, Images.SprucePlanksBlock_BottomLeft);
             collision = new RectangleCollision(0, 500, 500, 1000);
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SprucePlanksItem_BottomLeft();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_BottomLeft.GetTexture();
         }
     }
 
@@ -32,21 +13,8 @@ namespace SeeloewenCraft
     {
         public SprucePlanksBlock_BottomRight(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Spruce Plank";
-            id = "sc:spruce_planks_bottomright";
+            Init("Chiseled Spruce Plank", "sc:spruce_planks_bottomright", 500, "sc:spruce_planks_bottomright_item", Tool.Axe, Images.SprucePlanksBlock_BottomRight);
             collision = new RectangleCollision(500, 1000, 500, 1000);
-            breakTime = 500;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SprucePlanksItem_BottomRight();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_BottomRight.GetTexture();
         }
     }
 
@@ -54,21 +22,8 @@ namespace SeeloewenCraft
     {
         public SprucePlanksBlock_TopLeft(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Spruce Plank";
-            id = "sc:spruce_planks_topleft";
+            Init("Chiseled Spruce Plank", "sc:spruce_planks_topleft", 500, "sc:spruce_planks_topleft_item", Tool.Axe, Images.SprucePlanksBlock_TopLeft);
             collision = new RectangleCollision(0, 500, 0, 500);
-            breakTime = 500;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SprucePlanksItem_TopLeft();
-        }
-
-        public override void SetTexture()
-        { 
-            image = Images.SprucePlanksBlock_TopLeft.GetTexture();
         }
     }
 
@@ -76,21 +31,8 @@ namespace SeeloewenCraft
     {
         public SprucePlanksBlock_TopRight(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Spruce Plank";
-            id = "sc:spruce_planks_topright";
+            Init("Chiseled Spruce Plank", "sc:spruce_planks_topright", 500, "sc:spruce_planks_topright_item", Tool.Axe, Images.SprucePlanksBlock_TopRight);
             collision = new RectangleCollision(500, 1000, 0, 500);
-            breakTime = 500;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SprucePlanksItem_TopRight();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_TopRight.GetTexture();
         }
     }
 
@@ -98,21 +40,8 @@ namespace SeeloewenCraft
     {
         public SprucePlanksBlock_SlabRight(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Spruce Plank";
-            id = "sc:spruce_planks_slabright";
+            Init("Chiseled Spruce Plank", "sc:spruce_planks_slabright", 500, "sc:spruce_planks_slabright_item", Tool.Axe, Images.SprucePlanksBlock_SlabRight);
             collision = new RectangleCollision(500, 1000, 0, 1000);
-            breakTime = 500;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SprucePlanksItem_SlabRight();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_SlabRight.GetTexture();
         }
     }
 
@@ -120,21 +49,8 @@ namespace SeeloewenCraft
     {
         public SprucePlanksBlock_SlabLeft(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Spruce Plank";
-            id = "sc:spruce_planks_slableft";
+            Init("Chiseled Spruce Plank", "sc:spruce_planks_slableft", 500, "sc:spruce_planks_slableft_item", Tool.Axe, Images.SprucePlanksBlock_SlabLeft);
             collision = new RectangleCollision(0, 500, 0, 1000);
-            breakTime = 500;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SprucePlanksItem_SlabLeft();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_SlabLeft.GetTexture();
         }
     }
 
@@ -142,21 +58,8 @@ namespace SeeloewenCraft
     {
         public SprucePlanksBlock_SlabTop(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Spruce Plank";
-            id = "sc:spruce_planks_slabtop";
+            Init("Chiseled Spruce Plank", "sc:spruce_planks_slabtop", 500, "sc:spruce_planks_slabtop_item", Tool.Axe, Images.SprucePlanksBlock_SlabTop);
             collision = new RectangleCollision(0, 1000, 0, 500);
-            breakTime = 500;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SprucePlanksItem_SlabTop();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_SlabTop.GetTexture();
         }
     }
 
@@ -164,21 +67,8 @@ namespace SeeloewenCraft
     {
         public SprucePlanksBlock_SlabBottom(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Spruce Plank";
-            id = "sc:spruce_planks_slabbottom";
+            Init("Chiseled Spruce Plank", "sc:spruce_planks_slabbottom", 500, "sc:spruce_planks_slabbottom_item", Tool.Axe, Images.SprucePlanksBlock_SlabBottom);
             collision = new RectangleCollision(0, 1000, 500, 1000);
-            breakTime = 500;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SprucePlanksItem_SlabBottom();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_SlabBottom.GetTexture();
         }
     }
 
@@ -186,21 +76,8 @@ namespace SeeloewenCraft
     {
         public SprucePlanksBlock_StairTopRight(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Spruce Plank";
-            id = "sc:spruce_planks_stairtopright";
+            Init("Chiseled Spruce Plank", "sc:spruce_planks_stairtopright", 500, "sc:spruce_planks_stairtopright_item", Tool.Axe, Images.SprucePlanksBlock_StairTopRight);
             collision = new MultipleRectangleCollision([0, 500], [1000, 1000], [0, 500], [500, 1000]);
-            breakTime = 500;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SprucePlanksItem_StairTopRight();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_StairTopRight.GetTexture();
         }
     }
 
@@ -208,21 +85,8 @@ namespace SeeloewenCraft
     {
         public SprucePlanksBlock_StairTopLeft(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Spruce Plank";
-            id = "sc:spruce_planks_stairtopleft";
+            Init("Chiseled Spruce Plank", "sc:spruce_planks_stairtopleft", 500, "sc:spruce_planks_stairtopleft_item", Tool.Axe, Images.SprucePlanksBlock_StairTopLeft);
             collision = new MultipleRectangleCollision([0, 500], [500, 1000], [0, 0], [1000, 500]);
-            breakTime = 500;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SprucePlanksItem_StairTopLeft();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_StairTopLeft.GetTexture();
         }
     }
 
@@ -230,21 +94,8 @@ namespace SeeloewenCraft
     {
         public SprucePlanksBlock_StairBottomRight(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Spruce Plank";
-            id = "sc:spruce_planks_stairbottomright";
+            Init("Chiseled Spruce Plank", "sc:spruce_planks_stairbottomright", 500, "sc:spruce_planks_stairbottomright_item", Tool.Axe, Images.SprucePlanksBlock_StairBottomRight);
             collision = new MultipleRectangleCollision([500, 0], [1000, 1000], [0, 500], [500, 1000]);
-            breakTime = 500;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SprucePlanksItem_StairBottomRight();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_StairBottomRight.GetTexture();
         }
     }
 
@@ -252,20 +103,8 @@ namespace SeeloewenCraft
     {
         public SprucePlanksBlock_StairBottomLeft(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Spruce Plank";
-            id = "sc:spruce_planks_stairbottomleft";
+            Init("Chiseled Spruce Plank", "sc:spruce_planks_stairbottomleft", 500, "sc:spruce_planks_stairbottomleft_item", Tool.Axe, Images.SprucePlanksBlock_StairBottomLeft);
             collision = new MultipleRectangleCollision([0, 500], [500, 1000], [0, 500], [1000, 1000]);
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SprucePlanksItem_StairBottomLeft();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_StairBottomLeft.GetTexture();
         }
     }
 
@@ -273,22 +112,8 @@ namespace SeeloewenCraft
     {
         public SprucePlanksBlock_Center(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Spruce Plank";
-            id = "sc:spruce_planks_center";
+            Init("Chiseled Spruce Plank", "sc:spruce_planks_center", 500, "sc:spruce_planks_center_item", Tool.Axe, Images.SprucePlanksBlock_Center);
             collision = new RectangleCollision(333, 666, 333, 666);
-            breakTime = 500;
-
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SprucePlanksItem_Center();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_Center.GetTexture();
         }
     }
 }

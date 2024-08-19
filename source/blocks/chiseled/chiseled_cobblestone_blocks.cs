@@ -1,294 +1,119 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SeeloewenCraft
+﻿namespace SeeloewenCraft
 {
     public class CobblestoneBlock_BottomLeft : Block
     {
-        public CobblestoneBlock_BottomLeft( bool isInBackground) : base( isInBackground)
+        public CobblestoneBlock_BottomLeft(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_bottomleft";
-            breakTime = 1250;
+            Init("Chiseled Cobblestone", "sc:cobblestone_bottomleft", 1250, "sc:cobblestone_bottomleft_item", Tool.Pickaxe, Images.CobbleStoneBlock_BottomLeft);
             collision = new RectangleCollision(0, 500, 500, 1000);
-        }
-
-        override public void GenerateItem()
-        {
-            item = new CobbleStoneItem_BottomLeft();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_BottomLeft.GetTexture();
         }
     }
 
     public class CobblestoneBlock_BottomRight : Block
     {
-        public CobblestoneBlock_BottomRight( bool isInBackground) : base( isInBackground)
+        public CobblestoneBlock_BottomRight(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_bottomright";
+            Init("Chiseled Cobblestone", "sc:cobblestone_bottomright", 1250, "sc:cobblestone_bottomright_item", Tool.Pickaxe, Images.CobbleStoneBlock_BottomRight);
             collision = new RectangleCollision(500, 1000, 500, 1000);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new CobbleStoneItem_BottomRight();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_BottomRight.GetTexture();
         }
     }
 
     public class CobbleStoneBlock_TopLeft : Block
     {
-        public CobbleStoneBlock_TopLeft( bool isInBackground) : base( isInBackground)
+        public CobbleStoneBlock_TopLeft(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_topleft";
+            Init("Chiseled Cobblestone", "sc:cobblestone_topleft", 1250, "sc:cobblestone_topleft_item", Tool.Pickaxe, Images.CobbleStoneBlock_TopLeft);
             collision = new RectangleCollision(0, 500, 0, 500);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new CobbleStoneItem_TopLeft();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_TopLeft.GetTexture();
         }
     }
 
     public class CobblestoneBlock_TopRight : Block
     {
-        public CobblestoneBlock_TopRight( bool isInBackground) : base( isInBackground)
+        public CobblestoneBlock_TopRight(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_topright";
+            Init("Chiseled Cobblestone", "sc:cobblestone_topright", 1250, "sc:cobblestone_topright_item", Tool.Pickaxe, Images.CobbleStoneBlock_TopRight);
             collision = new RectangleCollision(500, 1000, 0, 500);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new CobbleStoneItem_TopRight();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_TopRight.GetTexture();
         }
     }
 
     public class CobblestoneBlock_SlabRight : Block
     {
-        public CobblestoneBlock_SlabRight( bool isInBackground) : base( isInBackground)
+        public CobblestoneBlock_SlabRight(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_slabright";
+            Init("Chiseled Cobblestone", "sc:cobblestone_slabright", 1250, "sc:cobblestone_slabright_item", Tool.Pickaxe, Images.CobbleStoneBlock_SlabRight);
             collision = new RectangleCollision(500, 1000, 0, 1000);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new CobbleStoneItem_SlabRight();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_SlabRight.GetTexture();
         }
     }
 
     public class CobblestoneBlock_SlabLeft : Block
     {
-        public CobblestoneBlock_SlabLeft( bool isInBackground) : base( isInBackground)
+        public CobblestoneBlock_SlabLeft(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_slableft";
+            Init("Chiseled Cobblestone", "sc:cobblestone_slableft", 1250, "sc:cobblestone_slableft_item", Tool.Pickaxe, Images.CobbleStoneBlock_SlabLeft);
             collision = new RectangleCollision(0, 500, 0, 1000);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new CobbleStoneItem_SlabLeft();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_SlabLeft.GetTexture();
         }
     }
 
     public class CobblestoneBlock_SlabTop : Block
     {
-        public CobblestoneBlock_SlabTop( bool isInBackground) : base( isInBackground)
+        public CobblestoneBlock_SlabTop(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_slabtop";
+            Init("Chiseled Cobblestone", "sc:cobblestone_slabtop", 1250, "sc:cobblestone_slabtop_item", Tool.Pickaxe, Images.CobbleStoneBlock_SlabTop);
             collision = new RectangleCollision(0, 1000, 0, 500);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new CobbleStoneItem_SlabTop();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_SlabTop.GetTexture();
         }
     }
 
     public class CobblestoneBlock_SlabBottom : Block
     {
-        public CobblestoneBlock_SlabBottom( bool isInBackground) : base( isInBackground)
+        public CobblestoneBlock_SlabBottom(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_slabbottom";
-            collision = new RectangleCollision(0,1000,500,1000);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new CobbleStoneItem_SlabBottom();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_SlabBottom.GetTexture();
+            Init("Chiseled Cobblestone", "sc:cobblestone_slabbottom", 1250, "sc:cobblestone_slabbottom_item", Tool.Pickaxe, Images.CobbleStoneBlock_SlabBottom);
+            collision = new RectangleCollision(0, 1000, 500, 1000);
         }
     }
 
     public class CobblestoneBlock_StairTopRight : Block
     {
-        public CobblestoneBlock_StairTopRight( bool isInBackground) : base( isInBackground)
+        public CobblestoneBlock_StairTopRight(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_stairtopright";
+            Init("Chiseled Cobblestone", "sc:cobblestone_stairtopright", 1250, "sc:cobblestone_stairtopright_item", Tool.Pickaxe, Images.CobbleStoneBlock_StairTopRight);
             collision = new MultipleRectangleCollision([0, 500], [1000, 1000], [0, 500], [500, 1000]);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new CobbleStoneItem_StairTopRight();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_StairTopRight.GetTexture();
         }
     }
 
     public class CobblestoneBlock_StairTopLeft : Block
     {
-        public CobblestoneBlock_StairTopLeft( bool isInBackground) : base( isInBackground)
+        public CobblestoneBlock_StairTopLeft(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_stairtopleft";
+            Init("Chiseled Cobblestone", "sc:cobblestone_stairtopleft", 1250, "sc:cobblestone_stairtopleft_item", Tool.Pickaxe, Images.CobbleStoneBlock_StairTopLeft);
             collision = new MultipleRectangleCollision([0, 500], [500, 1000], [0, 0], [1000, 500]);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new CobbleStoneItem_StairTopLeft();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_StairTopLeft.GetTexture();
         }
     }
 
     public class CobblestoneBlock_StairBottomRight : Block
     {
-        public CobblestoneBlock_StairBottomRight( bool isInBackground) : base( isInBackground)
+        public CobblestoneBlock_StairBottomRight(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_stairbottomright";
+            Init("Chiseled Cobblestone", "sc:cobblestone_stairbottomright", 1250, "sc:cobblestone_stairbottomright_item", Tool.Pickaxe, Images.CobbleStoneBlock_StairBottomRight);
             collision = new MultipleRectangleCollision([500, 0], [1000, 1000], [0, 500], [500, 1000]);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new CobbleStoneItem_StairBottomRight();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_StairBottomRight.GetTexture();
         }
     }
 
     public class CobblestoneBlock_StairBottomLeft : Block
     {
-        public CobblestoneBlock_StairBottomLeft( bool isInBackground) : base( isInBackground)
+        public CobblestoneBlock_StairBottomLeft(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_stairbottomleft";
+            Init("Chiseled Cobblestone", "sc:cobblestone_stairbottomleft", 1250, "sc:cobblestone_stairbottomleft_item", Tool.Pickaxe, Images.CobbleStoneBlock_StairBottomLeft);
             collision = new MultipleRectangleCollision([0, 500], [500, 1000], [0, 500], [1000, 1000]);
-        }
-
-        override public void GenerateItem()
-        {
-            item = new CobbleStoneItem_StairBottomLeft();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_StairBottomLeft.GetTexture();
         }
     }
 
-    public class CobbleStoneBlock_Center: Block
+    public class CobbleStoneBlock_Center : Block
     {
-        public CobbleStoneBlock_Center( bool isInBackground) : base( isInBackground)
+        public CobbleStoneBlock_Center(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_center";
+            Init("Chiseled Cobblestone", "sc:cobblestone_center", 1250, "sc:cobblestone_center_item", Tool.Pickaxe, Images.CobbleStoneBlock_Center);
             collision = new RectangleCollision(333, 666, 333, 666);
-            breakTime = 1250;
-
-        }
-
-        override public void GenerateItem()
-        {
-            item = new CobbleStoneItem_Center();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_Center.GetTexture();
         }
     }
 }

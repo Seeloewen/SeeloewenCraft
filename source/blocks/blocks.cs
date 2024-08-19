@@ -1,5 +1,4 @@
-﻿
-using SeeloewenCraft.entity;
+﻿using SeeloewenCraft.entity;
 
 namespace SeeloewenCraft
 {
@@ -9,20 +8,8 @@ namespace SeeloewenCraft
     {
         public GrassBlock(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Grass Block";
-            id = "sc:grass_block";
+            Init("Grass Block", "sc:grass_block", 150, "sc:grass_block_item", Tool.Shovel, Images.GrassBlock);
             tags.Add("CanBeFloor");
-        }
-
-        override public void GenerateItem()
-        {
-            item = new GrassItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.GrassBlock.GetTexture();
         }
     }
 
@@ -31,21 +18,8 @@ namespace SeeloewenCraft
         public StoneBlock(bool isInBackground) : base(isInBackground)
         {
             //lootTable = Game.world.lootTables.stoneLootTable;
-            SetTexture();
-            name = "Stone Block";
-            id = "sc:stone_block";
-            breakTime = 1250;
+            Init("Stone Block", "sc:stone_block", 1250, "sc:stone_block_item", Tool.Pickaxe, Images.StoneBlock);
             tags.Add("CanBeFloor");
-        }
-
-        override public void GenerateItem()
-        {
-            item = new StoneItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.StoneBlock.GetTexture();
         }
     }
 
@@ -53,20 +27,8 @@ namespace SeeloewenCraft
     {
         public DirtBlock(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Dirt";
-            id = "sc:dirt_block";
+            Init("Dirt", "sc:dirt_block", 150, "sc:dirt_block_item", Tool.Shovel, Images.Dirt);
             tags.Add("CanBeFloor");
-        }
-
-        override public void GenerateItem()
-        {
-            item = new DirtItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.Dirt.GetTexture();
         }
     }
 
@@ -74,24 +36,12 @@ namespace SeeloewenCraft
     {
         public AirBlock(bool isInBackground) : base(isInBackground)
         {
+            Init("Air", "sc:air_block", 150, "sc:air_block_item", Tool.None, Images.Air);
             isBreakable = false;
             isSolid = false;
             isReplacable = true;
             canBeMovedToBackground = false;
-            SetTexture();
-            name = "Air";
-            id = "sc:air_block";
             isLightSource = true;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new AirItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.Air.GetTexture();
         }
     }
 
@@ -99,21 +49,9 @@ namespace SeeloewenCraft
     {
         public BedrockBlock(bool isInBackground) : base(isInBackground)
         {
+            Init("Bedrock", "sc:bedrock_block", 150, "sc:bedrock_block_item", Tool.None, Images.Bedrock);
             isBreakable = false;
             canBeMovedToBackground = false;
-            SetTexture();
-            name = "Bedrock";
-            id = "sc:bedrock_block";
-        }
-
-        override public void GenerateItem()
-        {
-            item = new BedrockItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.Bedrock.GetTexture();
         }
     }
 
@@ -121,20 +59,7 @@ namespace SeeloewenCraft
     {
         public CoalOreBlock(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Coal Ore";
-            breakTime = 1500;
-            id = "sc:coal_ore_block";
-        }
-
-        override public void GenerateItem()
-        {
-            item = new CoalOreItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.CoalOre.GetTexture();
+            Init("Coal Ore", "sc:coal_ore_block", 1500, "sc:coal_ore_block_item", Tool.Pickaxe, Images.CoalOre);
         }
     }
 
@@ -142,20 +67,7 @@ namespace SeeloewenCraft
     {
         public DiamondOreBlock(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Diamond Ore";
-            breakTime = 2000;
-            id = "sc:coal_ore_block";
-        }
-
-        override public void GenerateItem()
-        {
-            item = new DiamondOreItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.DiamondOre.GetTexture();
+            Init("Diamond Ore", "sc:diamond_ore_block", 2000, "sc:diamond_ore_block_item", Tool.Pickaxe, Images.DiamondOre);
         }
     }
 
@@ -163,41 +75,14 @@ namespace SeeloewenCraft
     {
         public IronOreBlock(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Iron Ore";
-            breakTime = 1750;
-            id = "sc:iron_ore_block";
-        }
-
-        override public void GenerateItem()
-        {
-            item = new IronOreItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.IronOre.GetTexture();
+            Init("Iron Ore", "sc:iron_ore_block", 1750, "sc:iron_ore_block_item", Tool.Pickaxe, Images.IronOre);
         }
     }
-
     public class OakLogBlock : Block
     {
         public OakLogBlock(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Oak Log";
-            breakTime = 350;
-            id = "sc:oak_log_block";
-        }
-
-        override public void GenerateItem()
-        {
-            item = new OakLogItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.OakLog.GetTexture();
+            Init("Oak Log", "sc:oak_log_block", 350, "sc:oak_log_item", Tool.Axe, Images.OakLog);
         }
     }
 
@@ -205,20 +90,7 @@ namespace SeeloewenCraft
     {
         public OakLeavesBlock(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Oak Leaves";
-            breakTime = 125;
-            id = "sc:oak_leaves_block";
-        }
-
-        override public void GenerateItem()
-        {
-            item = new OakLeavesItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.OakLeaves.GetTexture();
+            Init("Oak Leaves", "sc:oak_leaves_block", 125, "sc:oak_leaves_item", Tool.None, Images.OakLeaves);
         }
     }
 
@@ -226,20 +98,7 @@ namespace SeeloewenCraft
     {
         public SpruceLogBlock(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Spruce Log";
-            breakTime = 300;
-            id = "sc:spruce_log_block";
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SpruceLogItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SpruceLog.GetTexture();
+            Init("Spruce Log", "sc:spruce_log_block", 300, "sc:spruce_log_item", Tool.Axe, Images.SpruceLog);
         }
     }
 
@@ -247,20 +106,7 @@ namespace SeeloewenCraft
     {
         public SpruceLeavesBlock(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Spruce Leaves";
-            id = "sc:spruce_leaves_block";
-            breakTime = 125;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SpruceLeavesItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SpruceLeaves.GetTexture();
+            Init("Spruce Leaves", "sc:spruce_leaves_block", 125, "sc:spruce_leaves_item", Tool.None, Images.SpruceLeaves);
         }
     }
 
@@ -268,31 +114,17 @@ namespace SeeloewenCraft
     {
         public ChestBlock(bool isInBackground) : base(isInBackground)
         {
+            Init("Chest", "sc:chest_block", 500, "sc:chest_item", Tool.None, Images.Chest);
             hasInventory = true;
             blockInventory = new Inventory(9, 4);
             Game.world.inventoryList.Add(blockInventory);
-            SetTexture();
-            name = "Chest";
-            id = "sc:chest_block";
             hasRightClickAction = true;
-            breakTime = 500;
         }
 
-        override public void GenerateItem()
-        {
-            item = new ChestItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.Chest.GetTexture();
-        }
         public override void RightClickAction(object sender)
         {
-            //If the block is solid and has inventory
             if (IsInRange() && isSolid && hasInventory)
             {
-                //If the block has an inventory, open it as well as the players inventory
                 blockInventory.inventoryGui.SetTop(355);
                 blockInventory.inventoryGui.tblHeader.Text = "Chest";
                 blockInventory.Show();
@@ -306,58 +138,28 @@ namespace SeeloewenCraft
     {
         public MagmaBlock(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Magma Block";
-            id = "sc:magma_block";
-            breakTime = 750;
+            Init("Magma Block", "sc:magma_block", 750, "sc:magma_block_item", Tool.Pickaxe, Images.MagmaBlock);
         }
-
-        override public void GenerateItem()
-        {
-            item = new MagmaBlockItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.MagmaBlock.GetTexture();
-        }
-
     }
 
     public class TorchBlock : Block
     {
         public TorchBlock(bool isInBackground) : base(isInBackground)
         {
+            Init("Torch", "sc:torch_block", 0, "sc:torch_item", Tool.None, Images.Torch);
             isSolid = false;
             canBeMovedToBackground = false;
             isLightSource = true;
-            SetTexture();
-            name = "Torch";
-            id = "sc:torch_block";
-            breakTime = 0;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new TorchItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.Torch.GetTexture();
         }
     }
+
     public class PottedCactus_Base : Block
     {
         public PottedCactus_Base(bool isInBackground) : base(isInBackground)
         {
+            Init("Potted Cactus Base", "sc:potted_cactus_base", 0, "sc:potted_cactus_item", Tool.None, Images.PottedCactus_Base);
             isBase = true;
-            SetTexture();
-            name = "Potted Cactus Base";
-            id = "sc:potted_cactus_base";
             connectedBlocks.Add((0, -1, "sc:potted_cactus_top"));
-
-            breakTime = 0;
             collision = new MultipleRectangleCollision([125, 251], [875, 749], [375, 1], [1000, 375]);
         }
 
@@ -369,26 +171,14 @@ namespace SeeloewenCraft
                 && (0 < endY) && (500 > startY);
             return touchingStatus;
         }
-
-        override public void GenerateItem()
-        {
-            item = new PottedCactusItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.PottedCactus_Base.GetTexture();
-        }
     }
+
 
     public class PottedCactus_Top : Block
     {
         public PottedCactus_Top(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Potted Cactus Top";
-            id = "sc:potted_cactus_top";
-            breakTime = 0;
+            Init("Potted Cactus Top", "sc:potted_cactus_top", 0, "sc:potted_cactus_item", Tool.None, Images.PottedCactus_Top);
             collision = new RectangleCollision(251, 749, 188, 999);
         }
 
@@ -400,44 +190,24 @@ namespace SeeloewenCraft
                 && (187 <= endY) && (1000 >= startY);
             return touchingStatus;
         }
-
-        public override void SetTexture()
-        {
-            image = Images.PottedCactus_Top.GetTexture();
-        }
     }
 
     public class CraftingTableBlock : Block
     {
         public CraftingTableBlock(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Crafting Table";
-            id = "sc:crafting_table_block";
+            Init("Crafting Table", "sc:crafting_table_block", 500, "sc:crafting_table_item", Tool.None, Images.CraftingTable);
             tags.Add("workstation");
             hasRightClickAction = true;
-            breakTime = 500;
 
             craftingHandler = new CraftingHandler(this);
             gui = new CraftingTableGui(535, 720, 120, 285, "sc:crafting_table", null, this);
         }
 
-        override public void GenerateItem()
-        {
-            item = new CraftingTable();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.CraftingTable.GetTexture();
-        }
-
         public override void RightClickAction(object sender)
         {
-            //If the block is in range
             if (IsInRange())
             {
-                //If the block has an inventory, open it as well as the players inventory
                 gui.Show();
             }
         }
@@ -460,25 +230,12 @@ namespace SeeloewenCraft
     {
         public ChiselerBlock(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseler";
-            id = "sc:chiseler_block";
+            Init("Chiseler", "sc:chiseler_block", 500, "sc:chiseler_item", Tool.None, Images.Chiseler);
             tags.Add("workstation");
-            breakTime = 500;
             hasRightClickAction = true;
 
             craftingHandler = new CraftingHandler(this);
             gui = new ChiselerGui(535, 720, 120, 285, "sc:chiseler", null, this);
-        }
-
-        override public void GenerateItem()
-        {
-            item = new ChiselerItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.Chiseler.GetTexture();
         }
 
         public override void RightClickAction(object sender)
@@ -507,27 +264,14 @@ namespace SeeloewenCraft
     {
         public UnchiselerBlock(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Unchiseler";
-            id = "sc:unchiseler_block";
+            Init("Unchiseler", "sc:unchiseler_block", 500, "sc:unchiseler_item", Tool.None, Images.Unchiseler);
             hasRightClickAction = true;
             collision = new RectangleCollision(0, 1000, 565, 1000);
-            breakTime = 500;
+            blockInventory = gui.inventory;
+            hasInventory = true;
 
             craftingHandler = new CraftingHandler(this);
             gui = new UnchiselerGui(225, 225, 420, 530, "sc:unchiseler");
-            blockInventory = gui.inventory;
-            hasInventory = true;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new UnchiselerItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.Unchiseler.GetTexture();
         }
 
         public override void RightClickAction(object sender)
@@ -545,72 +289,35 @@ namespace SeeloewenCraft
     {
         public CobblestoneBlock(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Cobblestone";
-            id = "sc:cobblestone_block";
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new CobbleStoneItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.CobbleStoneBlock.GetTexture();
+            Init("Cobblestone", "sc:cobblestone_block", 1250, "sc:cobblestone_item", Tool.Pickaxe, Images.CobbleStoneBlock);
         }
     }
-
 
     public class SpruceDoor_Base : DoorBlock
     {
         public SpruceDoor_Base(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
+            Init("Spruce Door Base", "sc:spruce_door_base", 500, "sc:spruce_door_item", Tool.None, Images.SpruceDoor_Closed_Base);
             isBase = true;
-            name = "Spruce Door Base";
-            id = "sc:spruce_door_base";
             hasRightClickAction = true;
             collision = new RectangleCollision(720, 1000, 0, 1000);
-            breakTime = 500;
 
             connectedBlocks.Add((0, -1, "sc:spruce_door_top"));
-
             imgClose = Images.SpruceDoor_Closed_Base.GetTexture();
             imgOpen = Images.SpruceDoor_Open_Base.GetTexture();
         }
-
-        override public void GenerateItem()
-        {
-            item = new SpruceDoorItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SpruceDoor_Closed_Base.GetTexture();
-        }
     }
-
 
     public class SpruceDoor_Top : DoorBlock
     {
         public SpruceDoor_Top(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Spruce Door Top";
-            id = "sc:spruce_door_top";
+            Init("Spruce Door Top", "sc:spruce_door_top", 500, "sc:spruce_door_item", Tool.None, Images.SpruceDoor_Closed_Top);
             hasRightClickAction = true;
             collision = new RectangleCollision(720, 1000, 0, 1000);
-            breakTime = 500;
 
             imgClose = Images.SpruceDoor_Closed_Top.GetTexture();
             imgOpen = Images.SpruceDoor_Open_Top.GetTexture();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SpruceDoor_Closed_Top.GetTexture();
         }
 
         public override void RightClickAction(object sender)
@@ -636,20 +343,7 @@ namespace SeeloewenCraft
     {
         public SandStoneBlock(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Sand Stone";
-            id = "sc:sand_stone_block";
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SandStoneItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SandStone.GetTexture();
+            Init("Sand Stone", "sc:sand_stone_block", 1250, "sc:sand_stone_item", Tool.Pickaxe, Images.SandStone);
         }
     }
 
@@ -657,20 +351,7 @@ namespace SeeloewenCraft
     {
         public OakPlanksBlock(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Oak Plank";
-            id = "sc:oak_planks_block";
-            breakTime = 500;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new OakPlanksItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.OakPlanks.GetTexture();
+            Init("Oak Plank", "sc:oak_planks_block", 500, "sc:oak_planks_item", Tool.Axe, Images.OakPlanks);
         }
     }
 
@@ -678,20 +359,7 @@ namespace SeeloewenCraft
     {
         public SprucePlanksBlock(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Spruce Planks";
-            id = "sc:spruce_plankss_block";
-            breakTime = 500;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SprucePlanksItem();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SprucePlanks.GetTexture();
+            Init("Spruce Planks", "sc:spruce_planks_block", 500, "sc:spruce_planks_item", Tool.Axe, Images.SprucePlanks);
         }
     }
 }

@@ -1,294 +1,119 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SeeloewenCraft
+﻿namespace SeeloewenCraft
 {
     public class SandStoneBlock_BottomLeft : Block
     {
-        public SandStoneBlock_BottomLeft( bool isInBackground) : base( isInBackground)
+        public SandStoneBlock_BottomLeft(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Sand Stone";
-            id = "sc:sand_stone_bottomleft";
-            breakTime = 1250;
+            Init("Chiseled Sand Stone", "sc:sand_stone_bottomleft", 1250, "sc:sand_stone_bottomleft_item", Tool.Pickaxe, Images.SandStoneBlock_BottomLeft);
             collision = new RectangleCollision(0, 500, 500, 1000);
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SandStoneItem_BottomLeft();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SandStoneBlock_BottomLeft.GetTexture();
         }
     }
 
     public class SandStoneBlock_BottomRight : Block
     {
-        public SandStoneBlock_BottomRight( bool isInBackground) : base( isInBackground)
+        public SandStoneBlock_BottomRight(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Sand Stone";
-            id = "sc:sand_stone_bottomright";
+            Init("Chiseled Sand Stone", "sc:sand_stone_bottomright", 1250, "sc:sand_stone_bottomright_item", Tool.Pickaxe, Images.SandStoneBlock_BottomRight);
             collision = new RectangleCollision(500, 1000, 500, 1000);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SandStoneItem_BottomRight();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SandStoneBlock_BottomRight.GetTexture();
         }
     }
 
     public class SandStoneBlock_TopLeft : Block
     {
-        public SandStoneBlock_TopLeft( bool isInBackground) : base( isInBackground)
+        public SandStoneBlock_TopLeft(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Sand Stone";
-            id = "sc:sand_stone_topleft";
+            Init("Chiseled Sand Stone", "sc:sand_stone_topleft", 1250, "sc:sand_stone_topleft_item", Tool.Pickaxe, Images.SandStoneBlock_TopLeft);
             collision = new RectangleCollision(0, 500, 0, 500);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SandStoneItem_TopLeft();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SandStoneBlock_TopLeft.GetTexture();
         }
     }
 
     public class SandStoneBlock_TopRight : Block
     {
-        public SandStoneBlock_TopRight( bool isInBackground) : base( isInBackground)
+        public SandStoneBlock_TopRight(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Sand Stone";
-            id = "sc:sand_stone_topright";
+            Init("Chiseled Sand Stone", "sc:sand_stone_topright", 1250, "sc:sand_stone_topright_item", Tool.Pickaxe, Images.SandStoneBlock_TopRight);
             collision = new RectangleCollision(500, 1000, 0, 500);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SandStoneItem_TopRight();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SandStoneBlock_TopRight.GetTexture();
         }
     }
 
     public class SandStoneBlock_SlabRight : Block
     {
-        public SandStoneBlock_SlabRight( bool isInBackground) : base( isInBackground)
+        public SandStoneBlock_SlabRight(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Sand Stone";
-            id = "sc:sand_stone_slabright";
+            Init("Chiseled Sand Stone", "sc:sand_stone_slabright", 1250, "sc:sand_stone_slabright_item", Tool.Pickaxe, Images.SandStoneBlock_SlabRight);
             collision = new RectangleCollision(500, 1000, 0, 1000);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SandStoneItem_SlabRight();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SandStoneBlock_SlabRight.GetTexture();
         }
     }
 
     public class SandStoneBlock_SlabLeft : Block
     {
-        public SandStoneBlock_SlabLeft( bool isInBackground) : base( isInBackground)
+        public SandStoneBlock_SlabLeft(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Sand Stone";
-            id = "sc:sand_stone_slableft";
+            Init("Chiseled Sand Stone", "sc:sand_stone_slableft", 1250, "sc:sand_stone_slableft_item", Tool.Pickaxe, Images.SandStoneBlock_SlabLeft);
             collision = new RectangleCollision(0, 500, 0, 1000);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SandStoneItem_SlabLeft();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SandStoneBlock_SlabLeft.GetTexture();
         }
     }
 
     public class SandStoneBlock_SlabTop : Block
     {
-        public SandStoneBlock_SlabTop( bool isInBackground) : base( isInBackground)
+        public SandStoneBlock_SlabTop(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Sand Stone";
-            id = "sc:sand_stone_slabtop";
+            Init("Chiseled Sand Stone", "sc:sand_stone_slabtop", 1250, "sc:sand_stone_slabtop_item", Tool.Pickaxe, Images.SandStoneBlock_SlabTop);
             collision = new RectangleCollision(0, 1000, 0, 500);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SandStoneItem_SlabTop();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SandStoneBlock_SlabTop.GetTexture();
         }
     }
 
     public class SandStoneBlock_SlabBottom : Block
     {
-        public SandStoneBlock_SlabBottom( bool isInBackground) : base( isInBackground)
+        public SandStoneBlock_SlabBottom(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Sand Stone";
-            id = "sc:sand_stone_slabbottom";
-            collision = new RectangleCollision(0,1000,500,1000);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SandStoneItem_SlabBottom();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SandStoneBlock_SlabBottom.GetTexture();
+            Init("Chiseled Sand Stone", "sc:sand_stone_slabbottom", 1250, "sc:sand_stone_slabbottom_item", Tool.Pickaxe, Images.SandStoneBlock_SlabBottom);
+            collision = new RectangleCollision(0, 1000, 500, 1000);
         }
     }
 
     public class SandStoneBlock_StairTopRight : Block
     {
-        public SandStoneBlock_StairTopRight( bool isInBackground) : base( isInBackground)
+        public SandStoneBlock_StairTopRight(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Sand Stone";
-            id = "sc:sand_stone_stairtopright";
+            Init("Chiseled Sand Stone", "sc:sand_stone_stairtopright", 1250, "sc:sand_stone_stairtopright_item", Tool.Pickaxe, Images.SandStoneBlock_StairTopRight);
             collision = new MultipleRectangleCollision([0, 500], [1000, 1000], [0, 500], [500, 1000]);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SandStoneItem_StairTopRight();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SandStoneBlock_StairTopRight.GetTexture();
         }
     }
 
     public class SandStoneBlock_StairTopLeft : Block
     {
-        public SandStoneBlock_StairTopLeft( bool isInBackground) : base( isInBackground)
+        public SandStoneBlock_StairTopLeft(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Sand Stone";
-            id = "sc:sand_stone_stairtopleft";
+            Init("Chiseled Sand Stone", "sc:sand_stone_stairtopleft", 1250, "sc:sand_stone_stairtopleft_item", Tool.Pickaxe, Images.SandStoneBlock_StairTopLeft);
             collision = new MultipleRectangleCollision([0, 500], [500, 1000], [0, 0], [1000, 500]);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SandStoneItem_StairTopLeft();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SandStoneBlock_StairTopLeft.GetTexture();
         }
     }
 
     public class SandStoneBlock_StairBottomRight : Block
     {
-        public SandStoneBlock_StairBottomRight( bool isInBackground) : base( isInBackground)
+        public SandStoneBlock_StairBottomRight(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Sand Stone";
-            id = "sc:sand_stone_stairbottomright";
+            Init("Chiseled Sand Stone", "sc:sand_stone_stairbottomright", 1250, "sc:sand_stone_stairbottomright_item", Tool.Pickaxe, Images.SandStoneBlock_StairBottomRight);
             collision = new MultipleRectangleCollision([500, 0], [1000, 1000], [0, 500], [500, 1000]);
-            breakTime = 1250;
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SandStoneItem_StairBottomRight();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SandStoneBlock_StairBottomRight.GetTexture();
         }
     }
 
     public class SandStoneBlock_StairBottomLeft : Block
     {
-        public SandStoneBlock_StairBottomLeft( bool isInBackground) : base( isInBackground)
+        public SandStoneBlock_StairBottomLeft(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Sand Stone";
-            id = "sc:sand_stone_stairbottomleft";
+            Init("Chiseled Sand Stone", "sc:sand_stone_stairbottomleft", 1250, "sc:sand_stone_stairbottomleft_item", Tool.Pickaxe, Images.SandStoneBlock_StairBottomLeft);
             collision = new MultipleRectangleCollision([0, 500], [500, 1000], [0, 500], [1000, 1000]);
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SandStoneItem_StairBottomLeft();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SandStoneBlock_StairBottomLeft.GetTexture();
         }
     }
 
-    public class SandStoneBlock_Center: Block
+    public class SandStoneBlock_Center : Block
     {
-        public SandStoneBlock_Center( bool isInBackground) : base( isInBackground)
+        public SandStoneBlock_Center(bool isInBackground) : base(isInBackground)
         {
-            SetTexture();
-            name = "Chiseled Sand Stone";
-            id = "sc:sand_stone_center";
+            Init("Chiseled Sand Stone", "sc:sand_stone_center", 1250, "sc:sand_stone_center_item", Tool.Pickaxe, Images.SandStoneBlock_Center);
             collision = new RectangleCollision(333, 666, 333, 666);
-            breakTime = 1250;
-
-        }
-
-        override public void GenerateItem()
-        {
-            item = new SandStoneItem_Center();
-        }
-
-        public override void SetTexture()
-        {
-            image = Images.SandStoneBlock_Center.GetTexture();
         }
     }
 }
