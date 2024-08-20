@@ -84,7 +84,7 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-        public void Init(string name, string id, int breakTime, string itemId, Tool effectiveTool, SealImage sImage)
+        public void Init(string name, string id, int breakTime, string? itemId, Tool effectiveTool, SealImage sImage)
         {
             this.name = name;
             this.id = id;

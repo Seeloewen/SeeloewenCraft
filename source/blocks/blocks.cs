@@ -178,7 +178,7 @@ namespace SeeloewenCraft
     {
         public PottedCactus_Top(bool isInBackground) : base(isInBackground)
         {
-            Init("Potted Cactus Top", "sc:potted_cactus_top", 0, "sc:potted_cactus_item", Tool.None, Images.PottedCactus_Top);
+            Init("Potted Cactus Top", "sc:potted_cactus_top", 0, null, Tool.None, Images.PottedCactus_Top);
             collision = new RectangleCollision(251, 749, 188, 999);
         }
 
@@ -312,7 +312,7 @@ namespace SeeloewenCraft
     {
         public SpruceDoor_Top(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Door Top", "sc:spruce_door_top", 500, "sc:spruce_door_item", Tool.None, Images.SpruceDoor_Closed_Top);
+            Init("Spruce Door Top", "sc:spruce_door_top", 500, null, Tool.None, Images.SpruceDoor_Closed_Top);
             hasRightClickAction = true;
             collision = new RectangleCollision(720, 1000, 0, 1000);
 
