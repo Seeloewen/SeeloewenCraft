@@ -9,11 +9,12 @@ namespace SeeloewenCraft
     {
         public List<string> tags = new List<string>();
         public Canvas cvsItem = new Canvas();
+        public SealImage sImage;
         public ImageBrush image;
         public InventorySlot slot;
-        public Block block;
         public string name;
         public string id;
+        public string blockId;
         public int xPos;
         public int yPos;
         public bool isPlacable = false;
@@ -27,25 +28,42 @@ namespace SeeloewenCraft
             //Setup the item canvas
             cvsItem.Width = 67;
             cvsItem.Height = 67;
-            cvsItem.Background = image;
+        }
+
+        //-- Custom Methods --//
+        public void Init(string name, string id, string? blockId, bool isPlacable, SealImage sImage)
+        {
+            //Initialize the item
+            this.isPlacable = isPlacable;
+            this.name = name;
+            this.id = id;
+            this.blockId = blockId;
+            this.sImage = sImage;
 
             SetTexture();
         }
 
-        //-- Custom Methods --//
-
         public virtual void SetTexture()
         {
-            throw new Exception("No texture for item was set.");
+            //Set the texture of the block on the canvas
+            image = sImage.GetTexture();
+            cvsItem.Background = image;
         }
 
-        //This is currently required, but may be changed in the future if items that don't have blocks are added
-        public abstract Block GenerateBlock(bool isInBackground);
+        public Block GetBlock()
+        {
+            //If the item has a block id, generate the associated block
+            if (!string.IsNullOrEmpty(blockId))
+            {
+                return BlockRegister.GenerateBlock(blockId);
+            }
+
+            return null;
+        }
 
         public virtual void RightClickAction(Block block, object sender)
         {
             throw new NotImplementedException();
         }
-
     }
 }

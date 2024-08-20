@@ -43,23 +43,23 @@ namespace SeeloewenCraft
                     //Check if the block meets all requirements to be placed in foreground of another block
                     if (block.IsInRange() && selectedItem != null && block.GetForegroundBlock() == null && block.isBackground)
                     {
-                        if (selectedItem.block == null) selectedItem.GenerateBlock(block.isBackground);
+                        Block newBlock = selectedItem.GetBlock();
 
-                        if (selectedItem.block != null)
+                        if (newBlock != null)
                         {
                             //If it`s part of a construct, check if it has enough space
-                            if (selectedItem.block.isBase && block.ConBlocksHaveSpace(selectedItem.block, true))
+                            if (newBlock.isBase && block.ConBlocksHaveSpace(newBlock, true))
                             {
-                                block.SetForegroundBlock(selectedItem.block);
-                                block.PlaceConnectedForegroundBlocks(selectedItem.block);
+                                block.SetForegroundBlock(newBlock);
+                                block.PlaceConnectedForegroundBlocks(newBlock);
 
                                 //Remove the item from the inventory
                                 selectedSlot.slot.Remove(1);
                                 selectedSlot.slot.inventory.UpdateHotbar();
                             }
-                            else if (!selectedItem.block.isBase)
+                            else if (!newBlock.isBase)
                             {
-                                block.SetForegroundBlock(selectedItem.block);
+                                block.SetForegroundBlock(newBlock);
 
                                 //Remove the item from the inventory
                                 selectedSlot.slot.Remove(1);
@@ -71,26 +71,23 @@ namespace SeeloewenCraft
                     //Check if the block isn't in background and can be replaced
                     else if (block.IsInRange() && block.isReplacable && !block.IsCollidingWithPlayer(sender) && !block.isBackground && selectedItem != null)
                     {
-                        if (selectedItem.block == null)
-                        {
-                            selectedItem.GenerateBlock(block.isBackground);
-                        }
+                        Block newBlock = selectedItem.GetBlock();
 
-                        if (selectedItem.block != null)
+                        if (newBlock != null)
                         {
                             //If it`s part of a construct, check if it has enough space
-                            if (selectedItem.block.isBase && block.ConBlocksHaveSpace(selectedItem.block, false))
+                            if (newBlock.isBase && block.ConBlocksHaveSpace(newBlock, false))
                             {
-                                block.SetBlock(selectedItem.block);
-                                block.PlaceConnectedBlocks(selectedItem.block);
+                                block.SetBlock(newBlock);
+                                block.PlaceConnectedBlocks(newBlock);
 
                                 //Remove the item from the inventory
                                 selectedSlot.slot.Remove(1);
                                 selectedSlot.slot.inventory.UpdateHotbar();
                             }
-                            else if (!selectedItem.block.isBase)
+                            else if (!newBlock.isBase)
                             {
-                                block.SetBlock(selectedItem.block);
+                                block.SetBlock(newBlock);
 
                                 //Remove the item from the inventory
                                 selectedSlot.slot.Remove(1);

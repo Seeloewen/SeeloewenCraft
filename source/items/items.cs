@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Windows.Documents;
 
 namespace SeeloewenCraft
 {
@@ -8,22 +8,7 @@ namespace SeeloewenCraft
     {
         public GrassItem() : base()
         {
-            isPlacable = true;
-            name = "Grass";
-            id = "sc:grass_block_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new GrassBlock( isInBackground);
-            return block;
-        }
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.GrassBlock.GetTexture();
-            cvsItem.Background = image;
+            Init("Grass Block", "sc:grass_block_item", "sc:grass_block", true, Images.GrassBlock);
         }
     }
 
@@ -31,22 +16,7 @@ namespace SeeloewenCraft
     {
         public StoneItem() : base()
         {
-            isPlacable = true;
-            name = "Stone";
-            id = "sc:stone_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new StoneBlock( isInBackground);
-            return block;
-        }
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.StoneBlock.GetTexture();
-            cvsItem.Background = image;
+            Init("Stone Block", "sc:stone_block_item", "sc:stone_block", true, Images.StoneBlock);
         }
     }
 
@@ -54,23 +24,7 @@ namespace SeeloewenCraft
     {
         public DirtItem() : base()
         {
-            isPlacable = true;
-            name = "Dirt";
-            id = "sc:dirt_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new DirtBlock( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.Dirt.GetTexture();
-            cvsItem.Background = image;
+            Init("Dirt", "sc:dirt_item", "sc:dirt_block", true, Images.Dirt);
         }
     }
 
@@ -78,23 +32,7 @@ namespace SeeloewenCraft
     {
         public CoalOreItem() : base()
         {
-            isPlacable = true;
-            name = "Coal Ore";
-            id = "sc:coal_ore_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CoalOreBlock( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.CoalOre.GetTexture();
-            cvsItem.Background = image;
+            Init("Coal Ore", "sc:coal_ore_item", "sc:coal_ore_block", true, Images.CoalOre);
         }
     }
 
@@ -102,23 +40,7 @@ namespace SeeloewenCraft
     {
         public DiamondOreItem() : base()
         {
-            isPlacable = true;
-            name = "Diamond Ore";
-            id = "sc:diamond_ore_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new DiamondOreBlock( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.DiamondOre.GetTexture();
-            cvsItem.Background = image;
+            Init("Diamond Ore", "sc:diamond_ore_item", "sc:diamond_ore_block", true, Images.DiamondOre);
         }
     }
 
@@ -126,23 +48,7 @@ namespace SeeloewenCraft
     {
         public IronOreItem() : base()
         {
-            isPlacable = true;
-            name = "Iron Ore";
-            id = "sc:iron_ore_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new IronOreBlock( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.IronOre.GetTexture();
-            cvsItem.Background = image;
+            Init("Iron Ore", "sc:iron_ore_item", "sc:iron_ore_block", true, Images.IronOre);
         }
     }
 
@@ -150,23 +56,7 @@ namespace SeeloewenCraft
     {
         public OakLogItem() : base()
         {
-            isPlacable = true;
-            name = "Oak Log";
-            id = "sc:oak_log_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new OakLogBlock( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.OakLog.GetTexture();
-            cvsItem.Background = image;
+            Init("Oak Log", "sc:oak_log_item", "sc:oak_log_block", true, Images.OakLog);
         }
     }
 
@@ -174,23 +64,7 @@ namespace SeeloewenCraft
     {
         public OakLeavesItem() : base()
         {
-            isPlacable = true;
-            name = "Oak Leaves";
-            id = "sc:oak_leaves_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new OakLeavesBlock( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.OakLeaves.GetTexture();
-            cvsItem.Background = image;
+            Init("Oak Leaves", "sc:oak_leaves_item", "sc:oak_leaves_block", true, Images.OakLeaves);
         }
     }
 
@@ -198,23 +72,7 @@ namespace SeeloewenCraft
     {
         public SpruceLogItem() : base()
         {
-            isPlacable = true;
-            name = "Spruce Log";
-            id = "sc:spruce_log_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new SpruceLogBlock( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.SpruceLog.GetTexture();
-            cvsItem.Background = image;
+            Init("Spruce Log", "sc:spruce_log_item", "sc:spruce_log_block", true, Images.SpruceLog);
         }
     }
 
@@ -222,23 +80,7 @@ namespace SeeloewenCraft
     {
         public SpruceLeavesItem() : base()
         {
-            isPlacable = true;
-            name = "Spruce Leaves";
-            id = "sc:spruce_leaves_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new SpruceLeavesBlock( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.SpruceLeaves.GetTexture();
-            cvsItem.Background = image;
+            Init("Spruce Leaves", "sc:spruce_leaves_item", "sc:spruce_leaves_block", true, Images.SpruceLeaves);
         }
     }
 
@@ -246,22 +88,7 @@ namespace SeeloewenCraft
     {
         public BedrockItem() : base()
         {
-            isPlacable = true;
-            name = "Bedrock";
-            id = "sc:bedrock_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new BedrockBlock( isInBackground);
-            return block;
-        }
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.Bedrock.GetTexture();
-            cvsItem.Background = image;
+            Init("Bedrock", "sc:bedrock_item", "sc:bedrock_block", true, Images.Bedrock);
         }
     }
 
@@ -269,23 +96,7 @@ namespace SeeloewenCraft
     {
         public AirItem() : base()
         {
-            isPlacable = true;
-            name = "Air";
-            id = "sc:air_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new AirBlock( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.Air.GetTexture();
-            cvsItem.Background = image;
+            Init("Air", "sc:air_item", "sc:air_block", true, Images.Air);
         }
     }
 
@@ -293,23 +104,7 @@ namespace SeeloewenCraft
     {
         public ChestItem() : base()
         {
-            isPlacable = true;
-            name = "Chest";
-            id = "sc:chest_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new ChestBlock( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.Chest.GetTexture();
-            cvsItem.Background = image;
+            Init("Chest", "sc:chest_item", "sc:chest_block", true, Images.Chest);
         }
     }
 
@@ -317,23 +112,7 @@ namespace SeeloewenCraft
     {
         public MagmaBlockItem() : base()
         {
-            isPlacable = true;
-            name = "Magma Block";
-            id = "sc:magma_block_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new MagmaBlock( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.MagmaBlock.GetTexture();
-            cvsItem.Background = image;
+            Init("Magma Block", "sc:magma_block_item", "sc:magma_block", true, Images.MagmaBlock);
         }
     }
 
@@ -341,30 +120,13 @@ namespace SeeloewenCraft
     {
         public StoneHammerItem() : base()
         {
-            isPlacable = false;
+            Init("Stone Hammer", "sc:stone_hammer_item", null, false, Images.StoneHammer);
             hasRightClickAction = true;
-            name = "Stone Hammer";
-            id = "sc:stone_hammer_item";
-            SetTexture();
             tags.Add("tools/hammer");
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            return null;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.StoneHammer.GetTexture();
-            cvsItem.Background = image;
         }
 
         public override void RightClickAction(Block block, object sender)
         {
-            //TO-DO: Implement timer when moving blocks to background
-
             if (block.isBackground && block.canBeMovedToBackground && block.IsInRange() && block.GetForegroundBlock() == null)
             {
                 block.MoveToNormal();
@@ -380,23 +142,7 @@ namespace SeeloewenCraft
     {
         public TorchItem() : base()
         {
-            isPlacable = true;
-            name = "Torch";
-            id = "sc:torch_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new TorchBlock( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.Torch.GetTexture();
-            cvsItem.Background = image;
+            Init("Torch", "sc:torch_item", "sc:torch_block", true, Images.Torch);
         }
     }
 
@@ -404,24 +150,7 @@ namespace SeeloewenCraft
     {
         public WaterItem() : base()
         {
-            isPlacable = true;
-            name = "Water";
-            id = "sc:water_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new WaterBlock_6( isInBackground);
-            block.isWaterSource = true;
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.Water_6.GetTexture();
-            cvsItem.Background = image;
+            Init("Water", "sc:water_item", "sc:water_6_block", true, Images.Water_6);
         }
     }
 
@@ -429,23 +158,7 @@ namespace SeeloewenCraft
     {
         public PottedCactusItem() : base()
         {
-            isPlacable = true;
-            name = "Potted Cactus";
-            id = "sc:potted_cactus_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new PottedCactus_Base( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.PottedCactus.GetTexture();
-            cvsItem.Background = image;
+            Init("Potted Cactus", "sc:potted_cactus_item", "sc:potted_cactus_base", true, Images.PottedCactus);
         }
     }
 
@@ -453,23 +166,7 @@ namespace SeeloewenCraft
     {
         public CraftingTable() : base()
         {
-            isPlacable = true;
-            name = "Crafting Table";
-            id = "sc:crafting_table_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CraftingTableBlock( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.CraftingTable.GetTexture();
-            cvsItem.Background = image;
+            Init("Crafting Table", "sc:crafting_table_item", "sc:crafting_table_block", true, Images.CraftingTable);
         }
     }
 
@@ -477,23 +174,7 @@ namespace SeeloewenCraft
     {
         public CobbleStoneItem() : base()
         {
-            isPlacable = true;
-            name = "Cobblestone";
-            id = "sc:cobblestone_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CobblestoneBlock( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.CobbleStoneBlock.GetTexture();
-            cvsItem.Background = image;
+            Init("Cobblestone", "sc:cobblestone_item", "sc:cobblestone_block", true, Images.CobbleStoneBlock);
         }
     }
 
@@ -501,23 +182,7 @@ namespace SeeloewenCraft
     {
         public ChiselerItem() : base()
         {
-            isPlacable = true;
-            name = "Chiseler";
-            id = "sc:chiseler_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new ChiselerBlock( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.Chiseler.GetTexture();
-            cvsItem.Background = image;
+            Init("Chiseler", "sc:chiseler_item", "sc:chiseler_block", true, Images.Chiseler);
         }
     }
 
@@ -525,23 +190,7 @@ namespace SeeloewenCraft
     {
         public UnchiselerItem() : base()
         {
-            isPlacable = true;
-            name = "Unchiseler";
-            id = "sc:unchiseler_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new UnchiselerBlock( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.Unchiseler.GetTexture();
-            cvsItem.Background = image;
+            Init("Unchiseler", "sc:unchiseler_item", "sc:unchiseler_block", true, Images.Unchiseler);
         }
     }
 
@@ -549,22 +198,7 @@ namespace SeeloewenCraft
     {
         public BoneItem() : base()
         {
-            isPlacable = true;
-            name = "Bone";
-            id = "sc:bone_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            return null;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.Bone.GetTexture();
-            cvsItem.Background = image;
+            Init("Bone", "sc:bone_item", null, true, Images.Bone);
         }
     }
 
@@ -572,139 +206,48 @@ namespace SeeloewenCraft
     {
         public ArrowItem() : base()
         {
-            isPlacable = true;
-            name = "Arrow";
-            id = "sc:arrow_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            return null;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.Arrow.GetTexture();
-            cvsItem.Background = image;
+            Init("Arrow", "sc:arrow_item", null, true, Images.Arrow);
         }
     }
+
 
     public class SnowballItem : Item
     {
         public SnowballItem() : base()
         {
-            isPlacable = true;
-            name = "Snowball";
-            id = "sc:snowball_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            return null;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.Snowball.GetTexture()    ;
-            cvsItem.Background = image;
+            Init("Snowball", "sc:snowball_item", null, true, Images.Snowball);
         }
     }
-
 
     public class SpruceDoorItem : Item
     {
         public SpruceDoorItem() : base()
         {
-            isPlacable = true;
-            name = "Spruce Door";
-            id = "sc:spruce_door_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new SpruceDoor_Base( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.SpruceDoor.GetTexture();
-            cvsItem.Background = image;
+            Init("Spruce Door", "sc:spruce_door_item", "sc:spruce_door_base", true, Images.SpruceDoor);
         }
     }
+
     public class OakPlanksItem : Item
     {
         public OakPlanksItem() : base()
         {
-            isPlacable = true;
-            name = "Oak Planks";
-            id = "sc:oak_plankss_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new OakPlanksBlock(isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.OakPlanks.GetTexture();
-            cvsItem.Background = image;
+            Init("Oak Planks", "sc:oak_planks_item", "sc:oak_planks_block", true, Images.OakPlanks);
         }
     }
+
     public class SprucePlanksItem : Item
     {
         public SprucePlanksItem() : base()
         {
-            isPlacable = true;
-            name = "Spruce Planks";
-            id = "sc:spruce_planks_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new SprucePlanksBlock(isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.SprucePlanks.GetTexture();
-            cvsItem.Background = image;
+            Init("Spruce Planks", "sc:spruce_planks_item", "sc:spruce_planks_block", true, Images.SprucePlanks);
         }
     }
+
     public class SandStoneItem : Item
     {
         public SandStoneItem() : base()
         {
-            isPlacable = true;
-            name = "Sand Stone";
-            id = "sc:sand_stone_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new SandStoneBlock(isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.SandStone.GetTexture();
-            cvsItem.Background = image;
+            Init("Sand Stone", "sc:sand_stone_item", "sc:sand_stone_block", true, Images.SandStone);
         }
     }
 }

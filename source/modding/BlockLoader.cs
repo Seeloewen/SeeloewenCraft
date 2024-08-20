@@ -5,6 +5,8 @@ using System.Windows.Media.Imaging;
 
 namespace SeeloewenCraft
 {
+    //Warning: Currently not maintained and most likely not compatible/working
+
     class BlockLoader
     {
 
@@ -48,7 +50,7 @@ namespace SeeloewenCraft
 
         string type;
 
-        public ModdedBlock(string type, bool isInBackground) : base( isInBackground)
+        public ModdedBlock(string type, bool isInBackground) : base(isInBackground)
         {
             this.type = type;
             SetTexture();
@@ -89,10 +91,10 @@ namespace SeeloewenCraft
             image = BlockLoader.blockTypes[type].texture;
         }
 
-        public override void GenerateItem()
+        /*public override void GenerateItem()
         {
             item = new ModdedItem(type,  this);
-        }
+        }*/
 
         public override void RightClickAction(object sender)
         {

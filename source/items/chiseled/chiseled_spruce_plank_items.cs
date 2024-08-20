@@ -10,24 +10,8 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_TopRight() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Spruce Planks";
-            id = "sc:spruce_plankss_topright_item";
-            SetTexture();
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_topright_item", "sc:spruce_planks_topright", true, Images.SprucePlanksBlock_TopRight);
             unchiselItems.Add(new SprucePlanksItem_Center());
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new SprucePlanksBlock_TopRight( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.SprucePlanksBlock_TopRight.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -35,23 +19,8 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_TopLeft() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Spruce Planks";
-            id = "sc:spruce_plankss_topleft_item";
-            SetTexture();
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_topleft_item", "sc:spruce_planks_topleft", true, Images.SprucePlanksBlock_TopLeft);
             unchiselItems.Add(new SprucePlanksItem_Center());
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CobbleStoneBlock_TopLeft( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_TopLeft.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -59,23 +28,8 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_BottomRight() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Spruce Planks";
-            id = "sc:spruce_plankss_bottomright_item";
-            SetTexture();
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_bottomright_item", "sc:spruce_planks_bottomright", true, Images.SprucePlanksBlock_BottomRight);
             unchiselItems.Add(new SprucePlanksItem_Center());
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new SprucePlanksBlock_BottomRight( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_BottomRight.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -83,23 +37,8 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_BottomLeft() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Spruce Planks";
-            id = "sc:spruce_plankss_bottomleft_item";
-            SetTexture();
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_bottomleft_item", "sc:spruce_planks_bottomleft", true, Images.SprucePlanksBlock_BottomLeft);
             unchiselItems.Add(new SprucePlanksItem_Center());
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new SprucePlanksBlock_BottomLeft( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_BottomLeft.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -107,27 +46,12 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_SlabRight() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Spruce Planks";
-            id = "sc:spruce_plankss_slabright_item";
-            SetTexture();
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_slabright_item", "sc:spruce_planks_slabright", true, Images.SprucePlanksBlock_SlabRight);
 
             for (int i = 0; i < 2; i++)
             {
                 unchiselItems.Add(new SprucePlanksItem_Center());
             }
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new SprucePlanksBlock_SlabRight( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_SlabRight.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -135,27 +59,12 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_SlabLeft() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Spruce Planks";
-            id = "sc:spruce_plankss_slableft_item";
-            SetTexture();
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_slableft_item", "sc:spruce_planks_slableft", true, Images.SprucePlanksBlock_SlabLeft);
 
             for (int i = 0; i < 2; i++)
             {
                 unchiselItems.Add(new SprucePlanksItem_Center());
             }
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new SprucePlanksBlock_SlabLeft( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_SlabLeft.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -163,27 +72,12 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_SlabTop() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Spruce Planks";
-            id = "sc:spruce_plankss_slabtop_item";
-            SetTexture();
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_slabtop_item", "sc:spruce_planks_slabtop", true, Images.SprucePlanksBlock_SlabTop);
 
             for (int i = 0; i < 2; i++)
             {
                 unchiselItems.Add(new SprucePlanksItem_Center());
             }
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new SprucePlanksBlock_SlabTop( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_SlabTop.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -191,27 +85,12 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_SlabBottom() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Spruce Planks";
-            id = "sc:spruce_plankss_slabbottom_item";
-            SetTexture();
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_slabbottom_item", "sc:spruce_planks_slabbottom", true, Images.SprucePlanksBlock_SlabBottom);
 
             for (int i = 0; i < 2; i++)
             {
                 unchiselItems.Add(new SprucePlanksItem_Center());
             }
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new SprucePlanksBlock_SlabBottom( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_SlabBottom.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -219,27 +98,12 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_StairTopRight() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Spruce Planks";
-            id = "sc:spruce_plankss_stairtopright_item";
-            SetTexture();
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_stairtopright_item", "sc:spruce_planks_stairtopright", true, Images.SprucePlanksBlock_StairTopRight);
 
             for (int i = 0; i < 3; i++)
             {
                 unchiselItems.Add(new SprucePlanksItem_Center());
             }
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new SprucePlanksBlock_StairTopRight( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_StairTopRight.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -247,27 +111,12 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_StairTopLeft() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Spruce Planks";
-            id = "sc:spruce_plankss_stairtopleft_item";
-            SetTexture();
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_stairtopleft_item", "sc:spruce_planks_stairtopleft", true, Images.SprucePlanksBlock_StairTopLeft);
 
             for (int i = 0; i < 3; i++)
             {
                 unchiselItems.Add(new SprucePlanksItem_Center());
             }
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new SprucePlanksBlock_StairTopLeft( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_StairTopLeft.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -275,27 +124,12 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_StairBottomRight() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Spruce Planks";
-            id = "sc:spruce_plankss_stairbottomright_item";
-            SetTexture();
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_stairbottomright_item", "sc:spruce_planks_stairbottomright", true, Images.SprucePlanksBlock_StairBottomRight);
 
             for (int i = 0; i < 3; i++)
             {
                 unchiselItems.Add(new SprucePlanksItem_Center());
             }
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new SprucePlanksBlock_StairBottomRight( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_StairBottomRight.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -303,27 +137,12 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_StairBottomLeft() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Spruce Planks";
-            id = "sc:spruce_plankss_stairbottomleft_item";
-            SetTexture();
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_stairbottomleft_item", "sc:spruce_planks_stairbottomleft", true, Images.SprucePlanksBlock_StairBottomLeft);
 
             for (int i = 0; i < 3; i++)
             {
                 unchiselItems.Add(new SprucePlanksItem_Center());
             }
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new SprucePlanksBlock_StairBottomLeft( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_StairBottomLeft.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -333,21 +152,7 @@ namespace SeeloewenCraft
         {
             isChiseled = false;
             isPlacable = true;
-            name = "Chiseled Spruce Planks";
-            id = "sc:spruce_plankss_center_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CobbleStoneBlock_Center( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.SprucePlanksBlock_Center.GetTexture();
-            cvsItem.Background = image;
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_center_item", "sc:spruce_planks_center", true, Images.SprucePlanksBlock_Center);
         }
     }
 }

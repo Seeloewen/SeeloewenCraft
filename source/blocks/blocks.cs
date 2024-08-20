@@ -27,7 +27,7 @@ namespace SeeloewenCraft
     {
         public DirtBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Dirt", "sc:dirt_block", 150, "sc:dirt_block_item", Tool.Shovel, Images.Dirt);
+            Init("Dirt", "sc:dirt_block", 150, "sc:dirt_item", Tool.Shovel, Images.Dirt);
             tags.Add("CanBeFloor");
         }
     }
@@ -36,7 +36,7 @@ namespace SeeloewenCraft
     {
         public AirBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Air", "sc:air_block", 150, "sc:air_block_item", Tool.None, Images.Air);
+            Init("Air", "sc:air_block", 150, "sc:air_item", Tool.None, Images.Air);
             isBreakable = false;
             isSolid = false;
             isReplacable = true;
@@ -49,7 +49,7 @@ namespace SeeloewenCraft
     {
         public BedrockBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Bedrock", "sc:bedrock_block", 150, "sc:bedrock_block_item", Tool.None, Images.Bedrock);
+            Init("Bedrock", "sc:bedrock_block", 150, "sc:bedrock_item", Tool.None, Images.Bedrock);
             isBreakable = false;
             canBeMovedToBackground = false;
         }
@@ -59,7 +59,7 @@ namespace SeeloewenCraft
     {
         public CoalOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Coal Ore", "sc:coal_ore_block", 1500, "sc:coal_ore_block_item", Tool.Pickaxe, Images.CoalOre);
+            Init("Coal Ore", "sc:coal_ore_block", 1500, "sc:coal_ore_item", Tool.Pickaxe, Images.CoalOre);
         }
     }
 
@@ -67,7 +67,7 @@ namespace SeeloewenCraft
     {
         public DiamondOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Diamond Ore", "sc:diamond_ore_block", 2000, "sc:diamond_ore_block_item", Tool.Pickaxe, Images.DiamondOre);
+            Init("Diamond Ore", "sc:diamond_ore_block", 2000, "sc:diamond_ore_item", Tool.Pickaxe, Images.DiamondOre);
         }
     }
 
@@ -75,7 +75,7 @@ namespace SeeloewenCraft
     {
         public IronOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Iron Ore", "sc:iron_ore_block", 1750, "sc:iron_ore_block_item", Tool.Pickaxe, Images.IronOre);
+            Init("Iron Ore", "sc:iron_ore_block", 1750, "sc:iron_ore_item", Tool.Pickaxe, Images.IronOre);
         }
     }
     public class OakLogBlock : Block

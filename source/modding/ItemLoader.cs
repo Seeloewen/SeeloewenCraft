@@ -5,6 +5,9 @@ using System.Windows.Media;
 
 namespace SeeloewenCraft
 {
+
+    //Warning: Currently not maintained and most likely not compatible/working
+
     class ItemLoader
     {
 
@@ -53,10 +56,10 @@ namespace SeeloewenCraft
             SetTexture();
         }
 
-        public override Block GenerateBlock(bool isInBackground)
+        /*public override Block GenerateBlock(bool isInBackground)
         {
             return new ModdedBlock(type,  isInBackground);
-        }
+        }*/
 
         public override void RightClickAction(Block block, object sender)
         {

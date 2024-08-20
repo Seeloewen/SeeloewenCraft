@@ -10,24 +10,8 @@ namespace SeeloewenCraft
     {
         public CobbleStoneItem_TopRight() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_topright_item";
-            SetTexture();
+            Init("Chiseled Cobblestone", "sc:cobblestone_topright_item", "sc:cobblestone_topright", true, Images.CobbleStoneBlock_TopRight);
             unchiselItems.Add(new CobbleStoneItem_Center());
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CobblestoneBlock_TopRight( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            //Set the texture of the block on the canvas
-            image = Images.CobbleStoneBlock_TopRight.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -35,23 +19,8 @@ namespace SeeloewenCraft
     {
         public CobbleStoneItem_TopLeft() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_topleft_item";
-            SetTexture();
+            Init("Chiseled Cobblestone", "sc:cobblestone_topleft_item", "sc:cobblestone_topleft", true, Images.CobbleStoneBlock_TopLeft);
             unchiselItems.Add(new CobbleStoneItem_Center());
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CobbleStoneBlock_TopLeft( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_TopLeft.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -59,23 +28,8 @@ namespace SeeloewenCraft
     {
         public CobbleStoneItem_BottomRight() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_bottomright_item";
-            SetTexture();
+            Init("Chiseled Cobblestone", "sc:cobblestone_bottomright_item", "sc:cobblestone_bottomright", true, Images.CobbleStoneBlock_BottomRight);
             unchiselItems.Add(new CobbleStoneItem_Center());
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CobblestoneBlock_BottomRight( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_BottomRight.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -83,23 +37,8 @@ namespace SeeloewenCraft
     {
         public CobbleStoneItem_BottomLeft() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_bottomleft_item";
-            SetTexture();
+            Init("Chiseled Cobblestone", "sc:cobblestone_bottomleft_item", "sc:cobblestone_bottomleft", true, Images.CobbleStoneBlock_BottomLeft);
             unchiselItems.Add(new CobbleStoneItem_Center());
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CobblestoneBlock_BottomLeft( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_BottomLeft.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -107,27 +46,11 @@ namespace SeeloewenCraft
     {
         public CobbleStoneItem_SlabRight() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_slabright_item";
-            SetTexture();
-
+            Init("Chiseled Cobblestone", "sc:cobblestone_slabright_item", "sc:cobblestone_slabright", true, Images.CobbleStoneBlock_SlabRight);
             for (int i = 0; i < 2; i++)
             {
                 unchiselItems.Add(new CobbleStoneItem_Center());
             }
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CobblestoneBlock_SlabRight( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_SlabRight.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -135,27 +58,11 @@ namespace SeeloewenCraft
     {
         public CobbleStoneItem_SlabLeft() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_slableft_item";
-            SetTexture();
-
+            Init("Chiseled Cobblestone", "sc:cobblestone_slableft_item", "sc:cobblestone_slableft", true, Images.CobbleStoneBlock_SlabLeft);
             for (int i = 0; i < 2; i++)
             {
                 unchiselItems.Add(new CobbleStoneItem_Center());
             }
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CobblestoneBlock_SlabLeft( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_SlabLeft.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -163,27 +70,11 @@ namespace SeeloewenCraft
     {
         public CobbleStoneItem_SlabTop() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_slabtop_item";
-            SetTexture();
-
+            Init("Chiseled Cobblestone", "sc:cobblestone_slabtop_item", "sc:cobblestone_slabtop", true, Images.CobbleStoneBlock_SlabTop);
             for (int i = 0; i < 2; i++)
             {
                 unchiselItems.Add(new CobbleStoneItem_Center());
             }
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CobblestoneBlock_SlabTop( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_SlabTop.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -191,27 +82,11 @@ namespace SeeloewenCraft
     {
         public CobbleStoneItem_SlabBottom() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_slabbottom_item";
-            SetTexture();
-
+            Init("Chiseled Cobblestone", "sc:cobblestone_slabbottom_item", "sc:cobblestone_slabbottom", true, Images.CobbleStoneBlock_SlabBottom);
             for (int i = 0; i < 2; i++)
             {
                 unchiselItems.Add(new CobbleStoneItem_Center());
             }
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CobblestoneBlock_SlabBottom( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_SlabBottom.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -219,27 +94,11 @@ namespace SeeloewenCraft
     {
         public CobbleStoneItem_StairTopRight() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_stairtopright_item";
-            SetTexture();
-
+            Init("Chiseled Cobblestone", "sc:cobblestone_stairtopright_item", "sc:cobblestone_stairtopright", true, Images.CobbleStoneBlock_StairTopRight);
             for (int i = 0; i < 3; i++)
             {
                 unchiselItems.Add(new CobbleStoneItem_Center());
             }
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CobblestoneBlock_StairTopRight( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_StairTopRight.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -247,27 +106,11 @@ namespace SeeloewenCraft
     {
         public CobbleStoneItem_StairTopLeft() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_stairtopleft_item";
-            SetTexture();
-
+            Init("Chiseled Cobblestone", "sc:cobblestone_stairtopleft_item", "sc:cobblestone_stairtopleft", true, Images.CobbleStoneBlock_StairTopLeft);
             for (int i = 0; i < 3; i++)
             {
                 unchiselItems.Add(new CobbleStoneItem_Center());
             }
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CobblestoneBlock_StairTopLeft( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_StairTopLeft.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -275,27 +118,11 @@ namespace SeeloewenCraft
     {
         public CobbleStoneItem_StairBottomRight() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_stairbottomright_item";
-            SetTexture();
-
+            Init("Chiseled Cobblestone", "sc:cobblestone_stairbottomright_item", "sc:cobblestone_stairbottomright", true, Images.CobbleStoneBlock_StairBottomRight);
             for (int i = 0; i < 3; i++)
             {
                 unchiselItems.Add(new CobbleStoneItem_Center());
             }
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CobblestoneBlock_StairBottomRight( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_StairBottomRight.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -303,27 +130,11 @@ namespace SeeloewenCraft
     {
         public CobbleStoneItem_StairBottomLeft() : base()
         {
-            isPlacable = true;
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_stairbottomleft_item";
-            SetTexture();
-
+            Init("Chiseled Cobblestone", "sc:cobblestone_stairbottomleft_item", "sc:cobblestone_stairbottomleft", true, Images.CobbleStoneBlock_StairBottomLeft);
             for (int i = 0; i < 3; i++)
             {
                 unchiselItems.Add(new CobbleStoneItem_Center());
             }
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CobblestoneBlock_StairBottomLeft( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_StairBottomLeft.GetTexture();
-            cvsItem.Background = image;
         }
     }
 
@@ -331,23 +142,7 @@ namespace SeeloewenCraft
     {
         public CobbleStoneItem_Center() : base()
         {
-            isChiseled = false;
-            isPlacable = true;
-            name = "Chiseled Cobblestone";
-            id = "sc:cobblestone_center_item";
-            SetTexture();
-        }
-
-        override public Block GenerateBlock(bool isInBackground)
-        {
-            block = new CobbleStoneBlock_Center( isInBackground);
-            return block;
-        }
-
-        override public void SetTexture()
-        {
-            image = Images.CobbleStoneBlock_Center.GetTexture();
-            cvsItem.Background = image;
+            Init("Chiseled Cobblestone", "sc:cobblestone_center_item", "sc:cobblestone_center", true, Images.CobbleStoneBlock_Center);
         }
     }
 }

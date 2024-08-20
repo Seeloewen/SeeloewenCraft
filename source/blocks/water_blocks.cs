@@ -54,6 +54,7 @@ namespace SeeloewenCraft
         public WaterBlock_1_Right(bool isInBackground) : base(isInBackground)
         {
             Init("Water", "sc:water_1_right_block", 0, null, Tool.None, Images.Water_1_Right);
+            waterLevel = 1;
         }
 
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
@@ -67,6 +68,7 @@ namespace SeeloewenCraft
         public WaterBlock_1_Left(bool isInBackground) : base(isInBackground)
         {
             Init("Water", "sc:water_1_left_block", 0, null, Tool.None, Images.Water_1_Left);
+            waterLevel = 1;
         }
 
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
@@ -80,6 +82,7 @@ namespace SeeloewenCraft
         public WaterBlock_2_Right(bool isInBackground) : base(isInBackground)
         {
             Init("Water", "sc:water_2_right_block", 0, null, Tool.None, Images.Water_2_Right);
+            waterLevel = 2;
         }
 
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
@@ -93,6 +96,7 @@ namespace SeeloewenCraft
         public WaterBlock_2_Left(bool isInBackground) : base(isInBackground)
         {
             Init("Water", "sc:water_2_left_block", 0, null, Tool.None, Images.Water_2_Left);
+            waterLevel = 2;
         }
 
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
@@ -106,6 +110,7 @@ namespace SeeloewenCraft
         public WaterBlock_3_Right(bool isInBackground) : base(isInBackground)
         {
             Init("Water", "sc:water_3_right_block", 0, null, Tool.None, Images.Water_3_Right);
+            waterLevel = 3;
         }
 
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
@@ -119,6 +124,7 @@ namespace SeeloewenCraft
         public WaterBlock_3_Left(bool isInBackground) : base(isInBackground)
         {
             Init("Water", "sc:water_3_left_block", 0, null, Tool.None, Images.Water_3_Left);
+            waterLevel = 3;
         }
 
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
@@ -132,6 +138,7 @@ namespace SeeloewenCraft
         public WaterBlock_4_Right(bool isInBackground) : base(isInBackground)
         {
             Init("Water", "sc:water_4_right_block", 0, null, Tool.None, Images.Water_4_Right);
+            waterLevel = 4;
         }
 
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
@@ -145,6 +152,7 @@ namespace SeeloewenCraft
         public WaterBlock_4_Left(bool isInBackground) : base(isInBackground)
         {
             Init("Water", "sc:water_4_left_block", 0, null, Tool.None, Images.Water_4_Left);
+            waterLevel = 4;
         }
 
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
@@ -158,6 +166,7 @@ namespace SeeloewenCraft
         public WaterBlock_5_Right(bool isInBackground) : base(isInBackground)
         {
             Init("Water", "sc:water_5_right_block", 0, null, Tool.None, Images.Water_5_Right);
+            waterLevel = 5;
         }
 
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
@@ -171,6 +180,7 @@ namespace SeeloewenCraft
         public WaterBlock_5_Left(bool isInBackground) : base(isInBackground)
         {
             Init("Water", "sc:water_5_left_block", 0, null, Tool.None, Images.Water_5_Left);
+            waterLevel = 5;
         }
 
         public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
@@ -184,6 +194,7 @@ namespace SeeloewenCraft
         public WaterBlock_6(bool isInBackground) : base(isInBackground)
         {
             Init("Water", "sc:water_6_block", 0, null, Tool.None, Images.Water_6);
+            waterLevel = 6;
         }
     }
 

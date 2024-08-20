@@ -16,8 +16,6 @@ namespace SeeloewenCraft
             isChiseled = true;
         }
 
-        public override abstract Block GenerateBlock(bool isInBackground);
-
         public virtual List<Item> Unchisel()
         {
             return unchiselItems;
