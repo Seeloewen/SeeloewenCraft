@@ -10,6 +10,8 @@ namespace SeeloewenCraft
     {
         //References
         public static World world;
+        public static Client client;
+        public static Server server;
 
         //Constants
         public const int WORLD_VERSION = 5;
@@ -19,6 +21,7 @@ namespace SeeloewenCraft
 
         //Variables
         public static string selectedTexturepack;
-
+        public static bool isServer = false;
+        public static bool isClient = false;
     }
 }

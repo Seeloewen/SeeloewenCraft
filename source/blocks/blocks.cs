@@ -267,11 +267,12 @@ namespace SeeloewenCraft
             Init("Unchiseler", "sc:unchiseler_block", 500, "sc:unchiseler_item", Tool.None, Images.Unchiseler);
             hasRightClickAction = true;
             collision = new RectangleCollision(0, 1000, 565, 1000);
+            gui = new UnchiselerGui(225, 225, 420, 530, "sc:unchiseler");
             blockInventory = gui.inventory;
             hasInventory = true;
 
             craftingHandler = new CraftingHandler(this);
-            gui = new UnchiselerGui(225, 225, 420, 530, "sc:unchiseler");
+
         }
 
         public override void RightClickAction(object sender)

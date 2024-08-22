@@ -9,6 +9,9 @@ using System.Windows.Media;
 using System.Linq;
 
 using SeeloewenCraft.entity;
+using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
+using System.Reflection;
 
 namespace SeeloewenCraft
 {
@@ -26,6 +29,7 @@ namespace SeeloewenCraft
         public List<CraftingRecipe> craftingRecipeList = new List<CraftingRecipe>();
         public LootTables lootTables;
         public Player player;
+        public Player player2;
         public WaterHandler waterHandler;
         public ClickHandler clickHandler;
         public DebugMenu debugMenu;
@@ -35,6 +39,7 @@ namespace SeeloewenCraft
         public WorldRenderer worldRenderer;
         public List<Entity> entities;
         public List<Entity> toDieEntities;
+        bool innited;
 
         //Constants
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
@@ -85,6 +90,11 @@ namespace SeeloewenCraft
             }
 
             Game.world.wndGame.Show();
+
+            if (Game.client == null)
+            {
+                NetworkHandler.StartServer();
+            }
         }
 
         //-- Custom Methods --//
@@ -245,6 +255,16 @@ namespace SeeloewenCraft
             GetBlock(posX, posY).SetBlock(block);
         }
 
+        public void SetBlockMultiplayer(Block block, int cIndex, int x, int y)
+        {
+            if (GetTotalChunk(cIndex) == null)
+            {
+                CreateChunk(cIndex);
+            }
+
+            GetTotalChunk(cIndex).SetBlock(block, x, y);
+        }
+
         public Chunk CreateChunk(int index)
         {
             Chunk newChunk = new Chunk(index);
@@ -256,6 +276,7 @@ namespace SeeloewenCraft
         {
             loadedChunkList.Remove(chunk);
             worldRenderer.RemoveChunk(chunk);
+            chunk.blockContainerList.RemoveFromChunk();
         }
 
 
@@ -339,7 +360,7 @@ namespace SeeloewenCraft
 
         public void GenerateBlockContainer()
         {
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 7; i++)
             {
                 blockContainerList.Add(new BlockContainerList());
             }
@@ -494,20 +515,30 @@ namespace SeeloewenCraft
             }
         }
 
-        public void MoveLoadedChunks(Direction dir)
+        public async void MoveLoadedChunks(Direction dir)
         {
             if (dir.IsRight())
             {
-                Chunk removeChunk = Game.world.GetLoadedChunk(Game.world.loadedChunkList[0].index);
-                Game.world.loadedChunkList.Remove(removeChunk);
-                worldRenderer.RemoveChunk(removeChunk);
-                Chunk addChunk = Game.world.GetChunk(Game.world.loadedChunkList[5].index + 1);
-                Game.world.LoadChunk(addChunk);
-
+                Chunk chunk = Game.world.GetLoadedChunk(Game.world.loadedChunkList[0].index);
+                Game.world.UnloadChunk(chunk);
+                Game.world.LoadChunk(Game.world.GetChunk(Game.world.loadedChunkList[5].index + 1));
 
                 //Sort the chunklist again
                 Game.world.loadedChunkList = Game.world.loadedChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
                 worldRenderer.Render();
+
+                if (Game.isClient)
+                {
+                    Game.client.SendData($"CreateChunk;{Game.world.loadedChunkList[5].index + 1}");
+                }
+                else if (Game.isServer)
+                {
+                    Game.server.SendData($"CreateChunk;{Game.world.loadedChunkList[5].index + 1}");
+                    foreach (Block block in Game.world.GetChunk(Game.world.loadedChunkList[5].index + 1).blockList.blocks)
+                    {
+                        Game.server.SendData($"SetBlock;{block.id};{Game.world.loadedChunkList[5].index + 1};{block.xPos};{block.yPos}");
+                    }
+                }
             }
             else if (dir.IsLeft())
             {
@@ -518,6 +549,21 @@ namespace SeeloewenCraft
                 //Sort the list again
                 Game.world.loadedChunkList = Game.world.loadedChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
                 worldRenderer.Render();
+
+                if (Game.isClient)
+                {
+                    Game.client.SendData($"CreateChunk;{Game.world.loadedChunkList[0].index - 1}");
+                }
+                else if (Game.isServer)
+                {
+                    Game.server.SendData($"CreateChunk;{Game.world.loadedChunkList[0].index - 1}");
+                    foreach (Block block in Game.world.GetChunk(Game.world.loadedChunkList[0].index - 1).blockList.blocks)
+                    {
+                        Game.server.SendData($"SetBlock;{block.id};{Game.world.loadedChunkList[0].index - 1};{block.xPos};{block.yPos}");
+                    }
+                }
+
+
             }
         }
 
@@ -527,6 +573,19 @@ namespace SeeloewenCraft
         {
             //Returns a chunk from the list based on the given index
             foreach (Chunk chunk in loadedChunkList)
+            {
+                if (chunk.index == index)
+                {
+                    return chunk;
+                }
+            }
+            return null;
+        }
+
+        public Chunk GetTotalChunk(int index)
+        {
+            //Returns a chunk from the list based on the given index
+            foreach (Chunk chunk in totalChunkList)
             {
                 if (chunk.index == index)
                 {

@@ -587,6 +587,15 @@ namespace SeeloewenCraft
             chunk.SetBlock(block, xPos, yPos);
             UpdateAirLightsources(block);
             block.MoveToNormal();
+
+            if (Game.server != null)
+            {
+                Game.server.SendData($"SetBlock;{block.id};{chunk.index};{block.xPos};{block.yPos}");
+            }
+            else if (Game.client != null)
+            {
+                Game.client.SendData($"SetBlock;{block.id};{chunk.index};{block.xPos};{block.yPos}");
+            }
         }
 
         public void SetForegroundBlock(Block block)

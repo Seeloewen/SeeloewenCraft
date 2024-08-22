@@ -89,8 +89,10 @@ namespace SeeloewenCraft
             Application.Current.Shutdown();
         }
 
-        //-- Custom Methods --//
-
-
+        private void btnConnect_Click(object sender, RoutedEventArgs e)
+        {
+            wndServer wndServer = new wndServer(this);
+            wndServer.ShowDialog();
+        }
     }
 }

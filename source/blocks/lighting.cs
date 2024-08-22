@@ -189,7 +189,7 @@ namespace SeeloewenCraft
             for (int y = yPos + 1; y < 76; y++)
             {
                 //Go through each block below the currently placed one
-                if (chunk.GetBlock(xPos, y).id == "sc:air_block")
+                if (chunk.GetBlock(xPos,y) != null && chunk.GetBlock(xPos, y).id == "sc:air_block")
                 {
                     //If the block at that position is air, update it accordingly
                     AirBlock newBlock = new AirBlock(false);
