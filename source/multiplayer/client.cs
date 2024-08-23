@@ -2,93 +2,104 @@
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace SeeloewenCraft;
 
+public class AdvancedTcpClient : TcpClient
+{
+    public int id;
+}
+
 public class Client
 {
-    public TcpClient client;
+    public AdvancedTcpClient client;
     public NetworkStream stream;
     public bool isConnected;
 
     public async void Connect(string address, int port)
     {
-        client = new TcpClient();
+        client = new AdvancedTcpClient();
         Log.Write("Connecting to server...", "Info");
 
         try
         {
+            //Try to connect to the server
             await client.ConnectAsync(address, port);
             stream = client.GetStream();
         }
         catch (Exception ex)
         {
-            Log.Write("Failed to connect to the server!", "Info");
-            Log.Write($"{ex.Message}", "Info");
+            Log.Write($"Failed to connect to the server: {ex.Message}", "Error");
             return;
         }
 
         if (stream != null)
         {
-            Log.Write("The connection was successfully established.", "Info");
+            //Check if the stream exists to confirm that the connection was successful
+            Log.Write("The connection with the server was successfully established.", "Info");
             isConnected = true;
             Game.isClient = true;
-            Game.client.SendData("InitialLoad");
+
+            //Send a request to the server to do an initial load, which gets all blocks in all chunks and their content
+            await Game.client.SendData("InitialLoad");
+            Game.world.wndGame.Show();
         }
         else
         {
-            Log.Write("Failed to connect to the server!", "Info");
+            Log.Write("Failed to connect to the server!", "Error");
             return;
         }
 
+        //Start receiving data from the server
         ReceiveData();
     }
 
     public async Task SendData(string data)
     {
+        //Send the data to the server
         if (stream != null)
         {
             try
             {
-                byte[] messageBytes = Encoding.ASCII.GetBytes(data);
+                //Get the bytes of the data and the length of the data
+                byte[] dataBytes = Encoding.ASCII.GetBytes(data);
+                byte[] lengthBytes = BitConverter.GetBytes(dataBytes.Length);
 
-                byte[] lengthBytes = BitConverter.GetBytes(messageBytes.Length);
+                //First send the length of the data, then send the actual data
                 await stream.WriteAsync(lengthBytes, 0, lengthBytes.Length);
-
-                await stream.WriteAsync(messageBytes, 0, messageBytes.Length);
-                Log.Write($"Send data to server: {data}", "Info");
-
+                await stream.WriteAsync(dataBytes, 0, dataBytes.Length);
             }
             catch (Exception ex)
             {
-                Log.Write($"Could not send data to server: {ex.Message}", "Info");
+                Log.Write($"Could not send data to server: {ex.Message}", "Error");
             }
         }
     }
 
     public async Task ReceiveData()
     {
+        //Receive data from the server
         while (true)
         {
             try
             {
+                //First get the length of the following data
                 byte[] lengthBuffer = new byte[sizeof(int)];
                 int lengthBytesRead = await stream.ReadAsync(lengthBuffer, 0, lengthBuffer.Length);
-                int messageLength = BitConverter.ToInt32(lengthBuffer, 0);
+                int dataLength = BitConverter.ToInt32(lengthBuffer, 0);
                 if (lengthBytesRead == 0) break;
 
-                byte[] messageBuffer = new byte[messageLength];
-                int messageBytesRead = await stream.ReadAsync(messageBuffer, 0, messageBuffer.Length);
-                string receivedMessage = Encoding.ASCII.GetString(messageBuffer, 0, messageBytesRead);
+                //Get the actual data based on the previously received length
+                byte[] dataBuffer = new byte[dataLength];
+                int dataBytesRead = await stream.ReadAsync(dataBuffer, 0, dataBuffer.Length);
+                string receivedData = Encoding.ASCII.GetString(dataBuffer, 0, dataBytesRead);
 
-                await NetworkHandler.HandleData(receivedMessage);
-                Log.Write($"Received data: {receivedMessage}", "Info");
-
+                //Handle the data
+                await NetworkHandler.HandleData(client, receivedData);
             }
             catch (Exception ex)
             {
-                Log.Write($"Could not receive data from server: {ex.Message}", "Info");
+                Log.Write($"Could not receive data from server: {ex.Message}", "Error");
                 break;
             }
         }

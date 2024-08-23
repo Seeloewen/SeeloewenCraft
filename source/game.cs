@@ -15,13 +15,19 @@ namespace SeeloewenCraft
 
         //Constants
         public const int WORLD_VERSION = 5;
-        public const string GAME_VERSION = "Alpha 1.2.0-Dev6";
-        public const string VERSION_DATE = "14.08.2024";
+        public const string GAME_VERSION = "Alpha M-Dev3";
+        public const string VERSION_DATE = "24.08.2024";
         public const int TEXTUREPACK_VERSION = 2;
 
         //Variables
         public static string selectedTexturepack;
         public static bool isServer = false;
         public static bool isClient = false;
+
+        //Methods
+        public static bool IsMultiplayer()
+        {
+            return isServer || isClient;
+        }
     }
 }

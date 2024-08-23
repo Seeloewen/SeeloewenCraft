@@ -1,25 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Threading;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Security.Cryptography.Pkcs;
+using System.Linq;
 
 namespace SeeloewenCraft;
 
 public class Server
 {
     public TcpListener server;
-    public TcpClient client;
-    public NetworkStream stream;
-    public bool isConnected;
+    public List<AdvancedTcpClient> clients = new List<AdvancedTcpClient>();
+    private static int nextClientId = 0;
 
     public async void Start(int port)
     {
@@ -29,52 +22,65 @@ public class Server
         {
             server = new TcpListener(IPAddress.Any, port);
             server.Start();
-            Game.isServer = true;
-            
+            Game.isServer = true;         
         }
         catch (Exception ex)
         {
-            Log.Write("Failed to start the server!", "Info");
-            Log.Write($"{ex.Message}", "Info");
+            Log.Write($"Failed to start the server: {ex.Message}", "Error");
             return;
         }
 
-        Log.Write("The server was successfully started.", "Info");
+        Log.Write("The server was successfully started!", "Info");
 
-
-        client = await server.AcceptTcpClientAsync();
-        stream = client.GetStream();
-        if (stream != null)
+        while (true)
         {
-            isConnected = true;
-            Log.Write("The connection with a client was successfully established.", "Info");
-        }
+            //Get the a server from an incoming connection
+            TcpClient tcpClient = await server.AcceptTcpClientAsync();
 
-        ReceiveData();
+            //Convert it to an advanced client and assign an id
+            AdvancedTcpClient client = new AdvancedTcpClient();
+            client.Client = tcpClient.Client;
+            client.id = nextClientId;
+            nextClientId++;
+
+            //Get the stream and check if the stream is not null, which means that the connection was successful
+            if (client.GetStream() != null)
+            {
+                clients.Add(client);
+                Log.Write("The connection with client was successfully established.", "Info");
+            }
+
+            //Start receiving data from the client
+            ReceiveData(client);
+        }
     }
 
-    public async Task ReceiveData()
+    public async Task ReceiveData(AdvancedTcpClient client)
     {
         byte[] buffer = new byte[1024];
         while (true)
         {
             try
             {
+                //First get the length of the data so the server knows how many bytes the following actual data is long
                 byte[] lengthBuffer = new byte[sizeof(int)];
-                int lengthBytesRead = await stream.ReadAsync(lengthBuffer, 0, lengthBuffer.Length);
-                int messageLength = BitConverter.ToInt32(lengthBuffer, 0);
+                int lengthBytesRead = await client.GetStream().ReadAsync(lengthBuffer, 0, lengthBuffer.Length);
+                int dataLength = BitConverter.ToInt32(lengthBuffer, 0);
+
+                //If no bytes are being read, it means that the connection was closed
                 if (lengthBytesRead == 0) break;
 
-                byte[] messageBuffer = new byte[messageLength];
-                int messageBytesRead = await stream.ReadAsync(messageBuffer, 0, messageBuffer.Length);
-                string receivedMessage = Encoding.ASCII.GetString(messageBuffer, 0, messageBytesRead);
+                //Get the data bytes based on the previously received length
+                byte[] dataBuffer = new byte[dataLength];
+                int dataBytesRead = await client.GetStream().ReadAsync(dataBuffer, 0, dataBuffer.Length);
+                string receivedData = Encoding.ASCII.GetString(dataBuffer, 0, dataBytesRead);
 
-                await NetworkHandler.HandleData(receivedMessage);
-                Log.Write($"Received data: {receivedMessage}", "Info");
+                //Handle the data
+                await NetworkHandler.HandleData(client, receivedData);
             }
             catch (Exception ex)
             {
-                Log.Write($"Could not receive data from clients: {ex.Message}", "Info");
+                Log.Write($"Could not receive data from client #{client.id}: {ex.Message}", "Error");
                 break;
             }
         }
@@ -82,22 +88,89 @@ public class Server
 
     public async Task SendData(string data)
     {
-        if(stream != null)
+        //Send the data to all connected clients
+        foreach(AdvancedTcpClient client in clients)
+        {
+            if (client.GetStream() != null)
+            {            
+                try
+                {
+                    //Convert the data and the length of the data to bytes
+                    byte[] dataBytes = Encoding.ASCII.GetBytes(data);
+                    byte[] lengthBytes = BitConverter.GetBytes(dataBytes.Length);
+
+                    //First send the length of the data, then send the actual data
+                    await client.GetStream().WriteAsync(lengthBytes, 0, lengthBytes.Length);
+                    await client.GetStream().WriteAsync(dataBytes, 0, dataBytes.Length);
+                }
+                catch (Exception ex)
+                {
+                    Log.Write($"Could not send data to client #{client.id}: {ex.Message}", "Error");
+                }
+            }
+        }
+    }
+
+    public async Task SendDataSingleClient(int clientId, string data)
+    {
+        //Send the data to a specific client
+        AdvancedTcpClient client = GetClient(clientId);
+
+        if (client != null && client.GetStream() != null)
         {
             try
             {
-                byte[] messageBytes = Encoding.ASCII.GetBytes(data);
+                //Convert the data and the length of the data to bytes
+                byte[] dataBytes = Encoding.ASCII.GetBytes(data);
+                byte[] lengthBytes = BitConverter.GetBytes(dataBytes.Length);
 
-                byte[] lengthBytes = BitConverter.GetBytes(messageBytes.Length);
-                await stream.WriteAsync(lengthBytes, 0, lengthBytes.Length);
-
-                await stream.WriteAsync(messageBytes, 0, messageBytes.Length);
-                Log.Write($"Send data to server: {data}", "Info");
+                //First send the length of the data, then send the actual data
+                await client.GetStream().WriteAsync(lengthBytes, 0, lengthBytes.Length);
+                await client.GetStream().WriteAsync(dataBytes, 0, dataBytes.Length);
             }
             catch (Exception ex)
             {
-                Log.Write($"Could not send data to clients: {ex.Message}", "Info");
+                Log.Write($"Could not send data to client #{client.id}: {ex.Message}", "Error");
             }
         }
+    }
+
+    public async Task SendDataExceptClients(int[] clientIds, string data)
+    {
+        //Send the data to all connected clients except the clients mentioned
+        foreach (AdvancedTcpClient client in clients)
+        {
+            if (!clientIds.Contains(client.id) && client.GetStream() != null)
+            {
+                try
+                {
+                    //Convert the data and the length of the data to bytes
+                    byte[] dataBytes = Encoding.ASCII.GetBytes(data);
+                    byte[] lengthBytes = BitConverter.GetBytes(dataBytes.Length);
+
+                    //First send the length of the data, then send the actual data
+                    await client.GetStream().WriteAsync(lengthBytes, 0, lengthBytes.Length);
+                    await client.GetStream().WriteAsync(dataBytes, 0, dataBytes.Length);
+                }
+                catch (Exception ex)
+                {
+                    Log.Write($"Could not send data to client #{client.id}: {ex.Message}", "Error");
+                }
+            }
+        }
+    }
+
+    public AdvancedTcpClient GetClient(int id)
+    {
+        //Go through all clients and return the correct one
+        foreach (AdvancedTcpClient client in clients)
+        {
+            if (client.id == id)
+            {
+                return client;
+            }
+        }
+
+        return null;
     }
 }

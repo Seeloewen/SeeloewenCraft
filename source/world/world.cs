@@ -89,8 +89,13 @@ namespace SeeloewenCraft
                 SetGamemode(Gamemode.Creative);
             }
 
-            Game.world.wndGame.Show();
+            //If the game is a client, don't show the window right away, wait for the first sync
+            if(Game.client == null)
+            {
+                Game.world.wndGame.Show();
+            }
 
+            //TODO: Only start a server when requested
             if (Game.client == null)
             {
                 NetworkHandler.StartServer();
@@ -257,11 +262,13 @@ namespace SeeloewenCraft
 
         public void SetBlockMultiplayer(Block block, int cIndex, int x, int y)
         {
+            //Check if the chunk exists before placing a block there, if not, create it
             if (GetTotalChunk(cIndex) == null)
             {
                 CreateChunk(cIndex);
             }
 
+            //Set the block in the chunk
             GetTotalChunk(cIndex).SetBlock(block, x, y);
         }
 
@@ -521,22 +528,22 @@ namespace SeeloewenCraft
             {
                 Chunk chunk = Game.world.GetLoadedChunk(Game.world.loadedChunkList[0].index);
                 Game.world.UnloadChunk(chunk);
-                Game.world.LoadChunk(Game.world.GetChunk(Game.world.loadedChunkList[5].index + 1));
+                Chunk newChunk = Game.world.GetChunk(Game.world.loadedChunkList[5].index + 1);
+                Game.world.LoadChunk(newChunk);
 
                 //Sort the chunklist again
                 Game.world.loadedChunkList = Game.world.loadedChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
                 worldRenderer.Render();
 
-                if (Game.isClient)
+                //Send the chunk on the network
+                NetworkHandler.SendData($"CreateChunk;{newChunk.index}");
+
+                //If it's a server, additionally send the chunk to all clients
+                if (Game.isServer)
                 {
-                    Game.client.SendData($"CreateChunk;{Game.world.loadedChunkList[5].index + 1}");
-                }
-                else if (Game.isServer)
-                {
-                    Game.server.SendData($"CreateChunk;{Game.world.loadedChunkList[5].index + 1}");
-                    foreach (Block block in Game.world.GetChunk(Game.world.loadedChunkList[5].index + 1).blockList.blocks)
+                    foreach (Block block in newChunk.blockList.blocks)
                     {
-                        Game.server.SendData($"SetBlock;{block.id};{Game.world.loadedChunkList[5].index + 1};{block.xPos};{block.yPos}");
+                        NetworkHandler.SendData($"SetBlock;{block.id};{newChunk.index};{block.xPos};{block.yPos}");
                     }
                 }
             }
@@ -544,30 +551,26 @@ namespace SeeloewenCraft
             {
                 Chunk chunk = Game.world.GetLoadedChunk(Game.world.loadedChunkList[6].index);
                 Game.world.UnloadChunk(chunk);
-                Game.world.LoadChunk(Game.world.GetChunk(Game.world.loadedChunkList[0].index - 1));
+                Chunk newChunk = Game.world.GetChunk(Game.world.loadedChunkList[0].index - 1);
+                Game.world.LoadChunk(newChunk);
 
                 //Sort the list again
                 Game.world.loadedChunkList = Game.world.loadedChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
                 worldRenderer.Render();
 
-                if (Game.isClient)
+                //Send the chunk on the network
+                NetworkHandler.SendData($"CreateChunk;{newChunk.index}");
+
+                //If it's a server, additionally send the chunk to all clients
+                if (Game.isServer)
                 {
-                    Game.client.SendData($"CreateChunk;{Game.world.loadedChunkList[0].index - 1}");
-                }
-                else if (Game.isServer)
-                {
-                    Game.server.SendData($"CreateChunk;{Game.world.loadedChunkList[0].index - 1}");
-                    foreach (Block block in Game.world.GetChunk(Game.world.loadedChunkList[0].index - 1).blockList.blocks)
+                    foreach (Block block in newChunk.blockList.blocks)
                     {
-                        Game.server.SendData($"SetBlock;{block.id};{Game.world.loadedChunkList[0].index - 1};{block.xPos};{block.yPos}");
+                        NetworkHandler.SendData($"SetBlock;{block.id};{newChunk.index};{block.xPos};{block.yPos}");
                     }
                 }
-
-
             }
         }
-
-
 
         public Chunk GetLoadedChunk(int index)
         {

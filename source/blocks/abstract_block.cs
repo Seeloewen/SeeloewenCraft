@@ -588,14 +588,8 @@ namespace SeeloewenCraft
             UpdateAirLightsources(block);
             block.MoveToNormal();
 
-            if (Game.server != null)
-            {
-                Game.server.SendData($"SetBlock;{block.id};{chunk.index};{block.xPos};{block.yPos}");
-            }
-            else if (Game.client != null)
-            {
-                Game.client.SendData($"SetBlock;{block.id};{chunk.index};{block.xPos};{block.yPos}");
-            }
+            //Send the data on the network if it's multiplayer
+            NetworkHandler.SendData($"SetBlock;{block.id};{chunk.index};{block.xPos};{block.yPos}");
         }
 
         public void SetForegroundBlock(Block block)
