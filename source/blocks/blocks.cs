@@ -114,7 +114,7 @@ namespace SeeloewenCraft
     {
         public ChestBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Chest", "sc:chest_block", 500, "sc:chest_item", Tool.None, Images.Chest);
+            Init("Chest", "sc:chest_block", 500, "sc:chest_item", Tool.Axe, Images.Chest);
             hasInventory = true;
             blockInventory = new Inventory(9, 4);
             Game.world.inventoryList.Add(blockInventory);
@@ -196,7 +196,7 @@ namespace SeeloewenCraft
     {
         public CraftingTableBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Crafting Table", "sc:crafting_table_block", 500, "sc:crafting_table_item", Tool.None, Images.CraftingTable);
+            Init("Crafting Table", "sc:crafting_table_block", 500, "sc:crafting_table_item", Tool.Axe, Images.CraftingTable);
             tags.Add("workstation");
             hasRightClickAction = true;
 
@@ -230,7 +230,7 @@ namespace SeeloewenCraft
     {
         public ChiselerBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Chiseler", "sc:chiseler_block", 500, "sc:chiseler_item", Tool.None, Images.Chiseler);
+            Init("Chiseler", "sc:chiseler_block", 500, "sc:chiseler_item", Tool.Axe, Images.Chiseler);
             tags.Add("workstation");
             hasRightClickAction = true;
 
@@ -264,7 +264,7 @@ namespace SeeloewenCraft
     {
         public UnchiselerBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Unchiseler", "sc:unchiseler_block", 500, "sc:unchiseler_item", Tool.None, Images.Unchiseler);
+            Init("Unchiseler", "sc:unchiseler_block", 500, "sc:unchiseler_item", Tool.Axe, Images.Unchiseler);
             hasRightClickAction = true;
             collision = new RectangleCollision(0, 1000, 565, 1000);
             blockInventory = gui.inventory;
@@ -297,7 +297,7 @@ namespace SeeloewenCraft
     {
         public SpruceDoor_Base(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Door Base", "sc:spruce_door_base", 500, "sc:spruce_door_item", Tool.None, Images.SpruceDoor_Closed_Base);
+            Init("Spruce Door Base", "sc:spruce_door_base", 500, "sc:spruce_door_item", Tool.Axe, Images.SpruceDoor_Closed_Base);
             isBase = true;
             hasRightClickAction = true;
             collision = new RectangleCollision(720, 1000, 0, 1000);
@@ -312,7 +312,7 @@ namespace SeeloewenCraft
     {
         public SpruceDoor_Top(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Door Top", "sc:spruce_door_top", 500, null, Tool.None, Images.SpruceDoor_Closed_Top);
+            Init("Spruce Door Top", "sc:spruce_door_top", 500, null, Tool.Axe, Images.SpruceDoor_Closed_Top);
             hasRightClickAction = true;
             collision = new RectangleCollision(720, 1000, 0, 1000);
 
@@ -360,6 +360,184 @@ namespace SeeloewenCraft
         public SprucePlanksBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Spruce Planks", "sc:spruce_planks_block", 500, "sc:spruce_planks_item", Tool.Axe, Images.SprucePlanks);
+        }
+    }
+
+    public class Cactus_TopFruit : Block
+    {
+        public Cactus_TopFruit(bool isInBackground) : base(isInBackground)
+        {
+            Init("Cactus Top Fruit", "sc:cactus_top_fruit", 250, "sc:cactus_fruit_item", Tool.Axe, Images.Cactus_Top_Fruit);
+        }
+    }
+
+    public class Cactus_Vertical : Block
+    {
+        public Cactus_Vertical(bool isInBackground) : base(isInBackground)
+        {
+            Init("Cactus Vertical", "sc:cactus_vertical", 250, null, Tool.Axe, Images.Cactus_Vertical);
+        }
+    }
+
+    public class Cactus_Top : Block
+    {
+        public Cactus_Top(bool isInBackground) : base(isInBackground)
+        {
+            Init("Cactus Top", "sc:cactus_top", 250, null, Tool.Axe, Images.Cactus_Top);
+        }
+    }
+
+    public class Cactus_TopLeft : Block
+    {
+        public Cactus_TopLeft(bool isInBackground) : base(isInBackground)
+        {
+            Init("Cactus Top Left", "sc:cactus_top_left", 250, null, Tool.Axe, Images.Cactus_TopLeft);
+        }
+    }
+
+    public class Cactus_TopRight : Block
+    {
+        public Cactus_TopRight(bool isInBackground) : base(isInBackground)
+        {
+            Init("Cactus Top Right", "sc:cactus_top_right", 250, null, Tool.Axe, Images.Cactus_TopRight);
+        }
+    }
+
+    public class Cactus_Cross : Block
+    {
+        public Cactus_Cross(bool isInBackground) : base(isInBackground)
+        {
+            Init("Cactus Cross", "sc:cactus_cross", 250, null, Tool.Axe, Images.Cactus_Cross);
+        }
+    }
+
+    public class Cactus_Horizontal : Block
+    {
+        public Cactus_Horizontal(bool isInBackground) : base(isInBackground)
+        {
+            Init("Cactus Horizontal", "sc:cactus_horizontal", 250, null, Tool.Axe, Images.Cactus_Horizontal);
+        }
+    }
+
+    public class Cactus_BottomLeft : Block
+    {
+        public Cactus_BottomLeft(bool isInBackground) : base(isInBackground)
+        {
+            Init("Cactus Bottom Left", "sc:cactus_bottom_left", 250, null, Tool.Axe, Images.Cactus_BottomLeft);
+        }
+    }
+
+    public class Cactus_BottomRight : Block
+    {
+        public Cactus_BottomRight(bool isInBackground) : base(isInBackground)
+        {
+            Init("Cactus Bottom Right", "sc:cactus_bottom_right", 250, null, Tool.Axe, Images.Cactus_BottomRight);
+        }
+    }
+
+    public class OakDoor_Base : DoorBlock
+    {
+        public OakDoor_Base(bool isInBackground) : base(isInBackground)
+        {
+            Init("Oak Door Base", "sc:oak_door_base", 500, "sc:oak_door_item", Tool.Axe, Images.OakDoor_Closed_Base);
+            isBase = true;
+            hasRightClickAction = true;
+            collision = new RectangleCollision(720, 1000, 0, 1000);
+
+            connectedBlocks.Add((0, -1, "sc:oak_door_top"));
+            imgClose = Images.OakDoor_Closed_Base.GetTexture();
+            imgOpen = Images.OakDoor_Open_Base.GetTexture();
+        }
+    }
+
+    public class OakDoor_Top : DoorBlock
+    {
+        public OakDoor_Top(bool isInBackground) : base(isInBackground)
+        {
+            Init("Oak Door Top", "sc:oak_door_top", 500, null, Tool.Axe, Images.OakDoor_Closed_Top);
+            hasRightClickAction = true;
+            collision = new RectangleCollision(720, 1000, 0, 1000);
+
+            imgClose = Images.OakDoor_Closed_Top.GetTexture();
+            imgOpen = Images.OakDoor_Open_Top.GetTexture();
+        }
+
+        public override void RightClickAction(object sender)
+        {
+            if (!isForeground)
+            {
+                if (GetBaseBlock() is DoorBlock block)
+                {
+                    block.RightClickAction(sender);
+                }
+            }
+            else
+            {
+                if (GetBaseBlock().GetForegroundBlock() is DoorBlock block)
+                {
+                    block.RightClickAction(sender);
+                }
+            }
+        }
+    }
+
+    public class OakTrapDoor : DoorBlock
+    {
+        public OakTrapDoor(bool isInBackground) : base(isInBackground)
+        {
+            Init("Oak Trapdoor Base", "sc:oak_trapdoor_base", 500, "sc:oak_trapdoor_item", Tool.Axe, Images.OakTrapdoor_Closed);
+            hasRightClickAction = true;
+            collision = new RectangleCollision(0, 1000, 720, 1000);
+
+            imgClose = Images.OakTrapdoor_Closed.GetTexture();
+            imgOpen = Images.OakTrapdoor_Open.GetTexture();
+        }
+    }
+
+    public class SpruceTrapDoor : DoorBlock
+    {
+        public SpruceTrapDoor(bool isInBackground) : base(isInBackground)
+        {
+            Init("Spruce Trapdoor Base", "sc:spruce_trapdoor_base", 500, "sc:spruce_trapdoor_item", Tool.Axe, Images.SpruceTrapdoor_Closed);
+            hasRightClickAction = true;
+            collision = new RectangleCollision(0, 1000, 720, 1000);
+
+            imgClose = Images.SpruceTrapdoor_Closed.GetTexture();
+            imgOpen = Images.SpruceTrapdoor_Open.GetTexture();
+        }
+    }
+
+    public class Furnace : Block
+    {
+        public Furnace(bool isInBackground) : base(isInBackground)
+        {
+            Init("Furnace", "sc:furnace_block", 500, "sc:furnace_item", Tool.Pickaxe, Images.Furnace_Idle);
+            tags.Add("workstation");
+            hasRightClickAction = true;
+
+            craftingHandler = new CraftingHandler(this);
+            gui = new FurnaceGui(535, 720, 120, 285, "sc:furnace", null, this);
+        }
+
+        public override void RightClickAction(object sender)
+        {
+            if (IsInRange())
+            {
+                gui.Show();
+            }
+        }
+
+        public override void ShowAdditionalDebugInfo()
+        {
+            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"recipeClaimable={craftingHandler.recipeClaimable}");
+            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"recipeRunning={craftingHandler.recipeRunning}");
+
+            if (craftingHandler.recipeRunning)
+            {
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"selectedRecipe={craftingHandler.selectedRecipe}");
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"recipeProgress={craftingHandler.recipeProgress}");
+                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"amount={craftingHandler.amount}");
+            }
         }
     }
 }
