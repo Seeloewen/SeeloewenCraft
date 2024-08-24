@@ -42,6 +42,11 @@ public class Client
 
             //Send a request to the server to do an initial load, which gets all blocks in all chunks and their content
             await Game.client.SendData("InitialLoad");
+            using (JsonWriter writer = JsonWriter.Create())
+            {
+                Game.world.player.SaveToJson(writer);
+                await SendData($"CreateEntity;{writer.ToString()}");
+            }
             Game.world.wndGame.Show();
         }
         else

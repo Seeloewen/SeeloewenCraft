@@ -17,13 +17,28 @@ namespace SeeloewenCraft.entity
 
         //-- Constructor --//
 
-        public Player( int x, int y) : base(900, 1900, x, y, 0, 0,  new SolidColorBrush(Colors.Red))
+        public Player(int x, int y) : base(900, 1900, x, y, 0, 0)
+        {
+            id = DateTime.Now.Millisecond; //Temporary, needs replacement
+
+            //Generate the player
+            type = "Player";
+            InitPlayer();
+        }
+
+        public Player(JsonToken token) : base(token, 900, 1900)
         {
             //Generate the player
+            type = "Player";
             InitPlayer();
         }
 
         //-- Custom Methods --//
+
+        protected override void InitTexture()
+        {
+            texture.Background = new SolidColorBrush(Colors.Red);
+        }
 
         private void HandleThrow()
         {
@@ -62,14 +77,30 @@ namespace SeeloewenCraft.entity
             }
         }
 
-        private void HandleInputs()
+        public void HandleInputs()
         {
+            bool changed = false;
+
+            changed = changed || pressedLeft != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedRight != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedUp != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedSneak != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedSprint != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedThrow != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+
+
             pressedLeft = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
             pressedRight = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveRight);
             pressedUp = Game.world.wndGame.pressedKeys.Contains(Settings.cJump);
             pressedSneak = Game.world.wndGame.pressedKeys.Contains(Settings.cSneak);
             pressedSprint = Game.world.wndGame.pressedKeys.Contains(Settings.cSprint);
             pressedThrow = Game.world.wndGame.pressedKeys.Contains(Settings.cThrowItem);
+
+            if (changed)
+            {
+                NetworkHandler.SendData($"MovePlayer;{Game.world.player.id};{pressedLeft};{pressedRight};{pressedUp};{pressedSneak};{pressedSprint};{pressedThrow}");
+            }
+
         }
 
         protected override void DoFallDamage()
@@ -115,7 +146,7 @@ namespace SeeloewenCraft.entity
             Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "breathing");
 
             //Setup health bar
-            healthBar = new HealthBar( 10, 740);
+            healthBar = new HealthBar(10, 740);
 
             if (Game.world.gamemode == Gamemode.Creative)
             {
@@ -142,7 +173,6 @@ namespace SeeloewenCraft.entity
 
         protected override void OnUpdateStart(int tps)
         {
-            HandleInputs();
             HandleThrow();
             base.OnUpdateStart(tps);
             DisplayDebugInformation();

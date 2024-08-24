@@ -409,6 +409,7 @@ namespace SeeloewenCraft.entity
                  image)
         {
             lifeTime = token.GetInt("/life_time");
+            id = token.GetInt("/id");
         }
 
         public Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, Brush image)
@@ -432,13 +433,19 @@ namespace SeeloewenCraft.entity
             touchingStatus = new bool[TOUCHING_STATUS_COUNT];
         }
 
-        public static Entity LoadFromJson(JsonToken token, World world)
+        public static Entity LoadFromJson(JsonToken token)
         {
             Entity entity = null;
             switch (token.GetString("/type"))
             {
                 case "ItemEntity":
                     entity = new ItemEntity(token);
+                    break;
+                case "Slime":
+                    entity = new Slime(token);
+                    break;
+                case "Player":
+                    entity = new Player(token);
                     break;
                 default:
                     throw new Exception();
@@ -473,10 +480,8 @@ namespace SeeloewenCraft.entity
 
         protected virtual void SaveSpecialInfo(JsonWriter writer)
         {
-            writer.WritePropertyName("type");
-            writer.WriteValue("Entity");
-        }
 
+        }
 
 
         public override bool Equals(object obj)

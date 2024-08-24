@@ -12,11 +12,16 @@ namespace SeeloewenCraft.entity
 
 
         public Zombie(int posX, int posY, int velX, int velY)
-            : base(900, 1800, posX, posY, velX, velY,  new SolidColorBrush(Colors.LimeGreen))
+            : base(900, 1800, posX, posY, velX, velY)
         {
             rnd = new Random(DateTime.Now.Millisecond);
             ACC_WALKING = 20000;
             ACC_SPRINTING = 35000;
+        }
+
+        protected override void InitTexture()
+        {
+            texture.Background = new SolidColorBrush(Colors.LimeGreen);
         }
 
         public override void Die()
@@ -49,7 +54,7 @@ namespace SeeloewenCraft.entity
                 }
                 timeSinceMove = 0;
             }
-            timeSinceMove += 1000/tps;
+            timeSinceMove += 1000 / tps;
         }
 
 

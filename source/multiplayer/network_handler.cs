@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SeeloewenCraft.entity;
+using System;
+using System.Collections.Immutable;
+using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace SeeloewenCraft
@@ -43,11 +46,90 @@ namespace SeeloewenCraft
                 case "SetBlock":
                     HandleSetBlock(client, args);
                     break;
+                case "CreateEntity":
+                    HandleCreateEntity(client, args);
+                    break;
+                case "RemoveEntity":
+                    HandleRemoveEntity(client, args);
+                    break;
+                case "MovePlayer":
+                    HandleMovePlayer(client, args);
+                    break;
+                case "SyncPos":
+                    HandleSyncPos(client, args);
+                    break;
+            }
+        }
+
+
+        public async static void HandleSyncPos(AdvancedTcpClient client, string[] args)
+        {
+            //Synchronise the position of all entities to ensure their position is correct
+            foreach (Entity entity in Game.world.entities)
+            {
+                if (entity.id == Convert.ToInt32(args[1]) && entity is MovingEntity movEntity)
+                {
+                    movEntity.HandleSyncData(args);
+                }
+            }
+
+            //If the server gets the packet, send it all other clients to ensure that the position on them is correct too
+            if (Game.isServer)
+            {
+                Game.server.SendDataExceptClients([client.id], $"SyncPos;{args[1]};{args[2]};{args[3]};{args[4]};{args[5]}");
+            }
+        }
+
+        public async static void HandleMovePlayer(AdvancedTcpClient client, string[] args)
+        {
+            foreach (Entity entity in Game.world.entities)
+            {
+                if (entity.id == Convert.ToInt32(args[1]) && entity is MovingEntity movEntity)
+                {
+                    movEntity.pressedLeft = Convert.ToBoolean(args[2]);
+                    movEntity.pressedRight = Convert.ToBoolean(args[3]);
+                    movEntity.pressedUp = Convert.ToBoolean(args[4]);
+                    movEntity.pressedSneak = Convert.ToBoolean(args[5]);
+                    movEntity.pressedSprint = Convert.ToBoolean(args[6]);
+                    movEntity.pressedThrow = Convert.ToBoolean(args[7]);
+                }
+            }
+
+            //If the server receives the packet, send it to all other clients to make sure the player moves on all of them
+            if (Game.isServer)
+            {
+                Game.server.SendDataExceptClients([client.id], $"MovePlayer;{args[1]};{args[2]};{args[3]};{args[4]};{args[5]};{args[6]};{args[7]}");
+            }
+        }
+
+        public async static void HandleCreateEntity(AdvancedTcpClient client, string[] args)
+        {
+            //Add the entity
+            Game.world.AddMultiplayerEntity(Entity.LoadFromJson(JsonUtil.ReadString(args[1])));
+
+            //If the server receives the packet, send it to all clients except the one it came from to ensure the entity gets created on all clients
+            if (Game.isServer)
+            {
+                Game.server.SendDataExceptClients([client.id], $"CreateEntity;{args[1]}");
+            }
+        }
+
+        public async static void HandleRemoveEntity(AdvancedTcpClient client, string[] args)
+        {
+            //Remove the entity
+            Game.world.RemoveMultiplayerEntity(Convert.ToInt32(args[1]));
+
+            //If the server receives the packet, send it to all clients except the one it came from to ensure the entity gets removed on all clients
+            if (Game.isServer)
+            {
+                Game.server.SendDataExceptClients([client.id], $"RemoveEntity;{args[1]}");
             }
         }
 
         public async static void HandleInitialLoad(AdvancedTcpClient client, string[] args) //Only executed by the server
         {
+            //Called when a player connects
+
             //Go through each chunk and each block and send it to the client that requested it
             if (Game.isServer)
             {
@@ -58,6 +140,26 @@ namespace SeeloewenCraft
                         await Game.server.SendDataSingleClient(client.id, $"SetBlock;{block.id};{chunk.index};{block.xPos};{block.yPos}");
                     }
                 }
+            }
+
+            //Send all moving entities to the connecting client
+            foreach (MovingEntity entity in Game.world.entities)
+            {
+                if (entity.type != "Player") //Don't sync other players, those get synced seperately
+                {
+                    using (JsonWriter writer = JsonWriter.Create())
+                    {
+                        entity.SaveToJson(writer);
+                        await Game.server.SendDataSingleClient(client.id, $"CreateEntity;{writer.ToString()}");
+                    }
+                }
+            }
+
+            //Send the player (which is for some reason not in the entity list) to the connecting client
+            using (JsonWriter writer = JsonWriter.Create())
+            {
+                Game.world.player.SaveToJson(writer);
+                await Game.server.SendDataSingleClient(client.id, $"CreateEntity;{writer.ToString()}");
             }
         }
 

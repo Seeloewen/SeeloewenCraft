@@ -1,10 +1,11 @@
-﻿using System.Windows.Media;
+﻿using SeeloewenCraft.entity;
+using System.Windows.Media;
 
 namespace SeeloewenCraft
 {
     public class WaterUpdateEvent : GameLoopEvent
     {
-        public WaterUpdateEvent( GameLoop gameLoop) : base( gameLoop)
+        public WaterUpdateEvent(GameLoop gameLoop) : base(gameLoop)
         {
             maxTick = 1000;
         }
@@ -15,9 +16,30 @@ namespace SeeloewenCraft
         }
     }
 
+    public class EntitySyncEvent : GameLoopEvent
+    {
+        public EntitySyncEvent(GameLoop gameLoop) : base(gameLoop)
+        {
+            maxTick = 400;
+        }
+
+        public override void DoEvent()
+        {
+            Game.world.player.SendSyncData();
+            foreach (Entity entity in Game.world.entities)
+            {
+                if (entity is MovingEntity movEntity)
+                {
+                    movEntity.SendSyncData();
+                }
+            }
+        }
+
+    }
+
     public class DayNightCycle : GameLoopEvent
     {
-        public DayNightCycle( GameLoop gameLoop) : base( gameLoop)
+        public DayNightCycle(GameLoop gameLoop) : base(gameLoop)
         {
             singleEvent = false;
             maxTick = 1200000;

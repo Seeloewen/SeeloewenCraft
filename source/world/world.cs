@@ -9,9 +9,6 @@ using System.Windows.Media;
 using System.Linq;
 
 using SeeloewenCraft.entity;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
-using System.Reflection;
 
 namespace SeeloewenCraft
 {
@@ -29,7 +26,6 @@ namespace SeeloewenCraft
         public List<CraftingRecipe> craftingRecipeList = new List<CraftingRecipe>();
         public LootTables lootTables;
         public Player player;
-        public Player player2;
         public WaterHandler waterHandler;
         public ClickHandler clickHandler;
         public DebugMenu debugMenu;
@@ -90,7 +86,7 @@ namespace SeeloewenCraft
             }
 
             //If the game is a client, don't show the window right away, wait for the first sync
-            if(Game.client == null)
+            if (Game.client == null)
             {
                 Game.world.wndGame.Show();
             }
@@ -243,6 +239,20 @@ namespace SeeloewenCraft
             Game.world.wndGame.cvsWorld.Children.Add(entity.texture);
             Panel.SetZIndex(entity.texture, 1);
             worldRenderer.AddEntity(entity);
+
+            using (JsonWriter writer = JsonWriter.Create())
+            {
+                entity.SaveToJson(writer);
+                NetworkHandler.SendData($"CreateEntity;{writer.ToString()}");
+            }
+        }
+
+        public void AddMultiplayerEntity(Entity entity)
+        {
+            entities.Add(entity);
+            Game.world.wndGame.cvsWorld.Children.Add(entity.texture);
+            Panel.SetZIndex(entity.texture, 1);
+            worldRenderer.AddEntity(entity);
         }
 
         public void RemoveEntity(Entity entity)
@@ -252,6 +262,24 @@ namespace SeeloewenCraft
                 entities.Remove(entity);
                 Game.world.wndGame.cvsWorld.Children.Remove(entity.texture);
                 worldRenderer.Remove(entity);
+
+                NetworkHandler.SendData($"RemoveEntity;{entity.id}");
+            }
+        }
+
+        public void RemoveMultiplayerEntity(int id)
+        {
+            for (int i = 0; i < entities.Count; i++)
+            {
+                Entity entity = entities[i];
+
+                if (entity.id == id)
+                {
+                    entities.Remove(entity);
+                    Game.world.wndGame.cvsWorld.Children.Remove(entity.texture);
+                    worldRenderer.Remove(entity);
+                    break;
+                }
             }
         }
 
@@ -413,7 +441,7 @@ namespace SeeloewenCraft
                 int l = listToken.GetArrayLength();
                 for (int i = 0; i < l; i++)
                 {
-                    AddEntity(Entity.LoadFromJson(listToken.GetToken($"/{i}"), this));
+                    AddEntity(Entity.LoadFromJson(listToken.GetToken($"/{i}")));
                 }
             }
         }
@@ -667,6 +695,7 @@ namespace SeeloewenCraft
 
         private void tmrMovement_Tick(object sender, EventArgs e)
         {
+            player.HandleInputs();
             player.OnUpdate(63); // tps: 1/0.016
 
             List<ItemEntity> pickedUpEntities = new List<ItemEntity>();
@@ -688,6 +717,7 @@ namespace SeeloewenCraft
             {
                 RemoveEntity(entity);
             }
+            toDieEntities.Clear();
 
             worldRenderer.playerPosX = (double)player.posX / 1000;
             worldRenderer.playerPosY = (double)player.posY / 1000;

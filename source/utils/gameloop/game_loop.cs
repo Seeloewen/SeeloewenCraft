@@ -15,6 +15,7 @@ namespace SeeloewenCraft
         //Gameloops
         WaterUpdateEvent waterUpdateEvent;
         DayNightCycle dayNightCycle;
+        EntitySyncEvent entitySyncEvent;
 
         //-- Constructor --//
 
@@ -31,6 +32,7 @@ namespace SeeloewenCraft
             //Setup all game loops
             waterUpdateEvent = new WaterUpdateEvent( this);
             dayNightCycle = new DayNightCycle( this);
+            entitySyncEvent = new EntitySyncEvent(this);
         }
 
         //-- Custom Methods --//
