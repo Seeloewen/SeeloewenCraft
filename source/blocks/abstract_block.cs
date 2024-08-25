@@ -391,14 +391,20 @@ namespace SeeloewenCraft
 
         public void MoveToBackground()
         {
-            isBackground = true;
-            blockContainer.ShowDarkRectangle();
+            if (blockContainer != null)
+            {
+                isBackground = true;
+                blockContainer.ShowDarkRectangle();
+            }
         }
 
         public void MoveToNormal()
         {
-            isBackground = false;
-            blockContainer.HideDarkRectangle();
+            if(blockContainer != null)
+            {
+                isBackground = false;
+                blockContainer.HideDarkRectangle();
+            }
         }
 
         public bool IsInRange()

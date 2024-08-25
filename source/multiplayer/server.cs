@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Net;
@@ -57,7 +58,6 @@ public class Server
 
     public async Task ReceiveData(AdvancedTcpClient client)
     {
-        byte[] buffer = new byte[1024];
         while (true)
         {
             try
@@ -67,13 +67,11 @@ public class Server
                 int lengthBytesRead = await client.GetStream().ReadAsync(lengthBuffer, 0, lengthBuffer.Length);
                 int dataLength = BitConverter.ToInt32(lengthBuffer, 0);
 
-                //If no bytes are being read, it means that the connection was closed
-                if (lengthBytesRead == 0) break;
-
                 //Get the data bytes based on the previously received length
                 byte[] dataBuffer = new byte[dataLength];
                 int dataBytesRead = await client.GetStream().ReadAsync(dataBuffer, 0, dataBuffer.Length);
                 string receivedData = Encoding.ASCII.GetString(dataBuffer, 0, dataBytesRead);
+                Log.Write($"Received data from client #{client.id}: {receivedData}.", "Info");
 
                 //Handle the data
                 await NetworkHandler.HandleData(client, receivedData);
@@ -102,6 +100,8 @@ public class Server
                     //First send the length of the data, then send the actual data
                     await client.GetStream().WriteAsync(lengthBytes, 0, lengthBytes.Length);
                     await client.GetStream().WriteAsync(dataBytes, 0, dataBytes.Length);
+
+                    Log.Write($"Sent data to client #{client.id}: {data}.", "Info");
                 }
                 catch (Exception ex)
                 {
@@ -127,6 +127,8 @@ public class Server
                 //First send the length of the data, then send the actual data
                 await client.GetStream().WriteAsync(lengthBytes, 0, lengthBytes.Length);
                 await client.GetStream().WriteAsync(dataBytes, 0, dataBytes.Length);
+
+                Log.Write($"Received data to single client #{client.id}: {data}.", "Info");
             }
             catch (Exception ex)
             {
@@ -135,12 +137,12 @@ public class Server
         }
     }
 
-    public async Task SendDataExceptClients(int[] clientIds, string data)
+    public async Task SendDataExceptClients(int clientId, string data)
     {
         //Send the data to all connected clients except the clients mentioned
         foreach (AdvancedTcpClient client in clients)
         {
-            if (!clientIds.Contains(client.id) && client.GetStream() != null)
+            if (clientId != client.id && client.GetStream() != null)
             {
                 try
                 {
@@ -151,6 +153,8 @@ public class Server
                     //First send the length of the data, then send the actual data
                     await client.GetStream().WriteAsync(lengthBytes, 0, lengthBytes.Length);
                     await client.GetStream().WriteAsync(dataBytes, 0, dataBytes.Length);
+
+                    Log.Write($"Received data to client #{client.id} (except {clientId}): {data}.", "Info");
                 }
                 catch (Exception ex)
                 {

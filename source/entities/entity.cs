@@ -7,6 +7,8 @@ namespace SeeloewenCraft.entity
 {
     public class Entity
     {
+        public TextBlock tblId;
+
         public string type;
 
         //touching status constants
@@ -410,13 +412,31 @@ namespace SeeloewenCraft.entity
         {
             lifeTime = token.GetInt("/life_time");
             id = token.GetInt("/id");
+            nextID++;
+
+            texture.Children.Clear();
+            tblId = new TextBlock() { FontSize = 20, FontWeight = FontWeights.DemiBold };
+            tblId.Text = id.ToString();
+            if(this is MovingEntity)
+            {
+                texture.Children.Add(tblId);
+                Canvas.SetTop(tblId, -30);
+                Canvas.SetLeft(tblId, 8);
+            }
         }
 
         public Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, Brush image)
         {
             lifeTime = 0;
-            this.id = nextID;
             nextID++;
+            if(this is not Player)
+            {
+                id = nextID;
+            }
+            else
+            {
+                id = DateTime.Now.Millisecond; //Temporary, needs replacement
+            }
             this.sizeX = sizeX;
             this.sizeY = sizeY;
             this.posX = posX;
@@ -431,6 +451,16 @@ namespace SeeloewenCraft.entity
             texture.Background = image;
 
             touchingStatus = new bool[TOUCHING_STATUS_COUNT];
+
+            texture.Children.Clear();
+            tblId = new TextBlock() { FontSize = 20, FontWeight = FontWeights.DemiBold };
+            tblId.Text = id.ToString();
+            if (this is MovingEntity)
+            {
+                texture.Children.Add(tblId);
+                Canvas.SetTop(tblId, -30);
+                Canvas.SetLeft(tblId, 8);
+            }
         }
 
         public static Entity LoadFromJson(JsonToken token)

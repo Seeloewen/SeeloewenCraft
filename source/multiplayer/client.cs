@@ -2,6 +2,7 @@
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SeeloewenCraft;
 
@@ -73,6 +74,8 @@ public class Client
                 //First send the length of the data, then send the actual data
                 await stream.WriteAsync(lengthBytes, 0, lengthBytes.Length);
                 await stream.WriteAsync(dataBytes, 0, dataBytes.Length);
+
+                Log.Write($"Sent data to server: {dataBytes}.", "Info");
             }
             catch (Exception ex)
             {
@@ -101,6 +104,8 @@ public class Client
 
                 //Handle the data
                 await NetworkHandler.HandleData(client, receivedData);
+
+                Log.Write($"Received data from server: {receivedData}.", "Info");
             }
             catch (Exception ex)
             {
@@ -108,5 +113,7 @@ public class Client
                 break;
             }
         }
+
+        MessageBox.Show("Lost connection to server!");
     }
 }

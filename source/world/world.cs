@@ -249,6 +249,11 @@ namespace SeeloewenCraft
 
         public void AddMultiplayerEntity(Entity entity)
         {
+            if (entity.id == player.id)
+            {
+                return;
+            }
+
             entities.Add(entity);
             Game.world.wndGame.cvsWorld.Children.Add(entity.texture);
             Panel.SetZIndex(entity.texture, 1);
@@ -713,9 +718,9 @@ namespace SeeloewenCraft
                 }
             }
 
-            foreach (Entity entity in toDieEntities)
+            for(int i = 0; i < toDieEntities.Count; i++)
             {
-                RemoveEntity(entity);
+                RemoveEntity(toDieEntities[i]);
             }
             toDieEntities.Clear();
 

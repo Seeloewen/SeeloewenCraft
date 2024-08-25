@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
-using Windows.Devices.Bluetooth.GenericAttributeProfile;
 
 namespace SeeloewenCraft.entity
 {
@@ -71,6 +72,12 @@ namespace SeeloewenCraft.entity
 
         public void SendSyncData()
         {
+            if(this is Player && this != Game.world.player && !Game.isServer)
+            {
+                return;
+            }
+
+            //Only send sync data of the current player or entities
             NetworkHandler.SendData($"SyncPos;{id};{posX};{posY};{velX};{velY}");
         }
 
@@ -194,9 +201,23 @@ namespace SeeloewenCraft.entity
         public virtual void Heal(double amount)
         {
             SetHP(hp + amount);
+
+            NetworkHandler.SendData($"HealEntity;{id};{amount}");
+        }
+
+        public virtual void MultiplayerHeal(double amount)
+        {
+            SetHP(hp + amount);
         }
 
         public virtual void Damage(double damage)
+        {
+            SetHP(hp - damage);
+
+            NetworkHandler.SendData($"DamageEntity;{id};{damage}");
+        }
+
+        public virtual void MultiplayerDamage(double damage)
         {
             SetHP(hp - damage);
         }

@@ -107,7 +107,7 @@ namespace SeeloewenCraft
                 List<string> onlyMessages = new List<string>();
                 foreach (string message in messages)
                 {
-                    string[] messageSplit = message.Split(';');
+                    string[] messageSplit = message.Split('§');
                     onlyMessages.Add(messageSplit[0]);
                 }
                 File.WriteAllLines($"{location}/SeeloewenCraft_Log_{DateTime.Now.ToString().Replace(":", "-").Replace(".", "-").Replace(" ", "-")}.txt", onlyMessages);

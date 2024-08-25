@@ -58,6 +58,8 @@ namespace SeeloewenCraft
             Log.Write("An unhandled exception has occured. Creating crash dump...", "Error");
             Log.CreateCrashDump(e.Exception);
 
+            MessageBox.Show($"Oh no! The game has crashed: {e.Exception.Message} - {e.Exception.StackTrace} - {e.Exception.Source}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
             //Save log before the game exits if enabled
             if (Settings.saveLogOnExit)
             {

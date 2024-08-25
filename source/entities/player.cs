@@ -19,8 +19,6 @@ namespace SeeloewenCraft.entity
 
         public Player(int x, int y) : base(900, 1900, x, y, 0, 0)
         {
-            id = DateTime.Now.Millisecond; //Temporary, needs replacement
-
             //Generate the player
             type = "Player";
             InitPlayer();
@@ -44,7 +42,7 @@ namespace SeeloewenCraft.entity
         {
             if (pressedThrow)
             {
-                if (!thrown)
+                if (!thrown && inventory != null)
                 {
                     //Get the selected slot and selected item
                     InventorySlot selectedSlot = inventory.GetSelectedHotbarSlot().slot;
@@ -98,7 +96,7 @@ namespace SeeloewenCraft.entity
 
             if (changed)
             {
-                NetworkHandler.SendData($"MovePlayer;{Game.world.player.id};{pressedLeft};{pressedRight};{pressedUp};{pressedSneak};{pressedSprint};{pressedThrow}");
+                NetworkHandler.SendData($"MovePlayer;{Game.world.player.id};{pressedLeft};{pressedRight};{pressedUp};{pressedSneak};{pressedSprint}");
             }
 
         }
