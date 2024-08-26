@@ -117,6 +117,7 @@ namespace SeeloewenCraft
             Init("Chest", "sc:chest_block", 500, "sc:chest_item", Tool.None, Images.Chest);
             hasInventory = true;
             blockInventory = new Inventory(9, 4);
+            blockInventory.block = this;
             Game.world.inventoryList.Add(blockInventory);
             hasRightClickAction = true;
         }
@@ -269,6 +270,7 @@ namespace SeeloewenCraft
             collision = new RectangleCollision(0, 1000, 565, 1000);
             gui = new UnchiselerGui(225, 225, 420, 530, "sc:unchiseler");
             blockInventory = gui.inventory;
+            blockInventory.block = this;
             hasInventory = true;
 
             craftingHandler = new CraftingHandler(this);

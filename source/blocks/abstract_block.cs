@@ -263,6 +263,7 @@ namespace SeeloewenCraft
                 if (block.gui != null && block.gui.inventory != null)
                 {
                     block.gui.inventory = inventory;
+                    inventory.block = block;
                 }
             }
 

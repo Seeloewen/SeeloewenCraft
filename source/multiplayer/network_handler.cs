@@ -60,6 +60,12 @@ namespace SeeloewenCraft
                 case "SyncPos":
                     HandleSyncPos(client, args);
                     break;
+                case "AddToInv":
+                    HandleAddToInv(client, args);
+                    break;
+                case "RemoveFromInv":
+                    HandleRemoveFromInv(client, args);
+                    break;
                 case "DamageEntity":
                     //HandleDamageEntity(client, args);
                     break;
@@ -70,94 +76,83 @@ namespace SeeloewenCraft
         }
 
 
-        public async static void HandleDamageEntity(AdvancedTcpClient client, string[] args)
+        //-- Events --//
+
+        public async static void HandleAddToInv(AdvancedTcpClient client, string[] args)
         {
-            if (args.Length != 3)
+            //Split the received data into the attributes
+            int blockX = Convert.ToInt32(args[1]);
+            int blockY = Convert.ToInt32(args[2]);
+            int blockChunk = Convert.ToInt32(args[3]);
+            string itemId = args[4];
+            int amount = Convert.ToInt32(args[5]);
+            int slotX = Convert.ToInt32(args[6]);
+            int slotY = Convert.ToInt32(args[7]);
+
+            //Get the block which has the inventory and try to add the item to the slot
+            Block invBlock = Game.world.GetChunk(blockChunk).GetBlock(blockX, blockY);
+            if (invBlock != null && invBlock.blockInventory != null)
             {
-                return;
+                invBlock.blockInventory.GetSlot(slotX, slotY).AddMultiplayer(itemId, amount);
+                invBlock.blockInventory.GetSlot(slotX, slotY).Unselect();
             }
 
-            try
+            //If the server receives the packet, send it to all other clients to make sure the inventory gets updated on all of them
+            if (Game.isServer)
             {
-                //Damage the entity
-                foreach (Entity entity in Game.world.entities)
-                {
-                    if (entity.id == Convert.ToInt32(args[1]) && entity is MovingEntity movEntity)
-                    {
-                        movEntity.MultiplayerDamage(Convert.ToDouble(args[2]));
-                    }
-                }
-
-                //If the server gets the packet, send it all other clients to ensure that their entities get hit too
-                if (Game.isServer)
-                {
-                    Game.server.SendDataExceptClients(client.id, $"DamageEntity;{args[1]};{args[2]}");
-                }
+                Game.server.SendDataExceptClients(client.id, $"AddToInv;{args[1]};{args[2]};{args[3]};{args[4]};{args[5]};{args[6]};{args[7]}");
             }
-
-            catch (Exception e)
-            {
-                MessageBox.Show($"Oh no! The game has crashed: {e.Message} - {e.StackTrace} - {e.Source}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
-            }
-
         }
 
-
-        public async static void HandleHealEntity(AdvancedTcpClient client, string[] args)
+        public async static void HandleRemoveFromInv(AdvancedTcpClient client, string[] args)
         {
-            if (args.Length != 3)
+            //Split the received data into the attributes
+            int blockX = Convert.ToInt32(args[1]);
+            int blockY = Convert.ToInt32(args[2]);
+            int blockChunk = Convert.ToInt32(args[3]);
+            int amount = Convert.ToInt32(args[4]);
+            int slotX = Convert.ToInt32(args[5]);
+            int slotY = Convert.ToInt32(args[6]);
+
+            //Get the block which has the inventory and try to add the item to the slot
+            Block invBlock = Game.world.GetChunk(blockChunk).GetBlock(blockX, blockY);
+            if (invBlock != null && invBlock.blockInventory != null)
             {
-                return;
+                invBlock.blockInventory.GetSlot(slotX, slotY).RemoveMultiplayer(amount);
+                invBlock.blockInventory.GetSlot(slotX, slotY).Unselect();
             }
 
-            try
+            //If the server receives the packet, send it to all other clients to make sure the inventory gets updated on all of them
+            if (Game.isServer)
             {
-                //Heal the entity
-                foreach (Entity entity in Game.world.entities)
-                {
-                    if (entity.id == Convert.ToInt32(args[1]) && entity is MovingEntity movEntity)
-                    {
-                        movEntity.MultiplayerHeal(Convert.ToDouble(args[2]));
-                    }
-                }
-
-                //If the server gets the packet, send it all other clients to ensure that that their entities get healed too
-                if (Game.isServer)
-                {
-                    Game.server.SendDataExceptClients(client.id, $"HealEntity;{args[1]};{args[2]}");
-                }
+                Game.server.SendDataExceptClients(client.id, $"RemoveFromInv;{args[1]};{args[2]};{args[3]};{args[4]};{args[5]};{args[6]}");
             }
-
-
-            catch (Exception e)
-            {
-                MessageBox.Show($"Oh no! The game has crashed: {e.Message} - {e.StackTrace} - {e.Source}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
-            }
-
         }
 
 
         public async static void HandleSyncPos(AdvancedTcpClient client, string[] args)
         {
             //Synchronize the position of all entities to ensure their position is correct
-            foreach (Entity entity in Game.world.entities)
+            try
             {
-                if (entity.id == Convert.ToInt32(args[1]) && entity is MovingEntity movEntity)
+                foreach (Entity entity in Game.world.entities)
                 {
-                    movEntity.HandleSyncData(args);
+                    if (entity.id == Convert.ToInt32(args[1]) && entity is MovingEntity movEntity)
+                    {
+                        movEntity.HandleSyncData(args);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Game.ShowException(e);
             }
         }
 
         public async static void HandleMovePlayer(AdvancedTcpClient client, string[] args)
         {
-            if (args.Length != 7)
-            {
-                return;
-            }
-
+            if (args.Length != 7) return;
+            
             try
             {
                 foreach (Entity entity in Game.world.entities)
@@ -171,30 +166,22 @@ namespace SeeloewenCraft
                         movEntity.pressedSprint = Convert.ToBoolean(args[6]);
                     }
                 }
-
                 //If the server receives the packet, send it to all other clients to make sure the player moves on all of them
                 if (Game.isServer)
                 {
                     Game.server.SendDataExceptClients(client.id, $"MovePlayer;{args[1]};{args[2]};{args[3]};{args[4]};{args[5]};{args[6]}");
                 }
             }
-
             catch (Exception e)
             {
-                MessageBox.Show($"Oh no! The game has crashed: {e.Message} - {e.StackTrace} - {e.Source}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                Game.ShowException(e);
             }
-
-
         }
 
         public async static void HandleCreateEntity(AdvancedTcpClient client, string[] args)
         {
-            if (args.Length != 2)
-            {
-                return;
-            }
-
+            if (args.Length != 2) return;
+            
             try
             {
                 //Add the entity
@@ -206,22 +193,16 @@ namespace SeeloewenCraft
                     Game.server.SendDataExceptClients(client.id, $"CreateEntity;{args[1]}");
                 }
             }
-
             catch (Exception e)
             {
-                MessageBox.Show($"Oh no! The game has crashed: {e.Message} - {e.StackTrace} - {e.Source}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                Game.ShowException(e);
             }
-
         }
 
         public async static void HandleRemoveEntity(AdvancedTcpClient client, string[] args)
         {
-            if (args.Length != 2)
-            {
-                return;
-            }
-
+            if (args.Length != 2) return;
+            
             try
             {
                 //Remove the entity
@@ -233,13 +214,10 @@ namespace SeeloewenCraft
                     Game.server.SendDataExceptClients(client.id, $"RemoveEntity;{args[1]}");
                 }
             }
-
             catch (Exception e)
             {
-                MessageBox.Show($"Oh no! The game has crashed: {e.Message} - {e.StackTrace} - {e.Source}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                Game.ShowException(e);
             }
-
         }
 
         public async static void HandleInitialLoad(AdvancedTcpClient client, string[] args) //Only executed by the server
@@ -281,20 +259,14 @@ namespace SeeloewenCraft
                     }
                 }
             }
-
             catch (Exception e)
             {
-                MessageBox.Show($"Oh no! The game has crashed: {e.Message} - {e.StackTrace} - {e.Source}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                Game.ShowException(e);
             }
-
         }
         public async static void HandleSetBlock(AdvancedTcpClient client, string[] args) //Handled by both server and clients
         {
-            if (args.Length != 5)
-            {
-                return;
-            }
+            if (args.Length != 5) return;
 
             try
             {
@@ -312,21 +284,15 @@ namespace SeeloewenCraft
                     Game.server.SendDataExceptClients(client.id, $"SetBlock;{block.id};{cIndex};{block.xPos};{block.yPos}");
                 }
             }
-
             catch (Exception e)
             {
-                MessageBox.Show($"Oh no! The game has crashed: {e.Message} - {e.StackTrace} - {e.Source}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                Game.ShowException(e);
             }
-
         }
 
         public async static void HandleCreateChunk(AdvancedTcpClient client, string[] args) //Handled by both server and clients
         {
-            if (args.Length != 2)
-            {
-                return;
-            }
+            if (args.Length != 2) return;
 
             try
             {
@@ -343,13 +309,10 @@ namespace SeeloewenCraft
                     }
                 }
             }
-
             catch (Exception e)
             {
-                MessageBox.Show($"Oh no! The game has crashed: {e.Message} - {e.StackTrace} - {e.Source}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                Game.ShowException(e);
             }
-
         }
     }
 }
