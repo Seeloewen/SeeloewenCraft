@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SeeloewenCraft
 {
@@ -28,6 +29,11 @@ namespace SeeloewenCraft
         public static bool IsMultiplayer()
         {
             return isServer || isClient;
+        }
+
+        public static void ShowException(Exception ex)
+        {
+            MessageBox.Show($"Oh no! The game has encountered an exception: {ex.Message} \n\n{ex.StackTrace}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }
