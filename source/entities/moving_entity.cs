@@ -144,7 +144,7 @@ namespace SeeloewenCraft.entity
 
         public virtual void Die()
         {
-            Game.world.toDieEntities.Add(this);
+            Game.world.RemoveEntity(id);
         }
 
         public virtual void SetHP(double hp)

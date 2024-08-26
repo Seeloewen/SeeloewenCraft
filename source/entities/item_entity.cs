@@ -33,7 +33,7 @@ namespace SeeloewenCraft.entity
 
             if (touchingStatus[TOUCHING_CACTUS])
             {
-                Game.world.toDieEntities.Add(this);
+                Game.world.RemoveEntity(id);
             }
         }
 
