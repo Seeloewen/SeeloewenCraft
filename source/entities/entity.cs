@@ -5,8 +5,12 @@ using System.Windows.Media;
 
 namespace SeeloewenCraft.entity
 {
-    public class Entity
+    //base class for all entities
+    public abstract class Entity
     {
+        private static Random rnd = new Random(DateTime.Now.Millisecond);
+
+        //type (ex: "Skeleton", "Player")
         public string type;
 
         //touching status constants
@@ -29,8 +33,7 @@ namespace SeeloewenCraft.entity
 
         protected bool allowOverCliffWalking = true;
 
-        private static int nextID = 0;
-        public int id;
+        public int id { get; private set; }
 
         public Canvas texture;
 
@@ -47,6 +50,7 @@ namespace SeeloewenCraft.entity
 
         public bool[] touchingStatus;
 
+        //calculate friction and apply it to velocity
         private void DoFrictionStep(int tps)
         {
             if (touchingStatus[TOUCHING_WATER])
@@ -97,6 +101,7 @@ namespace SeeloewenCraft.entity
             }
         }
 
+        //do one tick
         public virtual void OnUpdate(int tps) //temp virtual
         {
             OnUpdateStart(tps);
@@ -414,8 +419,7 @@ namespace SeeloewenCraft.entity
         public Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, Brush image)
         {
             lifeTime = 0;
-            this.id = nextID;
-            nextID++;
+            this.id = rnd.Next(0, int.MaxValue);
             this.sizeX = sizeX;
             this.sizeY = sizeY;
             this.posX = posX;
@@ -434,7 +438,7 @@ namespace SeeloewenCraft.entity
 
         public static Entity LoadFromJson(JsonToken token, World world)
         {
-            Entity entity = null;
+            Entity entity;
             switch (token.GetString("/type"))
             {
                 case "ItemEntity":
@@ -444,11 +448,11 @@ namespace SeeloewenCraft.entity
                     throw new Exception();
             }
 
-            nextID = Math.Max(nextID, entity.id);
-
             return entity;
         }
 
+        //save all attributes of entity base class; override SaveSpecialInfo()
+        //to save custom values
         public void SaveToJson(JsonWriter writer)
         {
             writer.WriteStartObject();
@@ -473,20 +477,19 @@ namespace SeeloewenCraft.entity
 
         protected virtual void SaveSpecialInfo(JsonWriter writer)
         {
-            writer.WritePropertyName("type");
-            writer.WriteValue("Entity");
+
         }
 
 
 
         public override bool Equals(object obj)
         {
-            return (obj is Entity e && e.id == this.id);
+            return (obj is Entity e && e.id == id);
         }
 
         public override int GetHashCode()
         {
-            return (int)id;
+            return id;
         }
     }
 }
