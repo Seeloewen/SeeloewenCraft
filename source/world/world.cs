@@ -385,7 +385,7 @@ namespace SeeloewenCraft
                 int l = listToken.GetArrayLength();
                 for (int i = 0; i < l; i++)
                 {
-                    AddEntity(Entity.LoadFromJson(listToken.GetToken($"/{i}"), this));
+                    AddEntity(Entity.LoadFromJson(listToken.GetToken($"/{i}")));
                 }
             }
         }

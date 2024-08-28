@@ -18,6 +18,11 @@ namespace SeeloewenCraft
             Formatting = Newtonsoft.Json.Formatting.Indented;
         }
 
+        public string ToString()
+        {
+            return sb.ToString();
+        }
+
         public void WriteToFile(string path)
         {
             File.WriteAllText(path, sb.ToString());
@@ -50,6 +55,19 @@ namespace SeeloewenCraft
             catch (Exception ex)
             {
                 throw new JsonUtilException("reading file to json token failed", ex);
+            }
+        }
+
+        public static JsonToken ReadString(string content)
+        {
+            try
+            {
+                JToken token = JToken.Parse(content);
+                return new JsonToken(token);
+            }
+            catch (Exception ex)
+            {
+                throw new JsonUtilException("reading string to json token failed", ex);
             }
         }
 

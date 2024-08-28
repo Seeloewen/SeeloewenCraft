@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace SeeloewenCraft.entity
 {
-    public class MovingEntity : Entity
+    public abstract class MovingEntity : Entity
     {
         static Random rnd = new Random(DateTime.Now.Millisecond);
 
@@ -38,14 +40,35 @@ namespace SeeloewenCraft.entity
         public bool breathing;
 
 
-        public MovingEntity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, Brush image)
-            : base(sizeX, sizeY, posX, posY, velX, velY,  image)
+        public MovingEntity(int sizeX, int sizeY, int posX, int posY, int velX, int velY)
+            : base(sizeX, sizeY, posX, posY, velX, velY, new SolidColorBrush(Colors.Green))
         {
+            type = "MovingEntity";
             hp = MAX_HP;
             currentAcc = ACC_WALKING;
 
             texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
+
+            InitTexture();
         }
+
+        public MovingEntity(JsonToken token, int sizeX, int sizeY)
+            : base(token, sizeX, sizeY, new SolidColorBrush(Colors.Green))
+        {
+            type = "MovingEntity";
+            hp = token.GetDouble("/hp");
+            currentAcc = token.GetInt("/current_acc");
+            fallMaxHeight = token.GetInt("/fall_max_height");
+            thrown = token.GetBool("/thrown");
+            flying = token.GetBool("/flying");
+
+
+            texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
+
+            InitTexture();
+        }
+
+        protected abstract void InitTexture();
 
         protected override void DoFallDamage()
         {
@@ -166,6 +189,20 @@ namespace SeeloewenCraft.entity
             SetHP(hp - damage);
         }
 
+        protected override void SaveSpecialInfo(JsonWriter writer)
+        {
+            writer.WritePropertyName("hp");
+            writer.WriteValue(hp);
+            writer.WritePropertyName("current_acc");
+            writer.WriteValue(currentAcc);
+            writer.WritePropertyName("fall_max_height");
+            writer.WriteValue(fallMaxHeight);
+            writer.WritePropertyName("thrown");
+            writer.WriteValue(thrown);
+            writer.WritePropertyName("flying");
+            writer.WriteValue(flying);
+        }
+
         protected override void OnUpdateStart(int tps)
         {
             base.OnUpdateStart(tps);
@@ -192,14 +229,14 @@ namespace SeeloewenCraft.entity
         }
 
 
-        
+
 
         public override void DoPhysicsStep(int tps)
         {
             if (pressedSneak && !flying)
             {
                 currentAcc = ACC_SNEAKING;
-                if(sizeY == 1900)
+                if (sizeY == 1900)
                 {
                     posY += 450;
                 }

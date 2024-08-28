@@ -17,19 +17,32 @@ namespace SeeloewenCraft.entity
 
         //-- Constructor --//
 
-        public Player( int x, int y) : base(900, 1900, x, y, 0, 0,  new SolidColorBrush(Colors.Red))
+        public Player(int x, int y) : base(900, 1900, x, y, 0, 0)
         {
             //Generate the player
+            type = "Player";
+            InitPlayer();
+        }
+
+        public Player(JsonToken token) : base(token, 900, 1900)
+        {
+            //Generate the player
+            type = "Player";
             InitPlayer();
         }
 
         //-- Custom Methods --//
 
+        protected override void InitTexture()
+        {
+            texture.Background = new SolidColorBrush(Colors.Red);
+        }
+
         private void HandleThrow()
         {
             if (pressedThrow)
             {
-                if (!thrown)
+                if (!thrown && inventory != null)
                 {
                     //Get the selected slot and selected item
                     InventorySlot selectedSlot = inventory.GetSelectedHotbarSlot().slot;
@@ -62,7 +75,7 @@ namespace SeeloewenCraft.entity
             }
         }
 
-        private void HandleInputs()
+        public void HandleInputs()
         {
             pressedLeft = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
             pressedRight = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveRight);
@@ -115,7 +128,7 @@ namespace SeeloewenCraft.entity
             Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "breathing");
 
             //Setup health bar
-            healthBar = new HealthBar( 10, 740);
+            healthBar = new HealthBar(10, 740);
 
             if (Game.world.gamemode == Gamemode.Creative)
             {
@@ -142,7 +155,6 @@ namespace SeeloewenCraft.entity
 
         protected override void OnUpdateStart(int tps)
         {
-            HandleInputs();
             HandleThrow();
             base.OnUpdateStart(tps);
             DisplayDebugInformation();

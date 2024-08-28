@@ -42,7 +42,7 @@ namespace SeeloewenCraft.entity
             Init(item);
         }
 
-        public ItemEntity(JsonToken token) : base(token, itemSizeX, itemSizeY,  new SolidColorBrush(Colors.Yellow))
+        public ItemEntity(JsonToken token) : base(token, itemSizeX, itemSizeY, new SolidColorBrush(Colors.Yellow))
         {
             Init(ItemRegister.GenerateItem(token.GetString("/item_id")));
         }
