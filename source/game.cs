@@ -19,6 +19,5 @@ namespace SeeloewenCraft
 
         //Variables
         public static string selectedTexturepack;
-
     }
 }
