@@ -256,7 +256,7 @@ namespace SeeloewenCraft
             Cactus_BottomLeft = new SealImage(TextureType.Connected_Block, "Cactus_BottomLeft.png");
             Cactus_BottomRight = new SealImage(TextureType.Connected_Block, "Cactus_BottomRight.png");
             Cactus_Cross = new SealImage(TextureType.Connected_Block, "Cactus_Cross.png");
-            CactusFruit = new SealImage(TextureType.Connected_Block, "Cactus_Fruit.png");
+            CactusFruit = new SealImage(TextureType.Block, "Cactus_Fruit.png");
             Cactus_Horizontal = new SealImage(TextureType.Connected_Block, "Cactus_Horizontal.png");
             Cactus_Top = new SealImage(TextureType.Connected_Block, "Cactus_Top.png");
             Cactus_TopLeft = new SealImage(TextureType.Connected_Block, "Cactus_TopLeft.png");

@@ -125,7 +125,7 @@ namespace SeeloewenCraft
             tags.Add("tools/hammer");
         }
 
-        public override void RightClickAction(Block block, object sender)
+        public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
         {
             if (block.isBackground && block.canBeMovedToBackground && block.IsInRange() && block.GetForegroundBlock() == null)
             {
@@ -351,7 +351,7 @@ namespace SeeloewenCraft
     {
         public FurnaceItem() : base()
         {
-            Init("Furnace", "sc:furnace_item", "sc:furnace_base", true, Images.Furnace_Idle);
+            Init("Furnace", "sc:furnace_item", "sc:furnace_block", true, Images.Furnace_Idle);
         }
     }
 
@@ -490,7 +490,7 @@ namespace SeeloewenCraft
     {
         public GrassItem() : base()
         {
-            Init("Grass", "sc:grass_item", "sc:grass_block", true, Images.Grass);
+            Init("Grass", "sc:grass_item", "sc:grass", true, Images.Grass);
         }
     }
 
@@ -605,37 +605,40 @@ namespace SeeloewenCraft
         }
     }
 
-    public class BucketItem : Item
+    public class BucketEmptyItem : Item
     {
-        public bool isFull;
-
-        public BucketItem() : base()
+        public BucketEmptyItem() : base()
         {
-            Init("Bucket", "sc:bucket_item", null, false, Images.BucketEmpty);
+            Init("Empty Bucket", "sc:bucket_empty_item", null, false, Images.BucketEmpty);
             hasRightClickAction = true;
         }
 
-        public override void RightClickAction(Block block, object sender)
+        public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
         {
-            if (isFull)
+            if (block is WaterBlock_6)
             {
-                if (block.isReplacable)
-                {
-                    block.SetBlock(new WaterBlock_6(false));
-                    isFull = false;
-                    sImage = Images.BucketWater;
-                    SetTexture();
-                }
+                invSlot.inventory.RemoveItem(id, 1);
+                invSlot.inventory.AddItem("sc:bucket_water_item", 1);
+                block.SetBlock(new AirBlock(false));
             }
-            else
+        }
+    }
+
+    public class BucketWaterItem : Item
+    {
+        public BucketWaterItem() : base()
+        {
+            Init("Water Bucket", "sc:bucket_water_item", null, false, Images.BucketWater);
+            hasRightClickAction = true;
+        }
+
+        public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
+        {
+            if (block.isReplacable)
             {
-                if (block is WaterBlock_6)
-                {
-                    block.SetBlock(new AirBlock(false));
-                    isFull = true;
-                    sImage = Images.BucketWater;
-                    SetTexture();
-                }
+                invSlot.inventory.RemoveItem(id, 1);
+                invSlot.inventory.AddItem("sc:bucket_empty_item", 1);
+                block.SetBlock(new WaterBlock_6(false));
             }
         }
     }

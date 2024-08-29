@@ -7,7 +7,7 @@
             switch (id)
             {
                 case "sc:grass_block_item":
-                    return new GrassItem();
+                    return new GrassBlockItem();
 
                 case "sc:dirt_item":
                     return new DirtItem();
@@ -335,8 +335,11 @@
                 case "sc:bread_item":
                     return new BreadItem();
 
-                case "sc:bucket_item":
-                    return new BucketItem();
+                case "sc:bucket_empty_item":
+                    return new BucketEmptyItem();
+
+                case "sc:bucket_water_item":
+                    return new BucketWaterItem();
 
                 case "sc:coal_item":
                     return new CoalItem();

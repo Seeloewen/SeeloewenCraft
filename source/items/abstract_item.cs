@@ -11,12 +11,9 @@ namespace SeeloewenCraft
         public Canvas cvsItem = new Canvas();
         public SealImage sImage;
         public ImageBrush image;
-        public InventorySlot slot;
         public string name;
         public string id;
         public string blockId;
-        public int xPos;
-        public int yPos;
         public bool isPlacable = false;
         public bool hasRightClickAction = false;
 
@@ -61,7 +58,7 @@ namespace SeeloewenCraft
             return null;
         }
 
-        public virtual void RightClickAction(Block block, object sender)
+        public virtual void RightClickAction(Block block, InventorySlot invSlot, object sender)
         {
             throw new NotImplementedException();
         }

@@ -279,11 +279,10 @@ namespace SeeloewenCraft
             Init("Unchiseler", "sc:unchiseler_block", 500, "sc:unchiseler_item", Tool.Axe, Images.Unchiseler);
             hasRightClickAction = true;
             collision = new RectangleCollision(0, 1000, 565, 1000);
+            gui = new UnchiselerGui(225, 225, 420, 530, "sc:unchiseler");
             blockInventory = gui.inventory;
             hasInventory = true;
-
             craftingHandler = new CraftingHandler(this);
-            gui = new UnchiselerGui(225, 225, 420, 530, "sc:unchiseler");
         }
 
         public override void RightClickAction(object sender)
@@ -379,7 +378,8 @@ namespace SeeloewenCraft
     {
         public Cactus_TopFruit(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Top Fruit", "sc:cactus_top_fruit", 250, "sc:cactus_fruit_item", Tool.Axe, Images.Cactus_Top_Fruit);
+            Init("Cactus Top Fruit", "sc:cactus_top_fruit", 250, "sc:cactus_top_fruit_item", Tool.Axe, Images.Cactus_Top_Fruit);
+            collision = new RectangleCollision(190, 810, 630, 1000);
         }
     }
 
@@ -388,6 +388,7 @@ namespace SeeloewenCraft
         public Cactus_Vertical(bool isInBackground) : base(isInBackground)
         {
             Init("Cactus Vertical", "sc:cactus_vertical", 250, null, Tool.Axe, Images.Cactus_Vertical);
+            collision = new RectangleCollision(190, 810, 0, 1000);
         }
     }
 
@@ -396,6 +397,7 @@ namespace SeeloewenCraft
         public Cactus_Top(bool isInBackground) : base(isInBackground)
         {
             Init("Cactus Top", "sc:cactus_top", 250, null, Tool.Axe, Images.Cactus_Top);
+            collision = new RectangleCollision(190, 810, 630, 1000);
         }
     }
 
@@ -404,6 +406,7 @@ namespace SeeloewenCraft
         public Cactus_TopLeft(bool isInBackground) : base(isInBackground)
         {
             Init("Cactus Top Left", "sc:cactus_top_left", 250, null, Tool.Axe, Images.Cactus_TopLeft);
+            collision = new MultipleRectangleCollision([190, 0], [810, 190], [0, 190], [810, 810]);
         }
     }
 
@@ -412,6 +415,7 @@ namespace SeeloewenCraft
         public Cactus_TopRight(bool isInBackground) : base(isInBackground)
         {
             Init("Cactus Top Right", "sc:cactus_top_right", 250, null, Tool.Axe, Images.Cactus_TopRight);
+            collision = new MultipleRectangleCollision([190, 810], [810, 1000], [0, 190], [810, 810]);
         }
     }
 
@@ -420,6 +424,7 @@ namespace SeeloewenCraft
         public Cactus_Cross(bool isInBackground) : base(isInBackground)
         {
             Init("Cactus Cross", "sc:cactus_cross", 250, null, Tool.Axe, Images.Cactus_Cross);
+            collision = new MultipleRectangleCollision([190, 810, 0], [810, 1000, 190], [0, 190, 190], [1000, 810, 810]);
         }
     }
 
@@ -428,6 +433,7 @@ namespace SeeloewenCraft
         public Cactus_Horizontal(bool isInBackground) : base(isInBackground)
         {
             Init("Cactus Horizontal", "sc:cactus_horizontal", 250, null, Tool.Axe, Images.Cactus_Horizontal);
+            collision = new RectangleCollision(0, 1000, 190, 810);
         }
     }
 
@@ -436,6 +442,7 @@ namespace SeeloewenCraft
         public Cactus_BottomLeft(bool isInBackground) : base(isInBackground)
         {
             Init("Cactus Bottom Left", "sc:cactus_bottom_left", 250, null, Tool.Axe, Images.Cactus_BottomLeft);
+            collision = new MultipleRectangleCollision([190, 0], [810, 190], [190, 190], [1000, 810]);
         }
     }
 
@@ -444,6 +451,7 @@ namespace SeeloewenCraft
         public Cactus_BottomRight(bool isInBackground) : base(isInBackground)
         {
             Init("Cactus Bottom Right", "sc:cactus_bottom_right", 250, null, Tool.Axe, Images.Cactus_BottomRight);
+            collision = new MultipleRectangleCollision([190, 810], [810, 1000], [190, 190], [1000, 810]);
         }
     }
 
@@ -633,7 +641,8 @@ namespace SeeloewenCraft
             hasRightClickAction = true;
 
             craftingHandler = new CraftingHandler(this);
-            gui = new FurnaceGui(535, 720, 120, 285, "sc:anvil", null, this);
+            gui = new AnvilGui(535, 720, 120, 285, "sc:anvil", null, this);
+            collision = new RectangleCollision(0, 1000, 190, 1000);
         }
 
         public override void RightClickAction(object sender)

@@ -21,7 +21,7 @@ namespace SeeloewenCraft
 
             if (selectedItem != null && selectedItem.hasRightClickAction)
             {
-                selectedItem.RightClickAction(block, sender);
+                selectedItem.RightClickAction(block, selectedSlot.slot, sender);
                 return;
             }
 

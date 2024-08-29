@@ -33,7 +33,7 @@ namespace SeeloewenCraft
             this.slotsY = slotsY;
             rnd = new Random(DateTime.Now.Millisecond + rndOffset);
 
-            inventoryGui = new InventoryGui(349, 695, 175, 290, "sc:inventory", this);
+            inventoryGui = new InventoryGui(80 * slotsY + 30, 695, 175, 290, "sc:inventory", this);
 
             //Create the inventory grid
             grdInventory.Width = 72 * slotsX;
