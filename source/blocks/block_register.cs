@@ -205,9 +205,9 @@
                     return new OakDoor_Base(false);
                 case "sc:oak_door_top":
                     return new OakDoor_Top(false);
-                case "sc:oak_trapdoor_base":
+                case "sc:oak_trapdoor":
                     return new OakTrapDoor(false);
-                case "sc:spruce_trapdoor_base":
+                case "sc:spruce_trapdoor":
                     return new SpruceTrapDoor(false);
                 case "sc:furnace_block":
                     return new FurnaceBlock(false);

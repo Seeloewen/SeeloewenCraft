@@ -600,11 +600,9 @@ namespace SeeloewenCraft
 
         //-- Event Handlers --//
 
-        private static bool dropped = false;
-        private static bool spawned = false;
-
         private void tmrMovement_Tick(object sender, EventArgs e)
         {
+            player.HandleInputs();
             player.OnUpdate(63); // tps: 1/0.016
 
             List<ItemEntity> pickedUpEntities = new List<ItemEntity>();

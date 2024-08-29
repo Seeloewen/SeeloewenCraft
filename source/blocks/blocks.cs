@@ -497,9 +497,9 @@ namespace SeeloewenCraft
     {
         public OakTrapDoor(bool isInBackground) : base(isInBackground)
         {
-            Init("Oak Trapdoor Base", "sc:oak_trapdoor_base", 500, "sc:oak_trapdoor_item", Tool.Axe, Images.OakTrapdoor_Closed);
+            Init("Oak Trapdoor Base", "sc:oak_trapdoor", 500, "sc:oak_trapdoor_item", Tool.Axe, Images.OakTrapdoor_Closed);
             hasRightClickAction = true;
-            collision = new RectangleCollision(0, 1000, 720, 1000);
+            collision = new RectangleCollision(0, 1000, 0, 150);
 
             imgClose = Images.OakTrapdoor_Closed.GetTexture();
             imgOpen = Images.OakTrapdoor_Open.GetTexture();
@@ -510,9 +510,9 @@ namespace SeeloewenCraft
     {
         public SpruceTrapDoor(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Trapdoor Base", "sc:spruce_trapdoor_base", 500, "sc:spruce_trapdoor_item", Tool.Axe, Images.SpruceTrapdoor_Closed);
+            Init("Spruce Trapdoor Base", "sc:spruce_trapdoor", 500, "sc:spruce_trapdoor_item", Tool.Axe, Images.SpruceTrapdoor_Closed);
             hasRightClickAction = true;
-            collision = new RectangleCollision(0, 1000, 720, 1000);
+            collision = new RectangleCollision(0, 1000, 0, 150);
 
             imgClose = Images.SpruceTrapdoor_Closed.GetTexture();
             imgOpen = Images.SpruceTrapdoor_Open.GetTexture();
