@@ -620,7 +620,7 @@ namespace SeeloewenCraft
     {
         public AmethystOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Amethyst Ore", "sc:amethyst_ore", 1750, "sc:amethyst_ore_item", Tool.Pickaxe, Images.AmethystOre);
+            Init("Amethyst Ore", "sc:amethyst_ore_block", 1750, "sc:amethyst_ore_item", Tool.Pickaxe, Images.AmethystOre);
         }
     }
 
