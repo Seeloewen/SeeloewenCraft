@@ -351,16 +351,9 @@ namespace SeeloewenCraft
 
         private void InitEntityManager(bool loaded)
         {
-            entityManager = new EntityManager();
-            if (loaded)
-            {
-                JsonToken listToken = JsonUtil.ReadFile($"{worldDirectory}/entities.json").GetToken("/entities");
-                int l = listToken.GetArrayLength();
-                for (int i = 0; i < l; i++)
-                {
-                    AddEntity(Entity.LoadFromJson(listToken.GetToken($"/{i}"), this));
-                }
-            }
+            entityManager = loaded
+                    ? new EntityManager(JsonUtil.ReadFile($"{worldDirectory}/entities.json")) 
+                    : new EntityManager();
         }
 
         private void InitPlayerInventory(bool loaded)

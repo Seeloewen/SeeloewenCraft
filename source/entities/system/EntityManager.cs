@@ -9,21 +9,27 @@ namespace SeeloewenCraft.entity {
     public class EntityManager
     {
         //list of all entities
-        private List<Entity> entities = new List<Entity>();
+        private List<Entity> entities;
+
 
         //entities that will be removed at end of tick
-        private List<int> removeBuffer = new List<int>();
+        private List<int> removeBuffer;
+        //entities that will be added at end of tick
+        private List<Entity> addBuffer;
         //flag used to indicate if currently looping through entities and thus
-        //unable to remove from the list. remove calls are stored in remove buffer
-        bool allowRemove;
+        //unable to remove/add from the list. remove/add calls are stored in remove/add buffer
+        bool allowModify;
 
-        //does one tick for every entity and delays all enntity removals until after
+        //does one tick for every entity and delays all entity removals/adds until after
         public void DoStep(int tps)
         {
-            allowRemove = false;
+            allowModify = false;
             foreach (Entity entity in entities)
             {
+                //do the tick
                 entity.OnUpdate(63);
+
+                //checks if item entity player intersect and let player pick up the item
                 if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && entity.posX < Game.world.player.posX + Game.world.player.sizeX && entity.posX + entity.sizeX > Game.world.player.posX && entity.posY < Game.world.player.posY + Game.world.player.sizeY && entity.posY + entity.sizeY > Game.world.player.posY)
                 {
                     Game.world.player.inventory.AddItem(itemEntity.item.id, 1, out int remainingItem);
@@ -33,17 +39,23 @@ namespace SeeloewenCraft.entity {
                     }
                 }
             }
-            allowRemove = true;
-            //do all buffered remove calls
+            allowModify = true;
+
+            //do all buffered remove and add calls
             foreach(int id in removeBuffer)
             {
                 Remove(id);
             }
-
-
+            foreach (Entity entity in addBuffer)
+            {
+                Add(entity);
+            }
+            removeBuffer.Clear(); //clear buffers after
+            addBuffer.Clear();
         }
 
 
+        //stores every entity into json array with key "entities"
         public void SaveToJson(JsonWriter writer)
         {
             writer.WritePropertyName("entities");
@@ -55,19 +67,46 @@ namespace SeeloewenCraft.entity {
             writer.WriteEndArray();
         }
 
+        //load constructor
+        public EntityManager(JsonToken token) : this()
+        {
+            JsonToken list = token.GetToken("/entities");
+            for(int i = 0; i < list.GetArrayLength(); i++)
+            {
+                Add(Entity.LoadFromJson(list.GetToken($"/{i}")));
+            }
+        }
 
-        //adds an entity to the world
+        //generate constructor
+        public EntityManager()
+        {
+            entities = new List<Entity>();
+            removeBuffer = new List<int>();
+            addBuffer = new List<Entity>();
+            allowModify = true;
+        }
+
+
+        //adds an entity or stores the add call until after finishing a
+        //gameloop tick
         public void Add(Entity entity)
         {
-            entities.Add(entity);
-            Game.world.worldRenderer.AddEntity(entity);
+            if (allowModify)
+            {
+                entities.Add(entity);
+                Game.world.worldRenderer.AddEntity(entity);
+            }
+            else
+            {
+                addBuffer.Add(entity);
+            }
         }
 
         //removes an entity or stores the remove call until after finishing a
         //gameloop tick
         public void Remove(int id)
         {
-            if (allowRemove)
+            if (allowModify)
             {
                 for (int i = 0; i < entities.Count; i++)
                 {
@@ -86,7 +125,6 @@ namespace SeeloewenCraft.entity {
                 removeBuffer.Add(id);
             }
         }
-
 
 
     }

@@ -436,7 +436,7 @@ namespace SeeloewenCraft.entity
             touchingStatus = new bool[TOUCHING_STATUS_COUNT];
         }
 
-        public static Entity LoadFromJson(JsonToken token, World world)
+        public static Entity LoadFromJson(JsonToken token)
         {
             Entity entity;
             switch (token.GetString("/type"))
@@ -453,7 +453,7 @@ namespace SeeloewenCraft.entity
 
         //save all attributes of entity base class; override SaveSpecialInfo()
         //to save custom values
-        public void SaveToJson(JsonWriter writer)
+        internal void SaveToJson(JsonWriter writer)
         {
             writer.WriteStartObject();
             writer.WritePropertyName("type");
