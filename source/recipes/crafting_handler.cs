@@ -172,7 +172,7 @@ namespace SeeloewenCraft
                 {
                     foreach (CraftingIngredient craftingIngredient in recipe.outgredients)
                     {
-                        Game.world.player.inventory.AddItem(craftingIngredient.item.id, craftingIngredient.amount);
+                        Game.world.player.inventory.AddItem(craftingIngredient.item.id, craftingIngredient.amount, craftingIngredient.item.tag);
                     }
                 }
             }

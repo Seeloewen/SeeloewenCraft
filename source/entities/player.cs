@@ -61,7 +61,7 @@ namespace SeeloewenCraft.entity
                         double xDir = xOffset / n;
                         double yDir = yOffset / n;
 
-                        ItemEntity itemEntity = new ItemEntity(item, posX + 500 - ItemEntity.itemSizeX / 2, posY, (int)(15000 * xDir) + velX, (int)(20000 * yDir) + velY);
+                        ItemEntity itemEntity = new ItemEntity(item, item.tag, posX + 500 - ItemEntity.itemSizeX / 2, posY, (int)(15000 * xDir) + velX, (int)(20000 * yDir) + velY);
                         Game.world.AddEntity(itemEntity);
                         thrown = true;
                         selectedSlot.Remove(1);

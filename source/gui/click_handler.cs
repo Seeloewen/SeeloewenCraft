@@ -148,6 +148,9 @@ namespace SeeloewenCraft
                         block.BreakBlock(true, false);
                     }
                 }
+
+                HotbarSlot selectedSlot = Game.world.player.inventory.GetSelectedHotbarSlot();
+                selectedSlot.slot.RemoveDurablity();
             }
 
 

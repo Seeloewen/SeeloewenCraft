@@ -371,7 +371,7 @@ namespace SeeloewenCraft
                         //Add the output to the inventory
                         foreach (Item outItem in chisItem.Unchisel())
                         {
-                            Game.world.player.inventory.AddItem(outItem.id, 1, out int remainingItems);
+                            Game.world.player.inventory.AddItem(outItem.id, 1, outItem.tag, out int remainingItems);
 
                             if(remainingItems > 0)
                             {

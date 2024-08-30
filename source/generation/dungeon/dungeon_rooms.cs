@@ -126,7 +126,7 @@ namespace SeeloewenCraft
             ChestBlock chest = new ChestBlock( false);
             foreach (Item item in chestLoot)
             {
-                chest.blockInventory.AddItem(item.id, 1);
+                chest.blockInventory.AddItem(item.id, 1, item.tag);
             }
             GetBlock(2, 7).block.SetForegroundBlock(chest);
 

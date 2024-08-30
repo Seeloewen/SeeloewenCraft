@@ -12,7 +12,7 @@
                 case "sc:dirt_item":
                     return new DirtItem();
 
-                case "sc:stone_item":
+                case "sc:stone_block_item":
                     return new StoneBlockItem();
 
                 case "sc:oak_log_item":

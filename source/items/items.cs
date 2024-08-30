@@ -116,13 +116,12 @@ namespace SeeloewenCraft
         }
     }
 
-    public class StoneHammerItem : Item
+    public class StoneHammerItem : ToolItem
     {
         public StoneHammerItem() : base()
         {
-            Init("Stone Hammer", "sc:stone_hammer_item", null, false, Images.StoneHammer);
+            Init("Stone Hammer", "sc:stone_hammer_item", null, 60, 3, Tool.Hammer, false, Images.StoneHammer);
             hasRightClickAction = true;
-            tags.Add("tools/hammer");
         }
 
         public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
@@ -618,7 +617,7 @@ namespace SeeloewenCraft
             if (block is WaterBlock_6)
             {
                 invSlot.inventory.RemoveItem(id, 1);
-                invSlot.inventory.AddItem("sc:bucket_water_item", 1);
+                invSlot.inventory.AddItem("sc:bucket_water_item", 1, "");
                 block.SetBlock(new AirBlock(false));
             }
         }
@@ -637,7 +636,7 @@ namespace SeeloewenCraft
             if (block.isReplacable)
             {
                 invSlot.inventory.RemoveItem(id, 1);
-                invSlot.inventory.AddItem("sc:bucket_empty_item", 1);
+                invSlot.inventory.AddItem("sc:bucket_empty_item", 1, null);
                 block.SetBlock(new WaterBlock_6(false));
             }
         }
