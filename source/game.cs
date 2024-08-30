@@ -19,5 +19,6 @@ namespace SeeloewenCraft
 
         //Variables
         public static string selectedTexturepack;
+        public static List<string> unstackableItems = new List<string>();
     }
 }
