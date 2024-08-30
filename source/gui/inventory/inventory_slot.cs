@@ -13,11 +13,14 @@ namespace SeeloewenCraft
         public Border bdrSlot = new Border();
         public Canvas cvsItem = new Canvas();
         public TextBlock tblItemAmount = new TextBlock();
+        public ProgressBar pbDurability = new ProgressBar();
+        public HotbarSlot hotbarSlot;
 
         //Variables
         public string itemId;
         public int xPos;
         public int yPos;
+        public string itemTag;
         public bool isSelected;
         private int amount;
 
@@ -68,28 +71,48 @@ namespace SeeloewenCraft
             Canvas.SetLeft(tblItemAmount, 38);
             Canvas.SetTop(tblItemAmount, 34);
 
+            //Setup progressbar
+            pbDurability.Width = 36;
+            pbDurability.Height = 7;
+            Canvas.SetTop(pbDurability, 45);
+            Canvas.SetLeft(pbDurability, -3);
+            pbDurability.Visibility = Visibility.Hidden;
+
             //Setup canvas
             cvsItem.Width = 50;
             cvsItem.Height = 50;
             cvsItem.Children.Add(tblItemAmount);
+            cvsItem.Children.Add(pbDurability);
             cvsItem.Margin = new Thickness(3, 3, 2.5, 2.5);
         }
 
         //-- Custom Methods --//
 
-        public void Add(string id, int amount)
+        public void Add(string id, int amount, string tag, out bool success)
         {
+            success = true;
 
             //Check if the slot already has the specified id or is empty
             if (itemId == id || IsEmpty())
             {
+                //If the slot is not empty and the item is not stackable
+                if (Game.unstackableItems.Contains(id) && !IsEmpty())
+                {
+                    success = false;
+                    return;
+                }
+
                 //Check if total amount would be above 64, which shouldn't be possible
                 if (Amount + amount <= 64)
                 {
                     //Update the slot
                     itemId = id;
                     Amount += amount;
+                    itemTag = tag;
                     cvsItem.Background = ItemRegister.GenerateItem(id).image;
+
+                    ToggleDurabilityDisplay();
+
                 }
                 else
                 {
@@ -102,6 +125,30 @@ namespace SeeloewenCraft
             }
         }
 
+        public void ToggleDurabilityDisplay()
+        {
+            if (GetDurability() != 0)
+            {
+                //Setup progressbar in slot
+                ToolItem item = ItemRegister.GenerateItem(itemId) as ToolItem;
+                pbDurability.Visibility = Visibility.Visible;
+                pbDurability.Maximum = item.maxDurability;
+                pbDurability.Value = GetDurability();
+
+                //Setup progressbar in hotbar slot
+                if (hotbarSlot != null)
+                {
+                    hotbarSlot.pbDurability.Visibility = Visibility.Visible;
+                    hotbarSlot.pbDurability.Maximum = item.maxDurability;
+                    hotbarSlot.pbDurability.Value = GetDurability();
+                }
+            }
+            else
+            {
+                pbDurability.Visibility = Visibility.Hidden;
+            }
+        }
+
         public void Remove(int amount)
         {
             //Check if the total amount would be below 0, which shouldn't be possible
@@ -110,11 +157,13 @@ namespace SeeloewenCraft
                 //Update the slot and clear it if the amount is 0
                 Amount -= amount;
 
-
                 if (Amount == 0)
                 {
                     cvsItem.Background = new SolidColorBrush(Colors.Transparent);
                     itemId = "";
+                    pbDurability.Visibility = Visibility.Hidden;
+                    if(hotbarSlot != null) hotbarSlot.pbDurability.Visibility= Visibility.Hidden;
+                    inventory.UpdateHotbar();
                 }
             }
             else
@@ -145,10 +194,8 @@ namespace SeeloewenCraft
             isSelected = false;
         }
 
-        public void MoveItem(InventorySlot newSlot, int amount)
+        public void MoveItem(InventorySlot newSlot, int amount) //Move item from this slot to another one
         {
-            //Move item from this slot to another one
-
             //Check if enough space is in the new slot available, if not, only add the amount of possible space
             if (newSlot.GetAvailableSpace() < amount)
             {
@@ -156,8 +203,11 @@ namespace SeeloewenCraft
             }
 
             //Add to the new slot and remove from the old one
-            newSlot.Add(itemId, amount);
-            Remove(amount);
+            newSlot.Add(itemId, amount, itemTag, out bool success);
+            if (success)
+            {
+                Remove(amount);
+            }
         }
 
         public bool IsEmpty()
@@ -181,6 +231,38 @@ namespace SeeloewenCraft
             }
             return null;
         }
+
+        public void RemoveDurablity()
+        {
+            if (ItemRegister.GenerateItem(itemId) is ToolItem)
+            {
+                int durability = GetDurability();
+                itemTag = itemTag.Replace(durability.ToString(), (durability - 1).ToString());
+                pbDurability.Value--;
+                if(hotbarSlot != null) hotbarSlot.pbDurability.Value--;
+
+                if (durability - 1 <= 0)
+                {
+                    Remove(1);
+                }
+            }
+        }
+
+        public int GetDurability()
+        {
+            //Only do on tools
+            if (ItemRegister.GenerateItem(itemId) is ToolItem)
+            {
+                //Split the tags and the durability tag to the durability
+                string[] tagSplit = itemTag.Split(';');
+                string[] durabilitySplit = tagSplit[0].Split('=');
+
+                return Convert.ToInt32(durabilitySplit[1]);
+            }
+
+            return 0;
+        }
+
         //-- Event Handlers --//
 
         private void bdrSlot_LeftMouseButtonDown(object sender, EventArgs e)
@@ -199,7 +281,7 @@ namespace SeeloewenCraft
 
                     if (otherInv != null)
                     {
-                        otherInv.AddItem(itemId, amount, out int remainingAmount);
+                        otherInv.AddItem(itemId, amount, itemTag, out int remainingAmount);
                         Remove(Amount - remainingAmount);
                         Unselect();
                     }
@@ -224,7 +306,7 @@ namespace SeeloewenCraft
                 else //Switch two slots
                 {
                     //Save the old slot values and clear the slot
-                    (string oldId, int oldAmount) = (itemId, amount);
+                    (string oldId, int oldAmount, string oldTag) = (itemId, amount, itemTag); //No idea why I used a tuple here, but it works I guess
                     itemId = "";
                     amount = 0;
 
@@ -233,7 +315,7 @@ namespace SeeloewenCraft
                     selectedSlot.Unselect();
 
                     //Move the items from this slot to the other one
-                    selectedSlot.Add(oldId, oldAmount);
+                    selectedSlot.Add(oldId, oldAmount, oldTag, out bool success);
                     selectedSlot.Select();
                 }
             }

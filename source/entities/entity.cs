@@ -8,9 +8,8 @@ namespace SeeloewenCraft.entity
     //base class for all entities
     public abstract class Entity
     {
-        private static Random rnd = new Random(DateTime.Now.Millisecond);
+        public TextBlock tblId;
 
-        //type (ex: "Skeleton", "Player")
         public string type;
 
         //touching status constants
@@ -414,6 +413,18 @@ namespace SeeloewenCraft.entity
                  image)
         {
             lifeTime = token.GetInt("/life_time");
+            id = token.GetInt("/id");
+            nextID++;
+
+            texture.Children.Clear();
+            tblId = new TextBlock() { FontSize = 20, FontWeight = FontWeights.DemiBold };
+            tblId.Text = id.ToString();
+            if (this is MovingEntity)
+            {
+                texture.Children.Add(tblId);
+                Canvas.SetTop(tblId, -30);
+                Canvas.SetLeft(tblId, 8);
+            }
         }
 
         public Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, Brush image)
@@ -434,6 +445,16 @@ namespace SeeloewenCraft.entity
             texture.Background = image;
 
             touchingStatus = new bool[TOUCHING_STATUS_COUNT];
+
+            texture.Children.Clear();
+            tblId = new TextBlock() { FontSize = 20, FontWeight = FontWeights.DemiBold };
+            tblId.Text = id.ToString();
+            if (this is MovingEntity)
+            {
+                texture.Children.Add(tblId);
+                Canvas.SetTop(tblId, -30);
+                Canvas.SetLeft(tblId, 8);
+            }
         }
 
         public static Entity LoadFromJson(JsonToken token)
@@ -443,6 +464,12 @@ namespace SeeloewenCraft.entity
             {
                 case "ItemEntity":
                     entity = new ItemEntity(token);
+                    break;
+                case "Slime":
+                    entity = new Slime(token);
+                    break;
+                case "Player":
+                    entity = new Player(token);
                     break;
                 default:
                     throw new Exception();
@@ -479,7 +506,6 @@ namespace SeeloewenCraft.entity
         {
 
         }
-
 
 
         public override bool Equals(object obj)

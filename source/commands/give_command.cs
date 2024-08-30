@@ -33,7 +33,7 @@ namespace SeeloewenCraft
                 return;
             }
 
-            Game.world.player.inventory.AddItem(id, amount, out int remainingAmount);
+            Game.world.player.inventory.AddItem(id, amount, ItemRegister.GenerateItem(id).tag, out int remainingAmount);
             if (remainingAmount > 0)
             {
                 MessageBox.Show("Warning: Not all items were added to your inventory since it's full.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);

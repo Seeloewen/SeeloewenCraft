@@ -21,7 +21,7 @@ namespace SeeloewenCraft
 
             if (selectedItem != null && selectedItem.hasRightClickAction)
             {
-                selectedItem.RightClickAction(block, sender);
+                selectedItem.RightClickAction(block, selectedSlot.slot, sender);
                 return;
             }
 
@@ -148,6 +148,9 @@ namespace SeeloewenCraft
                         block.BreakBlock(true, false);
                     }
                 }
+
+                HotbarSlot selectedSlot = Game.world.player.inventory.GetSelectedHotbarSlot();
+                selectedSlot.slot.RemoveDurablity();
             }
 
 

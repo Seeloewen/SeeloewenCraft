@@ -61,7 +61,7 @@ namespace SeeloewenCraft
             return new ModdedBlock(type,  isInBackground);
         }*/
 
-        public override void RightClickAction(Block block, object sender)
+        public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
         {
             throw new NotImplementedException();
         }

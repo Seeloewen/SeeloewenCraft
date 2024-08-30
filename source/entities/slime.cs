@@ -12,14 +12,29 @@ namespace SeeloewenCraft.entity
         private int timeSinceJump;
 
         private Random rnd;
-        
 
-        public Slime(int posX, int posY, int velX, int velY) : base(animalSizeX, animalSizeY, posX, posY, velX, velY,  GetSlimeTexture())
+
+        public Slime(int posX, int posY, int velX, int velY) : base(animalSizeX, animalSizeY, posX, posY, velX, velY)
         {
+            type = "Slime";
             rnd = new Random(DateTime.Now.Millisecond);
             frictionAir = 1;
             ACC_WALKING = 0;
             ACC_SPRINTING = 0;
+        }
+
+        public Slime(JsonToken token) : base(token, animalSizeX, animalSizeY)
+        {
+            type = "Slime";
+            rnd = new Random(DateTime.Now.Millisecond);
+            frictionAir = 1;
+            ACC_WALKING = 0;
+            ACC_SPRINTING = 0;
+        }
+
+        protected override void InitTexture()
+        {
+            texture.Background = GetSlimeTexture();
         }
 
         public override void Die()
@@ -33,7 +48,7 @@ namespace SeeloewenCraft.entity
             base.OnUpdateStart(tps);
 
             //ai
-            if(timeSinceJump > 2000 && onGround)
+            if (timeSinceJump > 2000 && onGround)
             {
                 int dir = rnd.Next(-3, 4);
                 velY = -20000;
@@ -41,7 +56,7 @@ namespace SeeloewenCraft.entity
 
                 timeSinceJump = 0;
             }
-            timeSinceJump += 1000/tps;
+            timeSinceJump += 1000 / tps;
         }
 
 
@@ -62,7 +77,7 @@ namespace SeeloewenCraft.entity
                 case 4:
                     return Images.Slime_Yellow.GetTexture();
                 default:
-                    return Images.Slime_Blue.GetTexture();    
+                    return Images.Slime_Blue.GetTexture();
             }
         }
     }

@@ -256,7 +256,7 @@ namespace SeeloewenCraft
             Cactus_BottomLeft = new SealImage(TextureType.Connected_Block, "Cactus_BottomLeft.png");
             Cactus_BottomRight = new SealImage(TextureType.Connected_Block, "Cactus_BottomRight.png");
             Cactus_Cross = new SealImage(TextureType.Connected_Block, "Cactus_Cross.png");
-            CactusFruit = new SealImage(TextureType.Connected_Block, "Cactus_Fruit.png");
+            CactusFruit = new SealImage(TextureType.Block, "Cactus_Fruit.png");
             Cactus_Horizontal = new SealImage(TextureType.Connected_Block, "Cactus_Horizontal.png");
             Cactus_Top = new SealImage(TextureType.Connected_Block, "Cactus_Top.png");
             Cactus_TopLeft = new SealImage(TextureType.Connected_Block, "Cactus_TopLeft.png");
@@ -329,7 +329,7 @@ namespace SeeloewenCraft
             SandStone = new SealImage(TextureType.Block, "Sand_Stone.png");
             SandStoneBlock_BottomLeft = new SealImage(TextureType.Chiseled_Block, "Sand_Stone_BottomLeft.png");
             SandStoneBlock_BottomRight = new SealImage(TextureType.Chiseled_Block, "Sand_Stone_BottomRight.png");
-            SandStoneBlock_Bricks = new SealImage(TextureType.Block, "Sand_Stone_Bricks.png");
+            SandStoneBricks = new SealImage(TextureType.Block, "Sand_Stone_Bricks.png");
             SandStoneBlock_Center = new SealImage(TextureType.Chiseled_Block, "Sand_Stone_Center.png");
             SandStoneBlock_SlabBottom = new SealImage(TextureType.Chiseled_Block, "Sand_Stone_SlabBottom.png");
             SandStoneBlock_SlabLeft = new SealImage(TextureType.Chiseled_Block, "Sand_Stone_SlabLeft.png");
@@ -558,7 +558,7 @@ namespace SeeloewenCraft
         public static SealImage SandStone;
         public static SealImage SandStoneBlock_BottomLeft;
         public static SealImage SandStoneBlock_BottomRight;
-        public static SealImage SandStoneBlock_Bricks;
+        public static SealImage SandStoneBricks;
         public static SealImage SandStoneBlock_Center;
         public static SealImage SandStoneBlock_SlabBottom;
         public static SealImage SandStoneBlock_SlabLeft;

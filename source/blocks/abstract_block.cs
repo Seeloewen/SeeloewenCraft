@@ -516,7 +516,9 @@ namespace SeeloewenCraft
                         //Add the foreground block's item to the inventory
                         if (foregroundBlock.GetItem() != null)
                         {
-                            Game.world.AddEntity(new ItemEntity(foregroundBlock.GetItem(), //item type
+                            Item item = foregroundBlock.GetItem();
+
+                            Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
                                 (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
                                 yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
                                 rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
@@ -543,7 +545,7 @@ namespace SeeloewenCraft
                         List<Item> items = lootTable.RollEntry().RollItems();
                         foreach (Item item in items)
                         {
-                            Game.world.AddEntity(new ItemEntity(item, //item type
+                            Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
                                 (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
                                 yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
                                 rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
@@ -553,7 +555,9 @@ namespace SeeloewenCraft
                     //If has only an item, only give that item
                     else if (GetItem() != null)
                     {
-                        Game.world.AddEntity(new ItemEntity(GetItem(), //item type
+                        Item item = GetItem();
+
+                        Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
                                 (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
                                 yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
                                 rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
@@ -865,7 +869,7 @@ namespace SeeloewenCraft
             //Stop possible breaking process
             tmrBreak.Stop();
 
-            if (Game.world.player.inventory.GetSelectedItem() != null && Game.world.player.inventory.GetSelectedItem().tags.Contains("tools/hammer"))
+            if (Game.world.player.inventory.GetSelectedItem() != null && Game.world.player.inventory.GetSelectedItem().ContainsTag("tools/hammer"))
             {
                 //If the player holds a hammer, is in gamemode survival, the block is in range and doesn't have a foreground block
                 if (Game.world.gamemode == Gamemode.Survival && IsInRange() && foregroundBlock == null && canBeMovedToBackground)

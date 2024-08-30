@@ -368,16 +368,16 @@ namespace SeeloewenCraft
             {
                 player.inventory = new Inventory(9, 4);
                 player.inventory.InitHotbar();
-                if (Settings.enableHammer) player.inventory.AddItem("sc:stone_hammer_item", 1);
-                player.inventory.AddItem("sc:torch_item", 64);
-                player.inventory.AddItem("sc:water_item", 64);
-                player.inventory.AddItem("sc:potted_cactus_item", 64);
-                player.inventory.AddItem("sc:chiseler_item", 64);
-                player.inventory.AddItem("sc:crafting_table_item", 64);
-                player.inventory.AddItem("sc:chest_item", 64);
-                player.inventory.AddItem("sc:cobblestone_stairtopleft_item", 64);
-                player.inventory.AddItem("sc:unchiseler_item", 64);
-                player.inventory.AddItem("sc:spruce_door_item", 64);
+                if (Settings.enableHammer) player.inventory.AddItem("sc:stone_hammer_item", 1, ItemRegister.GenerateItem("sc:stone_hammer_item").tag);
+                player.inventory.AddItem("sc:torch_item", 64, ItemRegister.GenerateItem("sc:torch_item").tag);
+                player.inventory.AddItem("sc:water_item", 64, ItemRegister.GenerateItem("sc:water_item").tag);
+                player.inventory.AddItem("sc:potted_cactus_item", 64, ItemRegister.GenerateItem("sc:potted_cactus_item").tag);
+                player.inventory.AddItem("sc:chiseler_item", 64, ItemRegister.GenerateItem("sc:chiseler_item").tag);
+                player.inventory.AddItem("sc:crafting_table_item", 64, ItemRegister.GenerateItem("sc:crafting_table_item").tag);
+                player.inventory.AddItem("sc:chest_item", 64, ItemRegister.GenerateItem("sc:chest_item").tag);
+                player.inventory.AddItem("sc:cobblestone_stairtopleft_item", 64, ItemRegister.GenerateItem("sc:cobblestone_stairtopleft_item").tag);
+                player.inventory.AddItem("sc:unchiseler_item", 64, ItemRegister.GenerateItem("sc:unchiseler_item").tag);
+                player.inventory.AddItem("sc:spruce_door_item", 64, ItemRegister.GenerateItem("sc:spruce_door_item").tag);
             }
             player.inventory.UpdateHotbar();
             inventoryList.Add(player.inventory);
@@ -566,11 +566,9 @@ namespace SeeloewenCraft
 
         //-- Event Handlers --//
 
-        private static bool dropped = false;
-        private static bool spawned = false;
-
         private void tmrMovement_Tick(object sender, EventArgs e)
         {
+            player.HandleInputs();
             player.OnUpdate(63); // tps: 1/0.016
 
             entityManager.DoStep(63);
