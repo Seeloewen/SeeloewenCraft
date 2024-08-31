@@ -73,7 +73,11 @@ namespace SeeloewenCraft.entity {
             JsonToken list = token.GetToken("/entities");
             for(int i = 0; i < list.GetArrayLength(); i++)
             {
-                Add(Entity.LoadFromJson(list.GetToken($"/{i}")));
+                var entity = Entity.LoadFromJson(list.GetToken($"/{i}"));
+                if(entity is not Player)
+                {
+                    Add(entity);
+                }
             }
         }
 
