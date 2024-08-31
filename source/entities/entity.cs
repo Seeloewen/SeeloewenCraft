@@ -8,6 +8,9 @@ namespace SeeloewenCraft.entity
     //base class for all entities
     public abstract class Entity
     {
+        public static Random idGenerator = new Random(DateTime.Now.Millisecond);
+        protected Random rnd;
+
         public TextBlock tblId;
 
         public string type;
@@ -414,7 +417,6 @@ namespace SeeloewenCraft.entity
         {
             lifeTime = token.GetInt("/life_time");
             id = token.GetInt("/id");
-            nextID++;
 
             texture.Children.Clear();
             tblId = new TextBlock() { FontSize = 20, FontWeight = FontWeights.DemiBold };
@@ -425,12 +427,14 @@ namespace SeeloewenCraft.entity
                 Canvas.SetTop(tblId, -30);
                 Canvas.SetLeft(tblId, 8);
             }
+
+            rnd = new Random(id);
         }
 
         public Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, Brush image)
         {
             lifeTime = 0;
-            this.id = rnd.Next(0, int.MaxValue);
+            id = idGenerator.Next(0, int.MaxValue);
             this.sizeX = sizeX;
             this.sizeY = sizeY;
             this.posX = posX;
@@ -455,6 +459,8 @@ namespace SeeloewenCraft.entity
                 Canvas.SetTop(tblId, -30);
                 Canvas.SetLeft(tblId, 8);
             }
+
+            rnd = new Random(id);
         }
 
         public static Entity LoadFromJson(JsonToken token)

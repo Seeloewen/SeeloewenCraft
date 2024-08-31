@@ -77,7 +77,7 @@ namespace SeeloewenCraft
         {
             entities.Add(entity);
             Game.world.wndGame.cvsWorld.Children.Add(entity.texture);
-            Panel.SetZIndex(entity.texture, 1);
+            Panel.SetZIndex(entity.texture, entity is Player ? 2 : 1);
         }
 
         public void RemoveEntity(Entity entity)

@@ -40,35 +40,29 @@ namespace SeeloewenCraft.entity
         public bool breathing;
 
 
-        public MovingEntity(int sizeX, int sizeY, int posX, int posY, int velX, int velY)
-            : base(sizeX, sizeY, posX, posY, velX, velY, new SolidColorBrush(Colors.Green))
+        public MovingEntity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, Brush image)
+            : base(sizeX, sizeY, posX, posY, velX, velY, image)
         {
             type = "MovingEntity";
             hp = MAX_HP;
             currentAcc = ACC_WALKING;
 
             texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
-
-            InitTexture();
         }
 
-        public MovingEntity(JsonToken token, int sizeX, int sizeY)
-            : base(token, sizeX, sizeY, new SolidColorBrush(Colors.Green))
+        public MovingEntity(JsonToken token, int sizeX, int sizeY, Brush image)
+            : base(token, sizeX, sizeY, image)
         {
             type = "MovingEntity";
             hp = token.GetDouble("/hp");
             currentAcc = token.GetInt("/current_acc");
             fallMaxHeight = token.GetInt("/fall_max_height");
-            thrown = token.GetBool("/thrown");
             flying = token.GetBool("/flying");
 
 
             texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
-
-            InitTexture();
         }
 
-        protected abstract void InitTexture();
 
         protected override void DoFallDamage()
         {

@@ -17,32 +17,25 @@ namespace SeeloewenCraft.entity
 
         //-- Constructor --//
 
-        public Player(int x, int y) : base(900, 1900, x, y, 0, 0)
+        public Player(int x, int y) : base(900, 1900, x, y, 0, 0, new SolidColorBrush(Colors.Red))
         {
             //Generate the player
             type = "Player";
             InitPlayer();
         }
 
-        public Player(JsonToken token) : base(token, 900, 1900)
+        public Player(JsonToken token) : base(token, 900, 1900, new SolidColorBrush(Colors.Red)) 
         {
-            //Generate the player
-            type = "Player";
             InitPlayer();
         }
 
         //-- Custom Methods --//
 
-        protected override void InitTexture()
-        {
-            texture.Background = new SolidColorBrush(Colors.Red);
-        }
-
         private void HandleThrow()
         {
             if (pressedThrow)
             {
-                if (!thrown && inventory != null)
+                if (!thrown)
                 {
                     //Get the selected slot and selected item
                     InventorySlot selectedSlot = inventory.GetSelectedHotbarSlot().slot;
@@ -75,14 +68,17 @@ namespace SeeloewenCraft.entity
             }
         }
 
-        public void HandleInputs()
+        private void HandleInputs()
         {
-            pressedLeft = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
-            pressedRight = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveRight);
-            pressedUp = Game.world.wndGame.pressedKeys.Contains(Settings.cJump);
-            pressedSneak = Game.world.wndGame.pressedKeys.Contains(Settings.cSneak);
-            pressedSprint = Game.world.wndGame.pressedKeys.Contains(Settings.cSprint);
-            pressedThrow = Game.world.wndGame.pressedKeys.Contains(Settings.cThrowItem);
+            if (this == Game.world.player)
+            {
+                pressedLeft = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+                pressedRight = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveRight);
+                pressedUp = Game.world.wndGame.pressedKeys.Contains(Settings.cJump);
+                pressedSneak = Game.world.wndGame.pressedKeys.Contains(Settings.cSneak);
+                pressedSprint = Game.world.wndGame.pressedKeys.Contains(Settings.cSprint);
+                pressedThrow = Game.world.wndGame.pressedKeys.Contains(Settings.cThrowItem);
+            }
         }
 
         protected override void DoFallDamage()
@@ -128,7 +124,7 @@ namespace SeeloewenCraft.entity
             Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "breathing");
 
             //Setup health bar
-            healthBar = new HealthBar(10, 740);
+            healthBar = new HealthBar( 10, 740);
 
             if (Game.world.gamemode == Gamemode.Creative)
             {
@@ -155,6 +151,7 @@ namespace SeeloewenCraft.entity
 
         protected override void OnUpdateStart(int tps)
         {
+            HandleInputs();
             HandleThrow();
             base.OnUpdateStart(tps);
             DisplayDebugInformation();

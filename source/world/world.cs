@@ -409,11 +409,9 @@ namespace SeeloewenCraft
 
         public void CreatePlayer(int playerPosX, int playerPosY)
         {
-
             player = new Player(playerPosX, playerPosY);
+            AddEntity(player);
 
-            Game.world.wndGame.cvsWorld.Children.Add(player.texture);
-            Panel.SetZIndex(player.texture, 1);
             Game.world.wndGame.relativeSvPos = Game.world.wndGame.svWorld.VerticalOffset;
             Game.world.wndGame.defaultSvPos = Game.world.wndGame.svWorld.VerticalOffset;
 
@@ -568,9 +566,6 @@ namespace SeeloewenCraft
 
         private void tmrMovement_Tick(object sender, EventArgs e)
         {
-            player.HandleInputs();
-            player.OnUpdate(63); // tps: 1/0.016
-
             entityManager.DoStep(63);
 
             worldRenderer.playerPosX = (double)player.posX / 1000;
