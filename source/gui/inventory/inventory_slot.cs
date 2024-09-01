@@ -234,7 +234,7 @@ namespace SeeloewenCraft
 
         public void RemoveDurablity()
         {
-            if (ItemRegister.GenerateItem(itemId) is ToolItem)
+            if (ItemRegister.GenerateItem(itemId) is ToolItem && Game.world.gamemode == Gamemode.Survival)
             {
                 int durability = GetDurability();
                 itemTag = itemTag.Replace(durability.ToString(), (durability - 1).ToString());

@@ -1,6 +1,4 @@
-﻿using System.Windows.Documents;
-
-namespace SeeloewenCraft
+﻿namespace SeeloewenCraft
 {
     //-- Items --//
 
@@ -113,27 +111,6 @@ namespace SeeloewenCraft
         public MagmaBlockItem() : base()
         {
             Init("Magma Block", "sc:magma_block_item", "sc:magma_block", true, Images.MagmaBlock);
-        }
-    }
-
-    public class StoneHammerItem : ToolItem
-    {
-        public StoneHammerItem() : base()
-        {
-            Init("Stone Hammer", "sc:stone_hammer_item", null, 60, 3, Tool.Hammer, false, Images.StoneHammer);
-            hasRightClickAction = true;
-        }
-
-        public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
-        {
-            if (block.isBackground && block.canBeMovedToBackground && block.IsInRange() && block.GetForegroundBlock() == null)
-            {
-                block.MoveToNormal();
-            }
-            else if (!block.isBackground && block.IsInRange() && block.canBeMovedToBackground)
-            {
-                block.MoveToBackground();
-            }
         }
     }
 
