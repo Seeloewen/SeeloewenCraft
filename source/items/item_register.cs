@@ -437,6 +437,93 @@
                 case "sc:wax_item":
                     return new WaxItem();
 
+                case "sc:stone_sword_item":
+                    return new StoneSwordItem();
+
+                case "sc:stone_pickaxe_item":
+                    return new StonePickaxeItem();
+
+                case "sc:stone_axe_item":
+                    return new StoneAxeItem();
+
+                case "sc:stone_shovel_item":
+                    return new StoneShovelItem();
+
+                case "sc:stone_scythe_item":
+                    return new StoneScytheItem();
+
+                case "sc:wood_hammer_item":
+                    return new WoodHammerItem();
+
+                case "sc:wood_sword_item":
+                    return new WoodSwordItem();
+
+                case "sc:wood_pickaxe_item":
+                    return new WoodPickaxeItem();
+
+                case "sc:wood_axe_item":
+                    return new WoodAxeItem();
+
+                case "sc:wood_shovel_item":
+                    return new WoodShovelItem();
+
+                case "sc:wood_scythe_item":
+                    return new WoodScytheItem();
+
+                case "sc:tin_hammer_item":
+                    return new TinHammerItem();
+
+                case "sc:tin_sword_item":
+                    return new TinSwordItem();
+
+                case "sc:tin_pickaxe_item":
+                    return new TinPickaxeItem();
+
+                case "sc:tin_axe_item":
+                    return new TinAxeItem();
+
+                case "sc:tin_shovel_item":
+                    return new TinShovelItem();
+
+                case "sc:tin_scythe_item":
+                    return new TinScytheItem();
+
+                case "sc:iron_hammer_item":
+                    return new IronHammerItem();
+
+                case "sc:iron_sword_item":
+                    return new IronSwordItem();
+
+                case "sc:iron_pickaxe_item":
+                    return new IronPickaxeItem();
+
+                case "sc:iron_axe_item":
+                    return new IronAxeItem();
+
+                case "sc:iron_shovel_item":
+                    return new IronShovelItem();
+
+                case "sc:iron_scythe_item":
+                    return new IronScytheItem();
+
+                case "sc:diamond_hammer_item":
+                    return new DiamondHammerItem();
+
+                case "sc:diamond_sword_item":
+                    return new DiamondSwordItem();
+
+                case "sc:diamond_pickaxe_item":
+                    return new DiamondPickaxeItem();
+
+                case "sc:diamond_axe_item":
+                    return new DiamondAxeItem();
+
+                case "sc:diamond_shovel_item":
+                    return new DiamondShovelItem();
+
+                case "sc:diamond_scythe_item":
+                    return new DiamondScytheItem();
+
                 default:
                     return null;
             }

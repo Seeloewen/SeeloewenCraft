@@ -6,6 +6,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_bottomleft", 1250, "sc:sand_stone_bottomleft_item", Tool.Pickaxe, Images.SandStoneBlock_BottomLeft);
             collision = new RectangleCollision(0, 500, 500, 1000);
+            dropsOnWrongTool = false;
         }
     }
 
@@ -15,6 +16,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_bottomright", 1250, "sc:sand_stone_bottomright_item", Tool.Pickaxe, Images.SandStoneBlock_BottomRight);
             collision = new RectangleCollision(500, 1000, 500, 1000);
+            dropsOnWrongTool = false;
         }
     }
 
@@ -24,6 +26,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_topleft", 1250, "sc:sand_stone_topleft_item", Tool.Pickaxe, Images.SandStoneBlock_TopLeft);
             collision = new RectangleCollision(0, 500, 0, 500);
+            dropsOnWrongTool = false;
         }
     }
 
@@ -33,6 +36,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_topright", 1250, "sc:sand_stone_topright_item", Tool.Pickaxe, Images.SandStoneBlock_TopRight);
             collision = new RectangleCollision(500, 1000, 0, 500);
+            dropsOnWrongTool = false;
         }
     }
 
@@ -42,6 +46,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_slabright", 1250, "sc:sand_stone_slabright_item", Tool.Pickaxe, Images.SandStoneBlock_SlabRight);
             collision = new RectangleCollision(500, 1000, 0, 1000);
+            dropsOnWrongTool = false;
         }
     }
 
@@ -51,6 +56,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_slableft", 1250, "sc:sand_stone_slableft_item", Tool.Pickaxe, Images.SandStoneBlock_SlabLeft);
             collision = new RectangleCollision(0, 500, 0, 1000);
+            dropsOnWrongTool = false;
         }
     }
 
@@ -60,6 +66,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_slabtop", 1250, "sc:sand_stone_slabtop_item", Tool.Pickaxe, Images.SandStoneBlock_SlabTop);
             collision = new RectangleCollision(0, 1000, 0, 500);
+            dropsOnWrongTool = false;
         }
     }
 
@@ -69,6 +76,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_slabbottom", 1250, "sc:sand_stone_slabbottom_item", Tool.Pickaxe, Images.SandStoneBlock_SlabBottom);
             collision = new RectangleCollision(0, 1000, 500, 1000);
+            dropsOnWrongTool = false;
         }
     }
 
@@ -78,6 +86,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_stairtopright", 1250, "sc:sand_stone_stairtopright_item", Tool.Pickaxe, Images.SandStoneBlock_StairTopRight);
             collision = new MultipleRectangleCollision([0, 500], [1000, 1000], [0, 500], [500, 1000]);
+            dropsOnWrongTool = false;
         }
     }
 
@@ -87,6 +96,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_stairtopleft", 1250, "sc:sand_stone_stairtopleft_item", Tool.Pickaxe, Images.SandStoneBlock_StairTopLeft);
             collision = new MultipleRectangleCollision([0, 500], [500, 1000], [0, 0], [1000, 500]);
+            dropsOnWrongTool = false;
         }
     }
 
@@ -96,6 +106,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_stairbottomright", 1250, "sc:sand_stone_stairbottomright_item", Tool.Pickaxe, Images.SandStoneBlock_StairBottomRight);
             collision = new MultipleRectangleCollision([500, 0], [1000, 1000], [0, 500], [500, 1000]);
+            dropsOnWrongTool = false;
         }
     }
 
@@ -105,6 +116,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_stairbottomleft", 1250, "sc:sand_stone_stairbottomleft_item", Tool.Pickaxe, Images.SandStoneBlock_StairBottomLeft);
             collision = new MultipleRectangleCollision([0, 500], [500, 1000], [0, 500], [1000, 1000]);
+            dropsOnWrongTool = false;
         }
     }
 
@@ -114,6 +126,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_center", 1250, "sc:sand_stone_center_item", Tool.Pickaxe, Images.SandStoneBlock_Center);
             collision = new RectangleCollision(333, 666, 333, 666);
+            dropsOnWrongTool = false;
         }
     }
 }

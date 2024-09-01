@@ -39,7 +39,10 @@ namespace SeeloewenCraft
         public bool isLightSource = false;
         public bool isBase = false;
         public bool hasRightClickAction = false;
+        public bool dropsOnWrongTool = true;
         public int breakTime = 150;
+        public int dropAmountMin = 1;
+        public int dropAmountMax = 1;
         public Collision collision;
         public Tool effectiveTool;
 
@@ -503,6 +506,44 @@ namespace SeeloewenCraft
             return Math.Abs(yDiff);
         }
 
+        private void Drop(bool dropForeground)
+        {
+            //Get the block that should drop
+            Block block = dropForeground ? foregroundBlock : this;
+
+            if ((Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == block.effectiveTool && !block.dropsOnWrongTool) || block.dropsOnWrongTool)
+            {
+                //Get the amount of times the item gets dropped
+                int rolls = rnd.Next(block.dropAmountMin, block.dropAmountMax + 1);
+
+                for (int i = 0; i < rolls; i++)
+                {
+                    //If the block has a loot table, roll an entry and give the items to player
+                    if (block.lootTable != null)
+                    {
+                        List<Item> items = block.lootTable.RollEntry().RollItems();
+                        foreach (Item item in items)
+                        {
+                            Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
+                                (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
+                                yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
+                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
+                        }
+                    }
+                    //If it has only an item, only give that item
+                    else if (block.GetItem() != null)
+                    {
+                        Item item = block.GetItem();
+
+                        Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
+                                (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
+                                yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
+                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
+                    }
+                }
+            }
+        }
+
         public void BreakBlock(bool skipRangeCheck, bool skipBreakableCheck)
         {
             //Check if is in range
@@ -513,16 +554,7 @@ namespace SeeloewenCraft
                 {
                     if (foregroundBlock.isBreakable || skipBreakableCheck)
                     {
-                        //Add the foreground block's item to the inventory
-                        if (foregroundBlock.GetItem() != null)
-                        {
-                            Item item = foregroundBlock.GetItem();
-
-                            Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
-                                (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
-                                yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
-                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
-                        }
+                        Drop(true);
 
                         if (foregroundBlock.hasInventory)
                         {
@@ -539,30 +571,7 @@ namespace SeeloewenCraft
                     Block block = new AirBlock(false);
                     SetBlock(block);
 
-                    //If the block has a loot table, roll an entry and give the items to player
-                    if (lootTable != null)
-                    {
-                        List<Item> items = lootTable.RollEntry().RollItems();
-                        foreach (Item item in items)
-                        {
-                            Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
-                                (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
-                                yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
-                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
-
-                        }
-                    }
-                    //If has only an item, only give that item
-                    else if (GetItem() != null)
-                    {
-                        Item item = GetItem();
-
-                        Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
-                                (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
-                                yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
-                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
-
-                    }
+                    Drop(false);
 
                     if (hasInventory)
                     {
@@ -833,7 +842,14 @@ namespace SeeloewenCraft
                         }
                         else
                         {
-                            tmrBreak.Interval = foregroundBlock.breakTime; //Will later also include tool in hand
+                            //Default breakpower to 1. If the right tool is selected, apply that breakpower
+                            double breakPower = 1;
+                            if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && foregroundBlock.effectiveTool == tool.type)
+                            {
+                                breakPower = tool.breakPower;
+                            }
+
+                            tmrBreak.Interval = (int)(foregroundBlock.breakTime / breakPower);
                             tmrBreak.Start();
                         }
                     }
@@ -848,7 +864,14 @@ namespace SeeloewenCraft
                         }
                         else
                         {
-                            tmrBreak.Interval = breakTime; //Will later also include tool in hand
+                            //Default breakpower to 1. If the right tool is selected, apply that breakpower
+                            double breakPower = 1;
+                            if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && effectiveTool == tool.type)
+                            {
+                                breakPower = tool.breakPower;
+                            }
+
+                            tmrBreak.Interval = (int)(breakTime / breakPower);
                             tmrBreak.Start();
                         }
                     }
@@ -869,13 +892,16 @@ namespace SeeloewenCraft
             //Stop possible breaking process
             tmrBreak.Stop();
 
-            if (Game.world.player.inventory.GetSelectedItem() != null && Game.world.player.inventory.GetSelectedItem().ContainsTag("tools/hammer"))
+            if (Game.world.player.inventory.GetSelectedItem() != null && Game.world.player.inventory.GetSelectedItem() is ToolItem tool)
             {
                 //If the player holds a hammer, is in gamemode survival, the block is in range and doesn't have a foreground block
                 if (Game.world.gamemode == Gamemode.Survival && IsInRange() && foregroundBlock == null && canBeMovedToBackground)
                 {
+                    //Get the break power from the selected tool
+                    double breakPower = tool.breakPower;
+
                     //Start the timer for the hammer
-                    tmrHammer.Interval = breakTime; //TO-DO: Include tool efficiency
+                    tmrHammer.Interval = (int)(breakTime / breakPower); //TO-DO: Include tool efficiency
                     tmrHammer.Start();
                     return;
                 }
