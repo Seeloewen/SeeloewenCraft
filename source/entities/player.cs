@@ -134,24 +134,27 @@ namespace SeeloewenCraft.entity
 
         public override void Die()
         {
-            //Drop all items and clear the inventory
-            foreach (InventorySlot slot in inventory.slotList)
+            if(this == Game.world.player)
             {
-                for (int i = 0; i < slot.Amount; i++)
+                //Drop all items and clear the inventory
+                foreach (InventorySlot slot in inventory.slotList)
                 {
-                    Drop(slot.itemId);
+                    for (int i = 0; i < slot.Amount; i++)
+                    {
+                        Drop(slot.itemId);
+                    }
+                    slot.Remove(slot.Amount);
                 }
-                slot.Remove(slot.Amount);
+
+                //Move the player to the spawn
+                posX = Game.world.worldSpawnX;
+                posY = Game.world.worldSpawnY;
+
+                //Set the hp back to 10
+                base.SetHP(10);
+
+                Game.world.notificationHandler.ShowNotification("You died and were moved back to the world spawn.", 5000, Images.Bone.GetTexture());
             }
-
-            //Move the player to the spawn
-            posX = Game.world.worldSpawnX;
-            posY = Game.world.worldSpawnY;
-
-            //Set the hp back to 10
-            base.SetHP(10);
-
-            Game.world.notificationHandler.ShowNotification("You died and were moved back to the world spawn.", 5000, Images.Bone.GetTexture());
         }
 
         public override void SetHP(double hp)
