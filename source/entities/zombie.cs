@@ -6,23 +6,23 @@ namespace SeeloewenCraft.entity
     class Zombie : MovingEntity
     {
 
-        private Random rnd;
-
         private int timeSinceMove;
 
 
         public Zombie(int posX, int posY, int velX, int velY)
-            : base(900, 1800, posX, posY, velX, velY)
+            : base(900, 1800, posX, posY, velX, velY, new SolidColorBrush(Colors.LimeGreen))
         {
-            rnd = new Random(DateTime.Now.Millisecond);
+            idGenerator = new Random(DateTime.Now.Millisecond);
             ACC_WALKING = 20000;
             ACC_SPRINTING = 35000;
         }
 
-        protected override void InitTexture()
+        internal Zombie(JsonToken token) : base(token, 900, 1800, new SolidColorBrush(Colors.LimeGreen))
         {
-            texture.Background = new SolidColorBrush(Colors.LimeGreen);
+            ACC_WALKING = 20000;
+            ACC_SPRINTING = 35000;
         }
+
 
         public override void Die()
         {
@@ -35,7 +35,7 @@ namespace SeeloewenCraft.entity
             base.OnUpdateStart(tps);
             if (timeSinceMove > 1000)
             {
-                int dir = rnd.Next(-1, 2);
+                int dir = idGenerator.Next(-1, 2);
 
                 switch (dir)
                 {

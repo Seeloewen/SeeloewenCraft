@@ -33,8 +33,7 @@ namespace SeeloewenCraft
         public RecipeCreator recipeCreator;
         public NotificationHandler notificationHandler;
         public WorldRenderer worldRenderer;
-        public List<Entity> entities;
-        public List<Entity> toDieEntities;
+        public EntityManager entityManager;
 
         //Constants
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
@@ -142,7 +141,7 @@ namespace SeeloewenCraft
 
             SaveWorldSettings();
 
-            InitEntityList(!isNew);
+            InitEntityManager(!isNew);
 
             GenerateBlockContainer();
 
@@ -196,48 +195,23 @@ namespace SeeloewenCraft
             using (JsonWriter writer = JsonWriter.Create())
             {
                 writer.WriteStartObject();
-                writer.WritePropertyName("entities");
-                writer.WriteStartArray();
-                foreach (Entity entity in entities)
-                {
-                    entity.SaveToJson(writer);
-                }
-                writer.WriteEndArray();
+                entityManager.SaveToJson(writer);
                 writer.WriteEndObject();
                 writer.WriteToFile($"{worldDirectory}/entities.json");
             }
         }
 
 
-        public Entity GetEntity(long id)
-        {
-            foreach (Entity entity in entities)
-            {
-                if (entity.id == id)
-                {
-                    return entity;
-                }
-            }
-            return null;
-        }
 
 
         public void AddEntity(Entity entity)
         {
-            entities.Add(entity);
-            Game.world.wndGame.cvsWorld.Children.Add(entity.texture);
-            Panel.SetZIndex(entity.texture, 1);
-            worldRenderer.AddEntity(entity);
+            entityManager.Add(entity);
         }
 
-        public void RemoveEntity(Entity entity)
+        public void RemoveEntity(int id)
         {
-            if (entities.Contains(entity))
-            {
-                entities.Remove(entity);
-                Game.world.wndGame.cvsWorld.Children.Remove(entity.texture);
-                worldRenderer.Remove(entity);
-            }
+            entityManager.Remove(id);
         }
 
         public void SetBlock(Block block, int posX, int posY)
@@ -375,19 +349,11 @@ namespace SeeloewenCraft
             Log.Write($"Set directory for world {worldName} to {worldDirectory}", "Info");
         }
 
-        private void InitEntityList(bool loaded)
+        private void InitEntityManager(bool loaded)
         {
-            toDieEntities = new List<Entity>();
-            entities = new List<Entity>();
-            if (loaded)
-            {
-                JsonToken listToken = JsonUtil.ReadFile($"{worldDirectory}/entities.json").GetToken("/entities");
-                int l = listToken.GetArrayLength();
-                for (int i = 0; i < l; i++)
-                {
-                    AddEntity(Entity.LoadFromJson(listToken.GetToken($"/{i}")));
-                }
-            }
+            entityManager = loaded
+                    ? new EntityManager(JsonUtil.ReadFile($"{worldDirectory}/entities.json")) 
+                    : new EntityManager();
         }
 
         private void InitPlayerInventory(bool loaded)
@@ -443,11 +409,9 @@ namespace SeeloewenCraft
 
         public void CreatePlayer(int playerPosX, int playerPosY)
         {
-
             player = new Player(playerPosX, playerPosY);
+            AddEntity(player);
 
-            Game.world.wndGame.cvsWorld.Children.Add(player.texture);
-            Panel.SetZIndex(player.texture, 1);
             Game.world.wndGame.relativeSvPos = Game.world.wndGame.svWorld.VerticalOffset;
             Game.world.wndGame.defaultSvPos = Game.world.wndGame.svWorld.VerticalOffset;
 
@@ -602,28 +566,7 @@ namespace SeeloewenCraft
 
         private void tmrMovement_Tick(object sender, EventArgs e)
         {
-            player.HandleInputs();
-            player.OnUpdate(63); // tps: 1/0.016
-
-            List<ItemEntity> pickedUpEntities = new List<ItemEntity>();
-
-            foreach (Entity entity in entities)
-            {
-                entity.OnUpdate(63);
-                if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && entity.posX < player.posX + player.sizeX && entity.posX + entity.sizeX > player.posX && entity.posY < player.posY + player.sizeY && entity.posY + entity.sizeY > player.posY)
-                {
-                    player.inventory.AddItem(itemEntity.item.id, 1, itemEntity.item.tag, out int remainingItem);
-                    if (remainingItem == 0)
-                    {
-                        toDieEntities.Add(itemEntity);
-                    }
-                }
-            }
-
-            foreach (Entity entity in toDieEntities)
-            {
-                RemoveEntity(entity);
-            }
+            entityManager.DoStep(63);
 
             worldRenderer.playerPosX = (double)player.posX / 1000;
             worldRenderer.playerPosY = (double)player.posY / 1000;

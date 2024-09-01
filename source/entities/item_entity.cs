@@ -37,11 +37,12 @@ namespace SeeloewenCraft.entity
 
             if (touchingStatus[TOUCHING_CACTUS])
             {
-                Game.world.toDieEntities.Add(this);
+                Game.world.RemoveEntity(id);
             }
         }
 
-        public ItemEntity(Item item, string tag, int posX, int posY, int velX, int velY) : base(itemSizeX, itemSizeY, posX, posY, velX, velY, new SolidColorBrush(Colors.Yellow))
+        public ItemEntity(Item item, string tag, int posX, int posY, int velX, int velY) 
+            : base(itemSizeX, itemSizeY, posX, posY, velX, velY, new SolidColorBrush(Colors.Yellow))
         {
             Init(item, tag);
         }

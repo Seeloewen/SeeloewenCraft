@@ -5,8 +5,12 @@ using System.Windows.Media;
 
 namespace SeeloewenCraft.entity
 {
-    public class Entity
+    //base class for all entities
+    public abstract class Entity
     {
+        public static Random idGenerator = new Random(DateTime.Now.Millisecond);
+        protected Random rnd;
+
         public TextBlock tblId;
 
         public string type;
@@ -31,8 +35,7 @@ namespace SeeloewenCraft.entity
 
         protected bool allowOverCliffWalking = true;
 
-        private static int nextID = 0;
-        public int id;
+        public int id { get; private set; }
 
         public Canvas texture;
 
@@ -49,6 +52,7 @@ namespace SeeloewenCraft.entity
 
         public bool[] touchingStatus;
 
+        //calculate friction and apply it to velocity
         private void DoFrictionStep(int tps)
         {
             if (touchingStatus[TOUCHING_WATER])
@@ -99,6 +103,7 @@ namespace SeeloewenCraft.entity
             }
         }
 
+        //do one tick
         public virtual void OnUpdate(int tps) //temp virtual
         {
             OnUpdateStart(tps);
@@ -412,7 +417,6 @@ namespace SeeloewenCraft.entity
         {
             lifeTime = token.GetInt("/life_time");
             id = token.GetInt("/id");
-            nextID++;
 
             texture.Children.Clear();
             tblId = new TextBlock() { FontSize = 20, FontWeight = FontWeights.DemiBold };
@@ -423,20 +427,14 @@ namespace SeeloewenCraft.entity
                 Canvas.SetTop(tblId, -30);
                 Canvas.SetLeft(tblId, 8);
             }
+
+            rnd = new Random(id);
         }
 
         public Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, Brush image)
         {
             lifeTime = 0;
-            nextID++;
-            if (this is not Player)
-            {
-                id = nextID;
-            }
-            else
-            {
-                id = DateTime.Now.Millisecond; //Temporary, needs replacement
-            }
+            id = idGenerator.Next(0, int.MaxValue);
             this.sizeX = sizeX;
             this.sizeY = sizeY;
             this.posX = posX;
@@ -461,11 +459,13 @@ namespace SeeloewenCraft.entity
                 Canvas.SetTop(tblId, -30);
                 Canvas.SetLeft(tblId, 8);
             }
+
+            rnd = new Random(id);
         }
 
         public static Entity LoadFromJson(JsonToken token)
         {
-            Entity entity = null;
+            Entity entity;
             switch (token.GetString("/type"))
             {
                 case "ItemEntity":
@@ -481,12 +481,12 @@ namespace SeeloewenCraft.entity
                     throw new Exception();
             }
 
-            nextID = Math.Max(nextID, entity.id);
-
             return entity;
         }
 
-        public void SaveToJson(JsonWriter writer)
+        //save all attributes of entity base class; override SaveSpecialInfo()
+        //to save custom values
+        internal void SaveToJson(JsonWriter writer)
         {
             writer.WriteStartObject();
             writer.WritePropertyName("type");
@@ -516,12 +516,12 @@ namespace SeeloewenCraft.entity
 
         public override bool Equals(object obj)
         {
-            return (obj is Entity e && e.id == this.id);
+            return (obj is Entity e && e.id == id);
         }
 
         public override int GetHashCode()
         {
-            return (int)id;
+            return id;
         }
     }
 }
