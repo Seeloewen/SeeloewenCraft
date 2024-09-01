@@ -4,10 +4,10 @@ namespace SeeloewenCraft
     class RectangleCollision : Collision
     {
 
-        int left;
-        int right;
-        int top;
-        int bottom;
+        public readonly int left;
+        public readonly int right;
+        public readonly int top;
+        public readonly int bottom;
 
         public RectangleCollision(int left, int right, int top, int bottom)
         {
