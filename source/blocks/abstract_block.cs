@@ -892,7 +892,7 @@ namespace SeeloewenCraft
             //Stop possible breaking process
             tmrBreak.Stop();
 
-            if (Game.world.player.inventory.GetSelectedItem() != null && Game.world.player.inventory.GetSelectedItem() is ToolItem tool)
+            if (Game.world.player.inventory.GetSelectedItem() != null && Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == Tool.Hammer)
             {
                 //If the player holds a hammer, is in gamemode survival, the block is in range and doesn't have a foreground block
                 if (Game.world.gamemode == Gamemode.Survival && IsInRange() && foregroundBlock == null && canBeMovedToBackground)
