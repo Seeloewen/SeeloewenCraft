@@ -22,7 +22,7 @@ namespace SeeloewenCraft
         public Inventory blockInventory;
         private Block foregroundBlock;
         public List<(int xOffset, int yOffset, string blockId)> connectedBlocks = new List<(int, int, string)>();
-        public (int? xPos, int? yPos, int? chunk) baseBlock;
+        public (int? xOffset, int? yOffset) baseBlock;
         public LootTable lootTable;
         public Gui gui;
         public CraftingHandler craftingHandler;
@@ -184,14 +184,12 @@ namespace SeeloewenCraft
                 writer.WriteEndArray();
             }
 
-            if (baseBlock.xPos != null && baseBlock.yPos != null && baseBlock.chunk != null)
+            if (baseBlock.xOffset != null && baseBlock.yOffset != null)
             {
-                writer.WritePropertyName("baseblock_x_pos");
-                writer.WriteValue(baseBlock.xPos);
-                writer.WritePropertyName("baseblock_y_pos");
-                writer.WriteValue(baseBlock.yPos);
-                writer.WritePropertyName("baseblock_chunk");
-                writer.WriteValue(baseBlock.chunk);
+                writer.WritePropertyName("baseblock_x_offset");
+                writer.WriteValue(baseBlock.xOffset);
+                writer.WritePropertyName("baseblock_y_offset");
+                writer.WriteValue(baseBlock.yOffset);
             }
 
             if (tags.Contains("liquids/water"))
@@ -265,9 +263,10 @@ namespace SeeloewenCraft
                 Inventory inventory = Inventory.LoadFromJson(invToken);
 
                 block.blockInventory = inventory;
+                Game.world.inventoryList.Add(block.blockInventory);
                 if (block.gui != null && block.gui.inventory != null)
                 {
-                    block.gui.inventory = inventory;
+                    block.gui.inventory = block.blockInventory;
                 }
             }
 
@@ -320,9 +319,9 @@ namespace SeeloewenCraft
                 }
             }
 
-            if (blockToken.ContainsKey("baseblock_x_pos") && blockToken.ContainsKey("baseblock_y_pos") && blockToken.ContainsKey("baseblock_chunk"))
+            if (blockToken.ContainsKey("baseblock_x_offset") && blockToken.ContainsKey("baseblock_y_offset"))
             {
-                block.baseBlock = (blockToken.GetInt("/baseblock_x_pos"), blockToken.GetInt("/baseblock_y_pos"), blockToken.GetInt("/baseblock_chunk"));
+                block.baseBlock = (blockToken.GetInt("/baseblock_x_offset"), blockToken.GetInt("/baseblock_y_offset"));
             }
 
             //Set block stats
@@ -397,13 +396,21 @@ namespace SeeloewenCraft
         public void MoveToBackground()
         {
             isBackground = true;
-            blockContainer.ShowDarkRectangle();
+
+            if (blockContainer != null)
+            {
+                blockContainer.ShowDarkRectangle();
+            }
         }
 
         public void MoveToNormal()
         {
             isBackground = false;
-            blockContainer.HideDarkRectangle();
+
+            if (blockContainer != null)
+            {
+                blockContainer.HideDarkRectangle();
+            }
         }
 
         public bool IsInRange()
@@ -623,6 +630,22 @@ namespace SeeloewenCraft
             }
         }
 
+        public void InsertLootTable(LootTable lootTable, int amount)
+        {
+            //Get all loot into a list
+            List<Item> loot = new List<Item>();
+            for (int i = 0; i < amount; i++)
+            {
+                loot.AddRange(lootTable.RollEntry().RollItems());
+            }
+
+            //Put the loot into the inventory
+            foreach (Item item in loot)
+            {
+                blockInventory.AddItem(item.id, 1, item.tag);
+            }
+        }
+
         public bool ConBlocksHaveSpace(Block baseBlock, bool isForeground)
         {
             if (!isForeground)
@@ -686,9 +709,9 @@ namespace SeeloewenCraft
 
         public Block GetBaseBlock()
         {
-            if (baseBlock.xPos != null && baseBlock.yPos != null && baseBlock.chunk != null)
+            if (baseBlock.xOffset != null && baseBlock.yOffset != null)
             {
-                return Game.world.GetBlock((int)baseBlock.xPos + 8 * (int)baseBlock.chunk, (int)baseBlock.yPos);
+                return Game.world.GetBlock(xPos + chunk.index * 8 + (int)baseBlock.xOffset, yPos + (int)baseBlock.yOffset);
             }
             return null;
         }
@@ -700,7 +723,7 @@ namespace SeeloewenCraft
                 //Place the connected block
                 Block oldBlock = Game.world.GetBlock(xPos + 8 * chunk.index + conBlock.xOffset, yPos + conBlock.yOffset);
                 Block newBlock = BlockRegister.GenerateBlock(conBlock.blockId);
-                newBlock.baseBlock = (baseBlock.xPos, baseBlock.yPos, baseBlock.chunk.index);
+                newBlock.baseBlock = (-conBlock.xOffset, -conBlock.yOffset);
 
                 oldBlock.SetForegroundBlock(newBlock);
             }
@@ -713,7 +736,7 @@ namespace SeeloewenCraft
                 //Place the connected block
                 Block oldBlock = Game.world.GetBlock(xPos + 8 * chunk.index + conBlock.xOffset, yPos + conBlock.yOffset);
                 Block newBlock = BlockRegister.GenerateBlock(conBlock.blockId);
-                newBlock.baseBlock = (baseBlock.xPos, baseBlock.yPos, baseBlock.chunk.index);
+                newBlock.baseBlock = (-conBlock.xOffset, -conBlock.yOffset);
 
                 oldBlock.SetBlock(newBlock);
             }
@@ -746,7 +769,7 @@ namespace SeeloewenCraft
                 Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"isSurface={isSurface}");
                 if (GetBaseBlock() != null)
                 {
-                    Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"baseBlock={GetBaseBlock().id} at x{baseBlock.xPos} y{baseBlock.yPos}");
+                    Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"baseBlock={GetBaseBlock().id} at x{xPos + baseBlock.xOffset} y{yPos + baseBlock.yOffset}");
                 }
 
                 //Try to show the additional debug information
@@ -798,7 +821,7 @@ namespace SeeloewenCraft
         public bool ToolIsCorrectMaterial(Material toolMaterial)
         {
             //Check if the effective material is supported by the tool
-            if(effectiveMaterial != null)
+            if (effectiveMaterial != null)
             {
                 switch (effectiveMaterial)
                 {
@@ -830,7 +853,7 @@ namespace SeeloewenCraft
                     default:
                         return false;
                 }
-            }     
+            }
             else
             {
                 return true;
