@@ -53,18 +53,27 @@ namespace SeeloewenCraft
     {
         public StoneLootTable() : base()
         {
-            lootTableEntries.Add(new LootTableEntry(new StoneBlockItem(), 1, 3, 5));
-            lootTableEntries.Add(new LootTableEntry(new GrassItem(), 1, 3, 1));
+            lootTableEntries.Add(new LootTableEntry(new RockItem(), 1, 4, 1));
         }
     }
+
     public class PlainsDungeonChest1 : LootTable
     {
         public PlainsDungeonChest1() : base()
         {
-            lootTableEntries.Add(new LootTableEntry(new OakLogItem(), 1, 5, 3));
-            lootTableEntries.Add(new LootTableEntry(new GrassItem(), 1, 3, 2));
-            lootTableEntries.Add(new LootTableEntry(new CobbleStoneItem(), 1, 7, 5));
-            lootTableEntries.Add(new LootTableEntry(new IronOreItem(), 1, 2, 1));
+            lootTableEntries.Add(new LootTableEntry(new WaxItem(), 1, 3, 3));
+            lootTableEntries.Add(new LootTableEntry(new IronBarItem(), 1, 2, 2));
+            lootTableEntries.Add(new LootTableEntry(new BoneItem(), 1, 6, 5));
+            lootTableEntries.Add(new LootTableEntry(new BreadItem(), 1, 2, 2));
+            lootTableEntries.Add(new LootTableEntry(new RockItem(), 1, 4, 5));
+        }
+    }
+
+    public class CoalLootTable : LootTable
+    {
+        public CoalLootTable() : base()
+        {
+            lootTableEntries.Add(new LootTableEntry(new CoalItem(), 1, 3, 1));
         }
     }
 }

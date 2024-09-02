@@ -121,7 +121,7 @@ namespace SeeloewenCraft
             List<Item> chestLoot = new List<Item>();
             for (int i = 0; i < 5; i++)
             {
-                chestLoot.AddRange(Game.world.lootTables.plainsDungeonChest1.RollEntry().RollItems());
+                chestLoot.AddRange(LootTables.plainsDungeonChest1.RollEntry().RollItems());
             }
             ChestBlock chest = new ChestBlock( false);
             foreach (Item item in chestLoot)

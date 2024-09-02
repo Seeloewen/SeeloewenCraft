@@ -2377,6 +2377,28 @@
           "amount": 4
         }
       ]
+    },
+    {
+      "id": "sc:recipe_stone",
+      "workstation": "Furnace",
+      "display_name": "Stone",
+      "required_time": 500,
+      "ingredients": [
+        {
+          "item_id": "sc:cobblestone_item",
+          "amount": 1
+        },
+        {
+          "item_id": "sc:coal_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:stone_block_item",
+          "amount": 1
+        }
+      ]
     }
   ]
 }

@@ -24,7 +24,6 @@ namespace SeeloewenCraft
         public List<BlockContainerList> blockContainerList = new List<BlockContainerList>();
         public List<Gui> guiList = new List<Gui>();
         public List<CraftingRecipe> craftingRecipeList = new List<CraftingRecipe>();
-        public LootTables lootTables;
         public Player player;
         public WaterHandler waterHandler;
         public ClickHandler clickHandler;
@@ -68,7 +67,6 @@ namespace SeeloewenCraft
 
             //Create objects
             wndGame = new wndGame();
-            lootTables = new LootTables();
             waterHandler = new WaterHandler();
             clickHandler = new ClickHandler();
             debugMenu = new DebugMenu();

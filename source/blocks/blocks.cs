@@ -20,7 +20,7 @@ namespace SeeloewenCraft
     {
         public GrassBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Grass Block", "sc:grass_block", 150, "sc:dirt_block_item", Tool.Shovel, Images.GrassBlock);
+            Init("Grass Block", "sc:grass_block", 150, "sc:dirt_item", Tool.Shovel, Images.GrassBlock);
             tags.Add("CanBeFloor");
         }
     }
@@ -30,7 +30,8 @@ namespace SeeloewenCraft
         public StoneBlock(bool isInBackground) : base(isInBackground)
         {
             //lootTable = Game.world.lootTables.stoneLootTable;
-            Init("Stone Block", "sc:stone_block", 1250, "sc:stone_block_item", Tool.Pickaxe, Images.StoneBlock);           
+            Init("Stone Block", "sc:stone_block", 1250, "sc:stone_block_item", Tool.Pickaxe, Images.StoneBlock);
+            lootTable = LootTables.stoneLootTable;
             tags.Add("CanBeFloor");
         }
     }
@@ -72,6 +73,7 @@ namespace SeeloewenCraft
         public CoalOreBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Coal Ore", "sc:coal_ore_block", 1750, "sc:coal_ore_item", Tool.Pickaxe, Images.CoalOre);
+            lootTable = LootTables.coalLootTable; 
             dropsOnWrongTool = false;
         }
     }
