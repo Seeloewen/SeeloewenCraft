@@ -223,7 +223,7 @@
                     return new ArcheologyPot_Base(false);
                 case "sc:archeology_pot_top":
                     return new ArcheologyPot_Top(false);
-                case "sc:amethyst_ore":
+                case "sc:amethyst_ore_block":
                     return new AmethystOreBlock(false);
                 case "sc:anvil_block":
                     return new AnvilBlock(false);

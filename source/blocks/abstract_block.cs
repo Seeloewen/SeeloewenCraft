@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows;
 using System;
 using SeeloewenCraft.entity;
+using System.Windows.Media.Media3D;
 
 namespace SeeloewenCraft
 {
@@ -45,6 +46,7 @@ namespace SeeloewenCraft
         public int dropAmountMax = 1;
         public Collision collision;
         public Tool effectiveTool;
+        public Material? effectiveMaterial;
 
         //variables
         public int xPos;
@@ -511,7 +513,7 @@ namespace SeeloewenCraft
             //Get the block that should drop
             Block block = dropForeground ? foregroundBlock : this;
 
-            if ((Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == block.effectiveTool && !block.dropsOnWrongTool) || block.dropsOnWrongTool)
+            if ((Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == block.effectiveTool && ToolIsCorrectMaterial(tool.material) && !block.dropsOnWrongTool) || block.dropsOnWrongTool)
             {
                 //Get the amount of times the item gets dropped
                 int rolls = rnd.Next(block.dropAmountMin, block.dropAmountMax + 1);
@@ -793,10 +795,49 @@ namespace SeeloewenCraft
             }
         }
 
+        public bool ToolIsCorrectMaterial(Material toolMaterial)
+        {
+            //Check if the effective material is supported by the tool
+            if(effectiveMaterial != null)
+            {
+                switch (effectiveMaterial)
+                {
+                    case Material.Wood:
+                        return toolMaterial == Material.Wood
+                            || toolMaterial == Material.Stone
+                            || toolMaterial == Material.Tin
+                            || toolMaterial == Material.Iron
+                            || toolMaterial == Material.Diamond;
+
+                    case Material.Stone:
+                        return toolMaterial == Material.Stone
+                            || toolMaterial == Material.Tin
+                            || toolMaterial == Material.Iron
+                            || toolMaterial == Material.Diamond;
+
+                    case Material.Tin:
+                        return toolMaterial == Material.Tin
+                            || toolMaterial == Material.Iron
+                            || toolMaterial == Material.Diamond;
+
+                    case Material.Iron:
+                        return toolMaterial == Material.Iron
+                            || toolMaterial == Material.Diamond;
+
+                    case Material.Diamond:
+                        return toolMaterial == Material.Diamond;
+
+                    default:
+                        return false;
+                }
+            }     
+            else
+            {
+                return true;
+            }
+        }
+
         //-- Event Handlers --//
-
-
-
         private void cvsBlock_MouseEnter(object sender, EventArgs e)
         {
             //Display the debug information of the block
@@ -844,7 +885,7 @@ namespace SeeloewenCraft
                         {
                             //Default breakpower to 1. If the right tool is selected, apply that breakpower
                             double breakPower = 1;
-                            if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && foregroundBlock.effectiveTool == tool.type)
+                            if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && foregroundBlock.effectiveTool == tool.type && ToolIsCorrectMaterial(tool.material))
                             {
                                 breakPower = tool.breakPower;
                             }
@@ -866,7 +907,7 @@ namespace SeeloewenCraft
                         {
                             //Default breakpower to 1. If the right tool is selected, apply that breakpower
                             double breakPower = 1;
-                            if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && effectiveTool == tool.type)
+                            if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && effectiveTool == tool.type && ToolIsCorrectMaterial(tool.material))
                             {
                                 breakPower = tool.breakPower;
                             }
@@ -964,5 +1005,14 @@ namespace SeeloewenCraft
         Sword,
         Hammer,
         None
+    }
+
+    public enum Material
+    {
+        Wood,
+        Stone,
+        Tin,
+        Iron,
+        Diamond
     }
 }

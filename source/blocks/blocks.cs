@@ -82,7 +82,8 @@ namespace SeeloewenCraft
     {
         public DiamondOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Diamond Ore", "sc:diamond_ore_block", 1750, "sc:diamond_ore_item", Tool.Pickaxe, Images.DiamondOre);
+            Init("Diamond Ore", "sc:diamond_ore_block", 1750, "sc:diamond_item", Tool.Pickaxe, Images.DiamondOre);
+            effectiveMaterial = Material.Iron;
             dropsOnWrongTool = false;
         }
     }
@@ -92,6 +93,7 @@ namespace SeeloewenCraft
         public IronOreBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Iron Ore", "sc:iron_ore_block", 1750, "sc:iron_ore_item", Tool.Pickaxe, Images.IronOre);
+            effectiveMaterial = Material.Stone;
             dropsOnWrongTool = false;
         }
     }
@@ -648,7 +650,8 @@ namespace SeeloewenCraft
     {
         public AmethystOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Amethyst Ore", "sc:amethyst_ore_block", 1750, "sc:amethyst_ore_item", Tool.Pickaxe, Images.AmethystOre);
+            Init("Amethyst Ore", "sc:amethyst_ore_block", 1750, "sc:amethyst_item", Tool.Pickaxe, Images.AmethystOre);
+            effectiveMaterial = Material.Diamond;
             dropsOnWrongTool = false;
         }
     }
@@ -753,6 +756,7 @@ namespace SeeloewenCraft
         public CopperOreBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Copper Ore", "sc:copper_ore_block", 1750, "sc:copper_ore_block", Tool.Pickaxe, Images.CopperOre);
+            effectiveMaterial = Material.Tin;
             dropsOnWrongTool = false;
         }
     }
@@ -770,7 +774,8 @@ namespace SeeloewenCraft
     {
         public EmeraldOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Emerald Ore", "sc:emerald_ore_block", 1750, "sc:emerald_ore_item", Tool.Pickaxe, Images.Emerald);
+            Init("Emerald Ore", "sc:emerald_ore_block", 1750, "sc:emerald_item", Tool.Pickaxe, Images.Emerald);
+            effectiveMaterial = Material.Diamond;
             dropsOnWrongTool = false;
         }
     }
@@ -789,6 +794,7 @@ namespace SeeloewenCraft
         public GoldOreBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Gold Ore", "sc:gold_ore_block", 1750, "sc:gold_ore_item", Tool.Pickaxe, Images.GoldOre);
+            effectiveMaterial = Material.Tin;
             dropsOnWrongTool = false;
         }
     }
@@ -807,6 +813,7 @@ namespace SeeloewenCraft
         public IronGatesBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Iron Gates", "sc:iron_gates_block", 2000, "sc:iron_gates_item", Tool.Pickaxe, Images.IronGates);
+            effectiveMaterial = Material.Stone;
             dropsOnWrongTool = false;
         }
     }
