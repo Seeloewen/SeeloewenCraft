@@ -3,14 +3,6 @@ namespace SeeloewenCraft
 {
     public class RecipeCreator
     {
-        
-
-        //-- Constructor --//
-
-        public RecipeCreator()
-        {
-            
-        }
 
         //-- Custom Methods --//
 

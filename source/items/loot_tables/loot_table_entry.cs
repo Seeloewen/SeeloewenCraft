@@ -27,8 +27,7 @@ namespace SeeloewenCraft
             this.item = item;
             this.minAmount = minAmount;
             this.maxAmount = maxAmount;
-            this.weight = weight;
-            
+            this.weight = weight;      
         }
 
         //-- Custom Methods --//

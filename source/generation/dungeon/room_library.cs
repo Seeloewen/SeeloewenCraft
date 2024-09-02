@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeeloewenCraft
 {
@@ -34,11 +30,15 @@ namespace SeeloewenCraft
         public static void CreateDungeonRooms()
         {
             //Add all the rooms to the library
-            roomList.Add(new PlainsRoom1());
-            roomList.Add(new PlainsRoom2());
-            roomList.Add(new PlainsRoom3());
-            roomList.Add(new PlainsRoom4());
-            roomList.Add(new PlainsRoom5());
+            roomList.Add(new PlainsRoomCrossing());
+            roomList.Add(new PlainsRoomPool());
+            roomList.Add(new PlainsRoomHuge());
+            roomList.Add(new PlainsRoomWell());
+            roomList.Add(new PlainsRoomSmall());
+            roomList.Add(new PlainsRoomLong());
+            roomList.Add(new PlainsRoomLogs());
+            roomList.Add(new PlainsRoomStairs());
+            roomList.Add(new PlainsRoomPyramid());
         }
 
         public static (Block, Block) GetDoorBlock(DungeonType type, Direction dir)
@@ -53,7 +53,7 @@ namespace SeeloewenCraft
                     }
                     else
                     {
-                        return (new OakLeavesBlock(false), null);
+                        return (new OakTrapDoor(false), null);
                     }
                 default:
                     return (null, null);
@@ -67,6 +67,8 @@ namespace SeeloewenCraft
                 case DungeonType.Plains:
                     if (dir == Direction.RIGHT || dir == Direction.LEFT)
                     {
+
+
                         return (new CobblestoneBlock(false), new CobblestoneBlock(false));
                     }
                     else

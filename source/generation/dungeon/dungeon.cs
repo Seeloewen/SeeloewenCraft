@@ -28,7 +28,7 @@ namespace SeeloewenCraft
             }
 
             //Needs to be overhauled to get a random starter room based on the type
-            var starterRoom = RoomLibrary.GetRoom("sc:room_plains_1");
+            var starterRoom = RoomLibrary.GetRoom("sc:room_plains_crossing");
 
             //Create starter room and additional rooms
             PlaceRoom(starterRoom, 0, 0, Direction.RIGHT, 0, 0);

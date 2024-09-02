@@ -169,7 +169,7 @@ namespace SeeloewenCraft
             StoneBlock = new SealImage(TextureType.Block, "Stone_Block.png");
             Dirt = new SealImage(TextureType.Block, "Dirt.png");
             Air = new SealImage(TextureType.Block, "Air.png");
-            Bedrock = new SealImage(TextureType.Block, "Bedrockdsf.png");
+            Bedrock = new SealImage(TextureType.Block, "Bedrock.png");
             CoalOre = new SealImage(TextureType.Block, "Coal_Ore.png");
             DiamondOre = new SealImage(TextureType.Block, "Diamond_Ore.png");
             IronOre = new SealImage(TextureType.Block, "Iron_Ore.png");

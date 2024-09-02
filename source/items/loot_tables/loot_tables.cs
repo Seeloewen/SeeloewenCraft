@@ -7,6 +7,7 @@ namespace SeeloewenCraft
 
         public static StoneLootTable stoneLootTable = new StoneLootTable();
         public static CoalLootTable coalLootTable = new CoalLootTable();
-        public static PlainsDungeonChest1 plainsDungeonChest1 = new PlainsDungeonChest1();
+        public static PlainsDungeonChest plainsDungeonChest = new PlainsDungeonChest();
+        public static PlainsDungeonBarrel plainsDungeonBarrel = new PlainsDungeonBarrel();
     }
 }

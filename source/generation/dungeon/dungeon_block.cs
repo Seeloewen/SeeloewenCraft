@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
-using Windows.Graphics.Printing.PrintSupport;
-
-namespace SeeloewenCraft
+﻿namespace SeeloewenCraft
 {
     public class DungeonBlock
     {
@@ -39,6 +31,7 @@ namespace SeeloewenCraft
             block.SetForegroundBlock(door.bottom);
             if (doorDir == Direction.LEFT || doorDir == Direction.RIGHT)
             {
+                door.top.baseBlock = (0, 1);
                 blockAbove.block.SetForegroundBlock(door.top);
             }
         }
