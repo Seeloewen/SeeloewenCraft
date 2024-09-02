@@ -23,6 +23,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<Resource Include="Resources\**\*.*" />
+		<Resource Remove="Resources\Glass.png" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 		<PackageReference Include="Microsoft.Json.Pointer" Version="2.3.0" />
 		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />

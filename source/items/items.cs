@@ -748,4 +748,12 @@
             Init("Wax", "sc:wax_item", null, false, Images.Wax);
         }
     }
+
+    public class GlassItem : Item
+    {
+        public GlassItem() : base()
+        {
+            Init("Glass", "sc:glass_item", "sc:glass_block", true, Images.Glass);
+        }
+    }
 }

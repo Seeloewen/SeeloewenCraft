@@ -275,6 +275,8 @@
                     return new TungstenOreBlock(false);
                 case "sc:yellow_flower_block":
                     return new YellowFlowerBlock(false);
+                case "sc:glass_block":
+                    return new GlassBlock(false);
                 default:
                     return null;
 

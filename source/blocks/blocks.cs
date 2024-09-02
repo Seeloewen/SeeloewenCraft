@@ -915,4 +915,13 @@ namespace SeeloewenCraft
             isSolid = false;
         }
     }
+
+    public class GlassBlock : Block
+    {
+        public GlassBlock(bool isInBackground) : base(isInBackground)
+        {
+            Init("Glass", "sc:glass_block", 250, "sc:glass_item", Tool.None, Images.Glass);
+            dropsOnWrongTool = false;
+        }
+    }
 }
