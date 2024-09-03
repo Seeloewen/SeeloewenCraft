@@ -24,7 +24,7 @@ namespace SeeloewenCraft.entity
             InitPlayer();
         }
 
-        public Player(JsonToken token) : base(token, 900, 1900, new SolidColorBrush(Colors.Red)) 
+        public Player(JsonToken token) : base(token, 900, 1900, new SolidColorBrush(Colors.Red))
         {
             InitPlayer();
         }
@@ -124,7 +124,7 @@ namespace SeeloewenCraft.entity
             Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "breathing");
 
             //Setup health bar
-            healthBar = new HealthBar( 10, 740);
+            healthBar = new HealthBar(10, 740);
 
             if (Game.world.gamemode == Gamemode.Creative)
             {
@@ -134,20 +134,39 @@ namespace SeeloewenCraft.entity
 
         public override void Die()
         {
-            MessageBox.Show("You experienced a severe skill issue and as a consequence have vanished from this world (death has not been implemented yet)");
+            if(this == Game.world.player)
+            {
+                //Drop all items and clear the inventory
+                foreach (InventorySlot slot in inventory.slotList)
+                {
+                    for (int i = 0; i < slot.Amount; i++)
+                    {
+                        Drop(slot.itemId);
+                    }
+                    slot.Remove(slot.Amount);
+                }
+
+                //Move the player to the spawn
+                posX = Game.world.worldSpawnX;
+                posY = Game.world.worldSpawnY;
+
+                //Set the hp back to 10
+                base.SetHP(10);
+
+                Game.world.notificationHandler.ShowNotification("You died and were moved back to the world spawn.", 5000, Images.Bone.GetTexture());
+            }
         }
 
         public override void SetHP(double hp)
         {
             base.SetHP(hp);
-            healthBar.SetValue((int)(hp * 2) * 0.5);
+            healthBar.SetValue((int)(this.hp * 2) * 0.5);
         }
 
         public override void Damage(double damage)
         {
             if (gamemode == Gamemode.Survival) base.Damage(damage);
         }
-
 
         protected override void OnUpdateStart(int tps)
         {

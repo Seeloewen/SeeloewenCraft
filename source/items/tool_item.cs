@@ -5,12 +5,14 @@
         public double breakPower;
         public int maxDurability;
         public Tool type;
+        public Material material;
 
-        public void Init(string name, string id, string blockId, int durability, double breakPower, Tool type, bool isPlacable, SealImage sImage)
+        public void Init(string name, string id, string blockId, int durability, double breakPower, Tool type, Material material, bool isPlacable, SealImage sImage)
         {
             base.Init(name, id, blockId, isPlacable, sImage);
             this.breakPower = breakPower;
             this.type = type;
+            this.material = material;
             Game.unstackableItems.Add(id);
             maxDurability = durability;
             tag = $"durability={durability}";
@@ -35,7 +37,7 @@
     {
         public WoodHammerItem() : base()
         {
-            Init("Wood Hammer", "sc:wood_hammer_item", null, 64, 1.25, Tool.Hammer, false, Images.WoodHammer);
+            Init("Wood Hammer", "sc:wood_hammer_item", null, 64, 1.25, Tool.Hammer, Material.Wood, false, Images.WoodHammer);
             hasRightClickAction = true;
         }
 
@@ -49,7 +51,7 @@
     {
         public WoodPickaxeItem() : base()
         {
-            Init("Wood Pickaxe", "sc:wood_pickaxe_item", null, 64, 3, Tool.Pickaxe, false, Images.WoodPickaxe);
+            Init("Wood Pickaxe", "sc:wood_pickaxe_item", null, 64, 3, Tool.Pickaxe, Material.Wood, false, Images.WoodPickaxe);
         }
     }
 
@@ -57,7 +59,7 @@
     {
         public WoodAxeItem() : base()
         {
-            Init("Wood Axe", "sc:wood_axe_item", null, 64, 1.25, Tool.Axe, false, Images.WoodAxe);
+            Init("Wood Axe", "sc:wood_axe_item", null, 64, 1.25, Tool.Axe, Material.Wood, false, Images.WoodAxe);
         }
     }
 
@@ -65,7 +67,7 @@
     {
         public WoodShovelItem() : base()
         {
-            Init("Wood Shovel", "sc:wood_shovel_item", null, 64, 1.25, Tool.Shovel, false, Images.WoodShovel);
+            Init("Wood Shovel", "sc:wood_shovel_item", null, 64, 1.25, Tool.Shovel, Material.Wood, false, Images.WoodShovel);
         }
     }
 
@@ -73,7 +75,7 @@
     {
         public WoodScytheItem() : base()
         {
-            Init("Wood Scythe", "sc:wood_scythe_item", null, 64, 0, Tool.Scythe, false, Images.WoodScythe);
+            Init("Wood Scythe", "sc:wood_scythe_item", null, 64, 0, Tool.Scythe, Material.Wood, false, Images.WoodScythe);
         }
     }
 
@@ -81,7 +83,7 @@
     {
         public WoodSwordItem() : base()
         {
-            Init("Wood Sword", "sc:wood_sword_item", null, 64, 0, Tool.Sword, false, Images.WoodSword);
+            Init("Wood Sword", "sc:wood_sword_item", null, 64, 0, Tool.Sword, Material.Wood, false, Images.WoodSword);
         }
     }
 
@@ -93,7 +95,7 @@
     {
         public StoneHammerItem() : base()
         {
-            Init("Stone Hammer", "sc:stone_hammer_item", null, 128, 1.5, Tool.Hammer, false, Images.StoneHammer);
+            Init("Stone Hammer", "sc:stone_hammer_item", null, 128, 1.5, Tool.Hammer, Material.Stone, false, Images.StoneHammer);
             hasRightClickAction = true;
         }
 
@@ -107,7 +109,7 @@
     {
         public StonePickaxeItem() : base()
         {
-            Init("Stone Pickaxe", "sc:stone_pickaxe_item", null, 128, 4.25, Tool.Pickaxe, false, Images.StonePickaxe);
+            Init("Stone Pickaxe", "sc:stone_pickaxe_item", null, 128, 4.25, Tool.Pickaxe, Material.Stone, false, Images.StonePickaxe);
         }
     }
 
@@ -115,7 +117,7 @@
     {
         public StoneAxeItem() : base()
         {
-            Init("Stone Axe", "sc:stone_axe_item", null, 128, 1.75, Tool.Axe, false, Images.StoneAxe);
+            Init("Stone Axe", "sc:stone_axe_item", null, 128, 1.75, Tool.Axe, Material.Stone, false, Images.StoneAxe);
         }
     }
 
@@ -123,7 +125,7 @@
     {
         public StoneShovelItem() : base()
         {
-            Init("Stone Shovel", "sc:stone_shovel_item", null, 128, 1.65, Tool.Shovel, false, Images.StoneShovel);
+            Init("Stone Shovel", "sc:stone_shovel_item", null, 128, 1.65, Tool.Shovel, Material.Stone, false, Images.StoneShovel);
         }
     }
 
@@ -131,7 +133,7 @@
     {
         public StoneScytheItem() : base()
         {
-            Init("Stone Scythe", "sc:stone_scythe_item", null, 128, 0, Tool.Scythe, false, Images.StoneScythe);
+            Init("Stone Scythe", "sc:stone_scythe_item", null, 128, 0, Tool.Scythe, Material.Stone, false, Images.StoneScythe);
         }
     }
 
@@ -139,7 +141,7 @@
     {
         public StoneSwordItem() : base()
         {
-            Init("Stone Sword", "sc:stone_sword_item", null, 128, 0, Tool.Sword, false, Images.StoneSword);
+            Init("Stone Sword", "sc:stone_sword_item", null, 128, 0, Tool.Sword, Material.Stone, false, Images.StoneSword);
         }
     }
 
@@ -151,7 +153,7 @@
     {
         public TinHammerItem() : base()
         {
-            Init("Tin Hammer", "sc:tin_hammer_item", null, 256, 2, Tool.Hammer, false, Images.TinHammer);
+            Init("Tin Hammer", "sc:tin_hammer_item", null, 256, 2, Tool.Hammer, Material.Tin, false, Images.TinHammer);
             hasRightClickAction = true;
         }
 
@@ -165,7 +167,7 @@
     {
         public TinPickaxeItem() : base()
         {
-            Init("Tin Pickaxe", "sc:tin_pickaxe_item", null, 256, 6, Tool.Pickaxe, false, Images.TinPickaxe);
+            Init("Tin Pickaxe", "sc:tin_pickaxe_item", null, 256, 6, Tool.Pickaxe, Material.Tin, false, Images.TinPickaxe);
         }
     }
 
@@ -173,7 +175,7 @@
     {
         public TinAxeItem() : base()
         {
-            Init("Tin Axe", "sc:tin_axe_item", null, 256, 2, Tool.Axe, false, Images.TinAxe);
+            Init("Tin Axe", "sc:tin_axe_item", null, 256, 2, Tool.Axe, Material.Tin, false, Images.TinAxe);
         }
     }
 
@@ -181,7 +183,7 @@
     {
         public TinShovelItem() : base()
         {
-            Init("Tin Shovel", "sc:tin_shovel_item", null, 256, 2, Tool.Shovel, false, Images.TinShovel);
+            Init("Tin Shovel", "sc:tin_shovel_item", null, 256, 2, Tool.Shovel, Material.Tin, false, Images.TinShovel);
         }
     }
 
@@ -189,7 +191,7 @@
     {
         public TinScytheItem() : base()
         {
-            Init("Tin Scythe", "sc:tin_scythe_item", null, 256, 0, Tool.Scythe, false, Images.TinScythe);
+            Init("Tin Scythe", "sc:tin_scythe_item", null, 256, 0, Tool.Scythe, Material.Tin, false, Images.TinScythe);
         }
     }
 
@@ -197,7 +199,7 @@
     {
         public TinSwordItem() : base()
         {
-            Init("Tin Sword", "sc:tin_sword_item", null, 256, 0, Tool.Sword, false, Images.TinSword);
+            Init("Tin Sword", "sc:tin_sword_item", null, 256, 0, Tool.Sword, Material.Tin, false, Images.TinSword);
         }
     }
 
@@ -209,7 +211,7 @@
     {
         public IronHammerItem() : base()
         {
-            Init("Iron Hammer", "sc:iron_hammer_item", null, 512, 1.75, Tool.Hammer, false, Images.IronHammer);
+            Init("Iron Hammer", "sc:iron_hammer_item", null, 512, 1.75, Tool.Hammer, Material.Iron, false, Images.IronHammer);
             hasRightClickAction = true;
         }
 
@@ -223,7 +225,7 @@
     {
         public IronPickaxeItem() : base()
         {
-            Init("Iron Pickaxe", "sc:iron_pickaxe_item", null, 512, 8, Tool.Pickaxe, false, Images.IronPickaxe);
+            Init("Iron Pickaxe", "sc:iron_pickaxe_item", null, 512, 8, Tool.Pickaxe, Material.Iron, false, Images.IronPickaxe);
         }
     }
 
@@ -231,7 +233,7 @@
     {
         public IronAxeItem() : base()
         {
-            Init("Iron Axe", "sc:iron_axe_item", null, 512, 2.5, Tool.Axe, false, Images.IronAxe);
+            Init("Iron Axe", "sc:iron_axe_item", null, 512, 2.5, Tool.Axe, Material.Iron, false, Images.IronAxe);
         }
     }
 
@@ -239,7 +241,7 @@
     {
         public IronShovelItem() : base()
         {
-            Init("Iron Shovel", "sc:iron_shovel_item", null, 512, 2.25, Tool.Shovel, false, Images.IronShovel);
+            Init("Iron Shovel", "sc:iron_shovel_item", null, 512, 2.25, Tool.Shovel, Material.Iron, false, Images.IronShovel);
         }
     }
 
@@ -247,7 +249,7 @@
     {
         public IronScytheItem() : base()
         {
-            Init("Iron Scythe", "sc:iron_scythe_item", null, 512, 0, Tool.Scythe, false, Images.IronScythe);
+            Init("Iron Scythe", "sc:iron_scythe_item", null, 512, 0, Tool.Scythe, Material.Iron, false, Images.IronScythe);
         }
     }
 
@@ -255,7 +257,7 @@
     {
         public IronSwordItem() : base()
         {
-            Init("Iron Sword", "sc:iron_sword_item", null, 512, 0, Tool.Sword, false, Images.IronSword);
+            Init("Iron Sword", "sc:iron_sword_item", null, 512, 0, Tool.Sword, Material.Iron, false, Images.IronSword);
         }
     }
 
@@ -267,7 +269,7 @@
     {
         public DiamondHammerItem() : base()
         {
-            Init("Diamond Hammer", "sc:diamond_hammer_item", null, 1024, 2.25, Tool.Hammer, false, Images.DiamondHammer);
+            Init("Diamond Hammer", "sc:diamond_hammer_item", null, 1024, 2.25, Tool.Hammer, Material.Diamond, false, Images.DiamondHammer);
             hasRightClickAction = true;
         }
 
@@ -281,7 +283,7 @@
     {
         public DiamondPickaxeItem() : base()
         {
-            Init("Diamond Pickaxe", "sc:diamond_pickaxe_item", null, 1024, 10, Tool.Pickaxe, false, Images.DiamondPickaxe);
+            Init("Diamond Pickaxe", "sc:diamond_pickaxe_item", null, 1024, 10, Tool.Pickaxe, Material.Diamond, false, Images.DiamondPickaxe);
         }
     }
 
@@ -289,7 +291,7 @@
     {
         public DiamondAxeItem() : base()
         {
-            Init("Diamond Axe", "sc:diamond_axe_item", null, 1024, 3.5, Tool.Axe, false, Images.DiamondAxe);
+            Init("Diamond Axe", "sc:diamond_axe_item", null, 1024, 3.5, Tool.Axe, Material.Diamond, false, Images.DiamondAxe);
         }
     }
 
@@ -297,7 +299,7 @@
     {
         public DiamondShovelItem() : base()
         {
-            Init("Diamond Shovel", "sc:diamond_shovel_item", null, 1024, 2.75, Tool.Shovel, false, Images.DiamondShovel);
+            Init("Diamond Shovel", "sc:diamond_shovel_item", null, 1024, 2.75, Tool.Shovel, Material.Diamond, false, Images.DiamondShovel);
         }
     }
 
@@ -305,7 +307,7 @@
     {
         public DiamondScytheItem() : base()
         {
-            Init("Diamond Scythe", "sc:diamond_scythe_item", null, 1024, 0, Tool.Scythe, false, Images.DiamondScythe);
+            Init("Diamond Scythe", "sc:diamond_scythe_item", null, 1024, 0, Tool.Scythe, Material.Diamond, false, Images.DiamondScythe);
         }
     }
 
@@ -313,7 +315,7 @@
     {
         public DiamondSwordItem() : base()
         {
-            Init("Diamond Sword", "sc:diamond_sword_item", null, 1024, 0, Tool.Sword, false, Images.DiamondSword);
+            Init("Diamond Sword", "sc:diamond_sword_item", null, 1024, 0, Tool.Sword, Material.Diamond, false, Images.DiamondSword);
         }
     }
 

@@ -68,7 +68,7 @@ namespace SeeloewenCraft
         public void RemoveValue(double value)
         {
             double newValue = this.value - value;
-            if (newValue < 0) this.value = 0;
+            if (newValue < 0) newValue = 0;
             SetValue(newValue);
         }
 

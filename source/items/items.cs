@@ -565,19 +565,21 @@
         }
     }
 
-    public class AppleItem : Item
+    public class AppleItem : FoodItem
     {
         public AppleItem() : base()
         {
             Init("Apple", "sc:apple_item", null, false, Images.Apple);
+            healAmount = 2;
         }
     }
 
-    public class BreadItem : Item
+    public class BreadItem : FoodItem
     {
         public BreadItem() : base()
         {
             Init("Bread", "sc:bread_item", null, false, Images.Bread);
+            healAmount = 3;
         }
     }
 
@@ -635,11 +637,12 @@
         }
     }
 
-    public class CroissantItem : Item
+    public class CroissantItem : FoodItem
     {
         public CroissantItem() : base()
         {
             Init("Croissant", "sc:croissant_item", null, false, Images.Croissant);
+            healAmount = 3;
         }
     }
 
@@ -743,6 +746,14 @@
         public WaxItem() : base()
         {
             Init("Wax", "sc:wax_item", null, false, Images.Wax);
+        }
+    }
+
+    public class GlassItem : Item
+    {
+        public GlassItem() : base()
+        {
+            Init("Glass", "sc:glass_item", "sc:glass_block", true, Images.Glass);
         }
     }
 }

@@ -524,6 +524,9 @@
                 case "sc:diamond_scythe_item":
                     return new DiamondScytheItem();
 
+                case "sc:glass_item":
+                    return new GlassItem();
+
                 default:
                     return null;
             }

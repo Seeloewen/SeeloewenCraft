@@ -1,11 +1,7 @@
-﻿
-namespace SeeloewenCraft
+﻿namespace SeeloewenCraft
 {
     public partial class Chunk
     {
-
-        static bool generatedDungeon = false;
-
         private void Generate()
         {
             blockList = new BlockList(this);
@@ -172,14 +168,13 @@ namespace SeeloewenCraft
             ContinueStructureGeneration("Plains Dungeon");
 
             //Generate up to 1 plains dungeon
-            if (rnd.Next(0, 1) == 0) //15
+            if (rnd.Next(0, 15) == 0)
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
-                if (y != 0 && !generatedDungeon)
+                if (y != 0)
                 {
                     structureList.Add(new PlainsDungeon( x, rnd.Next(62, 72), index, true, this, true));
-                    generatedDungeon = true;
                 }
             }
         }

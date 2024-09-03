@@ -24,7 +24,6 @@ namespace SeeloewenCraft
         public List<BlockContainerList> blockContainerList = new List<BlockContainerList>();
         public List<Gui> guiList = new List<Gui>();
         public List<CraftingRecipe> craftingRecipeList = new List<CraftingRecipe>();
-        public LootTables lootTables;
         public Player player;
         public WaterHandler waterHandler;
         public ClickHandler clickHandler;
@@ -42,6 +41,8 @@ namespace SeeloewenCraft
         public string gameVersion;
         public string worldDirectory = "";
         public int lightRange = 7; //The range that all light sources use
+        public int worldSpawnX;
+        public int worldSpawnY;
 
         //Variables
         public bool finishedLoading = false;
@@ -66,7 +67,6 @@ namespace SeeloewenCraft
 
             //Create objects
             wndGame = new wndGame();
-            lootTables = new LootTables();
             waterHandler = new WaterHandler();
             clickHandler = new ClickHandler();
             debugMenu = new DebugMenu();
@@ -443,8 +443,12 @@ namespace SeeloewenCraft
                     }
                 }
 
-                Log.Write($"found player spawn point at pos: x: {20050}, y: {yPos}", "Info");
-                return (28050, Math.Max((yPos * 1000) - 1900, 2000));
+                yPos = Math.Max((yPos * 1000) - 1900, 2000);
+
+                Log.Write($"found player spawn point at pos: x: {28050}, y: {yPos}", "Info");
+                worldSpawnX = 28050;
+                worldSpawnY = yPos;
+                return (28050, yPos);
             }
 
         }

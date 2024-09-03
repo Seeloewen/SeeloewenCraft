@@ -11,6 +11,8 @@ namespace SeeloewenCraft
         public List<DungeonBlock> blocks = new List<DungeonBlock>();
         public DungeonType type;
         public string id;
+        public static Random random;
+        public static int rndOffset;
 
         //-- Custom Methods --//
 
@@ -100,7 +102,37 @@ namespace SeeloewenCraft
         public void SetDoor(int x, int y, Direction dir)
         {
             //Replace the block with an air-door (later maybe a real door?)
-            GetBlock(x, y).SetDoor( type, dir, GetBlock(x, y + 1));
+            GetBlock(x, y).SetDoor(type, dir, GetBlock(x, y + 1));
+        }
+
+        public void CreateBasicShape(int width, int height, string blockBackgroundId, string blockFrameId, string altBlockFrameId)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    //Place the background block
+                    Block backBlock = BlockRegister.GenerateBlock(blockBackgroundId);
+                    backBlock.MoveToBackground();
+                    blocks.Add(new DungeonBlock(x, y) { block = backBlock, isOccupied = true });
+
+                    //Place frame blocks
+                    if (y == 0 || y == height - 1 || x == 0 || x == width - 1)
+                    {
+                        Random rnd = new Random(DateTime.Now.Millisecond + rndOffset);
+                        rndOffset++;
+
+                        if (rnd.Next(0, 3) > 0)
+                        {
+                            GetBlock(x, y).block.SetForegroundBlock(BlockRegister.GenerateBlock(blockFrameId));
+                        }
+                        else
+                        {
+                            GetBlock(x, y).block.SetForegroundBlock(BlockRegister.GenerateBlock(altBlockFrameId));
+                        }
+                    }
+                }
+            }
         }
     }
 }

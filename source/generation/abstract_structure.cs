@@ -14,8 +14,7 @@ namespace SeeloewenCraft
         public BlockList blockList;
         public Random rnd;
         public Chunk chunk;
-        public StructureShapeCreator shapeCreator;
-        
+        public StructureShapeCreator shapeCreator;    
 
         //Constants
         public string name;
