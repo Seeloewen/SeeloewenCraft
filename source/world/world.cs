@@ -373,6 +373,7 @@ namespace SeeloewenCraft
                 player.inventory.AddItem("sc:water_item", 64, ItemRegister.GenerateItem("sc:water_item").tag);
                 player.inventory.AddItem("sc:potted_cactus_item", 64, ItemRegister.GenerateItem("sc:potted_cactus_item").tag);
                 player.inventory.AddItem("sc:chiseler_item", 64, ItemRegister.GenerateItem("sc:chiseler_item").tag);
+                player.inventory.AddItem("sc:ladder_item", 64, ItemRegister.GenerateItem("sc:ladder_item").tag);
                 player.inventory.AddItem("sc:crafting_table_item", 64, ItemRegister.GenerateItem("sc:crafting_table_item").tag);
                 player.inventory.AddItem("sc:chest_item", 64, ItemRegister.GenerateItem("sc:chest_item").tag);
                 player.inventory.AddItem("sc:cobblestone_stairtopleft_item", 64, ItemRegister.GenerateItem("sc:cobblestone_stairtopleft_item").tag);

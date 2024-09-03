@@ -834,6 +834,13 @@ namespace SeeloewenCraft
             Init("Ladder", "sc:ladder_block", 250, "sc:ladder_item", Tool.Axe, Images.Ladder);
             isSolid = false;
         }
+
+        public override bool[] CheckTouch(int startX, int startY, int endX, int endY)
+        {
+            bool[] touching = new bool[Entity.TOUCHING_STATUS_COUNT];
+            touching[Entity.TOUCHING_LADDER] = true;
+            return touching;
+        }
     }
 
     public class MossyCobblestoneBlock : Block
