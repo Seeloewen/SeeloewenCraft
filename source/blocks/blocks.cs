@@ -155,6 +155,15 @@ namespace SeeloewenCraft
         public MagmaBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Magma Block", "sc:magma_block", 750, "sc:magma_block_item", Tool.Pickaxe, Images.MagmaBlock);
+            collision = new RectangleCollision(0, 1000, 1, 1000);
+        }
+
+        public override bool[] CheckTouch(int startX, int startY, int endX, int endY)
+        {
+            if(isBackground) base.CheckTouch(startX, startY, endX, endY);
+            bool[] touching = new bool[Entity.TOUCHING_STATUS_COUNT];
+            touching[Entity.TOUCHING_MAGMA] = true;
+            return touching;
         }
     }
 

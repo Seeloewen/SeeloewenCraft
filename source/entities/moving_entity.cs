@@ -209,7 +209,7 @@ namespace SeeloewenCraft.entity
 
             breathing = touchingStatus[TOUCHING_AIR];
 
-            if (touchingStatus[TOUCHING_CACTUS])
+            if (touchingStatus[TOUCHING_CACTUS] || touchingStatus[TOUCHING_MAGMA])
             {
                 Damage((1000 / tps) * 0.001);
             }
