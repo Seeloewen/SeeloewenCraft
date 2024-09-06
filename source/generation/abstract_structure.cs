@@ -184,7 +184,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public int GetTotalWidth()
+        public int GetTotalWidth() //TODO: This should not be called by the structures, but by the actual generator itself
         {
             //Get the total width by checking the amount of different X coordinates
             List<int> handledX = new List<int>();

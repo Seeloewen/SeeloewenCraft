@@ -774,7 +774,7 @@ namespace SeeloewenCraft
     {
         public EmeraldOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Emerald Ore", "sc:emerald_ore_block", 1750, "sc:emerald_item", Tool.Pickaxe, Images.Emerald);
+            Init("Emerald Ore", "sc:emerald_ore_block", 1750, "sc:emerald_item", Tool.Pickaxe, Images.EmeraldOre);
             effectiveMaterial = Material.Diamond;
             dropsOnWrongTool = false;
         }

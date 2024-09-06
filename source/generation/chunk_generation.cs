@@ -134,11 +134,11 @@
                     {
                         if (rnd.Next(0, 6) == 0)
                         {
-                            structureList.Add(new SpruceTreeStructure( x, y - 1, index, true, this, false));
+                            structureList.Add(new SpruceTreeStructure(x, y - 1, index, true, this, false));
                         }
                         else
                         {
-                            structureList.Add(new OakTreeStructure( x, y - 1, index, true, this, false));
+                            structureList.Add(new OakTreeStructure(x, y - 1, index, true, this, false));
                         }
 
                     }
@@ -158,7 +158,7 @@
                 if (y != 0)
                 {
                     int depth = rnd.Next(3, 8);
-                    structureList.Add(new Lake( x, y + depth, index, true, this, true, depth));
+                    structureList.Add(new Lake(x, y + depth, index, true, this, true, depth));
                 }
             }
         }
@@ -174,25 +174,115 @@
 
                 if (y != 0)
                 {
-                    structureList.Add(new PlainsDungeon( x, rnd.Next(62, 72), index, true, this, true));
+                    structureList.Add(new PlainsDungeon(x, rnd.Next(62, 72), index, true, this, true));
                 }
             }
         }
 
         private void GenerateOres()
         {
-            ContinueStructureGeneration("Legacy Ore Structure");
+            //Continue generation of previous veines
+            ContinueStructureGeneration("Coal Ore Vein");
+            ContinueStructureGeneration("Iron Ore Vein");
+            ContinueStructureGeneration("Diamond Ore Vein");
+            ContinueStructureGeneration("Copper Ore Vein");
+            ContinueStructureGeneration("Gold Ore Vein");
+            ContinueStructureGeneration("Emerald Ore Vein");
+            ContinueStructureGeneration("Tungsten Ore Vein");
+            ContinueStructureGeneration("Tin Ore Vein");
+            ContinueStructureGeneration("Amethyst Ore Vein");
 
-            //Generate up to 15 ores
-            for (int i = 0; i < 15; i++)
+            //Generate up to 4 coal ore veines
+            for (int i = 0; i < 4; i++)
+            {
+                if (rnd.Next(0, 2) == 0)
+                {
+                    int y = 25;
+                    (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                    structureList.Add(new CoalOreStructure(x, y + rnd.Next(10, 70), index, true, this, true));
+                }
+            }
+
+            //Generate up to 4 iron ore veines
+            for (int i = 0; i < 4; i++)
             {
                 if (rnd.Next(0, 3) == 0)
                 {
                     int y = 25;
-
                     (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                    structureList.Add(new IronOreStructure(x, y + rnd.Next(10, 70), index, true, this, true));
+                }
+            }
 
-                    structureList.Add(new OreStructure( x, y + rnd.Next(10, 70), index, true, this, true));
+            //Generate up to 2 diamond ore veines
+            for (int i = 0; i < 2; i++)
+            {
+                if (rnd.Next(0, 3) == 0)
+                {
+                    int y = 25;
+                    (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                    structureList.Add(new DiamondOreStructure(x, y + rnd.Next(50, 70), index, true, this, true));
+                }
+            }
+
+            //Generate up to 1 amethyst ore veines
+            if (rnd.Next(0, 3) == 0)
+            {
+                int y = 25;
+                (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                structureList.Add(new AmethystOreStructure(x, y + rnd.Next(45, 60), index, true, this, true));
+            }
+
+
+            //Generate up to 1 emerald ore veines
+            if (rnd.Next(0, 3) == 0)
+            {
+                int y = 25;
+                (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                structureList.Add(new EmeraldOreStructure(x, y + rnd.Next(50, 70), index, true, this, true));
+            }
+
+            //Generate up to 2 gold ore veines
+            for (int i = 0; i < 2; i++)
+            {
+                if (rnd.Next(0, 2) == 0)
+                {
+                    int y = 25;
+                    (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                    structureList.Add(new GoldOreStructure(x, y + rnd.Next(40, 70), index, true, this, true));
+                }
+            }
+
+            //Generate up to 3 tin ore veines
+            for (int i = 0; i < 3; i++)
+            {
+                if (rnd.Next(0, 3) == 0)
+                {
+                    int y = 25;
+                    (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                    structureList.Add(new TinOreStructure(x, y + rnd.Next(10, 70), index, true, this, true));
+                }
+            }
+
+            //Generate up to 3 tungsten ore veines
+            for (int i = 0; i < 3; i++)
+            {
+                if (rnd.Next(0, 3) == 0)
+                {
+                    int y = 25;
+                    (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                    structureList.Add(new TungstenOreStructure(x, y + rnd.Next(30, 50), index, true, this, true));
+                }
+            }
+
+            //Generate up to 3 copper ore veines
+            for (int i = 0; i < 3; i++)
+            {
+                if (rnd.Next(0, 3) == 0)
+                {
+                    int y = 25;
+                    (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                    structureList.Add(new CopperOreStructure(x, y + rnd.Next(10, 40), index, true, this, true));
                 }
             }
         }
@@ -206,7 +296,7 @@
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7, true);
 
-                structureList.Add(new Cave( x, y + 30, index, true, this, true));
+                structureList.Add(new Cave(x, y + 30, index, true, this, true));
             }
         }
 
@@ -223,7 +313,7 @@
                         //Check if the structure in the list is actually cut off and matches the id
                         if (structure.isCutOff && structure.name == structureName)
                         {
-                            structureList.Add(new ContinuationStructure(structure.cutOffComponents,  index < 0 ? 7 : 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
+                            structureList.Add(new ContinuationStructure(structure.cutOffComponents, index < 0 ? 7 : 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
                             continuedStructureList.Add(structure);
                         }
                     }
@@ -236,7 +326,7 @@
                     //Check if the structure in the list is actually cut off and matches the id
                     if (structure.isCutOff && !continuedStructureList.Contains(structure))
                     {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents,  index < 0 ? 7 : 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, index < 0 ? 7 : 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
                         continuedStructureList.Add(structure);
                     }
                 }
