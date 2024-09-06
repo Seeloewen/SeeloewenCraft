@@ -260,7 +260,7 @@ namespace SeeloewenCraft
             if (block.hasInventory)
             {
                 JsonToken invToken = blockToken.GetToken("/inventory");
-                Inventory inventory = Inventory.LoadFromJson(invToken);
+                Inventory inventory = Inventory.LoadFromJson(invToken, false);
 
                 block.blockInventory = inventory;
                 Game.world.inventoryList.Add(block.blockInventory);

@@ -23,14 +23,16 @@ namespace SeeloewenCraft
         public bool hasHotbar = false;
         private int slotsX;
         private int slotsY;
+        public bool isPlayer;
 
         //-- Constructor --//
 
-        public Inventory(int slotsX, int slotsY)
+        public Inventory(int slotsX, int slotsY, bool isPlayer)
         {
             //Set the attributes
             this.slotsX = slotsX;
             this.slotsY = slotsY;
+            this.isPlayer = isPlayer;
             rnd = new Random(DateTime.Now.Millisecond + rndOffset);
 
             inventoryGui = new InventoryGui(80 * slotsY + 30, 695, 175, 290, "sc:inventory", this);
@@ -485,14 +487,14 @@ namespace SeeloewenCraft
             writer.WriteEndObject();
         }
 
-        public static Inventory LoadFromJson(JsonToken token)
+        public static Inventory LoadFromJson(JsonToken token, bool isPlayer)
         {
 
             //Get the inventory size
             int slotsX = token.GetInt("/size_x");
             int slotsY = token.GetInt("/size_y");
 
-            Inventory inventory = new Inventory(slotsX, slotsY);
+            Inventory inventory = new Inventory(slotsX, slotsY, isPlayer);
 
             //Get a possible hotbar
             bool hasHotbar = token.GetBool("/has_hotbar");

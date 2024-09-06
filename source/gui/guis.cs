@@ -9,13 +9,37 @@ namespace SeeloewenCraft
 {
     public class InventoryGui : Gui
     {
-        public InventoryGui( int height, int width, int top, int left, string id, Inventory inventory) : base( height, width, top, left, id)
+        public Button btnHandCrafting = new Button() { Width = 120, Height = 24, Content = "Hand Crafting", FontSize = 14 };
+        public CraftingHandler craftingHandler;
+        public HandCraftingGui handCraftingGui;
+
+        public InventoryGui(int height, int width, int top, int left, string id, Inventory inventory) : base(height, width, top, left, id)
         {
+            //Setup inventory gui
             this.inventory = inventory;
 
             tblHeader.Text = "Inventory";
             tblHeader.FontSize = 18;
             Canvas.SetLeft(tblHeader, 18);
+
+            if(inventory.isPlayer)
+            {
+                Canvas.SetLeft(btnHandCrafting, 559);
+                Canvas.SetTop(btnHandCrafting, 5);
+                cvsGui.Children.Add(btnHandCrafting);
+                btnHandCrafting.Click += btnHandCrafting_Click;
+
+                //Setup crafting gui
+                craftingHandler = new CraftingHandler(null);
+                handCraftingGui = new HandCraftingGui(535, 720, 120, 285, "sc:hand_crafting", null, craftingHandler);
+            }
+        }
+
+        public void btnHandCrafting_Click(object sender, RoutedEventArgs e)
+        {
+            //Show the hand crafting gui and hide the inventory
+            handCraftingGui.Show();
+            Hide();
         }
     }
 
@@ -35,7 +59,7 @@ namespace SeeloewenCraft
         public CraftingHandler craftingHandler;
 
 
-        public CraftingTableGui( int height, int width, int top, int left, string id, Inventory inventory, Block block) : base( height, width, top, left, id)
+        public CraftingTableGui(int height, int width, int top, int left, string id, Inventory inventory, Block block) : base(height, width, top, left, id)
         {
             this.inventory = inventory;
             craftingHandler = block.craftingHandler;
@@ -139,7 +163,7 @@ namespace SeeloewenCraft
         //References
         NotificationHandler notificationHandler;
 
-        public NotificationGui( int height, int width, int top, int left, string id, NotificationHandler notificationHandler) : base( height, width, top, left, id)
+        public NotificationGui(int height, int width, int top, int left, string id, NotificationHandler notificationHandler) : base(height, width, top, left, id)
         {
             //Setup gui
             tblHeader.Text = "Notifications";
@@ -221,13 +245,13 @@ namespace SeeloewenCraft
         public ScrollViewer svRecipeDetails = new ScrollViewer() { Width = 290, Height = 375, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
         public Canvas cvsRecipeDetails = new Canvas() { Background = new SolidColorBrush(Color.FromArgb(130, 240, 240, 240)) };
         public ScrollViewer svRecipes = new ScrollViewer() { Width = 305, Height = 375, VerticalScrollBarVisibility = ScrollBarVisibility.Visible };
-        public Canvas cvsRecipes = new Canvas() { Background = new SolidColorBrush(Color.FromArgb(130, 240,240,240)) };
+        public Canvas cvsRecipes = new Canvas() { Background = new SolidColorBrush(Color.FromArgb(130, 240, 240, 240)) };
         public Button btnCraft = new Button() { Width = 125, Height = 30, Content = "Craft Item", FontSize = 18 };
         public Button btnClaim = new Button() { Width = 125, Height = 30, Content = "Claim Item", FontSize = 18, Visibility = Visibility.Hidden, Background = new SolidColorBrush(Colors.LightGreen) };
         public ProgressBar pbCrafting = new ProgressBar() { Width = 380, Height = 30, Visibility = Visibility.Hidden };
         public CraftingHandler craftingHandler;
 
-        public ChiselerGui( int height, int width, int top, int left, string id, Inventory inventory, Block block) : base( height, width, top, left, id)
+        public ChiselerGui(int height, int width, int top, int left, string id, Inventory inventory, Block block) : base(height, width, top, left, id)
         {
             this.inventory = inventory;
             craftingHandler = block.craftingHandler;
@@ -327,10 +351,10 @@ namespace SeeloewenCraft
         TextBlock tblUnchisel = new TextBlock() { Text = "Unchisel a block:", FontSize = 20, FontWeight = FontWeights.DemiBold };
         Button btnUnchisel = new Button() { Content = "Break down", Width = 125, Height = 30, FontSize = 16 };
 
-        public UnchiselerGui( int height, int width, int top, int left, string id) : base( height, width, top, left, id)
+        public UnchiselerGui(int height, int width, int top, int left, string id) : base(height, width, top, left, id)
         {
             //Setup the gui
-            inventory = new Inventory( 1, 1);
+            inventory = new Inventory(1, 1, false);
             Game.world.inventoryList.Add(inventory);
             tblHeader.Visibility = Visibility.Hidden;
 
@@ -365,7 +389,7 @@ namespace SeeloewenCraft
                 int successItems = 0;
 
                 if (item is ChiseledItem chisItem && chisItem.isChiseled)
-                {         
+                {
                     for (int i = 0; i < inventory.slotList[0].Amount; i++)
                     {
                         //Add the output to the inventory
@@ -373,12 +397,12 @@ namespace SeeloewenCraft
                         {
                             Game.world.player.inventory.AddItem(outItem.id, 1, outItem.tag, out int remainingItems);
 
-                            if(remainingItems > 0)
+                            if (remainingItems > 0)
                             {
                                 inventory.slotList[0].Remove(successItems);
                                 MessageBox.Show("This item cannot be unchiseled!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                                 return;
-                            }                           
+                            }
                         }
 
                         successItems++;
@@ -610,13 +634,129 @@ namespace SeeloewenCraft
 
         private void btnCraft_Click(object sender, RoutedEventArgs e)
         {
-            block.sImage = Images.Furnace_Running;
             craftingHandler.btnCraft_Click(sender, e);
         }
 
         private void btnClaim_Click(object sender, RoutedEventArgs e)
         {
-            block.sImage = Images.Furnace_Idle;
+            craftingHandler.btnClaim_Click(sender, e);
+        }
+
+        private void tbAmount_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbAmount.Text))
+            {
+                craftingHandler.amount = Convert.ToInt32(tbAmount.Text);
+                if (craftingHandler.amount > 64)
+                {
+                    craftingHandler.amount = 64;
+                    tbAmount.Text = "64";
+                }
+                craftingHandler.RenderCraftingDetails(cvsRecipeDetails, craftingHandler.selectedRecipe);
+            }
+            else
+            {
+                craftingHandler.amount = 1;
+                craftingHandler.RenderCraftingDetails(cvsRecipeDetails, craftingHandler.selectedRecipe);
+            }
+        }
+
+        private void tbAmount_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+    }
+
+    public class HandCraftingGui : Gui
+    {
+        public TextBlock tblRecipesHeader = new TextBlock() { FontSize = 18, Text = "Available Recipes", FontWeight = FontWeights.DemiBold };
+        public TextBlock tblIngredients = new TextBlock() { FontSize = 18, Text = "Ingredients", FontWeight = FontWeights.DemiBold };
+        public TextBlock tblAmount = new TextBlock() { FontSize = 18, Text = "Amount:", FontWeight = FontWeights.DemiBold };
+        public TextBox tbAmount = new TextBox() { FontSize = 18, Text = "1", FontWeight = FontWeights.DemiBold, Width = 45 };
+        public ScrollViewer svRecipeDetails = new ScrollViewer() { Width = 400, Height = 375, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
+        public Canvas cvsRecipeDetails = new Canvas() { Background = new SolidColorBrush(Color.FromArgb(130, 240, 240, 240)) };
+        public ScrollViewer svRecipes = new ScrollViewer() { Width = 200, Height = 375, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
+        public Canvas cvsRecipes = new Canvas() { Background = new SolidColorBrush(Color.FromArgb(130, 240, 240, 240)) };
+        public Button btnCraft = new Button() { Width = 125, Height = 30, Content = "Craft Item", FontSize = 18 };
+        public Button btnClaim = new Button() { Width = 125, Height = 30, Content = "Claim Item", FontSize = 18, Visibility = Visibility.Hidden, Background = new SolidColorBrush(Colors.LightGreen) };
+        public ProgressBar pbCrafting = new ProgressBar() { Width = 380, Height = 30, Visibility = Visibility.Hidden };
+        public CraftingHandler craftingHandler;
+
+        public HandCraftingGui(int height, int width, int top, int left, string id, Inventory inventory, CraftingHandler craftingHandler) : base(height, width, top, left, id)
+        {
+            this.inventory = inventory;
+            this.craftingHandler = craftingHandler;
+
+            tblHeader.Text = "Hand Crafting";
+            Canvas.SetTop(tblHeader, 11);
+            Canvas.SetLeft(tblHeader, 15);
+
+            //Add all the necessary components to the gui
+            Canvas.SetLeft(tblRecipesHeader, 46);
+            Canvas.SetTop(tblRecipesHeader, 58);
+            cvsGui.Children.Add(tblRecipesHeader);
+
+            Canvas.SetLeft(tblIngredients, 271);
+            Canvas.SetTop(tblIngredients, 58);
+            cvsGui.Children.Add(tblIngredients);
+
+            Canvas.SetLeft(svRecipeDetails, 270);
+            Canvas.SetTop(svRecipeDetails, 84);
+            svRecipeDetails.Content = cvsRecipeDetails;
+            cvsGui.Children.Add(svRecipeDetails);
+
+            Canvas.SetLeft(svRecipes, 45);
+            Canvas.SetTop(svRecipes, 84);
+            svRecipes.Content = cvsRecipes;
+            cvsGui.Children.Add(svRecipes);
+
+            Canvas.SetLeft(btnCraft, 295);
+            Canvas.SetTop(btnCraft, 475);
+            cvsGui.Children.Add(btnCraft);
+
+            Canvas.SetLeft(btnClaim, 295);
+            Canvas.SetTop(btnClaim, 475);
+            cvsGui.Children.Add(btnClaim);
+
+            Canvas.SetLeft(pbCrafting, 200);
+            Canvas.SetTop(pbCrafting, 475);
+            cvsGui.Children.Add(pbCrafting);
+
+            Canvas.SetLeft(tblAmount, 50);
+            Canvas.SetTop(tblAmount, 475);
+            cvsGui.Children.Add(tblAmount);
+
+            Canvas.SetLeft(tbAmount, 130);
+            Canvas.SetTop(tbAmount, 475);
+            cvsGui.Children.Add(tbAmount);
+
+            btnCraft.Click += btnCraft_Click;
+            btnClaim.Click += btnClaim_Click;
+            tbAmount.TextChanged += tbAmount_TextChanged;
+            tbAmount.PreviewTextInput += tbAmount_PreviewTextInput;
+
+            //Render the recipes
+            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, "Hand_Crafting");
+        }
+
+        public override void Show()
+        {
+            cvsGui.Visibility = Visibility.Visible;
+            isOpen = true;
+            Game.world.guiList.Add(this);
+
+            //Render the recipes
+            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, "Hand_Crafting");
+        }
+
+        private void btnCraft_Click(object sender, RoutedEventArgs e)
+        {
+            craftingHandler.btnCraft_Click(sender, e);
+        }
+
+        private void btnClaim_Click(object sender, RoutedEventArgs e)
+        {
             craftingHandler.btnClaim_Click(sender, e);
         }
 

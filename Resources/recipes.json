@@ -1918,6 +1918,24 @@
     },
     {
       "id": "sc:recipe_cobblestone",
+      "workstation": "Hand_Crafting",
+      "display_name": "Cobblestone",
+      "required_time": 500,
+      "ingredients": [
+        {
+          "item_id": "sc:rock_item",
+          "amount": 4
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:cobblestone_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_cobblestone",
       "workstation": "Crafting_Table",
       "display_name": "Cobblestone",
       "required_time": 500,
@@ -1936,12 +1954,12 @@
     },
     {
       "id": "sc:recipe_crafting_table",
-      "workstation": "Crafting_Table",
+      "workstation": "Hand_Crafting",
       "display_name": "Crafting Table",
       "required_time": 1000,
       "ingredients": [
         {
-          "item_id": "sc:oak_log_item",
+          "item_id": "sc:oak_planks_item",
           "amount": 4
         }
       ],
@@ -1994,7 +2012,7 @@
     },
     {
       "id": "sc:recipe_oak_planks",
-      "workstation": "Crafting_Table",
+      "workstation": "Hand_Crafting",
       "display_name": "Oak Planks",
       "required_time": 1000,
       "ingredients": [
@@ -2012,7 +2030,7 @@
     },
     {
       "id": "sc:recipe_spruce_planks",
-      "workstation": "Crafting_Table",
+      "workstation": "Hand_Crafting",
       "display_name": "Spruce Planks",
       "required_time": 1000,
       "ingredients": [
@@ -2120,7 +2138,7 @@
     },
     {
       "id": "sc:recipe_torch",
-      "workstation": "Crafting_Table",
+      "workstation": "Hand_Crafting",
       "display_name": "Torch",
       "required_time": 250,
       "ingredients": [
@@ -2363,6 +2381,24 @@
     {
       "id": "sc:recipe_stick",
       "workstation": "Crafting_Table",
+      "display_name": "Stick",
+      "required_time": 250,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 2
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:stick_item",
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_stick",
+      "workstation": "Hand_Crafting",
       "display_name": "Stick",
       "required_time": 250,
       "ingredients": [

@@ -33,7 +33,7 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public CraftingHandler( Block block)
+        public CraftingHandler(Block block)
         {
             this.block = block;
 
@@ -224,7 +224,7 @@ namespace SeeloewenCraft
         public void ShowBlockProgressbar()
         {
             //If possible, render the progressbar on the block
-            if (block.blockContainer != null)
+            if (block != null && block.blockContainer != null)
             {
                 block.blockContainer.cvsBlock.Children.Add(pbCraftingBlock);
             }
@@ -233,7 +233,7 @@ namespace SeeloewenCraft
         public void HideBlockProgressbar()
         {
             //If possible, hide the progressbar on the block
-            if (block.blockContainer != null)
+            if (block != null && block.blockContainer != null)
             {
                 block.blockContainer.cvsBlock.Children.Remove(pbCraftingBlock);
             }
@@ -247,7 +247,7 @@ namespace SeeloewenCraft
             pbCrafting.Maximum = selectedRecipe.requiredTime * amount;
             pbCrafting.Value += 25;
 
-            if (block.blockContainer != null)
+            if (block != null && block.blockContainer != null)
             {
                 pbCraftingBlock.Maximum = selectedRecipe.requiredTime * amount;
                 pbCraftingBlock.Value += 25;
@@ -265,7 +265,7 @@ namespace SeeloewenCraft
 
                 //Show notification and log that crafting process is complete
                 Game.world.notificationHandler.ShowNotification($"Crafting for x{amount} {selectedRecipe.displayName} completed!", 3000, Images.CraftingTable.GetTexture());
-                Log.Write($"Completed crafting for {amount}x {selectedRecipe.id} at workstation {workstation} (X: {block.xPos}, Y: {block.yPos}, Chunk: {block.chunk.index})", "Info");
+                if(block != null) Log.Write($"Completed crafting for {amount}x {selectedRecipe.id} at workstation {workstation} (X: {block.xPos}, Y: {block.yPos}, Chunk: {block.chunk.index})", "Info");
             }
         }
 
@@ -321,7 +321,7 @@ namespace SeeloewenCraft
             Claim(selectedRecipe, out bool success);
 
             //Refresh the UI
-            if(success)
+            if (success)
             {
                 string tempRecipe = selectedRecipe.id;
                 RenderCraftingRecipes(cvsRecipes, cvsIngredients, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, workstation);
@@ -329,7 +329,7 @@ namespace SeeloewenCraft
                 RenderCraftingDetails(cvsIngredients, selectedRecipe);
 
                 //Hide progress bar
-                if (block.blockContainer != null)
+                if (block != null && block.blockContainer != null)
                 {
                     block.blockContainer.cvsBlock.Children.Remove(pbCraftingBlock);
                 }

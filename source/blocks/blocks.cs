@@ -136,7 +136,7 @@ namespace SeeloewenCraft
         {
             Init("Chest", "sc:chest_block", 500, "sc:chest_item", Tool.Axe, Images.Chest);
             hasInventory = true;
-            blockInventory = new Inventory(9, 4);
+            blockInventory = new Inventory(9, 4, false);
             Game.world.inventoryList.Add(blockInventory);
             hasRightClickAction = true;
         }
@@ -707,7 +707,7 @@ namespace SeeloewenCraft
         {
             Init("Barrel", "sc:barrel_block", 500, "sc:barrel_item", Tool.Axe, Images.Barrel);
             hasInventory = true;
-            blockInventory = new Inventory(9, 2);
+            blockInventory = new Inventory(9, 2, false);
             Game.world.inventoryList.Add(blockInventory);
             hasRightClickAction = true;
         }

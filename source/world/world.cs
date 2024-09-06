@@ -361,12 +361,12 @@ namespace SeeloewenCraft
             if (loaded)
             {
                 JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_inventory.json");
-                player.inventory = Inventory.LoadFromJson(documentToken);
+                player.inventory = Inventory.LoadFromJson(documentToken, true);
                 inventoryList.Add(player.inventory);
             }
             else
             {
-                player.inventory = new Inventory(9, 4);
+                player.inventory = new Inventory(9, 4,true);
                 player.inventory.InitHotbar();
                 player.inventory.AddItem("sc:crafting_table_item", 1, ItemRegister.GenerateItem("sc:crafting_table_item").tag);
                 player.inventory.AddItem("sc:torch_item", 5, ItemRegister.GenerateItem("sc:torch_item").tag);

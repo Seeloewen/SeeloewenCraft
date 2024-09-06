@@ -168,7 +168,7 @@
             ContinueStructureGeneration("Plains Dungeon");
 
             //Generate up to 1 plains dungeon
-            if (rnd.Next(0, 15) == 0)
+            if (rnd.Next(0, 25) == 0)
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
