@@ -209,7 +209,7 @@ namespace SeeloewenCraft.entity
 
             breathing = touchingStatus[TOUCHING_AIR];
 
-            if (touchingStatus[TOUCHING_CACTUS])
+            if (touchingStatus[TOUCHING_CACTUS] || touchingStatus[TOUCHING_MAGMA])
             {
                 Damage((1000 / tps) * 0.001);
             }
@@ -221,6 +221,11 @@ namespace SeeloewenCraft.entity
             else
             {
                 accGrav = DEFAULT_GRAV;
+            }
+
+            if (touchingStatus[TOUCHING_LADDER])
+            {
+                fallMaxHeight = posY;
             }
         }
 
@@ -260,18 +265,32 @@ namespace SeeloewenCraft.entity
             texture.Height = sizeY / 20;
 
             // -- change velocity depending on inputs --
-            if (pressedRight)
+            if (touchingStatus[TOUCHING_LADDER])
             {
-                if (!touchingRight || CheckUpStep(Direction.RIGHT, 1, tps))
+                if (pressedRight && !touchingRight)
                 {
-                    velX += currentAcc / tps;
+                    velX += currentAcc / (tps * 3);
+                }
+                if (pressedLeft && !touchingLeft)
+                {
+                    velX -= currentAcc / (tps * 3);
                 }
             }
-            if (pressedLeft)
+            else
             {
-                if (!touchingLeft || CheckUpStep(Direction.LEFT, -1, tps))
+                if (pressedRight)
                 {
-                    velX -= currentAcc / tps;
+                    if (!touchingRight || CheckUpStep(Direction.RIGHT, 1, tps))
+                    {
+                        velX += currentAcc / tps;
+                    }
+                }
+                if (pressedLeft)
+                {
+                    if (!touchingLeft || CheckUpStep(Direction.LEFT, -1, tps))
+                    {
+                        velX -= currentAcc / tps;
+                    }
                 }
             }
 
@@ -292,7 +311,7 @@ namespace SeeloewenCraft.entity
             {
                 if (pressedUp)
                 {
-                    if (onGround)
+                    if (onGround && !touchingStatus[TOUCHING_LADDER])
                     {
                         velY = -jumpStartSpeed;
                     }
@@ -305,6 +324,22 @@ namespace SeeloewenCraft.entity
             }
 
             base.DoPhysicsStep(tps);
+
+            if (touchingStatus[TOUCHING_LADDER])
+            {
+                if (pressedUp)
+                {
+                    velY = -5000;
+                }
+                else
+                {
+                    if (pressedSneak)
+                    {
+                        velY = 0;
+                    }
+                }
+                velY = Math.Min(velY, 4000);
+            }
         }
     }
 }
