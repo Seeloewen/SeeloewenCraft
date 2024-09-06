@@ -70,7 +70,7 @@
                 GenerateLakes();
                 GenerateTrees();
                 GenerateOres();
-                if (Settings.enableCaveGeneration) GenerateCaves();
+                GenerateCaves();
                 GeneratePlainsDungeon();
                 ContinueStructureGeneration("");
             }

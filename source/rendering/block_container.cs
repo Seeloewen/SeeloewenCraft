@@ -26,7 +26,7 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public BlockContainer( int xPos, int yPos)
+        public BlockContainer(int xPos, int yPos)
         {
             //Pass the arguments
             this.xPos = xPos;
@@ -202,7 +202,7 @@ namespace SeeloewenCraft
 
         public void SetBreakState(int state)
         {
-            switch(state)
+            switch (state)
             {
                 case 0:
                     breakState = 0;
@@ -211,7 +211,7 @@ namespace SeeloewenCraft
                     break;
                 case 1:
                     breakState = 1;
-                    cvsChanges.Background = Images.Break_1.GetTexture() ; ;
+                    cvsChanges.Background = Images.Break_1.GetTexture(); ;
                     cvsChanges.Visibility = Visibility.Visible;
                     break;
                 case 2:
@@ -320,7 +320,7 @@ namespace SeeloewenCraft
         public void UpdateLighting()
         {
             //Check if the block has a lightsource in range and set lightlevel
-            if (Settings.enableLighting)
+            if (!StartOptions.disableLighting)
             {
                 block.SetLightLevel(block.RangeToLightSource());
                 block.UpdateNearbyBlocks();

@@ -73,6 +73,7 @@ namespace SeeloewenCraft
         public static bool showLog;
         public static bool modded;
         public static bool startCreative;
+        public static bool disableLighting;
         public static void Parse(string[] args)
         {
             foreach (string arg in args)
@@ -90,6 +91,9 @@ namespace SeeloewenCraft
                         break;
                     case "-STARTCREATIVE":
                         startCreative = true;
+                        break;
+                    case "-DISABLELIGHTING":
+                        disableLighting = true;
                         break;
                 }
             }

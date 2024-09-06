@@ -110,10 +110,7 @@ namespace SeeloewenCraft.entity
 
             //Add initial debug menu lines
             Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "Player Stats:");
-            if (Settings.enableHealth)
-            {
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "health");
-            }
+            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "health");
             Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "posX");
             Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "posY");
             Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "velX");
@@ -134,7 +131,7 @@ namespace SeeloewenCraft.entity
 
         public override void Die()
         {
-            if(this == Game.world.player)
+            if (this == Game.world.player)
             {
                 //Drop all items and clear the inventory
                 foreach (InventorySlot slot in inventory.slotList)
@@ -217,10 +214,7 @@ namespace SeeloewenCraft.entity
         {
             if (Game.world.debugMenu.isEnabled)
             {
-                if (Settings.enableHealth)
-                {
-                    Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "health", $"health={healthBar.value}");
-                }
+                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "health", $"health={healthBar.value}");
                 Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "posX", $"posX={posX}");
                 Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "posY", $"posY={posY}");
                 Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "velX", $"velX={velX}");

@@ -64,20 +64,11 @@ namespace SeeloewenCraft
             Settings.saveWorldOnClose = Convert.ToBoolean(cbSaveWorldWhenClosing.IsChecked);
             Log.Write($"Saved setting saveWorldOnClose as {Settings.saveWorldOnClose}", "Info");
 
-            Settings.enableHammer = Convert.ToBoolean(cbEnableHammer.IsChecked);
-            Log.Write($"Saved setting enableHammer as {Settings.enableHammer}", "Info");
-
-            Settings.enableCaveGeneration = Convert.ToBoolean(cbEnableCaveGeneration.IsChecked);
-            Log.Write($"Saved setting enableCaveGeneration as {Settings.enableCaveGeneration}", "Info");
-
-            Settings.enableLighting = Convert.ToBoolean(cbEnableLighting.IsChecked);
-            Log.Write($"Saved setting enableLighting as {Settings.enableLighting}", "Info");
-
             Settings.showNotifications = Convert.ToBoolean(cbShowNotifications.IsChecked);
-            Log.Write($"Saved setting enableLighting as {Settings.showNotifications}", "Info");
+            Log.Write($"Saved setting showNotifications as {Settings.showNotifications}", "Info");
 
-            Settings.enableHealth = Convert.ToBoolean(cbEnableHealth.IsChecked);
-            Log.Write($"Saved setting enableHealth as {Settings.enableHealth}", "Info");
+            Settings.enableMobs = Convert.ToBoolean(cbEnableMobs.IsChecked);
+            Log.Write($"Saved setting enableMobs as {Settings.enableMobs}", "Info");
 
             Settings.resolution = Convert.ToString(cbxResolution.SelectedItem);
             Log.Write($"Saved setting resolution as {Settings.resolution}", "Info");
@@ -123,10 +114,7 @@ namespace SeeloewenCraft
             //Change the checkboxes and textboxes to the loaded values
             cbSaveLogOnExit.IsChecked = Settings.saveLogOnExit;
             cbSaveWorldWhenClosing.IsChecked = Settings.saveWorldOnClose;
-            cbEnableHammer.IsChecked = Settings.enableHammer;
-            cbEnableCaveGeneration.IsChecked = Settings.enableCaveGeneration;
-            cbEnableLighting.IsChecked = Settings.enableLighting;
-            cbEnableHealth.IsChecked = Settings.enableHealth;
+            cbEnableMobs.IsChecked = Settings.enableMobs;
             cbShowNotifications.IsChecked = Settings.showNotifications;
             cbxTexturepack.Text = Settings.texturepack;
             cbxMode.Text = Settings.videoMode;
@@ -212,7 +200,7 @@ namespace SeeloewenCraft
         public void ApplyTexturepack()
         {
             //Apply the texturepack
-            if (cbxTexturepack.SelectedItem.ToString() == "default")
+            if (cbxTexturepack.SelectedItem == null || cbxTexturepack.SelectedItem.ToString() == "default")
             {
                 //Default texturepack
                 Game.selectedTexturepack = "default";

@@ -8,16 +8,12 @@ namespace SeeloewenCraft
         //Settings
         public static bool saveLogOnExit = false;
         public static bool saveWorldOnClose = true;
-        public static bool enableHammer = true;
-        public static bool enableCaveGeneration = true;
-        public static bool enableLighting = true;
         public static bool showNotifications = false;
-        public static bool enableHealth = false;
+        public static bool enableMobs = false;
         public static string resolution = "1280x720";
         public static string videoMode = "Windowed";
         public static int customResX = 1280;
         public static int customResY = 720;
-
         public static string texturepack;
 
         //Keybinds
@@ -45,20 +41,11 @@ namespace SeeloewenCraft
             writer.WritePropertyName("save_world_on_close");
             writer.WriteValue(saveWorldOnClose);
 
-            writer.WritePropertyName("enable_hammer");
-            writer.WriteValue(enableHammer);
-
-            writer.WritePropertyName("enable_cave_generation");
-            writer.WriteValue(enableCaveGeneration);
-
-            writer.WritePropertyName("enable_lighting");
-            writer.WriteValue(enableLighting);
-
             writer.WritePropertyName("show_notifications");
             writer.WriteValue(showNotifications);
 
-            writer.WritePropertyName("enable_health");
-            writer.WriteValue(enableHealth);
+            writer.WritePropertyName("enable_mobs");
+            writer.WriteValue(enableMobs);
 
             writer.WritePropertyName("resolution");
             writer.WriteValue(resolution);
@@ -124,10 +111,7 @@ namespace SeeloewenCraft
 
                 saveLogOnExit = settingsToken.GetBool("/save_log_on_exit");
                 saveWorldOnClose = settingsToken.GetBool("/save_world_on_close");
-                enableHammer = settingsToken.GetBool("/enable_hammer");
-                enableCaveGeneration = settingsToken.GetBool("/enable_cave_generation");
-                enableLighting = settingsToken.GetBool("/enable_lighting");
-                enableHealth = settingsToken.GetBool("/enable_health");
+                enableMobs = settingsToken.GetBool("/enable_mobs");
                 showNotifications = settingsToken.GetBool("/show_notifications");
                 texturepack = settingsToken.GetString("/texturepack");
                 resolution = settingsToken.GetString("/resolution");
