@@ -389,6 +389,8 @@ namespace SeeloewenCraft
             WoodSword = new SealImage(TextureType.Tool_Item, "Wood_Sword.png");
             YellowFlower = new SealImage(TextureType.Block, "Yellow_Flower.png");
             Glass = new SealImage(TextureType.Block, "Glass.png");
+            Cactus_Right = new SealImage(TextureType.Connected_Block, "Cactus_Right.png");
+            Cactus_Left = new SealImage(TextureType.Connected_Block, "Cactus_Left.png");
         }
 
         //-- Images --//
@@ -618,6 +620,8 @@ namespace SeeloewenCraft
         public static SealImage WoodSword;
         public static SealImage YellowFlower;
         public static SealImage Glass;
+        public static SealImage Cactus_Right;
+        public static SealImage Cactus_Left;
     }
 
     public class SealImage

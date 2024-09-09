@@ -23,6 +23,8 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<Resource Include="Resources\**\*.*" />
+		<Resource Remove="Resources\Cactus_Left.png" />
+		<Resource Remove="Resources\Cactus_Right.png" />
 		<Resource Remove="Resources\Glass.png" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 		<PackageReference Include="Microsoft.Json.Pointer" Version="2.3.0" />

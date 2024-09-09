@@ -8,10 +8,9 @@ namespace SeeloewenCraft
     {
         public ContinuationStructure(List<StructureComponent> structureComponentList, int x, int y, int index, bool isNew, Chunk chunk, int remainingWidth, bool canFloat, bool canReplaceSolidBlocks, string name) : base(chunk, canFloat)
         {
-            totalWidth = remainingWidth;
             this.canReplaceSolidBlocks = canReplaceSolidBlocks;
-            id = "sc:continuation_structure";
             this.name = name;
+            id = "sc:continuation_structure";
 
             //Add all structure components
             foreach (StructureComponent structureComponent in structureComponentList)
@@ -31,27 +30,23 @@ namespace SeeloewenCraft
         {
             id = "sc:legacy_alpha_structure";
             name = "Legacy Alpha Structure";
-
-            //Set the total width of the structure
-            totalWidth = 3;
             canReplaceSolidBlocks = true;
 
             //Add all structure components - It's meant to look like a bedrock pyramid
-            structureComponents.Add(new StructureComponent(0, 0, new BedrockBlock(false)));
-            structureComponents.Add(new StructureComponent(1, 0, new BedrockBlock(false)));
-            structureComponents.Add(new StructureComponent(2, 0, new BedrockBlock(false)));
-            structureComponents.Add(new StructureComponent(3, 0, new BedrockBlock(false)));
-            structureComponents.Add(new StructureComponent(4, 0, new BedrockBlock(false)));
-            structureComponents.Add(new StructureComponent(1, 1, new BedrockBlock(false)));
-            structureComponents.Add(new StructureComponent(2, 1, new BedrockBlock(false)));
-            structureComponents.Add(new StructureComponent(3, 1, new BedrockBlock(false)));
-            structureComponents.Add(new StructureComponent(2, 2, new BedrockBlock(false)));
+            AddBlock(new BedrockBlock(false), 0, 0);
+            AddBlock(new BedrockBlock(false), 1, 0);
+            AddBlock(new BedrockBlock(false), 2, 0);
+            AddBlock(new BedrockBlock(false), 3, 0);
+            AddBlock(new BedrockBlock(false), 4, 0);
+            AddBlock(new BedrockBlock(false), 1, 1);
+            AddBlock(new BedrockBlock(false), 2, 1);
+            AddBlock(new BedrockBlock(false), 3, 1);
+            AddBlock(new BedrockBlock(false), 2, 2);
 
             //Begin generating the alpha structure - was only meant for development purposes and is no longer in the game
             BeginGeneration(x, y, index, isNew);
         }
     }
-
 
     public class PlainsDungeon : Structure
     {
@@ -59,15 +54,11 @@ namespace SeeloewenCraft
         {
             id = "sc:plains_dungeon";
             name = "Plains Dungeon";
-
-            //Set the total width of the structure
             canReplaceSolidBlocks = true;
 
             Dungeon dung = new Dungeon();
             dung.CreateDungeon(100, 50, DungeonType.Plains);
             structureComponents.AddRange(dung.GenerateDungeon(0, 0));
-
-            totalWidth = GetTotalWidth();
 
             //Begin generation
             BeginGeneration(x, y, index, isNew);
@@ -80,8 +71,6 @@ namespace SeeloewenCraft
         {
             id = "sc:lake";
             name = "Lake";
-
-            //Set the total width of the structure
             canReplaceSolidBlocks = true;
 
             //Add all structure components
@@ -89,7 +78,6 @@ namespace SeeloewenCraft
             int yPos = 0;
 
             bool goDown = true;
-
             yPos = floorHeight;
 
             do
@@ -100,20 +88,19 @@ namespace SeeloewenCraft
                     //Add dirt when below the currently observed ypos, else add water
                     if (i < yPos && i >= yPos - 2)
                     {
-                        structureComponents.Add(new StructureComponent(xPos, i, new DirtBlock(false)));
+                        AddBlock(new DirtBlock(false), xPos, i);
                     }
                     else if (i >= yPos)
                     {
-                        structureComponents.Add(new StructureComponent(xPos, i, new WaterBlock_6(false)));
+                        AddBlock(new WaterBlock_6(false), xPos, i);
                     }
                 }
 
                 //Generate a mirror of the lake above, but with air to clear potential blocks above
                 for (int i = floorHeight; i <= floorHeight + floorHeight - yPos + 2; i++)
                 {
-                    structureComponents.Add(new StructureComponent(xPos, i, new AirBlock(false)));
+                    AddBlock(new AirBlock(false), xPos, i);
                 }
-
 
                 //Determine whether to go down or up
                 if (yPos == 1)
@@ -140,8 +127,6 @@ namespace SeeloewenCraft
 
             while (yPos <= floorHeight);
 
-            totalWidth = GetTotalWidth();
-
             //Begin generation
             BeginGeneration(x, y, index, isNew);
         }
@@ -153,39 +138,146 @@ namespace SeeloewenCraft
         {
             id = "sc:oak_tree_structure";
             name = "Oak Tree";
-
             canReplaceSolidBlocks = true;
 
-            //Set total width of the structure
-            totalWidth = 5;
-
             //Layer 1
-            structureComponents.Add(new StructureComponent(2, 0, new OakLogBlock(true)));
+            AddBlock(new OakLogBlock(true), 2, 0);
 
             //Layer 2
-            structureComponents.Add(new StructureComponent(2, 1, new OakLogBlock(true)));
+            AddBlock(new OakLogBlock(true), 2, 1);
 
             //Layer 3
-            structureComponents.Add(new StructureComponent(2, 2, new OakLogBlock(true)));
+            AddBlock(new OakLogBlock(true), 2, 2);
 
             //Layer 4
-            structureComponents.Add(new StructureComponent(1, 3, new OakLeavesBlock(false)));
-            structureComponents.Add(new StructureComponent(2, 3, new OakLeavesBlock(false)));
-            structureComponents.Add(new StructureComponent(3, 3, new OakLeavesBlock(false)));
-            structureComponents.Add(new StructureComponent(4, 3, new OakLeavesBlock(false)));
-            structureComponents.Add(new StructureComponent(0, 3, new OakLeavesBlock(false)));
+            AddBlock(new OakLeavesBlock(false), 1, 3);
+            AddBlock(new OakLeavesBlock(false), 2, 3);
+            AddBlock(new OakLeavesBlock(false), 3, 3);
+            AddBlock(new OakLeavesBlock(false), 4, 3);
+            AddBlock(new OakLeavesBlock(false), 0, 3);
 
             //Layer 5
-            structureComponents.Add(new StructureComponent(1, 4, new OakLeavesBlock(false)));
-            structureComponents.Add(new StructureComponent(2, 4, new OakLeavesBlock(false)));
-            structureComponents.Add(new StructureComponent(3, 4, new OakLeavesBlock(false)));
+            AddBlock(new OakLeavesBlock(false), 1, 4);
+            AddBlock(new OakLeavesBlock(false), 2, 4);
+            AddBlock(new OakLeavesBlock(false), 3, 4);
 
             //Layer 6
-            structureComponents.Add(new StructureComponent(2, 5, new OakLeavesBlock(false)));
+            AddBlock(new OakLeavesBlock(false), 2, 5);
 
             //Begin generating the trees
             BeginGeneration(x, y, index, isNew);
+        }
+    }
 
+    public class CactusStructure : Structure
+    {
+        public CactusStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
+        {
+            id = "sc:cactus_structure";
+            name = "Cactus";
+            canReplaceSolidBlocks = true;
+
+            int height = rnd.Next(2, 6);
+            bool leftBranchStarted = false;
+            bool rightBranchStarted = false;
+
+            for (int i = 0; i < height; i++)
+            {
+                if (i > 0 && i != height)
+                {
+                    //Potentially generate a new branch
+                    switch (rnd.Next(0, 6))
+                    {
+                        case 0:
+                            if (!leftBranchStarted)
+                            {
+                                leftBranchStarted = true;
+
+                                //Generate left branch
+                                GenerateLeftBranch(i);
+                            }
+                            else
+                            {
+                                AddBlock(new Cactus_Vertical(false), 1, i);
+                            }
+                            break;
+                        case 1:
+                            if (!rightBranchStarted)
+                            {
+                                rightBranchStarted = true;
+
+                                //Generate right branch
+                                GenerateRightBranch(i);
+                            }
+                            else
+                            {
+                                AddBlock(new Cactus_Vertical(false), 1, i);
+                            }
+                            break;
+                        case 2:
+                            if (!rightBranchStarted && !leftBranchStarted)
+                            {
+                                rightBranchStarted = true;
+                                leftBranchStarted = true;
+
+                                //Generate right and left branch
+                                GenerateRightBranch(i);
+                                GenerateLeftBranch(i);
+                                AddBlock(new Cactus_Cross(false), 1, i);
+                            }
+                            else
+                            {
+                                AddBlock(new Cactus_Vertical(false), 1, i);
+                            }
+                            break;
+                        case > 2:
+                            AddBlock(new Cactus_Vertical(false), 1, i);
+                            break;
+                    }
+                }
+                else
+                {
+                    AddBlock(new Cactus_Vertical(false), 1, i);
+                }
+
+                AddBlock(rnd.Next(1, 4) == 1 ? new Cactus_TopFruit(false) : new Cactus_Top(false), 1, height);
+
+                //Begin generating
+                BeginGeneration(x, y, index, isNew);
+            }
+
+        }
+
+        public void GenerateRightBranch(int startHeight)
+        {
+            //Generate start of branch
+            AddBlock(new Cactus_TopLeft(false), 2, startHeight);
+            AddBlock(new Cactus_Right(false), 1, startHeight);
+
+            //Generate the branch upwards
+            int rightHeight = rnd.Next(1, 4);
+            for (int j = startHeight + 1; j < startHeight + rightHeight; j++)
+            {
+                AddBlock(new Cactus_Vertical(false), 2, j);
+            }
+
+            AddBlock(rnd.Next(1, 4) == 1 ? new Cactus_TopFruit(false) : new Cactus_Top(false), 2, startHeight + rightHeight);
+        }
+
+        public void GenerateLeftBranch(int startHeight)
+        {
+            //Generate start of branch
+            AddBlock(new Cactus_TopRight(false), 0, startHeight);
+            AddBlock(new Cactus_Left(false), 1, startHeight);
+
+            //Generate the branch upwards
+            int leftHeight = rnd.Next(1, 4);
+            for (int j = startHeight + 1; j < startHeight + leftHeight; j++)
+            {
+                AddBlock(new Cactus_Vertical(false), 0, j);
+            }
+
+            AddBlock(rnd.Next(1, 4) == 1 ? new Cactus_TopFruit(false) : new Cactus_Top(false), 0, startHeight + leftHeight);
         }
     }
 
@@ -195,10 +287,7 @@ namespace SeeloewenCraft
         {
             id = "sc:pyramid_structure";
             name = "Pyramid";
-
             canReplaceSolidBlocks = true;
-
-            //Set total width of the structure
 
             //Layer 1
             int height = 8;
@@ -207,8 +296,7 @@ namespace SeeloewenCraft
             {
                 for (int j = 0; j < height; j++)
                 {
-                    structureComponents.Add(new StructureComponent(width + i, j, new SandStoneBricksBlock(false)));
-                    structureComponents.Add(new StructureComponent(width - i, j, new SandStoneBricksBlock(false)));
+                    AddBlock(new SandStoneBricksBlock(false), width + i, j);
                 }
                 height--;
             }
@@ -234,21 +322,18 @@ namespace SeeloewenCraft
             AddBackgroundBlock(new SandStoneBlock(true), 10, 2, potTop2);
 
             //Other background blocks
-            structureComponents.Add(new StructureComponent(7, 1, new SandStoneBlock(true)));
-            structureComponents.Add(new StructureComponent(7, 2, new SandStoneBlock(true)));
-            structureComponents.Add(new StructureComponent(6, 3, new SandStoneBlock(true)));
-            structureComponents.Add(new StructureComponent(7, 3, new SandStoneBlock(true)));
-            structureComponents.Add(new StructureComponent(8, 2, new SandStoneBlock(true)));
-            structureComponents.Add(new StructureComponent(9, 3, new SandStoneBlock(true)));
-            structureComponents.Add(new StructureComponent(9, 1, new SandStoneBlock(true)));
-            structureComponents.Add(new StructureComponent(9, 2, new SandStoneBlock(true)));
-            structureComponents.Add(new StructureComponent(10, 3, new SandStoneBlock(true)));
-
+            AddBackgroundBlock(new SandStoneBlock(true), 6, 3, null);
+            AddBackgroundBlock(new SandStoneBlock(true), 7, 1, null);
+            AddBackgroundBlock(new SandStoneBlock(true), 7, 2, null);
+            AddBackgroundBlock(new SandStoneBlock(true), 7, 3, null);
+            AddBackgroundBlock(new SandStoneBlock(true), 8, 2, null);
+            AddBackgroundBlock(new SandStoneBlock(true), 9, 1, null);
+            AddBackgroundBlock(new SandStoneBlock(true), 9, 2, null);
+            AddBackgroundBlock(new SandStoneBlock(true), 9, 3, null);
+            AddBackgroundBlock(new SandStoneBlock(true), 10, 3, null);
 
             //Begin generating
-            totalWidth = GetTotalWidth();
             BeginGeneration(x, y, index, isNew);
-
         }
     }
 
@@ -258,47 +343,42 @@ namespace SeeloewenCraft
         {
             id = "sc:spruce_tree_structure";
             name = "Spruce Tree";
-
             canReplaceSolidBlocks = true;
 
-            //Set total width of the structure
-            totalWidth = 5;
-
             //Layer 1
-            structureComponents.Add(new StructureComponent(2, 0, new SpruceLogBlock(true)));
+            AddBlock(new SpruceLogBlock(true), 2, 0);
 
             //Layer 2
-            structureComponents.Add(new StructureComponent(2, 1, new SpruceLogBlock(true)));
+            AddBlock(new SpruceLogBlock(true), 2, 1);
 
             //Layer 3
-            structureComponents.Add(new StructureComponent(2, 2, new SpruceLogBlock(true)));
+            AddBlock(new SpruceLogBlock(true), 2, 2);
 
             //Layer 4
-            structureComponents.Add(new StructureComponent(1, 3, new SpruceLeavesBlock(false)));
-            structureComponents.Add(new StructureComponent(2, 3, new SpruceLeavesBlock(false)));
-            structureComponents.Add(new StructureComponent(3, 3, new SpruceLeavesBlock(false)));
-            structureComponents.Add(new StructureComponent(4, 3, new SpruceLeavesBlock(false)));
-            structureComponents.Add(new StructureComponent(0, 3, new SpruceLeavesBlock(false)));
+            AddBlock(new SpruceLeavesBlock(false), 1, 3);
+            AddBlock(new SpruceLeavesBlock(false), 2, 3);
+            AddBlock(new SpruceLeavesBlock(false), 3, 3);
+            AddBlock(new SpruceLeavesBlock(false), 4, 3);
+            AddBlock(new SpruceLeavesBlock(false), 0, 3);
 
             //Layer 5
-            structureComponents.Add(new StructureComponent(1, 4, new SpruceLeavesBlock(false)));
-            structureComponents.Add(new StructureComponent(2, 4, new SpruceLeavesBlock(false)));
-            structureComponents.Add(new StructureComponent(3, 4, new SpruceLeavesBlock(false)));
+            AddBlock(new SpruceLeavesBlock(false), 1, 4);
+            AddBlock(new SpruceLeavesBlock(false), 2, 4);
+            AddBlock(new SpruceLeavesBlock(false), 3, 4);
 
             //Layer 6
-            structureComponents.Add(new StructureComponent(1, 5, new SpruceLeavesBlock(false)));
-            structureComponents.Add(new StructureComponent(2, 5, new SpruceLeavesBlock(false)));
-            structureComponents.Add(new StructureComponent(3, 5, new SpruceLeavesBlock(false)));
+            AddBlock(new SpruceLeavesBlock(false), 1, 5);
+            AddBlock(new SpruceLeavesBlock(false), 2, 5);
+            AddBlock(new SpruceLeavesBlock(false), 3, 5);
 
             //Layer 7
-            structureComponents.Add(new StructureComponent(2, 6, new SpruceLeavesBlock(false)));
+            AddBlock(new SpruceLeavesBlock(false), 2, 6);
 
             //Layer 8
-            structureComponents.Add(new StructureComponent(2, 7, new SpruceLeavesBlock(false)));
+            AddBlock(new SpruceLeavesBlock(false), 2, 7);
 
             //Begin generating the trees
             BeginGeneration(x, y, index, isNew);
-
         }
     }
 
@@ -404,8 +484,6 @@ namespace SeeloewenCraft
                 }
             }
 
-            //Get total width
-            totalWidth = GetTotalWidth();
             BeginGeneration(x, y, index, isNew);
         }
     }
@@ -436,8 +514,6 @@ namespace SeeloewenCraft
                 }
             }
 
-            //Get total width
-            totalWidth = GetTotalWidth();
             BeginGeneration(x, y, index, isNew);
         }
     }
@@ -468,8 +544,6 @@ namespace SeeloewenCraft
                 }
             }
 
-            //Get total width
-            totalWidth = GetTotalWidth();
             BeginGeneration(x, y, index, isNew);
         }
     }
@@ -500,8 +574,6 @@ namespace SeeloewenCraft
                 }
             }
 
-            //Get total width
-            totalWidth = GetTotalWidth();
             BeginGeneration(x, y, index, isNew);
         }
     }
@@ -532,8 +604,6 @@ namespace SeeloewenCraft
                 }
             }
 
-            //Get total width
-            totalWidth = GetTotalWidth();
             BeginGeneration(x, y, index, isNew);
         }
     }
@@ -564,8 +634,6 @@ namespace SeeloewenCraft
                 }
             }
 
-            //Get total width
-            totalWidth = GetTotalWidth();
             BeginGeneration(x, y, index, isNew);
         }
     }
@@ -585,8 +653,6 @@ namespace SeeloewenCraft
                 structureComponents.Add(structComp);
             }
 
-            //Get total width
-            totalWidth = GetTotalWidth();
             BeginGeneration(x, y, index, isNew);
         }
     }
@@ -617,8 +683,6 @@ namespace SeeloewenCraft
                 }
             }
 
-            //Get total width
-            totalWidth = GetTotalWidth();
             BeginGeneration(x, y, index, isNew);
         }
     }
@@ -649,8 +713,6 @@ namespace SeeloewenCraft
                 }
             }
 
-            //Get total width
-            totalWidth = GetTotalWidth();
             BeginGeneration(x, y, index, isNew);
         }
     }
@@ -674,9 +736,8 @@ namespace SeeloewenCraft
 
                 foreach (StructureComponent structureComponent in structureComponents)
                 {
-                    int randomNorth = rnd.Next(1, 3);
                     //North
-                    if (randomNorth == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
+                    if (rnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
                         StructureComponent newComponent = new StructureComponent(structureComponent.xOffset, structureComponent.yOffset - 1, new AirBlock(false));
@@ -686,42 +747,36 @@ namespace SeeloewenCraft
                         }
                     }
 
-                    int randomEast = rnd.Next(1, 3);
                     //East
-                    if (randomEast == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
+                    if (rnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
                         StructureComponent newComponent = new StructureComponent(structureComponent.xOffset + 1, structureComponent.yOffset, new AirBlock(false));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
-
                         }
                     }
 
-                    int randomSouth = rnd.Next(1, 3);
                     //South
-                    if (randomSouth == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
+                    if (rnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
                         StructureComponent newComponent = new StructureComponent(structureComponent.xOffset, structureComponent.yOffset + 1, new AirBlock(false));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
-
                         }
                     }
 
-                    int randomWest = rnd.Next(1, 3);
                     //West
-                    if (randomWest == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
+                    if (rnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
                         StructureComponent newComponent = new StructureComponent(structureComponent.xOffset - 1, structureComponent.yOffset, new AirBlock(false));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
-
                         }
                     }
 
@@ -735,9 +790,6 @@ namespace SeeloewenCraft
                 }
                 temporaryComponentList.Clear();
             }
-
-            //Get total width
-            totalWidth = GetTotalWidth();
 
             //Begin generating the cave
             BeginGeneration(x, y, index, isNew);

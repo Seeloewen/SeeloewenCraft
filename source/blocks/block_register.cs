@@ -277,6 +277,10 @@
                     return new YellowFlowerBlock(false);
                 case "sc:glass_block":
                     return new GlassBlock(false);
+                case "sc:cactus_right":
+                    return new Cactus_Right(false);
+                case "sc:cactus_left":
+                    return new Cactus_Left(false);
                 default:
                     return null;
 

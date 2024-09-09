@@ -11,7 +11,6 @@ namespace SeeloewenCraft
         static int rndOffset;
 
         //Used to get specific shapes of structure components for structures
-
         public List<StructureComponent> GetCircle(int radius)
         {
             //Midpoint circle algorithm, I'm absolutely not sure what I'm even doing here //Seeloewen

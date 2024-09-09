@@ -123,7 +123,10 @@ namespace SeeloewenCraft
         {
             //Move the block to background and set the foregroundblock
             block.MoveToBackground();
-            block.SetForegroundBlock(foregroundBlock);
+            if(foregroundBlock != null)
+            {
+                block.SetForegroundBlock(foregroundBlock);
+            }
 
             //Create the structure component
             structureComponents.Add(new StructureComponent(xOffset, yOffset, block));
@@ -132,7 +135,7 @@ namespace SeeloewenCraft
         public void AddBackgroundBlock(Block block, int xOffset, int yOffset, Block foregroundBlock, LootTable lootTable, int insertAmount)
         {
             //Either add the loot table to the foreground block or the background block
-            if (foregroundBlock.hasInventory)
+            if (foregroundBlock != null && foregroundBlock.hasInventory)
             {
                 foregroundBlock.InsertLootTable(lootTable, insertAmount);
             }
@@ -143,7 +146,10 @@ namespace SeeloewenCraft
 
             //Set the block to background, add the foregroundblock and create the structure component
             block.MoveToBackground();
-            block.SetForegroundBlock(foregroundBlock);
+            if(foregroundBlock != null)
+            {
+                block.SetForegroundBlock(foregroundBlock);
+            }
             structureComponents.Add(new StructureComponent(xOffset, yOffset, block));
         }
 
@@ -206,8 +212,9 @@ namespace SeeloewenCraft
 
         public void BeginGeneration(int x, int y, int index, bool isNew)
         {
-            this.isNew = isNew;
             //Check which direction it's going to be built in
+            this.isNew = isNew;
+            totalWidth = GetTotalWidth();
             SetupStructure(x, y, index > 0 ? Direction.RIGHT : Direction.LEFT);
             GenerateStructure();
         }

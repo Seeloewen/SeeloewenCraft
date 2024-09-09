@@ -1,4 +1,6 @@
-﻿namespace SeeloewenCraft
+﻿using System.Windows;
+
+namespace SeeloewenCraft
 {
     public partial class Chunk
     {
@@ -31,35 +33,50 @@
 
         public Biome GetNewBiome(Biome adjacentBiome)
         {
-            bool newBiome = false;
+            Biome newBiome = Biome.None;
+            bool generateNewBiome = false;
 
             if (adjacentBiome != Biome.None)
             {
-                //1 in 20 chance to generate a new biome
+                //1 in 10 chance to generate a new biome
                 if (rnd.Next(1, 10) == 1)
                 {
-                    newBiome = true;
+                    generateNewBiome = true;
                 }
             }
 
-            if (newBiome)
+            if (generateNewBiome)
             {
-                //Generate a new biome based on random value
-                switch (rnd.Next(1, 3))
+                while (newBiome == Biome.None || newBiome == adjacentBiome)
                 {
-                    case 1:
-                        return Biome.Plains;
-                    case 2:
-                        return Biome.Desert;
+                    newBiome = GetRandomBiome();
                 }
+
+                Log.Write($"Determined new biome {newBiome} for chunk {index}", "Info");
+                return newBiome;
             }
-            else if (!newBiome && adjacentBiome != Biome.None)
+            else if (!generateNewBiome && adjacentBiome != Biome.None)
             {
+                Log.Write($"Determined biome {newBiome} for chunk {index} based on adjacent chunk", "Info");
                 return adjacentBiome;
             }
 
             //Default biome
             return Biome.Plains;
+        }
+
+        public Biome GetRandomBiome()
+        {
+            //Generate a new biome based on random value
+            switch (rnd.Next(1, 3))
+            {
+                case 1:
+                    return Biome.Plains;
+                case 2:
+                    return Biome.Desert;
+                default:
+                    return Biome.Plains;
+            }
         }
 
         private void GenerateStructues()
@@ -70,6 +87,7 @@
                 if (biome == Biome.Desert) GeneratePyramids();
                 if (biome != Biome.Desert) GenerateLakes();
                 if (biome != Biome.Desert) GenerateTrees();
+                if (biome == Biome.Desert) GenerateCacti();
                 GenerateOres();
                 GenerateCaves();
                 if (biome != Biome.Desert) GeneratePlainsDungeon();
@@ -127,7 +145,6 @@
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
-                //Decide which tree to generate, mostly generate oak trees, rarely spruce
                 if (y != 0)
                 {
                     structureList.Add(new PyramidStructure(x, y - 1, index, true, this, false));
@@ -143,7 +160,7 @@
             //Generate up to 3 trees
             for (int i = 0; i < 3; i++)
             {
-                if (rnd.Next(0, 3) == 0)
+                if (rnd.Next(0, biome == Biome.Plains ? 7 : 3) == 0)
                 {
                     (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
@@ -177,6 +194,22 @@
                 {
                     int depth = rnd.Next(3, 8);
                     structureList.Add(new Lake(x, y + depth, index, true, this, true, depth));
+                }
+            }
+        }
+
+        private void GenerateCacti()
+        {
+            ContinueStructureGeneration("Cactus");
+
+            //Generate up to 1 cactus
+            if (rnd.Next(0, 2) == 0)
+            {
+                (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
+
+                if (y != 0)
+                {
+                    structureList.Add(new CactusStructure(x, y - 1, index, true, this, false));
                 }
             }
         }

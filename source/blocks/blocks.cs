@@ -391,15 +391,13 @@ namespace SeeloewenCraft
         }
 
         protected CactusBlock(bool isInBackground) : base(isInBackground) { }
-
-
     }
 
     public class Cactus_TopFruit : CactusBlock
     {
         public Cactus_TopFruit(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Top Fruit", "sc:cactus_top_fruit", 250, "sc:cactus_top_fruit_item", Tool.Axe, Images.Cactus_Top_Fruit);
+            Init("Cactus Top Fruit", "sc:cactus_top_fruit", 250, "sc:cactus_fruit_item", Tool.Axe, Images.Cactus_Top_Fruit);
             collision = new RectangleCollision(191, 809, 631, 999);
             cactusCollision = new RectangleCollision(190, 810, 630, 1000);
         }
@@ -452,6 +450,26 @@ namespace SeeloewenCraft
             Init("Cactus Cross", "sc:cactus_cross", 250, null, Tool.Axe, Images.Cactus_Cross);
             collision = new MultipleRectangleCollision([191, 811, 1], [809, 999, 189], [1, 191, 191], [999, 809, 809]);
             cactusCollision = new MultipleRectangleCollision([190, 810, 0], [810, 1000, 190], [0, 190, 190], [1000, 810, 810]);
+        }
+    }
+
+    public class Cactus_Right : CactusBlock
+    {
+        public Cactus_Right(bool isInBackground) : base(isInBackground)
+        {
+            Init("Cactus Right", "sc:cactus_right", 250, null, Tool.Axe, Images.Cactus_Right);
+            collision = new MultipleRectangleCollision([191, 811], [809, 999], [1, 191], [999, 809]);
+            cactusCollision = new MultipleRectangleCollision([190, 810], [810, 1000], [0, 190], [1000, 810]);
+        }
+    }
+
+    public class Cactus_Left : CactusBlock
+    {
+        public Cactus_Left(bool isInBackground) : base(isInBackground)
+        {
+            Init("Cactus Left", "sc:cactus_left", 250, null, Tool.Axe, Images.Cactus_Left);
+            collision = new MultipleRectangleCollision([191, 1], [809, 189], [1, 191], [999, 809]);
+            cactusCollision = new MultipleRectangleCollision([190, 0], [810, 190], [0, 190], [1000, 810]);
         }
     }
 

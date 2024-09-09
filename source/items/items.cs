@@ -235,6 +235,22 @@
         }
     }
 
+    public class Cactus_LeftItem : Item
+    {
+        public Cactus_LeftItem() : base()
+        {
+            Init("Cactus Left", "sc:cactus_left_item", "sc:cactus_left", true, Images.Cactus_Left);
+        }
+    }
+
+    public class Cactus_RightItem : Item
+    {
+        public Cactus_RightItem() : base()
+        {
+            Init("Cactus Right Left", "sc:cactus_right_item", "sc:cactus_right", true, Images.Cactus_Right);
+        }
+    }
+
     public class Cactus_BottomLeftItem : Item
     {
         public Cactus_BottomLeftItem() : base()

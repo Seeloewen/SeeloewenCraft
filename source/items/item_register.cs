@@ -527,6 +527,11 @@
                 case "sc:glass_item":
                     return new GlassItem();
 
+                case "sc:cactus_left_item":
+                    return new Cactus_LeftItem();
+
+                case "sc:cactus_right_item":
+                    return new Cactus_RightItem();
                 default:
                     return null;
             }
