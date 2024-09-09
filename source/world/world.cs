@@ -370,6 +370,7 @@ namespace SeeloewenCraft
                 player.inventory.InitHotbar();
                 player.inventory.AddItem("sc:crafting_table_item", 1, ItemRegister.GenerateItem("sc:crafting_table_item").tag);
                 player.inventory.AddItem("sc:torch_item", 5, ItemRegister.GenerateItem("sc:torch_item").tag);
+                player.inventory.AddItem("sc:sand_item", 40, ItemRegister.GenerateItem("sc:torch_item").tag);
             }
             player.inventory.UpdateHotbar();
             inventoryList.Add(player.inventory);

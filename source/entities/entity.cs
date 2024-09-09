@@ -468,8 +468,12 @@ namespace SeeloewenCraft.entity
         public static Entity LoadFromJson(JsonToken token)
         {
             Entity entity;
-            switch (token.GetString("/type"))
+            string type = token.GetString("/type");
+            switch (type)
             {
+                case "FallingBlockEntity":
+                    entity = new FallingBlockEntity(token);
+                    break;
                 case "ItemEntity":
                     entity = new ItemEntity(token);
                     break;
@@ -480,8 +484,9 @@ namespace SeeloewenCraft.entity
                     entity = new Player(token);
                     break;
                 default:
-                    throw new Exception();
+                    throw new Exception($"Loading Error: entity type {type} not found");
             }
+            entity.type = type;
 
             return entity;
         }
