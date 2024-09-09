@@ -59,7 +59,6 @@ namespace SeeloewenCraft.entity
             fallMaxHeight = token.GetInt("/fall_max_height");
             flying = token.GetBool("/flying");
 
-
             texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
         }
 
@@ -234,32 +233,35 @@ namespace SeeloewenCraft.entity
 
         public override void DoPhysicsStep(int tps)
         {
-            if (pressedSneak && !flying)
+            if(this is Player)
             {
-                currentAcc = ACC_SNEAKING;
-                if (sizeY == 1900)
+                if (pressedSneak && !flying)
                 {
-                    posY += 450;
+                    currentAcc = ACC_SNEAKING;
+                    if (sizeY == 1900)
+                    {
+                        posY += 450;
+                    }
+                    sizeY = 1450;
                 }
-                sizeY = 1450;
-            }
-            else if (pressedSprint)
-            {
-                currentAcc = ACC_SPRINTING;
-                if (sizeY == 1450)
+                else if (pressedSprint)
                 {
-                    posY -= 450;
+                    currentAcc = ACC_SPRINTING;
+                    if (sizeY == 1450)
+                    {
+                        posY -= 450;
+                    }
+                    sizeY = 1900;
                 }
-                sizeY = 1900;
-            }
-            else
-            {
-                currentAcc = ACC_WALKING;
-                if (sizeY == 1450)
+                else
                 {
-                    posY -= 450;
+                    currentAcc = ACC_WALKING;
+                    if (sizeY == 1450)
+                    {
+                        posY -= 450;
+                    }
+                    sizeY = 1900;
                 }
-                sizeY = 1900;
             }
 
             texture.Height = sizeY / 20;
