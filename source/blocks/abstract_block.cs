@@ -47,6 +47,7 @@ namespace SeeloewenCraft
         public Collision collision;
         public Tool effectiveTool;
         public Material? effectiveMaterial;
+        public bool willFall;
 
         //variables
         public int xPos;
@@ -401,6 +402,13 @@ namespace SeeloewenCraft
             {
                 blockContainer.ShowDarkRectangle();
             }
+
+            Block blockAbove = GetBlockFromOffset(0, -1);
+            if (blockAbove != null && blockAbove.willFall)
+            {
+                blockAbove.BreakBlock(true, true, false);
+                Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos - 1, blockAbove.id));
+            }
         }
 
         public void MoveToNormal()
@@ -553,7 +561,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public void BreakBlock(bool skipRangeCheck, bool skipBreakableCheck)
+        public void BreakBlock(bool skipRangeCheck, bool skipBreakableCheck, bool dropItems)
         {
             //Check if is in range
             if ((IsInRange() || skipRangeCheck))
@@ -563,28 +571,48 @@ namespace SeeloewenCraft
                 {
                     if (foregroundBlock.isBreakable || skipBreakableCheck)
                     {
-                        Drop(true);
-
-                        if (foregroundBlock.hasInventory)
+                        if (dropItems)
                         {
-                            foregroundBlock.blockInventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
+                            Drop(true);
+
+                            if (foregroundBlock.hasInventory)
+                            {
+                                foregroundBlock.blockInventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
+                            }
                         }
 
                         RemoveForegroundBlock();
+
+                        Block blockAbove = GetBlockFromOffset(0, -1);
+                        if (blockAbove.willFall)
+                        {
+                            blockAbove.BreakBlock(true, true, false);
+                            Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos, id));
+                        }
                     }
                 }
                 //If it has no foreground block, check if the normal block is breakable
-                else if (foregroundBlock == null && (isBreakable || skipBreakableCheck))
+                else if (isBreakable || skipBreakableCheck)
                 {
                     //Remove the block from the chunks blocklist and add an airblock
                     Block block = new AirBlock(false);
                     SetBlock(block);
 
-                    Drop(false);
-
-                    if (hasInventory)
+                    if (dropItems)
                     {
-                        blockInventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
+                        Drop(false);
+
+                        if (hasInventory)
+                        {
+                            blockInventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
+                        }
+                    }
+
+                    Block blockAbove = GetBlockFromOffset(0, -1);
+                    if (blockAbove.willFall)
+                    {
+                        blockAbove.BreakBlock(true, true, false);
+                        Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos - 1, blockAbove.id));
                     }
                 }
             }
@@ -609,6 +637,14 @@ namespace SeeloewenCraft
             chunk.SetBlock(block, xPos, yPos);
             UpdateAirLightsources(block);
             block.MoveToNormal();
+
+            Block blockBelow = block.GetBlockFromOffset(0, 1);
+            if(block.willFall 
+                && (blockBelow is AirBlock || blockBelow is WaterBlock || blockBelow.isBackground)) 
+            {
+                block.BreakBlock(true, true, false);
+                Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos, block.id));
+            }
         }
 
         public void SetForegroundBlock(Block block)
