@@ -189,6 +189,69 @@ namespace SeeloewenCraft
         }
     }
 
+    public class PyramidStructure : Structure
+    {
+        public PyramidStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
+        {
+            id = "sc:pyramid_structure";
+            name = "Pyramid";
+
+            canReplaceSolidBlocks = true;
+
+            //Set total width of the structure
+
+            //Layer 1
+            int height = 8;
+            int width = height;
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    structureComponents.Add(new StructureComponent(width + i, j, new SandStoneBricksBlock(false)));
+                    structureComponents.Add(new StructureComponent(width - i, j, new SandStoneBricksBlock(false)));
+                }
+                height--;
+            }
+
+            //Left pot
+            ArcheologyPot_Base potBase = new ArcheologyPot_Base(false);
+            ArcheologyPot_Top potTop = new ArcheologyPot_Top(false);
+            potTop.baseBlock = (0, 1);
+            AddBackgroundBlock(new SandStoneBlock(true), 6, 1, potBase, LootTables.potLootTable, 1);
+            AddBackgroundBlock(new SandStoneBlock(true), 6, 2, potTop);
+
+            //Chest
+            AddBackgroundBlock(new SandStoneBlock(true), 8, 1, new ChestBlock(false), LootTables.pyramidLootTable, 3);
+
+            //Torch
+            AddBackgroundBlock(new SandStoneBlock(true), 8, 3, new TorchBlock(false));
+
+            //Right pot
+            ArcheologyPot_Base potBase2 = new ArcheologyPot_Base(false);
+            ArcheologyPot_Top potTop2 = new ArcheologyPot_Top(false);
+            potTop2.baseBlock = (0, 1);
+            AddBackgroundBlock(new SandStoneBlock(true), 10, 1, potBase2, LootTables.potLootTable, 1);
+            AddBackgroundBlock(new SandStoneBlock(true), 10, 2, potTop2);
+
+            //Other background blocks
+            structureComponents.Add(new StructureComponent(7, 1, new SandStoneBlock(true)));
+            structureComponents.Add(new StructureComponent(7, 2, new SandStoneBlock(true)));
+            structureComponents.Add(new StructureComponent(6, 3, new SandStoneBlock(true)));
+            structureComponents.Add(new StructureComponent(7, 3, new SandStoneBlock(true)));
+            structureComponents.Add(new StructureComponent(8, 2, new SandStoneBlock(true)));
+            structureComponents.Add(new StructureComponent(9, 3, new SandStoneBlock(true)));
+            structureComponents.Add(new StructureComponent(9, 1, new SandStoneBlock(true)));
+            structureComponents.Add(new StructureComponent(9, 2, new SandStoneBlock(true)));
+            structureComponents.Add(new StructureComponent(10, 3, new SandStoneBlock(true)));
+
+
+            //Begin generating
+            totalWidth = GetTotalWidth();
+            BeginGeneration(x, y, index, isNew);
+
+        }
+    }
+
     public class SpruceTreeStructure : Structure
     {
         public SpruceTreeStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
@@ -313,7 +376,7 @@ namespace SeeloewenCraft
             BeginGeneration(x, y, index, isNew);
 
         }
-    } 
+    }
 
     public class CoalOreStructure : Structure
     {
@@ -356,7 +419,7 @@ namespace SeeloewenCraft
             canReplaceSolidBlocks = false;
 
             //Generate the first part of the vein
-            foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2,1))
+            foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
             {
                 structComp.block = new IronOreBlock(false);
                 structureComponents.Add(structComp);

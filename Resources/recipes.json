@@ -2435,6 +2435,24 @@
           "amount": 1
         }
       ]
+    },
+    {
+      "id": "sc:recipe_archeology_pot",
+      "workstation": "Crafting_Table",
+      "display_name": "Archeology Pot",
+      "required_time": 2000,
+      "ingredients": [
+        {
+          "item_id": "sc:pot_shard_item",
+          "amount": 4
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:archeology_pot_item",
+          "amount": 1
+        }
+      ]
     }
   ]
 }

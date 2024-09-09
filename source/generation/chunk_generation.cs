@@ -31,13 +31,12 @@
 
         public Biome GetNewBiome(Biome adjacentBiome)
         {
-            bool newBiome = true;
+            bool newBiome = false;
 
             if (adjacentBiome != Biome.None)
             {
-                //1 in 10 chance to generate a new biome
-                int random = rnd.Next(1, 11);
-                if (random == 0)
+                //1 in 20 chance to generate a new biome
+                if (rnd.Next(1, 10) == 1)
                 {
                     newBiome = true;
                 }
@@ -46,14 +45,15 @@
             if (newBiome)
             {
                 //Generate a new biome based on random value
-                int random = rnd.Next(1, 2);
-                switch (random)
+                switch (rnd.Next(1, 3))
                 {
                     case 1:
                         return Biome.Plains;
+                    case 2:
+                        return Biome.Desert;
                 }
             }
-            else
+            else if (!newBiome && adjacentBiome != Biome.None)
             {
                 return adjacentBiome;
             }
@@ -67,11 +67,12 @@
             if (index != 0)
             {
                 //Generate structures
-                GenerateLakes();
-                GenerateTrees();
+                if (biome == Biome.Desert) GeneratePyramids();
+                if (biome != Biome.Desert) GenerateLakes();
+                if (biome != Biome.Desert) GenerateTrees();
                 GenerateOres();
                 GenerateCaves();
-                GeneratePlainsDungeon();
+                if (biome != Biome.Desert) GeneratePlainsDungeon();
                 ContinueStructureGeneration("");
             }
         }
@@ -115,6 +116,23 @@
             }
 
             return (x, y);
+        }
+
+        private void GeneratePyramids()
+        {
+            ContinueStructureGeneration("Pyramid");
+
+            //Generate up to 1 Pyramid
+            if (rnd.Next(0, 10) == 0)
+            {
+                (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
+
+                //Decide which tree to generate, mostly generate oak trees, rarely spruce
+                if (y != 0)
+                {
+                    structureList.Add(new PyramidStructure(x, y - 1, index, true, this, false));
+                }
+            }
         }
 
         private void GenerateTrees()

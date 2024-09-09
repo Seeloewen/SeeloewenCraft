@@ -14,7 +14,7 @@ namespace SeeloewenCraft
         public BlockList blockList;
         public Random rnd;
         public Chunk chunk;
-        public StructureShapeCreator shapeCreator;    
+        public StructureShapeCreator shapeCreator;
 
         //Constants
         public string name;
@@ -34,7 +34,7 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Structure( Chunk chunk, bool canFloat)
+        public Structure(Chunk chunk, bool canFloat)
         {
             //Set the attributes
             blockList = new BlockList(chunk);
@@ -100,6 +100,53 @@ namespace SeeloewenCraft
                 }
             }
         }
+
+        public void AddBlock(Block block, int xOffset, int yOffset)
+        {
+            //Create the structure component
+            structureComponents.Add(new StructureComponent(xOffset, yOffset, block));
+        }
+
+        public void AddBlock(Block block, int xOffset, int yOffset, LootTable lootTable, int insertAmount)
+        {
+            //Insert the loot table in the block
+            if (block.hasInventory)
+            {
+                block.InsertLootTable(lootTable, insertAmount);
+            }
+
+            //Create the structure component
+            structureComponents.Add(new StructureComponent(xOffset, yOffset, block));
+        }
+
+        public void AddBackgroundBlock(Block block, int xOffset, int yOffset, Block foregroundBlock)
+        {
+            //Move the block to background and set the foregroundblock
+            block.MoveToBackground();
+            block.SetForegroundBlock(foregroundBlock);
+
+            //Create the structure component
+            structureComponents.Add(new StructureComponent(xOffset, yOffset, block));
+        }
+
+        public void AddBackgroundBlock(Block block, int xOffset, int yOffset, Block foregroundBlock, LootTable lootTable, int insertAmount)
+        {
+            //Either add the loot table to the foreground block or the background block
+            if (foregroundBlock.hasInventory)
+            {
+                foregroundBlock.InsertLootTable(lootTable, insertAmount);
+            }
+            else if(block.hasInventory)
+            {
+                block.InsertLootTable(lootTable, insertAmount);
+            }
+
+            //Set the block to background, add the foregroundblock and create the structure component
+            block.MoveToBackground();
+            block.SetForegroundBlock(foregroundBlock);
+            structureComponents.Add(new StructureComponent(xOffset, yOffset, block));
+        }
+
 
         public void GenerateStructure()
         {

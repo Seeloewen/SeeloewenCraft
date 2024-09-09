@@ -73,7 +73,7 @@ namespace SeeloewenCraft
         public CoalOreBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Coal Ore", "sc:coal_ore_block", 1750, "sc:coal_ore_item", Tool.Pickaxe, Images.CoalOre);
-            lootTable = LootTables.coalLootTable; 
+            lootTable = LootTables.coalLootTable;
             dropsOnWrongTool = false;
         }
     }
@@ -164,7 +164,7 @@ namespace SeeloewenCraft
 
         public override bool[] CheckTouch(int startX, int startY, int endX, int endY)
         {
-            if(isBackground) base.CheckTouch(startX, startY, endX, endY);
+            if (isBackground) base.CheckTouch(startX, startY, endX, endY);
             bool[] touching = new bool[Entity.TOUCHING_STATUS_COUNT];
             touching[Entity.TOUCHING_MAGMA] = true;
             return touching;
@@ -192,7 +192,7 @@ namespace SeeloewenCraft
             collision = new MultipleRectangleCollision([125, 251], [875, 749], [375, 1], [1000, 375]);
         }
 
-        
+
     }
 
     public class PottedCactus_Top : Block
@@ -386,7 +386,7 @@ namespace SeeloewenCraft
             bool[] touchingStatus = new bool[Entity.TOUCHING_STATUS_COUNT];
             //idk why the +1 is needed but it works so i will leave it here until further review(which will probably never happen lol)
             (touchingStatus[Entity.TOUCHING_CACTUS], _)
-                = cactusCollision.CheckCollision(Direction.RIGHT, startX, endX+1, startY, endY+1);
+                = cactusCollision.CheckCollision(Direction.RIGHT, startX, endX + 1, startY, endY + 1);
             return touchingStatus;
         }
 
@@ -641,6 +641,8 @@ namespace SeeloewenCraft
             Init("Archeology Pot Base", "sc:archeology_pot_base", 100, "sc:archeology_pot_item", Tool.Pickaxe, Images.ArcheologyPot_Base);
             isBase = true;
             isSolid = false;
+            blockInventory = new Inventory(1, 1, false);
+            hasInventory = true;
 
             connectedBlocks.Add((0, -1, "sc:archeology_pot_top"));
         }

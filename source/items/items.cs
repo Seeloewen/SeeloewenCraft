@@ -706,7 +706,7 @@
     {
         public PotShardItem() : base()
         {
-            Init("Pot Shard", "sc:pot_shard", null, false, Images.PotShard);
+            Init("Pot Shard", "sc:pot_shard_item", null, false, Images.PotShard);
         }
     }
 

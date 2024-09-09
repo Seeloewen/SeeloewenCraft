@@ -9,7 +9,8 @@ namespace SeeloewenCraft
     public enum Biome
     {
         None,
-        Plains
+        Plains,
+        Desert
     }
 
     public partial class Chunk
@@ -20,7 +21,7 @@ namespace SeeloewenCraft
         public BlockContainerList blockContainerList;
         public Grid grdChunk = new Grid();
         private Random rnd;
-        
+
         public int index;
         private int floorHeight; //Only used while generating
         public int floorHeightRight;
@@ -31,10 +32,10 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Chunk( int index)
+        public Chunk(int index)
         {
             //Set the attributes
-            
+
             this.index = index;
             rnd = new Random(DateTime.Now.Millisecond);
             o++;
@@ -121,7 +122,7 @@ namespace SeeloewenCraft
                 if (blockContainerList.GetContainer(x, y) != null)
                 {
                     blockContainerList.GetContainer(x, y).RenderBlock(block);
-                    if(block.GetForegroundBlock() != null)
+                    if (block.GetForegroundBlock() != null)
                     {
                         blockContainerList.GetContainer(x, y).RenderForegroundBlock(block.GetForegroundBlock());
                     }
