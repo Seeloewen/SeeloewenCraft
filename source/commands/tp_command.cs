@@ -13,11 +13,11 @@ namespace SeeloewenCraft
 
                 Game.world.player.posX = posX;
                 Game.world.player.posY = posY;
-                MessageBox.Show($"Succesfully teleported player to position x={posX}, y={posY}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                NotificationHandler.ShowNotification($"Succesfully teleported player to position x={posX}, y={posY}", 3000, Images.Glass.GetTexture());
             }
-            catch 
+            catch
             {
-                MessageBox.Show("Invalid command syntax: can't parse coordinates to int", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                NotificationHandler.ShowNotification("Invalid command syntax: can't parse coordinates to int", 3000, Images.Glass.GetTexture());
                 return;
             }
         }

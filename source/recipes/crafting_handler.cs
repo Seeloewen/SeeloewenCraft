@@ -264,7 +264,7 @@ namespace SeeloewenCraft
                 tbAmount.IsEnabled = true;
 
                 //Show notification and log that crafting process is complete
-                Game.world.notificationHandler.ShowNotification($"Crafting for x{amount} {selectedRecipe.displayName} completed!", 3000, Images.CraftingTable.GetTexture());
+                NotificationHandler.ShowNotification($"Crafting for x{amount} {selectedRecipe.displayName} completed!", 3000, Images.CraftingTable.GetTexture());
                 if(block != null) Log.Write($"Completed crafting for {amount}x {selectedRecipe.id} at workstation {workstation} (X: {block.xPos}, Y: {block.yPos}, Chunk: {block.chunk.index})", "Info");
             }
         }

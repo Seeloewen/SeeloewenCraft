@@ -150,7 +150,7 @@ namespace SeeloewenCraft.entity
                 //Set the hp back to 10
                 base.SetHP(10);
 
-                Game.world.notificationHandler.ShowNotification("You died and were moved back to the world spawn.", 5000, Images.Bone.GetTexture());
+                NotificationHandler.ShowNotification("You died and were moved back to the world spawn.", 5000, Images.Bone.GetTexture());
             }
         }
 

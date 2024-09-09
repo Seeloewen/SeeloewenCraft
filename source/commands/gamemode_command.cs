@@ -8,7 +8,7 @@ namespace SeeloewenCraft
         {
             if (args.Length != 2)
             {
-                MessageBox.Show("Invalid command syntax: incorrect number of arguments", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                NotificationHandler.ShowNotification("Invalid command syntax: incorrect number of arguments", 3000, Images.Emerald.GetTexture());
                 return;
             }
             string gamemode = args[1];
@@ -17,16 +17,16 @@ namespace SeeloewenCraft
             if (gamemode == "0" || gamemode == "survival")
             {
                 Game.world.SetGamemode(Gamemode.Survival);
-                MessageBox.Show("Gamemode was changed to survival mode", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                NotificationHandler.ShowNotification("Gamemode was changed to survival mode", 3000, Images.Emerald.GetTexture());
             }
             else if (gamemode == "1" || gamemode == "creative")
             {
                 Game.world.SetGamemode(Gamemode.Creative);
-                MessageBox.Show("Gamemode was changed to creative mode", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                NotificationHandler.ShowNotification("Gamemode was changed to creative mode", 3000, Images.Emerald.GetTexture());
             }
             else
             {
-                MessageBox.Show("Invalid command syntax: gamemode type not found", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                NotificationHandler.ShowNotification("Invalid command syntax: gamemode type not found", 3000, Images.Emerald.GetTexture());
             }
         }
     }

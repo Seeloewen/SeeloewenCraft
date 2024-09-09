@@ -11,14 +11,14 @@ namespace SeeloewenCraft
             {
                 if (args.Length != 4)
                 {
-                    MessageBox.Show("Invalid command syntax: incorrect number of arguments", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    NotificationHandler.ShowNotification("Invalid command syntax: incorrect number of arguments", 3000, Images.Slime_Magenta.GetTexture());
                     return;
                 }
 
                 Entity entity = EntityRegister.GenerateEntity(args[1]);
                 if (entity == null)
                 {
-                    MessageBox.Show($"Invalid command syntax: entity id was not found ({args[1]})", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    NotificationHandler.ShowNotification($"Invalid command syntax: entity id was not found ({args[1]})", 3000, Images.Slime_Magenta.GetTexture());
                     return;
                 }
 
@@ -29,16 +29,16 @@ namespace SeeloewenCraft
                 }
                 catch
                 {
-                    MessageBox.Show("Invalid command syntax: couldn't parse coordinates to int", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    NotificationHandler.ShowNotification("Invalid command syntax: couldn't parse coordinates to int", 3000, Images.Slime_Magenta.GetTexture());
                     return;
                 }
 
                 Game.world.AddEntity(entity);
-                MessageBox.Show($"Successfully spawned entity {entity.id} at x{entity.posX} y{entity.posY}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                NotificationHandler.ShowNotification($"Successfully spawned entity {entity.id} at x{entity.posX} y{entity.posY}", 3000, Images.Slime_Magenta.GetTexture());
             }
             else
             {
-                MessageBox.Show($"Cannot spawn mobs because it's disabled in the settings.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                NotificationHandler.ShowNotification($"Cannot spawn mobs because it's disabled in the settings.", 3000, Images.Slime_Magenta.GetTexture());
             }
         }
     }

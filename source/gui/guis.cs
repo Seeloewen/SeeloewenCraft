@@ -160,14 +160,10 @@ namespace SeeloewenCraft
         Button btnClose = new Button() { Width = 160, Height = 30, Content = "Close", FontSize = 16 };
         Button btnClearAll = new Button() { Width = 160, Height = 30, Content = "Clear All", FontSize = 16 };
 
-        //References
-        NotificationHandler notificationHandler;
-
-        public NotificationGui(int height, int width, int top, int left, string id, NotificationHandler notificationHandler) : base(height, width, top, left, id)
+        public NotificationGui(int height, int width, int top, int left, string id) : base(height, width, top, left, id)
         {
             //Setup gui
             tblHeader.Text = "Notifications";
-            this.notificationHandler = notificationHandler;
 
             Canvas.SetTop(tblHeader, 12);
             Canvas.SetLeft(tblHeader, 10);
@@ -218,7 +214,7 @@ namespace SeeloewenCraft
         private void btnClose_Click(object sender, EventArgs e)
         {
             //Hide the notification list gui
-            notificationHandler.HideGui();
+            NotificationHandler.HideGui();
         }
 
         private void btnClearAll_Click(object sender, EventArgs e)

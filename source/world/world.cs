@@ -30,7 +30,6 @@ namespace SeeloewenCraft
         public DebugMenu debugMenu;
         public GameLoop gameLoop;
         public RecipeCreator recipeCreator;
-        public NotificationHandler notificationHandler;
         public WorldRenderer worldRenderer;
         public EntityManager entityManager;
 
@@ -62,7 +61,7 @@ namespace SeeloewenCraft
             this.wndMenu = wndMenu;
             Game.world = this;
 
-            //Initialize textures before anything else
+            //Initialize images before anything else
             Images.Init();
 
             //Create objects
@@ -72,11 +71,12 @@ namespace SeeloewenCraft
             debugMenu = new DebugMenu();
             gameLoop = new GameLoop(25);
             recipeCreator = new RecipeCreator();
-            notificationHandler = new NotificationHandler();
             worldRenderer = new WorldRenderer();
 
             //Actually initialize the game
             InitGame(worldName, isNew, worldVersion);
+
+            NotificationHandler.Init();
 
             if (StartOptions.startCreative)
             {
@@ -368,8 +368,6 @@ namespace SeeloewenCraft
             {
                 player.inventory = new Inventory(9, 4,true);
                 player.inventory.InitHotbar();
-                player.inventory.AddItem("sc:crafting_table_item", 1, ItemRegister.GenerateItem("sc:crafting_table_item").tag);
-                player.inventory.AddItem("sc:torch_item", 5, ItemRegister.GenerateItem("sc:torch_item").tag);
             }
             player.inventory.UpdateHotbar();
             inventoryList.Add(player.inventory);

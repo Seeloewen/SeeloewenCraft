@@ -37,7 +37,7 @@ namespace SeeloewenCraft
             //Set the attributes
 
             this.index = index;
-            rnd = new Random(DateTime.Now.Millisecond);
+            rnd = new Random(DateTime.Now.Millisecond + o);
             o++;
 
             //Begin loading the chunk

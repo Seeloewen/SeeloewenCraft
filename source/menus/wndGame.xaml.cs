@@ -90,7 +90,7 @@ namespace SeeloewenCraft
             if (pressedKeys.Contains(Key.D1)) //Num Key 1 (Not numpad)
             {
                 //Select Hotbar Slot 1
-               world.player.inventory.hotbarSlotList[0].Select();
+                world.player.inventory.hotbarSlotList[0].Select();
             }
             if (pressedKeys.Contains(Key.D2)) //Num Key 2 (Not numpad)
             {
@@ -105,7 +105,7 @@ namespace SeeloewenCraft
             if (pressedKeys.Contains(Key.D4)) //Num Key 4 (Not numpad)
             {
                 //Select Hotbar Slot 4
-               world.player.inventory.hotbarSlotList[3].Select();
+                world.player.inventory.hotbarSlotList[3].Select();
             }
             if (pressedKeys.Contains(Key.D5)) //Num Key 5 (Not numpad)
             {
@@ -170,13 +170,13 @@ namespace SeeloewenCraft
             else if (pressedKeys.Contains(Settings.cNotifications))
             {
                 //Open notification list gui
-                if (world.notificationHandler.gui.isOpen)
+                if (NotificationHandler.gui.isOpen)
                 {
-                    world.notificationHandler.HideGui();
+                    NotificationHandler.HideGui();
                 }
                 else
                 {
-                    world.notificationHandler.ShowGui();
+                    NotificationHandler.ShowGui();
                 }
             }
             if (pressedKeys.Contains(Settings.cToggleDebug))
@@ -537,7 +537,7 @@ namespace SeeloewenCraft
         private void btnNotifications_Click(object sender, RoutedEventArgs e)
         {
             //Show the notification list gui
-            world.notificationHandler.ShowGui();
+            NotificationHandler.ShowGui();
             bdrMenu.Visibility = Visibility.Hidden;
         }
 
