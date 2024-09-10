@@ -914,8 +914,11 @@ namespace SeeloewenCraft
         private void cvsBlock_MouseLeave(object sender, EventArgs e)
         {
             //Remove the border from the block
-            blockContainer.bdrBlock.BorderThickness = new Thickness(0, 0, 0, 0);
-            blockContainer.bdrBlock.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            if(blockContainer != null)
+            {
+                blockContainer.bdrBlock.BorderThickness = new Thickness(0, 0, 0, 0);
+                blockContainer.bdrBlock.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            }
 
             //Stop a possible block modification progress
             tmrBreak.Stop();

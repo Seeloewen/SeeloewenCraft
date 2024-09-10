@@ -65,6 +65,31 @@ namespace SeeloewenCraft
         }
     }
 
+    public class FossilStructure : Structure
+    {
+        public FossilStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
+        {
+            id = "sc:fossil_structure";
+            name = "Fossil";
+            canReplaceSolidBlocks = true;
+
+            AddBlock(new BoneBlock(false), 0, 0);
+            AddBlock(new BoneBlock(false), 0, 1);
+            AddBlock(new BoneBlock(false), 0, 2);
+            AddBlock(new BoneBlock(false), 1, 3);
+            AddBlock(new BoneBlock(false), 2, 0);
+            AddBlock(new BoneBlock(false), 2, 1);
+            AddBlock(new BoneBlock(false), 2, 2);
+            AddBlock(new BoneBlock(false), 3, 3);
+            AddBlock(new BoneBlock(false), 4, 0);
+            AddBlock(new BoneBlock(false), 4, 1);
+            AddBlock(new BoneBlock(false), 4, 2);
+
+            //Begin generation
+            BeginGeneration(x, y, index, isNew);
+        }
+    }
+
     public class Lake : Structure
     {
         public Lake(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat, int floorHeight) : base(chunk, canFloat)

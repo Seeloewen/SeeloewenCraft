@@ -84,12 +84,13 @@ namespace SeeloewenCraft
             if (index != 0)
             {
                 //Generate structures
-                if (biome == Biome.Desert) GeneratePyramids();
                 if (biome != Biome.Desert) GenerateLakes();
                 if (biome != Biome.Desert) GenerateTrees();
                 if (biome == Biome.Desert) GenerateCacti();
+                if (biome == Biome.Desert) GeneratePyramids();
                 GenerateOres();
                 GenerateCaves();
+                if (biome == Biome.Desert) GenerateFossil();
                 if (biome != Biome.Desert) GeneratePlainsDungeon();
                 ContinueStructureGeneration("");
             }
@@ -210,6 +211,22 @@ namespace SeeloewenCraft
                 if (y != 0)
                 {
                     structureList.Add(new CactusStructure(x, y - 1, index, true, this, false));
+                }
+            }
+        }
+
+        private void GenerateFossil()
+        {
+            ContinueStructureGeneration("Fossil");
+
+            //Generate up to 1 fossil
+            if (rnd.Next(0, 10) == 0)
+            {
+                (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
+
+                if (y != 0)
+                {
+                    structureList.Add(new FossilStructure(x, y + rnd.Next(20, 50), index, true, this, false));
                 }
             }
         }
