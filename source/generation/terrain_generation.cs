@@ -2,6 +2,15 @@
 {
     public partial class Chunk
     {
+        public enum Biome
+        {
+            None,
+            Plains,
+            Forest,
+            SpruceForest,
+            Desert
+        }
+
         private void GenerateTerrain()
         {
             //Set floorheight
@@ -32,6 +41,12 @@
                         case Biome.Desert:
                             GenerateDesert(x);
                             break;
+                        case Biome.SpruceForest:
+                            GeneratePlains(x); //Uses plains mechanism, only structures vary
+                            break;
+                        case Biome.Forest:
+                            GeneratePlains(x); //Uses plains mechanism, only structures vary
+                            break;
                     }
                 }
             }
@@ -47,6 +62,12 @@
                             break;
                         case Biome.Desert:
                             GenerateDesert(x);
+                            break;
+                        case Biome.SpruceForest:
+                            GeneratePlains(x); //Uses plains mechanism, only structures vary
+                            break;
+                        case Biome.Forest:
+                            GeneratePlains(x); //Uses plains mechanism, only structures vary
                             break;
                     }
                 }

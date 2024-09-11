@@ -6,13 +6,6 @@ using System.Windows.Controls;
 
 namespace SeeloewenCraft
 {
-    public enum Biome
-    {
-        None,
-        Plains,
-        Desert
-    }
-
     public partial class Chunk
     {
         public BlockList blockList;

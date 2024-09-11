@@ -5,7 +5,6 @@ using System.Windows.Input;
 using System.Windows;
 using System;
 using SeeloewenCraft.entity;
-using System.Windows.Media.Media3D;
 
 namespace SeeloewenCraft
 {

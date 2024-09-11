@@ -57,7 +57,7 @@ namespace SeeloewenCraft
             }
             else if (!generateNewBiome && adjacentBiome != Biome.None)
             {
-                Log.Write($"Determined biome {newBiome} for chunk {index} based on adjacent chunk", "Info");
+                Log.Write($"Determined biome {adjacentBiome} for chunk {index} based on adjacent chunk", "Info");
                 return adjacentBiome;
             }
 
@@ -68,12 +68,16 @@ namespace SeeloewenCraft
         public Biome GetRandomBiome()
         {
             //Generate a new biome based on random value
-            switch (rnd.Next(1, 3))
+            switch (rnd.Next(1, 5))
             {
                 case 1:
                     return Biome.Plains;
                 case 2:
                     return Biome.Desert;
+                case 3:
+                    return Biome.Forest;
+                case 4:
+                    return Biome.SpruceForest;
                 default:
                     return Biome.Plains;
             }
@@ -159,24 +163,29 @@ namespace SeeloewenCraft
             ContinueStructureGeneration("Oak Tree");
 
             //Generate up to 3 trees
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < (biome == Biome.Plains ? 1 : 3); i++)
             {
                 if (rnd.Next(0, biome == Biome.Plains ? 7 : 3) == 0)
                 {
                     (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
-                    //Decide which tree to generate, mostly generate oak trees, rarely spruce
+                    //Decide which tree to generate, depending on biome
                     if (y != 0)
                     {
-                        if (rnd.Next(0, 6) == 0)
+                        if (biome == Biome.Plains || biome == Biome.Forest)
                         {
-                            structureList.Add(new SpruceTreeStructure(x, y - 1, index, true, this, false));
+                            if(rnd.Next(biome == Biome.Plains ? 6 : 16) > 4)
+                            {
+                                structureList.Add(new OakTreeStructure(x, y - 1, index, true, this, false));
+                            }
                         }
-                        else
+                        else if(biome == Biome.SpruceForest)
                         {
-                            structureList.Add(new OakTreeStructure(x, y - 1, index, true, this, false));
+                            if (rnd.Next(4) != 0)
+                            {
+                                structureList.Add(new SpruceTreeStructure(x, y - 1, index, true, this, false));
+                            }
                         }
-
                     }
                 }
             }
