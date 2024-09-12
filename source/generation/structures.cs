@@ -322,6 +322,7 @@ namespace SeeloewenCraft
                 for (int j = 0; j < height; j++)
                 {
                     AddBlock(new SandStoneBricksBlock(false), width + i, j);
+                    AddBlock(new SandStoneBricksBlock(false), width - i, j);
                 }
                 height--;
             }

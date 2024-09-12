@@ -24,6 +24,8 @@ namespace SeeloewenCraft
         }
     }
 
+    public class CropLootTable : LootTable { }
+
     public class PlainsDungeonChest : LootTable
     {
         public PlainsDungeonChest() : base()

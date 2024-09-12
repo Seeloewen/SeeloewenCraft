@@ -530,5 +530,7 @@ namespace SeeloewenCraft.entity
         {
             return id;
         }
+
+        //Hahn und Jazz waren hier
     }
 }

@@ -174,12 +174,12 @@ namespace SeeloewenCraft
                     {
                         if (biome == Biome.Plains || biome == Biome.Forest)
                         {
-                            if(rnd.Next(biome == Biome.Plains ? 6 : 16) > 4)
+                            if (rnd.Next(biome == Biome.Plains ? 6 : 16) > 4)
                             {
                                 structureList.Add(new OakTreeStructure(x, y - 1, index, true, this, false));
                             }
                         }
-                        else if(biome == Biome.SpruceForest)
+                        else if (biome == Biome.SpruceForest)
                         {
                             if (rnd.Next(4) != 0)
                             {
@@ -377,7 +377,7 @@ namespace SeeloewenCraft
             }
         }
 
-        private void ContinueStructureGeneration(string structureName)
+        public void ContinueStructureGeneration(string structureName)
         {
             //If an ID is given, only generate structures with that id
             if (!string.IsNullOrEmpty(structureName))
@@ -388,7 +388,7 @@ namespace SeeloewenCraft
                     foreach (Structure structure in Game.world.GetChunk(index + (index < 0 ? 1 : -1)).structureList)
                     {
                         //Check if the structure in the list is actually cut off and matches the id
-                        if (structure.isCutOff && structure.name == structureName)
+                        if (structure.isCutOff && structure.name == structureName && !continuedStructureList.Contains(structure))
                         {
                             structureList.Add(new ContinuationStructure(structure.cutOffComponents, index < 0 ? 7 : 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
                             continuedStructureList.Add(structure);

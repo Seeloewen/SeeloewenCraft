@@ -4,7 +4,7 @@ namespace SeeloewenCraft
 {
     public class WaterUpdateEvent : GameLoopEvent
     {
-        public WaterUpdateEvent( GameLoop gameLoop) : base( gameLoop)
+        public WaterUpdateEvent(GameLoop gameLoop) : base(gameLoop)
         {
             maxTick = 1000;
         }
@@ -17,7 +17,7 @@ namespace SeeloewenCraft
 
     public class DayNightCycle : GameLoopEvent
     {
-        public DayNightCycle( GameLoop gameLoop) : base( gameLoop)
+        public DayNightCycle(GameLoop gameLoop) : base(gameLoop)
         {
             singleEvent = false;
             maxTick = 1200000;
@@ -75,6 +75,28 @@ namespace SeeloewenCraft
                     Game.world.wndGame.cvsGame.Background = new SolidColorBrush(Color.FromArgb(255, 188, 244, 247));
                     Reset();
                     break;
+            }
+        }
+    }
+
+    public class CropTimerEvent : GameLoopEvent
+    {
+        public CropTimerEvent(GameLoop gameLoop) : base(gameLoop)
+        {
+            maxTick = 250;
+        }
+
+        public override void DoEvent()
+        {
+            foreach (Chunk chunk in Game.world.loadedChunkList)
+            {
+                foreach (Block block in chunk.blockList.blocks)
+                {
+                    if (block is CropBlock crop)
+                    {
+                        crop.UpdateProgress(maxTick);
+                    }
+                }
             }
         }
     }

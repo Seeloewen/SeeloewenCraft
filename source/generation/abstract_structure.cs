@@ -164,7 +164,7 @@ namespace SeeloewenCraft
                     //Compare each block in the structure list to the block that's already at that position; if it has a fixed solid state, don't replace it
                     if (canReplaceSolidBlocks)
                     {
-                        chunk.blockList.Add(block, block.xPos, block.yPos);
+                        chunk.SetBlock(block, block.xPos, block.yPos);
 
                         if (canFloat == false && block.yPos == yBase)
                         {
@@ -175,7 +175,7 @@ namespace SeeloewenCraft
                     {
                         if (chunk.blockList.Get(block.xPos, block.yPos).isBreakable)
                         {
-                            chunk.blockList.Add(block, block.xPos, block.yPos);
+                            chunk.SetBlock(block, block.xPos, block.yPos);
 
                             if (canFloat == false && block.yPos == yBase)
                             {
@@ -212,11 +212,14 @@ namespace SeeloewenCraft
 
         public void BeginGeneration(int x, int y, int index, bool isNew)
         {
-            //Check which direction it's going to be built in
-            this.isNew = isNew;
-            totalWidth = GetTotalWidth();
-            SetupStructure(x, y, index > 0 ? Direction.RIGHT : Direction.LEFT);
-            GenerateStructure();
+            if (chunk != null)
+            {
+                //Check which direction it's going to be built in
+                this.isNew = isNew;
+                totalWidth = GetTotalWidth();
+                SetupStructure(x, y, index > 0 ? Direction.RIGHT : Direction.LEFT);
+                GenerateStructure();
+            }
         }
 
         public bool CheckForCutoff()

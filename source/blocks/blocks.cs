@@ -762,12 +762,33 @@ namespace SeeloewenCraft
         }
     }
 
-    public class CactusFruitBlock : Block
+    public class CactusFruitBlock : CropBlock
     {
         public CactusFruitBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Fruit", "sc:cactus_fruit_block", 0, "sc:cactus_fruit_item", Tool.None, Images.CactusFruit);
+            Init("Cactus Fruit", "sc:cactus_fruit_block", 0, "sc:cactus_fruit_item", rnd.Next(180000, 480000), "sc:cactus_fruit_item", "sc:cactus_fruit_item", Tool.None, Images.CactusFruit);
             isSolid = false;
+        }
+
+        public override void UpdateProgress(int amount)
+        {
+            base.UpdateProgress(amount);
+
+            if (IsReady())
+            {
+                if (HasSpaceAbove(-1, 0, 3, 6))
+                {
+                    Structure cactus = new CactusStructure(xPos, yPos, chunk.index, true, null, true);
+                    foreach (StructureComponent structComp in cactus.structureComponents)
+                    {
+                        chunk.SetBlock(structComp.block, xPos + structComp.xOffset - 1, yPos - structComp.yOffset);
+                    }
+                }
+                else
+                {
+                    growthTime += 10000;
+                }
+            }
         }
     }
 
@@ -872,21 +893,66 @@ namespace SeeloewenCraft
         }
     }
 
-    public class OakSaplingBlock : Block
+    public class OakSaplingBlock : CropBlock
     {
         public OakSaplingBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Oak Sapling", "sc:oak_sapling_block", 0, "sc:oak_sapling_item", Tool.None, Images.OakSapling);
-            isSolid = false;
+            Init("Oak Sapling", "sc:oak_sapling_block", 0, "sc:oak_sapling_item", rnd.Next(1000, 5000), "sc:oak_sapling_item", "sc:oak_sapling_item", Tool.None, Images.OakSapling);
+            isSolid = false; //rnd.Next(600000, 1200001)
+        }
+
+        public override void UpdateProgress(int amount)
+        {
+            base.UpdateProgress(amount);
+
+            if (IsReady())
+            {
+                if (HasSpaceAbove(-2, 0, 5, 5))
+                {
+                    Structure tree = new OakTreeStructure(xPos, yPos, chunk.index, true, null, true);
+
+                    foreach (StructureComponent structComp in tree.structureComponents)
+                    {
+                        chunk.SetBlock(structComp.block, xPos + structComp.xOffset - 2, yPos - structComp.yOffset);
+                    }
+                }
+                else
+                {
+                    growthTime += 10000;
+                }
+            }
         }
     }
 
-    public class SpruceSaplingBlock : Block
+    public class SpruceSaplingBlock : CropBlock
     {
         public SpruceSaplingBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Sapling", "sc:spruce_sapling_block", 0, "sc:spruce_sapling_item", Tool.None, Images.SpruceSapling);
-            isSolid = false;
+            Init("Spruce Sapling", "sc:spruce_sapling_block", 0, "sc:spruce_sapling_item", rnd.Next(1000, 5000), "sc:tree_sapling_item", "sc:tree_sapling_item", Tool.None, Images.SpruceSapling);
+            isSolid = false; // rnd.Next(600000, 1200001)
+        }
+
+        public override void UpdateProgress(int amount)
+        {
+            base.UpdateProgress(amount);
+
+            if (IsReady())
+            {
+                if (HasSpaceAbove(-2, 0, 5, 7))
+                {
+
+                    Structure tree = new SpruceTreeStructure(xPos, yPos, chunk.index, true, null, true);
+
+                    foreach (StructureComponent structComp in tree.structureComponents)
+                    {
+                        chunk.SetBlock(structComp.block, xPos + structComp.xOffset - 2, yPos - structComp.yOffset);
+                    }
+                }
+                else
+                {
+                    growthTime += 10000;
+                }
+            }
         }
     }
 
@@ -897,6 +963,7 @@ namespace SeeloewenCraft
             Init("Oak Table", "sc:oak_table_block", 350, "sc:oak_table_item", Tool.Axe, Images.OakTable);
             isSolid = false;
         }
+
     }
 
     public class SpruceTableBlock : Block
