@@ -11,6 +11,8 @@ namespace SeeloewenCraft
         public static PlainsDungeonBarrel plainsDungeonBarrel = new PlainsDungeonBarrel();
         public static PotLootTable potLootTable = new PotLootTable();
         public static PyramidLootTable pyramidLootTable = new PyramidLootTable();
+        public static SpruceTreeLootTable spruceTreeLootTable = new SpruceTreeLootTable();
+        public static OakTreeLootTable oakTreeLootTable = new OakTreeLootTable();
 
     }
 
@@ -62,6 +64,24 @@ namespace SeeloewenCraft
         public CoalLootTable() : base()
         {
             lootTableEntries.Add(new LootTableEntry(new CoalItem(), 1, 3, 1));
+        }
+    }
+
+    public class OakTreeLootTable : LootTable
+    {
+        public OakTreeLootTable() : base()
+        {
+            lootTableEntries.Add(new LootTableEntry(new OakSaplingItem(), 1, 1, 1));
+            lootTableEntries.Add(new LootTableEntry(new OakLeavesItem(), 1, 1, 6));
+        }
+    }
+
+    public class SpruceTreeLootTable : LootTable
+    {
+        public SpruceTreeLootTable() : base()
+        {
+            lootTableEntries.Add(new LootTableEntry(new SpruceSaplingItem(), 1, 1, 1));
+            lootTableEntries.Add(new LootTableEntry(new SpruceLeavesItem(), 1, 1, 6));
         }
     }
 
