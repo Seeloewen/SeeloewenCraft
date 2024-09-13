@@ -6,7 +6,8 @@ namespace SeeloewenCraft
     public class BlockContainerList
     {
         List<BlockContainer> containerList = new List<BlockContainer>();
-        
+        Chunk chunk;
+
         int chunkIndex = 10000000; //Chunk index needs to be some random (preferebly unused number) to not be Null for the IsAvailable() check
 
         //-- Constructor --//
@@ -14,12 +15,12 @@ namespace SeeloewenCraft
         public BlockContainerList()
         {
             //Add all necessary block containers to the list
-            
+
             for (int x = 0; x < 8; x++)
             {
                 for (int y = 0; y < 75; y++)
                 {
-                    containerList.Add(new BlockContainer( x, y));
+                    containerList.Add(new BlockContainer(x, y));
                 }
             }
         }
@@ -56,8 +57,9 @@ namespace SeeloewenCraft
 
         public void AssignToChunk(Chunk chunk)
         {
-            //Set the new index 
+            //Set the new index
             chunkIndex = chunk.index;
+            this.chunk = chunk;
 
             foreach (BlockContainer container in containerList)
             {
@@ -68,6 +70,18 @@ namespace SeeloewenCraft
                 chunk.grdChunk.Children.Add(container.bdrBlock);
                 Grid.SetRow(container.bdrBlock, container.yPos);
                 Grid.SetColumn(container.bdrBlock, container.xPos);
+            }
+        }
+
+        public void RemoveFromChunk()
+        {
+            chunkIndex = int.MaxValue;      
+            chunk.blockContainerList = null;
+
+            foreach (BlockContainer container in containerList)
+            {
+                //Clear each containers from their previous chunks
+                container.ClearFromChunk();
             }
         }
     }

@@ -10,20 +10,24 @@ namespace SeeloewenCraft.entity
 
 
         public Zombie(int posX, int posY, int velX, int velY)
-            : base(900, 1800, posX, posY, velX, velY, new SolidColorBrush(Colors.LimeGreen))
+            : base(900, 1800, posX, posY, velX, velY)
         {
             idGenerator = new Random(DateTime.Now.Millisecond);
             ACC_WALKING = 20000;
             ACC_SPRINTING = 35000;
         }
 
-        internal Zombie(JsonToken token) : base(token, 900, 1800, new SolidColorBrush(Colors.LimeGreen))
+        protected override void InitTexture()
+        {
+            texture.Background = new SolidColorBrush(Colors.LimeGreen);
+        }
+
+        internal Zombie(JsonToken token) : base(token, 900, 1800)
         {
             ACC_WALKING = 20000;
             ACC_SPRINTING = 35000;
         }
-
-
+        
         public override void Die()
         {
             Drop("sc:dirt_item");

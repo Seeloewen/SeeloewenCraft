@@ -10,7 +10,6 @@ namespace SeeloewenCraft.entity
     {
         public static Random idGenerator = new Random(DateTime.Now.Millisecond);
         protected Random rnd;
-
         public TextBlock tblId;
 
         public string type;
@@ -423,20 +422,20 @@ namespace SeeloewenCraft.entity
             texture.Children.Clear();
             tblId = new TextBlock() { FontSize = 20, FontWeight = FontWeights.DemiBold };
             tblId.Text = id.ToString();
+
             if (this is MovingEntity)
             {
                 texture.Children.Add(tblId);
                 Canvas.SetTop(tblId, -30);
                 Canvas.SetLeft(tblId, 8);
             }
-
-            rnd = new Random(id);
         }
 
         public Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, Brush image)
         {
             lifeTime = 0;
             id = idGenerator.Next(0, int.MaxValue);
+
             this.sizeX = sizeX;
             this.sizeY = sizeY;
             this.posX = posX;

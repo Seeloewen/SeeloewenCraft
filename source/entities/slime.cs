@@ -14,20 +14,28 @@ namespace SeeloewenCraft.entity
         private Random rnd;
         
 
-        public Slime(int posX, int posY, int velX, int velY) : base(animalSizeX, animalSizeY, posX, posY, velX, velY,  GetSlimeTexture())
+        public Slime(int posX, int posY, int velX, int velY) : base(animalSizeX, animalSizeY, posX, posY, velX, velY)
         {
+            type = "Slime";
             rnd = new Random(DateTime.Now.Millisecond);
             frictionAir = 1;
             ACC_WALKING = 0;
             ACC_SPRINTING = 0;
         }
 
-        public Slime(JsonToken token) : base(token, animalSizeX, animalSizeY, GetSlimeTexture())
+        public Slime(JsonToken token) : base(token, animalSizeX, animalSizeY)
         {
+            type = "Slime";
+            
             rnd = new Random(DateTime.Now.Millisecond);
             frictionAir = 1;
             ACC_WALKING = 0;
             ACC_SPRINTING = 0;
+        }
+
+        protected override void InitTexture()
+        {
+            texture.Background = GetSlimeTexture();
         }
 
         public override void Die()

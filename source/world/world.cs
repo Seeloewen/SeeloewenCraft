@@ -83,7 +83,17 @@ namespace SeeloewenCraft
                 SetGamemode(Gamemode.Creative);
             }
 
-            Game.world.wndGame.Show();
+            //If the game is a client, don't show the window right away, wait for the first sync
+            if (Game.client == null)
+            {
+                Game.world.wndGame.Show();
+            }
+
+            //TODO: Only start a server when requested
+            if (Game.client == null)
+            {
+                NetworkHandler.StartServer();
+            }
         }
 
         //-- Custom Methods --//
@@ -206,17 +216,82 @@ namespace SeeloewenCraft
 
         public void AddEntity(Entity entity)
         {
+            entities.Add(entity);
+            Game.world.wndGame.cvsWorld.Children.Add(entity.texture);
+            Panel.SetZIndex(entity.texture, 1);
+            worldRenderer.AddEntity(entity);
+
+            using (JsonWriter writer = JsonWriter.Create())
+            {
+                entity.SaveToJson(writer);
+                NetworkHandler.SendData($"CreateEntity;{writer.ToString()}");
+            }
+          
+            entityManager.Add(entity);
+        }
+
+        public void AddMultiplayerEntity(Entity entity)
+        {
+            if (entity.id == player.id)
+            {
+                return;
+            }
+
+            entities.Add(entity);
+            Game.world.wndGame.cvsWorld.Children.Add(entity.texture);
+            Panel.SetZIndex(entity.texture, 1);
+            worldRenderer.AddEntity(entity);
+
             entityManager.Add(entity);
         }
 
         public void RemoveEntity(int id)
         {
+            if (entities.Contains(entity))
+            {
+                entities.Remove(entity);
+                Game.world.wndGame.cvsWorld.Children.Remove(entity.texture);
+                worldRenderer.Remove(entity);
+
+                NetworkHandler.SendData($"RemoveEntity;{entity.id}");
+            }
+          
+            entityManager.Remove(id);
+        }
+
+        public void RemoveMultiplayerEntity(int id)
+        {
+            for (int i = 0; i < entities.Count; i++)
+            {
+                Entity entity = entities[i];
+
+                if (entity.id == id)
+                {
+                    entities.Remove(entity);
+                    Game.world.wndGame.cvsWorld.Children.Remove(entity.texture);
+                    worldRenderer.Remove(entity);
+                    break;
+                }
+            }
+
             entityManager.Remove(id);
         }
 
         public void SetBlock(Block block, int posX, int posY)
         {
             GetBlock(posX, posY).SetBlock(block);
+        }
+
+        public void SetBlockMultiplayer(Block block, int cIndex, int x, int y)
+        {
+            //Check if the chunk exists before placing a block there, if not, create it
+            if (GetTotalChunk(cIndex) == null)
+            {
+                CreateChunk(cIndex);
+            }
+
+            //Set the block in the chunk
+            GetTotalChunk(cIndex).SetBlock(block, x, y);
         }
 
         public Chunk CreateChunk(int index)
@@ -230,6 +305,7 @@ namespace SeeloewenCraft
         {
             loadedChunkList.Remove(chunk);
             worldRenderer.RemoveChunk(chunk);
+            chunk.blockContainerList.RemoveFromChunk();
         }
 
 
@@ -313,7 +389,7 @@ namespace SeeloewenCraft
 
         public void GenerateBlockContainer()
         {
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 7; i++)
             {
                 blockContainerList.Add(new BlockContainerList());
             }
@@ -452,39 +528,73 @@ namespace SeeloewenCraft
             }
         }
 
-        public void MoveLoadedChunks(Direction dir)
+        public async void MoveLoadedChunks(Direction dir)
         {
             if (dir.IsRight())
             {
-                Chunk removeChunk = Game.world.GetLoadedChunk(Game.world.loadedChunkList[0].index);
-                Game.world.loadedChunkList.Remove(removeChunk);
-                worldRenderer.RemoveChunk(removeChunk);
-                Chunk addChunk = Game.world.GetChunk(Game.world.loadedChunkList[5].index + 1);
-                Game.world.LoadChunk(addChunk);
-
+                Chunk chunk = Game.world.GetLoadedChunk(Game.world.loadedChunkList[0].index);
+                Game.world.UnloadChunk(chunk);
+                Chunk newChunk = Game.world.GetChunk(Game.world.loadedChunkList[5].index + 1);
+                Game.world.LoadChunk(newChunk);
 
                 //Sort the chunklist again
                 Game.world.loadedChunkList = Game.world.loadedChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
                 worldRenderer.Render();
+
+                //Send the chunk on the network
+                NetworkHandler.SendData($"CreateChunk;{newChunk.index}");
+
+                //If it's a server, additionally send the chunk to all clients
+                if (Game.isServer)
+                {
+                    foreach (Block block in newChunk.blockList.blocks)
+                    {
+                        NetworkHandler.SendData($"SetBlock;{block.id};{newChunk.index};{block.xPos};{block.yPos}");
+                    }
+                }
             }
             else if (dir.IsLeft())
             {
                 Chunk chunk = Game.world.GetLoadedChunk(Game.world.loadedChunkList[6].index);
                 Game.world.UnloadChunk(chunk);
-                Game.world.LoadChunk(Game.world.GetChunk(Game.world.loadedChunkList[0].index - 1));
+                Chunk newChunk = Game.world.GetChunk(Game.world.loadedChunkList[0].index - 1);
+                Game.world.LoadChunk(newChunk);
 
                 //Sort the list again
                 Game.world.loadedChunkList = Game.world.loadedChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
                 worldRenderer.Render();
+
+                //Send the chunk on the network
+                NetworkHandler.SendData($"CreateChunk;{newChunk.index}");
+
+                //If it's a server, additionally send the chunk to all clients
+                if (Game.isServer)
+                {
+                    foreach (Block block in newChunk.blockList.blocks)
+                    {
+                        NetworkHandler.SendData($"SetBlock;{block.id};{newChunk.index};{block.xPos};{block.yPos}");
+                    }
+                }
             }
         }
-
-
 
         public Chunk GetLoadedChunk(int index)
         {
             //Returns a chunk from the list based on the given index
             foreach (Chunk chunk in loadedChunkList)
+            {
+                if (chunk.index == index)
+                {
+                    return chunk;
+                }
+            }
+            return null;
+        }
+
+        public Chunk GetTotalChunk(int index)
+        {
+            //Returns a chunk from the list based on the given index
+            foreach (Chunk chunk in totalChunkList)
             {
                 if (chunk.index == index)
                 {

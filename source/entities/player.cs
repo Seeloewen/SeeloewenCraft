@@ -31,11 +31,16 @@ namespace SeeloewenCraft.entity
 
         //-- Custom Methods --//
 
+        protected override void InitTexture()
+        {
+            texture.Background = new SolidColorBrush(Colors.Red);
+        }
+
         private void HandleThrow()
         {
             if (pressedThrow)
             {
-                if (!thrown)
+                if (!thrown && inventory != null)
                 {
                     //Get the selected slot and selected item
                     InventorySlot selectedSlot = inventory.GetSelectedHotbarSlot().slot;
@@ -68,16 +73,28 @@ namespace SeeloewenCraft.entity
             }
         }
 
-        private void HandleInputs()
+        public void HandleInputs()
         {
-            if (this == Game.world.player)
+            bool changed = false;
+
+            changed = changed || pressedLeft != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedRight != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedUp != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedSneak != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedSprint != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedThrow != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+
+
+            pressedLeft = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            pressedRight = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveRight);
+            pressedUp = Game.world.wndGame.pressedKeys.Contains(Settings.cJump);
+            pressedSneak = Game.world.wndGame.pressedKeys.Contains(Settings.cSneak);
+            pressedSprint = Game.world.wndGame.pressedKeys.Contains(Settings.cSprint);
+            pressedThrow = Game.world.wndGame.pressedKeys.Contains(Settings.cThrowItem);
+
+            if (changed)
             {
-                pressedLeft = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
-                pressedRight = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveRight);
-                pressedUp = Game.world.wndGame.pressedKeys.Contains(Settings.cJump);
-                pressedSneak = Game.world.wndGame.pressedKeys.Contains(Settings.cSneak);
-                pressedSprint = Game.world.wndGame.pressedKeys.Contains(Settings.cSprint);
-                pressedThrow = Game.world.wndGame.pressedKeys.Contains(Settings.cThrowItem);
+                NetworkHandler.SendData($"MovePlayer;{Game.world.player.id};{pressedLeft};{pressedRight};{pressedUp};{pressedSneak};{pressedSprint}");
             }
         }
 
@@ -167,7 +184,6 @@ namespace SeeloewenCraft.entity
 
         protected override void OnUpdateStart(int tps)
         {
-            HandleInputs();
             HandleThrow();
             base.OnUpdateStart(tps);
             DisplayDebugInformation();

@@ -267,6 +267,7 @@ namespace SeeloewenCraft
                 if (block.gui != null && block.gui.inventory != null)
                 {
                     block.gui.inventory = block.blockInventory;
+                    block.blockInventory.block = block;
                 }
             }
 
@@ -396,7 +397,7 @@ namespace SeeloewenCraft
         public void MoveToBackground()
         {
             isBackground = true;
-
+          
             if (blockContainer != null)
             {
                 blockContainer.ShowDarkRectangle();
@@ -644,6 +645,9 @@ namespace SeeloewenCraft
                 block.BreakBlock(true, true, false);
                 Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos, block.id));
             }
+          
+            //Send the data on the network if it's multiplayer
+            NetworkHandler.SendData($"SetBlock;{block.id};{chunk.index};{block.xPos};{block.yPos}");
         }
 
         public void SetForegroundBlock(Block block)

@@ -50,7 +50,7 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public InventorySlot( Inventory inventory, int xPos, int yPos)
+        public InventorySlot(Inventory inventory, int xPos, int yPos)
         {
             //Set the attributes
             this.inventory = inventory;
@@ -111,8 +111,12 @@ namespace SeeloewenCraft
                     itemTag = tag;
                     cvsItem.Background = ItemRegister.GenerateItem(id).image;
 
+                    if(inventory.block != null && inventory.block.chunk != null)
+                    {
+                        NetworkHandler.SendData($"AddToInv;{inventory.block.xPos};{inventory.block.yPos};{inventory.block.chunk.index};{id};{amount};{xPos};{yPos}");
+                    }
+                  
                     ToggleDurabilityDisplay();
-
                 }
                 else
                 {
@@ -125,6 +129,16 @@ namespace SeeloewenCraft
             }
         }
 
+        public void AddMultiplayer(string id, string tag, int amount)
+        {
+            //Update the slot
+            itemId = id;
+            Amount += amount;
+            itemTag = tag;
+            cvsItem.Background = ItemRegister.GenerateItem(id).image;          
+            ToggleDurabilityDisplay();
+        }
+      
         public void ToggleDurabilityDisplay()
         {
             if (GetDurability() != 0)
@@ -165,6 +179,11 @@ namespace SeeloewenCraft
                     if(hotbarSlot != null) hotbarSlot.pbDurability.Visibility= Visibility.Hidden;
                     inventory.UpdateHotbar();
                 }
+
+                if (inventory.block != null && inventory.block.chunk != null)
+                {
+                    NetworkHandler.SendData($"RemoveFromInv;{inventory.block.xPos};{inventory.block.yPos};{inventory.block.chunk.index};{amount};{xPos};{yPos}");
+                }
             }
             else
             {
@@ -172,6 +191,18 @@ namespace SeeloewenCraft
             }
         }
 
+        public void RemoveMultiplayer(int amount)
+        {
+            //Update the slot and clear it if the amount is 0
+            Amount -= amount;
+
+            if (Amount == 0)
+            {
+                cvsItem.Background = new SolidColorBrush(Colors.Transparent);
+                itemId = "";
+            }
+        }
+      
         public int GetAvailableSpace()
         {
             //Return the available space, obviously
@@ -333,14 +364,15 @@ namespace SeeloewenCraft
                     selectedSlot.MoveItem(this, 1);
                     Game.world.wndGame.tblInvItem.Text = selectedSlot.Amount.ToString();
                 }
-            }else if(selectedSlot == null && Amount > 1)
+            }
+            else if (selectedSlot == null && Amount > 1)
             {
                 //If no slot is selected and this slot has more than one item
-                foreach(InventorySlot slot in inventory.slotList)
+                foreach (InventorySlot slot in inventory.slotList)
                 {
                     //Search for an empty slot and move half of this slots items there, then select it.
                     //This will look like you halfed the stack at hand
-                    if(slot.IsEmpty())
+                    if (slot.IsEmpty())
                     {
                         MoveItem(slot, Amount / 2);
                         slot.Select();

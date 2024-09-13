@@ -32,7 +32,7 @@ namespace SeeloewenCraft
                 paragraph = new Paragraph();
                 foreach (string message in messages)
                 {
-                    string[] messageSplit = message.Split(';');
+                    string[] messageSplit = message.Split('§');
                     Run line;
                     if (messageSplit[1] == "red")
                     {
@@ -107,7 +107,7 @@ namespace SeeloewenCraft
                 List<string> onlyMessages = new List<string>();
                 foreach (string message in messages)
                 {
-                    string[] messageSplit = message.Split(';');
+                    string[] messageSplit = message.Split('§');
                     onlyMessages.Add(messageSplit[0]);
                 }
                 File.WriteAllLines($"{location}/SeeloewenCraft_Log_{DateTime.Now.ToString().Replace(":", "-").Replace(".", "-").Replace(" ", "-")}.txt", onlyMessages);
@@ -166,7 +166,7 @@ namespace SeeloewenCraft
                 color = "blue";
             }
 
-            messages.Add($"[{DateTime.Now}] [{prefix}] {message};{color}");
+            messages.Add($"[{DateTime.Now}] [{prefix}] {message}§{color}");
 
             if (wndLog != null)
             {
@@ -174,7 +174,7 @@ namespace SeeloewenCraft
                 paragraph = new Paragraph();
                 foreach (string mes in messages)
                 {
-                    string[] messageSplit = mes.Split(';');
+                    string[] messageSplit = mes.Split('§');
                     Run line;
                     if (messageSplit[1] == "red")
                     {

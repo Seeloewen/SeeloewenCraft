@@ -40,14 +40,53 @@ namespace SeeloewenCraft.entity
         public bool breathing;
 
 
-        public MovingEntity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, Brush image)
-            : base(sizeX, sizeY, posX, posY, velX, velY, image)
+        public MovingEntity(int sizeX, int sizeY, int posX, int posY, int velX, int velY)
+            : base(sizeX, sizeY, posX, posY, velX, velY)
         {
             type = "MovingEntity";
             hp = MAX_HP;
             currentAcc = ACC_WALKING;
 
             texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
+
+            InitTexture();
+        }
+
+        public MovingEntity(JsonToken token, int sizeX, int sizeY)
+            : base(token, sizeX, sizeY, new SolidColorBrush(Colors.Green))
+        {
+            type = "MovingEntity";
+            hp = token.GetDouble("/hp");
+            currentAcc = token.GetInt("/current_acc");
+            fallMaxHeight = token.GetInt("/fall_max_height");
+            thrown = token.GetBool("/thrown");
+            flying = token.GetBool("/flying");
+
+
+            texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
+
+            InitTexture();
+        }
+
+        protected abstract void InitTexture();
+
+        public void SendSyncData()
+        {
+            if(this is Player && this != Game.world.player && !Game.isServer)
+            {
+                return;
+            }
+
+            //Only send sync data of the current player or entities
+            NetworkHandler.SendData($"SyncPos;{id};{posX};{posY};{velX};{velY}");
+        }
+
+        public void HandleSyncData(string[] args)
+        {
+            posX = Convert.ToInt32(args[2]);
+            posY = Convert.ToInt32(args[3]);
+            velX = Convert.ToInt32(args[4]);
+            velY = Convert.ToInt32(args[5]);
         }
 
         public MovingEntity(JsonToken token, int sizeX, int sizeY, Brush image)
@@ -177,11 +216,39 @@ namespace SeeloewenCraft.entity
         public virtual void Heal(double amount)
         {
             SetHP(hp + amount);
+
+            NetworkHandler.SendData($"HealEntity;{id};{amount}");
+        }
+
+        public virtual void MultiplayerHeal(double amount)
+        {
+            SetHP(hp + amount);
         }
 
         public virtual void Damage(double damage)
         {
             SetHP(hp - damage);
+
+            NetworkHandler.SendData($"DamageEntity;{id};{damage}");
+        }
+
+        public virtual void MultiplayerDamage(double damage)
+        {
+            SetHP(hp - damage);
+        }
+
+        protected override void SaveSpecialInfo(JsonWriter writer)
+        {
+            writer.WritePropertyName("hp");
+            writer.WriteValue(hp);
+            writer.WritePropertyName("current_acc");
+            writer.WriteValue(currentAcc);
+            writer.WritePropertyName("fall_max_height");
+            writer.WriteValue(fallMaxHeight);
+            writer.WritePropertyName("thrown");
+            writer.WriteValue(thrown);
+            writer.WritePropertyName("flying");
+            writer.WriteValue(flying);
         }
 
         protected override void SaveSpecialInfo(JsonWriter writer)

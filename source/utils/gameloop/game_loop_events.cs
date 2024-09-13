@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using SeeloewenCraft.entity;
+using System.Windows.Media;
 
 namespace SeeloewenCraft
 {
@@ -13,6 +14,27 @@ namespace SeeloewenCraft
         {
             Game.world.waterHandler.DoUpdate();
         }
+    }
+
+    public class EntitySyncEvent : GameLoopEvent
+    {
+        public EntitySyncEvent(GameLoop gameLoop) : base(gameLoop)
+        {
+            maxTick = 400;
+        }
+
+        public override void DoEvent()
+        {
+            Game.world.player.SendSyncData();
+            foreach (Entity entity in Game.world.entities)
+            {
+                if (entity is MovingEntity movEntity)
+                {
+                    movEntity.SendSyncData();
+                }
+            }
+        }
+
     }
 
     public class DayNightCycle : GameLoopEvent

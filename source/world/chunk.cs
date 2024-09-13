@@ -112,7 +112,7 @@ namespace SeeloewenCraft
                 block.chunk = this;
                 blockList.Add(block, block.xPos, block.yPos);
 
-                if (blockContainerList.GetContainer(x, y) != null)
+                if (blockContainerList != null && blockContainerList.GetContainer(x, y) != null)
                 {
                     blockContainerList.GetContainer(x, y).RenderBlock(block);
                     if (block.GetForegroundBlock() != null)
@@ -162,8 +162,6 @@ namespace SeeloewenCraft
                 grdChunk.RowDefinitions.Add(new RowDefinition());
             }
 
-            //Get the container list
-            SetContainerList();
 
             //Check if the chunk doesn't already exist
             if (Directory.Exists($"{Game.world.worldDirectory}/chunk{index}"))
@@ -175,7 +173,6 @@ namespace SeeloewenCraft
                 Generate();
             }
 
-            //render chunk
             try
             {
                 foreach (Block block in blockList.blocks)
@@ -185,7 +182,6 @@ namespace SeeloewenCraft
                         block.isLightSource = block.IsAirLightSource(block);
                     }
                 }
-                RenderChunk();
 
                 Log.Write($"Successfully initialized chunk {index}", "Info");
             }

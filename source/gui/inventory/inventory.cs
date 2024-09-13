@@ -17,6 +17,7 @@ namespace SeeloewenCraft
         public List<HotbarSlot> hotbarSlotList = new List<HotbarSlot>();
         public Grid grdInventory = new Grid();
         public Grid grdHotbar = new Grid();
+        public Block block;
 
         //Variables
         private static int rndOffset;
@@ -205,6 +206,20 @@ namespace SeeloewenCraft
             return null;
         }
 
+        public InventorySlot GetSlot(int x, int y)
+        {
+            //Go through all slots and check if the x and y pos matches
+            foreach(InventorySlot slot in slotList)
+            {
+                if(slot.xPos == x && slot.yPos == y)
+                {
+                    return slot;
+                }
+            }
+
+            return null;
+        }
+      
         public void AddItem(string id, int amount, string tag, out int remainingAmount)
         {
             //Add the item by first checking if a slot already has the item, otherwise add it to a new slot. Also update the hotbar.

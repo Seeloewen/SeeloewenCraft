@@ -29,7 +29,7 @@ namespace SeeloewenCraft
             wndMenu wndMenu = new wndMenu();
 
             // if start option "-skipmenu" is disabled, proceed like normal
-            if (!StartOptions.skipMenu) 
+            if (!StartOptions.skipMenu)
             {
                 wndMenu.Show();
             }
@@ -40,7 +40,7 @@ namespace SeeloewenCraft
                 {
                     Directory.Delete($"{FolderUtil.worldsFolder}/debug", true);
                 }
-                
+
                 //create new world with name "debug"
                 World world = new World(wndMenu, "Debug", true, Game.WORLD_VERSION, Game.GAME_VERSION);
             }
@@ -57,11 +57,12 @@ namespace SeeloewenCraft
             //Create crash dump
             Log.Write("An unhandled exception has occured. Creating crash dump...", "Error");
             Log.CreateCrashDump(e.Exception);
+            Game.ShowException(e.Exception);
 
             //Save log before the game exits if enabled
             if (Settings.saveLogOnExit)
             {
-               Log.Save(FolderUtil.logsFolder, false);
+                Log.Save(FolderUtil.logsFolder, false);
             }
         }
 
