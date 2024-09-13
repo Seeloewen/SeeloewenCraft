@@ -17,7 +17,7 @@ namespace SeeloewenCraft.entity
 
         //-- Constructor --//
 
-        public Player(int x, int y) : base(900, 1900, x, y, 0, 0, new SolidColorBrush(Colors.Red))
+        public Player(int x, int y) : base(900, 1900, x, y, 0, 0)
         {
             //Generate the player
             type = "Player";

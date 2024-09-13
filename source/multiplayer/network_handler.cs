@@ -88,12 +88,13 @@ namespace SeeloewenCraft
             int amount = Convert.ToInt32(args[5]);
             int slotX = Convert.ToInt32(args[6]);
             int slotY = Convert.ToInt32(args[7]);
+            string tag = args[8];
 
             //Get the block which has the inventory and try to add the item to the slot
             Block invBlock = Game.world.GetChunk(blockChunk).GetBlock(blockX, blockY);
             if (invBlock != null && invBlock.blockInventory != null)
             {
-                invBlock.blockInventory.GetSlot(slotX, slotY).AddMultiplayer(itemId, amount);
+                invBlock.blockInventory.GetSlot(slotX, slotY).AddMultiplayer(itemId, tag, amount);
                 invBlock.blockInventory.GetSlot(slotX, slotY).Unselect();
             }
 
@@ -135,13 +136,16 @@ namespace SeeloewenCraft
             //Synchronize the position of all entities to ensure their position is correct
             try
             {
+                /*
                 foreach (Entity entity in Game.world.entities)
                 {
                     if (entity.id == Convert.ToInt32(args[1]) && entity is MovingEntity movEntity)
                     {
                         movEntity.HandleSyncData(args);
                     }
-                }
+                }*/
+
+                //TODO: Rework for new entity system
             }
             catch (Exception e)
             {
@@ -152,9 +156,10 @@ namespace SeeloewenCraft
         public async static void HandleMovePlayer(AdvancedTcpClient client, string[] args)
         {
             if (args.Length != 7) return;
-            
+
             try
             {
+                /*
                 foreach (Entity entity in Game.world.entities)
                 {
                     if (entity.id == Convert.ToInt32(args[1]) && entity is MovingEntity movEntity)
@@ -170,7 +175,9 @@ namespace SeeloewenCraft
                 if (Game.isServer)
                 {
                     Game.server.SendDataExceptClients(client.id, $"MovePlayer;{args[1]};{args[2]};{args[3]};{args[4]};{args[5]};{args[6]}");
-                }
+                }*/
+
+                //TODO: Rework for new entity system
             }
             catch (Exception e)
             {
@@ -181,7 +188,7 @@ namespace SeeloewenCraft
         public async static void HandleCreateEntity(AdvancedTcpClient client, string[] args)
         {
             if (args.Length != 2) return;
-            
+
             try
             {
                 //Add the entity
@@ -202,7 +209,7 @@ namespace SeeloewenCraft
         public async static void HandleRemoveEntity(AdvancedTcpClient client, string[] args)
         {
             if (args.Length != 2) return;
-            
+
             try
             {
                 //Remove the entity
@@ -239,6 +246,8 @@ namespace SeeloewenCraft
 
 
                     //Send all moving entities to the connecting client
+
+                    /*
                     foreach (Entity entity in Game.world.entities)
                     {
                         if (entity is MovingEntity movEntity)
@@ -249,7 +258,9 @@ namespace SeeloewenCraft
                                 await Game.server.SendDataSingleClient(client.id, $"CreateEntity;{writer.ToString()}");
                             }
                         }
-                    }
+                    }*/
+
+                    //TODO: Rework for new multiplayer system
 
                     //Send the player (which is for some reason not in the entity list) to the connecting client
                     using (JsonWriter writer = JsonWriter.Create())

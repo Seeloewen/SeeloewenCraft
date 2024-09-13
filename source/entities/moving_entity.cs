@@ -41,7 +41,7 @@ namespace SeeloewenCraft.entity
 
 
         public MovingEntity(int sizeX, int sizeY, int posX, int posY, int velX, int velY)
-            : base(sizeX, sizeY, posX, posY, velX, velY)
+            : base(sizeX, sizeY, posX, posY, velX, velY, new SolidColorBrush(Colors.Green))
         {
             type = "MovingEntity";
             hp = MAX_HP;
@@ -235,20 +235,6 @@ namespace SeeloewenCraft.entity
         public virtual void MultiplayerDamage(double damage)
         {
             SetHP(hp - damage);
-        }
-
-        protected override void SaveSpecialInfo(JsonWriter writer)
-        {
-            writer.WritePropertyName("hp");
-            writer.WriteValue(hp);
-            writer.WritePropertyName("current_acc");
-            writer.WriteValue(currentAcc);
-            writer.WritePropertyName("fall_max_height");
-            writer.WriteValue(fallMaxHeight);
-            writer.WritePropertyName("thrown");
-            writer.WriteValue(thrown);
-            writer.WritePropertyName("flying");
-            writer.WriteValue(flying);
         }
 
         protected override void SaveSpecialInfo(JsonWriter writer)
