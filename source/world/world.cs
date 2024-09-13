@@ -212,21 +212,18 @@ namespace SeeloewenCraft
         }
 
 
-
-
         public void AddEntity(Entity entity)
         {
-            entities.Add(entity);
-            Game.world.wndGame.cvsWorld.Children.Add(entity.texture);
+            /*Game.world.wndGame.cvsWorld.Children.Add(entity.texture);
             Panel.SetZIndex(entity.texture, 1);
-            worldRenderer.AddEntity(entity);
+            worldRenderer.AddEntity(entity);*/
 
             using (JsonWriter writer = JsonWriter.Create())
             {
                 entity.SaveToJson(writer);
                 NetworkHandler.SendData($"CreateEntity;{writer.ToString()}");
             }
-          
+
             entityManager.Add(entity);
         }
 
@@ -237,44 +234,36 @@ namespace SeeloewenCraft
                 return;
             }
 
-            entities.Add(entity);
-            Game.world.wndGame.cvsWorld.Children.Add(entity.texture);
+            /*Game.world.wndGame.cvsWorld.Children.Add(entity.texture);
             Panel.SetZIndex(entity.texture, 1);
-            worldRenderer.AddEntity(entity);
+            worldRenderer.AddEntity(entity);*/
 
             entityManager.Add(entity);
         }
 
         public void RemoveEntity(int id)
         {
-            if (entities.Contains(entity))
-            {
-                entities.Remove(entity);
-                Game.world.wndGame.cvsWorld.Children.Remove(entity.texture);
-                worldRenderer.Remove(entity);
-
-                NetworkHandler.SendData($"RemoveEntity;{entity.id}");
-            }
-          
             entityManager.Remove(id);
+
+            NetworkHandler.SendData($"RemoveEntity;{id}");
         }
 
         public void RemoveMultiplayerEntity(int id)
         {
+            /*
             for (int i = 0; i < entities.Count; i++)
             {
                 Entity entity = entities[i];
 
                 if (entity.id == id)
                 {
-                    entities.Remove(entity);
-                    Game.world.wndGame.cvsWorld.Children.Remove(entity.texture);
-                    worldRenderer.Remove(entity);
                     break;
                 }
             }
 
-            entityManager.Remove(id);
+            entityManager.Remove(id);*/
+
+            //TODO: No idea how to rework this
         }
 
         public void SetBlock(Block block, int posX, int posY)
@@ -428,7 +417,7 @@ namespace SeeloewenCraft
         private void InitEntityManager(bool loaded)
         {
             entityManager = loaded
-                    ? new EntityManager(JsonUtil.ReadFile($"{worldDirectory}/entities.json")) 
+                    ? new EntityManager(JsonUtil.ReadFile($"{worldDirectory}/entities.json"))
                     : new EntityManager();
         }
 
@@ -442,7 +431,7 @@ namespace SeeloewenCraft
             }
             else
             {
-                player.inventory = new Inventory(9, 4,true);
+                player.inventory = new Inventory(9, 4, true);
                 player.inventory.InitHotbar();
             }
             player.inventory.UpdateHotbar();
