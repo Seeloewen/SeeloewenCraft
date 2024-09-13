@@ -15,7 +15,6 @@ namespace SeeloewenCraft
         public Random rnd;
         public Chunk chunk;
         public StructureShapeCreator shapeCreator;
-        
 
         //Constants
         public string name;
@@ -35,7 +34,7 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public Structure( Chunk chunk, bool canFloat)
+        public Structure(Chunk chunk, bool canFloat)
         {
             //Set the attributes
             blockList = new BlockList(chunk);
@@ -102,6 +101,59 @@ namespace SeeloewenCraft
             }
         }
 
+        public void AddBlock(Block block, int xOffset, int yOffset)
+        {
+            //Create the structure component
+            structureComponents.Add(new StructureComponent(xOffset, yOffset, block));
+        }
+
+        public void AddBlock(Block block, int xOffset, int yOffset, LootTable lootTable, int insertAmount)
+        {
+            //Insert the loot table in the block
+            if (block.hasInventory)
+            {
+                block.InsertLootTable(lootTable, insertAmount);
+            }
+
+            //Create the structure component
+            structureComponents.Add(new StructureComponent(xOffset, yOffset, block));
+        }
+
+        public void AddBackgroundBlock(Block block, int xOffset, int yOffset, Block foregroundBlock)
+        {
+            //Move the block to background and set the foregroundblock
+            block.MoveToBackground();
+            if(foregroundBlock != null)
+            {
+                block.SetForegroundBlock(foregroundBlock);
+            }
+
+            //Create the structure component
+            structureComponents.Add(new StructureComponent(xOffset, yOffset, block));
+        }
+
+        public void AddBackgroundBlock(Block block, int xOffset, int yOffset, Block foregroundBlock, LootTable lootTable, int insertAmount)
+        {
+            //Either add the loot table to the foreground block or the background block
+            if (foregroundBlock != null && foregroundBlock.hasInventory)
+            {
+                foregroundBlock.InsertLootTable(lootTable, insertAmount);
+            }
+            else if(block.hasInventory)
+            {
+                block.InsertLootTable(lootTable, insertAmount);
+            }
+
+            //Set the block to background, add the foregroundblock and create the structure component
+            block.MoveToBackground();
+            if(foregroundBlock != null)
+            {
+                block.SetForegroundBlock(foregroundBlock);
+            }
+            structureComponents.Add(new StructureComponent(xOffset, yOffset, block));
+        }
+
+
         public void GenerateStructure()
         {
             //Add all blocks from the structure to the blocklist
@@ -112,7 +164,7 @@ namespace SeeloewenCraft
                     //Compare each block in the structure list to the block that's already at that position; if it has a fixed solid state, don't replace it
                     if (canReplaceSolidBlocks)
                     {
-                        chunk.blockList.Add(block, block.xPos, block.yPos);
+                        chunk.SetBlock(block, block.xPos, block.yPos);
 
                         if (canFloat == false && block.yPos == yBase)
                         {
@@ -123,7 +175,7 @@ namespace SeeloewenCraft
                     {
                         if (chunk.blockList.Get(block.xPos, block.yPos).isBreakable)
                         {
-                            chunk.blockList.Add(block, block.xPos, block.yPos);
+                            chunk.SetBlock(block, block.xPos, block.yPos);
 
                             if (canFloat == false && block.yPos == yBase)
                             {
@@ -160,10 +212,14 @@ namespace SeeloewenCraft
 
         public void BeginGeneration(int x, int y, int index, bool isNew)
         {
-            this.isNew = isNew;
-            //Check which direction it's going to be built in
-            SetupStructure(x, y, index > 0 ? Direction.RIGHT : Direction.LEFT);
-            GenerateStructure();
+            if (chunk != null)
+            {
+                //Check which direction it's going to be built in
+                this.isNew = isNew;
+                totalWidth = GetTotalWidth();
+                SetupStructure(x, y, index > 0 ? Direction.RIGHT : Direction.LEFT);
+                GenerateStructure();
+            }
         }
 
         public bool CheckForCutoff()
@@ -185,7 +241,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public int GetTotalWidth()
+        public int GetTotalWidth() //TODO: This should not be called by the structures, but by the actual generator itself
         {
             //Get the total width by checking the amount of different X coordinates
             List<int> handledX = new List<int>();

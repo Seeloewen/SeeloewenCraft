@@ -1,46 +1,6 @@
 {
   "recipes": [
     {
-      "id": "sc:recipe_stone_hammer",
-      "workstation": "Crafting_Table",
-      "display_name": "Stone Hammer",
-      "required_time": 3000,
-      "ingredients": [
-        {
-          "item_id": "sc:stone_item",
-          "amount": 8
-        },
-        {
-          "item_id": "sc:oak_log_item",
-          "amount": 3
-        }
-      ],
-      "outgredients": [
-        {
-          "item_id": "sc:stone_hammer_item",
-          "amount": 1
-        }
-      ]
-    },
-    {
-      "id": "sc:recipe_chest",
-      "workstation": "Crafting_Table",
-      "display_name": "Chest",
-      "required_time": 10000,
-      "ingredients": [
-        {
-          "item_id": "sc:oak_log_item",
-          "amount": 10
-        }
-      ],
-      "outgredients": [
-        {
-          "item_id": "sc:chest_item",
-          "amount": 1
-        }
-      ]
-    },
-    {
       "id": "sc:recipe_cobblestone_topleft",
       "workstation": "Chiseler",
       "display_name": "Cobblestone Top-Left",
@@ -973,6 +933,1524 @@
         {
           "item_id": "sc:spruce_planks_center_item",
           "amount": 4
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_wood_pickaxe",
+      "workstation": "Crafting_Table",
+      "display_name": "Wood Pickaxe",
+      "required_time": 5000,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:wood_pickaxe_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_wood_axe",
+      "workstation": "Crafting_Table",
+      "display_name": "Wood Axe",
+      "required_time": 5000,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:wood_axe_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_wood_shovel",
+      "workstation": "Crafting_Table",
+      "display_name": "Wood Shovel",
+      "required_time": 5000,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:wood_shovel_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_wood_sword",
+      "workstation": "Crafting_Table",
+      "display_name": "Wood Sword",
+      "required_time": 5000,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:wood_sword_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_wood_hammer",
+      "workstation": "Crafting_Table",
+      "display_name": "Wood Hammer",
+      "required_time": 5000,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:wood_hammer_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_wood_scythe",
+      "workstation": "Crafting_Table",
+      "display_name": "Wood Scythe",
+      "required_time": 5000,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:wood_scythe_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_stone_pickaxe",
+      "workstation": "Crafting_Table",
+      "display_name": "Stone Pickaxe",
+      "required_time": 10000,
+      "ingredients": [
+        {
+          "item_id": "sc:rock_item",
+          "amount": 20
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:stone_pickaxe_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_stone_axe",
+      "workstation": "Crafting_Table",
+      "display_name": "Stone Axe",
+      "required_time": 10000,
+      "ingredients": [
+        {
+          "item_id": "sc:rock_item",
+          "amount": 20
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:stone_axe_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_stone_shovel",
+      "workstation": "Crafting_Table",
+      "display_name": "Stone Shovel",
+      "required_time": 10000,
+      "ingredients": [
+        {
+          "item_id": "sc:rock_item",
+          "amount": 20
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:stone_shovel_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_stone_sword",
+      "workstation": "Crafting_Table",
+      "display_name": "Stone Sword",
+      "required_time": 10000,
+      "ingredients": [
+        {
+          "item_id": "sc:rock_item",
+          "amount": 20
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:stone_sword_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_stone_hammer",
+      "workstation": "Crafting_Table",
+      "display_name": "Stone Hammer",
+      "required_time": 10000,
+      "ingredients": [
+        {
+          "item_id": "sc:rock_item",
+          "amount": 20
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:stone_hammer_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_stone_scythe",
+      "workstation": "Crafting_Table",
+      "display_name": "Stone Scythe",
+      "required_time": 10000,
+      "ingredients": [
+        {
+          "item_id": "sc:rock_item",
+          "amount": 20
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:stone_scythe_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_iron_pickaxe",
+      "workstation": "Anvil",
+      "display_name": "Iron Pickaxe",
+      "required_time": 20000,
+      "ingredients": [
+        {
+          "item_id": "sc:iron_bar_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:iron_pickaxe_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_iron_axe",
+      "workstation": "Anvil",
+      "display_name": "Iron Axe",
+      "required_time": 20000,
+      "ingredients": [
+        {
+          "item_id": "sc:iron_bar_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:iron_axe_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_iron_shovel",
+      "workstation": "Anvil",
+      "display_name": "Iron Shovel",
+      "required_time": 20000,
+      "ingredients": [
+        {
+          "item_id": "sc:iron_bar_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:iron_shovel_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_iron_sword",
+      "workstation": "Anvil",
+      "display_name": "Iron Sword",
+      "required_time": 20000,
+      "ingredients": [
+        {
+          "item_id": "sc:iron_bar_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:iron_sword_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_iron_hammer",
+      "workstation": "Anvil",
+      "display_name": "Iron Hammer",
+      "required_time": 20000,
+      "ingredients": [
+        {
+          "item_id": "sc:iron_bar_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:iron_hammer_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_iron_scythe",
+      "workstation": "Anvil",
+      "display_name": "Iron Scythe",
+      "required_time": 20000,
+      "ingredients": [
+        {
+          "item_id": "sc:iron_bar_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:iron_scythe_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_tin_pickaxe",
+      "workstation": "Anvil",
+      "display_name": "Tin Pickaxe",
+      "required_time": 30000,
+      "ingredients": [
+        {
+          "item_id": "sc:tin_bar_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:tin_pickaxe_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_tin_axe",
+      "workstation": "Anvil",
+      "display_name": "Tin Axe",
+      "required_time": 30000,
+      "ingredients": [
+        {
+          "item_id": "sc:tin_bar_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:tin_axe_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_tin_shovel",
+      "workstation": "Anvil",
+      "display_name": "Tin Shovel",
+      "required_time": 30000,
+      "ingredients": [
+        {
+          "item_id": "sc:tin_bar_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:tin_shovel_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_tin_sword",
+      "workstation": "Anvil",
+      "display_name": "Tin Sword",
+      "required_time": 30000,
+      "ingredients": [
+        {
+          "item_id": "sc:tin_bar_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:tin_sword_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_tin_hammer",
+      "workstation": "Anvil",
+      "display_name": "Tin Hammer",
+      "required_time": 30000,
+      "ingredients": [
+        {
+          "item_id": "sc:tin_bar_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:tin_hammer_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_tin_scythe",
+      "workstation": "Anvil",
+      "display_name": "Tin Scythe",
+      "required_time": 30000,
+      "ingredients": [
+        {
+          "item_id": "sc:tin_bar_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:tin_scythe_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_diamond_pickaxe",
+      "workstation": "Anvil",
+      "display_name": "Diamond Pickaxe",
+      "required_time": 60000,
+      "ingredients": [
+        {
+          "item_id": "sc:diamond_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:diamond_pickaxe_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_diamond_axe",
+      "workstation": "Anvil",
+      "display_name": "Diamond Axe",
+      "required_time": 60000,
+      "ingredients": [
+        {
+          "item_id": "sc:diamond_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:diamond_axe_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_diamond_shovel",
+      "workstation": "Anvil",
+      "display_name": "Diamond Shovel",
+      "required_time": 60000,
+      "ingredients": [
+        {
+          "item_id": "sc:diamond_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:diamond_shovel_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_diamond_sword",
+      "workstation": "Anvil",
+      "display_name": "Diamond Sword",
+      "required_time": 60000,
+      "ingredients": [
+        {
+          "item_id": "sc:diamond_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:diamond_sword_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_diamond_hammer",
+      "workstation": "Anvil",
+      "display_name": "Diamond Hammer",
+      "required_time": 60000,
+      "ingredients": [
+        {
+          "item_id": "sc:diamond_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:diamond_hammer_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_diamond_scythe",
+      "workstation": "Anvil",
+      "display_name": "Diamond Scythe",
+      "required_time": 60000,
+      "ingredients": [
+        {
+          "item_id": "sc:diamond_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:diamond_scythe_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_oak_chair",
+      "workstation": "Crafting_Table",
+      "display_name": "Oak Chair",
+      "required_time": 3000,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 12
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 4
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:oak_chair_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_spruce_chair",
+      "workstation": "Crafting_Table",
+      "display_name": "Spruce Chair",
+      "required_time": 3000,
+      "ingredients": [
+        {
+          "item_id": "sc:spruce_planks_item",
+          "amount": 12
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 4
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:spruce_chair_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_potted_cactus",
+      "workstation": "Crafting_Table",
+      "display_name": "Potted Cactus",
+      "required_time": 3000,
+      "ingredients": [
+        {
+          "item_id": "sc:cactus_fruit_item",
+          "amount": 1
+        },
+        {
+          "item_id": "sc:flower_pot_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:potted_cactus_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_furnace",
+      "workstation": "Crafting_Table",
+      "display_name": "Furnace",
+      "required_time": 10000,
+      "ingredients": [
+        {
+          "item_id": "sc:cobblestone_item",
+          "amount": 15
+        },
+        {
+          "item_id": "sc:coal_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:furnace_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_oak_door",
+      "workstation": "Crafting_Table",
+      "display_name": "Oak Door",
+      "required_time": 5000,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:glass_item",
+          "amount": 3
+        },
+        {
+          "item_id": "sc:iron_bar_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:oak_door_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_spruce_door",
+      "workstation": "Crafting_Table",
+      "display_name": "Spruce Door",
+      "required_time": 5000,
+      "ingredients": [
+        {
+          "item_id": "sc:spruce_planks_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:glass_item",
+          "amount": 3
+        },
+        {
+          "item_id": "sc:iron_bar_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:spruce_door_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_oak_trapdoor",
+      "workstation": "Crafting_Table",
+      "display_name": "Oak Trapdoor",
+      "required_time": 5000,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 6
+        },
+        {
+          "item_id": "sc:iron_bar_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:oak_trapdoor_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_spruce_trapdoor",
+      "workstation": "Crafting_Table",
+      "display_name": "Spruce Trapdoor",
+      "required_time": 5000,
+      "ingredients": [
+        {
+          "item_id": "sc:spruce_planks_item",
+          "amount": 6
+        },
+        {
+          "item_id": "sc:iron_bar_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:spruce_trapdoor_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_anvil",
+      "workstation": "Crafting_Table",
+      "display_name": "Anvil",
+      "required_time": 20000,
+      "ingredients": [
+        {
+          "item_id": "sc:iron_bar_item",
+          "amount": 32
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:anvil_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_barrel",
+      "workstation": "Crafting_Table",
+      "display_name": "Barrel",
+      "required_time": 3000,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 12
+        },
+        {
+          "item_id": "sc:iron_rod_item",
+          "amount": 4
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:barrel_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_bone_block",
+      "workstation": "Crafting_Table",
+      "display_name": "Bone Block",
+      "required_time": 2000,
+      "ingredients": [
+        {
+          "item_id": "sc:bone_item",
+          "amount": 16
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:bone_block_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_candle",
+      "workstation": "Crafting_Table",
+      "display_name": "Candle",
+      "required_time": 1000,
+      "ingredients": [
+        {
+          "item_id": "sc:cobblestone_item",
+          "amount": 1
+        },
+        {
+          "item_id": "sc:wax_item",
+          "amount": 3
+        },
+        {
+          "item_id": "sc:coal_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:candle_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_chest",
+      "workstation": "Crafting_Table",
+      "display_name": "Chest",
+      "required_time": 3000,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:iron_rod_item",
+          "amount": 2
+        },
+        {
+          "item_id": "sc:iron_bar_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:chest_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_chiseler",
+      "workstation": "Crafting_Table",
+      "display_name": "Chiseler",
+      "required_time": 3000,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 10
+        },
+        {
+          "item_id": "sc:iron_bar_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:chiseler_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_cobblestone",
+      "workstation": "Hand_Crafting",
+      "display_name": "Cobblestone",
+      "required_time": 500,
+      "ingredients": [
+        {
+          "item_id": "sc:rock_item",
+          "amount": 4
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:cobblestone_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_cobblestone",
+      "workstation": "Crafting_Table",
+      "display_name": "Cobblestone",
+      "required_time": 500,
+      "ingredients": [
+        {
+          "item_id": "sc:rock_item",
+          "amount": 4
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:cobblestone_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_crafting_table",
+      "workstation": "Hand_Crafting",
+      "display_name": "Crafting Table",
+      "required_time": 1000,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 4
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:crafting_table_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_iron_gates",
+      "workstation": "Anvil",
+      "display_name": "Iron Gates",
+      "required_time": 2000,
+      "ingredients": [
+        {
+          "item_id": "sc:iron_rod_item",
+          "amount": 4
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:iron_gates_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_ladder",
+      "workstation": "Crafting_Table",
+      "display_name": "Ladder",
+      "required_time": 2000,
+      "ingredients": [
+        {
+          "item_id": "sc:stick_item",
+          "amount": 2
+        },
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 4
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:ladder_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_oak_planks",
+      "workstation": "Hand_Crafting",
+      "display_name": "Oak Planks",
+      "required_time": 1000,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_log_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_spruce_planks",
+      "workstation": "Hand_Crafting",
+      "display_name": "Spruce Planks",
+      "required_time": 1000,
+      "ingredients": [
+        {
+          "item_id": "sc:spruce_log_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:spruce_planks_item",
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_oak_table",
+      "workstation": "Crafting_Table",
+      "display_name": "Oak Table",
+      "required_time": 3000,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 8
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:oak_table_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_spruce_table",
+      "workstation": "Crafting_Table",
+      "display_name": "Spruce Table",
+      "required_time": 3000,
+      "ingredients": [
+        {
+          "item_id": "sc:spruce_planks_item",
+          "amount": 8
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:spruce_table_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_sand_stone",
+      "workstation": "Crafting_Table",
+      "display_name": "Sand Stone",
+      "required_time": 500,
+      "ingredients": [
+        {
+          "item_id": "sc:sand_item",
+          "amount": 4
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:sand_stone_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_sand_stone_bricks",
+      "workstation": "Crafting_Table",
+      "display_name": "Sand Stone Bricks",
+      "required_time": 1000,
+      "ingredients": [
+        {
+          "item_id": "sc:sand_stone_item",
+          "amount": 6
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:sand_stone_bricks_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_stone_bricks",
+      "workstation": "Crafting_Table",
+      "display_name": "Stone Bricks",
+      "required_time": 1000,
+      "ingredients": [
+        {
+          "item_id": "sc:stone_block_item",
+          "amount": 6
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:stone_bricks_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_torch",
+      "workstation": "Hand_Crafting",
+      "display_name": "Torch",
+      "required_time": 250,
+      "ingredients": [
+        {
+          "item_id": "sc:stick_item",
+          "amount": 1
+        },
+        {
+          "item_id": "sc:coal_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:torch_item",
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_unchiseler",
+      "workstation": "Crafting_Table",
+      "display_name": "Unchiseler",
+      "required_time": 3000,
+      "ingredients": [
+        {
+          "item_id": "sc:spruce_planks_item",
+          "amount": 8
+        },
+        {
+          "item_id": "sc:iron_bar_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:unchiseler_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_arrow",
+      "workstation": "Crafting_Table",
+      "display_name": "Arrow",
+      "required_time": 250,
+      "ingredients": [
+        {
+          "item_id": "sc:rock_item",
+          "amount": 1
+        },
+        {
+          "item_id": "sc:stick_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:arrow_item",
+          "amount": 2
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_bucket",
+      "workstation": "Crafting_Table",
+      "display_name": "Bucket",
+      "required_time": 1000,
+      "ingredients": [
+        {
+          "item_id": "sc:iron_rod_item",
+          "amount": 4
+        },
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 3
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:bucket_empty_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_copper_bar",
+      "workstation": "Furnace",
+      "display_name": "Copper Bar",
+      "required_time": 1000,
+      "ingredients": [
+        {
+          "item_id": "sc:copper_ore_item",
+          "amount": 1
+        },
+        {
+          "item_id": "sc:coal_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:copper_bar_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_tin_bar",
+      "workstation": "Furnace",
+      "display_name": "Tin Bar",
+      "required_time": 1000,
+      "ingredients": [
+        {
+          "item_id": "sc:tin_ore_item",
+          "amount": 1
+        },
+        {
+          "item_id": "sc:coal_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:tin_bar_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_gold_bar",
+      "workstation": "Furnace",
+      "display_name": "Gold Bar",
+      "required_time": 1000,
+      "ingredients": [
+        {
+          "item_id": "sc:gold_ore_item",
+          "amount": 1
+        },
+        {
+          "item_id": "sc:coal_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:gold_bar_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_iron_bar",
+      "workstation": "Furnace",
+      "display_name": "Iron Bar",
+      "required_time": 1000,
+      "ingredients": [
+        {
+          "item_id": "sc:iron_ore_item",
+          "amount": 1
+        },
+        {
+          "item_id": "sc:coal_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:iron_bar_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_tungsten_bar",
+      "workstation": "Furnace",
+      "display_name": "Tungsten Bar",
+      "required_time": 1000,
+      "ingredients": [
+        {
+          "item_id": "sc:tungsten_ore_item",
+          "amount": 1
+        },
+        {
+          "item_id": "sc:coal_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:tungsten_bar_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_flower_pot",
+      "workstation": "Furnace",
+      "display_name": "Flower Pot",
+      "required_time": 1000,
+      "ingredients": [
+        {
+          "item_id": "sc:dirt_item",
+          "amount": 4
+        },
+        {
+          "item_id": "sc:rock_item",
+          "amount": 4
+        },
+        {
+          "item_id": "sc:coal_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:flower_pot_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_iron_rod",
+      "workstation": "Anvil",
+      "display_name": "Iron Rod",
+      "required_time": 500,
+      "ingredients": [
+        {
+          "item_id": "sc:iron_bar_item",
+          "amount": 2
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:iron_rod_item",
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_stick",
+      "workstation": "Crafting_Table",
+      "display_name": "Stick",
+      "required_time": 250,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 2
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:stick_item",
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_stick",
+      "workstation": "Hand_Crafting",
+      "display_name": "Stick",
+      "required_time": 250,
+      "ingredients": [
+        {
+          "item_id": "sc:oak_planks_item",
+          "amount": 2
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:stick_item",
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_stone",
+      "workstation": "Furnace",
+      "display_name": "Stone",
+      "required_time": 500,
+      "ingredients": [
+        {
+          "item_id": "sc:cobblestone_item",
+          "amount": 1
+        },
+        {
+          "item_id": "sc:coal_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:stone_block_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_archeology_pot",
+      "workstation": "Crafting_Table",
+      "display_name": "Archeology Pot",
+      "required_time": 2000,
+      "ingredients": [
+        {
+          "item_id": "sc:pot_shard_item",
+          "amount": 4
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:archeology_pot_item",
+          "amount": 1
         }
       ]
     }

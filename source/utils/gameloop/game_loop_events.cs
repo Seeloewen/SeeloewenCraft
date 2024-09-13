@@ -100,4 +100,26 @@ namespace SeeloewenCraft
             }
         }
     }
+
+    public class CropTimerEvent : GameLoopEvent
+    {
+        public CropTimerEvent(GameLoop gameLoop) : base(gameLoop)
+        {
+            maxTick = 250;
+        }
+
+        public override void DoEvent()
+        {
+            foreach (Chunk chunk in Game.world.loadedChunkList)
+            {
+                foreach (Block block in chunk.blockList.blocks)
+                {
+                    if (block is CropBlock crop)
+                    {
+                        crop.UpdateProgress(maxTick);
+                    }
+                }
+            }
+        }
+    }
 }

@@ -9,7 +9,7 @@ namespace SeeloewenCraft
         {
             if (!(args.Length == 2 || args.Length == 3))
             {
-                MessageBox.Show("Invalid command syntax: incorrect number of arguments", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                NotificationHandler.ShowNotification("Invalid command syntax: incorrect number of arguments", 3000, Images.Arrow.GetTexture());
                 return;
             }
             string id = args[1];
@@ -22,27 +22,26 @@ namespace SeeloewenCraft
                 }
                 catch
                 {
-                    MessageBox.Show("Invalid command syntax: can't parse amount to int", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    NotificationHandler.ShowNotification("Invalid command syntax: couldn't parse amount to int", 3000, Images.Arrow.GetTexture());
                     return;
                 }
             }
 
             if (ItemRegister.GenerateItem(id) == null)
             {
-                MessageBox.Show("Invalid command syntax: item id was not found", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                NotificationHandler.ShowNotification("Invalid command syntax: item id was not found", 3000, Images.Arrow.GetTexture());
                 return;
             }
 
-            Game.world.player.inventory.AddItem(id, amount, out int remainingAmount);
+            Game.world.player.inventory.AddItem(id, amount, ItemRegister.GenerateItem(id).tag, out int remainingAmount);
             if (remainingAmount > 0)
             {
-                MessageBox.Show("Warning: Not all items were added to your inventory since it's full.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                NotificationHandler.ShowNotification("Warning: Not all items were added (Full Inventory)", 3000, Images.Arrow.GetTexture());
             }
             else
             {
-                MessageBox.Show($"Succesfully gave {amount}x {id} to player.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                NotificationHandler.ShowNotification($"Succesfully gave {amount}x {id} to player.", 3000, Images.Arrow.GetTexture());
             }
         }
-
     }
 }

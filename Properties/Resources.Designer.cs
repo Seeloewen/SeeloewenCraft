@@ -343,6 +343,26 @@ namespace SeeloewenCraft.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Cactus_Left {
+            get {
+                object obj = ResourceManager.GetObject("Cactus_Left", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Cactus_Right {
+            get {
+                object obj = ResourceManager.GetObject("Cactus_Right", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Cactus_Top {
             get {
                 object obj = ResourceManager.GetObject("Cactus_Top", resourceCulture);
@@ -785,6 +805,16 @@ namespace SeeloewenCraft.Properties {
         internal static System.Drawing.Bitmap Furnace_Running {
             get {
                 object obj = ResourceManager.GetObject("Furnace_Running", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Glass {
+            get {
+                object obj = ResourceManager.GetObject("Glass", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

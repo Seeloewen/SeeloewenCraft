@@ -14,12 +14,16 @@ namespace SeeloewenCraft.entity
         {
             writer.WritePropertyName("item_id");
             writer.WriteValue(item.id);
+
+            writer.WritePropertyName("item_tag");
+            writer.WriteValue(item.tag);
         }
 
-        private void Init(Item item)
+        private void Init(Item item, string tag)
         {
             type = "ItemEntity";
             this.item = item;
+            this.item.tag = tag;
             frictionAir = 2;
             frictionWater = 15;
 
@@ -33,18 +37,19 @@ namespace SeeloewenCraft.entity
 
             if (touchingStatus[TOUCHING_CACTUS])
             {
-                Game.world.toDieEntities.Add(this);
+                Game.world.RemoveEntity(id);
             }
         }
 
-        public ItemEntity(Item item, int posX, int posY, int velX, int velY) : base(itemSizeX, itemSizeY, posX, posY, velX, velY, new SolidColorBrush(Colors.Yellow))
+        public ItemEntity(Item item, string tag, int posX, int posY, int velX, int velY) 
+            : base(itemSizeX, itemSizeY, posX, posY, velX, velY, new SolidColorBrush(Colors.Yellow))
         {
-            Init(item);
+            Init(item, tag);
         }
 
-        public ItemEntity(JsonToken token) : base(token, itemSizeX, itemSizeY,  new SolidColorBrush(Colors.Yellow))
+        public ItemEntity(JsonToken token) : base(token, itemSizeX, itemSizeY, new SolidColorBrush(Colors.Yellow))
         {
-            Init(ItemRegister.GenerateItem(token.GetString("/item_id")));
+            Init(ItemRegister.GenerateItem(token.GetString("/item_id")), token.GetString("/item_id"));
         }
     }
 }

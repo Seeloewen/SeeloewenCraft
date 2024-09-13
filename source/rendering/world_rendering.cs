@@ -76,11 +76,14 @@ namespace SeeloewenCraft
         public void AddEntity(Entity entity)
         {
             entities.Add(entity);
+            Game.world.wndGame.cvsWorld.Children.Add(entity.texture);
+            Panel.SetZIndex(entity.texture, entity is Player ? 2 : 1);
         }
 
-        public void Remove(Entity entitiy)
+        public void RemoveEntity(Entity entity)
         {
-            entities.Remove(entitiy);
+            entities.Remove(entity);
+            Game.world.wndGame.cvsWorld.Children.Remove(entity.texture);
         }
 
 

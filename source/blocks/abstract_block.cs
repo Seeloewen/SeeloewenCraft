@@ -21,11 +21,11 @@ namespace SeeloewenCraft
         public Inventory blockInventory;
         private Block foregroundBlock;
         public List<(int xOffset, int yOffset, string blockId)> connectedBlocks = new List<(int, int, string)>();
-        public (int? xPos, int? yPos, int? chunk) baseBlock;
+        public (int? xOffset, int? yOffset) baseBlock;
         public LootTable lootTable;
         public Gui gui;
         public CraftingHandler craftingHandler;
-        private Random rnd;
+        protected Random rnd;
         static int offset;
 
         //block type info
@@ -39,9 +39,14 @@ namespace SeeloewenCraft
         public bool isLightSource = false;
         public bool isBase = false;
         public bool hasRightClickAction = false;
+        public bool dropsOnWrongTool = true;
         public int breakTime = 150;
+        public int dropAmountMin = 1;
+        public int dropAmountMax = 1;
         public Collision collision;
         public Tool effectiveTool;
+        public Material? effectiveMaterial;
+        public bool willFall;
 
         //variables
         public int xPos;
@@ -84,7 +89,7 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-        public void Init(string name, string id, int breakTime, string? itemId, Tool effectiveTool, SealImage sImage)
+        public virtual void Init(string name, string id, int breakTime, string? itemId, Tool effectiveTool, SealImage sImage)
         {
             this.name = name;
             this.id = id;
@@ -179,14 +184,12 @@ namespace SeeloewenCraft
                 writer.WriteEndArray();
             }
 
-            if (baseBlock.xPos != null && baseBlock.yPos != null && baseBlock.chunk != null)
+            if (baseBlock.xOffset != null && baseBlock.yOffset != null)
             {
-                writer.WritePropertyName("baseblock_x_pos");
-                writer.WriteValue(baseBlock.xPos);
-                writer.WritePropertyName("baseblock_y_pos");
-                writer.WriteValue(baseBlock.yPos);
-                writer.WritePropertyName("baseblock_chunk");
-                writer.WriteValue(baseBlock.chunk);
+                writer.WritePropertyName("baseblock_x_offset");
+                writer.WriteValue(baseBlock.xOffset);
+                writer.WritePropertyName("baseblock_y_offset");
+                writer.WriteValue(baseBlock.yOffset);
             }
 
             if (tags.Contains("liquids/water"))
@@ -257,13 +260,14 @@ namespace SeeloewenCraft
             if (block.hasInventory)
             {
                 JsonToken invToken = blockToken.GetToken("/inventory");
-                Inventory inventory = Inventory.LoadFromJson(invToken);
+                Inventory inventory = Inventory.LoadFromJson(invToken, false);
 
                 block.blockInventory = inventory;
+                Game.world.inventoryList.Add(block.blockInventory);
                 if (block.gui != null && block.gui.inventory != null)
                 {
-                    block.gui.inventory = inventory;
-                    inventory.block = block;
+                    block.gui.inventory = block.blockInventory;
+                    block.blockInventory.block = block;
                 }
             }
 
@@ -316,9 +320,9 @@ namespace SeeloewenCraft
                 }
             }
 
-            if (blockToken.ContainsKey("baseblock_x_pos") && blockToken.ContainsKey("baseblock_y_pos") && blockToken.ContainsKey("baseblock_chunk"))
+            if (blockToken.ContainsKey("baseblock_x_offset") && blockToken.ContainsKey("baseblock_y_offset"))
             {
-                block.baseBlock = (blockToken.GetInt("/baseblock_x_pos"), blockToken.GetInt("/baseblock_y_pos"), blockToken.GetInt("/baseblock_chunk"));
+                block.baseBlock = (blockToken.GetInt("/baseblock_x_offset"), blockToken.GetInt("/baseblock_y_offset"));
             }
 
             //Set block stats
@@ -392,18 +396,27 @@ namespace SeeloewenCraft
 
         public void MoveToBackground()
         {
+            isBackground = true;
+          
             if (blockContainer != null)
             {
-                isBackground = true;
                 blockContainer.ShowDarkRectangle();
+            }
+
+            Block blockAbove = GetBlockFromOffset(0, -1);
+            if (blockAbove != null && blockAbove.willFall)
+            {
+                blockAbove.BreakBlock(true, true, false);
+                Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos - 1, blockAbove.id));
             }
         }
 
         public void MoveToNormal()
         {
-            if(blockContainer != null)
+            isBackground = false;
+
+            if (blockContainer != null)
             {
-                isBackground = false;
                 blockContainer.HideDarkRectangle();
             }
         }
@@ -510,7 +523,45 @@ namespace SeeloewenCraft
             return Math.Abs(yDiff);
         }
 
-        public void BreakBlock(bool skipRangeCheck, bool skipBreakableCheck)
+        protected virtual void Drop(bool dropForeground)
+        {
+            //Get the block that should drop
+            Block block = dropForeground ? foregroundBlock : this;
+
+            if ((Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == block.effectiveTool && ToolIsCorrectMaterial(tool.material) && !block.dropsOnWrongTool) || block.dropsOnWrongTool)
+            {
+                //Get the amount of times the item gets dropped
+                int rolls = rnd.Next(block.dropAmountMin, block.dropAmountMax + 1);
+
+                for (int i = 0; i < rolls; i++)
+                {
+                    //If the block has a loot table, roll an entry and give the items to player
+                    if (block.lootTable != null)
+                    {
+                        List<Item> items = block.lootTable.RollEntry().RollItems();
+                        foreach (Item item in items)
+                        {
+                            Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
+                                (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
+                                yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
+                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
+                        }
+                    }
+                    //If it has only an item, only give that item
+                    else if (block.GetItem() != null)
+                    {
+                        Item item = block.GetItem();
+
+                        Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
+                                (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
+                                yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
+                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
+                    }
+                }
+            }
+        }
+
+        public void BreakBlock(bool skipRangeCheck, bool skipBreakableCheck, bool dropItems)
         {
             //Check if is in range
             if ((IsInRange() || skipRangeCheck))
@@ -520,56 +571,48 @@ namespace SeeloewenCraft
                 {
                     if (foregroundBlock.isBreakable || skipBreakableCheck)
                     {
-                        //Add the foreground block's item to the inventory
-                        if (foregroundBlock.GetItem() != null)
+                        if (dropItems)
                         {
-                            Game.world.AddEntity(new ItemEntity(foregroundBlock.GetItem(), //item type
-                                (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
-                                yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
-                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
-                        }
+                            Drop(true);
 
-                        if (foregroundBlock.hasInventory)
-                        {
-                            foregroundBlock.blockInventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
+                            if (foregroundBlock.hasInventory)
+                            {
+                                foregroundBlock.blockInventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
+                            }
                         }
 
                         RemoveForegroundBlock();
+
+                        Block blockAbove = GetBlockFromOffset(0, -1);
+                        if (blockAbove.willFall)
+                        {
+                            blockAbove.BreakBlock(true, true, false);
+                            Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos, id));
+                        }
                     }
                 }
                 //If it has no foreground block, check if the normal block is breakable
-                else if (foregroundBlock == null && (isBreakable || skipBreakableCheck))
+                else if (isBreakable || skipBreakableCheck)
                 {
                     //Remove the block from the chunks blocklist and add an airblock
                     Block block = new AirBlock(false);
                     SetBlock(block);
 
-                    //If the block has a loot table, roll an entry and give the items to player
-                    if (lootTable != null)
+                    if (dropItems)
                     {
-                        List<Item> items = lootTable.RollEntry().RollItems();
-                        foreach (Item item in items)
-                        {
-                            Game.world.AddEntity(new ItemEntity(item, //item type
-                                (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
-                                yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
-                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
+                        Drop(false);
 
+                        if (hasInventory)
+                        {
+                            blockInventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
                         }
                     }
-                    //If has only an item, only give that item
-                    else if (GetItem() != null)
-                    {
-                        Game.world.AddEntity(new ItemEntity(GetItem(), //item type
-                                (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
-                                yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
-                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
 
-                    }
-
-                    if (hasInventory)
+                    Block blockAbove = GetBlockFromOffset(0, -1);
+                    if (blockAbove.willFall)
                     {
-                        blockInventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
+                        blockAbove.BreakBlock(true, true, false);
+                        Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos - 1, blockAbove.id));
                     }
                 }
             }
@@ -595,6 +638,14 @@ namespace SeeloewenCraft
             UpdateAirLightsources(block);
             block.MoveToNormal();
 
+            Block blockBelow = block.GetBlockFromOffset(0, 1);
+            if(block.willFall 
+                && (blockBelow is AirBlock || blockBelow is WaterBlock || blockBelow.isBackground)) 
+            {
+                block.BreakBlock(true, true, false);
+                Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos, block.id));
+            }
+          
             //Send the data on the network if it's multiplayer
             NetworkHandler.SendData($"SetBlock;{block.id};{chunk.index};{block.xPos};{block.yPos}");
         }
@@ -615,6 +666,22 @@ namespace SeeloewenCraft
             if (blockContainer != null)
             {
                 blockContainer.RenderForegroundBlock(block);
+            }
+        }
+
+        public void InsertLootTable(LootTable lootTable, int amount)
+        {
+            //Get all loot into a list
+            List<Item> loot = new List<Item>();
+            for (int i = 0; i < amount; i++)
+            {
+                loot.AddRange(lootTable.RollEntry().RollItems());
+            }
+
+            //Put the loot into the inventory
+            foreach (Item item in loot)
+            {
+                blockInventory.AddItem(item.id, 1, item.tag);
             }
         }
 
@@ -681,9 +748,9 @@ namespace SeeloewenCraft
 
         public Block GetBaseBlock()
         {
-            if (baseBlock.xPos != null && baseBlock.yPos != null && baseBlock.chunk != null)
+            if (baseBlock.xOffset != null && baseBlock.yOffset != null)
             {
-                return Game.world.GetBlock((int)baseBlock.xPos + 8 * (int)baseBlock.chunk, (int)baseBlock.yPos);
+                return Game.world.GetBlock(xPos + chunk.index * 8 + (int)baseBlock.xOffset, yPos + (int)baseBlock.yOffset);
             }
             return null;
         }
@@ -695,7 +762,7 @@ namespace SeeloewenCraft
                 //Place the connected block
                 Block oldBlock = Game.world.GetBlock(xPos + 8 * chunk.index + conBlock.xOffset, yPos + conBlock.yOffset);
                 Block newBlock = BlockRegister.GenerateBlock(conBlock.blockId);
-                newBlock.baseBlock = (baseBlock.xPos, baseBlock.yPos, baseBlock.chunk.index);
+                newBlock.baseBlock = (-conBlock.xOffset, -conBlock.yOffset);
 
                 oldBlock.SetForegroundBlock(newBlock);
             }
@@ -708,7 +775,7 @@ namespace SeeloewenCraft
                 //Place the connected block
                 Block oldBlock = Game.world.GetBlock(xPos + 8 * chunk.index + conBlock.xOffset, yPos + conBlock.yOffset);
                 Block newBlock = BlockRegister.GenerateBlock(conBlock.blockId);
-                newBlock.baseBlock = (baseBlock.xPos, baseBlock.yPos, baseBlock.chunk.index);
+                newBlock.baseBlock = (-conBlock.xOffset, -conBlock.yOffset);
 
                 oldBlock.SetBlock(newBlock);
             }
@@ -741,7 +808,7 @@ namespace SeeloewenCraft
                 Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"isSurface={isSurface}");
                 if (GetBaseBlock() != null)
                 {
-                    Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"baseBlock={GetBaseBlock().id} at x{baseBlock.xPos} y{baseBlock.yPos}");
+                    Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"baseBlock={GetBaseBlock().id} at x{xPos + baseBlock.xOffset} y{yPos + baseBlock.yOffset}");
                 }
 
                 //Try to show the additional debug information
@@ -790,10 +857,49 @@ namespace SeeloewenCraft
             }
         }
 
+        public bool ToolIsCorrectMaterial(Material toolMaterial)
+        {
+            //Check if the effective material is supported by the tool
+            if (effectiveMaterial != null)
+            {
+                switch (effectiveMaterial)
+                {
+                    case Material.Wood:
+                        return toolMaterial == Material.Wood
+                            || toolMaterial == Material.Stone
+                            || toolMaterial == Material.Tin
+                            || toolMaterial == Material.Iron
+                            || toolMaterial == Material.Diamond;
+
+                    case Material.Stone:
+                        return toolMaterial == Material.Stone
+                            || toolMaterial == Material.Tin
+                            || toolMaterial == Material.Iron
+                            || toolMaterial == Material.Diamond;
+
+                    case Material.Tin:
+                        return toolMaterial == Material.Tin
+                            || toolMaterial == Material.Iron
+                            || toolMaterial == Material.Diamond;
+
+                    case Material.Iron:
+                        return toolMaterial == Material.Iron
+                            || toolMaterial == Material.Diamond;
+
+                    case Material.Diamond:
+                        return toolMaterial == Material.Diamond;
+
+                    default:
+                        return false;
+                }
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         //-- Event Handlers --//
-
-
-
         private void cvsBlock_MouseEnter(object sender, EventArgs e)
         {
             //Display the debug information of the block
@@ -811,8 +917,11 @@ namespace SeeloewenCraft
         private void cvsBlock_MouseLeave(object sender, EventArgs e)
         {
             //Remove the border from the block
-            blockContainer.bdrBlock.BorderThickness = new Thickness(0, 0, 0, 0);
-            blockContainer.bdrBlock.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            if(blockContainer != null)
+            {
+                blockContainer.bdrBlock.BorderThickness = new Thickness(0, 0, 0, 0);
+                blockContainer.bdrBlock.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            }
 
             //Stop a possible block modification progress
             tmrBreak.Stop();
@@ -839,7 +948,14 @@ namespace SeeloewenCraft
                         }
                         else
                         {
-                            tmrBreak.Interval = foregroundBlock.breakTime; //Will later also include tool in hand
+                            //Default breakpower to 1. If the right tool is selected, apply that breakpower
+                            double breakPower = 1;
+                            if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && foregroundBlock.effectiveTool == tool.type && ToolIsCorrectMaterial(tool.material))
+                            {
+                                breakPower = tool.breakPower;
+                            }
+
+                            tmrBreak.Interval = (int)(foregroundBlock.breakTime / breakPower);
                             tmrBreak.Start();
                         }
                     }
@@ -854,7 +970,14 @@ namespace SeeloewenCraft
                         }
                         else
                         {
-                            tmrBreak.Interval = breakTime; //Will later also include tool in hand
+                            //Default breakpower to 1. If the right tool is selected, apply that breakpower
+                            double breakPower = 1;
+                            if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && effectiveTool == tool.type && ToolIsCorrectMaterial(tool.material))
+                            {
+                                breakPower = tool.breakPower;
+                            }
+
+                            tmrBreak.Interval = (int)(breakTime / breakPower);
                             tmrBreak.Start();
                         }
                     }
@@ -875,13 +998,16 @@ namespace SeeloewenCraft
             //Stop possible breaking process
             tmrBreak.Stop();
 
-            if (Game.world.player.inventory.GetSelectedItem() != null && Game.world.player.inventory.GetSelectedItem().tags.Contains("tools/hammer"))
+            if (Game.world.player.inventory.GetSelectedItem() != null && Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == Tool.Hammer)
             {
                 //If the player holds a hammer, is in gamemode survival, the block is in range and doesn't have a foreground block
                 if (Game.world.gamemode == Gamemode.Survival && IsInRange() && foregroundBlock == null && canBeMovedToBackground)
                 {
+                    //Get the break power from the selected tool
+                    double breakPower = tool.breakPower;
+
                     //Start the timer for the hammer
-                    tmrHammer.Interval = breakTime; //TO-DO: Include tool efficiency
+                    tmrHammer.Interval = (int)(breakTime / breakPower); //TO-DO: Include tool efficiency
                     tmrHammer.Start();
                     return;
                 }
@@ -944,5 +1070,14 @@ namespace SeeloewenCraft
         Sword,
         Hammer,
         None
+    }
+
+    public enum Material
+    {
+        Wood,
+        Stone,
+        Tin,
+        Iron,
+        Diamond
     }
 }

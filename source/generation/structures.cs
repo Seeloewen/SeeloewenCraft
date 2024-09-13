@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Documents;
+﻿using System.Collections.Generic;
 
 namespace SeeloewenCraft
 {
@@ -9,12 +6,11 @@ namespace SeeloewenCraft
 
     public class ContinuationStructure : Structure //This is not a normal structure. Its component list is made up of components that originally belonged to another structure but were cut off. This serves as a continuation.
     {
-        public ContinuationStructure(List<StructureComponent> structureComponentList, int x, int y, int index, bool isNew, Chunk chunk, int remainingWidth, bool canFloat, bool canReplaceSolidBlocks, string name) : base( chunk, canFloat)
+        public ContinuationStructure(List<StructureComponent> structureComponentList, int x, int y, int index, bool isNew, Chunk chunk, int remainingWidth, bool canFloat, bool canReplaceSolidBlocks, string name) : base(chunk, canFloat)
         {
-            totalWidth = remainingWidth;
             this.canReplaceSolidBlocks = canReplaceSolidBlocks;
-            id = "sc:continuation_structure";
             this.name = name;
+            id = "sc:continuation_structure";
 
             //Add all structure components
             foreach (StructureComponent structureComponent in structureComponentList)
@@ -30,47 +26,64 @@ namespace SeeloewenCraft
 
     public class AlphaStructure : Structure //Not currently used, was only in the game for debugging
     {
-        public AlphaStructure( int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base( chunk, canFloat)
+        public AlphaStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
         {
             id = "sc:legacy_alpha_structure";
             name = "Legacy Alpha Structure";
-
-            //Set the total width of the structure
-            totalWidth = 3;
             canReplaceSolidBlocks = true;
 
             //Add all structure components - It's meant to look like a bedrock pyramid
-            structureComponents.Add(new StructureComponent(0, 0, new BedrockBlock( false)));
-            structureComponents.Add(new StructureComponent(1, 0, new BedrockBlock( false)));
-            structureComponents.Add(new StructureComponent(2, 0, new BedrockBlock( false)));
-            structureComponents.Add(new StructureComponent(3, 0, new BedrockBlock( false)));
-            structureComponents.Add(new StructureComponent(4, 0, new BedrockBlock( false)));
-            structureComponents.Add(new StructureComponent(1, 1, new BedrockBlock( false)));
-            structureComponents.Add(new StructureComponent(2, 1, new BedrockBlock( false)));
-            structureComponents.Add(new StructureComponent(3, 1, new BedrockBlock( false)));
-            structureComponents.Add(new StructureComponent(2, 2, new BedrockBlock( false)));
+            AddBlock(new BedrockBlock(false), 0, 0);
+            AddBlock(new BedrockBlock(false), 1, 0);
+            AddBlock(new BedrockBlock(false), 2, 0);
+            AddBlock(new BedrockBlock(false), 3, 0);
+            AddBlock(new BedrockBlock(false), 4, 0);
+            AddBlock(new BedrockBlock(false), 1, 1);
+            AddBlock(new BedrockBlock(false), 2, 1);
+            AddBlock(new BedrockBlock(false), 3, 1);
+            AddBlock(new BedrockBlock(false), 2, 2);
 
             //Begin generating the alpha structure - was only meant for development purposes and is no longer in the game
             BeginGeneration(x, y, index, isNew);
         }
     }
 
-
     public class PlainsDungeon : Structure
     {
-        public PlainsDungeon( int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base( chunk, canFloat)
+        public PlainsDungeon(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
         {
             id = "sc:plains_dungeon";
             name = "Plains Dungeon";
-
-            //Set the total width of the structure
             canReplaceSolidBlocks = true;
 
             Dungeon dung = new Dungeon();
-            dung.CreateDungeon(100, 40, DungeonType.Plains);
+            dung.CreateDungeon(100, 50, DungeonType.Plains);
             structureComponents.AddRange(dung.GenerateDungeon(0, 0));
 
-            totalWidth = GetTotalWidth();
+            //Begin generation
+            BeginGeneration(x, y, index, isNew);
+        }
+    }
+
+    public class FossilStructure : Structure
+    {
+        public FossilStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
+        {
+            id = "sc:fossil_structure";
+            name = "Fossil";
+            canReplaceSolidBlocks = true;
+
+            AddBlock(new BoneBlock(false), 0, 0);
+            AddBlock(new BoneBlock(false), 0, 1);
+            AddBlock(new BoneBlock(false), 0, 2);
+            AddBlock(new BoneBlock(false), 1, 3);
+            AddBlock(new BoneBlock(false), 2, 0);
+            AddBlock(new BoneBlock(false), 2, 1);
+            AddBlock(new BoneBlock(false), 2, 2);
+            AddBlock(new BoneBlock(false), 3, 3);
+            AddBlock(new BoneBlock(false), 4, 0);
+            AddBlock(new BoneBlock(false), 4, 1);
+            AddBlock(new BoneBlock(false), 4, 2);
 
             //Begin generation
             BeginGeneration(x, y, index, isNew);
@@ -79,12 +92,10 @@ namespace SeeloewenCraft
 
     public class Lake : Structure
     {
-        public Lake( int x, int y, int index, bool isNew, Chunk chunk, bool canFloat, int floorHeight) : base( chunk, canFloat)
+        public Lake(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat, int floorHeight) : base(chunk, canFloat)
         {
             id = "sc:lake";
             name = "Lake";
-
-            //Set the total width of the structure
             canReplaceSolidBlocks = true;
 
             //Add all structure components
@@ -92,7 +103,6 @@ namespace SeeloewenCraft
             int yPos = 0;
 
             bool goDown = true;
-
             yPos = floorHeight;
 
             do
@@ -103,20 +113,19 @@ namespace SeeloewenCraft
                     //Add dirt when below the currently observed ypos, else add water
                     if (i < yPos && i >= yPos - 2)
                     {
-                        structureComponents.Add(new StructureComponent(xPos, i, new DirtBlock( false)));
+                        AddBlock(new DirtBlock(false), xPos, i);
                     }
                     else if (i >= yPos)
                     {
-                        structureComponents.Add(new StructureComponent(xPos, i, new WaterBlock_6( false)));
+                        AddBlock(new WaterBlock_6(false), xPos, i);
                     }
                 }
 
                 //Generate a mirror of the lake above, but with air to clear potential blocks above
                 for (int i = floorHeight; i <= floorHeight + floorHeight - yPos + 2; i++)
                 {
-                    structureComponents.Add(new StructureComponent(xPos, i, new AirBlock( false)));
+                    AddBlock(new AirBlock(false), xPos, i);
                 }
-
 
                 //Determine whether to go down or up
                 if (yPos == 1)
@@ -143,8 +152,6 @@ namespace SeeloewenCraft
 
             while (yPos <= floorHeight);
 
-            totalWidth = GetTotalWidth();
-
             //Begin generation
             BeginGeneration(x, y, index, isNew);
         }
@@ -152,99 +159,258 @@ namespace SeeloewenCraft
 
     public class OakTreeStructure : Structure
     {
-        public OakTreeStructure( int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base( chunk, canFloat)
+        public OakTreeStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
         {
             id = "sc:oak_tree_structure";
             name = "Oak Tree";
-
             canReplaceSolidBlocks = true;
 
-            //Set total width of the structure
-            totalWidth = 5;
-
             //Layer 1
-            structureComponents.Add(new StructureComponent(2, 0, new OakLogBlock( true)));
+            AddBlock(new OakLogBlock(true), 2, 0);
 
             //Layer 2
-            structureComponents.Add(new StructureComponent(2, 1, new OakLogBlock( true)));
+            AddBlock(new OakLogBlock(true), 2, 1);
 
             //Layer 3
-            structureComponents.Add(new StructureComponent(2, 2, new OakLogBlock( true)));
+            AddBlock(new OakLogBlock(true), 2, 2);
 
             //Layer 4
-            structureComponents.Add(new StructureComponent(1, 3, new OakLeavesBlock( false)));
-            structureComponents.Add(new StructureComponent(2, 3, new OakLeavesBlock( false)));
-            structureComponents.Add(new StructureComponent(3, 3, new OakLeavesBlock( false)));
-            structureComponents.Add(new StructureComponent(4, 3, new OakLeavesBlock( false)));
-            structureComponents.Add(new StructureComponent(0, 3, new OakLeavesBlock( false)));
+            AddBlock(new OakLeavesBlock(false), 1, 3);
+            AddBlock(new OakLeavesBlock(false), 2, 3);
+            AddBlock(new OakLeavesBlock(false), 3, 3);
+            AddBlock(new OakLeavesBlock(false), 4, 3);
+            AddBlock(new OakLeavesBlock(false), 0, 3);
 
             //Layer 5
-            structureComponents.Add(new StructureComponent(1, 4, new OakLeavesBlock( false)));
-            structureComponents.Add(new StructureComponent(2, 4, new OakLeavesBlock( false)));
-            structureComponents.Add(new StructureComponent(3, 4, new OakLeavesBlock( false)));
+            AddBlock(new OakLeavesBlock(false), 1, 4);
+            AddBlock(new OakLeavesBlock(false), 2, 4);
+            AddBlock(new OakLeavesBlock(false), 3, 4);
 
             //Layer 6
-            structureComponents.Add(new StructureComponent(2, 5, new OakLeavesBlock( false)));
+            AddBlock(new OakLeavesBlock(false), 2, 5);
 
             //Begin generating the trees
             BeginGeneration(x, y, index, isNew);
+        }
+    }
 
+    public class CactusStructure : Structure
+    {
+        public CactusStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
+        {
+            id = "sc:cactus_structure";
+            name = "Cactus";
+            canReplaceSolidBlocks = true;
+
+            int height = rnd.Next(2, 6);
+            bool leftBranchStarted = false;
+            bool rightBranchStarted = false;
+
+            for (int i = 0; i < height; i++)
+            {
+                if (i > 0 && i != height)
+                {
+                    //Potentially generate a new branch
+                    switch (rnd.Next(0, 6))
+                    {
+                        case 0:
+                            if (!leftBranchStarted)
+                            {
+                                leftBranchStarted = true;
+
+                                //Generate left branch
+                                GenerateLeftBranch(i);
+                            }
+                            else
+                            {
+                                AddBlock(new Cactus_Vertical(false), 1, i);
+                            }
+                            break;
+                        case 1:
+                            if (!rightBranchStarted)
+                            {
+                                rightBranchStarted = true;
+
+                                //Generate right branch
+                                GenerateRightBranch(i);
+                            }
+                            else
+                            {
+                                AddBlock(new Cactus_Vertical(false), 1, i);
+                            }
+                            break;
+                        case 2:
+                            if (!rightBranchStarted && !leftBranchStarted)
+                            {
+                                rightBranchStarted = true;
+                                leftBranchStarted = true;
+
+                                //Generate right and left branch
+                                GenerateRightBranch(i);
+                                GenerateLeftBranch(i);
+                                AddBlock(new Cactus_Cross(false), 1, i);
+                            }
+                            else
+                            {
+                                AddBlock(new Cactus_Vertical(false), 1, i);
+                            }
+                            break;
+                        case > 2:
+                            AddBlock(new Cactus_Vertical(false), 1, i);
+                            break;
+                    }
+                }
+                else
+                {
+                    AddBlock(new Cactus_Vertical(false), 1, i);
+                }
+
+                AddBlock(rnd.Next(1, 4) == 1 ? new Cactus_TopFruit(false) : new Cactus_Top(false), 1, height);
+
+                //Begin generating
+                BeginGeneration(x, y, index, isNew);
+            }
+
+        }
+
+        public void GenerateRightBranch(int startHeight)
+        {
+            //Generate start of branch
+            AddBlock(new Cactus_TopLeft(false), 2, startHeight);
+            AddBlock(new Cactus_Right(false), 1, startHeight);
+
+            //Generate the branch upwards
+            int rightHeight = rnd.Next(1, 4);
+            for (int j = startHeight + 1; j < startHeight + rightHeight; j++)
+            {
+                AddBlock(new Cactus_Vertical(false), 2, j);
+            }
+
+            AddBlock(rnd.Next(1, 4) == 1 ? new Cactus_TopFruit(false) : new Cactus_Top(false), 2, startHeight + rightHeight);
+        }
+
+        public void GenerateLeftBranch(int startHeight)
+        {
+            //Generate start of branch
+            AddBlock(new Cactus_TopRight(false), 0, startHeight);
+            AddBlock(new Cactus_Left(false), 1, startHeight);
+
+            //Generate the branch upwards
+            int leftHeight = rnd.Next(1, 4);
+            for (int j = startHeight + 1; j < startHeight + leftHeight; j++)
+            {
+                AddBlock(new Cactus_Vertical(false), 0, j);
+            }
+
+            AddBlock(rnd.Next(1, 4) == 1 ? new Cactus_TopFruit(false) : new Cactus_Top(false), 0, startHeight + leftHeight);
+        }
+    }
+
+    public class PyramidStructure : Structure
+    {
+        public PyramidStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
+        {
+            id = "sc:pyramid_structure";
+            name = "Pyramid";
+            canReplaceSolidBlocks = true;
+
+            //Layer 1
+            int height = 8;
+            int width = height;
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    AddBlock(new SandStoneBricksBlock(false), width + i, j);
+                    AddBlock(new SandStoneBricksBlock(false), width - i, j);
+                }
+                height--;
+            }
+
+            //Left pot
+            ArcheologyPot_Base potBase = new ArcheologyPot_Base(false);
+            ArcheologyPot_Top potTop = new ArcheologyPot_Top(false);
+            potTop.baseBlock = (0, 1);
+            AddBackgroundBlock(new SandStoneBlock(true), 6, 1, potBase, LootTables.potLootTable, 1);
+            AddBackgroundBlock(new SandStoneBlock(true), 6, 2, potTop);
+
+            //Chest
+            AddBackgroundBlock(new SandStoneBlock(true), 8, 1, new ChestBlock(false), LootTables.pyramidLootTable, 3);
+
+            //Torch
+            AddBackgroundBlock(new SandStoneBlock(true), 8, 3, new TorchBlock(false));
+
+            //Right pot
+            ArcheologyPot_Base potBase2 = new ArcheologyPot_Base(false);
+            ArcheologyPot_Top potTop2 = new ArcheologyPot_Top(false);
+            potTop2.baseBlock = (0, 1);
+            AddBackgroundBlock(new SandStoneBlock(true), 10, 1, potBase2, LootTables.potLootTable, 1);
+            AddBackgroundBlock(new SandStoneBlock(true), 10, 2, potTop2);
+
+            //Other background blocks
+            AddBackgroundBlock(new SandStoneBlock(true), 6, 3, null);
+            AddBackgroundBlock(new SandStoneBlock(true), 7, 1, null);
+            AddBackgroundBlock(new SandStoneBlock(true), 7, 2, null);
+            AddBackgroundBlock(new SandStoneBlock(true), 7, 3, null);
+            AddBackgroundBlock(new SandStoneBlock(true), 8, 2, null);
+            AddBackgroundBlock(new SandStoneBlock(true), 9, 1, null);
+            AddBackgroundBlock(new SandStoneBlock(true), 9, 2, null);
+            AddBackgroundBlock(new SandStoneBlock(true), 9, 3, null);
+            AddBackgroundBlock(new SandStoneBlock(true), 10, 3, null);
+
+            //Begin generating
+            BeginGeneration(x, y, index, isNew);
         }
     }
 
     public class SpruceTreeStructure : Structure
     {
-        public SpruceTreeStructure( int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base( chunk, canFloat)
+        public SpruceTreeStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
         {
             id = "sc:spruce_tree_structure";
             name = "Spruce Tree";
-
             canReplaceSolidBlocks = true;
 
-            //Set total width of the structure
-            totalWidth = 5;
-
             //Layer 1
-            structureComponents.Add(new StructureComponent(2, 0, new SpruceLogBlock( true)));
+            AddBlock(new SpruceLogBlock(true), 2, 0);
 
             //Layer 2
-            structureComponents.Add(new StructureComponent(2, 1, new SpruceLogBlock( true)));
+            AddBlock(new SpruceLogBlock(true), 2, 1);
 
             //Layer 3
-            structureComponents.Add(new StructureComponent(2, 2, new SpruceLogBlock( true)));
+            AddBlock(new SpruceLogBlock(true), 2, 2);
 
             //Layer 4
-            structureComponents.Add(new StructureComponent(1, 3, new SpruceLeavesBlock( false)));
-            structureComponents.Add(new StructureComponent(2, 3, new SpruceLeavesBlock( false)));
-            structureComponents.Add(new StructureComponent(3, 3, new SpruceLeavesBlock( false)));
-            structureComponents.Add(new StructureComponent(4, 3, new SpruceLeavesBlock( false)));
-            structureComponents.Add(new StructureComponent(0, 3, new SpruceLeavesBlock( false)));
+            AddBlock(new SpruceLeavesBlock(false), 1, 3);
+            AddBlock(new SpruceLeavesBlock(false), 2, 3);
+            AddBlock(new SpruceLeavesBlock(false), 3, 3);
+            AddBlock(new SpruceLeavesBlock(false), 4, 3);
+            AddBlock(new SpruceLeavesBlock(false), 0, 3);
 
             //Layer 5
-            structureComponents.Add(new StructureComponent(1, 4, new SpruceLeavesBlock( false)));
-            structureComponents.Add(new StructureComponent(2, 4, new SpruceLeavesBlock( false)));
-            structureComponents.Add(new StructureComponent(3, 4, new SpruceLeavesBlock( false)));
+            AddBlock(new SpruceLeavesBlock(false), 1, 4);
+            AddBlock(new SpruceLeavesBlock(false), 2, 4);
+            AddBlock(new SpruceLeavesBlock(false), 3, 4);
 
             //Layer 6
-            structureComponents.Add(new StructureComponent(1, 5, new SpruceLeavesBlock( false)));
-            structureComponents.Add(new StructureComponent(2, 5, new SpruceLeavesBlock( false)));
-            structureComponents.Add(new StructureComponent(3, 5, new SpruceLeavesBlock( false)));
+            AddBlock(new SpruceLeavesBlock(false), 1, 5);
+            AddBlock(new SpruceLeavesBlock(false), 2, 5);
+            AddBlock(new SpruceLeavesBlock(false), 3, 5);
 
             //Layer 7
-            structureComponents.Add(new StructureComponent(2, 6, new SpruceLeavesBlock( false)));
+            AddBlock(new SpruceLeavesBlock(false), 2, 6);
 
             //Layer 8
-            structureComponents.Add(new StructureComponent(2, 7, new SpruceLeavesBlock( false)));
+            AddBlock(new SpruceLeavesBlock(false), 2, 7);
 
             //Begin generating the trees
             BeginGeneration(x, y, index, isNew);
-
         }
     }
 
-    public class OreStructure : Structure
+    public class LegacyOreStructure : Structure //Legacy ore structure used before Alpha 1.2.0
     {
-        public OreStructure( int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base( chunk, canFloat)
+        public LegacyOreStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
         {
             id = "sc:legacy_ore_structure";
             name = "Legacy Ore Structure";
@@ -252,14 +418,13 @@ namespace SeeloewenCraft
             canReplaceSolidBlocks = false;
 
             //Generate a random number between 0 and 29 to get the ore type
-            //WIP - Split into seperate ore structures for getting appropriate heights
             int random1 = rnd.Next(0, 31);
 
             if (random1 >= 0 && random1 <= 15) //Coal Vein
             {
                 foreach (StructureComponent com in shapeCreator.GetCustomCircle(3, 2))
                 {
-                    com.block = new CoalOreBlock( false);
+                    com.block = new CoalOreBlock(false);
                     structureComponents.Add(com);
                 }
                 if (rnd.Next(1, 11) > 2)
@@ -269,7 +434,7 @@ namespace SeeloewenCraft
                     {
                         com.xOffset += ranCom.xOffset;
                         com.yOffset += ranCom.yOffset;
-                        com.block = new CoalOreBlock( false);
+                        com.block = new CoalOreBlock(false);
                         structureComponents.Add(com);
                     }
                 }
@@ -278,7 +443,7 @@ namespace SeeloewenCraft
             {
                 foreach (StructureComponent com in shapeCreator.GetCustomCircle(2, 1))
                 {
-                    com.block = new IronOreBlock( false);
+                    com.block = new IronOreBlock(false);
                     structureComponents.Add(com);
                 }
                 if (rnd.Next(1, 11) > 4)
@@ -288,7 +453,7 @@ namespace SeeloewenCraft
                     {
                         com.xOffset += ranCom.xOffset;
                         com.yOffset += ranCom.yOffset;
-                        com.block = new IronOreBlock( false);
+                        com.block = new IronOreBlock(false);
                         structureComponents.Add(com);
                     }
                 }
@@ -297,7 +462,7 @@ namespace SeeloewenCraft
             {
                 foreach (StructureComponent com in shapeCreator.GetCustomCircle(1, 1))
                 {
-                    com.block = new DiamondOreBlock( false);
+                    com.block = new DiamondOreBlock(false);
                     structureComponents.Add(com);
                 }
                 if (rnd.Next(1, 11) > 9)
@@ -307,7 +472,7 @@ namespace SeeloewenCraft
                     {
                         com.xOffset += ranCom.xOffset;
                         com.yOffset += ranCom.yOffset;
-                        com.block = new DiamondOreBlock( false);
+                        com.block = new DiamondOreBlock(false);
                         structureComponents.Add(com);
                     }
                 }
@@ -319,9 +484,268 @@ namespace SeeloewenCraft
         }
     }
 
+    public class CoalOreStructure : Structure
+    {
+        public CoalOreStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
+        {
+            id = "sc:coal_ore_structure";
+            name = "Coal Ore Vein";
+            canReplaceSolidBlocks = false;
+
+            //Generate the first part of the vein
+            foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(3, 2))
+            {
+                structComp.block = new CoalOreBlock(false);
+                structureComponents.Add(structComp);
+            }
+            if (rnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
+            {
+                StructureComponent rndStructComp = structureComponents[rnd.Next(0, structureComponents.Count)];
+                foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(3, 2))
+                {
+                    structComp.xOffset += rndStructComp.xOffset;
+                    structComp.yOffset += rndStructComp.yOffset;
+                    structComp.block = new CoalOreBlock(false);
+                    structureComponents.Add(structComp);
+                }
+            }
+
+            BeginGeneration(x, y, index, isNew);
+        }
+    }
+
+    public class IronOreStructure : Structure
+    {
+        public IronOreStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
+        {
+            id = "sc:iron_ore_structure";
+            name = "Iron Ore Vein";
+            canReplaceSolidBlocks = false;
+
+            //Generate the first part of the vein
+            foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
+            {
+                structComp.block = new IronOreBlock(false);
+                structureComponents.Add(structComp);
+            }
+            if (rnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
+            {
+                StructureComponent rndStructComp = structureComponents[rnd.Next(0, structureComponents.Count)];
+                foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 2))
+                {
+                    structComp.xOffset += rndStructComp.xOffset;
+                    structComp.yOffset += rndStructComp.yOffset;
+                    structComp.block = new IronOreBlock(false);
+                    structureComponents.Add(structComp);
+                }
+            }
+
+            BeginGeneration(x, y, index, isNew);
+        }
+    }
+
+    public class DiamondOreStructure : Structure
+    {
+        public DiamondOreStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
+        {
+            id = "sc:diamond_ore_structure";
+            name = "Diamond Ore Vein";
+            canReplaceSolidBlocks = false;
+
+            //Generate the first part of the vein
+            foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(1, 1))
+            {
+                structComp.block = new DiamondOreBlock(false);
+                structureComponents.Add(structComp);
+            }
+            if (rnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
+            {
+                StructureComponent rndStructComp = structureComponents[rnd.Next(0, structureComponents.Count)];
+                foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
+                {
+                    structComp.xOffset += rndStructComp.xOffset;
+                    structComp.yOffset += rndStructComp.yOffset;
+                    structComp.block = new DiamondOreBlock(false);
+                    structureComponents.Add(structComp);
+                }
+            }
+
+            BeginGeneration(x, y, index, isNew);
+        }
+    }
+
+    public class AmethystOreStructure : Structure
+    {
+        public AmethystOreStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
+        {
+            id = "sc:amethyst_ore_structure";
+            name = "Amethyst Ore Vein";
+            canReplaceSolidBlocks = false;
+
+            //Generate the first part of the vein
+            foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(1, 1))
+            {
+                structComp.block = new AmethystOreBlock(false);
+                structureComponents.Add(structComp);
+            }
+            if (rnd.Next(1, 11) > 5) //Potentially attach a second part to the vein
+            {
+                StructureComponent rndStructComp = structureComponents[rnd.Next(0, structureComponents.Count)];
+                foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
+                {
+                    structComp.xOffset += rndStructComp.xOffset;
+                    structComp.yOffset += rndStructComp.yOffset;
+                    structComp.block = new AmethystOreBlock(false);
+                    structureComponents.Add(structComp);
+                }
+            }
+
+            BeginGeneration(x, y, index, isNew);
+        }
+    }
+
+    public class CopperOreStructure : Structure
+    {
+        public CopperOreStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
+        {
+            id = "sc:copper_ore_structure";
+            name = "Copper Ore Vein";
+            canReplaceSolidBlocks = false;
+
+            //Generate the first part of the vein
+            foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
+            {
+                structComp.block = new CopperOreBlock(false);
+                structureComponents.Add(structComp);
+            }
+            if (rnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
+            {
+                StructureComponent rndStructComp = structureComponents[rnd.Next(0, structureComponents.Count)];
+                foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(3, 2))
+                {
+                    structComp.xOffset += rndStructComp.xOffset;
+                    structComp.yOffset += rndStructComp.yOffset;
+                    structComp.block = new CopperOreBlock(false);
+                    structureComponents.Add(structComp);
+                }
+            }
+
+            BeginGeneration(x, y, index, isNew);
+        }
+    }
+
+    public class GoldOreStructure : Structure
+    {
+        public GoldOreStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
+        {
+            id = "sc:gold_ore_structure";
+            name = "Gold Ore Vein";
+            canReplaceSolidBlocks = false;
+
+            //Generate the first part of the vein
+            foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
+            {
+                structComp.block = new GoldOreBlock(false);
+                structureComponents.Add(structComp);
+            }
+            if (rnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
+            {
+                StructureComponent rndStructComp = structureComponents[rnd.Next(0, structureComponents.Count)];
+                foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
+                {
+                    structComp.xOffset += rndStructComp.xOffset;
+                    structComp.yOffset += rndStructComp.yOffset;
+                    structComp.block = new GoldOreBlock(false);
+                    structureComponents.Add(structComp);
+                }
+            }
+
+            BeginGeneration(x, y, index, isNew);
+        }
+    }
+
+    public class EmeraldOreStructure : Structure
+    {
+        public EmeraldOreStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
+        {
+            id = "sc:emerald_ore_structure";
+            name = "Emerald Ore Vein";
+            canReplaceSolidBlocks = false;
+
+            //Generate the first part of the vein
+            foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(1, 2))
+            {
+                structComp.block = new EmeraldOreBlock(false);
+                structureComponents.Add(structComp);
+            }
+
+            BeginGeneration(x, y, index, isNew);
+        }
+    }
+
+    public class TinOreStructure : Structure
+    {
+        public TinOreStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
+        {
+            id = "sc:tin_ore_structure";
+            name = "Tin Ore Vein";
+            canReplaceSolidBlocks = false;
+
+            //Generate the first part of the vein
+            foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
+            {
+                structComp.block = new TinOreBlock(false);
+                structureComponents.Add(structComp);
+            }
+            if (rnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
+            {
+                StructureComponent rndStructComp = structureComponents[rnd.Next(0, structureComponents.Count)];
+                foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 2))
+                {
+                    structComp.xOffset += rndStructComp.xOffset;
+                    structComp.yOffset += rndStructComp.yOffset;
+                    structComp.block = new TinOreBlock(false);
+                    structureComponents.Add(structComp);
+                }
+            }
+
+            BeginGeneration(x, y, index, isNew);
+        }
+    }
+
+    public class TungstenOreStructure : Structure
+    {
+        public TungstenOreStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
+        {
+            id = "sc:tungsten_ore_structure";
+            name = "Tungsten Ore Vein";
+            canReplaceSolidBlocks = false;
+
+            //Generate the first part of the vein
+            foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
+            {
+                structComp.block = new TungstenOreBlock(false);
+                structureComponents.Add(structComp);
+            }
+            if (rnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
+            {
+                StructureComponent rndStructComp = structureComponents[rnd.Next(0, structureComponents.Count)];
+                foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
+                {
+                    structComp.xOffset += rndStructComp.xOffset;
+                    structComp.yOffset += rndStructComp.yOffset;
+                    structComp.block = new TungstenOreBlock(false);
+                    structureComponents.Add(structComp);
+                }
+            }
+
+            BeginGeneration(x, y, index, isNew);
+        }
+    }
+
     public class AlphaCave : Structure //This was a test implementation of caves. It works partially, but has many issues and doesn't look good. Not used anymore.
     {
-        public AlphaCave( int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base( chunk, canFloat)
+        public AlphaCave(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
         {
 
             id = "sc:legacy_alpha_cave_structure";
@@ -329,7 +753,7 @@ namespace SeeloewenCraft
 
             //Generate first air block (base of cave)
             List<StructureComponent> generatedComponents = new List<StructureComponent>();
-            structureComponents.Add(new StructureComponent(0, 0, new AirBlock( false)));
+            structureComponents.Add(new StructureComponent(0, 0, new AirBlock(false)));
 
             //Go through all components
             for (int i = 0; i < 6; i++)
@@ -338,54 +762,47 @@ namespace SeeloewenCraft
 
                 foreach (StructureComponent structureComponent in structureComponents)
                 {
-                    int randomNorth = rnd.Next(1, 3);
                     //North
-                    if (randomNorth == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
+                    if (rnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
-                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset, structureComponent.yOffset - 1, new AirBlock( false));
+                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset, structureComponent.yOffset - 1, new AirBlock(false));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
                         }
                     }
 
-                    int randomEast = rnd.Next(1, 3);
                     //East
-                    if (randomEast == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
+                    if (rnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
-                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset + 1, structureComponent.yOffset, new AirBlock( false));
+                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset + 1, structureComponent.yOffset, new AirBlock(false));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
-
                         }
                     }
 
-                    int randomSouth = rnd.Next(1, 3);
                     //South
-                    if (randomSouth == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
+                    if (rnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
-                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset, structureComponent.yOffset + 1, new AirBlock( false));
+                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset, structureComponent.yOffset + 1, new AirBlock(false));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
-
                         }
                     }
 
-                    int randomWest = rnd.Next(1, 3);
                     //West
-                    if (randomWest == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
+                    if (rnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
-                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset - 1, structureComponent.yOffset, new AirBlock( false));
+                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset - 1, structureComponent.yOffset, new AirBlock(false));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
-
                         }
                     }
 
@@ -399,9 +816,6 @@ namespace SeeloewenCraft
                 }
                 temporaryComponentList.Clear();
             }
-
-            //Get total width
-            totalWidth = GetTotalWidth();
 
             //Begin generating the cave
             BeginGeneration(x, y, index, isNew);

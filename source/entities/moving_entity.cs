@@ -41,7 +41,7 @@ namespace SeeloewenCraft.entity
 
 
         public MovingEntity(int sizeX, int sizeY, int posX, int posY, int velX, int velY)
-            : base(sizeX, sizeY, posX, posY, velX, velY, new SolidColorBrush(Colors.Green))
+            : base(sizeX, sizeY, posX, posY, velX, velY)
         {
             type = "MovingEntity";
             hp = MAX_HP;
@@ -88,6 +88,19 @@ namespace SeeloewenCraft.entity
             velX = Convert.ToInt32(args[4]);
             velY = Convert.ToInt32(args[5]);
         }
+
+        public MovingEntity(JsonToken token, int sizeX, int sizeY, Brush image)
+            : base(token, sizeX, sizeY, image)
+        {
+            type = "MovingEntity";
+            hp = token.GetDouble("/hp");
+            currentAcc = token.GetInt("/current_acc");
+            fallMaxHeight = token.GetInt("/fall_max_height");
+            flying = token.GetBool("/flying");
+
+            texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
+        }
+
 
         protected override void DoFallDamage()
         {
@@ -178,7 +191,9 @@ namespace SeeloewenCraft.entity
 
         public virtual void Drop(string id)
         {
-            Game.world.AddEntity(new ItemEntity(ItemRegister.GenerateItem(id), //item type
+            Item item = ItemRegister.GenerateItem(id);
+
+            Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
                 posX + sizeX / 2 - ItemEntity.itemSizeX / 2, //posX
                 posY + sizeY * 2 / 3 - ItemEntity.itemSizeY / 2, //posY
                 rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY
@@ -186,7 +201,7 @@ namespace SeeloewenCraft.entity
 
         public virtual void Die()
         {
-            Game.world.toDieEntities.Add(this);
+            Game.world.RemoveEntity(id);
         }
 
         public virtual void SetHP(double hp)
@@ -236,6 +251,20 @@ namespace SeeloewenCraft.entity
             writer.WriteValue(flying);
         }
 
+        protected override void SaveSpecialInfo(JsonWriter writer)
+        {
+            writer.WritePropertyName("hp");
+            writer.WriteValue(hp);
+            writer.WritePropertyName("current_acc");
+            writer.WriteValue(currentAcc);
+            writer.WritePropertyName("fall_max_height");
+            writer.WriteValue(fallMaxHeight);
+            writer.WritePropertyName("thrown");
+            writer.WriteValue(thrown);
+            writer.WritePropertyName("flying");
+            writer.WriteValue(flying);
+        }
+
         protected override void OnUpdateStart(int tps)
         {
             base.OnUpdateStart(tps);
@@ -246,7 +275,7 @@ namespace SeeloewenCraft.entity
 
             breathing = touchingStatus[TOUCHING_AIR];
 
-            if (touchingStatus[TOUCHING_CACTUS])
+            if (touchingStatus[TOUCHING_CACTUS] || touchingStatus[TOUCHING_MAGMA])
             {
                 Damage((1000 / tps) * 0.001);
             }
@@ -259,6 +288,11 @@ namespace SeeloewenCraft.entity
             {
                 accGrav = DEFAULT_GRAV;
             }
+
+            if (touchingStatus[TOUCHING_LADDER])
+            {
+                fallMaxHeight = posY;
+            }
         }
 
 
@@ -266,49 +300,66 @@ namespace SeeloewenCraft.entity
 
         public override void DoPhysicsStep(int tps)
         {
-            if (pressedSneak && !flying)
+            if(this is Player)
             {
-                currentAcc = ACC_SNEAKING;
-                if (sizeY == 1900)
+                if (pressedSneak && !flying)
                 {
-                    posY += 450;
+                    currentAcc = ACC_SNEAKING;
+                    if (sizeY == 1900)
+                    {
+                        posY += 450;
+                    }
+                    sizeY = 1450;
                 }
-                sizeY = 1450;
-            }
-            else if (pressedSprint)
-            {
-                currentAcc = ACC_SPRINTING;
-                if (sizeY == 1450)
+                else if (pressedSprint)
                 {
-                    posY -= 450;
+                    currentAcc = ACC_SPRINTING;
+                    if (sizeY == 1450)
+                    {
+                        posY -= 450;
+                    }
+                    sizeY = 1900;
                 }
-                sizeY = 1900;
-            }
-            else
-            {
-                currentAcc = ACC_WALKING;
-                if (sizeY == 1450)
+                else
                 {
-                    posY -= 450;
+                    currentAcc = ACC_WALKING;
+                    if (sizeY == 1450)
+                    {
+                        posY -= 450;
+                    }
+                    sizeY = 1900;
                 }
-                sizeY = 1900;
             }
 
             texture.Height = sizeY / 20;
 
             // -- change velocity depending on inputs --
-            if (pressedRight)
+            if (touchingStatus[TOUCHING_LADDER])
             {
-                if (!touchingRight || CheckUpStep(Direction.RIGHT, 1, tps))
+                if (pressedRight && !touchingRight)
                 {
-                    velX += currentAcc / tps;
+                    velX += currentAcc / (tps * 3);
+                }
+                if (pressedLeft && !touchingLeft)
+                {
+                    velX -= currentAcc / (tps * 3);
                 }
             }
-            if (pressedLeft)
+            else
             {
-                if (!touchingLeft || CheckUpStep(Direction.LEFT, -1, tps))
+                if (pressedRight)
                 {
-                    velX -= currentAcc / tps;
+                    if (!touchingRight || CheckUpStep(Direction.RIGHT, 1, tps))
+                    {
+                        velX += currentAcc / tps;
+                    }
+                }
+                if (pressedLeft)
+                {
+                    if (!touchingLeft || CheckUpStep(Direction.LEFT, -1, tps))
+                    {
+                        velX -= currentAcc / tps;
+                    }
                 }
             }
 
@@ -329,7 +380,7 @@ namespace SeeloewenCraft.entity
             {
                 if (pressedUp)
                 {
-                    if (onGround)
+                    if (onGround && !touchingStatus[TOUCHING_LADDER])
                     {
                         velY = -jumpStartSpeed;
                     }
@@ -342,6 +393,22 @@ namespace SeeloewenCraft.entity
             }
 
             base.DoPhysicsStep(tps);
+
+            if (touchingStatus[TOUCHING_LADDER])
+            {
+                if (pressedUp)
+                {
+                    velY = -5000;
+                }
+                else
+                {
+                    if (pressedSneak)
+                    {
+                        velY = 0;
+                    }
+                }
+                velY = Math.Min(velY, 4000);
+            }
         }
     }
 }

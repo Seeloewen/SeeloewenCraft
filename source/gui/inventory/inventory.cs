@@ -24,17 +24,19 @@ namespace SeeloewenCraft
         public bool hasHotbar = false;
         private int slotsX;
         private int slotsY;
+        public bool isPlayer;
 
         //-- Constructor --//
 
-        public Inventory(int slotsX, int slotsY)
+        public Inventory(int slotsX, int slotsY, bool isPlayer)
         {
             //Set the attributes
             this.slotsX = slotsX;
             this.slotsY = slotsY;
+            this.isPlayer = isPlayer;
             rnd = new Random(DateTime.Now.Millisecond + rndOffset);
 
-            inventoryGui = new InventoryGui(349, 695, 175, 290, "sc:inventory", this);
+            inventoryGui = new InventoryGui(80 * slotsY + 30, 695, 175, 290, "sc:inventory", this);
 
             //Create the inventory grid
             grdInventory.Width = 72 * slotsX;
@@ -204,7 +206,6 @@ namespace SeeloewenCraft
             return null;
         }
 
-
         public InventorySlot GetSlot(int x, int y)
         {
             //Go through all slots and check if the x and y pos matches
@@ -218,27 +219,35 @@ namespace SeeloewenCraft
 
             return null;
         }
-
-        public void AddItem(string id, int amount, out int remainingAmount)
+      
+        public void AddItem(string id, int amount, string tag, out int remainingAmount)
         {
             //Add the item by first checking if a slot already has the item, otherwise add it to a new slot. Also update the hotbar.
-            AddToExistingSlot(id, ref amount);
-            AddToNewSlot(id, ref amount);
+            if(!Game.unstackableItems.Contains(id))
+            {
+                //Only check existing slots if it's stackable
+                AddToExistingSlot(id, ref amount, tag);
+            }
+            AddToNewSlot(id, ref amount, tag);
             UpdateHotbar();
 
             //Output the remaining amount of items that couldn't be added
             remainingAmount = amount;
         }
 
-        public void AddItem(string id, int amount)
+        public void AddItem(string id, int amount, string tag)
         {
             //Add the item by first checking if a slot already has the item, otherwise add it to a new slot. Also update the hotbar.
-            AddToExistingSlot(id, ref amount);
-            AddToNewSlot(id, ref amount);
+            if (!Game.unstackableItems.Contains(id))
+            {
+                //Only check existing slots if it's stackable
+                AddToExistingSlot(id, ref amount, tag);
+            }
+            AddToNewSlot(id, ref amount, tag);
             UpdateHotbar();
         }
 
-        private void AddToExistingSlot(string id, ref int amount)
+        private void AddToExistingSlot(string id, ref int amount, string tag)
         {
             //Go through all inventory slots and check if the slot has the specified id
             foreach (InventorySlot slot in slotList)
@@ -248,14 +257,14 @@ namespace SeeloewenCraft
                     //Check if the slot has enough space available
                     if (slot.GetAvailableSpace() >= amount)
                     {
-                        slot.Add(id, amount);
+                        slot.Add(id, amount, tag, out bool success);
                         amount = 0;
                     }
                     else
                     {
                         //If not, only add the amount of possible space to the slot and edit amount to continue afterwards
                         amount -= slot.GetAvailableSpace();
-                        slot.Add(id, slot.GetAvailableSpace());
+                        slot.Add(id, slot.GetAvailableSpace(), tag, out bool success);
                     }
 
                 }
@@ -268,26 +277,34 @@ namespace SeeloewenCraft
             }
         }
 
-        private void AddToNewSlot(string id, ref int amount)
+        private void AddToNewSlot(string id, ref int amount, string tag)
         {
             //Go through all inventory slots and check if the slot is empty
             foreach (InventorySlot slot in slotList)
             {
-                if (string.IsNullOrEmpty(slot.itemId))
+                if (slot.IsEmpty())
                 {
-                    //Check if the slot has enough space available
-                    if (slot.GetAvailableSpace() >= amount)
+                    //If it's unstackable, only add one
+                    if(Game.unstackableItems.Contains(id))
                     {
-                        slot.Add(id, amount);
-                        amount = 0;
+                        slot.Add(id, 1, tag, out bool success);
+                        amount--;
                     }
-                    else
+                    else //If it's stackable, add as many as possible
                     {
-                        //If not, only add the amount of possible space to the slot and edit amount to continue afterwards
-                        amount -= slot.GetAvailableSpace();
-                        slot.Add(id, slot.GetAvailableSpace());
+                        //Check if the slot has enough space available
+                        if (slot.GetAvailableSpace() >= amount)
+                        {
+                            slot.Add(id, amount, tag, out bool success);
+                            amount = 0;
+                        }
+                        else
+                        {
+                            //If not, only add the amount of possible space to the slot and edit amount to continue afterwards
+                            amount -= slot.GetAvailableSpace();
+                            slot.Add(id, slot.GetAvailableSpace(), tag, out bool success);
+                        }
                     }
-
                 }
 
                 //If amount is 0, all items have been added and the process is done
@@ -432,7 +449,7 @@ namespace SeeloewenCraft
                         //If the selected item is not null, drop it
                         if (item != null)
                         {
-                            Game.world.AddEntity(new ItemEntity(item, //item type
+                            Game.world.AddEntity(new ItemEntity(item, slot.itemTag, //item type
                                 x + 500 - ItemEntity.itemSizeX / 2, //posX
                                 y + 500 - ItemEntity.itemSizeY / 2, //posY
                                 rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
@@ -474,6 +491,9 @@ namespace SeeloewenCraft
                 writer.WritePropertyName("amount");
                 writer.WriteValue(slot.Amount);
 
+                writer.WritePropertyName("tag");
+                writer.WriteValue(slot.itemTag);
+
                 writer.WriteEndObject();
                 writer.WriteEndObject();
             }
@@ -482,14 +502,14 @@ namespace SeeloewenCraft
             writer.WriteEndObject();
         }
 
-        public static Inventory LoadFromJson(JsonToken token)
+        public static Inventory LoadFromJson(JsonToken token, bool isPlayer)
         {
 
             //Get the inventory size
             int slotsX = token.GetInt("/size_x");
             int slotsY = token.GetInt("/size_y");
 
-            Inventory inventory = new Inventory(slotsX, slotsY);
+            Inventory inventory = new Inventory(slotsX, slotsY, isPlayer);
 
             //Get a possible hotbar
             bool hasHotbar = token.GetBool("/has_hotbar");
@@ -508,10 +528,11 @@ namespace SeeloewenCraft
 
                 string id = slotToken.GetString("/id");
                 int amount = slotToken.GetInt("/amount");
+                string tag = slotToken.GetString("/tag");
 
                 if (!string.IsNullOrEmpty(id))
                 {
-                    slot.Add(id, amount);
+                    slot.Add(id, amount, tag, out bool success);
                 }
 
                 slotNum++;

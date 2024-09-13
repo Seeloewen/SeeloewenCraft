@@ -5,19 +5,24 @@ using System.Windows.Media;
 
 namespace SeeloewenCraft.entity
 {
-    public class Entity
+    //base class for all entities
+    public abstract class Entity
     {
+        public static Random idGenerator = new Random(DateTime.Now.Millisecond);
+        protected Random rnd;
         public TextBlock tblId;
 
         public string type;
 
         //touching status constants
-        public const int TOUCHING_STATUS_COUNT = 5;
+        public const int TOUCHING_STATUS_COUNT = 7;
         public const int TOUCHING_WATER = 0;
         public const int TOUCHING_WATER_LEFT = 1;
         public const int TOUCHING_WATER_RIGHT = 2;
         public const int TOUCHING_CACTUS = 3;
         public const int TOUCHING_AIR = 4;
+        public const int TOUCHING_MAGMA = 5;
+        public const int TOUCHING_LADDER = 6;
 
         //physics constants
         public const int DEFAULT_GRAV = 70000;
@@ -31,8 +36,7 @@ namespace SeeloewenCraft.entity
 
         protected bool allowOverCliffWalking = true;
 
-        private static int nextID = 0;
-        public int id;
+        public int id { get; private set; }
 
         public Canvas texture;
 
@@ -49,6 +53,7 @@ namespace SeeloewenCraft.entity
 
         public bool[] touchingStatus;
 
+        //calculate friction and apply it to velocity
         private void DoFrictionStep(int tps)
         {
             if (touchingStatus[TOUCHING_WATER])
@@ -99,6 +104,7 @@ namespace SeeloewenCraft.entity
             }
         }
 
+        //do one tick
         public virtual void OnUpdate(int tps) //temp virtual
         {
             OnUpdateStart(tps);
@@ -412,12 +418,12 @@ namespace SeeloewenCraft.entity
         {
             lifeTime = token.GetInt("/life_time");
             id = token.GetInt("/id");
-            nextID++;
 
             texture.Children.Clear();
             tblId = new TextBlock() { FontSize = 20, FontWeight = FontWeights.DemiBold };
             tblId.Text = id.ToString();
-            if(this is MovingEntity)
+
+            if (this is MovingEntity)
             {
                 texture.Children.Add(tblId);
                 Canvas.SetTop(tblId, -30);
@@ -428,15 +434,8 @@ namespace SeeloewenCraft.entity
         public Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, Brush image)
         {
             lifeTime = 0;
-            nextID++;
-            if(this is not Player)
-            {
-                id = nextID;
-            }
-            else
-            {
-                id = DateTime.Now.Millisecond; //Temporary, needs replacement
-            }
+            id = idGenerator.Next(0, int.MaxValue);
+
             this.sizeX = sizeX;
             this.sizeY = sizeY;
             this.posX = posX;
@@ -461,13 +460,19 @@ namespace SeeloewenCraft.entity
                 Canvas.SetTop(tblId, -30);
                 Canvas.SetLeft(tblId, 8);
             }
+
+            rnd = new Random(id);
         }
 
         public static Entity LoadFromJson(JsonToken token)
         {
-            Entity entity = null;
-            switch (token.GetString("/type"))
+            Entity entity;
+            string type = token.GetString("/type");
+            switch (type)
             {
+                case "FallingBlockEntity":
+                    entity = new FallingBlockEntity(token);
+                    break;
                 case "ItemEntity":
                     entity = new ItemEntity(token);
                     break;
@@ -478,15 +483,16 @@ namespace SeeloewenCraft.entity
                     entity = new Player(token);
                     break;
                 default:
-                    throw new Exception();
+                    throw new Exception($"Loading Error: entity type {type} not found");
             }
-
-            nextID = Math.Max(nextID, entity.id);
+            entity.type = type;
 
             return entity;
         }
 
-        public void SaveToJson(JsonWriter writer)
+        //save all attributes of entity base class; override SaveSpecialInfo()
+        //to save custom values
+        internal void SaveToJson(JsonWriter writer)
         {
             writer.WriteStartObject();
             writer.WritePropertyName("type");
@@ -516,12 +522,14 @@ namespace SeeloewenCraft.entity
 
         public override bool Equals(object obj)
         {
-            return (obj is Entity e && e.id == this.id);
+            return (obj is Entity e && e.id == id);
         }
 
         public override int GetHashCode()
         {
-            return (int)id;
+            return id;
         }
+
+        //Hahn und Jazz waren hier
     }
 }

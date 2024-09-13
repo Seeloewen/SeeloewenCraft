@@ -21,7 +21,7 @@ namespace SeeloewenCraft
 
             if (selectedItem != null && selectedItem.hasRightClickAction)
             {
-                selectedItem.RightClickAction(block, sender);
+                selectedItem.RightClickAction(block, selectedSlot.slot, sender);
                 return;
             }
 
@@ -126,7 +126,7 @@ namespace SeeloewenCraft
                     //If it's just a normal block
                     else
                     {
-                        block.BreakBlock(true, false);
+                        block.BreakBlock(true, false, true);
                     }
                 }
                 else
@@ -145,9 +145,12 @@ namespace SeeloewenCraft
                     else
                     {
                         //If it's just a normal foreground block
-                        block.BreakBlock(true, false);
+                        block.BreakBlock(true, false, true);
                     }
                 }
+
+                HotbarSlot selectedSlot = Game.world.player.inventory.GetSelectedHotbarSlot();
+                selectedSlot.slot.RemoveDurablity();
             }
 
 
@@ -159,11 +162,11 @@ namespace SeeloewenCraft
             //Remove all connected blocks that are part of the construct
             foreach (Block conBlock in baseBlock.GetConnectedBlocks(false))
             {
-                conBlock.BreakBlock(true, false);
+                conBlock.BreakBlock(true, false, true);
             }
 
             //Finally remove the base
-            baseBlock.BreakBlock(true, false);
+            baseBlock.BreakBlock(true, false, true);
         }
 
         private void BreakForegroundConstruct(Block baseBlock)
@@ -171,11 +174,11 @@ namespace SeeloewenCraft
             //Remove all connected blocks that are part of the construct (foreground variant)
             foreach (Block conBlock in baseBlock.GetForegroundBlock().GetConnectedBlocks(false))
             {
-                conBlock.BreakBlock(true, false);
+                conBlock.BreakBlock(true, false, true);
             }
 
             //Finally remove the base
-            baseBlock.BreakBlock(true, false);
+            baseBlock.BreakBlock(true, false, true);
         }
     }
 }

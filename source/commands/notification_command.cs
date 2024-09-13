@@ -10,7 +10,7 @@ namespace SeeloewenCraft
             //Check if the command has enough args
             if (args.Length < 4)
             {
-                MessageBox.Show("Invalid command syntax: incorrect number of arguments", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                NotificationHandler.ShowNotification("Invalid command syntax: incorrect number of arguments", 3000, Images.Paper.GetTexture());
                 return;
             }
 
@@ -23,7 +23,7 @@ namespace SeeloewenCraft
             }
             catch
             {
-                MessageBox.Show("Invalid command syntax: can't parse amount to int", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                NotificationHandler.ShowNotification("Invalid command syntax: can't parse amount to int", 3000, Images.Paper.GetTexture());
                 return;
             }
 
@@ -39,7 +39,7 @@ namespace SeeloewenCraft
             }
 
             //Show the notification
-            Game.world.notificationHandler.ShowNotification(message, time, image);
+            NotificationHandler.ShowNotification(message, time, image);
         }
     }
 }

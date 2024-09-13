@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace SeeloewenCraft
 {
@@ -49,7 +50,7 @@ namespace SeeloewenCraft
                     HandleNotificationCommand(args);
                     break;
                 case "ping":
-                    Write("pong");
+                    NotificationHandler.ShowNotification("Pong!", 3000, Images.Diamond.GetTexture());
                     break;
                 case "help":
                     MessageBox.Show("List of commands:" +
@@ -59,17 +60,15 @@ namespace SeeloewenCraft
                         "\n/spawn [entityId] [absPosX] [absPosY] - Spawns an entity at a given location" +
                         "\n/gamemode [type] - Switches your gamemode" +
                         "\n/tp [absPosX] [absPosY] - Teleports you to specified position" +
-                        "\n/ping - Return pong, used as a test command");
+                        "\n/ping - Return pong, used as a test command", "/help", MessageBoxButton.OK, MessageBoxImage.Question);
                     break;
                 default:
-                    Write("Invalid command! Type /help for a list of commands.");
+                    NotificationHandler.ShowNotification("Unknown command. Type /help for help.", 3000, Images.StoneBlock.GetTexture());
                     break;
             }
-        }
 
-        private static void Write(string msg)
-        {
-            Log.Write($"{msg}", "Info");
+            //Unfocus textbox
+            Keyboard.ClearFocus();
         }
     }
 }

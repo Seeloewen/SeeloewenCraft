@@ -26,7 +26,7 @@
             </TabItem>
             <TabItem x:Name="tiSpecialThanks" Header="Special Thanks">
                 <Canvas x:Name="cvsSpecialThanks">
-                    <TextBox x:Name="tbSpecialThanks" Canvas.Left="10" TextWrapping="Wrap" Text="Special thanks to CDLemmi for helping on many features of the game, most notably the movement physics and the collision system used after Alpha 1.1.4.&#xD;&#xA;&#xD;&#xA;Special thanks to Finni for helping me find many issues by testing developmen versions and also for giving a lot of ideas." Canvas.Top="10" Width="421" Height="286" FontSize="14" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+                    <TextBox x:Name="tbSpecialThanks" Canvas.Left="10" TextWrapping="Wrap" Text="Special thanks to CDLemmi for being an active contributer and helping on many features of the game, most notably the movement physics, collisions (after Alpha 1.1.4) and entities.&#xA;&#xA;Special thanks to Finni for helping me find many issues by testing developmen versions and also for giving a lot of ideas.&#xD;&#xA;&#xD;&#xA;Special thanks to Axogurkel for helping me create the crafting recipes." Canvas.Top="10" Width="421" Height="286" FontSize="14" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
                 </Canvas>
             </TabItem>
             <TabItem Header="Third-Party Libraries">

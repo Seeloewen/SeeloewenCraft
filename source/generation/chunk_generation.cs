@@ -1,11 +1,9 @@
-﻿
+﻿using System.Windows;
+
 namespace SeeloewenCraft
 {
     public partial class Chunk
     {
-
-        static bool generatedDungeon = false;
-
         private void Generate()
         {
             blockList = new BlockList(this);
@@ -35,30 +33,31 @@ namespace SeeloewenCraft
 
         public Biome GetNewBiome(Biome adjacentBiome)
         {
-            bool newBiome = true;
+            Biome newBiome = Biome.None;
+            bool generateNewBiome = false;
 
             if (adjacentBiome != Biome.None)
             {
                 //1 in 10 chance to generate a new biome
-                int random = rnd.Next(1, 11);
-                if (random == 0)
+                if (rnd.Next(1, 10) == 1)
                 {
-                    newBiome = true;
+                    generateNewBiome = true;
                 }
             }
 
-            if (newBiome)
+            if (generateNewBiome)
             {
-                //Generate a new biome based on random value
-                int random = rnd.Next(1, 2);
-                switch (random)
+                while (newBiome == Biome.None || newBiome == adjacentBiome)
                 {
-                    case 1:
-                        return Biome.Plains;
+                    newBiome = GetRandomBiome();
                 }
+
+                Log.Write($"Determined new biome {newBiome} for chunk {index}", "Info");
+                return newBiome;
             }
-            else
+            else if (!generateNewBiome && adjacentBiome != Biome.None)
             {
+                Log.Write($"Determined biome {adjacentBiome} for chunk {index} based on adjacent chunk", "Info");
                 return adjacentBiome;
             }
 
@@ -66,16 +65,37 @@ namespace SeeloewenCraft
             return Biome.Plains;
         }
 
+        public Biome GetRandomBiome()
+        {
+            //Generate a new biome based on random value
+            switch (rnd.Next(1, 5))
+            {
+                case 1:
+                    return Biome.Plains;
+                case 2:
+                    return Biome.Desert;
+                case 3:
+                    return Biome.Forest;
+                case 4:
+                    return Biome.SpruceForest;
+                default:
+                    return Biome.Plains;
+            }
+        }
+
         private void GenerateStructues()
         {
             if (index != 0)
             {
                 //Generate structures
-                GenerateLakes();
-                GenerateTrees();
+                if (biome != Biome.Desert) GenerateLakes();
+                if (biome != Biome.Desert) GenerateTrees();
+                if (biome == Biome.Desert) GenerateCacti();
+                if (biome == Biome.Desert) GeneratePyramids();
                 GenerateOres();
-                if (Settings.enableCaveGeneration) GenerateCaves();
-                GeneratePlainsDungeon();
+                GenerateCaves();
+                if (biome == Biome.Desert) GenerateFossil();
+                if (biome != Biome.Desert) GeneratePlainsDungeon();
                 ContinueStructureGeneration("");
             }
         }
@@ -121,30 +141,51 @@ namespace SeeloewenCraft
             return (x, y);
         }
 
+        private void GeneratePyramids()
+        {
+            ContinueStructureGeneration("Pyramid");
+
+            //Generate up to 1 Pyramid
+            if (rnd.Next(0, 10) == 0)
+            {
+                (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
+
+                if (y != 0)
+                {
+                    structureList.Add(new PyramidStructure(x, y - 1, index, true, this, false));
+                }
+            }
+        }
+
         private void GenerateTrees()
         {
             ContinueStructureGeneration("Spruce Tree");
             ContinueStructureGeneration("Oak Tree");
 
             //Generate up to 3 trees
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < (biome == Biome.Plains ? 1 : 3); i++)
             {
-                if (rnd.Next(0, 3) == 0)
+                if (rnd.Next(0, biome == Biome.Plains ? 7 : 3) == 0)
                 {
                     (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
-                    //Decide which tree to generate, mostly generate oak trees, rarely spruce
+                    //Decide which tree to generate, depending on biome
                     if (y != 0)
                     {
-                        if (rnd.Next(0, 6) == 0)
+                        if (biome == Biome.Plains || biome == Biome.Forest)
                         {
-                            structureList.Add(new SpruceTreeStructure( x, y - 1, index, true, this, false));
+                            if (rnd.Next(biome == Biome.Plains ? 6 : 16) > 4)
+                            {
+                                structureList.Add(new OakTreeStructure(x, y - 1, index, true, this, false));
+                            }
                         }
-                        else
+                        else if (biome == Biome.SpruceForest)
                         {
-                            structureList.Add(new OakTreeStructure( x, y - 1, index, true, this, false));
+                            if (rnd.Next(4) != 0)
+                            {
+                                structureList.Add(new SpruceTreeStructure(x, y - 1, index, true, this, false));
+                            }
                         }
-
                     }
                 }
             }
@@ -162,7 +203,39 @@ namespace SeeloewenCraft
                 if (y != 0)
                 {
                     int depth = rnd.Next(3, 8);
-                    structureList.Add(new Lake( x, y + depth, index, true, this, true, depth));
+                    structureList.Add(new Lake(x, y + depth, index, true, this, true, depth));
+                }
+            }
+        }
+
+        private void GenerateCacti()
+        {
+            ContinueStructureGeneration("Cactus");
+
+            //Generate up to 1 cactus
+            if (rnd.Next(0, 2) == 0)
+            {
+                (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
+
+                if (y != 0)
+                {
+                    structureList.Add(new CactusStructure(x, y - 1, index, true, this, false));
+                }
+            }
+        }
+
+        private void GenerateFossil()
+        {
+            ContinueStructureGeneration("Fossil");
+
+            //Generate up to 1 fossil
+            if (rnd.Next(0, 10) == 0)
+            {
+                (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
+
+                if (y != 0)
+                {
+                    structureList.Add(new FossilStructure(x, y + rnd.Next(20, 50), index, true, this, false));
                 }
             }
         }
@@ -172,32 +245,121 @@ namespace SeeloewenCraft
             ContinueStructureGeneration("Plains Dungeon");
 
             //Generate up to 1 plains dungeon
-            if (rnd.Next(0, 1) == 0) //15
+            if (rnd.Next(0, 25) == 0)
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
-                if (y != 0 && !generatedDungeon)
+                if (y != 0)
                 {
-                    structureList.Add(new PlainsDungeon( x, rnd.Next(62, 72), index, true, this, true));
-                    generatedDungeon = true;
+                    structureList.Add(new PlainsDungeon(x, rnd.Next(62, 72), index, true, this, true));
                 }
             }
         }
 
         private void GenerateOres()
         {
-            ContinueStructureGeneration("Legacy Ore Structure");
+            //Continue generation of previous veines
+            ContinueStructureGeneration("Coal Ore Vein");
+            ContinueStructureGeneration("Iron Ore Vein");
+            ContinueStructureGeneration("Diamond Ore Vein");
+            ContinueStructureGeneration("Copper Ore Vein");
+            ContinueStructureGeneration("Gold Ore Vein");
+            ContinueStructureGeneration("Emerald Ore Vein");
+            ContinueStructureGeneration("Tungsten Ore Vein");
+            ContinueStructureGeneration("Tin Ore Vein");
+            ContinueStructureGeneration("Amethyst Ore Vein");
 
-            //Generate up to 15 ores
-            for (int i = 0; i < 15; i++)
+            //Generate up to 4 coal ore veines
+            for (int i = 0; i < 4; i++)
+            {
+                if (rnd.Next(0, 2) == 0)
+                {
+                    int y = 25;
+                    (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                    structureList.Add(new CoalOreStructure(x, y + rnd.Next(10, 70), index, true, this, true));
+                }
+            }
+
+            //Generate up to 4 iron ore veines
+            for (int i = 0; i < 4; i++)
             {
                 if (rnd.Next(0, 3) == 0)
                 {
                     int y = 25;
-
                     (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                    structureList.Add(new IronOreStructure(x, y + rnd.Next(10, 70), index, true, this, true));
+                }
+            }
 
-                    structureList.Add(new OreStructure( x, y + rnd.Next(10, 70), index, true, this, true));
+            //Generate up to 2 diamond ore veines
+            for (int i = 0; i < 2; i++)
+            {
+                if (rnd.Next(0, 3) == 0)
+                {
+                    int y = 25;
+                    (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                    structureList.Add(new DiamondOreStructure(x, y + rnd.Next(50, 70), index, true, this, true));
+                }
+            }
+
+            //Generate up to 1 amethyst ore veines
+            if (rnd.Next(0, 3) == 0)
+            {
+                int y = 25;
+                (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                structureList.Add(new AmethystOreStructure(x, y + rnd.Next(45, 60), index, true, this, true));
+            }
+
+
+            //Generate up to 1 emerald ore veines
+            if (rnd.Next(0, 3) == 0)
+            {
+                int y = 25;
+                (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                structureList.Add(new EmeraldOreStructure(x, y + rnd.Next(50, 70), index, true, this, true));
+            }
+
+            //Generate up to 2 gold ore veines
+            for (int i = 0; i < 2; i++)
+            {
+                if (rnd.Next(0, 2) == 0)
+                {
+                    int y = 25;
+                    (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                    structureList.Add(new GoldOreStructure(x, y + rnd.Next(40, 70), index, true, this, true));
+                }
+            }
+
+            //Generate up to 3 tin ore veines
+            for (int i = 0; i < 3; i++)
+            {
+                if (rnd.Next(0, 3) == 0)
+                {
+                    int y = 25;
+                    (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                    structureList.Add(new TinOreStructure(x, y + rnd.Next(10, 70), index, true, this, true));
+                }
+            }
+
+            //Generate up to 3 tungsten ore veines
+            for (int i = 0; i < 3; i++)
+            {
+                if (rnd.Next(0, 3) == 0)
+                {
+                    int y = 25;
+                    (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                    structureList.Add(new TungstenOreStructure(x, y + rnd.Next(30, 50), index, true, this, true));
+                }
+            }
+
+            //Generate up to 3 copper ore veines
+            for (int i = 0; i < 3; i++)
+            {
+                if (rnd.Next(0, 3) == 0)
+                {
+                    int y = 25;
+                    (int x, y) = GetCoordinatesOnSurface(0, 7, true);
+                    structureList.Add(new CopperOreStructure(x, y + rnd.Next(10, 40), index, true, this, true));
                 }
             }
         }
@@ -211,11 +373,11 @@ namespace SeeloewenCraft
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7, true);
 
-                structureList.Add(new Cave( x, y + 30, index, true, this, true));
+                structureList.Add(new Cave(x, y + 30, index, true, this, true));
             }
         }
 
-        private void ContinueStructureGeneration(string structureName)
+        public void ContinueStructureGeneration(string structureName)
         {
             //If an ID is given, only generate structures with that id
             if (!string.IsNullOrEmpty(structureName))
@@ -226,9 +388,9 @@ namespace SeeloewenCraft
                     foreach (Structure structure in Game.world.GetChunk(index + (index < 0 ? 1 : -1)).structureList)
                     {
                         //Check if the structure in the list is actually cut off and matches the id
-                        if (structure.isCutOff && structure.name == structureName)
+                        if (structure.isCutOff && structure.name == structureName && !continuedStructureList.Contains(structure))
                         {
-                            structureList.Add(new ContinuationStructure(structure.cutOffComponents,  index < 0 ? 7 : 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
+                            structureList.Add(new ContinuationStructure(structure.cutOffComponents, index < 0 ? 7 : 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
                             continuedStructureList.Add(structure);
                         }
                     }
@@ -241,7 +403,7 @@ namespace SeeloewenCraft
                     //Check if the structure in the list is actually cut off and matches the id
                     if (structure.isCutOff && !continuedStructureList.Contains(structure))
                     {
-                        structureList.Add(new ContinuationStructure(structure.cutOffComponents,  index < 0 ? 7 : 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
+                        structureList.Add(new ContinuationStructure(structure.cutOffComponents, index < 0 ? 7 : 0, structure.yBase, index, true, this, structure.widthRemaining, structure.canFloat, structure.canReplaceSolidBlocks, structure.name));
                         continuedStructureList.Add(structure);
                     }
                 }

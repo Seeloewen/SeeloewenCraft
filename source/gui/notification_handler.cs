@@ -6,26 +6,24 @@ using System.Windows.Input;
 
 namespace SeeloewenCraft
 {
-    public class NotificationHandler
+    public static class NotificationHandler
     {
         //Controls
-        System.Windows.Forms.Timer tmrNotification = new System.Windows.Forms.Timer();
-        Border bdrNotification = new Border() { Width = 375, Height = 75, BorderBrush = new SolidColorBrush(Colors.Gray), BorderThickness = new Thickness(3), Visibility = Visibility.Hidden };
-        Canvas cvsNotification = new Canvas() { Background = new SolidColorBrush(Colors.DarkGray) };
-        TextBlock tblNotification = new TextBlock() { FontSize = 18, Width = 270, Height = 50, TextWrapping = TextWrapping.Wrap };
-        Canvas cvsImage = new Canvas() { Width = 50, Height = 50 };
-        Button btnDismiss = new Button() { Width = 65, Height = 35, Content = "Dismiss", Visibility = Visibility.Hidden };
+        static System.Windows.Forms.Timer tmrNotification = new System.Windows.Forms.Timer();
+        static Border bdrNotification = new Border() { Width = 375, Height = 75, BorderBrush = new SolidColorBrush(Colors.Gray), BorderThickness = new Thickness(3), Visibility = Visibility.Hidden };
+        static Canvas cvsNotification = new Canvas() { Background = new SolidColorBrush(Colors.DarkGray) };
+        static TextBlock tblNotification = new TextBlock() { FontSize = 18, Width = 270, Height = 50, TextWrapping = TextWrapping.Wrap };
+        static Canvas cvsImage = new Canvas() { Width = 50, Height = 50 };
+        static Button btnDismiss = new Button() { Width = 65, Height = 35, Content = "Dismiss", Visibility = Visibility.Hidden };
 
-        //References
-        
-        public NotificationGui gui;
+        //References       
+        static public NotificationGui gui;
 
         //-- Constructor --//
 
-        public NotificationHandler()
-        {
-            
-            gui = new NotificationGui( 550, 375, 112, 445, "sc:notifications", this);
+        public static void Init()
+        {         
+            gui = new NotificationGui( 550, 375, 112, 445, "sc:notifications");
 
             //Setup necessary components for showing the message
             Canvas.SetTop(bdrNotification, 585);
@@ -52,7 +50,7 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-        public void ShowNotification(string message, int timeShown, ImageBrush image)
+        public static void ShowNotification(string message, int timeShown, ImageBrush image)
         {
             if (Settings.showNotifications)
             {
@@ -72,20 +70,20 @@ namespace SeeloewenCraft
             Log.Write($"Created new notification: {message}", "Info");
         }
 
-        public void HideNotification()
+        public static void HideNotification()
         {
             //Stop the timer and hide the notification
             bdrNotification.Visibility = Visibility.Hidden;
             tmrNotification.Stop();
         }
 
-        public void ShowGui()
+        public static void ShowGui()
         {
             //Show the gui that lists all the notifications
             gui.Show();
         }
 
-        public void HideGui()
+        public static void HideGui()
         {
             //Hide the gui that lists all the notifications
             gui.Hide();
@@ -94,25 +92,25 @@ namespace SeeloewenCraft
 
         //-- Event Handlers --//
 
-        private void cvsNotification_MouseEnter(object sender, MouseEventArgs e)
+        private static void cvsNotification_MouseEnter(object sender, MouseEventArgs e)
         {
             //Show the dismiss button when the mouse is over the notification
             btnDismiss.Visibility = Visibility.Visible;
         }
 
-        private void cvsNotification_MouseLeave(object sender, MouseEventArgs e)
+        private static void cvsNotification_MouseLeave(object sender, MouseEventArgs e)
         {
             //Hide the dismiss button when the mouse leaves the notification
             btnDismiss.Visibility = Visibility.Hidden;
         }
 
-        private void tmrNotification_Tick(object sender, EventArgs e)
+        private static void tmrNotification_Tick(object sender, EventArgs e)
         {
             //When the timer ticks, hide the notification
             HideNotification();
         }
 
-        private void btnDismiss_Click(object sender, EventArgs e)
+        private static void btnDismiss_Click(object sender, EventArgs e)
         {
             //Also hide the notification when clicking on "Dismiss"
             HideNotification();

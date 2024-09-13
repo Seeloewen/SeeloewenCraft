@@ -7,16 +7,13 @@ namespace SeeloewenCraft
 {
     public abstract class Item
     {
-        public List<string> tags = new List<string>();
         public Canvas cvsItem = new Canvas();
         public SealImage sImage;
         public ImageBrush image;
-        public InventorySlot slot;
         public string name;
         public string id;
         public string blockId;
-        public int xPos;
-        public int yPos;
+        public string tag;
         public bool isPlacable = false;
         public bool hasRightClickAction = false;
 
@@ -31,7 +28,7 @@ namespace SeeloewenCraft
         }
 
         //-- Custom Methods --//
-        public void Init(string name, string id, string? blockId, bool isPlacable, SealImage sImage)
+        public virtual void Init(string name, string id, string? blockId, bool isPlacable, SealImage sImage)
         {
             //Initialize the item
             this.isPlacable = isPlacable;
@@ -61,9 +58,26 @@ namespace SeeloewenCraft
             return null;
         }
 
-        public virtual void RightClickAction(Block block, object sender)
+        public virtual void RightClickAction(Block block, InventorySlot invSlot, object sender)
         {
             throw new NotImplementedException();
+        }
+
+        public bool ContainsTag(string tag)
+        {
+            if (!string.IsNullOrEmpty(this.tag))
+            {
+                string[] splitted = this.tag.Split(';');
+                foreach (string s in splitted)
+                {
+                    if (s == tag)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

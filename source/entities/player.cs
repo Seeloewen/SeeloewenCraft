@@ -17,17 +17,15 @@ namespace SeeloewenCraft.entity
 
         //-- Constructor --//
 
-        public Player(int x, int y) : base(900, 1900, x, y, 0, 0)
+        public Player(int x, int y) : base(900, 1900, x, y, 0, 0, new SolidColorBrush(Colors.Red))
         {
             //Generate the player
             type = "Player";
             InitPlayer();
         }
 
-        public Player(JsonToken token) : base(token, 900, 1900)
+        public Player(JsonToken token) : base(token, 900, 1900, new SolidColorBrush(Colors.Red))
         {
-            //Generate the player
-            type = "Player";
             InitPlayer();
         }
 
@@ -61,7 +59,7 @@ namespace SeeloewenCraft.entity
                         double xDir = xOffset / n;
                         double yDir = yOffset / n;
 
-                        ItemEntity itemEntity = new ItemEntity(item, posX + 500 - ItemEntity.itemSizeX / 2, posY, (int)(15000 * xDir) + velX, (int)(20000 * yDir) + velY);
+                        ItemEntity itemEntity = new ItemEntity(item, item.tag, posX + 500 - ItemEntity.itemSizeX / 2, posY, (int)(15000 * xDir) + velX, (int)(20000 * yDir) + velY);
                         Game.world.AddEntity(itemEntity);
                         thrown = true;
                         selectedSlot.Remove(1);
@@ -98,7 +96,6 @@ namespace SeeloewenCraft.entity
             {
                 NetworkHandler.SendData($"MovePlayer;{Game.world.player.id};{pressedLeft};{pressedRight};{pressedUp};{pressedSneak};{pressedSprint}");
             }
-
         }
 
         protected override void DoFallDamage()
@@ -130,10 +127,7 @@ namespace SeeloewenCraft.entity
 
             //Add initial debug menu lines
             Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "Player Stats:");
-            if (Settings.enableHealth)
-            {
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "health");
-            }
+            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "health");
             Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "posX");
             Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "posY");
             Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "velX");
@@ -154,20 +148,39 @@ namespace SeeloewenCraft.entity
 
         public override void Die()
         {
-            MessageBox.Show("You experienced a severe skill issue and as a consequence have vanished from this world (death has not been implemented yet)");
+            if (this == Game.world.player)
+            {
+                //Drop all items and clear the inventory
+                foreach (InventorySlot slot in inventory.slotList)
+                {
+                    for (int i = 0; i < slot.Amount; i++)
+                    {
+                        Drop(slot.itemId);
+                    }
+                    slot.Remove(slot.Amount);
+                }
+
+                //Move the player to the spawn
+                posX = Game.world.worldSpawnX;
+                posY = Game.world.worldSpawnY;
+
+                //Set the hp back to 10
+                base.SetHP(10);
+
+                NotificationHandler.ShowNotification("You died and were moved back to the world spawn.", 5000, Images.Bone.GetTexture());
+            }
         }
 
         public override void SetHP(double hp)
         {
             base.SetHP(hp);
-            healthBar.SetValue((int)(hp * 2) * 0.5);
+            healthBar.SetValue((int)(this.hp * 2) * 0.5);
         }
 
         public override void Damage(double damage)
         {
             if (gamemode == Gamemode.Survival) base.Damage(damage);
         }
-
 
         protected override void OnUpdateStart(int tps)
         {
@@ -217,10 +230,7 @@ namespace SeeloewenCraft.entity
         {
             if (Game.world.debugMenu.isEnabled)
             {
-                if (Settings.enableHealth)
-                {
-                    Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "health", $"health={healthBar.value}");
-                }
+                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "health", $"health={healthBar.value}");
                 Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "posX", $"posX={posX}");
                 Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "posY", $"posY={posY}");
                 Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "velX", $"velX={velX}");

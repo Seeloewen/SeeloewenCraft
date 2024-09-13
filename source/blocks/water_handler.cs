@@ -189,7 +189,7 @@ namespace SeeloewenCraft
                     }
                     else
                     {
-                        block.chunk.GetBlock(block.xPos, block.yPos).BreakBlock(true, true);
+                        block.chunk.GetBlock(block.xPos, block.yPos).BreakBlock(true, true, true);
                     }
                 }
             }

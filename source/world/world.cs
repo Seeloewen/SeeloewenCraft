@@ -24,18 +24,14 @@ namespace SeeloewenCraft
         public List<BlockContainerList> blockContainerList = new List<BlockContainerList>();
         public List<Gui> guiList = new List<Gui>();
         public List<CraftingRecipe> craftingRecipeList = new List<CraftingRecipe>();
-        public LootTables lootTables;
         public Player player;
         public WaterHandler waterHandler;
         public ClickHandler clickHandler;
         public DebugMenu debugMenu;
         public GameLoop gameLoop;
         public RecipeCreator recipeCreator;
-        public NotificationHandler notificationHandler;
         public WorldRenderer worldRenderer;
-        public List<Entity> entities;
-        public List<Entity> toDieEntities;
-        bool innited;
+        public EntityManager entityManager;
 
         //Constants
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
@@ -44,6 +40,8 @@ namespace SeeloewenCraft
         public string gameVersion;
         public string worldDirectory = "";
         public int lightRange = 7; //The range that all light sources use
+        public int worldSpawnX;
+        public int worldSpawnY;
 
         //Variables
         public bool finishedLoading = false;
@@ -63,22 +61,22 @@ namespace SeeloewenCraft
             this.wndMenu = wndMenu;
             Game.world = this;
 
-            //Initialize textures before anything else
+            //Initialize images before anything else
             Images.Init();
 
             //Create objects
             wndGame = new wndGame();
-            lootTables = new LootTables();
             waterHandler = new WaterHandler();
             clickHandler = new ClickHandler();
             debugMenu = new DebugMenu();
             gameLoop = new GameLoop(25);
             recipeCreator = new RecipeCreator();
-            notificationHandler = new NotificationHandler();
             worldRenderer = new WorldRenderer();
 
             //Actually initialize the game
             InitGame(worldName, isNew, worldVersion);
+
+            NotificationHandler.Init();
 
             if (StartOptions.startCreative)
             {
@@ -153,7 +151,7 @@ namespace SeeloewenCraft
 
             SaveWorldSettings();
 
-            InitEntityList(!isNew);
+            InitEntityManager(!isNew);
 
             GenerateBlockContainer();
 
@@ -207,30 +205,13 @@ namespace SeeloewenCraft
             using (JsonWriter writer = JsonWriter.Create())
             {
                 writer.WriteStartObject();
-                writer.WritePropertyName("entities");
-                writer.WriteStartArray();
-                foreach (Entity entity in entities)
-                {
-                    entity.SaveToJson(writer);
-                }
-                writer.WriteEndArray();
+                entityManager.SaveToJson(writer);
                 writer.WriteEndObject();
                 writer.WriteToFile($"{worldDirectory}/entities.json");
             }
         }
 
 
-        public Entity GetEntity(long id)
-        {
-            foreach (Entity entity in entities)
-            {
-                if (entity.id == id)
-                {
-                    return entity;
-                }
-            }
-            return null;
-        }
 
 
         public void AddEntity(Entity entity)
@@ -245,6 +226,8 @@ namespace SeeloewenCraft
                 entity.SaveToJson(writer);
                 NetworkHandler.SendData($"CreateEntity;{writer.ToString()}");
             }
+          
+            entityManager.Add(entity);
         }
 
         public void AddMultiplayerEntity(Entity entity)
@@ -258,9 +241,11 @@ namespace SeeloewenCraft
             Game.world.wndGame.cvsWorld.Children.Add(entity.texture);
             Panel.SetZIndex(entity.texture, 1);
             worldRenderer.AddEntity(entity);
+
+            entityManager.Add(entity);
         }
 
-        public void RemoveEntity(Entity entity)
+        public void RemoveEntity(int id)
         {
             if (entities.Contains(entity))
             {
@@ -270,6 +255,8 @@ namespace SeeloewenCraft
 
                 NetworkHandler.SendData($"RemoveEntity;{entity.id}");
             }
+          
+            entityManager.Remove(id);
         }
 
         public void RemoveMultiplayerEntity(int id)
@@ -286,6 +273,8 @@ namespace SeeloewenCraft
                     break;
                 }
             }
+
+            entityManager.Remove(id);
         }
 
         public void SetBlock(Block block, int posX, int posY)
@@ -436,19 +425,11 @@ namespace SeeloewenCraft
             Log.Write($"Set directory for world {worldName} to {worldDirectory}", "Info");
         }
 
-        private void InitEntityList(bool loaded)
+        private void InitEntityManager(bool loaded)
         {
-            toDieEntities = new List<Entity>();
-            entities = new List<Entity>();
-            if (loaded)
-            {
-                JsonToken listToken = JsonUtil.ReadFile($"{worldDirectory}/entities.json").GetToken("/entities");
-                int l = listToken.GetArrayLength();
-                for (int i = 0; i < l; i++)
-                {
-                    AddEntity(Entity.LoadFromJson(listToken.GetToken($"/{i}")));
-                }
-            }
+            entityManager = loaded
+                    ? new EntityManager(JsonUtil.ReadFile($"{worldDirectory}/entities.json")) 
+                    : new EntityManager();
         }
 
         private void InitPlayerInventory(bool loaded)
@@ -456,23 +437,13 @@ namespace SeeloewenCraft
             if (loaded)
             {
                 JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_inventory.json");
-                player.inventory = Inventory.LoadFromJson(documentToken);
+                player.inventory = Inventory.LoadFromJson(documentToken, true);
                 inventoryList.Add(player.inventory);
             }
             else
             {
-                player.inventory = new Inventory(9, 4);
+                player.inventory = new Inventory(9, 4,true);
                 player.inventory.InitHotbar();
-                if (Settings.enableHammer) player.inventory.AddItem("sc:stone_hammer_item", 1);
-                player.inventory.AddItem("sc:torch_item", 64);
-                player.inventory.AddItem("sc:water_item", 64);
-                player.inventory.AddItem("sc:potted_cactus_item", 64);
-                player.inventory.AddItem("sc:chiseler_item", 64);
-                player.inventory.AddItem("sc:crafting_table_item", 64);
-                player.inventory.AddItem("sc:chest_item", 64);
-                player.inventory.AddItem("sc:cobblestone_stairtopleft_item", 64);
-                player.inventory.AddItem("sc:unchiseler_item", 64);
-                player.inventory.AddItem("sc:spruce_door_item", 64);
             }
             player.inventory.UpdateHotbar();
             inventoryList.Add(player.inventory);
@@ -504,11 +475,9 @@ namespace SeeloewenCraft
 
         public void CreatePlayer(int playerPosX, int playerPosY)
         {
-
             player = new Player(playerPosX, playerPosY);
+            AddEntity(player);
 
-            Game.world.wndGame.cvsWorld.Children.Add(player.texture);
-            Panel.SetZIndex(player.texture, 1);
             Game.world.wndGame.relativeSvPos = Game.world.wndGame.svWorld.VerticalOffset;
             Game.world.wndGame.defaultSvPos = Game.world.wndGame.svWorld.VerticalOffset;
 
@@ -540,8 +509,12 @@ namespace SeeloewenCraft
                     }
                 }
 
-                Log.Write($"found player spawn point at pos: x: {20050}, y: {yPos}", "Info");
-                return (28050, Math.Max((yPos * 1000) - 1900, 2000));
+                yPos = Math.Max((yPos * 1000) - 1900, 2000);
+
+                Log.Write($"found player spawn point at pos: x: {28050}, y: {yPos}", "Info");
+                worldSpawnX = 28050;
+                worldSpawnY = yPos;
+                return (28050, yPos);
             }
 
         }
@@ -695,34 +668,9 @@ namespace SeeloewenCraft
 
         //-- Event Handlers --//
 
-        private static bool dropped = false;
-        private static bool spawned = false;
-
         private void tmrMovement_Tick(object sender, EventArgs e)
         {
-            player.HandleInputs();
-            player.OnUpdate(63); // tps: 1/0.016
-
-            List<ItemEntity> pickedUpEntities = new List<ItemEntity>();
-
-            foreach (Entity entity in entities)
-            {
-                entity.OnUpdate(63);
-                if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && entity.posX < player.posX + player.sizeX && entity.posX + entity.sizeX > player.posX && entity.posY < player.posY + player.sizeY && entity.posY + entity.sizeY > player.posY)
-                {
-                    player.inventory.AddItem(itemEntity.item.id, 1, out int remainingItem);
-                    if (remainingItem == 0)
-                    {
-                        toDieEntities.Add(itemEntity);
-                    }
-                }
-            }
-
-            for(int i = 0; i < toDieEntities.Count; i++)
-            {
-                RemoveEntity(toDieEntities[i]);
-            }
-            toDieEntities.Clear();
+            entityManager.DoStep(63);
 
             worldRenderer.playerPosX = (double)player.posX / 1000;
             worldRenderer.playerPosY = (double)player.posY / 1000;

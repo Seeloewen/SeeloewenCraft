@@ -183,6 +183,104 @@
                     return new OakPlanksBlock(false);
                 case "sc:spruce_planks_block":
                     return new SprucePlanksBlock(false);
+                case "sc:cactus_top_fruit":
+                    return new Cactus_TopFruit(false);
+                case "sc:cactus_vertical":
+                    return new Cactus_Vertical(false);
+                case "sc:cactus_top":
+                    return new Cactus_Top(false);
+                case "sc:cactus_top_left":
+                    return new Cactus_TopLeft(false);
+                case "sc:cactus_top_right":
+                    return new Cactus_TopRight(false);
+                case "sc:cactus_cross":
+                    return new Cactus_Cross(false);
+                case "sc:cactus_horizontal":
+                    return new Cactus_Horizontal(false);
+                case "sc:cactus_bottom_left":
+                    return new Cactus_BottomLeft(false);
+                case "sc:cactus_bottom_right":
+                    return new Cactus_BottomRight(false);
+                case "sc:oak_door_base":
+                    return new OakDoor_Base(false);
+                case "sc:oak_door_top":
+                    return new OakDoor_Top(false);
+                case "sc:oak_trapdoor":
+                    return new OakTrapDoor(false);
+                case "sc:spruce_trapdoor":
+                    return new SpruceTrapDoor(false);
+                case "sc:furnace_block":
+                    return new FurnaceBlock(false);
+                case "sc:oak_chair_base":
+                    return new OakChair_Base(false);
+                case "sc:oak_chair_top":
+                    return new OakChair_Top(false);
+                case "sc:spruce_chair_base":
+                    return new SpruceChair_Base(false);
+                case "sc:spruce_chair_top":
+                    return new SpruceChair_Top(false);
+                case "sc:archeology_pot_base":
+                    return new ArcheologyPot_Base(false);
+                case "sc:archeology_pot_top":
+                    return new ArcheologyPot_Top(false);
+                case "sc:amethyst_ore_block":
+                    return new AmethystOreBlock(false);
+                case "sc:anvil_block":
+                    return new AnvilBlock(false);
+                case "sc:barrel_block":
+                    return new BarrelBlock(false);
+                case "sc:blue_flower_block":
+                    return new BlueFlowerBlock(false);
+                case "sc:bone_block":
+                    return new BoneBlock(false);
+                case "sc:cactus_fruit_block":
+                    return new CactusFruitBlock(false);
+                case "sc:candle_block":
+                    return new CandleBlock(false);
+                case "sc:copper_ore_block":
+                    return new CopperOreBlock(false);
+                case "sc:dead_bush_block":
+                    return new DeadBushBlock(false);
+                case "sc:emerald_ore_block":
+                    return new EmeraldOreBlock(false);
+                case "sc:flower_pot_block":
+                    return new FlowerPotBlock(false);
+                case "sc:gold_ore_block":
+                    return new GoldOreBlock(false);
+                case "sc:grass":
+                    return new Grass(false);
+                case "sc:iron_gates_block":
+                    return new IronGatesBlock(false);
+                case "sc:ladder_block":
+                    return new LadderBlock(false);
+                case "sc:mossy_cobblestone_block":
+                    return new MossyCobblestoneBlock(false);
+                case "sc:oak_sapling_block":
+                    return new OakSaplingBlock(false);
+                case "sc:spruce_sapling_block":
+                    return new SpruceSaplingBlock(false);
+                case "sc:oak_table_block":
+                    return new OakTableBlock(false);
+                case "sc:spruce_table_block":
+                    return new SpruceTableBlock(false);
+                case "sc:sand_block":
+                    return new SandBlock(false);
+                case "sc:sand_stone_bricks_block":
+                    return new SandStoneBricksBlock(false);
+                case "sc:stone_bricks_block":
+                    return new StoneBricksBlock(false);
+                case "sc:tin_ore_block":
+                    return new TinOreBlock(false);
+                case "sc:tungsten_ore_block":
+                    return new TungstenOreBlock(false);
+                case "sc:yellow_flower_block":
+                    return new YellowFlowerBlock(false);
+                case "sc:glass_block":
+                    return new GlassBlock(false);
+                case "sc:cactus_right":
+                    return new Cactus_Right(false);
+                case "sc:cactus_left":
+                    return new Cactus_Left(false);
                 default:
                     return null;
 

@@ -9,8 +9,6 @@ namespace SeeloewenCraft
         public List<LootTableEntry> lootTableEntries = new List<LootTableEntry>();
         Random rnd;
 
-        //-- Constructor --//
-
         //-- Custom Methods --//
 
         public LootTableEntry RollEntry()
@@ -47,24 +45,5 @@ namespace SeeloewenCraft
         }
     }
 
-    //-- Loot Tables --//
-
-    public class StoneLootTable : LootTable
-    {
-        public StoneLootTable() : base()
-        {
-            lootTableEntries.Add(new LootTableEntry(new StoneItem(), 1, 3, 5));
-            lootTableEntries.Add(new LootTableEntry(new GrassItem(), 1, 3, 1));
-        }
-    }
-    public class PlainsDungeonChest1 : LootTable
-    {
-        public PlainsDungeonChest1() : base()
-        {
-            lootTableEntries.Add(new LootTableEntry(new OakLogItem(), 1, 5, 3));
-            lootTableEntries.Add(new LootTableEntry(new GrassItem(), 1, 3, 2));
-            lootTableEntries.Add(new LootTableEntry(new CobbleStoneItem(), 1, 7, 5));
-            lootTableEntries.Add(new LootTableEntry(new IronOreItem(), 1, 2, 1));
-        }
-    }
+    
 }

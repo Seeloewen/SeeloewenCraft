@@ -1,8 +1,4 @@
-﻿
-using Newtonsoft.Json.Linq;
-using System.Windows.Documents;
-
-namespace SeeloewenCraft
+﻿namespace SeeloewenCraft
 {
     static class ItemRegister
     {
@@ -11,13 +7,13 @@ namespace SeeloewenCraft
             switch (id)
             {
                 case "sc:grass_block_item":
-                    return new GrassItem();
+                    return new GrassBlockItem();
 
                 case "sc:dirt_item":
                     return new DirtItem();
 
-                case "sc:stone_item":
-                    return new StoneItem();
+                case "sc:stone_block_item":
+                    return new StoneBlockItem();
 
                 case "sc:oak_log_item":
                     return new OakLogItem();
@@ -252,8 +248,292 @@ namespace SeeloewenCraft
                 case "sc:sand_stone_center_item":
                     return new SandStoneItem_Center();
 
+                case "sc:amethyst_ore_item":
+                    return new AmethystOreItem();
+
+                case "sc:anvil_item":
+                    return new AnvilItem();
+
+                case "sc:barrel_item":
+                    return new BarrelItem();
+
+                case "sc:blue_flower_item":
+                    return new BlueFlowerItem();
+
+                case "sc:bone_block_item":
+                    return new BoneBlockItem();
+
+                case "sc:cactus_fruit_item":
+                    return new CactusFruitItem();
+
+                case "sc:candle_item":
+                    return new CandleItem();
+
+                case "sc:copper_ore_item":
+                    return new CopperOreItem();
+
+                case "sc:dead_bush_item":
+                    return new DeadBushItem();
+
+                case "sc:emerald_ore_item":
+                    return new EmeraldOreItem();
+
+                case "sc:tungsten_ore_item":
+                    return new TungstenOreItem();
+
+                case "sc:flower_pot_item":
+                    return new FlowerPotItem();
+
+                case "sc:gold_ore_item":
+                    return new GoldOreItem();
+
+                case "sc:tin_ore_item":
+                    return new TinOreItem();
+
+                case "sc:grass_item":
+                    return new GrassItem();
+
+                case "sc:iron_gates_item":
+                    return new IronGatesItem();
+
+                case "sc:ladder_item":
+                    return new LadderItem();
+
+                case "sc:mossy_cobblestone_item":
+                    return new MossyCobblestoneItem();
+
+                case "sc:oak_sapling_item":
+                    return new OakSaplingItem();
+
+                case "sc:spruce_sapling_item":
+                    return new SpruceSaplingItem();
+
+                case "sc:oak_table_item":
+                    return new OakTableItem();
+
+                case "sc:spruce_table_item":
+                    return new SpruceTableItem();
+
+                case "sc:sand_item":
+                    return new SandItem();
+
+                case "sc:sand_stone_bricks_item":
+                    return new SandStoneBricksItem();
+
+                case "sc:stone_bricks_item":
+                    return new StoneBricksItem();
+
+                case "sc:yellow_flower_item":
+                    return new YellowFlowerItem();
+
+                case "sc:amethyst_item":
+                    return new AmethystItem();
+
+                case "sc:apple_item":
+                    return new AppleItem();
+
+                case "sc:bread_item":
+                    return new BreadItem();
+
+                case "sc:bucket_empty_item":
+                    return new BucketEmptyItem();
+
+                case "sc:bucket_water_item":
+                    return new BucketWaterItem();
+
+                case "sc:coal_item":
+                    return new CoalItem();
+
+                case "sc:copper_bar_item":
+                    return new CopperBarItem();
+
+                case "sc:croissant_item":
+                    return new CroissantItem();
+
+                case "sc:diamond_item":
+                    return new DiamondItem();
+
+                case "sc:emerald_item":
+                    return new EmeraldItem();
+
+                case "sc:fossil_fragment_item":
+                    return new FossilFragmentItem();
+
+                case "sc:gold_bar_item":
+                    return new GoldBarItem();
+
+                case "sc:iron_bar_item":
+                    return new IronBarItem();
+
+                case "sc:iron_rod_item":
+                    return new IronRodItem();
+
+                case "sc:paper_item":
+                    return new PaperItem();
+
+                case "sc:pot_shard_item":
+                    return new PotShardItem();
+
+                case "sc:rock_item":
+                    return new RockItem();
+
+                case "sc:stick_item":
+                    return new StickItem();
+
+                case "sc:tin_bar_item":
+                    return new TinBarItem();
+
+                case "sc:tungsten_bar_item":
+                    return new TungstenBar();
+
+                case "sc:archeology_pot_item":
+                    return new ArcheologyPotItem();
+
+                case "sc:cactus_bottom_left_item":
+                    return new Cactus_BottomLeftItem();
+
+                case "sc:cactus_bottom_right_item":
+                    return new Cactus_BottomRightItem();
+
+                case "sc:cactus_top_right_item":
+                    return new Cactus_TopRightItem();
+
+                case "sc:cactus_top_left_item":
+                    return new Cactus_TopLeftItem();
+
+                case "sc:cactus_cross_item":
+                    return new Cactus_CrossItem();
+
+                case "sc:cactus_horizontal_item":
+                    return new Cactus_HorizontalItem();
+
+                case "sc:cactus_vertical_item":
+                    return new Cactus_VerticalItem();
+
+                case "sc:cactus_top_item":
+                    return new Cactus_TopItem();
+
+                case "sc:cactus_top_fruit_item":
+                    return new Cactus_TopFruitItem();
+
+                case "sc:oak_chair_item":
+                    return new OakChairItem();
+
+                case "sc:spruce_chair_item":
+                    return new SpruceChairItem();
+
+                case "sc:furnace_item":
+                    return new FurnaceItem();
+
+                case "sc:oak_door_item":
+                    return new OakDoor();
+
+                case "sc:oak_trapdoor_item":
+                    return new OakTrapDoorItem();
+
+                case "sc:spruce_trapdoor_item":
+                    return new SpruceTrapDoorItem();
+
+                case "sc:wax_item":
+                    return new WaxItem();
+
+                case "sc:stone_sword_item":
+                    return new StoneSwordItem();
+
+                case "sc:stone_pickaxe_item":
+                    return new StonePickaxeItem();
+
+                case "sc:stone_axe_item":
+                    return new StoneAxeItem();
+
+                case "sc:stone_shovel_item":
+                    return new StoneShovelItem();
+
+                case "sc:stone_scythe_item":
+                    return new StoneScytheItem();
+
+                case "sc:wood_hammer_item":
+                    return new WoodHammerItem();
+
+                case "sc:wood_sword_item":
+                    return new WoodSwordItem();
+
+                case "sc:wood_pickaxe_item":
+                    return new WoodPickaxeItem();
+
+                case "sc:wood_axe_item":
+                    return new WoodAxeItem();
+
+                case "sc:wood_shovel_item":
+                    return new WoodShovelItem();
+
+                case "sc:wood_scythe_item":
+                    return new WoodScytheItem();
+
+                case "sc:tin_hammer_item":
+                    return new TinHammerItem();
+
+                case "sc:tin_sword_item":
+                    return new TinSwordItem();
+
+                case "sc:tin_pickaxe_item":
+                    return new TinPickaxeItem();
+
+                case "sc:tin_axe_item":
+                    return new TinAxeItem();
+
+                case "sc:tin_shovel_item":
+                    return new TinShovelItem();
+
+                case "sc:tin_scythe_item":
+                    return new TinScytheItem();
+
+                case "sc:iron_hammer_item":
+                    return new IronHammerItem();
+
+                case "sc:iron_sword_item":
+                    return new IronSwordItem();
+
+                case "sc:iron_pickaxe_item":
+                    return new IronPickaxeItem();
+
+                case "sc:iron_axe_item":
+                    return new IronAxeItem();
+
+                case "sc:iron_shovel_item":
+                    return new IronShovelItem();
+
+                case "sc:iron_scythe_item":
+                    return new IronScytheItem();
+
+                case "sc:diamond_hammer_item":
+                    return new DiamondHammerItem();
+
+                case "sc:diamond_sword_item":
+                    return new DiamondSwordItem();
+
+                case "sc:diamond_pickaxe_item":
+                    return new DiamondPickaxeItem();
+
+                case "sc:diamond_axe_item":
+                    return new DiamondAxeItem();
+
+                case "sc:diamond_shovel_item":
+                    return new DiamondShovelItem();
+
+                case "sc:diamond_scythe_item":
+                    return new DiamondScytheItem();
+
+                case "sc:glass_item":
+                    return new GlassItem();
+
+                case "sc:cactus_left_item":
+                    return new Cactus_LeftItem();
+
+                case "sc:cactus_right_item":
+                    return new Cactus_RightItem();
                 default:
-                    return new BedrockItem();
+                    return null;
             }
         }
     }

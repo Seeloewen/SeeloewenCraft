@@ -15,12 +15,12 @@ namespace SeeloewenCraft
         public static void Init()
         {
             //Check which texurepack is selected and set the directory based on that
-            if (Game.selectedTexturepack == "default")
+            if (Game.selectedTexturepack == "default" || string.IsNullOrEmpty(Game.selectedTexturepack))
             {
                 textureDirectory = "pack://application:,,,/SeeloewenCraft;component/Resources";
                 Log.Write($"Set texture directory to 'pack://application:,,,/SeeloewenCraft;component/Resources' (internal resources)", "Info");
             }
-            else
+            else if (Game.selectedTexturepack != "default" && !string.IsNullOrEmpty(Game.selectedTexturepack))
             {
                 textureDirectory = Game.selectedTexturepack;
                 Log.Write($"Set texture directory to '{Game.selectedTexturepack}'", "Info");
@@ -169,7 +169,7 @@ namespace SeeloewenCraft
             StoneBlock = new SealImage(TextureType.Block, "Stone_Block.png");
             Dirt = new SealImage(TextureType.Block, "Dirt.png");
             Air = new SealImage(TextureType.Block, "Air.png");
-            Bedrock = new SealImage(TextureType.Block, "Bedrockdsf.png");
+            Bedrock = new SealImage(TextureType.Block, "Bedrock.png");
             CoalOre = new SealImage(TextureType.Block, "Coal_Ore.png");
             DiamondOre = new SealImage(TextureType.Block, "Diamond_Ore.png");
             IronOre = new SealImage(TextureType.Block, "Iron_Ore.png");
@@ -256,7 +256,7 @@ namespace SeeloewenCraft
             Cactus_BottomLeft = new SealImage(TextureType.Connected_Block, "Cactus_BottomLeft.png");
             Cactus_BottomRight = new SealImage(TextureType.Connected_Block, "Cactus_BottomRight.png");
             Cactus_Cross = new SealImage(TextureType.Connected_Block, "Cactus_Cross.png");
-            CactusFruit = new SealImage(TextureType.Connected_Block, "Cactus_Fruit.png");
+            CactusFruit = new SealImage(TextureType.Block, "Cactus_Fruit.png");
             Cactus_Horizontal = new SealImage(TextureType.Connected_Block, "Cactus_Horizontal.png");
             Cactus_Top = new SealImage(TextureType.Connected_Block, "Cactus_Top.png");
             Cactus_TopLeft = new SealImage(TextureType.Connected_Block, "Cactus_TopLeft.png");
@@ -329,7 +329,7 @@ namespace SeeloewenCraft
             SandStone = new SealImage(TextureType.Block, "Sand_Stone.png");
             SandStoneBlock_BottomLeft = new SealImage(TextureType.Chiseled_Block, "Sand_Stone_BottomLeft.png");
             SandStoneBlock_BottomRight = new SealImage(TextureType.Chiseled_Block, "Sand_Stone_BottomRight.png");
-            SandStoneBlock_Bricks = new SealImage(TextureType.Block, "Sand_Stone_Bricks.png");
+            SandStoneBricks = new SealImage(TextureType.Block, "Sand_Stone_Bricks.png");
             SandStoneBlock_Center = new SealImage(TextureType.Chiseled_Block, "Sand_Stone_Center.png");
             SandStoneBlock_SlabBottom = new SealImage(TextureType.Chiseled_Block, "Sand_Stone_SlabBottom.png");
             SandStoneBlock_SlabLeft = new SealImage(TextureType.Chiseled_Block, "Sand_Stone_SlabLeft.png");
@@ -388,7 +388,9 @@ namespace SeeloewenCraft
             WoodShovel = new SealImage(TextureType.Tool_Item, "Wood_Shovel.png");
             WoodSword = new SealImage(TextureType.Tool_Item, "Wood_Sword.png");
             YellowFlower = new SealImage(TextureType.Block, "Yellow_Flower.png");
-
+            Glass = new SealImage(TextureType.Block, "Glass.png");
+            Cactus_Right = new SealImage(TextureType.Connected_Block, "Cactus_Right.png");
+            Cactus_Left = new SealImage(TextureType.Connected_Block, "Cactus_Left.png");
         }
 
         //-- Images --//
@@ -558,7 +560,7 @@ namespace SeeloewenCraft
         public static SealImage SandStone;
         public static SealImage SandStoneBlock_BottomLeft;
         public static SealImage SandStoneBlock_BottomRight;
-        public static SealImage SandStoneBlock_Bricks;
+        public static SealImage SandStoneBricks;
         public static SealImage SandStoneBlock_Center;
         public static SealImage SandStoneBlock_SlabBottom;
         public static SealImage SandStoneBlock_SlabLeft;
@@ -617,6 +619,9 @@ namespace SeeloewenCraft
         public static SealImage WoodShovel;
         public static SealImage WoodSword;
         public static SealImage YellowFlower;
+        public static SealImage Glass;
+        public static SealImage Cactus_Right;
+        public static SealImage Cactus_Left;
     }
 
     public class SealImage

@@ -26,6 +26,7 @@ namespace SeeloewenCraft.entity
         public Slime(JsonToken token) : base(token, animalSizeX, animalSizeY)
         {
             type = "Slime";
+            
             rnd = new Random(DateTime.Now.Millisecond);
             frictionAir = 1;
             ACC_WALKING = 0;
