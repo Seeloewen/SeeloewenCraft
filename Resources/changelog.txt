@@ -1,4 +1,39 @@
-﻿Alpha 1.1.7 - 16.07.2024
+﻿Alpha 1.2.0 - 12.09.2024
+* Added new commands
+* Added lakes
+* Added a bunch of new items and blocks
+* Added chiseling
+* Added application icon
+* Added item dropping
+* Added resize support
+* Added water physics
+* Added dungeons
+* Added survival mode
+* Added step-up on small blocks
+* Added fall damage
+* Added sneaking, sprinting and flying
+* Added doors
+* Added tools
+* Added food and eating
+* Added crafting and smelting
+* Added new biomes
+* Reworked collision system
+* Reworked all textures
+* Reworked ore generation to be height-specific
+* Refactored many parts of the code
+* Improved performance
+* Improved logging on some parts
+* Improved inventory with new features
+* All blocks can now be placed in the foreground
+* Connected blocks are now saved and loaded correctly
+* Some items are now unstackable and/or have durability 
+* Command system now uses notifications for feedback
+* Fixed structures generating in wrong order
+* Fixed being able to open multiple logs
+* Fixed several texturepack loading issues
+* Fixed many other small issues
+
+Alpha 1.1.7 - 16.07.2024
 * Added new entries in debug menu
 * Added ingame notifications
 * Added game loop
