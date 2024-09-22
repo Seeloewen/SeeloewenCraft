@@ -24,7 +24,7 @@ namespace SeeloewenCraft
         public List<BlockContainerList> blockContainerList = new List<BlockContainerList>();
         public List<Gui> guiList = new List<Gui>();
         public List<CraftingRecipe> craftingRecipeList = new List<CraftingRecipe>();
-        public Player player;
+        public Player player { get => entityManager.player; }
         public WaterHandler waterHandler;
         public ClickHandler clickHandler;
         public DebugMenu debugMenu;
@@ -464,7 +464,7 @@ namespace SeeloewenCraft
 
         public void CreatePlayer(int playerPosX, int playerPosY)
         {
-            player = new Player(playerPosX, playerPosY);
+            entityManager.player = new Player(playerPosX, playerPosY);
             AddEntity(player);
 
             Game.world.wndGame.relativeSvPos = Game.world.wndGame.svWorld.VerticalOffset;

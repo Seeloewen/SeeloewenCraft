@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using Windows.Media.Protection.PlayReady;
 
 namespace SeeloewenCraft.entity {
     //this class stores all entities that exist
@@ -10,7 +11,8 @@ namespace SeeloewenCraft.entity {
     {
         //list of all entities
         private List<Entity> entities;
-
+        //current player
+        public Player player;
 
         //entities that will be removed at end of tick
         private List<int> removeBuffer;
@@ -149,6 +151,15 @@ namespace SeeloewenCraft.entity {
             }
         }
 
+
+        public void SendInitLoadData(int clientID)
+        {
+            using (JsonWriter writer = JsonWriter.Create())
+            {
+                Game.world.player.SaveToJson(writer);
+                Game.server.SendDataSingleClient(clientID, $"CreateEntity;{writer.ToString()}");
+            }
+        }
 
     }
 }

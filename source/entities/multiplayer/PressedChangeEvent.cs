@@ -51,7 +51,7 @@ namespace SeeloewenCraft.entity
 
         public override string ToString()
         {
-            return $"PressedChangedEvent;{id};{pressedUp};{pressedRight};{pressedLeft};{pressedSneak};{pressedSprint}";
+            return $"PressedChangeEvent;{id};{pressedUp};{pressedRight};{pressedLeft};{pressedSneak};{pressedSprint}";
         }
 
     }

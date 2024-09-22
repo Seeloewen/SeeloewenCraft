@@ -75,6 +75,7 @@ namespace SeeloewenCraft.entity
 
         public void HandleInputs()
         {
+            if (this != Game.world.player) return;
             //doesnt get synced
             bool newPressedThrow = Game.world.wndGame.pressedKeys.Contains(Settings.cThrowItem);
 

@@ -55,7 +55,7 @@ namespace SeeloewenCraft
                     HandleRemoveEntity(client, args);
                     break;
                 case "PressedChangeEvent":
-                    HandleMovePlayer(client, args);
+                    HandlePressedChange(client, args);
                     break;
                 case "SyncPos":
                     HandleSyncPos(client, args);
@@ -153,7 +153,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public async static void HandleMovePlayer(AdvancedTcpClient client, string[] args)
+        public async static void HandlePressedChange(AdvancedTcpClient client, string[] args)
         {
 
             try
@@ -264,11 +264,12 @@ namespace SeeloewenCraft
                     //TODO: Rework for new multiplayer system
 
                     //Send the player (which is for some reason not in the entity list) to the connecting client
-                    using (JsonWriter writer = JsonWriter.Create())
+                    /*using (JsonWriter writer = JsonWriter.Create())
                     {
                         Game.world.player.SaveToJson(writer);
                         await Game.server.SendDataSingleClient(client.id, $"CreateEntity;{writer.ToString()}");
-                    }
+                    }*/
+                    Game.world.entityManager.SendInitLoadData(client.id);
                 }
             }
             catch (Exception e)
