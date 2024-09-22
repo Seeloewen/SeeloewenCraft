@@ -29,7 +29,7 @@ namespace SeeloewenCraft.entity
                 || entityPressedSneak != newPressedSneak
                 || entityPressedSprint != newPressedSprint)
             {
-                return new PressedChangeEvent(id, newPressedUp, newPressedRight, newPressedLeft, newPressedSneak, newdPressedSprint);
+                return new PressedChangeEvent(id, newPressedUp, newPressedRight, newPressedLeft, newPressedSneak, newPressedSprint);
             }
             else
             {
