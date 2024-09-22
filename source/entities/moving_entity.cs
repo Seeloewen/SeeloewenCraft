@@ -68,6 +68,8 @@ namespace SeeloewenCraft.entity
             InitTexture();
         }
 
+        
+
         protected abstract void InitTexture();
 
         public void SendSyncData()
@@ -88,6 +90,17 @@ namespace SeeloewenCraft.entity
             velX = Convert.ToInt32(args[4]);
             velY = Convert.ToInt32(args[5]);
         }
+
+        internal void HandlePressedChangeEvent(PressedChangeEvent e)
+        {
+            pressedUp = e.pressedUp;
+            pressedRight = e.pressedRight;
+            pressedLeft = e.pressedLeft;
+            pressedUp = e.pressedUp;
+            pressedSneak = e.pressedSneak;
+            pressedSprint = e.pressedSprint;
+        }
+
 
         public MovingEntity(JsonToken token, int sizeX, int sizeY, Brush image)
             : base(token, sizeX, sizeY, image)

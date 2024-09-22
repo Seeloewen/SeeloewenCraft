@@ -75,26 +75,27 @@ namespace SeeloewenCraft.entity
 
         public void HandleInputs()
         {
-            bool changed = false;
+            //doesnt get synced
+            bool newPressedThrow = Game.world.wndGame.pressedKeys.Contains(Settings.cThrowItem);
 
-            changed = changed || pressedLeft != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
-            changed = changed || pressedRight != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
-            changed = changed || pressedUp != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
-            changed = changed || pressedSneak != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
-            changed = changed || pressedSprint != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
-            changed = changed || pressedThrow != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            //will get synced
+            bool newPressedLeft = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            bool newPressedRight = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveRight);
+            bool newPressedUp = Game.world.wndGame.pressedKeys.Contains(Settings.cJump);
+            bool newPressedSneak = Game.world.wndGame.pressedKeys.Contains(Settings.cSneak);
+            bool newPressedSprint = Game.world.wndGame.pressedKeys.Contains(Settings.cSprint);
 
+            PressedChangeEvent e = PressedChangeEvent.Create(id,
+                pressedUp, newPressedUp,
+                pressedRight, newPressedRight,
+                pressedLeft, newPressedLeft,
+                pressedSneak, newPressedSneak,
+                pressedSprint, newPressedSprint);
 
-            pressedLeft = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
-            pressedRight = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveRight);
-            pressedUp = Game.world.wndGame.pressedKeys.Contains(Settings.cJump);
-            pressedSneak = Game.world.wndGame.pressedKeys.Contains(Settings.cSneak);
-            pressedSprint = Game.world.wndGame.pressedKeys.Contains(Settings.cSprint);
-            pressedThrow = Game.world.wndGame.pressedKeys.Contains(Settings.cThrowItem);
-
-            if (changed)
+            if (e != null)
             {
-                NetworkHandler.SendData($"MovePlayer;{Game.world.player.id};{pressedLeft};{pressedRight};{pressedUp};{pressedSneak};{pressedSprint}");
+                HandlePressedChangeEvent(e);
+                NetworkHandler.SendData(e.ToString());
             }
         }
 
@@ -184,6 +185,7 @@ namespace SeeloewenCraft.entity
 
         protected override void OnUpdateStart(int tps)
         {
+            HandleInputs();
             HandleThrow();
             base.OnUpdateStart(tps);
             DisplayDebugInformation();

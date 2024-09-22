@@ -54,7 +54,7 @@ namespace SeeloewenCraft
                 case "RemoveEntity":
                     HandleRemoveEntity(client, args);
                     break;
-                case "MovePlayer":
+                case "PressedChangeEvent":
                     HandleMovePlayer(client, args);
                     break;
                 case "SyncPos":
@@ -155,10 +155,11 @@ namespace SeeloewenCraft
 
         public async static void HandleMovePlayer(AdvancedTcpClient client, string[] args)
         {
-            if (args.Length != 7) return;
 
             try
             {
+                Game.world.entityManager.ReceivePressedChange(args);
+
                 /*
                 foreach (Entity entity in Game.world.entities)
                 {
@@ -177,7 +178,7 @@ namespace SeeloewenCraft
                     Game.server.SendDataExceptClients(client.id, $"MovePlayer;{args[1]};{args[2]};{args[3]};{args[4]};{args[5]};{args[6]}");
                 }*/
 
-                //TODO: Rework for new entity system
+                //TODO: Rework for new entity system/
             }
             catch (Exception e)
             {

@@ -55,6 +55,25 @@ namespace SeeloewenCraft.entity {
         }
 
 
+        
+        public void ReceivePressedChange(string[] eventArgs)
+        {
+            PressedChangeEvent e = PressedChangeEvent.Create(eventArgs);
+            ((MovingEntity)GetEntity(e.id)).HandlePressedChangeEvent(e);
+        }
+
+        public Entity GetEntity(int id)
+        {
+            foreach(Entity entity in entities)
+            {
+                if(entity.id == id)
+                {
+                    return entity;
+                }
+            }
+            return null;
+        }
+
         //stores every entity into json array with key "entities"
         public void SaveToJson(JsonWriter writer)
         {
