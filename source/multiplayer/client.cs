@@ -42,11 +42,11 @@ public class Client
             Game.isClient = true;
 
             //Send a request to the server to do an initial load, which gets all blocks in all chunks and their content
-            await Game.client.SendData("InitialLoad");
+            await Game.client.SendData(MultiplayerPacketType.INITIAL_LOAD, "");
             using (JsonWriter writer = JsonWriter.Create())
             {
                 Game.world.player.SaveToJson(writer);
-                await SendData($"CreateEntity;{writer.ToString()}");
+                await SendData(MultiplayerPacketType.CREATE_ENTITY, writer.ToString());
             }
             Game.world.wndGame.Show();
         }
@@ -60,8 +60,10 @@ public class Client
         ReceiveData();
     }
 
-    public async Task SendData(string data)
+    public async Task SendData(MultiplayerPacketType type, string data)
     {
+        data = $"{type};{data}";
+
         //Send the data to the server
         if (stream != null)
         {

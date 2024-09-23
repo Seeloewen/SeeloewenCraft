@@ -221,7 +221,7 @@ namespace SeeloewenCraft
             using (JsonWriter writer = JsonWriter.Create())
             {
                 entity.SaveToJson(writer);
-                NetworkHandler.SendData($"CreateEntity;{writer.ToString()}");
+                NetworkHandler.SendData(MultiplayerPacketType.CREATE_ENTITY, $"{writer.ToString()}");
             }
 
             entityManager.Add(entity);
@@ -245,7 +245,7 @@ namespace SeeloewenCraft
         {
             entityManager.Remove(id);
 
-            NetworkHandler.SendData($"RemoveEntity;{id}");
+            NetworkHandler.SendData(MultiplayerPacketType.REMOVE_ENTITY, $"{id}");
         }
 
         public void RemoveMultiplayerEntity(int id)
@@ -531,14 +531,14 @@ namespace SeeloewenCraft
                 worldRenderer.Render();
 
                 //Send the chunk on the network
-                NetworkHandler.SendData($"CreateChunk;{newChunk.index}");
+                NetworkHandler.SendData(MultiplayerPacketType.CREATE_CHUNK, $"{newChunk.index}");
 
                 //If it's a server, additionally send the chunk to all clients
                 if (Game.isServer)
                 {
                     foreach (Block block in newChunk.blockList.blocks)
                     {
-                        NetworkHandler.SendData($"SetBlock;{block.id};{newChunk.index};{block.xPos};{block.yPos}");
+                        NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, $"{block.id};{newChunk.index};{block.xPos};{block.yPos}");
                     }
                 }
             }
@@ -554,14 +554,14 @@ namespace SeeloewenCraft
                 worldRenderer.Render();
 
                 //Send the chunk on the network
-                NetworkHandler.SendData($"CreateChunk;{newChunk.index}");
+                NetworkHandler.SendData(MultiplayerPacketType.CREATE_CHUNK, $"{newChunk.index}");
 
                 //If it's a server, additionally send the chunk to all clients
                 if (Game.isServer)
                 {
                     foreach (Block block in newChunk.blockList.blocks)
                     {
-                        NetworkHandler.SendData($"SetBlock;{block.id};{newChunk.index};{block.xPos};{block.yPos}");
+                        NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, $"{block.id};{newChunk.index};{block.xPos};{block.yPos}");
                     }
                 }
             }

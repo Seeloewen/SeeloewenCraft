@@ -157,7 +157,7 @@ namespace SeeloewenCraft.entity {
             using (JsonWriter writer = JsonWriter.Create())
             {
                 Game.world.player.SaveToJson(writer);
-                Game.server.SendDataSingleClient(clientID, $"CreateEntity;{writer.ToString()}");
+                Game.server.SendDataSingleClient(clientID, MultiplayerPacketType.CREATE_ENTITY, $"{writer.ToString()}");
             }
         }
 

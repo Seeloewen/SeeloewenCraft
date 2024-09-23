@@ -1,10 +1,8 @@
 ﻿using SeeloewenCraft.entity;
 using System;
-using System.Collections.Immutable;
-using System.ComponentModel;
+using System.CodeDom;
 using System.Threading.Tasks;
 using System.Windows;
-using Windows.UI.ViewManagement.Core;
 
 namespace SeeloewenCraft
 {
@@ -16,62 +14,65 @@ namespace SeeloewenCraft
             Game.server.Start(5000);
         }
 
-        public static async void SendData(string data)
+        public static async void SendData(MultiplayerPacketType type, string data)
         {
             //Send the data either as client or server. If it's neither, don't send anything
             if (Game.isServer)
             {
                 if (Game.server.clients.Count > 0)
                 {
-                    Game.server.SendData(data); //Sends the data to all clients
+                    Game.server.SendData(type, data); //Sends the data to all clients
                 }
             }
             else if (Game.isClient)
             {
-                Game.client.SendData(data); //Sends the data only to the server
+                Game.client.SendData(type, data); //Sends the data only to the server
             }
         }
 
         public static async Task HandleData(AdvancedTcpClient client, string data)
         {
             string[] args = data.Split(';');
+            
+            var en = Enum.Parse<MultiplayerPacketType>(args[0]);
 
-            switch (args[0])
+            switch (en)
             {
                 //Handle the action based on the the first arg
-                case "CreateChunk":
+                case MultiplayerPacketType.CREATE_CHUNK:
                     HandleCreateChunk(client, args);
                     break;
-                case "InitialLoad":
+                case MultiplayerPacketType.INITIAL_LOAD:
                     HandleInitialLoad(client, args);
                     break;
-                case "SetBlock":
+                case MultiplayerPacketType.SET_BLOCK:
                     HandleSetBlock(client, args);
                     break;
-                case "CreateEntity":
+                case MultiplayerPacketType.CREATE_ENTITY:
                     HandleCreateEntity(client, args);
                     break;
-                case "RemoveEntity":
+                case MultiplayerPacketType.REMOVE_ENTITY:
                     HandleRemoveEntity(client, args);
                     break;
-                case "PressedChangeEvent":
+                case MultiplayerPacketType.PRESSED_CHANGE:
                     HandlePressedChange(client, args);
                     break;
-                case "SyncPos":
+                case MultiplayerPacketType.SYNC_POS:
                     HandleSyncPos(client, args);
                     break;
-                case "AddToInv":
+                case MultiplayerPacketType.ADD_TO_INV:
                     HandleAddToInv(client, args);
                     break;
-                case "RemoveFromInv":
+                case MultiplayerPacketType.REMOVE_FROM_INV:
                     HandleRemoveFromInv(client, args);
                     break;
-                case "DamageEntity":
+                case MultiplayerPacketType.DAMAGE_ENTITY:
                     //HandleDamageEntity(client, args);
                     break;
-                case "HealEntity":
+                case MultiplayerPacketType.HEAL_ENTITY:
                     //HandleHealEntity(client, args);
                     break;
+                default: throw new Exception("Multiplayer Packet Type not found");
             }
         }
 
@@ -101,7 +102,7 @@ namespace SeeloewenCraft
             //If the server receives the packet, send it to all other clients to make sure the inventory gets updated on all of them
             if (Game.isServer)
             {
-                Game.server.SendDataExceptClients(client.id, $"AddToInv;{args[1]};{args[2]};{args[3]};{args[4]};{args[5]};{args[6]};{args[7]}");
+                Game.server.SendDataExceptClients(client.id, MultiplayerPacketType.ADD_TO_INV, $"{args[1]};{args[2]};{args[3]};{args[4]};{args[5]};{args[6]};{args[7]}");
             }
         }
 
@@ -126,7 +127,7 @@ namespace SeeloewenCraft
             //If the server receives the packet, send it to all other clients to make sure the inventory gets updated on all of them
             if (Game.isServer)
             {
-                Game.server.SendDataExceptClients(client.id, $"RemoveFromInv;{args[1]};{args[2]};{args[3]};{args[4]};{args[5]};{args[6]}");
+                Game.server.SendDataExceptClients(client.id, MultiplayerPacketType.REMOVE_FROM_INV, $"{args[1]};{args[2]};{args[3]};{args[4]};{args[5]};{args[6]}");
             }
         }
 
@@ -198,7 +199,7 @@ namespace SeeloewenCraft
                 //If the server receives the packet, send it to all clients except the one it came from to ensure the entity gets created on all clients
                 if (Game.isServer)
                 {
-                    Game.server.SendDataExceptClients(client.id, $"CreateEntity;{args[1]}");
+                    Game.server.SendDataExceptClients(client.id, MultiplayerPacketType.CREATE_ENTITY, $"{args[1]}");
                 }
             }
             catch (Exception e)
@@ -219,7 +220,7 @@ namespace SeeloewenCraft
                 //If the server receives the packet, send it to all clients except the one it came from to ensure the entity gets removed on all clients
                 if (Game.isServer)
                 {
-                    Game.server.SendDataExceptClients(client.id, $"RemoveEntity;{args[1]}");
+                    Game.server.SendDataExceptClients(client.id, MultiplayerPacketType.REMOVE_ENTITY, $"{args[1]}");
                 }
             }
             catch (Exception e)
@@ -241,7 +242,7 @@ namespace SeeloewenCraft
                     {
                         foreach (Block block in chunk.blockList.blocks)
                         {
-                            await Game.server.SendDataSingleClient(client.id, $"SetBlock;{block.id};{chunk.index};{block.xPos};{block.yPos}");
+                            await Game.server.SendDataSingleClient(client.id, MultiplayerPacketType.SET_BLOCK, $"{block.id};{chunk.index};{block.xPos};{block.yPos}");
                         }
                     }
 
@@ -294,7 +295,7 @@ namespace SeeloewenCraft
                 //If the server receives the call, redirect it to the other clients
                 if (Game.isServer)
                 {
-                    Game.server.SendDataExceptClients(client.id, $"SetBlock;{block.id};{cIndex};{block.xPos};{block.yPos}");
+                    Game.server.SendDataExceptClients(client.id, MultiplayerPacketType.SET_BLOCK, $"{block.id};{cIndex};{block.xPos};{block.yPos}");
                 }
             }
             catch (Exception e)
@@ -318,7 +319,7 @@ namespace SeeloewenCraft
                 {
                     foreach (Block block in Game.world.GetChunk(index).blockList.blocks)
                     {
-                        Game.server.SendData($"SetBlock;{block.id};{index};{block.xPos};{block.yPos}");
+                        Game.server.SendData(MultiplayerPacketType.SET_BLOCK, $"{block.id};{index};{block.xPos};{block.yPos}");
                     }
                 }
             }

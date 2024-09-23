@@ -113,7 +113,7 @@ namespace SeeloewenCraft
 
                     if(inventory.block != null && inventory.block.chunk != null)
                     {
-                        NetworkHandler.SendData($"AddToInv;{inventory.block.xPos};{inventory.block.yPos};{inventory.block.chunk.index};{id};{amount};{xPos};{yPos}");
+                        NetworkHandler.SendData(MultiplayerPacketType.ADD_TO_INV, $"{inventory.block.xPos};{inventory.block.yPos};{inventory.block.chunk.index};{id};{amount};{xPos};{yPos}");
                     }
                   
                     ToggleDurabilityDisplay();
@@ -182,7 +182,7 @@ namespace SeeloewenCraft
 
                 if (inventory.block != null && inventory.block.chunk != null)
                 {
-                    NetworkHandler.SendData($"RemoveFromInv;{inventory.block.xPos};{inventory.block.yPos};{inventory.block.chunk.index};{amount};{xPos};{yPos}");
+                    NetworkHandler.SendData(MultiplayerPacketType.REMOVE_FROM_INV, $"{inventory.block.xPos};{inventory.block.yPos};{inventory.block.chunk.index};{amount};{xPos};{yPos}");
                 }
             }
             else

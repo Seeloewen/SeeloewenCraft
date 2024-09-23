@@ -96,7 +96,7 @@ namespace SeeloewenCraft.entity
             if (e != null)
             {
                 HandlePressedChangeEvent(e);
-                NetworkHandler.SendData(e.ToString());
+                e.Send();
             }
         }
 
