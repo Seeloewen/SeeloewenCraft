@@ -11,7 +11,6 @@ namespace SeeloewenCraft
     public class Inventory
     {
         //References
-        private Random rnd;
         public InventoryGui inventoryGui;
         public List<InventorySlot> slotList = new List<InventorySlot>();
         public List<HotbarSlot> hotbarSlotList = new List<HotbarSlot>();
@@ -34,7 +33,6 @@ namespace SeeloewenCraft
             this.slotsX = slotsX;
             this.slotsY = slotsY;
             this.isPlayer = isPlayer;
-            rnd = new Random(DateTime.Now.Millisecond + rndOffset);
 
             inventoryGui = new InventoryGui(80 * slotsY + 30, 695, 175, 290, "sc:inventory", this);
 
@@ -452,7 +450,7 @@ namespace SeeloewenCraft
                             Game.world.AddEntity(new ItemEntity(item, slot.itemTag, //item type
                                 x + 500 - ItemEntity.itemSizeX / 2, //posX
                                 y + 500 - ItemEntity.itemSizeY / 2, //posY
-                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
+                                Game.rnd.Next(-6000, 6000), Game.rnd.Next(-15000, -10000))); //velX and velY 
 
                             slot.inventory.UpdateHotbar();
                         }

@@ -770,7 +770,7 @@ namespace SeeloewenCraft
     {
         public CactusFruitBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Fruit", "sc:cactus_fruit_block", 0, "sc:cactus_fruit_item", rnd.Next(180000, 480001), "sc:cactus_fruit_item", "sc:cactus_fruit_item", Tool.None, Images.CactusFruit);
+            Init("Cactus Fruit", "sc:cactus_fruit_block", 0, "sc:cactus_fruit_item", Game.rnd.Next(180000, 480001), "sc:cactus_fruit_item", "sc:cactus_fruit_item", Tool.None, Images.CactusFruit);
             isSolid = false;
         }
 
@@ -901,7 +901,7 @@ namespace SeeloewenCraft
     {
         public OakSaplingBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Oak Sapling", "sc:oak_sapling_block", 0, "sc:oak_sapling_item", rnd.Next(600000, 1200001), "sc:oak_sapling_item", "sc:oak_sapling_item", Tool.None, Images.OakSapling);
+            Init("Oak Sapling", "sc:oak_sapling_block", 0, "sc:oak_sapling_item", Game.rnd.Next(600000, 1200001), "sc:oak_sapling_item", "sc:oak_sapling_item", Tool.None, Images.OakSapling);
             isSolid = false;
         }
 
@@ -932,7 +932,7 @@ namespace SeeloewenCraft
     {
         public SpruceSaplingBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Sapling", "sc:spruce_sapling_block", 0, "sc:spruce_sapling_item", rnd.Next(600000, 1200001), "sc:tree_sapling_item", "sc:tree_sapling_item", Tool.None, Images.SpruceSapling);
+            Init("Spruce Sapling", "sc:spruce_sapling_block", 0, "sc:spruce_sapling_item", Game.rnd.Next(600000, 1200001), "sc:tree_sapling_item", "sc:tree_sapling_item", Tool.None, Images.SpruceSapling);
             isSolid = false;
         }
 

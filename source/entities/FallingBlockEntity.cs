@@ -20,7 +20,7 @@ namespace SeeloewenCraft.entity
                 } else
                 {
                     Game.world.AddEntity(new ItemEntity(block.GetItem(), block.GetItem().tag, //item type
-                            posX, posY, rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //pos and vel
+                            posX, posY, Game.rnd.Next(-6000, 6000), Game.rnd.Next(-15000, -10000))); //pos and vel
                 }
             }
         }

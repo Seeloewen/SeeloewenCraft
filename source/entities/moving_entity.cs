@@ -7,8 +7,6 @@ namespace SeeloewenCraft.entity
 {
     public abstract class MovingEntity : Entity
     {
-        static Random rnd = new Random(DateTime.Now.Millisecond);
-
         public const int MAX_STEPUP_HEIGHT = 505;
 
         public const double MAX_HP = 10.0;
@@ -209,7 +207,7 @@ namespace SeeloewenCraft.entity
             Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
                 posX + sizeX / 2 - ItemEntity.itemSizeX / 2, //posX
                 posY + sizeY * 2 / 3 - ItemEntity.itemSizeY / 2, //posY
-                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY
+                Game.rnd.Next(-6000, 6000), Game.rnd.Next(-15000, -10000))); //velX and velY
         }
 
         public virtual void Die()

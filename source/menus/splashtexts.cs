@@ -8,7 +8,6 @@ namespace SeeloewenCraft
     internal class SplashTextHandler
     {
         wndMenu wndMenu;
-        Random rnd = new Random(DateTime.Now.Millisecond);
         string[] texts;
 
         public SplashTextHandler(wndMenu wndMenu)
@@ -25,7 +24,7 @@ namespace SeeloewenCraft
 
         public string GetText()
         {
-            string splashText = texts[rnd.Next(texts.Length)];
+            string splashText = texts[Game.rnd.Next(texts.Length)];
             Log.Write($"Rolled splash text {splashText}", "Info");
             return splashText;
         }

@@ -25,8 +25,6 @@ namespace SeeloewenCraft
         public LootTable lootTable;
         public Gui gui;
         public CraftingHandler craftingHandler;
-        protected Random rnd; //Unseeded
-        static int offset;
 
         //block type info
         public string name;
@@ -75,9 +73,6 @@ namespace SeeloewenCraft
 
         public Block(bool isBackground)
         {
-            rnd = new Random(DateTime.Now.Millisecond + offset);
-            offset++;
-
             collision = new EntireBlockCollision();
 
             //Set the attributes
@@ -531,7 +526,7 @@ namespace SeeloewenCraft
             if ((Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == block.effectiveTool && ToolIsCorrectMaterial(tool.material) && !block.dropsOnWrongTool) || block.dropsOnWrongTool)
             {
                 //Get the amount of times the item gets dropped
-                int rolls = rnd.Next(block.dropAmountMin, block.dropAmountMax + 1);
+                int rolls = Game.rnd.Next(block.dropAmountMin, block.dropAmountMax + 1);
 
                 for (int i = 0; i < rolls; i++)
                 {
@@ -544,7 +539,7 @@ namespace SeeloewenCraft
                             Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
                                 (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
                                 yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
-                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
+                                Game.rnd.Next(-6000, 6000), Game.rnd.Next(-15000, -10000))); //velX and velY 
                         }
                     }
                     //If it has only an item, only give that item
@@ -555,7 +550,7 @@ namespace SeeloewenCraft
                         Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
                                 (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
                                 yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
-                                rnd.Next(-6000, 6000), rnd.Next(-15000, -10000))); //velX and velY 
+                                Game.rnd.Next(-6000, 6000), Game.rnd.Next(-15000, -10000))); //velX and velY 
                     }
                 }
             }

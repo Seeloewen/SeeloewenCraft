@@ -10,14 +10,11 @@ namespace SeeloewenCraft.entity
         public const int animalSizeY = 1300;
 
         private int timeSinceJump;
-
-        private Random rnd;
         
 
         public Slime(int posX, int posY, int velX, int velY) : base(animalSizeX, animalSizeY, posX, posY, velX, velY)
         {
             type = "Slime";
-            rnd = new Random(DateTime.Now.Millisecond);
             frictionAir = 1;
             ACC_WALKING = 0;
             ACC_SPRINTING = 0;
@@ -27,7 +24,6 @@ namespace SeeloewenCraft.entity
         {
             type = "Slime";
             
-            rnd = new Random(DateTime.Now.Millisecond);
             frictionAir = 1;
             ACC_WALKING = 0;
             ACC_SPRINTING = 0;
@@ -51,7 +47,7 @@ namespace SeeloewenCraft.entity
             //ai
             if(timeSinceJump > 2000 && onGround)
             {
-                int dir = rnd.Next(-3, 4);
+                int dir = Game.rnd.Next(-3, 4);
                 velY = -20000;
                 velX = 3000 * dir;
 

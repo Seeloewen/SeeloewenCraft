@@ -9,7 +9,6 @@ namespace SeeloewenCraft.entity
     public abstract class Entity
     {
         public static Random idGenerator = new Random(DateTime.Now.Millisecond);
-        protected Random rnd;
         public TextBlock tblId;
 
         public string type;
@@ -460,8 +459,6 @@ namespace SeeloewenCraft.entity
                 Canvas.SetTop(tblId, -30);
                 Canvas.SetLeft(tblId, 8);
             }
-
-            rnd = new Random(id);
         }
 
         public static Entity LoadFromJson(JsonToken token)
