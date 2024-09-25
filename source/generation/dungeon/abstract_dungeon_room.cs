@@ -9,12 +9,16 @@ namespace SeeloewenCraft
     public abstract class DungeonRoom
     {
         public List<DungeonBlock> blocks = new List<DungeonBlock>();
+        protected Random rnd;
         public DungeonType type;
         public string id;
-        public static Random random;
-        public static int rndOffset;
 
         //-- Custom Methods --//
+
+        public DungeonRoom(Random chunkRnd)
+        {
+            rnd = chunkRnd;
+        }
 
         public (int top, int bottom, int right, int left) GetNecessarySpace(int x, int y)
         {
@@ -119,9 +123,6 @@ namespace SeeloewenCraft
                     //Place frame blocks
                     if (y == 0 || y == height - 1 || x == 0 || x == width - 1)
                     {
-                        Random rnd = new Random(DateTime.Now.Millisecond + rndOffset);
-                        rndOffset++;
-
                         if (rnd.Next(0, 3) > 0)
                         {
                             GetBlock(x, y).block.SetForegroundBlock(BlockRegister.GenerateBlock(blockFrameId));

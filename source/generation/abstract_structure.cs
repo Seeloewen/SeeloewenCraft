@@ -12,8 +12,8 @@ namespace SeeloewenCraft
         public List<StructureComponent> structureComponents = new List<StructureComponent>();
         public List<StructureComponent> cutOffComponents = new List<StructureComponent>();
         public BlockList blockList;
-        public Random rnd;
         public Chunk chunk;
+        protected Random structRnd;
         public StructureShapeCreator shapeCreator;
 
         //Constants
@@ -30,7 +30,6 @@ namespace SeeloewenCraft
         //Variables
         public bool isCutOff;
         public int widthRemaining;
-        static int o = 0;
 
         //-- Constructor --//
 
@@ -41,8 +40,9 @@ namespace SeeloewenCraft
             shapeCreator = new StructureShapeCreator();
             this.chunk = chunk;
             this.canFloat = canFloat;
-            rnd = new Random(DateTime.Now.Millisecond + o * 2);
-            o++;
+
+            chunk.structureNum++;
+            structRnd = new Random(chunk.chunkSeed + chunk.structureNum);
         }
 
         //-- Custom Methods --//

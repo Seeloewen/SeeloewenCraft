@@ -25,7 +25,7 @@ namespace SeeloewenCraft
         public LootTable lootTable;
         public Gui gui;
         public CraftingHandler craftingHandler;
-        protected Random rnd;
+        protected Random rnd; //Unseeded
         static int offset;
 
         //block type info
@@ -397,7 +397,7 @@ namespace SeeloewenCraft
         public void MoveToBackground()
         {
             isBackground = true;
-          
+
             if (blockContainer != null)
             {
                 blockContainer.ShowDarkRectangle();
@@ -639,13 +639,13 @@ namespace SeeloewenCraft
             block.MoveToNormal();
 
             Block blockBelow = block.GetBlockFromOffset(0, 1);
-            if(block.willFall 
-                && (blockBelow is AirBlock || blockBelow is WaterBlock || blockBelow.isBackground)) 
+            if (block.willFall
+                && (blockBelow is AirBlock || blockBelow is WaterBlock || blockBelow.isBackground))
             {
                 block.BreakBlock(true, true, false);
                 Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos, block.id));
             }
-          
+
             //Send the data on the network if it's multiplayer
             NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, $"{block.id};{chunk.index};{block.xPos};{block.yPos}");
         }
@@ -676,6 +676,22 @@ namespace SeeloewenCraft
             for (int i = 0; i < amount; i++)
             {
                 loot.AddRange(lootTable.RollEntry().RollItems());
+            }
+
+            //Put the loot into the inventory
+            foreach (Item item in loot)
+            {
+                blockInventory.AddItem(item.id, 1, item.tag);
+            }
+        }
+
+        public void InsertLootTable(LootTable lootTable, int amount, Random rnd)
+        {
+            //Get all loot into a list
+            List<Item> loot = new List<Item>();
+            for (int i = 0; i < amount; i++)
+            {
+                loot.AddRange(lootTable.RollEntry(rnd).RollItems(rnd));
             }
 
             //Put the loot into the inventory
@@ -917,7 +933,7 @@ namespace SeeloewenCraft
         private void cvsBlock_MouseLeave(object sender, EventArgs e)
         {
             //Remove the border from the block
-            if(blockContainer != null)
+            if (blockContainer != null)
             {
                 blockContainer.bdrBlock.BorderThickness = new Thickness(0, 0, 0, 0);
                 blockContainer.bdrBlock.BorderBrush = new SolidColorBrush(Colors.Transparent);

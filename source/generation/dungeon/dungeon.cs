@@ -12,12 +12,13 @@ namespace SeeloewenCraft
     {
         private List<DungeonBlock> blocks = new List<DungeonBlock>();
         private Random rnd;
-        private static int offset;
 
         //-- Custom Methods --//
 
-        public void CreateDungeon(int width, int height, DungeonType type)
+        public void CreateDungeon(Random chunkRnd, int width, int height, DungeonType type)
         {
+            rnd = chunkRnd;
+
             //Create all dungeon blocks depending on with and height
             for (int x = 0; x < width; x++)
             {
@@ -28,7 +29,7 @@ namespace SeeloewenCraft
             }
 
             //Needs to be overhauled to get a random starter room based on the type
-            var starterRoom = RoomLibrary.GetRoom("sc:room_plains_crossing");
+            var starterRoom = RoomLibrary.GetRoom("sc:room_plains_crossing", rnd);
 
             //Create starter room and additional rooms
             PlaceRoom(starterRoom, 0, 0, Direction.RIGHT, 0, 0);
@@ -112,8 +113,6 @@ namespace SeeloewenCraft
 
         public (DungeonRoom room, int doorX, int doorY) GetRoom(Direction doorDirection, DungeonBlock sourceDoor, DungeonType type)
         {
-            offset++;
-            rnd = new Random(DateTime.Now.Millisecond + offset);
             List<(DungeonRoom, int, int)> possibleRooms = new List<(DungeonRoom, int, int)>();
 
             //Go through all available rooms in the library
@@ -157,7 +156,7 @@ namespace SeeloewenCraft
                                 && possibleSpace.right >= necessarySpace.right)
                             {
                                 //Mark the door as no longer being a possible door so it doesn't get checked again in the next iteration if this room gets chosen
-                                DungeonRoom newRoom = RoomLibrary.GetRoom(room.id);
+                                DungeonRoom newRoom = RoomLibrary.GetRoom(room.id, rnd);
                                 newRoom.GetBlock(block.x, block.y).RemoveDoor();
                                 newRoom.GetBlock(block.x, block.y).HideDoor(block.doorDirection, newRoom.GetBlock(block.x, block.y + 1));
 

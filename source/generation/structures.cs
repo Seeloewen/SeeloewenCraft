@@ -57,7 +57,7 @@ namespace SeeloewenCraft
             canReplaceSolidBlocks = true;
 
             Dungeon dung = new Dungeon();
-            dung.CreateDungeon(100, 50, DungeonType.Plains);
+            dung.CreateDungeon(chunk.seededRnd, 100, 50, DungeonType.Plains);
             structureComponents.AddRange(dung.GenerateDungeon(0, 0));
 
             //Begin generation
@@ -140,11 +140,11 @@ namespace SeeloewenCraft
                 }
                 else if (goDown)
                 {
-                    yPos = (rnd.Next(0, 2) == 0) ? yPos - 1 : yPos;
+                    yPos = (structRnd.Next(0, 2) == 0) ? yPos - 1 : yPos;
                 }
                 else
                 {
-                    yPos = (rnd.Next(0, 2) == 0) ? yPos + 1 : yPos;
+                    yPos = (structRnd.Next(0, 2) == 0) ? yPos + 1 : yPos;
                 }
 
                 xPos++;
@@ -202,7 +202,7 @@ namespace SeeloewenCraft
             name = "Cactus";
             canReplaceSolidBlocks = true;
 
-            int height = rnd.Next(2, 6);
+            int height = structRnd.Next(2, 6);
             bool leftBranchStarted = false;
             bool rightBranchStarted = false;
 
@@ -211,7 +211,7 @@ namespace SeeloewenCraft
                 if (i > 0 && i != height)
                 {
                     //Potentially generate a new branch
-                    switch (rnd.Next(0, 6))
+                    switch (structRnd.Next(0, 6))
                     {
                         case 0:
                             if (!leftBranchStarted)
@@ -265,7 +265,7 @@ namespace SeeloewenCraft
                     AddBlock(new Cactus_Vertical(false), 1, i);
                 }
 
-                AddBlock(rnd.Next(1, 4) == 1 ? new Cactus_TopFruit(false) : new Cactus_Top(false), 1, height);
+                AddBlock(structRnd.Next(1, 4) == 1 ? new Cactus_TopFruit(false) : new Cactus_Top(false), 1, height);
 
                 //Begin generating
                 BeginGeneration(x, y, index, isNew);
@@ -280,13 +280,13 @@ namespace SeeloewenCraft
             AddBlock(new Cactus_Right(false), 1, startHeight);
 
             //Generate the branch upwards
-            int rightHeight = rnd.Next(1, 4);
+            int rightHeight = structRnd.Next(1, 4);
             for (int j = startHeight + 1; j < startHeight + rightHeight; j++)
             {
                 AddBlock(new Cactus_Vertical(false), 2, j);
             }
 
-            AddBlock(rnd.Next(1, 4) == 1 ? new Cactus_TopFruit(false) : new Cactus_Top(false), 2, startHeight + rightHeight);
+            AddBlock(structRnd.Next(1, 4) == 1 ? new Cactus_TopFruit(false) : new Cactus_Top(false), 2, startHeight + rightHeight);
         }
 
         public void GenerateLeftBranch(int startHeight)
@@ -296,13 +296,13 @@ namespace SeeloewenCraft
             AddBlock(new Cactus_Left(false), 1, startHeight);
 
             //Generate the branch upwards
-            int leftHeight = rnd.Next(1, 4);
+            int leftHeight = structRnd.Next(1, 4);
             for (int j = startHeight + 1; j < startHeight + leftHeight; j++)
             {
                 AddBlock(new Cactus_Vertical(false), 0, j);
             }
 
-            AddBlock(rnd.Next(1, 4) == 1 ? new Cactus_TopFruit(false) : new Cactus_Top(false), 0, startHeight + leftHeight);
+            AddBlock(structRnd.Next(1, 4) == 1 ? new Cactus_TopFruit(false) : new Cactus_Top(false), 0, startHeight + leftHeight);
         }
     }
 
@@ -418,7 +418,7 @@ namespace SeeloewenCraft
             canReplaceSolidBlocks = false;
 
             //Generate a random number between 0 and 29 to get the ore type
-            int random1 = rnd.Next(0, 31);
+            int random1 = structRnd.Next(0, 31);
 
             if (random1 >= 0 && random1 <= 15) //Coal Vein
             {
@@ -427,9 +427,9 @@ namespace SeeloewenCraft
                     com.block = new CoalOreBlock(false);
                     structureComponents.Add(com);
                 }
-                if (rnd.Next(1, 11) > 2)
+                if (structRnd.Next(1, 11) > 2)
                 {
-                    StructureComponent ranCom = structureComponents[rnd.Next(0, structureComponents.Count)];
+                    StructureComponent ranCom = structureComponents[structRnd.Next(0, structureComponents.Count)];
                     foreach (StructureComponent com in shapeCreator.GetCustomCircle(3, 2))
                     {
                         com.xOffset += ranCom.xOffset;
@@ -446,9 +446,9 @@ namespace SeeloewenCraft
                     com.block = new IronOreBlock(false);
                     structureComponents.Add(com);
                 }
-                if (rnd.Next(1, 11) > 4)
+                if (structRnd.Next(1, 11) > 4)
                 {
-                    StructureComponent ranCom = structureComponents[rnd.Next(0, structureComponents.Count)];
+                    StructureComponent ranCom = structureComponents[structRnd.Next(0, structureComponents.Count)];
                     foreach (StructureComponent com in shapeCreator.GetCustomCircle(2, 1))
                     {
                         com.xOffset += ranCom.xOffset;
@@ -465,9 +465,9 @@ namespace SeeloewenCraft
                     com.block = new DiamondOreBlock(false);
                     structureComponents.Add(com);
                 }
-                if (rnd.Next(1, 11) > 9)
+                if (structRnd.Next(1, 11) > 9)
                 {
-                    StructureComponent ranCom = structureComponents[rnd.Next(0, structureComponents.Count)];
+                    StructureComponent ranCom = structureComponents[structRnd.Next(0, structureComponents.Count)];
                     foreach (StructureComponent com in shapeCreator.GetCustomCircle(2, 1))
                     {
                         com.xOffset += ranCom.xOffset;
@@ -498,13 +498,13 @@ namespace SeeloewenCraft
                 structComp.block = new CoalOreBlock(false);
                 structureComponents.Add(structComp);
             }
-            if (rnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
+            if (structRnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
             {
-                StructureComponent rndStructComp = structureComponents[rnd.Next(0, structureComponents.Count)];
+                StructureComponent structRndStructComp = structureComponents[structRnd.Next(0, structureComponents.Count)];
                 foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(3, 2))
                 {
-                    structComp.xOffset += rndStructComp.xOffset;
-                    structComp.yOffset += rndStructComp.yOffset;
+                    structComp.xOffset += structRndStructComp.xOffset;
+                    structComp.yOffset += structRndStructComp.yOffset;
                     structComp.block = new CoalOreBlock(false);
                     structureComponents.Add(structComp);
                 }
@@ -528,13 +528,13 @@ namespace SeeloewenCraft
                 structComp.block = new IronOreBlock(false);
                 structureComponents.Add(structComp);
             }
-            if (rnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
+            if (structRnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
             {
-                StructureComponent rndStructComp = structureComponents[rnd.Next(0, structureComponents.Count)];
+                StructureComponent structRndStructComp = structureComponents[structRnd.Next(0, structureComponents.Count)];
                 foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 2))
                 {
-                    structComp.xOffset += rndStructComp.xOffset;
-                    structComp.yOffset += rndStructComp.yOffset;
+                    structComp.xOffset += structRndStructComp.xOffset;
+                    structComp.yOffset += structRndStructComp.yOffset;
                     structComp.block = new IronOreBlock(false);
                     structureComponents.Add(structComp);
                 }
@@ -558,13 +558,13 @@ namespace SeeloewenCraft
                 structComp.block = new DiamondOreBlock(false);
                 structureComponents.Add(structComp);
             }
-            if (rnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
+            if (structRnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
             {
-                StructureComponent rndStructComp = structureComponents[rnd.Next(0, structureComponents.Count)];
+                StructureComponent structRndStructComp = structureComponents[structRnd.Next(0, structureComponents.Count)];
                 foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
                 {
-                    structComp.xOffset += rndStructComp.xOffset;
-                    structComp.yOffset += rndStructComp.yOffset;
+                    structComp.xOffset += structRndStructComp.xOffset;
+                    structComp.yOffset += structRndStructComp.yOffset;
                     structComp.block = new DiamondOreBlock(false);
                     structureComponents.Add(structComp);
                 }
@@ -588,13 +588,13 @@ namespace SeeloewenCraft
                 structComp.block = new AmethystOreBlock(false);
                 structureComponents.Add(structComp);
             }
-            if (rnd.Next(1, 11) > 5) //Potentially attach a second part to the vein
+            if (structRnd.Next(1, 11) > 5) //Potentially attach a second part to the vein
             {
-                StructureComponent rndStructComp = structureComponents[rnd.Next(0, structureComponents.Count)];
+                StructureComponent structRndStructComp = structureComponents[structRnd.Next(0, structureComponents.Count)];
                 foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
                 {
-                    structComp.xOffset += rndStructComp.xOffset;
-                    structComp.yOffset += rndStructComp.yOffset;
+                    structComp.xOffset += structRndStructComp.xOffset;
+                    structComp.yOffset += structRndStructComp.yOffset;
                     structComp.block = new AmethystOreBlock(false);
                     structureComponents.Add(structComp);
                 }
@@ -618,13 +618,13 @@ namespace SeeloewenCraft
                 structComp.block = new CopperOreBlock(false);
                 structureComponents.Add(structComp);
             }
-            if (rnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
+            if (structRnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
             {
-                StructureComponent rndStructComp = structureComponents[rnd.Next(0, structureComponents.Count)];
+                StructureComponent structRndStructComp = structureComponents[structRnd.Next(0, structureComponents.Count)];
                 foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(3, 2))
                 {
-                    structComp.xOffset += rndStructComp.xOffset;
-                    structComp.yOffset += rndStructComp.yOffset;
+                    structComp.xOffset += structRndStructComp.xOffset;
+                    structComp.yOffset += structRndStructComp.yOffset;
                     structComp.block = new CopperOreBlock(false);
                     structureComponents.Add(structComp);
                 }
@@ -648,13 +648,13 @@ namespace SeeloewenCraft
                 structComp.block = new GoldOreBlock(false);
                 structureComponents.Add(structComp);
             }
-            if (rnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
+            if (structRnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
             {
-                StructureComponent rndStructComp = structureComponents[rnd.Next(0, structureComponents.Count)];
+                StructureComponent structRndStructComp = structureComponents[structRnd.Next(0, structureComponents.Count)];
                 foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
                 {
-                    structComp.xOffset += rndStructComp.xOffset;
-                    structComp.yOffset += rndStructComp.yOffset;
+                    structComp.xOffset += structRndStructComp.xOffset;
+                    structComp.yOffset += structRndStructComp.yOffset;
                     structComp.block = new GoldOreBlock(false);
                     structureComponents.Add(structComp);
                 }
@@ -697,13 +697,13 @@ namespace SeeloewenCraft
                 structComp.block = new TinOreBlock(false);
                 structureComponents.Add(structComp);
             }
-            if (rnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
+            if (structRnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
             {
-                StructureComponent rndStructComp = structureComponents[rnd.Next(0, structureComponents.Count)];
+                StructureComponent structRndStructComp = structureComponents[structRnd.Next(0, structureComponents.Count)];
                 foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 2))
                 {
-                    structComp.xOffset += rndStructComp.xOffset;
-                    structComp.yOffset += rndStructComp.yOffset;
+                    structComp.xOffset += structRndStructComp.xOffset;
+                    structComp.yOffset += structRndStructComp.yOffset;
                     structComp.block = new TinOreBlock(false);
                     structureComponents.Add(structComp);
                 }
@@ -727,13 +727,13 @@ namespace SeeloewenCraft
                 structComp.block = new TungstenOreBlock(false);
                 structureComponents.Add(structComp);
             }
-            if (rnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
+            if (structRnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
             {
-                StructureComponent rndStructComp = structureComponents[rnd.Next(0, structureComponents.Count)];
+                StructureComponent structRndStructComp = structureComponents[structRnd.Next(0, structureComponents.Count)];
                 foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
                 {
-                    structComp.xOffset += rndStructComp.xOffset;
-                    structComp.yOffset += rndStructComp.yOffset;
+                    structComp.xOffset += structRndStructComp.xOffset;
+                    structComp.yOffset += structRndStructComp.yOffset;
                     structComp.block = new TungstenOreBlock(false);
                     structureComponents.Add(structComp);
                 }
@@ -763,7 +763,7 @@ namespace SeeloewenCraft
                 foreach (StructureComponent structureComponent in structureComponents)
                 {
                     //North
-                    if (rnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
+                    if (structRnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
                         StructureComponent newComponent = new StructureComponent(structureComponent.xOffset, structureComponent.yOffset - 1, new AirBlock(false));
@@ -774,7 +774,7 @@ namespace SeeloewenCraft
                     }
 
                     //East
-                    if (rnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
+                    if (structRnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
                         StructureComponent newComponent = new StructureComponent(structureComponent.xOffset + 1, structureComponent.yOffset, new AirBlock(false));
@@ -785,7 +785,7 @@ namespace SeeloewenCraft
                     }
 
                     //South
-                    if (rnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
+                    if (structRnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
                         StructureComponent newComponent = new StructureComponent(structureComponent.xOffset, structureComponent.yOffset + 1, new AirBlock(false));
@@ -796,7 +796,7 @@ namespace SeeloewenCraft
                     }
 
                     //West
-                    if (rnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
+                    if (structRnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
                         StructureComponent newComponent = new StructureComponent(structureComponent.xOffset - 1, structureComponent.yOffset, new AirBlock(false));
