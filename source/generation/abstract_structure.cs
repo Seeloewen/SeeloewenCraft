@@ -112,7 +112,7 @@ namespace SeeloewenCraft
             //Insert the loot table in the block
             if (block.hasInventory)
             {
-                block.InsertLootTable(lootTable, insertAmount);
+                block.InsertLootTable(lootTable, insertAmount, structRnd);
             }
 
             //Create the structure component
@@ -137,11 +137,11 @@ namespace SeeloewenCraft
             //Either add the loot table to the foreground block or the background block
             if (foregroundBlock != null && foregroundBlock.hasInventory)
             {
-                foregroundBlock.InsertLootTable(lootTable, insertAmount);
+                foregroundBlock.InsertLootTable(lootTable, insertAmount, structRnd);
             }
             else if(block.hasInventory)
             {
-                block.InsertLootTable(lootTable, insertAmount);
+                block.InsertLootTable(lootTable, insertAmount, structRnd);
             }
 
             //Set the block to background, add the foregroundblock and create the structure component
