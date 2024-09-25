@@ -147,6 +147,7 @@ namespace SeeloewenCraft
                 }*/
 
                 //TODO: Rework for new entity system
+                Game.world.entityManager.Sync(SyncPosEvent.Create(args[1]));
             }
             catch (Exception e)
             {

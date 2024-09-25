@@ -70,7 +70,7 @@ namespace SeeloewenCraft.entity
 
         protected abstract void InitTexture();
 
-        public void SendSyncData()
+        /*public void SendSyncData()
         {
             if(this is Player && this != Game.world.player && !Game.isServer)
             {
@@ -79,7 +79,7 @@ namespace SeeloewenCraft.entity
 
             //Only send sync data of the current player or entities
             NetworkHandler.SendData(MultiplayerPacketType.SYNC_POS, $"{id};{posX};{posY};{velX};{velY}");
-        }
+        }*/
 
         public void HandleSyncData(string[] args)
         {

@@ -1,6 +1,5 @@
 ﻿
 using System.Collections.Generic;
-using Windows.Media.Protection.PlayReady;
 
 namespace SeeloewenCraft.entity {
     //this class stores all entities that exist
@@ -9,6 +8,9 @@ namespace SeeloewenCraft.entity {
     // - doing gameloop steps on them
     public class EntityManager
     {
+        const int syncPeriod = 200;
+        private int timeSinceLastSync = 0;
+
         //list of all entities
         private List<Entity> entities;
         //current player
@@ -25,6 +27,16 @@ namespace SeeloewenCraft.entity {
         //does one tick for every entity and delays all entity removals/adds until after
         public void DoStep(int tps)
         {
+            if(Game.isServer)
+            {
+                timeSinceLastSync += 1000 / tps;
+                if(timeSinceLastSync > syncPeriod)
+                {
+                    timeSinceLastSync %= syncPeriod;
+                    SyncPosEvent.Create(entities).Send();
+                }
+            }
+
             allowModify = false;
             foreach (Entity entity in entities)
             {
@@ -62,6 +74,22 @@ namespace SeeloewenCraft.entity {
         {
             PressedChangeEvent e = PressedChangeEvent.Create(eventArgs);
             ((MovingEntity)GetEntity(e.id)).HandlePressedChangeEvent(e);
+        }
+
+        public void Sync(SyncPosEvent syncEvent)
+        {
+            foreach (var info in syncEvent.infos)
+            {
+                Entity en = GetEntity(info.id);
+                if(en != null)
+                {
+                    en.posX = info.posX;
+                    en.posY = info.posY;
+                    en.velX = info.velX;
+                    en.velY = info.velY;
+                }
+            }
+
         }
 
         public Entity GetEntity(int id)
