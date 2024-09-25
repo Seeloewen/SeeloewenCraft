@@ -118,23 +118,23 @@ namespace SeeloewenCraft
             }
             else if (File.Exists($"{worldDirectory}/settings.txt"))
             {
-                Log.Write("Detected old saving system, can't load", "Error");
+                Log.Write("Detected old saving system, can't load the world. Please use an older version of the game.", "Error");
                 return false;
             }
             else
             {
-                Log.Write("Could not read world version from settings file because the settings file was not found", "Error");
+                Log.Write("Could not read world version from settings file because the settings file was not found.", "Error");
                 return false;
             }
 
             if (worldVersion < currentWorldVersion)
             {
-                MessageBoxResult result = MessageBox.Show("You are trying to load an outdated Game.world. This may lead to corruption or other issues. You have been warned! Do you wish to continue?", "Load outdated world", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                MessageBoxResult result = MessageBox.Show("You are trying to load an outdated world. This may lead to corruption or other issues. You have been warned! Do you wish to continue?", "Load outdated world", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        Log.Write("You are loading an outdated Game.world. This may cause issues or corruption.", "Warning");
+                        Log.Write("You are loading an outdated world. This may cause issues or corruption.", "Warning");
                         return true;
                 }
                 return false;
@@ -232,13 +232,13 @@ namespace SeeloewenCraft
             if (File.Exists($"{worldDirectory}/world_settings.json"))
             {
                 JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/world_settings.json");
+                if(documentToken.ContainsKey(settingName))
+                {
+                    return documentToken.GetString($"/{settingName}");
+                }
+            }
 
-                return documentToken.GetString($"/{settingName}");
-            }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
 
