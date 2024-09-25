@@ -32,19 +32,23 @@ namespace SeeloewenCraft
 
             Canvas.SetTop(tblNotification, 10);
             Canvas.SetLeft(tblNotification, 75);
+            Game.world.wndGame.RemoveFromParent(tblNotification);
             cvsNotification.Children.Add(tblNotification);
 
             Canvas.SetTop(cvsImage, 10);
             Canvas.SetLeft(cvsImage, 10);
+            Game.world.wndGame.RemoveFromParent(cvsImage);
             cvsNotification.Children.Add(cvsImage);
 
             Canvas.SetTop(btnDismiss, 17);
             Canvas.SetLeft(btnDismiss, 295);
+            Game.world.wndGame.RemoveFromParent(btnDismiss);
             cvsNotification.Children.Add(btnDismiss);
 
             cvsNotification.MouseEnter += cvsNotification_MouseEnter;
             cvsNotification.MouseLeave += cvsNotification_MouseLeave;
             btnDismiss.Click += btnDismiss_Click;
+            Game.world.wndGame.RemoveFromParent(bdrNotification);
             Game.world.wndGame.cvsGame.Children.Add(bdrNotification);
         }
 

@@ -64,7 +64,7 @@ namespace SeeloewenCraft
 
             if(seed == 0)
             {
-                seed = new Random(DateTime.Now.Millisecond).Next();
+                this.seed = new Random(DateTime.Now.Millisecond).Next();
             }
 
             Game.world = this;
@@ -146,11 +146,19 @@ namespace SeeloewenCraft
         {
             Log.Write($"Beginning to init game for world {worldName}", "Info");
 
+            InitWorldDirectory();
+
+            //Try to load the seed if it is not a new world
+            if (!isNew)
+            {
+                string? seedString = LoadWorldSetting("seed");
+
+                seed = seedString != null ? int.Parse(seedString) : new Random(DateTime.Now.Millisecond).Next();
+            }
+
             recipeCreator.CreateRecipes();
 
             RoomLibrary.CreateDungeonRooms();
-
-            InitWorldDirectory();
 
             if (!isNew && !CheckWorldVersion(worldVersion))
             {
@@ -216,6 +224,20 @@ namespace SeeloewenCraft
                 entityManager.SaveToJson(writer);
                 writer.WriteEndObject();
                 writer.WriteToFile($"{worldDirectory}/entities.json");
+            }
+        }
+
+        public string? LoadWorldSetting(string settingName)
+        {
+            if (File.Exists($"{worldDirectory}/world_settings.json"))
+            {
+                JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/world_settings.json");
+
+                return documentToken.GetString($"/{settingName}");
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -386,6 +408,9 @@ namespace SeeloewenCraft
 
                 writer.WritePropertyName("world_version");
                 writer.WriteValue(worldVersion);
+
+                writer.WritePropertyName("seed");
+                writer.WriteValue(seed);
 
                 writer.WriteEndObject();
 
