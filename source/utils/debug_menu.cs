@@ -35,9 +35,9 @@ namespace SeeloewenCraft
             tblBlockStats.TextAlignment = TextAlignment.Right;
             Canvas.SetRight(tblBlockStats, 10);
 
-            //Setup block stats textblock
+            //Setup player stats textblock
             cvsDebugMenu.Children.Add(tblPlayerStats);
-            Canvas.SetTop(tblPlayerStats, 100);
+            Canvas.SetTop(tblPlayerStats, 115);
             Canvas.SetLeft(tblPlayerStats, 10);
 
             //Setup debug chat button

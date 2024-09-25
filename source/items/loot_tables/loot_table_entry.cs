@@ -4,8 +4,7 @@ using System.Collections.Generic;
 namespace SeeloewenCraft
 {
     public class LootTableEntry
-    {
-        
+    {      
         public Item item;
         public int minAmount;
         public int maxAmount;
@@ -22,8 +21,7 @@ namespace SeeloewenCraft
             rnd = new Random(DateTime.Now.Millisecond + offset);
             offset++;
 
-            //Create links
-            
+            //Create links           
             this.item = item;
             this.minAmount = minAmount;
             this.maxAmount = maxAmount;
@@ -34,12 +32,17 @@ namespace SeeloewenCraft
 
         public List<Item> RollItems()
         {
+            return RollItems(rnd);
+        }
+
+        public List<Item> RollItems(Random rnd)
+        {
             //Create the list and roll the amount
             List<Item> items = new List<Item>();
             int amount = rnd.Next(minAmount, maxAmount + 1);
 
             //Add all the items to the list
-            for(int i = 0; i < amount; i++)
+            for (int i = 0; i < amount; i++)
             {
                 Type itemType = item.GetType();
                 Item newItem = (Item)Activator.CreateInstance(itemType);

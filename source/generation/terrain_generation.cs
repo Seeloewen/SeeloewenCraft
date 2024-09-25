@@ -20,7 +20,7 @@
                     floorHeight = Game.world.GetChunk(index + 1).floorHeightLeft;
                     break;
                 case 0: //Initial chunk (Left-To-Right)
-                    floorHeight = rnd.Next(12, 15);
+                    floorHeight = seededRnd.Next(12, 15);
                     break;
                 case > 0: //Left-To-Right chunk
                     floorHeight = Game.world.GetChunk(index - 1).floorHeightRight;
@@ -77,7 +77,7 @@
         private void GeneratePlains(int x)
         {
             //Go through all 8 columns in the chunk and generate a number to determine if the floor height should change
-            int floorHeightChange = rnd.Next(0, 100);
+            int floorHeightChange = seededRnd.Next(0, 100);
             if (floorHeightChange >= 80 && floorHeightChange <= 100 && floorHeight >= 10)
             {
                 floorHeight--;
@@ -99,10 +99,10 @@
                     if (x == 0) floorHeightLeft = floorHeight;
                     if (x == 7) floorHeightRight = floorHeight;
                 }
-                else if (y == floorHeight - 1 && rnd.Next(1, 3) == 1)
+                else if (y == floorHeight - 1 && seededRnd.Next(1, 3) == 1)
                 {
                     //If it's 1 above, potentially add grass or a flower
-                    int random = rnd.Next(1, 9);
+                    int random = seededRnd.Next(1, 9);
                     switch (random)
                     {
                         case 1:
@@ -124,7 +124,7 @@
                 else if (y == floorHeight + 3)
                 {
                     //If it's 3 blocks below the floor height, it has an additional chance to generate dirt
-                    if (rnd.Next(1, 3) == 1) blockList.Add(new DirtBlock(false), x, y);
+                    if (seededRnd.Next(1, 3) == 1) blockList.Add(new DirtBlock(false), x, y);
                     else blockList.Add(new StoneBlock(false), x, y);
                 }
                 else if (y > floorHeight + 3 && y < 74)
@@ -148,7 +148,7 @@
         private void GenerateDesert(int x)
         {
             //Go through all 8 columns in the chunk and generate a number to determine if the floor height should change
-            int floorHeightChange = rnd.Next(0, 100);
+            int floorHeightChange = seededRnd.Next(0, 100);
             if (floorHeightChange >= 80 && floorHeightChange <= 100 && floorHeight >= 10)
             {
                 floorHeight--;
@@ -170,7 +170,7 @@
                     if (x == 0) floorHeightLeft = floorHeight;
                     if (x == 7) floorHeightRight = floorHeight;
                 }
-                else if (y == floorHeight - 1 && rnd.Next(1, 5) == 1)
+                else if (y == floorHeight - 1 && seededRnd.Next(1, 5) == 1)
                 {
                     //If it's 1 above, potentially add grass or a flower
                     blockList.Add(new DeadBushBlock(false), x, y);
@@ -183,7 +183,7 @@
                 else if (y == floorHeight + 2)
                 {
                     //If it's 3 blocks below the floor height, it has an additional chance to generate dirt
-                    if (rnd.Next(1, 3) == 1) blockList.Add(new SandBlock(false), x, y);
+                    if (seededRnd.Next(1, 3) == 1) blockList.Add(new SandBlock(false), x, y);
                     else blockList.Add(new SandStoneBlock(false), x, y);
                 }
                 else if (y > floorHeight + 2 && y <= floorHeight + 10)

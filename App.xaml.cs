@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
+using Windows.Devices.Sensors;
 
 namespace SeeloewenCraft
 {
@@ -42,7 +43,7 @@ namespace SeeloewenCraft
                 }
 
                 //create new world with name "debug"
-                World world = new World(wndMenu, "Debug", true, Game.WORLD_VERSION, Game.GAME_VERSION);
+                World world = new World(wndMenu, "Debug", StartOptions.seed, true, Game.WORLD_VERSION, Game.GAME_VERSION);
             }
 
             //show start log on start of program if enabled through start options
@@ -75,11 +76,13 @@ namespace SeeloewenCraft
         public static bool modded;
         public static bool startCreative;
         public static bool disableLighting;
+        public static int seed = 0;
+
         public static void Parse(string[] args)
         {
-            foreach (string arg in args)
+            for (int i = 0; i < args.Length; i++)
             {
-                switch (arg.ToUpper())
+                switch (args[i].ToUpper())
                 {
                     case "-SKIPMENU":
                         skipMenu = true;
@@ -96,7 +99,11 @@ namespace SeeloewenCraft
                     case "-DISABLELIGHTING":
                         disableLighting = true;
                         break;
-                }
+                    case "-SEED":
+                        seed = int.Parse(args[i + 1]);
+                        i++;
+                        break;
+                    }
             }
         }
     }

@@ -8,12 +8,12 @@ namespace SeeloewenCraft
         //References
         public List<StructureComponent> structureComponents = new List<StructureComponent>();
         public List<BorderComponent> borderComponents = new List<BorderComponent>();
-        public Random rnd;
+        public Random structRnd;
 
         //Variables
         public int xOffset = 0;
         public int yOffset = 0;
-        private static int rndOffset = 0;
+        private static int structRndOffset = 0;
         public Direction previousDirection;
 
         //This class contains the structure components used by the component
@@ -21,8 +21,8 @@ namespace SeeloewenCraft
         {
             //Pass the variables
             this.previousDirection = previousDirection;
-            rnd = new Random(DateTime.Now.Millisecond + rndOffset);
-            rndOffset++;
+            structRnd = new Random(DateTime.Now.Millisecond + structRndOffset);
+            structRndOffset++;
         }
     }
 
@@ -37,14 +37,14 @@ namespace SeeloewenCraft
             switch (previousDirection)
             {
                 case Direction.RIGHT:
-                    this.yOffset += rnd.Next(-2, 2);
+                    this.yOffset += structRnd.Next(-2, 2);
                     break;
                 case Direction.LEFT:
                     this.xOffset += offsetDirection.IsRight() ? -2 : 2;
-                    this.yOffset += rnd.Next(-2, 2);
+                    this.yOffset += structRnd.Next(-2, 2);
                     break;
                 case Direction.DOWN:
-                    this.xOffset += offsetDirection.IsRight() ? rnd.Next(-3, -1) : rnd.Next(-1, 3);
+                    this.xOffset += offsetDirection.IsRight() ? structRnd.Next(-3, -1) : structRnd.Next(-1, 3);
                     this.yOffset -= 5;
                     break;
             }
@@ -133,7 +133,7 @@ namespace SeeloewenCraft
                 //If the previos direction was up or down, the chances for getting another down are significantly higher
                 if (caveComponents[caveComponents.Count - 1].previousDirection.IsUp() || caveComponents[caveComponents.Count - 1].previousDirection.IsDown())
                 {
-                    int random = rnd.Next(1, 101);
+                    int random = structRnd.Next(1, 101);
 
                     if (random > 0 && random <= 50)
                     {
@@ -155,7 +155,7 @@ namespace SeeloewenCraft
                 //If the previous direction was right or left, the chances for getting another right or left are significantly higher
                 else if (caveComponents[caveComponents.Count - 1].previousDirection.IsLeft() || caveComponents[caveComponents.Count - 1].previousDirection.IsRight())
                 {
-                    int random = rnd.Next(1, 101);
+                    int random = structRnd.Next(1, 101);
 
                     //Determine new direction based on random value
                     if (random > 0 && random <= 50)
@@ -187,7 +187,7 @@ namespace SeeloewenCraft
                 }
 
                 //Randomly select one of the potential border blocks to append the new cave component
-                int random2 = rnd.Next(0, potentialBorders.Count);
+                int random2 = structRnd.Next(0, potentialBorders.Count);
 
                 //Get the correct border block
                 foreach (StructureComponent structureComponent in caveComponents[caveComponents.Count - 1].structureComponents)

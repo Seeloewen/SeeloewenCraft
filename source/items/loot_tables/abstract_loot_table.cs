@@ -7,15 +7,18 @@ namespace SeeloewenCraft
     {
         static int offset;
         public List<LootTableEntry> lootTableEntries = new List<LootTableEntry>();
-        Random rnd;
+        public Random rnd;
 
         //-- Custom Methods --//
 
         public LootTableEntry RollEntry()
         {
-            rnd = new Random(DateTime.Now.Millisecond + offset);
             offset++;
+            return RollEntry(new Random(DateTime.Now.Millisecond + offset));
+        }
 
+        public LootTableEntry RollEntry(Random rnd)
+        {
             //Get all entries into the pool
             int poolNumber = 0;
             foreach (LootTableEntry entry in lootTableEntries)
@@ -23,7 +26,6 @@ namespace SeeloewenCraft
                 entry.numbersInPool.Clear();
 
                 //Add the numbers into the loot tables pool
-
                 for (int i = poolNumber; i < (poolNumber + entry.weight); i++)
                 {
                     entry.numbersInPool.Add(i);
@@ -43,7 +45,5 @@ namespace SeeloewenCraft
 
             return null;
         }
-    }
-
-    
+    }  
 }

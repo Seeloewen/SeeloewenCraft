@@ -39,7 +39,7 @@ namespace SeeloewenCraft
             if (adjacentBiome != Biome.None)
             {
                 //1 in 10 chance to generate a new biome
-                if (rnd.Next(1, 10) == 1)
+                if (seededRnd.Next(1, 10) == 1)
                 {
                     generateNewBiome = true;
                 }
@@ -68,7 +68,7 @@ namespace SeeloewenCraft
         public Biome GetRandomBiome()
         {
             //Generate a new biome based on random value
-            switch (rnd.Next(1, 5))
+            switch (seededRnd.Next(1, 5))
             {
                 case 1:
                     return Biome.Plains;
@@ -84,7 +84,7 @@ namespace SeeloewenCraft
         }
 
         private void GenerateStructues()
-        {
+        {         
             if (index != 0)
             {
                 //Generate structures
@@ -103,15 +103,15 @@ namespace SeeloewenCraft
         private (int x, int y) GetCoordinates(int minX, int maxX, int minY, int maxY)
         {
             //Generate random coordinates in the specified range
-            int x = rnd.Next(minX, maxX + 1);
-            int y = rnd.Next(minY, maxY + 1);
+            int x = seededRnd.Next(minX, maxX + 1);
+            int y = seededRnd.Next(minY, maxY + 1);
             return (x, y);
         }
 
         private (int x, int y) GetCoordinatesOnSurface(int minX, int maxX, bool useFallBack)
         {
             //Generate random x coordinate
-            int x = rnd.Next(minX, maxX + 1);
+            int x = seededRnd.Next(minX, maxX + 1);
             int y = 0;
 
             //Get y coordinate of first surface airblock
@@ -146,7 +146,7 @@ namespace SeeloewenCraft
             ContinueStructureGeneration("Pyramid");
 
             //Generate up to 1 Pyramid
-            if (rnd.Next(0, 10) == 0)
+            if (seededRnd.Next(0, 10) == 0)
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
@@ -165,7 +165,7 @@ namespace SeeloewenCraft
             //Generate up to 3 trees
             for (int i = 0; i < (biome == Biome.Plains ? 1 : 3); i++)
             {
-                if (rnd.Next(0, biome == Biome.Plains ? 7 : 3) == 0)
+                if (seededRnd.Next(0, biome == Biome.Plains ? 7 : 3) == 0)
                 {
                     (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
@@ -174,14 +174,14 @@ namespace SeeloewenCraft
                     {
                         if (biome == Biome.Plains || biome == Biome.Forest)
                         {
-                            if (rnd.Next(biome == Biome.Plains ? 6 : 16) > 4)
+                            if (seededRnd.Next(biome == Biome.Plains ? 6 : 16) > 4)
                             {
                                 structureList.Add(new OakTreeStructure(x, y - 1, index, true, this, false));
                             }
                         }
                         else if (biome == Biome.SpruceForest)
                         {
-                            if (rnd.Next(4) != 0)
+                            if (seededRnd.Next(4) != 0)
                             {
                                 structureList.Add(new SpruceTreeStructure(x, y - 1, index, true, this, false));
                             }
@@ -196,13 +196,13 @@ namespace SeeloewenCraft
             ContinueStructureGeneration("Lake");
 
             //Generate up to 1 lake
-            if (rnd.Next(0, 6) == 0)
+            if (seededRnd.Next(0, 6) == 0)
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
                 if (y != 0)
                 {
-                    int depth = rnd.Next(3, 8);
+                    int depth = seededRnd.Next(3, 8);
                     structureList.Add(new Lake(x, y + depth, index, true, this, true, depth));
                 }
             }
@@ -213,7 +213,7 @@ namespace SeeloewenCraft
             ContinueStructureGeneration("Cactus");
 
             //Generate up to 1 cactus
-            if (rnd.Next(0, 2) == 0)
+            if (seededRnd.Next(0, 2) == 0)
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
@@ -229,13 +229,13 @@ namespace SeeloewenCraft
             ContinueStructureGeneration("Fossil");
 
             //Generate up to 1 fossil
-            if (rnd.Next(0, 10) == 0)
+            if (seededRnd.Next(0, 10) == 0)
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
                 if (y != 0)
                 {
-                    structureList.Add(new FossilStructure(x, y + rnd.Next(20, 50), index, true, this, false));
+                    structureList.Add(new FossilStructure(x, y + seededRnd.Next(20, 50), index, true, this, false));
                 }
             }
         }
@@ -245,13 +245,13 @@ namespace SeeloewenCraft
             ContinueStructureGeneration("Plains Dungeon");
 
             //Generate up to 1 plains dungeon
-            if (rnd.Next(0, 25) == 0)
+            if (seededRnd.Next(0, 25) == 0)
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
                 if (y != 0)
                 {
-                    structureList.Add(new PlainsDungeon(x, rnd.Next(62, 72), index, true, this, true));
+                    structureList.Add(new PlainsDungeon(x, seededRnd.Next(62, 72), index, true, this, true));
                 }
             }
         }
@@ -272,94 +272,94 @@ namespace SeeloewenCraft
             //Generate up to 4 coal ore veines
             for (int i = 0; i < 4; i++)
             {
-                if (rnd.Next(0, 2) == 0)
+                if (seededRnd.Next(0, 2) == 0)
                 {
                     int y = 25;
                     (int x, y) = GetCoordinatesOnSurface(0, 7, true);
-                    structureList.Add(new CoalOreStructure(x, y + rnd.Next(10, 70), index, true, this, true));
+                    structureList.Add(new CoalOreStructure(x, y + seededRnd.Next(10, 70), index, true, this, true));
                 }
             }
 
             //Generate up to 4 iron ore veines
             for (int i = 0; i < 4; i++)
             {
-                if (rnd.Next(0, 3) == 0)
+                if (seededRnd.Next(0, 3) == 0)
                 {
                     int y = 25;
                     (int x, y) = GetCoordinatesOnSurface(0, 7, true);
-                    structureList.Add(new IronOreStructure(x, y + rnd.Next(10, 70), index, true, this, true));
+                    structureList.Add(new IronOreStructure(x, y + seededRnd.Next(10, 70), index, true, this, true));
                 }
             }
 
             //Generate up to 2 diamond ore veines
             for (int i = 0; i < 2; i++)
             {
-                if (rnd.Next(0, 3) == 0)
+                if (seededRnd.Next(0, 3) == 0)
                 {
                     int y = 25;
                     (int x, y) = GetCoordinatesOnSurface(0, 7, true);
-                    structureList.Add(new DiamondOreStructure(x, y + rnd.Next(50, 70), index, true, this, true));
+                    structureList.Add(new DiamondOreStructure(x, y + seededRnd.Next(50, 70), index, true, this, true));
                 }
             }
 
             //Generate up to 1 amethyst ore veines
-            if (rnd.Next(0, 3) == 0)
+            if (seededRnd.Next(0, 3) == 0)
             {
                 int y = 25;
                 (int x, y) = GetCoordinatesOnSurface(0, 7, true);
-                structureList.Add(new AmethystOreStructure(x, y + rnd.Next(45, 60), index, true, this, true));
+                structureList.Add(new AmethystOreStructure(x, y + seededRnd.Next(45, 60), index, true, this, true));
             }
 
 
             //Generate up to 1 emerald ore veines
-            if (rnd.Next(0, 3) == 0)
+            if (seededRnd.Next(0, 3) == 0)
             {
                 int y = 25;
                 (int x, y) = GetCoordinatesOnSurface(0, 7, true);
-                structureList.Add(new EmeraldOreStructure(x, y + rnd.Next(50, 70), index, true, this, true));
+                structureList.Add(new EmeraldOreStructure(x, y + seededRnd.Next(50, 70), index, true, this, true));
             }
 
             //Generate up to 2 gold ore veines
             for (int i = 0; i < 2; i++)
             {
-                if (rnd.Next(0, 2) == 0)
+                if (seededRnd.Next(0, 2) == 0)
                 {
                     int y = 25;
                     (int x, y) = GetCoordinatesOnSurface(0, 7, true);
-                    structureList.Add(new GoldOreStructure(x, y + rnd.Next(40, 70), index, true, this, true));
+                    structureList.Add(new GoldOreStructure(x, y + seededRnd.Next(40, 70), index, true, this, true));
                 }
             }
 
             //Generate up to 3 tin ore veines
             for (int i = 0; i < 3; i++)
             {
-                if (rnd.Next(0, 3) == 0)
+                if (seededRnd.Next(0, 3) == 0)
                 {
                     int y = 25;
                     (int x, y) = GetCoordinatesOnSurface(0, 7, true);
-                    structureList.Add(new TinOreStructure(x, y + rnd.Next(10, 70), index, true, this, true));
+                    structureList.Add(new TinOreStructure(x, y + seededRnd.Next(10, 70), index, true, this, true));
                 }
             }
 
             //Generate up to 3 tungsten ore veines
             for (int i = 0; i < 3; i++)
             {
-                if (rnd.Next(0, 3) == 0)
+                if (seededRnd.Next(0, 3) == 0)
                 {
                     int y = 25;
                     (int x, y) = GetCoordinatesOnSurface(0, 7, true);
-                    structureList.Add(new TungstenOreStructure(x, y + rnd.Next(30, 50), index, true, this, true));
+                    structureList.Add(new TungstenOreStructure(x, y + seededRnd.Next(30, 50), index, true, this, true));
                 }
             }
 
             //Generate up to 3 copper ore veines
             for (int i = 0; i < 3; i++)
             {
-                if (rnd.Next(0, 3) == 0)
+                if (seededRnd.Next(0, 3) == 0)
                 {
                     int y = 25;
                     (int x, y) = GetCoordinatesOnSurface(0, 7, true);
-                    structureList.Add(new CopperOreStructure(x, y + rnd.Next(10, 40), index, true, this, true));
+                    structureList.Add(new CopperOreStructure(x, y + seededRnd.Next(10, 40), index, true, this, true));
                 }
             }
         }
@@ -369,7 +369,7 @@ namespace SeeloewenCraft
             ContinueStructureGeneration("Cave1");
 
             //Generate up to 1 cave
-            if (rnd.Next(0, 8) == 0)
+            if (seededRnd.Next(0, 8) == 0)
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7, true);
 

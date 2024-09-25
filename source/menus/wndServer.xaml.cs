@@ -31,7 +31,7 @@ namespace SeeloewenCraft
         {
             Game.client = new Client();
             Game.client.Connect(tbIp.Text, Convert.ToInt32(tbPort.Text));
-            Game.world = new World(wndMenu, DateTime.Now.Microsecond.ToString(), true, 0, "");
+            Game.world = new World(wndMenu, DateTime.Now.Microsecond.ToString(), 0, true, 0, "");
             wndMenu.Hide();
             Close();
         }

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SeeloewenCraft
 {
 
     public class PlainsRoomCrossing : DungeonRoom
     {
-        public PlainsRoomCrossing() : base()
+        public PlainsRoomCrossing(Random rnd) : base(rnd)
         {
             id = "sc:room_plains_crossing";
             type = DungeonType.Plains;
@@ -34,7 +35,7 @@ namespace SeeloewenCraft
 
     public class PlainsRoomPool : DungeonRoom
     {
-        public PlainsRoomPool() : base()
+        public PlainsRoomPool(Random rnd) : base(rnd)
         {
             id = "sc:room_plains_pool";
             type = DungeonType.Plains;
@@ -56,7 +57,7 @@ namespace SeeloewenCraft
 
     public class PlainsRoomHuge : DungeonRoom
     {
-        public PlainsRoomHuge() : base()
+        public PlainsRoomHuge(Random rnd) : base(rnd)
         {
             id = "sc:room_plains_huge";
             type = DungeonType.Plains;
@@ -89,23 +90,23 @@ namespace SeeloewenCraft
             GetBlock(6, 10).block.SetForegroundBlock(new CobblestoneBlock(false));
 
             BarrelBlock barrel = new BarrelBlock(false);
-            barrel.InsertLootTable(LootTables.plainsDungeonBarrel, 3);
+            barrel.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(6, 1).block.SetForegroundBlock(barrel);
 
             BarrelBlock barrel2 = new BarrelBlock(false);
-            barrel2.InsertLootTable(LootTables.plainsDungeonBarrel, 3);
+            barrel2.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(7, 1).block.SetForegroundBlock(barrel2);
 
             BarrelBlock barrel3 = new BarrelBlock(false);
-            barrel3.InsertLootTable(LootTables.plainsDungeonBarrel, 3);
+            barrel3.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(7, 2).block.SetForegroundBlock(barrel3);
 
             BarrelBlock barrel4 = new BarrelBlock(false);
-            barrel4.InsertLootTable(LootTables.plainsDungeonBarrel, 3);
+            barrel4.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(8, 1).block.SetForegroundBlock(barrel4);
 
             ChestBlock chest = new ChestBlock(false);
-            chest.InsertLootTable(LootTables.plainsDungeonChest, 6);
+            chest.InsertLootTable(LootTables.plainsDungeonChest, 6, rnd);
             GetBlock(2, 7).block.SetForegroundBlock(chest);
 
             GetBlock(10, 3).block.SetForegroundBlock(new CobblestoneBlock_StairTopRight(false));
@@ -125,7 +126,7 @@ namespace SeeloewenCraft
 
     public class PlainsRoomWell : DungeonRoom
     {
-        public PlainsRoomWell() : base()
+        public PlainsRoomWell(Random rnd) : base(rnd)
         {
             id = "sc:room_plains_well";
             type = DungeonType.Plains;
@@ -145,7 +146,7 @@ namespace SeeloewenCraft
             GetBlock(7, 6).block.SetForegroundBlock(new TorchBlock(false));
 
             ChestBlock chest = new ChestBlock(false);
-            chest.InsertLootTable(LootTables.plainsDungeonChest, 6);
+            chest.InsertLootTable(LootTables.plainsDungeonChest, 6, rnd);
             GetBlock(1, 6).block.SetForegroundBlock(chest);
 
             SetDoor(10, 1, Direction.RIGHT);
@@ -154,7 +155,7 @@ namespace SeeloewenCraft
 
     public class PlainsRoomSmall : DungeonRoom
     {
-        public PlainsRoomSmall() : base()
+        public PlainsRoomSmall(Random rnd) : base(rnd)
         {
             id = "sc:room_plains_small";
             type = DungeonType.Plains;
@@ -177,7 +178,7 @@ namespace SeeloewenCraft
 
     public class PlainsRoomLogs : DungeonRoom
     {
-        public PlainsRoomLogs() : base()
+        public PlainsRoomLogs(Random rnd) : base(rnd)
         {
             id = "sc:room_plains_logs";
             type = DungeonType.Plains;
@@ -197,7 +198,7 @@ namespace SeeloewenCraft
             GetBlock(4, 2).block.SetForegroundBlock(new SpruceLogBlock(false));
 
             ChestBlock chest = new ChestBlock(false);
-            chest.InsertLootTable(LootTables.plainsDungeonChest, 6);
+            chest.InsertLootTable(LootTables.plainsDungeonChest, 6, rnd);
             GetBlock(3, 3).block.SetForegroundBlock(chest);
 
             GetBlock(3, 5).block.SetForegroundBlock(new TorchBlock(false));
@@ -209,7 +210,7 @@ namespace SeeloewenCraft
 
     public class PlainsRoomLong : DungeonRoom
     {
-        public PlainsRoomLong() : base()
+        public PlainsRoomLong(Random rnd) : base(rnd)
         {
             id = "sc:room_plains_long";
             type = DungeonType.Plains;
@@ -220,15 +221,15 @@ namespace SeeloewenCraft
             GetBlock(7, 2).block.SetForegroundBlock(new TorchBlock(false));
 
             BarrelBlock barrel = new BarrelBlock(true);
-            barrel.InsertLootTable(LootTables.plainsDungeonBarrel, 3);
+            barrel.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(2, 1).block = barrel;
 
             BarrelBlock barrel2 = new BarrelBlock(true);
-            barrel2.InsertLootTable(LootTables.plainsDungeonBarrel, 3);
+            barrel2.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(2, 2).block = barrel2;
 
             BarrelBlock barrel3 = new BarrelBlock(true);
-            barrel3.InsertLootTable(LootTables.plainsDungeonBarrel, 3);
+            barrel3.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(3, 1).block = barrel3;
 
             SetDoor(0, 1, Direction.LEFT);
@@ -239,7 +240,7 @@ namespace SeeloewenCraft
 
     public class PlainsRoomStairs : DungeonRoom
     {
-        public PlainsRoomStairs() : base()
+        public PlainsRoomStairs(Random rnd) : base(rnd)
         {
             id = "sc:room_plains_stairs";
             type = DungeonType.Plains;
@@ -260,15 +261,15 @@ namespace SeeloewenCraft
             GetBlock(2, 4).block.SetForegroundBlock(new TorchBlock(false));
 
             BarrelBlock barrel = new BarrelBlock(false);
-            barrel.InsertLootTable(LootTables.plainsDungeonBarrel, 3);
+            barrel.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(5, 1).block.SetForegroundBlock(barrel);
 
             BarrelBlock barrel2 = new BarrelBlock(false);
-            barrel2.InsertLootTable(LootTables.plainsDungeonBarrel, 3);
+            barrel2.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(6, 1).block.SetForegroundBlock(barrel2);
 
             BarrelBlock barrel3 = new BarrelBlock(false);
-            barrel3.InsertLootTable(LootTables.plainsDungeonBarrel, 3);
+            barrel3.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(6, 2).block.SetForegroundBlock(barrel3);
 
             SetDoor(0, 1, Direction.LEFT);
@@ -278,7 +279,7 @@ namespace SeeloewenCraft
 
     public class PlainsRoomPyramid : DungeonRoom
     {
-        public PlainsRoomPyramid() : base()
+        public PlainsRoomPyramid(Random rnd) : base(rnd)
         {
             id = "sc:room_plains_pyramid";
             type = DungeonType.Plains;
@@ -307,50 +308,50 @@ namespace SeeloewenCraft
             GetBlock(5, 5).block.SetForegroundBlock(new TorchBlock(false));
 
             BarrelBlock barrel = new BarrelBlock(false);
-            barrel.InsertLootTable(LootTables.plainsDungeonBarrel, 3);
+            barrel.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(5, 1).block.SetForegroundBlock(barrel);
 
             BarrelBlock barrel2 = new BarrelBlock(false);
-            barrel2.InsertLootTable(LootTables.plainsDungeonBarrel, 3);
+            barrel2.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(5, 2).block.SetForegroundBlock(barrel2);
 
             BarrelBlock barrel3 = new BarrelBlock(false);
-            barrel3.InsertLootTable(LootTables.plainsDungeonBarrel, 3);
+            barrel3.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(4, 1).block.SetForegroundBlock(barrel3);
 
             BarrelBlock barrel4 = new BarrelBlock(false);
-            barrel4.InsertLootTable(LootTables.plainsDungeonBarrel, 3);
+            barrel4.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(6, 1).block.SetForegroundBlock(barrel4);
 
             SetDoor(0, 1, Direction.LEFT);
             SetDoor(10, 1, Direction.RIGHT);
         }
+    }
 
-        public class PlainsRoomTree : DungeonRoom
+    public class PlainsRoomTree : DungeonRoom
+    {
+        public PlainsRoomTree(Random rnd) : base(rnd)
         {
-            public PlainsRoomTree() : base()
-            {
-                id = "sc:room_plains_tree";
-                type = DungeonType.Plains;
+            id = "sc:room_plains_tree";
+            type = DungeonType.Plains;
 
-                CreateBasicShape(9, 7, "sc:stone_bricks_block", "sc:cobblestone_block", "sc:mossy_cobblestone_block");
+            CreateBasicShape(9, 7, "sc:stone_bricks_block", "sc:cobblestone_block", "sc:mossy_cobblestone_block");
 
-                GetBlock(4, 0).block.SetForegroundBlock(new DirtBlock(false));
-                GetBlock(4, 1).block.SetForegroundBlock(new OakLogBlock(false));
-                GetBlock(4, 2).block.SetForegroundBlock(new OakLogBlock(false));
-                GetBlock(4, 3).block.SetForegroundBlock(new OakLeavesBlock(false));
-                GetBlock(4, 4).block.SetForegroundBlock(new OakLeavesBlock(false));
-                GetBlock(4, 5).block.SetForegroundBlock(new OakLeavesBlock(false));
-                GetBlock(5, 3).block.SetForegroundBlock(new OakLeavesBlock(false));
-                GetBlock(5, 4).block.SetForegroundBlock(new OakLeavesBlock(false));
-                GetBlock(3, 3).block.SetForegroundBlock(new OakLeavesBlock(false));
-                GetBlock(3, 4).block.SetForegroundBlock(new OakLeavesBlock(false));
-                GetBlock(6, 3).block.SetForegroundBlock(new OakLeavesBlock(false));
-                GetBlock(2, 3).block.SetForegroundBlock(new OakLeavesBlock(false));
-                GetBlock(4, 6).block.SetForegroundBlock(new TorchBlock(false));
+            GetBlock(4, 0).block.SetForegroundBlock(new DirtBlock(false));
+            GetBlock(4, 1).block.SetForegroundBlock(new OakLogBlock(false));
+            GetBlock(4, 2).block.SetForegroundBlock(new OakLogBlock(false));
+            GetBlock(4, 3).block.SetForegroundBlock(new OakLeavesBlock(false));
+            GetBlock(4, 4).block.SetForegroundBlock(new OakLeavesBlock(false));
+            GetBlock(4, 5).block.SetForegroundBlock(new OakLeavesBlock(false));
+            GetBlock(5, 3).block.SetForegroundBlock(new OakLeavesBlock(false));
+            GetBlock(5, 4).block.SetForegroundBlock(new OakLeavesBlock(false));
+            GetBlock(3, 3).block.SetForegroundBlock(new OakLeavesBlock(false));
+            GetBlock(3, 4).block.SetForegroundBlock(new OakLeavesBlock(false));
+            GetBlock(6, 3).block.SetForegroundBlock(new OakLeavesBlock(false));
+            GetBlock(2, 3).block.SetForegroundBlock(new OakLeavesBlock(false));
+            GetBlock(4, 6).block.SetForegroundBlock(new TorchBlock(false));
 
-                SetDoor(0, 1, Direction.LEFT);
-            }
+            SetDoor(0, 1, Direction.LEFT);
         }
     }
 }

@@ -42,6 +42,7 @@ namespace SeeloewenCraft
         public int lightRange = 7; //The range that all light sources use
         public int worldSpawnX;
         public int worldSpawnY;
+        public int seed;
 
         //Variables
         public bool finishedLoading = false;
@@ -52,13 +53,20 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public World(wndMenu wndMenu, string worldName, bool isNew, int worldVersion, string gameVersion)
+        public World(wndMenu wndMenu, string worldName, int seed, bool isNew, int worldVersion, string gameVersion)
         {
             //Set world name and create game and links
             this.worldName = worldName;
             this.worldVersion = worldVersion;
             this.gameVersion = gameVersion;
             this.wndMenu = wndMenu;
+            this.seed = seed;
+
+            if(seed == 0)
+            {
+                seed = new Random(DateTime.Now.Millisecond).Next();
+            }
+
             Game.world = this;
 
             //Initialize images before anything else
@@ -600,6 +608,7 @@ namespace SeeloewenCraft
             debugMenu.AddLine(debugMenu.tblGameStats, $"SeeloewenCraft {Game.GAME_VERSION} ({Game.VERSION_DATE})");
             debugMenu.AddLine(debugMenu.tblGameStats, $"worldName: {worldName}");
             debugMenu.AddLine(debugMenu.tblGameStats, $"worldVersion: {worldVersion}");
+            debugMenu.AddLine(debugMenu.tblGameStats, $"seed: {seed}");
         }
 
         public void SetNight(int nightState)

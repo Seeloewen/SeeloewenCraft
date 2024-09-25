@@ -13,25 +13,28 @@ namespace SeeloewenCraft
         public List<Structure> continuedStructureList = new List<Structure>();
         public BlockContainerList blockContainerList;
         public Grid grdChunk = new Grid();
-        private Random rnd;
+        public Random seededRnd;
 
         public int index;
         private int floorHeight; //Only used while generating
         public int floorHeightRight;
         public int floorHeightLeft;
-        static int o = 0;
+        public int structureNum = 0;
         public string chunkDirectory;
         public Biome biome;
+        public int chunkSeed;
 
         //-- Constructor --//
 
         public Chunk(int index)
         {
             //Set the attributes
-
             this.index = index;
-            rnd = new Random(DateTime.Now.Millisecond + o);
-            o++;
+
+            //Seed magic
+            Random rnd = new Random(Game.world.seed);
+            chunkSeed = rnd.Next() * index;
+            seededRnd = new Random(chunkSeed);
 
             //Begin loading the chunk
             chunkDirectory = string.Format("{0}/chunk{1}", Game.world.worldDirectory, index);
