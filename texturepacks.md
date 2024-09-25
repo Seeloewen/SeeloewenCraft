@@ -12,12 +12,12 @@ The pack.txt file contains all the general information about the texturepack. Yo
 ## How is pack.txt structured?
 
 Line 1: This line gets ignored by the It can contain the name, author or some other information.\
-Line 2: This line contains the texturepackVersion in the format 'texturepackVersion=1'. The texturepack version gets changed when there are massive changes to the texturepack structure or the textures in general. The addition of new textures does generally not change the version.
+Line 2: This line contains the texturepackVersion in the format 'texturepackVersion=2'. The texturepack version gets changed when there are massive changes to the texturepack structure or the textures in general. The addition of new textures does generally not change the version.
 
 **Example:**
 ```
-//Debug Texturepack, made by Seeloewen for Alpha 1.1.6
-texturepackVersion=1
+//Debug Texturepack, made by Seeloewen for Alpha 1.2.0
+texturepackVersion=2
 ```
 
 ## How can texturepacks be installed?
