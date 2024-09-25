@@ -23,7 +23,7 @@ namespace SeeloewenCraft.entity
             bool entityPressedSneak, bool newPressedSneak,
             bool entityPressedSprint, bool newPressedSprint)
         {
-            if(entityPressedUp != newPressedUp
+            if (entityPressedUp != newPressedUp
                 || entityPressedRight != newPressedRight
                 || entityPressedLeft != newPressedLeft
                 || entityPressedSneak != newPressedSneak
@@ -49,9 +49,9 @@ namespace SeeloewenCraft.entity
             );
         }
 
-        public override string ToString()
+        public void Send()
         {
-            return $"PressedChangeEvent;{id};{pressedUp};{pressedRight};{pressedLeft};{pressedSneak};{pressedSprint}";
+            NetworkHandler.SendData(MultiplayerPacketType.PRESSED_CHANGE, $"{id};{pressedUp};{pressedRight};{pressedLeft};{pressedSneak};{pressedSprint}");
         }
 
     }

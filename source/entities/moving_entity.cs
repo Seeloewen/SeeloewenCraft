@@ -80,7 +80,7 @@ namespace SeeloewenCraft.entity
             }
 
             //Only send sync data of the current player or entities
-            NetworkHandler.SendData($"SyncPos;{id};{posX};{posY};{velX};{velY}");
+            NetworkHandler.SendData(MultiplayerPacketType.SYNC_POS, $"{id};{posX};{posY};{velX};{velY}");
         }
 
         public void HandleSyncData(string[] args)
@@ -230,7 +230,7 @@ namespace SeeloewenCraft.entity
         {
             SetHP(hp + amount);
 
-            NetworkHandler.SendData($"HealEntity;{id};{amount}");
+            NetworkHandler.SendData(MultiplayerPacketType.HEAL_ENTITY, $"{id};{amount}");
         }
 
         public virtual void MultiplayerHeal(double amount)
@@ -242,7 +242,7 @@ namespace SeeloewenCraft.entity
         {
             SetHP(hp - damage);
 
-            NetworkHandler.SendData($"DamageEntity;{id};{damage}");
+            NetworkHandler.SendData(MultiplayerPacketType.DAMAGE_ENTITY, $"{id};{damage}");
         }
 
         public virtual void MultiplayerDamage(double damage)

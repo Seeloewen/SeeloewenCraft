@@ -84,10 +84,12 @@ public class Server
         }
     }
 
-    public async Task SendData(string data)
+    public async Task SendData(MultiplayerPacketType type, string data)
     {
+        data = $"{type};{data}";
+
         //Send the data to all connected clients
-        foreach(AdvancedTcpClient client in clients)
+        foreach (AdvancedTcpClient client in clients)
         {
             if (client.GetStream() != null)
             {            
@@ -111,8 +113,10 @@ public class Server
         }
     }
 
-    public async Task SendDataSingleClient(int clientId, string data)
+    public async Task SendDataSingleClient(int clientId, MultiplayerPacketType type, string data)
     {
+        data = $"{type};{data}";
+
         //Send the data to a specific client
         AdvancedTcpClient client = GetClient(clientId);
 
@@ -137,8 +141,9 @@ public class Server
         }
     }
 
-    public async Task SendDataExceptClients(int clientId, string data)
+    public async Task SendDataExceptClients(int clientId, MultiplayerPacketType type, string data)
     {
+        data = $"{type};{data}";
         //Send the data to all connected clients except the clients mentioned
         foreach (AdvancedTcpClient client in clients)
         {
