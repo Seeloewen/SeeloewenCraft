@@ -234,10 +234,6 @@ namespace SeeloewenCraft
                 return;
             }
 
-            /*Game.world.wndGame.cvsWorld.Children.Add(entity.texture);
-            Panel.SetZIndex(entity.texture, 1);
-            worldRenderer.AddEntity(entity);*/
-
             entityManager.Add(entity);
         }
 
@@ -250,20 +246,7 @@ namespace SeeloewenCraft
 
         public void RemoveMultiplayerEntity(int id)
         {
-            /*
-            for (int i = 0; i < entities.Count; i++)
-            {
-                Entity entity = entities[i];
-
-                if (entity.id == id)
-                {
-                    break;
-                }
-            }
-
-            entityManager.Remove(id);*/
-
-            //TODO: No idea how to rework this
+            entityManager.Remove(id);
         }
 
         public void SetBlock(Block block, int posX, int posY)

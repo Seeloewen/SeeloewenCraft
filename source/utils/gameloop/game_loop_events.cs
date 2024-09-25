@@ -25,7 +25,7 @@ namespace SeeloewenCraft
 
         public override void DoEvent()
         {
-            Game.world.player.SendSyncData();
+            //Game.world.player.SendSyncData();
             /*foreach (Entity entity in Game.world.entities)
             {
                 if (entity is MovingEntity movEntity)
