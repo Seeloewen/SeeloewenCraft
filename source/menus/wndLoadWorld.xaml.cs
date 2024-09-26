@@ -5,7 +5,6 @@ using System.Windows;
 
 namespace SeeloewenCraft
 {
-
     public partial class wndLoadWorld : Window
     {
 

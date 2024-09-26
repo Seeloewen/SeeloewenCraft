@@ -1,5 +1,7 @@
 ﻿using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows;
+using Windows.Media.Playback;
 
 namespace SeeloewenCraft
 {
@@ -15,6 +17,13 @@ namespace SeeloewenCraft
 
             //Set main window
             this.wndMenu = wndMenu;
+
+            if(StartOptions.seed != 0)
+            {
+                cbSeed.IsChecked = true;
+                tbSeed.Text = StartOptions.seed.ToString();
+                tbSeed.IsEnabled = true;
+            }
         }
 
         //-- Event Handlers --//
@@ -28,7 +37,7 @@ namespace SeeloewenCraft
                 if(!Directory.Exists($"{FolderUtil.worldsFolder}/{tbWorldName.Text}"))
                 {
                     //Create a new world
-                    World world = new World(wndMenu, tbWorldName.Text, 0, true, Game.WORLD_VERSION, Game.GAME_VERSION);
+                    World world = new World(wndMenu, tbWorldName.Text, cbSeed.IsChecked == true ? int.Parse(tbSeed.Text) : 0, true, Game.WORLD_VERSION, Game.GAME_VERSION);
                     wndMenu.Hide();
                     Close();
                 }
@@ -41,6 +50,17 @@ namespace SeeloewenCraft
             {
                 MessageBox.Show("Please enter a world name!", "Error");
             }
+        }
+
+        private void cbSeed_Click(object sender, RoutedEventArgs e)
+        {
+            tbSeed.IsEnabled = (bool)cbSeed.IsChecked;
+        }
+
+        private void tbSeed_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }
