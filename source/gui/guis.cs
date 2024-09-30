@@ -39,6 +39,7 @@ namespace SeeloewenCraft
         {
             //Show the hand crafting gui and hide the inventory
             handCraftingGui.Show();
+            inventory.ShowHotbar();
             Hide();
         }
     }
