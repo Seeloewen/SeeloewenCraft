@@ -12,10 +12,10 @@ namespace SeeloewenCraft
         public int tickrate;
 
         //Gameloops
-        WaterUpdateEvent waterUpdateEvent;
-        DayNightCycle dayNightCycle;
-        EntitySyncEvent entitySyncEvent;
-        CropTimerEvent cropTimerEvent;
+        private WaterUpdateEvent waterUpdateEvent;
+        private DayNightCycle dayNightCycle;
+        public AutoSaveEvent autoSaveEvent;
+        private CropTimerEvent cropTimerEvent;
 
         //-- Constructor --//
 
@@ -33,7 +33,7 @@ namespace SeeloewenCraft
             waterUpdateEvent = new WaterUpdateEvent(this);
             dayNightCycle = new DayNightCycle(this);
             cropTimerEvent = new CropTimerEvent(this);
-            entitySyncEvent = new EntitySyncEvent(this);
+            autoSaveEvent = new AutoSaveEvent(this);
         }
 
         //-- Custom Methods --//

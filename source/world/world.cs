@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Linq;
 
 using SeeloewenCraft.entity;
+using System.Windows.Documents;
 
 namespace SeeloewenCraft
 {
@@ -221,6 +222,28 @@ namespace SeeloewenCraft
                 writer.WriteEndObject();
                 writer.WriteToFile($"{worldDirectory}/entities.json");
             }
+        }
+
+        public void Save()
+        {
+            //Save all chunks and the inventory of the player
+            foreach (Chunk chunk in Game.world.totalChunkList)
+            {
+                //Stop all running crafting timers
+                foreach (Block block in chunk.blockList.blocks)
+                {
+                    if (block.craftingHandler != null && block.craftingHandler.tmrCrafting.IsRunning)
+                    {
+                        block.craftingHandler.tmrCrafting.Stop();
+                    }
+                }
+
+                chunk.Save();
+            }
+
+            player.SaveInventory(worldDirectory);
+            player.SavePosition(worldDirectory);
+            SaveEntities();
         }
 
         public string? LoadWorldSetting(string settingName)

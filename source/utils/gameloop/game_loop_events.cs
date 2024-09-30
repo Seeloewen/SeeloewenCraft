@@ -1,5 +1,4 @@
-﻿using SeeloewenCraft.entity;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 
 namespace SeeloewenCraft
 {
@@ -16,27 +15,27 @@ namespace SeeloewenCraft
         }
     }
 
-    public class EntitySyncEvent : GameLoopEvent
+    public class AutoSaveEvent : GameLoopEvent
     {
-        public EntitySyncEvent(GameLoop gameLoop) : base(gameLoop)
+        public AutoSaveEvent(GameLoop gameLoop) : base(gameLoop)
         {
-            maxTick = 400;
+            UpdateMaxTick();
         }
 
         public override void DoEvent()
         {
-            //Game.world.player.SendSyncData();
-            /*foreach (Entity entity in Game.world.entities)
-            {
-                if (entity is MovingEntity movEntity)
-                {
-                    movEntity.SendSyncData();
-                }
-            }*/ 
+            Game.world.Save();
 
-            //TODO: Needs rework for new entity system
+            if (Settings.showAutoSaveNotification)
+            {
+                NotificationHandler.ShowNotification("Successfully Auto-Saved the world!", 3000, Images.Diamond.GetTexture());
+            }
         }
 
+        public void UpdateMaxTick()
+        {
+            maxTick = Settings.autoSaveInterval * 60000;
+        }
     }
 
     public class DayNightCycle : GameLoopEvent

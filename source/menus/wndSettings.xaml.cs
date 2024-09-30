@@ -70,6 +70,12 @@ namespace SeeloewenCraft
             Settings.enableMobs = Convert.ToBoolean(cbEnableMobs.IsChecked);
             Log.Write($"Saved setting enableMobs as {Settings.enableMobs}", "Info");
 
+            Settings.enableAutoSave = Convert.ToBoolean(cbAutoSave.IsChecked);
+            Log.Write($"Saved setting enableAutoSave as {Settings.enableAutoSave}", "Info");
+
+            Settings.showAutoSaveNotification = Convert.ToBoolean(cbAutoSaveNotification.IsChecked);
+            Log.Write($"Saved setting showAutoSaveNotification as {Settings.showAutoSaveNotification}", "Info");
+
             Settings.resolution = Convert.ToString(cbxResolution.SelectedItem);
             Log.Write($"Saved setting resolution as {Settings.resolution}", "Info");
 
@@ -81,6 +87,9 @@ namespace SeeloewenCraft
 
             Settings.customResY = Convert.ToInt32(tbHeight.Text);
             Log.Write($"Saved setting customResY as {Settings.customResY}", "Info");
+
+            Settings.autoSaveInterval = Convert.ToInt32(tbAutosave.Text);
+            Log.Write($"Saved setting autoSaveInterval as {Settings.autoSaveInterval}", "Info");
 
             Settings.texturepack = cbxTexturepack.Text;
             Log.Write($"Saved setting texturepack as {Settings.texturepack}", "Info");
@@ -100,7 +109,7 @@ namespace SeeloewenCraft
             Settings.Save(writer);
 
             if (Game.world != null) Game.world.wndGame.ApplyVideoSettings();
-            
+
             if (!suppressConfirmation)
             {
                 MessageBox.Show("The settings have been saved successfully!", "Saved settings", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -115,12 +124,16 @@ namespace SeeloewenCraft
             cbSaveLogOnExit.IsChecked = Settings.saveLogOnExit;
             cbSaveWorldWhenClosing.IsChecked = Settings.saveWorldOnClose;
             cbEnableMobs.IsChecked = Settings.enableMobs;
+            cbAutoSave.IsChecked = Settings.enableAutoSave;
             cbShowNotifications.IsChecked = Settings.showNotifications;
+            cbAutoSaveNotification.IsChecked = Settings.showAutoSaveNotification;
             cbxTexturepack.Text = Settings.texturepack;
             cbxMode.Text = Settings.videoMode;
             cbxResolution.Text = Settings.resolution;
             tbHeight.Text = Settings.customResY.ToString();
             tbWidth.Text = Settings.customResX.ToString();
+            tbAutosave.Text = Settings.autoSaveInterval.ToString();
+            tbAutosave.IsEnabled = Settings.enableAutoSave;
 
             tbMoveRight.Text = KeyConverter.KeyToString(Settings.cMoveRight);
             tbMoveLeft.Text = KeyConverter.KeyToString(Settings.cMoveLeft);
@@ -237,6 +250,9 @@ namespace SeeloewenCraft
                 SaveSettings(writer, false);
                 writer.WriteToFile($"{FolderUtil.gameFolder}\\clientSettings.json");
             }
+
+            //Apply some settings instantly
+            Game.world.gameLoop.autoSaveEvent.UpdateMaxTick();
             ApplyTexturepack();
             Close();
         }
@@ -360,6 +376,32 @@ namespace SeeloewenCraft
                 tbHeight.Visibility = Visibility.Hidden;
                 tblWidth.Visibility = Visibility.Hidden;
                 tblHeight.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void tbAutosave_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void cbAutoSave_Click(object sender, RoutedEventArgs e)
+        {
+            tbAutosave.IsEnabled = (bool)cbAutoSave.IsChecked;
+        }
+
+        private void tbAutosave_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            if (int.TryParse(tbAutosave.Text, out int interval))
+            {
+                if (interval == 1)
+                {
+                    cbAutoSave.Content = "Auto-Save the game every               minute";
+                }
+                else
+                {
+                    cbAutoSave.Content = "Auto-Save the game every               minutes";
+                }
             }
         }
     }

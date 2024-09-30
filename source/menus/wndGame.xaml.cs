@@ -430,23 +430,7 @@ namespace SeeloewenCraft
                 world.tmrMovement.Stop();
                 if (Settings.saveWorldOnClose)
                 {
-                    //Save all chunks and the inventory of the player
-                    foreach (Chunk chunk in Game.world.totalChunkList)
-                    {
-                        //Stop all running crafting timers
-                        foreach (Block block in chunk.blockList.blocks)
-                        {
-                            if (block.craftingHandler != null && block.craftingHandler.tmrCrafting.IsRunning)
-                            {
-                                block.craftingHandler.tmrCrafting.Stop();
-                            }
-                        }
-
-                        chunk.Save();
-                    }
-                    world.player.SaveInventory(world.worldDirectory);
-                    world.player.SavePosition(world.worldDirectory);
-                    world.SaveEntities();
+                    world.Save();
                     world.gameLoop.tmrGameLoop.Stop();
                 }
             }
@@ -486,22 +470,7 @@ namespace SeeloewenCraft
 
         private void btnSaveWorld_Click(object sender, RoutedEventArgs e)
         {
-            //Save all chunks and the inventory of the player
-            foreach (Chunk chunk in world.totalChunkList)
-            {
-                //Stop all running crafting timers
-                foreach (Block block in chunk.blockList.blocks)
-                {
-                    if (block.craftingHandler != null && block.craftingHandler.tmrCrafting.IsRunning)
-                    {
-                        block.craftingHandler.tmrCrafting.Stop();
-                    }
-                }
-                chunk.Save();
-            }
-            world.player.SaveInventory(world.worldDirectory);
-            world.player.SavePosition(world.worldDirectory);
-            world.SaveEntities();
+            world.Save();
             if (world.gameLoop.tmrGameLoop.IsRunning) world.gameLoop.tmrGameLoop.Stop();
 
             //Show confirmation

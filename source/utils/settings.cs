@@ -8,12 +8,15 @@ namespace SeeloewenCraft
         //Settings
         public static bool saveLogOnExit = false;
         public static bool saveWorldOnClose = true;
-        public static bool showNotifications = false;
+        public static bool showNotifications = true;
         public static bool enableMobs = false;
+        public static bool enableAutoSave = true;
+        public static bool showAutoSaveNotification = true;
         public static string resolution = "1280x720";
         public static string videoMode = "Windowed";
         public static int customResX = 1280;
         public static int customResY = 720;
+        public static int autoSaveInterval = 10;
         public static string texturepack;
 
         //Keybinds
@@ -47,6 +50,12 @@ namespace SeeloewenCraft
             writer.WritePropertyName("enable_mobs");
             writer.WriteValue(enableMobs);
 
+            writer.WritePropertyName("enable_auto_save");
+            writer.WriteValue(enableAutoSave);
+
+            writer.WritePropertyName("show_auto_save_notification");
+            writer.WriteValue(showAutoSaveNotification);
+
             writer.WritePropertyName("resolution");
             writer.WriteValue(resolution);
 
@@ -58,6 +67,9 @@ namespace SeeloewenCraft
 
             writer.WritePropertyName("custom_res_y");
             writer.WriteValue(customResY);
+
+            writer.WritePropertyName("auto_save_interval");
+            writer.WriteValue(autoSaveInterval);
 
             writer.WritePropertyName("texturepack");
             writer.WriteValue(texturepack);
@@ -112,6 +124,8 @@ namespace SeeloewenCraft
                 saveLogOnExit = settingsToken.GetBool("/save_log_on_exit");
                 saveWorldOnClose = settingsToken.GetBool("/save_world_on_close");
                 enableMobs = settingsToken.GetBool("/enable_mobs");
+                enableAutoSave = settingsToken.GetBool("/enable_auto_save");
+                showAutoSaveNotification = settingsToken.GetBool("/show_auto_save_notification");
                 showNotifications = settingsToken.GetBool("/show_notifications");
                 texturepack = settingsToken.GetString("/texturepack");
                 resolution = settingsToken.GetString("/resolution");
@@ -121,6 +135,7 @@ namespace SeeloewenCraft
                     customResX = settingsToken.GetInt("/custom_res_x");
                     customResY = settingsToken.GetInt("/custom_res_y");
                 }
+                autoSaveInterval = settingsToken.GetInt("/auto_save_interval");
 
                 cMoveRight = KeyConverter.StringToKey(keybindsToken.GetString("/move_right"));
                 cMoveLeft = KeyConverter.StringToKey(keybindsToken.GetString("/move_left"));
