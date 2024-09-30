@@ -23,7 +23,6 @@ public class Server
         {
             server = new TcpListener(IPAddress.Any, port);
             server.Start();
-            Game.isServer = true;         
         }
         catch (Exception ex)
         {
@@ -71,7 +70,8 @@ public class Server
                 byte[] dataBuffer = new byte[dataLength];
                 int dataBytesRead = await client.GetStream().ReadAsync(dataBuffer, 0, dataBuffer.Length);
                 string receivedData = Encoding.ASCII.GetString(dataBuffer, 0, dataBytesRead);
-                Log.Write($"Received data from client #{client.id}: {receivedData}.", "Info");
+
+                //Log.Write($"Received data from client #{client.id}: {receivedData}.", "Info");
 
                 //Handle the data
                 await NetworkHandler.HandleData(client, receivedData);
@@ -103,7 +103,7 @@ public class Server
                     await client.GetStream().WriteAsync(lengthBytes, 0, lengthBytes.Length);
                     await client.GetStream().WriteAsync(dataBytes, 0, dataBytes.Length);
 
-                    Log.Write($"Sent data to client #{client.id}: {data}.", "Info");
+                    //Log.Write($"Sent data to client #{client.id}: {data}.", "Info");
                 }
                 catch (Exception ex)
                 {
@@ -132,7 +132,7 @@ public class Server
                 await client.GetStream().WriteAsync(lengthBytes, 0, lengthBytes.Length);
                 await client.GetStream().WriteAsync(dataBytes, 0, dataBytes.Length);
 
-                Log.Write($"Received data to single client #{client.id}: {data}.", "Info");
+                //Log.Write($"Sent data to single client #{client.id}: {data}.", "Info");
             }
             catch (Exception ex)
             {
@@ -159,7 +159,7 @@ public class Server
                     await client.GetStream().WriteAsync(lengthBytes, 0, lengthBytes.Length);
                     await client.GetStream().WriteAsync(dataBytes, 0, dataBytes.Length);
 
-                    Log.Write($"Received data to client #{client.id} (except {clientId}): {data}.", "Info");
+                    //Log.Write($"Sent data to client #{client.id} (except {clientId}): {data}.", "Info");
                 }
                 catch (Exception ex)
                 {

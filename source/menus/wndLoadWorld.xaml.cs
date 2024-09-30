@@ -11,14 +11,16 @@ namespace SeeloewenCraft
         public List<string> worldList = new List<string>();
         public wndMenu wndMenu;
         public wndCreateWorld wndCreateWorld;
+        private MultiplayerType multiplayerType;
 
         //-- Constructor --//
-        public wndLoadWorld(wndMenu wndMenu)
+        public wndLoadWorld(wndMenu wndMenu, MultiplayerType multiplayerType)
         {
             InitializeComponent();
 
             //Set the main menu
             this.wndMenu = wndMenu;
+            this.multiplayerType = multiplayerType;
 
             //Get the world list
             LoadWorlds();
@@ -44,7 +46,7 @@ namespace SeeloewenCraft
         {
             if (string.IsNullOrEmpty(cbxWorld.Text) == false)
             {
-                World world = new World(wndMenu, cbxWorld.Text, 0, false, Game.WORLD_VERSION, Game.GAME_VERSION); 
+                World world = new World(wndMenu, cbxWorld.Text, 0, false, Game.WORLD_VERSION, Game.GAME_VERSION, multiplayerType); 
                 wndMenu.Hide();
                 Close();
             }
@@ -57,7 +59,7 @@ namespace SeeloewenCraft
         private void btnCreateNewWorld_Click(object sender, RoutedEventArgs e)
         {
             //Show the window for creating a new world
-            wndCreateWorld = new wndCreateWorld(wndMenu);
+            wndCreateWorld = new wndCreateWorld(wndMenu, multiplayerType);
             Close();
             wndCreateWorld.ShowDialog();
         }

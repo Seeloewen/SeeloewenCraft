@@ -23,14 +23,22 @@ namespace SeeloewenCraft
         //Variables
         public static List<string> unstackableItems = new List<string>();
         public static string selectedTexturepack;
-        public static bool isServer = false;
-        public static bool isClient = false;
         public static Random rnd = new Random(DateTime.Now.Millisecond * DateTime.Now.Microsecond);
 
         //Methods
         public static bool IsMultiplayer()
         {
-            return isServer || isClient;
+            return IsServer() || IsClient();
+        }
+
+        public static bool IsServer()
+        {
+            return server != null;
+        }
+
+        public static bool IsClient()
+        {
+            return client != null && client.isConnected;
         }
 
         public static void ShowException(Exception ex)

@@ -1,6 +1,4 @@
-﻿
-
-namespace SeeloewenCraft
+﻿namespace SeeloewenCraft
 {
     public enum MultiplayerPacketType
     {
@@ -16,5 +14,12 @@ namespace SeeloewenCraft
         DAMAGE_ENTITY,
         HEAL_ENTITY
 
+    }
+
+    public enum MultiplayerType
+    {
+        OFFLINE, //No multiplayer
+        CLIENT,
+        SERVER
     }
 }

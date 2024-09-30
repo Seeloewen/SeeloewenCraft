@@ -27,7 +27,7 @@ namespace SeeloewenCraft.entity {
         //does one tick for every entity and delays all entity removals/adds until after
         public void DoStep(int tps)
         {
-            if(Game.isServer)
+            if(Game.IsServer())
             {
                 timeSinceLastSync += 1000 / tps;
                 if(timeSinceLastSync > syncPeriod)

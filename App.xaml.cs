@@ -43,7 +43,7 @@ namespace SeeloewenCraft
                 }
 
                 //create new world with name "debug"
-                World world = new World(wndMenu, "Debug", StartOptions.seed, true, Game.WORLD_VERSION, Game.GAME_VERSION);
+                World world = new World(wndMenu, "Debug", StartOptions.seed, true, Game.WORLD_VERSION, Game.GAME_VERSION, MultiplayerType.OFFLINE);
             }
 
             //show start log on start of program if enabled through start options

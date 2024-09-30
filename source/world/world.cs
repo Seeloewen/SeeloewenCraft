@@ -53,7 +53,7 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public World(wndMenu wndMenu, string worldName, int seed, bool isNew, int worldVersion, string gameVersion)
+        public World(wndMenu wndMenu, string worldName, int seed, bool isNew, int worldVersion, string gameVersion, MultiplayerType multiplayerType)
         {
             //Set world name and create game and links
             this.worldName = worldName;
@@ -62,7 +62,7 @@ namespace SeeloewenCraft
             this.wndMenu = wndMenu;
             this.seed = seed;
 
-            if(seed == 0)
+            if (seed == 0)
             {
                 this.seed = new Random(DateTime.Now.Millisecond).Next();
             }
@@ -91,17 +91,13 @@ namespace SeeloewenCraft
                 SetGamemode(Gamemode.Creative);
             }
 
-            //If the game is a client, don't show the window right away, wait for the first sync
-            if (Game.client == null)
-            {
-                Game.world.wndGame.Show();
-            }
-
-            //TODO: Only start a server when requested
-            if (Game.client == null)
+            //Only start a server when requested
+            if (multiplayerType == MultiplayerType.SERVER)
             {
                 NetworkHandler.StartServer();
             }
+
+            Game.world.wndGame.Show();
         }
 
         //-- Custom Methods --//
@@ -232,7 +228,7 @@ namespace SeeloewenCraft
             if (File.Exists($"{worldDirectory}/world_settings.json"))
             {
                 JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/world_settings.json");
-                if(documentToken.ContainsKey(settingName))
+                if (documentToken.ContainsKey(settingName))
                 {
                     return documentToken.GetString($"/{settingName}");
                 }
@@ -550,7 +546,7 @@ namespace SeeloewenCraft
                 NetworkHandler.SendData(MultiplayerPacketType.CREATE_CHUNK, $"{newChunk.index}");
 
                 //If it's a server, additionally send the chunk to all clients
-                if (Game.isServer)
+                if (Game.IsServer())
                 {
                     foreach (Block block in newChunk.blockList.blocks)
                     {
@@ -573,7 +569,7 @@ namespace SeeloewenCraft
                 NetworkHandler.SendData(MultiplayerPacketType.CREATE_CHUNK, $"{newChunk.index}");
 
                 //If it's a server, additionally send the chunk to all clients
-                if (Game.isServer)
+                if (Game.IsServer())
                 {
                     foreach (Block block in newChunk.blockList.blocks)
                     {

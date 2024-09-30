@@ -41,7 +41,7 @@ namespace SeeloewenCraft
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
             //Show the world selection window
-            wndLoadWorld = new wndLoadWorld(this);
+            wndLoadWorld = new wndLoadWorld(this, MultiplayerType.OFFLINE);
             wndLoadWorld.ShowDialog();
         }
 
@@ -89,10 +89,10 @@ namespace SeeloewenCraft
             Application.Current.Shutdown();
         }
 
-        private void btnConnect_Click(object sender, RoutedEventArgs e)
+        private void btnMultiplayer_Click(object sender, RoutedEventArgs e)
         {
-            wndServer wndServer = new wndServer(this);
-            wndServer.ShowDialog();
+            wndMultiplayer wndMultiplayer = new wndMultiplayer(this);
+            wndMultiplayer.ShowDialog();
         }
     }
 }

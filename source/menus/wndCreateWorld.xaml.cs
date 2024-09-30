@@ -10,13 +10,15 @@ namespace SeeloewenCraft
         //-- Constructor --//
 
         public wndMenu wndMenu;
+        private MultiplayerType multiplayerType;
 
-        public wndCreateWorld(wndMenu wndMenu)
+        public wndCreateWorld(wndMenu wndMenu, MultiplayerType multiplayerType)
         {
             InitializeComponent();
 
             //Set main window
             this.wndMenu = wndMenu;
+            this.multiplayerType = multiplayerType;
 
             if(StartOptions.seed != 0)
             {
@@ -37,7 +39,7 @@ namespace SeeloewenCraft
                 if(!Directory.Exists($"{FolderUtil.worldsFolder}/{tbWorldName.Text}"))
                 {
                     //Create a new world
-                    World world = new World(wndMenu, tbWorldName.Text, cbSeed.IsChecked == true ? int.Parse(tbSeed.Text) : 0, true, Game.WORLD_VERSION, Game.GAME_VERSION);
+                    World world = new World(wndMenu, tbWorldName.Text, cbSeed.IsChecked == true ? int.Parse(tbSeed.Text) : 0, true, Game.WORLD_VERSION, Game.GAME_VERSION, multiplayerType);
                     wndMenu.Hide();
                     Close();
                 }

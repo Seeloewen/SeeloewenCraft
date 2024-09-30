@@ -17,14 +17,14 @@ namespace SeeloewenCraft
         public static async void SendData(MultiplayerPacketType type, string data)
         {
             //Send the data either as client or server. If it's neither, don't send anything
-            if (Game.isServer)
+            if (Game.IsServer())
             {
                 if (Game.server.clients.Count > 0)
                 {
                     Game.server.SendData(type, data); //Sends the data to all clients
                 }
             }
-            else if (Game.isClient)
+            else if (Game.IsClient())
             {
                 Game.client.SendData(type, data); //Sends the data only to the server
             }
@@ -100,7 +100,7 @@ namespace SeeloewenCraft
             }
 
             //If the server receives the packet, send it to all other clients to make sure the inventory gets updated on all of them
-            if (Game.isServer)
+            if (Game.IsServer())
             {
                 Game.server.SendDataExceptClients(client.id, MultiplayerPacketType.ADD_TO_INV, $"{args[1]};{args[2]};{args[3]};{args[4]};{args[5]};{args[6]};{args[7]}");
             }
@@ -125,7 +125,7 @@ namespace SeeloewenCraft
             }
 
             //If the server receives the packet, send it to all other clients to make sure the inventory gets updated on all of them
-            if (Game.isServer)
+            if (Game.IsServer())
             {
                 Game.server.SendDataExceptClients(client.id, MultiplayerPacketType.REMOVE_FROM_INV, $"{args[1]};{args[2]};{args[3]};{args[4]};{args[5]};{args[6]}");
             }
@@ -198,7 +198,7 @@ namespace SeeloewenCraft
                 Game.world.AddMultiplayerEntity(Entity.LoadFromJson(JsonUtil.ReadString(args[1])));
 
                 //If the server receives the packet, send it to all clients except the one it came from to ensure the entity gets created on all clients
-                if (Game.isServer)
+                if (Game.IsServer())
                 {
                     Game.server.SendDataExceptClients(client.id, MultiplayerPacketType.CREATE_ENTITY, $"{args[1]}");
                 }
@@ -219,7 +219,7 @@ namespace SeeloewenCraft
                 Game.world.RemoveMultiplayerEntity(Convert.ToInt32(args[1]));
 
                 //If the server receives the packet, send it to all clients except the one it came from to ensure the entity gets removed on all clients
-                if (Game.isServer)
+                if (Game.IsServer())
                 {
                     Game.server.SendDataExceptClients(client.id, MultiplayerPacketType.REMOVE_ENTITY, $"{args[1]}");
                 }
@@ -235,7 +235,7 @@ namespace SeeloewenCraft
             try
             {
                 //Called when a player connects
-                if (Game.isServer)
+                if (Game.IsServer())
                 {
                     //Go through each chunk and each block and send it to the client that requested it
 
@@ -294,7 +294,7 @@ namespace SeeloewenCraft
                 Game.world.SetBlockMultiplayer(block, cIndex, xPos, yPos);
 
                 //If the server receives the call, redirect it to the other clients
-                if (Game.isServer)
+                if (Game.IsServer())
                 {
                     Game.server.SendDataExceptClients(client.id, MultiplayerPacketType.SET_BLOCK, $"{block.id};{cIndex};{block.xPos};{block.yPos}");
                 }
@@ -316,7 +316,7 @@ namespace SeeloewenCraft
                 Game.world.CreateChunk(index);
 
                 //If the server receives the message, it should additionally send the chunk back to all clients
-                if (Game.isServer)
+                if (Game.IsServer())
                 {
                     foreach (Block block in Game.world.GetChunk(index).blockList.blocks)
                     {

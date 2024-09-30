@@ -39,7 +39,6 @@ public class Client
             //Check if the stream exists to confirm that the connection was successful
             Log.Write("The connection with the server was successfully established.", "Info");
             isConnected = true;
-            Game.isClient = true;
 
             //Send a request to the server to do an initial load, which gets all blocks in all chunks and their content
             await Game.client.SendData(MultiplayerPacketType.INITIAL_LOAD, "");
@@ -77,7 +76,7 @@ public class Client
                 await stream.WriteAsync(lengthBytes, 0, lengthBytes.Length);
                 await stream.WriteAsync(dataBytes, 0, dataBytes.Length);
 
-                Log.Write($"Sent data to server: {dataBytes}.", "Info");
+                //Log.Write($"Sent data to server: {dataBytes}.", "Info");
             }
             catch (Exception ex)
             {
@@ -107,7 +106,7 @@ public class Client
                 //Handle the data
                 await NetworkHandler.HandleData(client, receivedData);
 
-                Log.Write($"Received data from server: {receivedData}.", "Info");
+                //Log.Write($"Received data from server: {receivedData}.", "Info");
             }
             catch (Exception ex)
             {
@@ -116,6 +115,8 @@ public class Client
             }
         }
 
-        MessageBox.Show("Lost connection to server!");
+        MessageBox.Show("Lost connection to the server!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        Game.world.wndGame.Close();
+        Game.world.wndMenu.Show();
     }
 }
