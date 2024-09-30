@@ -109,7 +109,7 @@ namespace SeeloewenCraft
             {
                 if (startX < right && endX > left)
                 {
-                    if (startY > 0 && startY <= 500)
+                    if (startY > top && startY <= bottom)
                     {
                         //if movement starts in block
                         //return collision: true and max movement: 0
