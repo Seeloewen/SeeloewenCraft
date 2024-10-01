@@ -44,6 +44,7 @@ namespace SeeloewenCraft
         public Collision collision;
         public Tool effectiveTool;
         public Material? effectiveMaterial;
+        public bool needsGround = false;
         public bool willFall;
 
         //variables
@@ -643,6 +644,11 @@ namespace SeeloewenCraft
 
             //Send the data on the network if it's multiplayer
             NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, $"{block.id};{chunk.index};{block.xPos};{block.yPos}");
+        }
+
+        public Block GetBlockBelow()
+        {
+            return chunk.GetBlock(xPos, yPos + 1);
         }
 
         public void SetForegroundBlock(Block block)

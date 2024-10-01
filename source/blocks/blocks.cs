@@ -193,9 +193,8 @@ namespace SeeloewenCraft
             isBase = true;
             connectedBlocks.Add((0, -1, "sc:potted_cactus_top"));
             collision = new MultipleRectangleCollision([125, 251], [875, 749], [375, 1], [1000, 375]);
+            needsGround = true;
         }
-
-
     }
 
     public class PottedCactus_Top : Block
@@ -205,7 +204,6 @@ namespace SeeloewenCraft
             Init("Potted Cactus Top", "sc:potted_cactus_top", 0, null, Tool.None, Images.PottedCactus_Top);
             collision = new RectangleCollision(251, 749, 188, 999);
         }
-
     }
 
     public class CraftingTableBlock : Block
@@ -317,6 +315,7 @@ namespace SeeloewenCraft
             Init("Spruce Door Base", "sc:spruce_door_base", 500, "sc:spruce_door_item", Tool.Axe, Images.SpruceDoor_Closed_Base);
             isBase = true;
             hasRightClickAction = true;
+            needsGround = true;
             collision = new RectangleCollision(720, 1000, 0, 1000);
 
             connectedBlocks.Add((0, -1, "sc:spruce_door_top"));
@@ -697,6 +696,7 @@ namespace SeeloewenCraft
             tags.Add("workstation");
             hasRightClickAction = true;
             dropsOnWrongTool = false;
+            willFall = true;
 
             craftingHandler = new CraftingHandler(this);
             gui = new AnvilGui(535, 720, 120, 285, "sc:anvil", null, this);
@@ -755,6 +755,7 @@ namespace SeeloewenCraft
         {
             Init("Blue Flower", "sc:blue_flower_block", 0, "sc:blue_flower_item", Tool.None, Images.BlueFlower);
             isSolid = false;
+            needsGround = true;
         }
     }
 
@@ -772,6 +773,7 @@ namespace SeeloewenCraft
         {
             Init("Cactus Fruit", "sc:cactus_fruit_block", 0, "sc:cactus_fruit_item", Game.rnd.Next(180000, 480001), "sc:cactus_fruit_item", "sc:cactus_fruit_item", Tool.None, Images.CactusFruit);
             isSolid = false;
+            needsGround = true;
         }
 
         public override void UpdateProgress(int amount)
@@ -802,6 +804,7 @@ namespace SeeloewenCraft
         {
             Init("Candle", "sc:candle_block", 0, "sc:candle_item", Tool.None, Images.Candle);
             isSolid = false;
+            needsGround = true;
         }
     }
 
@@ -821,6 +824,7 @@ namespace SeeloewenCraft
         {
             Init("Dead Bush", "sc:dead_bush_block", 0, "sc:dead_bush_item", Tool.None, Images.DeadBush);
             isSolid = false;
+            needsGround = true;
         }
     }
 
@@ -859,6 +863,7 @@ namespace SeeloewenCraft
         {
             Init("Grass", "sc:grass", 0, "sc:grass_item", Tool.None, Images.Grass);
             isSolid = false;
+            needsGround = true;
         }
     }
 
@@ -903,6 +908,7 @@ namespace SeeloewenCraft
         {
             Init("Oak Sapling", "sc:oak_sapling_block", 0, "sc:oak_sapling_item", Game.rnd.Next(600000, 1200001), "sc:oak_sapling_item", "sc:oak_sapling_item", Tool.None, Images.OakSapling);
             isSolid = false;
+            needsGround = true;
         }
 
         public override void UpdateProgress(int amount)
@@ -934,6 +940,7 @@ namespace SeeloewenCraft
         {
             Init("Spruce Sapling", "sc:spruce_sapling_block", 0, "sc:spruce_sapling_item", Game.rnd.Next(600000, 1200001), "sc:tree_sapling_item", "sc:tree_sapling_item", Tool.None, Images.SpruceSapling);
             isSolid = false;
+            needsGround = true;
         }
 
         public override void UpdateProgress(int amount)
@@ -1030,6 +1037,7 @@ namespace SeeloewenCraft
         {
             Init("Yellow Flower", "sc:yellow_flower_block", 0, "sc:yellow_flower_item", Tool.None, Images.YellowFlower);
             isSolid = false;
+            needsGround = true;
         }
     }
 

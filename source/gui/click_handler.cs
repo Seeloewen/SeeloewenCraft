@@ -32,19 +32,26 @@ namespace SeeloewenCraft
                 {
                     block.GetForegroundBlock().RightClickAction(sender);
                 }
+
                 //Check if the block has an action
                 else if (block.hasRightClickAction)
                 {
                     block.RightClickAction(sender);
                 }
                 //Place the block
-                else if (!block.hasRightClickAction)
+                else if (!block.hasRightClickAction && selectedItem != null)
                 {
-                    //Check if the block meets all requirements to be placed in foreground of another block
-                    if (block.IsInRange() && selectedItem != null && block.GetForegroundBlock() == null && block.isBackground)
-                    {
-                        Block newBlock = selectedItem.GetBlock();
+                    Block newBlock = selectedItem.GetBlock();
 
+                    //Don't place the block if it needs a ground but there is none
+                    if (block.GetBlockBelow() != null && !block.GetBlockBelow().isSolid && newBlock != null && newBlock.needsGround)
+                    {
+                        return;
+                    }
+
+                    //Check if the block meets all requirements to be placed in foreground of another block
+                    if (block.IsInRange() && block.GetForegroundBlock() == null && block.isBackground)
+                    {
                         if (newBlock != null)
                         {
                             //If it`s part of a construct, check if it has enough space
@@ -69,10 +76,8 @@ namespace SeeloewenCraft
                         }
                     }
                     //Check if the block isn't in background and can be replaced
-                    else if (block.IsInRange() && block.isReplacable && !block.IsCollidingWithPlayer(sender) && !block.isBackground && selectedItem != null)
+                    else if (block.IsInRange() && block.isReplacable && !block.IsCollidingWithPlayer(sender) && !block.isBackground)
                     {
-                        Block newBlock = selectedItem.GetBlock();
-
                         if (newBlock != null)
                         {
                             //If it`s part of a construct, check if it has enough space
