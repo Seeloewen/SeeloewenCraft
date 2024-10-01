@@ -1,10 +1,11 @@
-﻿using System.Windows.Media;
+﻿using System.Collections.Generic;
+using System.Windows.Media;
 
 namespace SeeloewenCraft
 {
-    public class WaterUpdateEvent : GameLoopEvent
+    public class BlockUpdateEvent : GameLoopEvent
     {
-        public WaterUpdateEvent(GameLoop gameLoop) : base(gameLoop)
+        public BlockUpdateEvent(GameLoop gameLoop) : base(gameLoop)
         {
             maxTick = 1000;
         }
@@ -12,6 +13,92 @@ namespace SeeloewenCraft
         public override void DoEvent()
         {
             Game.world.waterHandler.DoUpdate();
+
+            List<Block> leaves = new List<Block>();
+
+            //Go through all blocks and update them accordingly
+            foreach (Chunk chunk in Game.world.loadedChunkList)
+            {
+                foreach (Block block in chunk.blockList.blocks)
+                {
+                    //Update blocks that aren't allowed to float
+                    UpdateFloating(block);
+
+                    //Update leaves that might need to decay
+                    if (block.tags.Contains("type/leaf"))
+                    {
+                        leaves.Add(block);
+                    }
+                }
+            }
+
+            UpdateLeaves(leaves);
+        }
+
+        public void UpdateFloating(Block block)
+        {
+            //Check if the block is floating even though it's not allowed to
+            Block blockBelow = block.chunk.GetBlock(block.xPos, block.yPos + 1);
+
+            if (block.needsGround && blockBelow != null && !blockBelow.isSolid)
+            {
+                block.BreakBlock(true, false, true);
+            }
+        }
+
+        public void UpdateLeaves(List<Block> leafList)
+        {
+            List<Block> decayingLeaves = new List<Block>();
+
+            //Check for each leaf recursively if it has a connection to a log
+            foreach (Block block in leafList)
+            {
+                if (!HasAdjacentLog(block, new List<Block>()))
+                {
+                    decayingLeaves.Add(block);
+                }
+            }
+
+            //All leaves that should decay have a 33% chance to do so
+            foreach (Block block in decayingLeaves)
+            {
+                if (Game.rnd.Next(0, 3) == 0)
+                {
+                    block.BreakBlock(true, false, true);
+                }
+            }
+        }
+
+        public bool HasAdjacentLog(Block block, List<Block> visitedBlocks) //Check recursively if a connection to a log is found
+        {
+            //If the block is null or it was already visited, don't check it
+            if (block == null || visitedBlocks.Contains(block))
+            {
+                return false;
+            }
+
+            visitedBlocks.Add(block);
+
+            //If it's a log, stop the search
+            if (block.tags.Contains("type/log"))
+            {
+                return true;
+            }
+
+            //If it's not a leaf, stop searching on this branch
+            if (!block.tags.Contains("type/leaf"))
+            {
+                return false;
+            }
+
+            Block blockBelow = block.chunk.GetBlock(block.xPos, block.yPos + 1);
+            Block blockAbove = block.chunk.GetBlock(block.xPos, block.yPos - 1);
+            Block blockRight = block.chunk.GetBlock(block.xPos + 1, block.yPos);
+            Block blockLeft = block.chunk.GetBlock(block.xPos - 1, block.yPos);
+
+            //If it's a leaf, check if the adjacent blocks are connected to a log
+            return HasAdjacentLog(blockBelow, visitedBlocks) || HasAdjacentLog(blockAbove, visitedBlocks) || HasAdjacentLog(blockRight, visitedBlocks) || HasAdjacentLog(blockLeft, visitedBlocks);
+
         }
     }
 

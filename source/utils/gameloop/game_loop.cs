@@ -12,7 +12,7 @@ namespace SeeloewenCraft
         public int tickrate;
 
         //Gameloops
-        private WaterUpdateEvent waterUpdateEvent;
+        private BlockUpdateEvent waterUpdateEvent;
         private DayNightCycle dayNightCycle;
         public AutoSaveEvent autoSaveEvent;
         private CropTimerEvent cropTimerEvent;
@@ -30,7 +30,7 @@ namespace SeeloewenCraft
             tmrGameLoop.Elapsed += tmrGameLoop_Tick;
 
             //Setup all game loops
-            waterUpdateEvent = new WaterUpdateEvent(this);
+            waterUpdateEvent = new BlockUpdateEvent(this);
             dayNightCycle = new DayNightCycle(this);
             cropTimerEvent = new CropTimerEvent(this);
             autoSaveEvent = new AutoSaveEvent(this);

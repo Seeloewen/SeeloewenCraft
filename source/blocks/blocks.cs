@@ -103,6 +103,7 @@ namespace SeeloewenCraft
         public OakLogBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Oak Log", "sc:oak_log_block", 350, "sc:oak_log_item", Tool.Axe, Images.OakLog);
+            tags.Add("type/log");
         }
     }
 
@@ -112,6 +113,7 @@ namespace SeeloewenCraft
         {
             Init("Oak Leaves", "sc:oak_leaves_block", 125, "sc:oak_leaves_item", Tool.None, Images.OakLeaves);
             lootTable = LootTables.oakTreeLootTable;
+            tags.Add("type/leaf");
         }
     }
 
@@ -120,6 +122,7 @@ namespace SeeloewenCraft
         public SpruceLogBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Spruce Log", "sc:spruce_log_block", 350, "sc:spruce_log_item", Tool.Axe, Images.SpruceLog);
+            tags.Add("type/log");
         }
     }
 
@@ -129,6 +132,7 @@ namespace SeeloewenCraft
         {
             Init("Spruce Leaves", "sc:spruce_leaves_block", 125, "sc:spruce_leaves_item", Tool.None, Images.SpruceLeaves);
             lootTable = LootTables.spruceTreeLootTable;
+            tags.Add("type/leaf");
         }
     }
 
