@@ -84,7 +84,7 @@ namespace SeeloewenCraft
         }
 
         private void GenerateStructues()
-        {         
+        {
             if (index != 0)
             {
                 //Generate structures
@@ -165,7 +165,7 @@ namespace SeeloewenCraft
             //Generate up to 3 trees
             for (int i = 0; i < (biome == Biome.Plains ? 1 : 3); i++)
             {
-                if (seededRnd.Next(0, biome == Biome.Plains ? 7 : 3) == 0)
+                if (seededRnd.Next(0, biome == Biome.Plains ? 8 : 3) == 0)
                 {
                     (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
@@ -174,17 +174,11 @@ namespace SeeloewenCraft
                     {
                         if (biome == Biome.Plains || biome == Biome.Forest)
                         {
-                            if (seededRnd.Next(biome == Biome.Plains ? 6 : 16) > 4)
-                            {
-                                structureList.Add(new OakTreeStructure(x, y - 1, index, true, this, false));
-                            }
+                            structureList.Add(new OakTreeStructure(x, y - 1, index, true, this, false));
                         }
                         else if (biome == Biome.SpruceForest)
                         {
-                            if (seededRnd.Next(4) != 0)
-                            {
-                                structureList.Add(new SpruceTreeStructure(x, y - 1, index, true, this, false));
-                            }
+                            structureList.Add(new SpruceTreeStructure(x, y - 1, index, true, this, false));
                         }
                     }
                 }
