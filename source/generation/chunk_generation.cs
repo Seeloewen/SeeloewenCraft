@@ -130,7 +130,7 @@ namespace SeeloewenCraft
                 {
                     Block block = blockList.Get(x, i);
 
-                    if (block.tags.Contains("CanBeFloor"))
+                    if (block.tags.Contains("canBeFloor"))
                     {
                         y = i;
                         break;

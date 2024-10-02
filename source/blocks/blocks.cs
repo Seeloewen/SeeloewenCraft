@@ -995,6 +995,7 @@ namespace SeeloewenCraft
         public SandBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Sand", "sc:sand_block", 150, "sc:sand_item", Tool.Shovel, Images.Sand);
+            tags.Add("canBeFloor");
             willFall = true;
         }
     }

@@ -5,6 +5,8 @@ using System.Windows.Input;
 using System.Windows;
 using System;
 using SeeloewenCraft.entity;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Text;
 
 namespace SeeloewenCraft
 {
@@ -229,10 +231,23 @@ namespace SeeloewenCraft
                     writer.WriteValue(false);
                 }
             }
+            if (tags.Count > 0)
+            {
+                //Get all tags into a singular string so it can be saved as one attribute
+                StringBuilder tagString = new StringBuilder();
+                foreach (string tag in tags)
+                {
+                    tagString.Append(tag);
+                    tagString.Append(';');
+                }
+                tagString.Remove(tagString.Length - 1, 1); //Remove the last char (seperator) as it would be misread
+
+                writer.WritePropertyName("tags");
+                writer.WriteValue(tagString.ToString());
+            }
 
             writer.WriteEndObject();
         }
-
 
         static public Block LoadFromJson(JsonToken blockToken, Chunk chunk)
         {
@@ -321,6 +336,18 @@ namespace SeeloewenCraft
                 block.baseBlock = (blockToken.GetInt("/baseblock_x_offset"), blockToken.GetInt("/baseblock_y_offset"));
             }
 
+            if (blockToken.ContainsKey("tags"))
+            {
+                //Remove tags that were added automatically on creation
+                block.tags.Clear();
+
+                string[] tagSplit = blockToken.GetString("/tags").Split(';');
+                foreach (string tag in tagSplit)
+                {
+                    block.tags.Add(tag);
+                }
+            }
+
             //Set block stats
             block.xPos = posX;
             block.yPos = posY;
@@ -362,12 +389,15 @@ namespace SeeloewenCraft
         public void RemoveHandlersFromContainer()
         {
             //Remove the events from the container
-            blockContainer.cvsBlock.MouseLeftButtonDown -= cvsBlock_MouseLeftButtonDown;
-            blockContainer.cvsBlock.MouseLeftButtonUp -= cvsBlock_MouseLeftButtonUp;
-            blockContainer.cvsBlock.MouseRightButtonUp -= cvsBlock_MouseRightButtonUp;
-            blockContainer.cvsBlock.MouseRightButtonDown -= cvsBlock_MouseRightButtonDown;
-            blockContainer.cvsBlock.MouseEnter -= cvsBlock_MouseEnter;
-            blockContainer.cvsBlock.MouseLeave -= cvsBlock_MouseLeave;
+            if (blockContainer != null)
+            {
+                blockContainer.cvsBlock.MouseLeftButtonDown -= cvsBlock_MouseLeftButtonDown;
+                blockContainer.cvsBlock.MouseLeftButtonUp -= cvsBlock_MouseLeftButtonUp;
+                blockContainer.cvsBlock.MouseRightButtonUp -= cvsBlock_MouseRightButtonUp;
+                blockContainer.cvsBlock.MouseRightButtonDown -= cvsBlock_MouseRightButtonDown;
+                blockContainer.cvsBlock.MouseEnter -= cvsBlock_MouseEnter;
+                blockContainer.cvsBlock.MouseLeave -= cvsBlock_MouseLeave;
+            }
         }
 
         public bool IsCollidingWithPlayer(object element)
