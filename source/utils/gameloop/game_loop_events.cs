@@ -25,7 +25,7 @@ namespace SeeloewenCraft
                     UpdateFloating(block);
 
                     //Update leaves that might need to decay
-                    if (block.tags.Contains("type/leaf"))
+                    if (block.tags.Contains("type/leaf") && !block.tags.Contains("placedManually"))
                     {
                         leaves.Add(block);
                     }

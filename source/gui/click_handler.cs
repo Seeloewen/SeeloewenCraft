@@ -1,9 +1,4 @@
-﻿
-using System.Windows;
-using System.Windows.Documents;
-using Windows.Web.Http;
-
-namespace SeeloewenCraft
+﻿namespace SeeloewenCraft
 {
     public class ClickHandler
     {
@@ -99,8 +94,9 @@ namespace SeeloewenCraft
                                 selectedSlot.slot.inventory.UpdateHotbar();
                             }
                         }
-
                     }
+
+                    newBlock.tags.Add("placedManually");
                 }
 
                 block.chunk.GetBlock(block.xPos, block.yPos).DisplayDebugInformation();
