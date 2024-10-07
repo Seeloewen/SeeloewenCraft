@@ -36,11 +36,11 @@ namespace SeeloewenCraft
             Game.world.player.inventory.AddItem(id, amount, ItemRegister.GenerateItem(id).tag, out int remainingAmount);
             if (remainingAmount > 0)
             {
-                NotificationHandler.ShowNotification("Warning: Not all items were added (Full Inventory)", 3000, Images.Arrow.GetTexture());
+                NotificationHandler.ShowNotification("Warning: Not all items were added (Full Inventory)", 3000, ItemRegister.GenerateItem(id).image);
             }
             else
             {
-                NotificationHandler.ShowNotification($"Succesfully gave {amount}x {id} to player.", 3000, Images.Arrow.GetTexture());
+                NotificationHandler.ShowNotification($"Succesfully gave {amount}x {id} to player.", 3000, ItemRegister.GenerateItem(id).image);
             }
         }
     }
