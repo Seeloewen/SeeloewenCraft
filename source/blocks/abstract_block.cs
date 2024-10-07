@@ -7,6 +7,7 @@ using System;
 using SeeloewenCraft.entity;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Text;
+using System.Runtime.CompilerServices;
 
 namespace SeeloewenCraft
 {
@@ -231,6 +232,7 @@ namespace SeeloewenCraft
                     writer.WriteValue(false);
                 }
             }
+
             if (tags.Count > 0)
             {
                 //Get all tags into a singular string so it can be saved as one attribute
@@ -244,6 +246,14 @@ namespace SeeloewenCraft
 
                 writer.WritePropertyName("tags");
                 writer.WriteValue(tagString.ToString());
+            }
+
+            if (this is CropBlock cBlock)
+            {
+                writer.WritePropertyName("growth_time");
+                writer.WriteValue(cBlock.growthTime);
+                writer.WritePropertyName("progress");
+                writer.WriteValue(cBlock.progress);
             }
 
             writer.WriteEndObject();
@@ -345,6 +355,16 @@ namespace SeeloewenCraft
                 foreach (string tag in tagSplit)
                 {
                     block.tags.Add(tag);
+                }
+            }
+
+            if (blockToken.ContainsKey("growth_time") && blockToken.ContainsKey("progress"))
+            {
+                if (block is CropBlock cBlock)
+                {
+                    cBlock.progress = blockToken.GetInt("/progress");
+                    cBlock.growthTime = blockToken.GetInt("/growth_time");
+                    cBlock.UpdateProgress(0); //Call update to load the correct state of the block, if needed
                 }
             }
 
