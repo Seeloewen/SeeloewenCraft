@@ -47,6 +47,11 @@ namespace SeeloewenCraft
         }
 
         //-- Custom Methods --//
+
+        private void OpenTkControl_OnRender(TimeSpan delta)
+        {
+            //OpenTK Code here...
+        }
         private void HandleKeyPresses()
         {
             if (pressedKeys.Contains(Settings.cShowInv)) //E key
@@ -528,6 +533,12 @@ namespace SeeloewenCraft
         {
             //What did you expect this button to do?
             Close();
+        }
+
+        private void btnToggleRenderer_Click(object sender, RoutedEventArgs e)
+        {
+            //DEBUG - Toggle visibility of WPF renderer for OpenGL testing
+            cvsWorld.Visibility = cvsWorld.Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
         }
     }
 }

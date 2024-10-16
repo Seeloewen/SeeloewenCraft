@@ -28,6 +28,8 @@
 		<Resource Remove="Resources\Glass.png" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 		<PackageReference Include="Microsoft.Json.Pointer" Version="2.3.0" />
+		<PackageReference Include="OpenTK" Version="4.8.2" />
+		<PackageReference Include="OpenTK.GLWpfControl" Version="4.3.2" />
 		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
