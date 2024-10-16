@@ -10,6 +10,7 @@ using System.Linq;
 
 using SeeloewenCraft.entity;
 using System.Windows.Documents;
+using SeeloewenCraft.gl_rendering;
 
 namespace SeeloewenCraft
 {
@@ -33,6 +34,8 @@ namespace SeeloewenCraft
         public RecipeCreator recipeCreator;
         public WorldRenderer worldRenderer;
         public EntityManager entityManager;
+
+        public Renderer renderer;
 
         //Constants
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);

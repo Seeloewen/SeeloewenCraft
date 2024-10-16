@@ -1,11 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.TextFormatting;
+using System.Windows.Resources;
 using Newtonsoft.Json;
+
+using OpenTK.Graphics.GL;
+using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
+using BufferTarget = OpenTK.Graphics.OpenGL.BufferTarget;
+using BufferUsageHint = OpenTK.Graphics.OpenGL.BufferUsageHint;
+using ClearBufferMask = OpenTK.Graphics.OpenGL.ClearBufferMask;
+using DebugProc = OpenTK.Graphics.OpenGL4.DebugProc;
+using DebugSeverity = OpenTK.Graphics.OpenGL4.DebugSeverity;
+using DebugSource = OpenTK.Graphics.OpenGL4.DebugSource;
+using DebugType = OpenTK.Graphics.OpenGL4.DebugType;
+using EnableCap = OpenTK.Graphics.OpenGL4.EnableCap;
+using GetProgramParameterName = OpenTK.Graphics.OpenGL.GetProgramParameterName;
+using GL = OpenTK.Graphics.OpenGL.GL;
+using PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType;
+using ShaderParameter = OpenTK.Graphics.OpenGL.ShaderParameter;
+using ShaderType = OpenTK.Graphics.OpenGL.ShaderType;
+using VertexAttribPointerType = OpenTK.Graphics.OpenGL.VertexAttribPointerType;
+
+using SeeloewenCraft.gl_rendering;
 
 
 namespace SeeloewenCraft
@@ -44,14 +70,46 @@ namespace SeeloewenCraft
             Canvas.SetTop(tblInvItem, 40);
             Canvas.SetLeft(tblInvItem, 45);
             cvsInvItem.Children.Add(tblInvItem);
+
+
+
+            OpenTkControl.Start();
+            world.renderer = new Renderer();
+
+            OpenTK.Graphics.OpenGL4.GL.DebugMessageCallback(DebugMessageDelegate, IntPtr.Zero);
+            OpenTK.Graphics.OpenGL4.GL.Enable(EnableCap.DebugOutput);
         }
+
+        private static DebugProc DebugMessageDelegate = OnDebugMessage;
 
         //-- Custom Methods --//
 
+        private static void OnDebugMessage(
+            DebugSource source,     // Source of the debugging message.
+            DebugType type,         // Type of the debugging message.
+            int id,                 // ID associated with the message.
+            DebugSeverity severity, // Severity of the message.
+            int length,             // Length of the string in pMessage.
+            IntPtr pMessage,        // Pointer to message string.
+            IntPtr pUserParam)      // The pointer you gave to OpenGL, explained later.
+        {
+            // In order to access the string pointed to by pMessage, you can use Marshal
+            // class to copy its contents to a C# string without unsafe code. You can
+            // also use the new function Marshal.PtrToStringUTF8 since .NET Core 1.1.
+            string message = Marshal.PtrToStringAnsi(pMessage, length);
+
+            // The rest of the function is up to you to implement, however a debug output
+            // is always useful.
+            MessageBox.Show(String.Format("[{0} source={1} type={2} id={3}] {4}", severity, source, type, id, message));
+        }
+        
+        
         private void OpenTkControl_OnRender(TimeSpan delta)
         {
-            //OpenTK Code here...
+            world.renderer.render();
         }
+
+
         private void HandleKeyPresses()
         {
             if (pressedKeys.Contains(Settings.cShowInv)) //E key
