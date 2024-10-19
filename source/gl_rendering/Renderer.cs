@@ -1,5 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
+using System.Drawing;
+using System.Windows;
 
 namespace SeeloewenCraft.gl_rendering
 {
@@ -7,37 +9,54 @@ namespace SeeloewenCraft.gl_rendering
     {
 
         Shader shader;
+        VertexBuffer buffer;
+        Texture texture;
 
-        public Renderer() {
+        BlockRenderer blockRenderer;
+
+        public Renderer()
+        {
             shader = new Shader();
 
             float[] vertices = {
-                     0.4f,  0.5f,// 1.0f, 0.0f, 0.0f,
-                    -0.5f, -0.5f,// 0.0f, 1.0f, 0.0f,
-                     0.5f, -0.5f,// 0.0f, 0.0f, 1.0f
+                     0.0f,  0.5f, 0.5f, 1.0f,
+                    -0.5f, -0.5f, 0.0f, 0.0f,
+                     0.5f, -0.5f, 1.0f, 0.0f
             };
 
-            int vbo = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
 
-            int vao = GL.GenVertexArray();
-            GL.BindVertexArray(vao);
-            GL.EnableVertexArrayAttrib(vao, 0);
-            GL.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, 2 * sizeof(float), 0);
-            //GL.EnableVertexArrayAttrib(vao, 1);
-            //GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 2 * sizeof(float));
+            buffer = new VertexBuffer(new VBLayout().AddAttribute(2).AddAttribute(2), vertices);
 
-            GL.ClearColor(Color4.Blue);
+
+            GL.ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+
+            shader.SetUniform("texIage", 0);
+            texture = new Texture();
+            shader.SetUniform("texIage", 0);
+
+            var textureMap = new BlockTextureMap();
+            blockRenderer = new BlockRenderer(textureMap);
+
         }
 
         public void render()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+            //shader.Use();
+            //buffer.Bind();
+            //texture.Bind();
+            blockRenderer.Begin();
+            for (int x = 0; x < 100; x++)
+            {
+                for (int y = 0; y < 100; y++)
+                {
+                    blockRenderer.DrawBlock(" ", x, y); ;
+                }
+            }
+            blockRenderer.End();
 
+            GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
         }
 
     }

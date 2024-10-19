@@ -12,7 +12,7 @@ namespace SeeloewenCraft.gl_rendering
 
         private int programID;
 
-        public Shader() { 
+        internal Shader() { 
             programID = GL.CreateProgram();
             int vert = CreateShader(ShaderType.VertexShader, "shader/vert.glsl");
             int frag = CreateShader(ShaderType.FragmentShader, "shader/frag.glsl");
@@ -23,7 +23,7 @@ namespace SeeloewenCraft.gl_rendering
             if (success == 0)
             {
                 string log = GL.GetProgramInfoLog(programID);
-                Log.Write($"Program link error: {log}", "Error");
+                MessageBox.Show($"Program link error: {log}", "Error");
             }
 
             GL.DetachShader(programID, vert);
@@ -31,6 +31,12 @@ namespace SeeloewenCraft.gl_rendering
 
             GL.DeleteShader(vert);
             GL.DeleteShader(frag);
+        }
+
+        internal void SetUniform(string name, int value)
+        {
+            int location = GL.GetUniformLocation(programID, name);
+            GL.Uniform1(location, value);
         }
 
         public void Use()
@@ -47,7 +53,7 @@ namespace SeeloewenCraft.gl_rendering
             if (success == 0)
             {
                 string log = GL.GetShaderInfoLog(shaderID);
-                Log.Write($"Shader (type={type}) compile error: {log}", "Error");
+                MessageBox.Show($"Shader (type={type}) compile error: {log}", "Error");
             }
             return shaderID;
         }
