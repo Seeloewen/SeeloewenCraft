@@ -11,8 +11,9 @@ namespace SeeloewenCraft.gl_rendering
 
         private int id;
 
-        public Texture() {
-            Bitmap bitmap = Resources.Iron_Ore;
+        
+
+        internal Texture(Bitmap bitmap) {
 
 
             int width = bitmap.Width;

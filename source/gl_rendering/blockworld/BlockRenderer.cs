@@ -13,9 +13,9 @@ namespace SeeloewenCraft.gl_rendering
         float[] buffer;
         int index;
 
-        float blockLength = 0.01f;
-        float blockXAnchor = -0.8f;
-        float blockYAnchor = -0.8f;
+        float blockLength = 0.03f;
+        float blockXAnchor = -0.7f;
+        float blockYAnchor = -0.7f;
         float ratio = 16 / 9.0f;
 
         BlockTextureMap textureMap;
@@ -32,7 +32,13 @@ namespace SeeloewenCraft.gl_rendering
             vertexBuffer = new VertexBuffer(new VBLayout().AddAttribute(2).AddAttribute(2), 1024);
         }
 
-
+        internal void ApplyCam(GameCamera cam)
+        {
+            blockLength = cam.blockLength;
+            blockXAnchor = cam.blockXAnchor;
+            blockYAnchor = cam.blockYAnchor;
+            ratio = cam.ratio;
+        }
 
         internal void DrawBlock(string blockID, int blockX, int blockY)
         {
@@ -42,11 +48,11 @@ namespace SeeloewenCraft.gl_rendering
                 End();
                 Begin();
             }
-            (float s1, float t1, float s2, float t2) = textureMap.getTexture(blockID);
+            (float s1, float t1, float s2, float t2) = textureMap.GetTexture(blockID);
             float x1 = blockXAnchor + blockLength * blockX;
-            float y1 = blockYAnchor + blockLength * blockY * ratio;
+            float y1 = blockYAnchor - blockLength * blockY * ratio;
             float x2 = x1 + blockLength;
-            float y2 = y1 + blockLength * ratio;
+            float y2 = y1 - blockLength * ratio;
             Put(x1, y1, s1, t1);
             Put(x2, y1, s2, t1);
             Put(x1, y2, s1, t2);
