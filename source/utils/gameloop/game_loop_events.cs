@@ -40,7 +40,7 @@ namespace SeeloewenCraft
             //Check if the block is floating even though it's not allowed to
             Block blockBelow = block.chunk.GetBlock(block.xPos, block.yPos + 1);
 
-            if (block.needsGround && blockBelow != null && !blockBelow.isSolid)
+            if (block.needsGround.doesNeed && !block.CanStayOnBlockBelow(block, blockBelow))
             {
                 block.BreakBlock(true, false, true);
             }

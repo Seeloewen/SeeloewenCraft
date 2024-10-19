@@ -47,7 +47,7 @@ namespace SeeloewenCraft
         public Collision collision;
         public Tool effectiveTool;
         public Material? effectiveMaterial;
-        public bool needsGround = false;
+        public (bool doesNeed, string tag) needsGround = (false, "");
         public bool willFall;
 
         //variables
@@ -480,6 +480,20 @@ namespace SeeloewenCraft
             }
         }
 
+        public bool CanStayOnBlockBelow(Block block, Block blockBelow)
+        {
+            if (block != null && blockBelow != null && block.needsGround.doesNeed)
+            {
+                //If the block doesn't need a specific ground block (besides being solid) or the ground block has the needed tag, the block can stay
+                if ((block.needsGround.tag == "" && blockBelow.isSolid)
+                 || blockBelow.tags.Contains(block.needsGround.tag))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
 
         public void RemoveForegroundBlock()
