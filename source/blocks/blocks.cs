@@ -20,7 +20,9 @@ namespace SeeloewenCraft
     {
         public GrassBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Grass Block", "sc:grass_block", 150, "sc:dirt_item", Tool.Shovel, Images.GrassBlock);
+            Init("Grass Block", "sc:grass_block", 150, "sc:grass_block_item", Tool.Shovel, Images.GrassBlock);
+            drops.Add(("sc:dirt_item", 1, 1));
+
             tags.Add("canBeFloor");
             tags.Add("ground/plant");
         }
@@ -32,7 +34,8 @@ namespace SeeloewenCraft
         {
             //lootTable = Game.world.lootTables.stoneLootTable;
             Init("Stone Block", "sc:stone_block", 1250, "sc:stone_block_item", Tool.Pickaxe, Images.StoneBlock);
-            lootTable = LootTables.stoneLootTable;
+            drops.Add(("sc:rock_item", 1, 4));
+
             tags.Add("canBeFloor");
         }
     }
@@ -75,7 +78,7 @@ namespace SeeloewenCraft
         public CoalOreBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Coal Ore", "sc:coal_ore_block", 1750, "sc:coal_ore_item", Tool.Pickaxe, Images.CoalOre);
-            lootTable = LootTables.coalLootTable;
+            drops.Add(("sc:coal_item", 1, 3));
             dropsOnWrongTool = false;
         }
     }
@@ -84,7 +87,8 @@ namespace SeeloewenCraft
     {
         public DiamondOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Diamond Ore", "sc:diamond_ore_block", 1750, "sc:diamond_item", Tool.Pickaxe, Images.DiamondOre);
+            Init("Diamond Ore", "sc:diamond_ore_block", 1750, "sc:diamond_ore_item", Tool.Pickaxe, Images.DiamondOre);
+            drops.Add(("sc:diamond_item", 1, 1));
             effectiveMaterial = Material.Iron;
             dropsOnWrongTool = false;
         }
@@ -114,7 +118,7 @@ namespace SeeloewenCraft
         public OakLeavesBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Oak Leaves", "sc:oak_leaves_block", 125, "sc:oak_leaves_item", Tool.None, Images.OakLeaves);
-            lootTable = LootTables.oakTreeLootTable;
+            lootTable = (LootTables.oakTreeLootTable, 1, 1);
             tags.Add("type/leaf");
         }
     }
@@ -133,7 +137,7 @@ namespace SeeloewenCraft
         public SpruceLeavesBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Spruce Leaves", "sc:spruce_leaves_block", 125, "sc:spruce_leaves_item", Tool.None, Images.SpruceLeaves);
-            lootTable = LootTables.spruceTreeLootTable;
+            lootTable = (LootTables.spruceTreeLootTable, 1, 1);
             tags.Add("type/leaf");
         }
     }
@@ -406,7 +410,8 @@ namespace SeeloewenCraft
     {
         public Cactus_TopFruit(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Top Fruit", "sc:cactus_top_fruit", 250, "sc:cactus_fruit_item", Tool.Axe, Images.Cactus_Top_Fruit);
+            Init("Cactus Top Fruit", "sc:cactus_top_fruit", 250, "sc:cactus_top_fruit_item", Tool.Axe, Images.Cactus_Top_Fruit);
+            drops.Add(("sc:cactus_fruit_item", 1, 1));
             collision = new RectangleCollision(191, 809, 631, 999);
             cactusCollision = new RectangleCollision(190, 810, 630, 1000);
         }
@@ -688,7 +693,8 @@ namespace SeeloewenCraft
     {
         public AmethystOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Amethyst Ore", "sc:amethyst_ore_block", 1750, "sc:amethyst_item", Tool.Pickaxe, Images.AmethystOre);
+            Init("Amethyst Ore", "sc:amethyst_ore_block", 1750, "sc:amethyst_ore_item", Tool.Pickaxe, Images.AmethystOre);
+            drops.Add(("sc:amethyst_item", 1, 1));
             effectiveMaterial = Material.Diamond;
             dropsOnWrongTool = false;
         }
@@ -777,7 +783,7 @@ namespace SeeloewenCraft
     {
         public CactusFruitBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Fruit", "sc:cactus_fruit_block", 0, "sc:cactus_fruit_item", Game.rnd.Next(180000, 480001), "sc:cactus_fruit_item", "sc:cactus_fruit_item", Tool.None, Images.CactusFruit);
+            Init("Cactus Fruit", "sc:cactus_fruit_block", 0, "sc:cactus_fruit_item", Game.rnd.Next(180000, 480001), "sc:cactus_fruit_item", "sc:cactus_fruit_item", 0, 0, Tool.None, Images.CactusFruit);
             isSolid = false;
             needsGround = (true, "ground/sand");
         }
@@ -838,7 +844,8 @@ namespace SeeloewenCraft
     {
         public EmeraldOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Emerald Ore", "sc:emerald_ore_block", 1750, "sc:emerald_item", Tool.Pickaxe, Images.EmeraldOre);
+            Init("Emerald Ore", "sc:emerald_ore_block", 1750, "sc:emerald_ore_item", Tool.Pickaxe, Images.EmeraldOre);
+            drops.Add(("sc:emerald_item", 1, 1));
             effectiveMaterial = Material.Diamond;
             dropsOnWrongTool = false;
         }
@@ -912,7 +919,7 @@ namespace SeeloewenCraft
     {
         public OakSaplingBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Oak Sapling", "sc:oak_sapling_block", 0, "sc:oak_sapling_item", Game.rnd.Next(600000, 1200001), "sc:oak_sapling_item", "sc:oak_sapling_item", Tool.None, Images.OakSapling);
+            Init("Oak Sapling", "sc:oak_sapling_block", 0, "sc:oak_sapling_item", Game.rnd.Next(600000, 1200001), "sc:oak_sapling_item", "sc:oak_sapling_item", 0, 0, Tool.None, Images.OakSapling);
             isSolid = false;
             needsGround = (true, "ground/plant");
         }
@@ -944,7 +951,7 @@ namespace SeeloewenCraft
     {
         public SpruceSaplingBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Sapling", "sc:spruce_sapling_block", 0, "sc:spruce_sapling_item", Game.rnd.Next(600000, 1200001), "sc:tree_sapling_item", "sc:tree_sapling_item", Tool.None, Images.SpruceSapling);
+            Init("Spruce Sapling", "sc:spruce_sapling_block", 0, "sc:spruce_sapling_item", Game.rnd.Next(600000, 1200001), "sc:tree_sapling_item", "sc:tree_sapling_item", 0, 0, Tool.None, Images.SpruceSapling);
             isSolid = false;
             needsGround = (true, "ground/plant");
         }

@@ -6,15 +6,19 @@
         public int progress;
         public string seedId;
         public string productId;
+        public int productMin;
+        public int productMax;
 
         public CropBlock(bool isBackground) : base(isBackground) { }
 
-        public void Init(string name, string id, int breakTime, string? itemId, int growthTime, string seedId, string productId, Tool effectiveTool, SealImage sImage)
+        public void Init(string name, string id, int breakTime, string? itemId, int growthTime, string seedId, string productId, int productMin, int productMax, Tool effectiveTool, SealImage sImage)
         {
             base.Init(name, id, breakTime, itemId, effectiveTool, sImage);
             this.seedId = seedId;
             this.productId = productId;
             this.growthTime = growthTime;
+            this.productMin = productMin; 
+            this.productMax = productMax;
         }
 
         public override void ShowAdditionalDebugInfo()
@@ -55,8 +59,11 @@
         //Hahn war hier
         protected override void Drop(bool dropForeground)
         {
-            //Sets the item id (which will drop) based on whether it's ready
-            itemId = IsReady() ? productId : seedId;
+            //If the item is ready, also add the product as a drop
+            if(IsReady())
+            {
+                drops.Add((productId, productMin, productMax));
+            }
 
             base.Drop(dropForeground);
         }

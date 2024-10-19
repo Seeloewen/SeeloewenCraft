@@ -5,8 +5,6 @@ namespace SeeloewenCraft
     {
         //-- Loot Tables --//
 
-        public static StoneLootTable stoneLootTable = new StoneLootTable();
-        public static CoalLootTable coalLootTable = new CoalLootTable();
         public static PlainsDungeonChest plainsDungeonChest = new PlainsDungeonChest();
         public static PlainsDungeonBarrel plainsDungeonBarrel = new PlainsDungeonBarrel();
         public static PotLootTable potLootTable = new PotLootTable();
@@ -17,14 +15,6 @@ namespace SeeloewenCraft
     }
 
     //-- Loot Tables --//
-
-    public class StoneLootTable : LootTable
-    {
-        public StoneLootTable() : base()
-        {
-            lootTableEntries.Add(new LootTableEntry(new RockItem(), 1, 4, 1));
-        }
-    }
 
     public class CropLootTable : LootTable { }
 
@@ -59,13 +49,6 @@ namespace SeeloewenCraft
         }
     }
 
-    public class CoalLootTable : LootTable
-    {
-        public CoalLootTable() : base()
-        {
-            lootTableEntries.Add(new LootTableEntry(new CoalItem(), 1, 3, 1));
-        }
-    }
 
     public class OakTreeLootTable : LootTable
     {
