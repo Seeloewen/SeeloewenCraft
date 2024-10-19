@@ -391,6 +391,12 @@ namespace SeeloewenCraft
             Glass = new SealImage(TextureType.Block, "Glass.png");
             Cactus_Right = new SealImage(TextureType.Connected_Block, "Cactus_Right.png");
             Cactus_Left = new SealImage(TextureType.Connected_Block, "Cactus_Left.png");
+            PlayerArmLeft = new SealImage(TextureType.Entity, "Player_Arm_Left.png");
+            PlayerArmRight = new SealImage(TextureType.Entity, "Player_Arm_Right.png");
+            PlayerLegLeft = new SealImage(TextureType.Entity, "Player_Leg_Left.png");
+            PlayerLegRight = new SealImage(TextureType.Entity, "Player_Leg_Right.png");
+            PlayerBody = new SealImage(TextureType.Entity, "Player_Body.png");
+            PlayerHead = new SealImage(TextureType.Entity, "Player_Head.png");
         }
 
         //-- Images --//
@@ -621,7 +627,13 @@ namespace SeeloewenCraft
         public static SealImage YellowFlower;
         public static SealImage Glass;
         public static SealImage Cactus_Right;
-        public static SealImage Cactus_Left;
+        public static SealImage Cactus_Left; 
+        public static SealImage PlayerLegRight;
+        public static SealImage PlayerLegLeft;
+        public static SealImage PlayerArmRight;
+        public static SealImage PlayerArmLeft;
+        public static SealImage PlayerHead;
+        public static SealImage PlayerBody;
     }
 
     public class SealImage

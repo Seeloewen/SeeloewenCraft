@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
+	<!-- 
     Microsoft ResX Schema 
     
     Version 2.0
@@ -59,747 +59,765 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Air" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Air.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Background" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Gui\Background.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Bedrock" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Bedrock.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Chest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chest.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Coal_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Coal_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Diamond_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Diamond_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Dirt" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Dirt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Grass_Block" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Grass_Block.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Gui" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Gui\Gui.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Stone_Hammer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Stone_Hammer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Heart_Empty" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Gui\Heart_Empty.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Heart_Full" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Gui\Heart_Full.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Heart_Half" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Gui\Heart_Half.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Iron_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Iron_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Magma_Block" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Magma_Block.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Missing_Texture" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Missing_Texture.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Leaves" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Oak_Leaves.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Log" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Oak_Log.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Potted_Cactus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Potted_Cactus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Potted_Cactus_Base" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Potted_Cactus_Base.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Potted_Cactus_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Potted_Cactus_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Leaves" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Spruce_Leaves.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Log" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Spruce_Log.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Stone_Block" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Stone_Block.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Torch" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Torch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Water_1_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Water_1_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Water_1_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Water_1_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Water_2_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Water_2_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Water_2_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Water_2_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Water_3_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Water_3_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Water_3_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Water_3_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Water_4_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Water_4_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Water_4_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Water_4_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Water_5_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Water_5_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Water_5_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Water_5_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Water_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Water_6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Crafting_Table" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Crafting_Table.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="changelog.txt" xml:space="preserve">
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="metadata">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" />
+							</xsd:sequence>
+							<xsd:attribute name="name" use="required" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="assembly">
+						<xsd:complexType>
+							<xsd:attribute name="alias" type="xsd:string" />
+							<xsd:attribute name="name" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>2.0</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+	<data name="Air" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Air.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Background" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Gui\Background.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Bedrock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Bedrock.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Chest" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chest.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Coal_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Coal_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Diamond_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Diamond_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Dirt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Dirt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Grass_Block" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Grass_Block.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Gui" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Gui\Gui.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Stone_Hammer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Stone_Hammer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Heart_Empty" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Gui\Heart_Empty.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Heart_Full" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Gui\Heart_Full.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Heart_Half" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Gui\Heart_Half.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Iron_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Iron_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Magma_Block" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Magma_Block.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Missing_Texture" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Missing_Texture.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Leaves" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Oak_Leaves.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Log" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Oak_Log.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Potted_Cactus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Potted_Cactus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Potted_Cactus_Base" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Potted_Cactus_Base.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Potted_Cactus_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Potted_Cactus_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Leaves" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Spruce_Leaves.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Log" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Spruce_Log.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Stone_Block" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Stone_Block.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Torch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Torch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Water_1_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Water_1_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Water_1_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Water_1_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Water_2_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Water_2_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Water_2_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Water_2_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Water_3_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Water_3_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Water_3_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Water_3_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Water_4_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Water_4_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Water_4_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Water_4_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Water_5_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Water_5_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Water_5_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Water_5_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Water_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Water_6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Crafting_Table" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Crafting_Table.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="changelog.txt" xml:space="preserve">
     <value>changelog.txt</value>
   </data>
-  <data name="Chiseler" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseler.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CobbleStone" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\CobbleStone.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CobbleStone_BottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_BottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CobbleStone_BottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_BottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CobbleStone_Center" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_Center.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CobbleStone_SlabBottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_SlabBottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CobbleStone_SlabLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_SlabLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CobbleStone_SlabRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_SlabRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CobbleStone_SlabTop" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_SlabTop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CobbleStone_StairBottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_StairBottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CobbleStone_StairBottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_StairBottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CobbleStone_StairTopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_StairTopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CobbleStone_StairTopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_StairTopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CobbleStone_TopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_TopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CobbleStone_TopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_TopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Unchiseler" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Unchiseler.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Break_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Break_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Break_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Break_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Break_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Break_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Break_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Break_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Break_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Break_5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Slime_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Entities\Slime_Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Slime_Green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Entities\Slime_Green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Slime_Magenta" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Entities\Slime_Magenta.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Slime_Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Entities\Slime_Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Slime_Yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Entities\Slime_Yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Hammer_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Hammer_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Hammer_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Hammer_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Hammer_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Hammer_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Hammer_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Hammer_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Hammer_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Hammer_5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Arrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Snowball" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Snowball.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Bone" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Bone.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Door_Open_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\States\Spruce_Door_Open_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Door_Open_Base" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\States\Spruce_Door_Open_Base.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Door_Closed_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\States\Spruce_Door_Closed_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Door_Closed_Base" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\States\Spruce_Door_Closed_Base.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Door_Item" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Spruce_Door_Item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Amethyst" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Amethyst.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Amethyst_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Amethyst_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Anvil" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Anvil.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Apple" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Apple.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Archeology_Pot" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Archeology_Pot.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Archeology_Pot_Base" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Archeology_Pot_Base.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Archeology_Pot_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Archeology_Pot_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Barrel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Barrel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Blue_Flower" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Blue_Flower.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Bone_Block" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Bone_Block.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Bread" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Bread.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Bucket_Empty" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Bucket_Empty.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Bucket_Water" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Bucket_Water.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cactus_BottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Cactus_BottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cactus_BottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Cactus_BottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cactus_Cross" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Cactus_Cross.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cactus_Fruit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Cactus_Fruit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cactus_Horizontal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Cactus_Horizontal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cactus_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Cactus_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cactus_TopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Cactus_TopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cactus_TopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Cactus_TopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cactus_Top_Fruit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Cactus_Top_Fruit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cactus_Vertical" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Cactus_Vertical.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Candle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Candle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Coal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Coal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Copper_Bar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Copper_Bar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Copper_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Copper_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Croissant" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Croissant.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Dead_Bush" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Dead_Bush.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Diamond" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Diamond.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Diamond_Axe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Diamond_Axe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Diamond_Hammer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Diamond_Hammer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Diamond_Pickaxe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Diamond_Pickaxe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Diamond_Scythe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Diamond_Scythe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Diamond_Shovel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Diamond_Shovel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Diamond_Sword" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Diamond_Sword.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Emerald" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Emerald.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Emerald_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Emerald_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Flower_Pot" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Flower_Pot.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Fossil_Fragment" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Fossil_Fragment.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Furnace_Idle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\States\Furnace_Idle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Furnace_Running" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\States\Furnace_Running.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Gold_Bar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Gold_Bar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Gold_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Gold_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Grass" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Grass.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Iron_Axe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Iron_Axe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Iron_Bar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Iron_Bar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Iron_Gates" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Iron_Gates.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Iron_Hammer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Iron_Hammer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Iron_Pickaxe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Iron_Pickaxe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Iron_Rod" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Iron_Rod.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Iron_Scythe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Iron_Scythe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Iron_Shovel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Iron_Shovel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Iron_Sword" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Iron_Sword.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Ladder" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Ladder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Mossy_Cobblestone" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Mossy_Cobblestone.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Chair" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Oak_Chair.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Chair_Bottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Oak_Chair_Bottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Chair_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Oak_Chair_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Door_Closed_Base" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\States\Oak_Door_Closed_Base.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Door_Closed_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\States\Oak_Door_Closed_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Door_Item" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Oak_Door_Item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Door_Open_Base" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\States\Oak_Door_Open_Base.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Door_Open_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\States\Oak_Door_Open_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Planks" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Oak_Planks.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Planks_StairBottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Oak_Planks_StairBottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Planks_StairBottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Oak_Planks_StairBottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Planks_StairTopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Oak_Planks_StairTopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Planks_StairTopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Oak_Planks_StairTopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Plank_BottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_BottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Plank_BottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_BottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Plank_Center" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_Center.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Plank_SlabBottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_SlabBottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Plank_SlabLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_SlabLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Plank_SlabRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_SlabRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Plank_SlabTop" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_SlabTop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Plank_TopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_TopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Plank_TopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_TopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Sapling" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Oak_Sapling.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Table" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Oak_Table.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Trapdoor_Closed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\States\Oak_Trapdoor_Closed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Oak_Trapdoor_Open" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\States\Oak_Trapdoor_Open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Paper" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Paper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Pot_Shard" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Pot_Shard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Rock" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Rock.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sand" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Sand.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sand_Stone" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Sand_Stone.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sand_Stone_BottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_BottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sand_Stone_BottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_BottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sand_Stone_Bricks" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Sand_Stone_Bricks.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sand_Stone_Center" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_Center.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sand_Stone_SlabBottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_SlabBottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sand_Stone_SlabLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_SlabLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sand_Stone_SlabRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_SlabRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sand_Stone_SlabTop" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_SlabTop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sand_Stone_StairBottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_StairBottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sand_Stone_StairBottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_StairBottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sand_Stone_StairTopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_StairTopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sand_Stone_StairTopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_StairTopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sand_Stone_TopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_TopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sand_Stone_TopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_TopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Chair" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Spruce_Chair.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Chair_Bottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Spruce_Chair_Bottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Chair_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Spruce_Chair_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Planks" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Spruce_Planks.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Plank_BottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_BottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Plank_BottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_BottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Plank_Center" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_Center.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Plank_SlabBottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_SlabBottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Plank_SlabLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_SlabLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Plank_SlabRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_SlabRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Plank_SlabTop" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_SlabTop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Plank_StairBottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_StairBottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Plank_StairBottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_StairBottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Plank_StairTopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_StairTopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Plank_StairTopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_StairTopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Plank_TopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_TopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Plank_TopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_TopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Sapling" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\blocks\Spruce_Sapling.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Table" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Spruce_Table.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Trapdoor_Closed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\States\Spruce_Trapdoor_Closed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Trapdoor_Item" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Spruce_Trapdoor_Item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Spruce_Trapdoor_Open" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\States\Spruce_Trapdoor_Open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Stick" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Stick.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Stone_Axe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Stone_Axe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Stone_Bricks" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Stone_Bricks.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Stone_Pickaxe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Stone_Pickaxe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Stone_Scythe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Stone_Scythe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Stone_Shovel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Stone_Shovel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Stone_Sword" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Stone_Sword.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Tin_Axe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Tin_Axe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Tin_Bar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tin_Bar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Tin_Hammer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Tin_Hammer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Tin_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Tin_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Tin_Pickaxe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Tin_Pickaxe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Tin_Scythe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Tin_Scythe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Tin_Shovel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Tin_Shovel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Tin_Sword" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Tin_Sword.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Tungsten_Bar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tungsten_Bar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Tungsten_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Tungsten_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Wax" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Wax.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Wood_Axe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Wood_Axe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Wood_Hammer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Wood_Hammer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Wood_Pickaxe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Wood_Pickaxe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Wood_Scythe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Wood_Scythe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Wood_Shovel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Wood_Shovel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Wood_Sword" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Items\Tools\Wood_Sword.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Yellow_Flower" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Yellow_Flower.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Glass" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Glass.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cactus_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Cactus_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cactus_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textures\Blocks\Connected\Cactus_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
+	<data name="Chiseler" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseler.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="CobbleStone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\CobbleStone.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="CobbleStone_BottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_BottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="CobbleStone_BottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_BottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="CobbleStone_Center" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_Center.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="CobbleStone_SlabBottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_SlabBottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="CobbleStone_SlabLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_SlabLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="CobbleStone_SlabRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_SlabRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="CobbleStone_SlabTop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_SlabTop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="CobbleStone_StairBottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_StairBottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="CobbleStone_StairBottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_StairBottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="CobbleStone_StairTopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_StairTopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="CobbleStone_StairTopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_StairTopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="CobbleStone_TopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_TopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="CobbleStone_TopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\CobbleStone_TopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Unchiseler" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Unchiseler.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Break_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Break_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Break_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Break_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Break_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Break_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Break_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Break_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Break_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Break_5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Slime_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Entities\Slime_Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Slime_Green" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Entities\Slime_Green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Slime_Magenta" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Entities\Slime_Magenta.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Slime_Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Entities\Slime_Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Slime_Yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Entities\Slime_Yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Hammer_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Hammer_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Hammer_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Hammer_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Hammer_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Hammer_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Hammer_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Hammer_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Hammer_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Hammer_5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Arrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Snowball" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Snowball.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Bone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Bone.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Door_Open_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Spruce_Door_Open_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Door_Open_Base" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Spruce_Door_Open_Base.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Door_Closed_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Spruce_Door_Closed_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Door_Closed_Base" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Spruce_Door_Closed_Base.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Door_Item" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Spruce_Door_Item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Amethyst" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Amethyst.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Amethyst_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Amethyst_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Anvil" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Anvil.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Apple" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Apple.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Archeology_Pot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Archeology_Pot.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Archeology_Pot_Base" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Archeology_Pot_Base.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Archeology_Pot_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Archeology_Pot_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Barrel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Barrel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Blue_Flower" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Blue_Flower.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Bone_Block" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Bone_Block.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Bread" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Bread.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Bucket_Empty" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Bucket_Empty.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Bucket_Water" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Bucket_Water.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cactus_BottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Cactus_BottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cactus_BottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Cactus_BottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cactus_Cross" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Cactus_Cross.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cactus_Fruit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Cactus_Fruit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cactus_Horizontal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Cactus_Horizontal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cactus_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Cactus_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cactus_TopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Cactus_TopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cactus_TopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Cactus_TopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cactus_Top_Fruit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Cactus_Top_Fruit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cactus_Vertical" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Cactus_Vertical.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Candle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Candle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Coal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Coal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Copper_Bar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Copper_Bar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Copper_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Copper_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Croissant" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Croissant.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Dead_Bush" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Dead_Bush.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Diamond" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Diamond.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Diamond_Axe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Diamond_Axe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Diamond_Hammer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Diamond_Hammer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Diamond_Pickaxe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Diamond_Pickaxe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Diamond_Scythe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Diamond_Scythe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Diamond_Shovel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Diamond_Shovel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Diamond_Sword" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Diamond_Sword.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Emerald" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Emerald.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Emerald_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Emerald_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Flower_Pot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Flower_Pot.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Fossil_Fragment" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Fossil_Fragment.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Furnace_Idle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Furnace_Idle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Furnace_Running" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Furnace_Running.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Gold_Bar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Gold_Bar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Gold_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Gold_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Grass" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Grass.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Iron_Axe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Iron_Axe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Iron_Bar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Iron_Bar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Iron_Gates" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Iron_Gates.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Iron_Hammer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Iron_Hammer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Iron_Pickaxe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Iron_Pickaxe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Iron_Rod" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Iron_Rod.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Iron_Scythe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Iron_Scythe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Iron_Shovel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Iron_Shovel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Iron_Sword" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Iron_Sword.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Ladder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Ladder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Mossy_Cobblestone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Mossy_Cobblestone.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Chair" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Oak_Chair.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Chair_Bottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Oak_Chair_Bottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Chair_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Oak_Chair_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Door_Closed_Base" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Oak_Door_Closed_Base.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Door_Closed_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Oak_Door_Closed_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Door_Item" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Oak_Door_Item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Door_Open_Base" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Oak_Door_Open_Base.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Door_Open_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Oak_Door_Open_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Planks" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Oak_Planks.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Planks_StairBottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Oak_Planks_StairBottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Planks_StairBottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Oak_Planks_StairBottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Planks_StairTopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Oak_Planks_StairTopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Planks_StairTopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Oak_Planks_StairTopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Plank_BottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_BottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Plank_BottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_BottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Plank_Center" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_Center.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Plank_SlabBottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_SlabBottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Plank_SlabLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_SlabLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Plank_SlabRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_SlabRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Plank_SlabTop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_SlabTop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Plank_TopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_TopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Plank_TopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Oak_Plank_TopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Sapling" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Oak_Sapling.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Table" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Oak_Table.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Trapdoor_Closed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Oak_Trapdoor_Closed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Oak_Trapdoor_Open" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Oak_Trapdoor_Open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Paper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Paper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Pot_Shard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Pot_Shard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Rock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Rock.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sand" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Sand.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sand_Stone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Sand_Stone.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sand_Stone_BottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_BottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sand_Stone_BottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_BottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sand_Stone_Bricks" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Sand_Stone_Bricks.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sand_Stone_Center" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_Center.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sand_Stone_SlabBottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_SlabBottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sand_Stone_SlabLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_SlabLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sand_Stone_SlabRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_SlabRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sand_Stone_SlabTop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_SlabTop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sand_Stone_StairBottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_StairBottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sand_Stone_StairBottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_StairBottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sand_Stone_StairTopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_StairTopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sand_Stone_StairTopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_StairTopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sand_Stone_TopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_TopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sand_Stone_TopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Sand_Stone_TopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Chair" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Spruce_Chair.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Chair_Bottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Spruce_Chair_Bottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Chair_Top" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Spruce_Chair_Top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Planks" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Spruce_Planks.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Plank_BottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_BottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Plank_BottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_BottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Plank_Center" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_Center.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Plank_SlabBottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_SlabBottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Plank_SlabLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_SlabLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Plank_SlabRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_SlabRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Plank_SlabTop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_SlabTop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Plank_StairBottomLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_StairBottomLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Plank_StairBottomRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_StairBottomRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Plank_StairTopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_StairTopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Plank_StairTopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_StairTopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Plank_TopLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_TopLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Plank_TopRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Chiseled\Spruce_Plank_TopRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Sapling" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\blocks\Spruce_Sapling.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Table" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Spruce_Table.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Trapdoor_Closed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Spruce_Trapdoor_Closed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Trapdoor_Item" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Spruce_Trapdoor_Item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Spruce_Trapdoor_Open" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Spruce_Trapdoor_Open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Stick" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Stick.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Stone_Axe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Stone_Axe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Stone_Bricks" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Stone_Bricks.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Stone_Pickaxe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Stone_Pickaxe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Stone_Scythe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Stone_Scythe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Stone_Shovel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Stone_Shovel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Stone_Sword" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Stone_Sword.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Tin_Axe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Tin_Axe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Tin_Bar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tin_Bar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Tin_Hammer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Tin_Hammer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Tin_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Tin_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Tin_Pickaxe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Tin_Pickaxe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Tin_Scythe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Tin_Scythe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Tin_Shovel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Tin_Shovel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Tin_Sword" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Tin_Sword.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Tungsten_Bar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tungsten_Bar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Tungsten_Ore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Tungsten_Ore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Wax" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Wax.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Wood_Axe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Wood_Axe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Wood_Hammer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Wood_Hammer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Wood_Pickaxe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Wood_Pickaxe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Wood_Scythe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Wood_Scythe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Wood_Shovel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Wood_Shovel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Wood_Sword" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tools\Wood_Sword.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Yellow_Flower" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Yellow_Flower.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Glass" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Glass.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cactus_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Cactus_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cactus_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Cactus_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Player_Leg_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Entities\Player_Leg_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Player_Leg_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Entities\Player_Leg_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Player_Arm_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Entities\Player_Arm_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Player_Arm_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Entities\Player_Arm_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Player_Head" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Entities\Player_Head.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Player_Body" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Entities\Player_Body.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
 </root>

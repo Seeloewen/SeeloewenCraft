@@ -5,8 +5,8 @@ using System.Windows.Media;
 
 namespace SeeloewenCraft.entity
 {
-    public class Player : MovingEntity
-    {
+    public partial class Player : MovingEntity
+    {         
         public Inventory inventory;
         public HealthBar healthBar;
 
@@ -15,16 +15,21 @@ namespace SeeloewenCraft.entity
         public const double HIT_RANGE = 4000.0;
         public const double HIT_DAMAGE = 2.0;
 
+        private const int PLAYER_WIDTH = 350;
+        private const int PLAYER_HEIGHT = 1950;
+
+        private int directionScale = 1;
+
         //-- Constructor --//
 
-        public Player(int x, int y) : base(900, 1900, x, y, 0, 0)
+        public Player(int x, int y) : base(PLAYER_WIDTH, PLAYER_HEIGHT, x, y, 0, 0)
         {
             //Generate the player
             type = "Player";
             InitPlayer();
         }
 
-        public Player(JsonToken token) : base(token, 900, 1900, new SolidColorBrush(Colors.Red))
+        public Player(JsonToken token) : base(token, PLAYER_WIDTH, PLAYER_HEIGHT, new SolidColorBrush(Colors.Red))
         {
             InitPlayer();
         }
@@ -98,6 +103,33 @@ namespace SeeloewenCraft.entity
                 HandlePressedChangeEvent(e);
                 e.Send();
             }
+
+            UpdateHeadPosition();
+
+            //Do animation if necessary
+            movingHorizontally = pressedLeft || pressedRight;
+            DoMovementAnimation();
+        }
+
+        public void UpdateHeadPosition()
+        {
+            //Update player head position based on the direction he's looking
+            if (pressedRight)
+            {
+                directionScale = -1;
+            }
+            else if (pressedLeft)
+            {
+                directionScale = 1;
+            }
+
+            ScaleTransform flipTransform = new ScaleTransform
+            {
+                ScaleX = directionScale,
+                CenterX = cvsHead.ActualWidth / 2
+            };
+
+            cvsHead.RenderTransform = flipTransform;
         }
 
         protected override void DoFallDamage()
@@ -146,6 +178,9 @@ namespace SeeloewenCraft.entity
             {
                 healthBar.Hide();
             }
+
+            texture.Background = new SolidColorBrush(Colors.Transparent);
+            InitAnimations();
         }
 
         public override void Die()
@@ -243,6 +278,6 @@ namespace SeeloewenCraft.entity
                 Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "touchingWater", $"touchingWater={touchingStatus[TOUCHING_WATER]}");
                 Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "breathing", $"breathing={breathing}");
             }
-        }
+        }      
     }
 }
