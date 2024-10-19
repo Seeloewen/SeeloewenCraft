@@ -33,6 +33,12 @@ namespace SeeloewenCraft.gl_rendering
             GL.DeleteShader(frag);
         }
 
+        internal void SetUniform(string name, int value)
+        {
+            int location = GL.GetUniformLocation(programID, name);
+            GL.Uniform1(location, value);
+        }
+
         public void Use()
         {
             GL.UseProgram(programID);

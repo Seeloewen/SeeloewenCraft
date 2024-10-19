@@ -67,7 +67,7 @@ namespace SeeloewenCraft.gl_rendering
 
         internal void SetVertices(float[] vertices)
         {
-            Debug.Assert(vertices.Length == count); //could be <=
+            Debug.Assert(vertices.Length <= count); //could be <=
             Bind();
             GL.BufferSubData(BufferTarget.ArrayBuffer, 0, vertices.Length * sizeof(float), vertices);
         }

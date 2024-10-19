@@ -100,7 +100,10 @@ namespace SeeloewenCraft
 
             // The rest of the function is up to you to implement, however a debug output
             // is always useful.
-            MessageBox.Show(String.Format("[{0} source={1} type={2} id={3}] {4}", severity, source, type, id, message));
+            if (severity != DebugSeverity.DebugSeverityNotification)
+            {
+                MessageBox.Show(String.Format("[{0} source={1} type={2} id={3}] {4}", severity, source, type, id, message));
+            }
         }
         
         
