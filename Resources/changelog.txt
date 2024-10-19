@@ -1,4 +1,18 @@
-﻿Alpha 1.2.0 - 12.09.2024
+﻿Alpha 1.2.1 - 19.10.2024
+* Added a Player Skin
+* Added movement animations
+* Added world seed support
+* Added Auto-Saving for worlds
+* Added first public Multiplayer Prototype (experimental)
+* The /give command now shows the item in the notification
+* Natural leaves now decay when no longer connected to a log
+* Blocks that need ground can no longer be placed in the air
+* Trees are now way more common
+* Fixed being able to glitch into blocks when swimming upwards
+* Fixed hotbar not showing when closing out of handcrafting
+* Fixed information on crop blocks not being saved
+
+Alpha 1.2.0 - 12.09.2024
 * Added new commands
 * Added lakes
 * Added a bunch of new items and blocks
