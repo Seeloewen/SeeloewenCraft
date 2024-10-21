@@ -329,6 +329,14 @@ namespace SeeloewenCraft
             }
         }
 
+        public void UpdateTexture()
+        {
+            if (block != null)
+            {
+                cvsBlock.Background = block.sImage.GetTexture();
+            }
+        }
+
         public void ShowDarkRectangle()
         {
             rectDarkOverlay.Visibility = Visibility.Visible;

@@ -658,7 +658,7 @@
         public CroissantItem() : base()
         {
             Init("Croissant", "sc:croissant_item", null, false, Images.Croissant);
-            healAmount = 3;
+            healAmount = 2;
         }
     }
 
@@ -770,6 +770,38 @@
         public GlassItem() : base()
         {
             Init("Glass", "sc:glass_item", "sc:glass_block", true, Images.Glass);
+        }
+    }
+
+    public class SeedsItem : Item
+    {
+        public SeedsItem() : base()
+        {
+            Init("Seeds", "sc:seeds_item", "sc:wheat_crop_block", true, Images.Seeds);
+        }
+    }
+
+    public class CarrotItem : Item
+    {
+        public CarrotItem() : base()
+        {
+            Init("Carrot", "sc:carrot_item", "sc:carrot_crop_block", true, Images.Carrot);
+        }
+    }
+
+    public class WheatItem : Item
+    {
+        public WheatItem() : base()
+        {
+            Init("Wheat", "sc:wheat_item", null, false, Images.Wheat);
+        }
+    }
+
+    public class FarmlandItem : Item
+    {
+        public FarmlandItem() : base()
+        {
+            Init("Farmland", "sc:farmland_item", "sc:farmland_block", true, Images.Farmland);
         }
     }
 }

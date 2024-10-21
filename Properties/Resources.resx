@@ -173,7 +173,7 @@
 		<value>..\Resources\Textures\Blocks\Oak_Log.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
 	</data>
 	<data name="Potted_Cactus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-		<value>..\Resources\Textures\Blocks\Connected\Potted_Cactus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+		<value>..\Resources\Textures\Items\Potted_Cactus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
 	</data>
 	<data name="Potted_Cactus_Base" type="System.Resources.ResXFileRef, System.Windows.Forms">
 		<value>..\Resources\Textures\Blocks\Connected\Potted_Cactus_Base.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -819,5 +819,41 @@
 	</data>
 	<data name="Player_Body" type="System.Resources.ResXFileRef, System.Windows.Forms">
 		<value>..\Resources\Textures\Entities\Player_Body.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Carrot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Carrot.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Wheat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Wheat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Wheat_Stage_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Wheat_Stage_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Wheat_Stage_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Wheat_Stage_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Wheat_Stage_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Wheat_Stage_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Wheat_Stage_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Wheat_Stage_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Carrot_Stage_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Carrot_Stage_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Carrot_Stage_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Carrot_Stage_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Carrot_Stage_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Carrot_Stage_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Carrot_Stage_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Carrot_Stage_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Seeds" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Seeds.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Farmland" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Farmland.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
 	</data>
 </root>

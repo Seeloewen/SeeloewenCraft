@@ -532,6 +532,19 @@
 
                 case "sc:cactus_right_item":
                     return new Cactus_RightItem();
+
+                case "sc:wheat_item":
+                    return new WheatItem();
+
+                case "sc:carrot_item":
+                    return new CarrotItem();
+
+                case "sc:seeds_item":
+                    return new SeedsItem();
+
+                case "sc:farmland_item":
+                    return new FarmlandItem();
+
                 default:
                     return null;
             }

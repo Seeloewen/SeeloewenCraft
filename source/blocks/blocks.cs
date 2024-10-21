@@ -1064,4 +1064,89 @@ namespace SeeloewenCraft
             dropsOnWrongTool = false;
         }
     }
+
+    public class FarmlandBlock : Block
+    {
+        public FarmlandBlock(bool isInBackground) : base(isInBackground)
+        {
+            Init("Farmland", "sc:farmland_block", 250, "sc:farmland_item", Tool.None, Images.Farmland);
+            drops.Add(("sc:dirt_item", 1, 1));
+            tags.Add("ground/plant");
+            tags.Add("ground/farmland");
+        }
+    }
+
+    public class WheatCropBlock : CropBlock
+    {
+        int state = 1;
+
+        public WheatCropBlock(bool isInBackground) : base(isInBackground)
+        {
+            Init("Wheat", "sc:wheat_crop_block", 0, "sc:seeds_item", Game.rnd.Next(10000, 20000), "sc:seeds_item", "sc:wheat_item", 1, 4, Tool.None, Images.Wheat_Stage1);
+            drops.Add(("sc:seeds_item", 1, 1));
+            isSolid = false;
+            needsGround = (true, "ground/farmland"); //Game.rnd.Next(1200000, 1800001)
+        }
+
+        public override void UpdateProgress(int amount)
+        {
+            base.UpdateProgress(amount);
+
+            if (progress >= growthTime / 3 && state < 2)
+            {
+                state = 2;
+                sImage = Images.Wheat_Stage2;
+                SetTexture();
+            }
+            else if (progress >= 2 * (growthTime / 3) && state < 3)
+            {
+                state = 3;
+                sImage = Images.Wheat_Stage3;
+                SetTexture();
+            }
+            else if (IsReady())
+            {
+                state = 4;
+                sImage = Images.Wheat_Stage4;
+                SetTexture();
+            }
+        }
+    }
+
+    public class CarrotCropBlock : CropBlock
+    {
+        int state = 1;
+
+        public CarrotCropBlock(bool isInBackground) : base(isInBackground)
+        {
+            Init("Carrot", "sc:carrot_crop_block", 0, "sc:carrot_item", Game.rnd.Next(10000, 20000), "sc:carrot_item", "sc:carrot_item", 1, 3, Tool.None, Images.Carrot_Stage1);
+            drops.Add(("sc:carrot_item", 1, 1));
+            isSolid = false;
+            needsGround = (true, "ground/farmland"); //Game.rnd.Next(1400000, 2000001)
+        }
+
+        public override void UpdateProgress(int amount)
+        {
+            base.UpdateProgress(amount);
+
+            if (progress >= growthTime / 3 && state < 2)
+            {
+                state = 2;
+                sImage = Images.Carrot_Stage2;
+                SetTexture();
+            }
+            else if (progress >= 2 * (growthTime / 3) && state < 3)
+            {
+                state = 3;
+                sImage = Images.Carrot_Stage3;
+                SetTexture();
+            }
+            else if (IsReady())
+            {
+                state = 4;
+                sImage = Images.Carrot_Stage4;
+                SetTexture();
+            }
+        }
+    }
 }

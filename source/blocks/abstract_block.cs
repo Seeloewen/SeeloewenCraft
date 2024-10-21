@@ -529,6 +529,11 @@ namespace SeeloewenCraft
         public virtual void SetTexture()
         {
             image = sImage.GetTexture();
+
+            if(blockContainer != null)
+            {
+                blockContainer.UpdateTexture();
+            }
         }
 
         public virtual void RightClickAction(object sender)
