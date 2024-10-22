@@ -142,6 +142,17 @@ namespace SeeloewenCraft
 
         public CraftingGui(int height, int width, int top, int left, string id, Inventory inventory, Block block) : base(height, width, top, left, id)
         {
+            Init(inventory, block);
+
+            //Render the recipes
+            if (craftingHandler != null)
+            {
+                craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, workstationType);
+            }
+        }
+
+        public virtual void Init(Inventory inventory, Block block)
+        {
             this.inventory = inventory;
 
             if (block != null && craftingHandler == null) //Only get the block crafting handler if a block exists and no crafting handler has been set
@@ -196,9 +207,6 @@ namespace SeeloewenCraft
             btnClaim.Click += craftingHandler.btnClaim_Click;
             tbAmount.TextChanged += tbAmount_TextChanged;
             tbAmount.PreviewTextInput += tbAmount_PreviewTextInput;
-
-            //Render the recipes
-            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, workstationType);
         }
 
         public override void Show()
@@ -211,7 +219,7 @@ namespace SeeloewenCraft
             craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, workstationType);
         }
 
-        private void tbAmount_TextChanged(object sender, EventArgs e)
+        protected void tbAmount_TextChanged(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(tbAmount.Text))
             {
@@ -230,7 +238,7 @@ namespace SeeloewenCraft
             }
         }
 
-        private void tbAmount_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        protected void tbAmount_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
@@ -361,6 +369,9 @@ namespace SeeloewenCraft
             tblHeader.Text = "Furnace";
             this.block = block;
 
+            //Remove the default event handlers and add custom ones
+            btnCraft.Click -= craftingHandler.btnCraft_Click;
+            btnClaim.Click -= craftingHandler.btnClaim_Click;
             btnCraft.Click += btnCraft_Click;
             btnClaim.Click += btnClaim_Click;
         }
@@ -368,12 +379,14 @@ namespace SeeloewenCraft
         private void btnCraft_Click(object sender, RoutedEventArgs e)
         {
             block.sImage = Images.Furnace_Running;
+            block.SetTexture();
             craftingHandler.btnCraft_Click(sender, e);
         }
 
         private void btnClaim_Click(object sender, RoutedEventArgs e)
         {
             block.sImage = Images.Furnace_Idle;
+            block.SetTexture();
             craftingHandler.btnClaim_Click(sender, e);
         }
     }
@@ -391,27 +404,22 @@ namespace SeeloewenCraft
         }
     }
 
-    public class HandCraftingGui : Gui
-    {
-        public TextBlock tblRecipesHeader = new TextBlock() { FontSize = 18, Text = "Available Recipes", FontWeight = FontWeights.DemiBold };
-        public TextBlock tblIngredients = new TextBlock() { FontSize = 18, Text = "Ingredients", FontWeight = FontWeights.DemiBold };
-        public TextBlock tblAmount = new TextBlock() { FontSize = 18, Text = "Amount:", FontWeight = FontWeights.DemiBold };
-        public TextBox tbAmount = new TextBox() { FontSize = 18, Text = "1", FontWeight = FontWeights.DemiBold, Width = 45 };
-        public ScrollViewer svRecipeDetails = new ScrollViewer() { Width = 400, Height = 375, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
-        public Canvas cvsRecipeDetails = new Canvas() { Background = new SolidColorBrush(Color.FromArgb(130, 240, 240, 240)) };
-        public ScrollViewer svRecipes = new ScrollViewer() { Width = 200, Height = 375, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
-        public Canvas cvsRecipes = new Canvas() { Background = new SolidColorBrush(Color.FromArgb(130, 240, 240, 240)) };
-        public Button btnCraft = new Button() { Width = 125, Height = 30, Content = "Craft Item", FontSize = 18 };
-        public Button btnClaim = new Button() { Width = 125, Height = 30, Content = "Claim Item", FontSize = 18, Visibility = Visibility.Hidden, Background = new SolidColorBrush(Colors.LightGreen) };
-        public ProgressBar pbCrafting = new ProgressBar() { Width = 380, Height = 30, Visibility = Visibility.Hidden };
-        public CraftingHandler craftingHandler;
-
-        public HandCraftingGui(int height, int width, int top, int left, string id, Inventory inventory, CraftingHandler craftingHandler) : base(height, width, top, left, id)
+    public class HandCraftingGui : CraftingGui
+    {                                   
+        public HandCraftingGui(int height, int width, int top, int left, string id, Inventory inventory, CraftingHandler craftingHandler) : base(height, width, top, left, id, inventory, null)
         {
-            this.inventory = inventory;
             this.craftingHandler = craftingHandler;
 
+            //Render the recipes
+            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, "Hand_Crafting");
+        }
+
+        public override void Init(Inventory inventory, Block block)
+        {
+            this.inventory = inventory;
+
             tblHeader.Text = "Hand Crafting";
+            workstationType = "Hand_Crafting";
             Canvas.SetTop(tblHeader, 11);
             Canvas.SetLeft(tblHeader, 15);
 
@@ -456,11 +464,8 @@ namespace SeeloewenCraft
 
             btnCraft.Click += btnCraft_Click;
             btnClaim.Click += btnClaim_Click;
-            tbAmount.TextChanged += tbAmount_TextChanged;
-            tbAmount.PreviewTextInput += tbAmount_PreviewTextInput;
-
-            //Render the recipes
-            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, "Hand_Crafting");
+            tbAmount.TextChanged += base.tbAmount_TextChanged;
+            tbAmount.PreviewTextInput += base.tbAmount_PreviewTextInput;
         }
 
         public override void Show()
@@ -481,31 +486,6 @@ namespace SeeloewenCraft
         private void btnClaim_Click(object sender, RoutedEventArgs e)
         {
             craftingHandler.btnClaim_Click(sender, e);
-        }
-
-        private void tbAmount_TextChanged(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(tbAmount.Text))
-            {
-                craftingHandler.amount = Convert.ToInt32(tbAmount.Text);
-                if (craftingHandler.amount > 64)
-                {
-                    craftingHandler.amount = 64;
-                    tbAmount.Text = "64";
-                }
-                craftingHandler.RenderCraftingDetails(cvsRecipeDetails, craftingHandler.selectedRecipe);
-            }
-            else
-            {
-                craftingHandler.amount = 1;
-                craftingHandler.RenderCraftingDetails(cvsRecipeDetails, craftingHandler.selectedRecipe);
-            }
-        }
-
-        private void tbAmount_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }

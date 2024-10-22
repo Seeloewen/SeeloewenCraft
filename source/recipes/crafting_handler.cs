@@ -265,7 +265,7 @@ namespace SeeloewenCraft
 
                 //Show notification and log that crafting process is complete
                 NotificationHandler.ShowNotification($"Crafting for x{amount} {selectedRecipe.displayName} completed!", 3000, Images.CraftingTable.GetTexture());
-                if(block != null) Log.Write($"Completed crafting for {amount}x {selectedRecipe.id} at workstation {workstation} (X: {block.xPos}, Y: {block.yPos}, Chunk: {block.chunk.index})", "Info");
+                if (block != null) Log.Write($"Completed crafting for {amount}x {selectedRecipe.id} at workstation {workstation} (X: {block.xPos}, Y: {block.yPos}, Chunk: {block.chunk.index})", "Info");
             }
         }
 
