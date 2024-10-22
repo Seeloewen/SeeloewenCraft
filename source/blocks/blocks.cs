@@ -25,6 +25,7 @@ namespace SeeloewenCraft
 
             tags.Add("canBeFloor");
             tags.Add("ground/plant");
+            tags.Add("scytheable");
         }
     }
 
@@ -47,6 +48,7 @@ namespace SeeloewenCraft
             Init("Dirt", "sc:dirt_block", 150, "sc:dirt_item", Tool.Shovel, Images.Dirt);
             tags.Add("canBeFloor");
             tags.Add("ground/plant");
+            tags.Add("scytheable");
         }
     }
 

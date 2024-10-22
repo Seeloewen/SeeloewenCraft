@@ -31,6 +31,24 @@
         }
     }
 
+    public abstract class ScytheToolItem : ToolItem
+    {
+        public ScytheToolItem() : base()
+        {
+            hasRightClickAction = true;
+        }
+
+        public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
+        {
+            if (block.tags.Contains("scytheable"))
+            {
+                block.SetBlock(new FarmlandBlock(block.isBackground));
+                invSlot.RemoveDurablity();
+            }
+        }
+    }
+
+
     #region Wood Items
 
     public class WoodHammerItem : ToolItem
@@ -71,12 +89,13 @@
         }
     }
 
-    public class WoodScytheItem : ToolItem
+    public class WoodScytheItem : ScytheToolItem
     {
         public WoodScytheItem() : base()
         {
             Init("Wood Scythe", "sc:wood_scythe_item", null, 64, 0, Tool.Scythe, Material.Wood, false, Images.WoodScythe);
         }
+
     }
 
     public class WoodSwordItem : ToolItem
@@ -129,7 +148,7 @@
         }
     }
 
-    public class StoneScytheItem : ToolItem
+    public class StoneScytheItem : ScytheToolItem
     {
         public StoneScytheItem() : base()
         {
@@ -187,7 +206,7 @@
         }
     }
 
-    public class TinScytheItem : ToolItem
+    public class TinScytheItem : ScytheToolItem
     {
         public TinScytheItem() : base()
         {
@@ -245,7 +264,7 @@
         }
     }
 
-    public class IronScytheItem : ToolItem
+    public class IronScytheItem : ScytheToolItem
     {
         public IronScytheItem() : base()
         {
@@ -303,7 +322,7 @@
         }
     }
 
-    public class DiamondScytheItem : ToolItem
+    public class DiamondScytheItem : ScytheToolItem
     {
         public DiamondScytheItem() : base()
         {
