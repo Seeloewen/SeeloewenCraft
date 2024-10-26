@@ -83,14 +83,14 @@ namespace SeeloewenCraft
         public void RemoveEntity(Entity entity)
         {
             entities.Remove(entity);
-            //Game.world.wndGame.cvsWorld.Children.Remove(entity.texture);
+            Game.world.wndGame.cvsWorld.Children.Remove(entity.texture);
         }
 
 
         public void AddChunk(Chunk chunk)
         {
             chunks.Add(chunk);
-            //Game.world.wndGame.cvsWorld.Children.Add(chunk.grdChunk);
+            Game.world.wndGame.cvsWorld.Children.Add(chunk.grdChunk);
         }
 
         public void RemoveChunk(int id)
