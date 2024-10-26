@@ -1,6 +1,4 @@
-﻿
-using System.Collections.Generic;
-using System.Windows.Documents;
+﻿using System.Collections.Generic;
 using static System.Environment;
 
 namespace SeeloewenCraft.gl_rendering
@@ -24,8 +22,10 @@ namespace SeeloewenCraft.gl_rendering
 
             for (int i = 0; i < token.GetToken("/blocks").GetArrayLength(); i++) {
                 JsonToken mappingToken = token.GetToken($"/blocks/{i}");
-                blockMappings.Add(mappingToken.GetString("/id"), mappingToken.GetString("/file"));
-                blockTextures.Add(mappingToken.GetString("/id"));
+                string id = mappingToken.GetString("/id");
+                string path = mappingToken.GetString("/file");
+                blockMappings.Add(id, path);
+                blockTextures.Add(id);
             }
 
             playerMappings.Add("head", token.GetString("/skin/head"));

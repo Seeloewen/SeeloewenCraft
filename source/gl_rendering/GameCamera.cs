@@ -4,7 +4,7 @@ namespace SeeloewenCraft.gl_rendering
     public class GameCamera
     {
 
-        public float blockLength = 0.2f;
+        public float blockLength = 0.09f;
         public float blockXAnchor;
         public float blockYAnchor;
 

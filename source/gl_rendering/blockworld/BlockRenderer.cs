@@ -13,9 +13,9 @@ namespace SeeloewenCraft.gl_rendering
         float[] buffer;
         int index;
 
-        float blockLength = 0.03f;
+        float blockLength = 1.1f;
         float blockXAnchor = -0.7f;
-        float blockYAnchor = -0.7f;
+        float blockYAnchor = 0.7f;
         float ratio = 16 / 9.0f;
 
         BlockTextureMap textureMap;

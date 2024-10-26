@@ -19,10 +19,9 @@ namespace SeeloewenCraft.gl_rendering
             worldRenderer = new WorldRenderer(textureManager);
             playerRenderer = new PlayerRenderer(textureManager);
 
-
             cam = new GameCamera();
 
-            GL.ClearColor(.1f,.1f,.1f,1f);
+            GL.ClearColor(0.74f, 0.96f, 0.97f, 1f);
         }
 
         public void render()

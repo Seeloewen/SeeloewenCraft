@@ -16,6 +16,7 @@ namespace SeeloewenCraft.entity
         public const double HIT_DAMAGE = 2.0;
 
         float t = 0.0f;
+        Direction headDir = Direction.LEFT;
 
         public PlayerRenderInfo playerRenderInfo = new PlayerRenderInfo(0, 0, Direction.LEFT, 0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -25,8 +26,10 @@ namespace SeeloewenCraft.entity
             t %= (float) (2 * Math.PI);
             //double a = Math.Max(0, 1 - 50 / (40+Math.Pow(Math.Abs(velX), 0.8)));
             double a = 1 - Math.Pow(Math.E, -0.001 * Math.Abs(velX));
+            if (velX < 0) headDir = Direction.LEFT;
+            if(velX > 0) headDir = Direction.RIGHT;
             playerRenderInfo = new PlayerRenderInfo(posX, posY,
-                velX < 0 ? Direction.LEFT : Direction.RIGHT,
+                headDir,
                 (float)(a * -0.6 * Math.Sin(t)),
                 (float)(a * 0.6 * Math.Sin(t)),
                 (float)(a*0.8*Math.Sin(t)),

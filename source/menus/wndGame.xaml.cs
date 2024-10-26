@@ -32,6 +32,7 @@ using ShaderType = OpenTK.Graphics.OpenGL.ShaderType;
 using VertexAttribPointerType = OpenTK.Graphics.OpenGL.VertexAttribPointerType;
 
 using SeeloewenCraft.gl_rendering;
+using BlendingFactor = OpenTK.Graphics.OpenGL.BlendingFactor;
 
 
 namespace SeeloewenCraft
@@ -78,6 +79,8 @@ namespace SeeloewenCraft
 
             OpenTK.Graphics.OpenGL4.GL.DebugMessageCallback(DebugMessageDelegate, IntPtr.Zero);
             OpenTK.Graphics.OpenGL4.GL.Enable(EnableCap.DebugOutput);
+            GL.Enable((OpenTK.Graphics.OpenGL.EnableCap)EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
         }
 
         private static DebugProc DebugMessageDelegate = OnDebugMessage;
