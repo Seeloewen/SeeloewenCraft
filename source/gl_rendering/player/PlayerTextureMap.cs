@@ -7,8 +7,7 @@ namespace SeeloewenCraft.gl_rendering
 
         internal PlayerTextureMap(TextureManager manager) : base(48, 128)
         {
-            //Bitmap head = new Bitmap(manager.GetPlayerTexture("head"));
-            Bitmap head = new Bitmap("C:\\Users\\clemm\\AppData\\Roaming\\SeeloewenCraft\\assets\\Player\\Player_Head.png");
+            Bitmap head = new Bitmap(manager.GetPlayerTexture("head"));
             Bitmap body = new Bitmap(manager.GetPlayerTexture("body"));
             Bitmap armLeft = new Bitmap(manager.GetPlayerTexture("arm_left"));
             Bitmap armRight = new Bitmap(manager.GetPlayerTexture("arm_right"));
