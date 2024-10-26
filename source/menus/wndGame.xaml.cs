@@ -33,6 +33,7 @@ using VertexAttribPointerType = OpenTK.Graphics.OpenGL.VertexAttribPointerType;
 
 using SeeloewenCraft.gl_rendering;
 using BlendingFactor = OpenTK.Graphics.OpenGL.BlendingFactor;
+using System.Windows.Media.Animation;
 
 
 namespace SeeloewenCraft
@@ -51,6 +52,10 @@ namespace SeeloewenCraft
         public int goRightAmount = 10;
         public double relativeSvPos = 0;
         public double defaultSvPos = 0;
+
+        //Framerate
+        private int frames;
+        private double frameTime;
 
         //-- Constructor --//
 
@@ -112,6 +117,16 @@ namespace SeeloewenCraft
         
         private void OpenTkControl_OnRender(TimeSpan delta)
         {
+            frameTime += delta.TotalSeconds;
+
+            frames++;
+            if(frameTime > 0.5)
+            {
+                frameTime %= 0.5;
+                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblGameStats, "fps", $"fps: {frames / 0.5}");
+                frames = 0;
+            }
+
             world.renderer.render();
         }
 

@@ -37,7 +37,7 @@ namespace SeeloewenCraft
 
             //Setup player stats textblock
             cvsDebugMenu.Children.Add(tblPlayerStats);
-            Canvas.SetTop(tblPlayerStats, 115);
+            Canvas.SetTop(tblPlayerStats, 150);
             Canvas.SetLeft(tblPlayerStats, 10);
 
             //Setup debug chat button
