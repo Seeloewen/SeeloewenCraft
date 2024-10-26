@@ -33,10 +33,10 @@ namespace SeeloewenCraft.gl_rendering
                 }
             }
 
-            float s1 = ((float)offsetX) / map.Width;
-            float t1 = ((float)offsetY) / map.Height;
-            float s2 = s1 + (((float)image.Width) / map.Width);
-            float t2 = t1 + (((float)image.Height) / map.Height);
+            float s1 = ((float)offsetX+0.5f) / map.Width;
+            float t1 = ((float)offsetY+0.5f) / map.Height;
+            float s2 = s1 + (((float)image.Width-1.0f) / map.Width);
+            float t2 = t1 + (((float)image.Height - 1.0f) / map.Height);
             mappings.Add(id, (s1, t1, s2, t2));
         }
 
