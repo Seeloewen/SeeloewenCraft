@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
+using SeeloewenCraft.gl_rendering;
 using System;
-using System.Windows;
 using System.Windows.Media;
 
 namespace SeeloewenCraft.entity
@@ -15,21 +15,36 @@ namespace SeeloewenCraft.entity
         public const double HIT_RANGE = 4000.0;
         public const double HIT_DAMAGE = 2.0;
 
-        //-- Constructor --//
+        float t = 0.0f;
 
-        public Player(int x, int y) : base(900, 1900, x, y, 0, 0)
+        public PlayerRenderInfo playerRenderInfo = new PlayerRenderInfo(0, 0, Direction.LEFT, 0.0f, 0.0f, 0.0f, 0.0f);
+
+        void UpdateAnimation(double dt)
+        {
+            t += (float)dt * Math.Abs(velX) * 0.003f;
+            t %= (float) (2 * Math.PI);
+            //double a = Math.Max(0, 1 - 50 / (40+Math.Pow(Math.Abs(velX), 0.8)));
+            double a = 1 - Math.Pow(Math.E, -0.001 * Math.Abs(velX));
+            playerRenderInfo = new PlayerRenderInfo(posX, posY,
+                velX < 0 ? Direction.LEFT : Direction.RIGHT,
+                (float)(a * -0.6 * Math.Sin(t)),
+                (float)(a * 0.6 * Math.Sin(t)),
+                (float)(a*0.8*Math.Sin(t)),
+                (float)(a*-0.8*Math.Sin(t)));
+        }
+
+
+        public Player(int x, int y) : base(475, 1900, x, y, 0, 0)
         {
             //Generate the player
             type = "Player";
             InitPlayer();
         }
 
-        public Player(JsonToken token) : base(token, 900, 1900, new SolidColorBrush(Colors.Red))
+        public Player(JsonToken token) : base(token, 475, 1900, new SolidColorBrush(Colors.Red))
         {
             InitPlayer();
         }
-
-        //-- Custom Methods --//
 
         protected override void InitTexture()
         {
@@ -189,6 +204,7 @@ namespace SeeloewenCraft.entity
             HandleInputs();
             HandleThrow();
             base.OnUpdateStart(tps);
+            UpdateAnimation(1.0 / tps);
             DisplayDebugInformation();
         }
 

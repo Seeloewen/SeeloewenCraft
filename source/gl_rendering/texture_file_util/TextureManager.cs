@@ -13,6 +13,8 @@ namespace SeeloewenCraft.gl_rendering
         Dictionary<string, string> blockMappings = new Dictionary<string, string>();
         public List<string> blockTextures = new List<string>();
 
+        Dictionary<string, string> playerMappings = new Dictionary<string, string>();
+
         internal TextureManager() {
             ParseContent();
         }
@@ -25,9 +27,22 @@ namespace SeeloewenCraft.gl_rendering
                 blockMappings.Add(mappingToken.GetString("/id"), mappingToken.GetString("/file"));
                 blockTextures.Add(mappingToken.GetString("/id"));
             }
+
+            playerMappings.Add("head", token.GetString("/skin/head"));
+            playerMappings.Add("body", token.GetString("/skin/body"));
+            playerMappings.Add("arm_right", token.GetString("/skin/arm_right"));
+            playerMappings.Add("arm_left", token.GetString("/skin/arm_left"));
+            playerMappings.Add("leg_left", token.GetString("/skin/leg_left"));
+            playerMappings.Add("leg_right", token.GetString("/skin/leg_right"));
+
         }
 
-        public string GetTexturePath(string blockID)
+        public string GetPlayerTexture(string part)
+        {
+            return $"{GetFolderPath(SpecialFolder.ApplicationData)}\\SeeloewenCraft\\assets\\{playerMappings[part]}";
+        }
+
+        public string GetBlockTexturePath(string blockID)
         {
             return $"{GetFolderPath(SpecialFolder.ApplicationData)}\\SeeloewenCraft\\assets\\{blockMappings[blockID]}";
         }

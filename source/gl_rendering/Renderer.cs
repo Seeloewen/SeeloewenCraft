@@ -1,5 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL;
-using SeeloewenCraft.util;
+using OpenTK.Mathematics;
 
 namespace SeeloewenCraft.gl_rendering
 {
@@ -8,6 +8,7 @@ namespace SeeloewenCraft.gl_rendering
 
 
         WorldRenderer worldRenderer;
+        PlayerRenderer playerRenderer;
 
         public GameCamera cam;
 
@@ -16,8 +17,12 @@ namespace SeeloewenCraft.gl_rendering
             TextureManager textureManager = new TextureManager();
 
             worldRenderer = new WorldRenderer(textureManager);
+            playerRenderer = new PlayerRenderer(textureManager);
+
 
             cam = new GameCamera();
+
+            GL.ClearColor(.1f,.1f,.1f,1f);
         }
 
         public void render()
@@ -26,7 +31,7 @@ namespace SeeloewenCraft.gl_rendering
 
 
             worldRenderer.Render(cam);
-
+            playerRenderer.Render(cam, Game.world.player.playerRenderInfo);
 
         }
 

@@ -705,7 +705,7 @@ namespace SeeloewenCraft
 
             worldRenderer.Render();
 
-            renderer.cam.SetCamCenterPhysicsCoord(player.posX, player.posY);
+            renderer.cam.SetCamCenterPhysicsCoord(player.posX+237, player.posY+950);
         }
     }
 

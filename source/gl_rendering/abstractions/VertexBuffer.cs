@@ -74,6 +74,7 @@ namespace SeeloewenCraft.gl_rendering
 
         internal void Bind()
         {
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
             GL.BindVertexArray(vao);
         }
 
