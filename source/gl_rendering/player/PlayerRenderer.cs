@@ -24,7 +24,7 @@ namespace SeeloewenCraft.gl_rendering
 
         internal PlayerRenderer(TextureManager manager)
         {
-            shader = new Shader();
+            shader = new Shader("shader/player");
             textureMap = new PlayerTextureMap(manager);
             buffer = new VertexBuffer(new VBLayout().AddAttribute(2).AddAttribute(2), 4 * 6 * 7);
         }

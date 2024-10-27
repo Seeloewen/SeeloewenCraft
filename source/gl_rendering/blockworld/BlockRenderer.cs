@@ -28,8 +28,8 @@ namespace SeeloewenCraft.gl_rendering
         internal BlockRenderer(BlockTextureMap textureMap)
         {
             this.textureMap = textureMap;
-            shader = new Shader();
-            vertexBuffer = new VertexBuffer(new VBLayout().AddAttribute(2).AddAttribute(2), 1024);
+            shader = new Shader("shader/blockworld");
+            vertexBuffer = new VertexBuffer(new VBLayout().AddAttribute(2).AddAttribute(2).AddAttribute(1), 1024);
         }
 
         internal void ApplyCam(GameCamera cam)
@@ -40,10 +40,16 @@ namespace SeeloewenCraft.gl_rendering
             ratio = cam.ratio;
         }
 
-        internal void DrawBlock(string blockID, int blockX, int blockY)
+        internal void DrawBlock(BlockRenderInfo info)
+        {
+            DrawBlock(info.GetTextureID(), info.x, info.y, info.isBackground);
+            if (info.hasForegroundBlock) DrawBlock(info.GetForegroundTextureID(), info.x, info.y, false);
+        }
+
+        internal void DrawBlock(string blockID, int blockX, int blockY, bool isBackground)
         {
             Debug.Assert(drawing); //this assert isnt working (secret Axogurkel cameo)
-            if (index + 4 * 6 > buffer.Length)
+            if (index + 5 * 6 > buffer.Length)
             {
                 End();
                 Begin();
@@ -53,21 +59,24 @@ namespace SeeloewenCraft.gl_rendering
             float y1 = blockYAnchor - blockLength * blockY * ratio;
             float x2 = x1 + blockLength;
             float y2 = y1 - blockLength * ratio;
-            Put(x1, y1, s1, t1);
-            Put(x2, y1, s2, t1);
-            Put(x1, y2, s1, t2);
-            Put(x2, y1, s2, t1);
-            Put(x1, y2, s1, t2);
-            Put(x2, y2, s2, t2);
+
+            float g = isBackground ? 0.69f : 1.0f;
+            Put(x1, y1, s1, t1, g);
+            Put(x2, y1, s2, t1, g);
+            Put(x1, y2, s1, t2, g);
+            Put(x2, y1, s2, t1, g);
+            Put(x1, y2, s1, t2, g);
+            Put(x2, y2, s2, t2, g);
 
         }
 
-        private void Put(float x, float y, float s, float t)
+        private void Put(float x, float y, float s, float t, float g)
         {
             buffer[index++] = x;
             buffer[index++] = y;
             buffer[index++] = s;
             buffer[index++] = t;
+            buffer[index++] = g;
         }
 
         internal void Begin()

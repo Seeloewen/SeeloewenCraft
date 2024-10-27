@@ -12,10 +12,10 @@ namespace SeeloewenCraft.gl_rendering
 
         private int programID;
 
-        internal Shader() { 
+        internal Shader(string path) { 
             programID = GL.CreateProgram();
-            int vert = CreateShader(ShaderType.VertexShader, "shader/vert.glsl");
-            int frag = CreateShader(ShaderType.FragmentShader, "shader/frag.glsl");
+            int vert = CreateShader(ShaderType.VertexShader, $"{path}/vert.glsl");
+            int frag = CreateShader(ShaderType.FragmentShader, $"{path}/frag.glsl");
             GL.AttachShader(programID, vert);
             GL.AttachShader(programID, frag);
             GL.LinkProgram(programID);

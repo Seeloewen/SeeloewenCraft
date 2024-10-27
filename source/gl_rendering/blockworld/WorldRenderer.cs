@@ -22,7 +22,8 @@ namespace SeeloewenCraft.gl_rendering
             {
                 foreach (Block block in chunk.blockList.blocks)
                 {
-                    blockRenderer.DrawBlock(block.id, block.xPos + chunk.index * 8, block.yPos);
+                    blockRenderer.DrawBlock(block.GetBlockRenderInfo());
+                    //blockRenderer.DrawBlock(block.id, block.xPos + chunk.index * 8, block.yPos);
                 }
             }
             blockRenderer.End();
