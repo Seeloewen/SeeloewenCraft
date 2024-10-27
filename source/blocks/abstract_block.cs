@@ -10,6 +10,7 @@ using System.Text;
 using System.Runtime.CompilerServices;
 using SeeloewenCraft.gl_rendering;
 using OpenTK.Graphics.OpenGL;
+using System.Diagnostics;
 
 namespace SeeloewenCraft
 {
@@ -63,7 +64,7 @@ namespace SeeloewenCraft
         public bool hasAirLightSource;
         public int xOffset;
         public int yOffset;
-        protected string state = "";
+        public string state = "";
 
         //Water
         public int waterLevel = 0; //constant depending on block type
@@ -93,6 +94,10 @@ namespace SeeloewenCraft
 
         public BlockRenderInfo GetBlockRenderInfo()
         {
+            if(this is FurnaceBlock)
+            {
+                Debug.Assert(false);
+            }
             var info = new BlockRenderInfo(xPos + chunk.index * 8, yPos, id, state, isBackground);
             if(foregroundBlock != null) info.AddForegroundBlock(foregroundBlock.id, foregroundBlock.state);
             return info;
