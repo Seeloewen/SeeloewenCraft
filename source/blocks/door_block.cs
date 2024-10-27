@@ -8,7 +8,10 @@ namespace SeeloewenCraft
         public ImageBrush imgClose;
         public bool isOpen;
 
-        public DoorBlock( bool isInBackground) : base( isInBackground) { }
+        public DoorBlock(bool isInBackground) : base(isInBackground)
+        {
+            state = "closed";
+        }
 
         public override void RightClickAction(object sender)
         {
@@ -44,6 +47,7 @@ namespace SeeloewenCraft
             image = imgOpen;
             blockContainer.cvsBlock.Background = image;
             isSolid = false;
+            state = "open";
 
             //If it's a base block, also open all connected doorblocks
             if (isBase)
@@ -62,6 +66,7 @@ namespace SeeloewenCraft
             image = imgOpen;
             chunk.GetBlock(xPos, yPos).blockContainer.cvsForegroundBlock.Background = image;
             isSolid = false;
+            state = "open";
 
             //If it's a base block, also open all connected doorblocks
             if (isBase)
@@ -80,6 +85,7 @@ namespace SeeloewenCraft
             image = imgClose;
             isSolid = true;
             blockContainer.cvsBlock.Background = image;
+            state = "closed";
 
             //If it's a base block, also close all connected doorblocks
             if (isBase)
@@ -99,6 +105,7 @@ namespace SeeloewenCraft
             image = imgClose;
             isSolid = true;
             chunk.GetBlock(xPos, yPos).blockContainer.cvsForegroundBlock.Background = image;
+            state = "closed";
 
             //If it's a base block, also close all connected doorblocks
             if (isBase)

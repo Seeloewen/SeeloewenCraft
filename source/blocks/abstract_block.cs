@@ -63,7 +63,7 @@ namespace SeeloewenCraft
         public bool hasAirLightSource;
         public int xOffset;
         public int yOffset;
-        string state = "";
+        protected string state = "";
 
         //Water
         public int waterLevel = 0; //constant depending on block type
