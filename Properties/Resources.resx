@@ -856,4 +856,28 @@
 	<data name="Farmland" type="System.Resources.ResXFileRef, System.Windows.Forms">
 		<value>..\Resources\Textures\Blocks\Farmland.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
 	</data>
+	<data name="Berry" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Berry.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cotton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Cotton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Berry_Bush_Stage_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Berry_Bush_Stage_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Berry_Bush_Stage_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Berry_Bush_Stage_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cotton_Stage_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Cotton_Stage_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cotton_Stage_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Cotton_Stage_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sugar_Cane" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Sugar_Cane.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Sugar_Cane_Item" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Sugar_Cane_Item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
 </root>

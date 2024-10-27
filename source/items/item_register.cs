@@ -545,6 +545,15 @@
                 case "sc:farmland_item":
                     return new FarmlandItem();
 
+                case "sc:berry_item":
+                    return new BerryItem();
+
+                case "sc:cotton_item":
+                    return new CottonItem();
+
+                case "sc:sugar_cane_item":
+                    return new SugarCaneItem();
+
                 default:
                     return null;
             }

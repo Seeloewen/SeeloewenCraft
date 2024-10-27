@@ -1151,4 +1151,127 @@ namespace SeeloewenCraft
             }
         }
     }
+    public class CottonCropBlock : CropBlock
+    {
+        public CottonCropBlock(bool isInBackground) : base(isInBackground)
+        {
+            Init("Cotton", "sc:cotton_crop_block", 0, "sc:cotton_item", Game.rnd.Next(10000, 20000), "sc:cotton_item", "sc:cotton_item", 1, 2, Tool.None, Images.Cotton_Stage1);
+            drops.Add(("sc:cotton_item", 1, 1));
+            isSolid = false;
+            hasRightClickAction = true;
+            needsGround = (true, "ground/farmland"); //Game.rnd.Next(1400000, 2000001)
+        }
+
+        public override void UpdateProgress(int amount)
+        {
+            base.UpdateProgress(amount);
+
+            if (IsReady())
+            {
+                sImage = Images.Cotton_Stage2;
+                SetTexture();
+            }
+        }
+
+        public override void RightClickAction(object sender)
+        {
+            if (IsReady())
+            {
+                //Drop the item and reset the progress without breaking the block
+                Drop(isForeground);
+                growthTime = Game.rnd.Next(10000, 20000);
+                progress = 0;
+
+                drops.Clear();
+                drops.Add(("sc:cotton_item", 1, 1));
+
+                sImage = Images.Cotton_Stage1;
+                SetTexture();
+            }
+        }
+    }
+
+    public class BerryBushCropBlock : CropBlock
+    {
+        public BerryBushCropBlock(bool isInBackground) : base(isInBackground)
+        {
+            Init("Berry Bush", "sc:berry_bush_crop_block", 0, "sc:berry_item", Game.rnd.Next(10000, 20000), "sc:berry_item", "sc:berry_item", 1, 3, Tool.None, Images.Berry_Bush_Stage1);
+            drops.Add(("sc:berry_item", 1, 1));
+            isSolid = false;
+            hasRightClickAction = true;
+            needsGround = (true, ""); //Game.rnd.Next(1400000, 2000001)
+        }
+
+        public override void UpdateProgress(int amount)
+        {
+            base.UpdateProgress(amount);
+
+            if (IsReady())
+            {
+                sImage = Images.Berry_Bush_Stage2;
+                SetTexture();
+            }
+        }
+
+        public override void RightClickAction(object sender)
+        {
+            if (IsReady())
+            {
+                //Drop the item and reset the progress without breaking the block
+                Drop(isForeground);
+                growthTime = Game.rnd.Next(10000, 20000);
+                progress = 0;
+
+                drops.Clear();
+                drops.Add(("sc:berry_item", 1, 1));
+
+                sImage = Images.Berry_Bush_Stage1;
+                SetTexture();
+            }
+        }
+    }
+
+    public class SugarCaneBlock : CropBlock
+    {
+        protected int height = 1;
+        protected bool shouldGrow = true;
+
+        public SugarCaneBlock(bool isInBackground) : base(isInBackground)
+        {
+            Init("Sugar Cane", "sc:sugar_cane_block", 0, "sc:sugar_cane_item", Game.rnd.Next(10000, 20000), "sc:sugar_cane_item", "sc:sugar_cane_item", 0, 0, Tool.None, Images.SugarCane);
+            drops.Add(("sc:sugar_cane_item", 1, 1));
+            isSolid = false;
+            isBase = true;
+            needsGround = (true, ""); //Game.rnd.Next(1400000, 2000001)
+
+            //Implement additional check for nearby water (maybe)
+        }
+
+        public override void UpdateProgress(int amount)
+        {
+            base.UpdateProgress(amount);
+
+            if (IsReady() && shouldGrow)
+            {
+                Block blockAbove = chunk.GetBlock(xPos, yPos - height);
+
+                //If there's space above, place a new sugar cane
+                if (blockAbove != null && blockAbove.isReplacable && height < 4)
+                {
+                    SugarCaneBlock newBlockAbove = new SugarCaneBlock(false);
+                    newBlockAbove.needsGround = (false, "");
+                    newBlockAbove.baseBlock = (0, height);
+                    newBlockAbove.shouldGrow = false;
+                    newBlockAbove.isBase = false;
+                    
+                    blockAbove.SetBlock(newBlockAbove);
+                    connectedBlocks.Add((0, -height, newBlockAbove.id));
+
+                    progress = 0;
+                    height++;
+                    growthTime = Game.rnd.Next(10000, 20000);
+                }
+            }
+        }
+    }
 }

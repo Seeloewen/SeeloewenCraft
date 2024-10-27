@@ -2541,6 +2541,32 @@
           "amount": 1
         }
       ]
+    },
+    {
+      "id": "sc:recipe_paper",
+      "workstation": "Crafting_Table",
+      "display_name": "Paper",
+      "required_time": 2000,
+      "ingredients": [
+        {
+          "item_id": "sc:sugar_cane_item",
+          "amount": 2
+        },
+        {
+          "item_id": "sc:bucket_water_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:paper_item",
+          "amount": 1
+        },
+        {
+          "item_id": "sc:bucket_empty_item",
+          "amount": 1
+        }
+      ]
     }
   ]
 }

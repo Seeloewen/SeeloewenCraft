@@ -183,6 +183,36 @@ namespace SeeloewenCraft.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Berry {
+            get {
+                object obj = ResourceManager.GetObject("Berry", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Berry_Bush_Stage_1 {
+            get {
+                object obj = ResourceManager.GetObject("Berry_Bush_Stage_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Berry_Bush_Stage_2 {
+            get {
+                object obj = ResourceManager.GetObject("Berry_Bush_Stage_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Blue_Flower {
             get {
                 object obj = ResourceManager.GetObject("Blue_Flower", resourceCulture);
@@ -675,6 +705,36 @@ namespace SeeloewenCraft.Properties {
         internal static System.Drawing.Bitmap Copper_Ore {
             get {
                 object obj = ResourceManager.GetObject("Copper_Ore", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Cotton {
+            get {
+                object obj = ResourceManager.GetObject("Cotton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Cotton_Stage_1 {
+            get {
+                object obj = ResourceManager.GetObject("Cotton_Stage_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Cotton_Stage_2 {
+            get {
+                object obj = ResourceManager.GetObject("Cotton_Stage_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2155,6 +2215,26 @@ namespace SeeloewenCraft.Properties {
         internal static System.Drawing.Bitmap Stone_Sword {
             get {
                 object obj = ResourceManager.GetObject("Stone_Sword", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Sugar_Cane {
+            get {
+                object obj = ResourceManager.GetObject("Sugar_Cane", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Sugar_Cane_Item {
+            get {
+                object obj = ResourceManager.GetObject("Sugar_Cane_Item", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

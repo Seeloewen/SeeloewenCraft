@@ -409,6 +409,14 @@ namespace SeeloewenCraft
             Carrot_Stage3 = new SealImage(TextureType.States_Block, "Carrot_Stage_3.png");
             Carrot_Stage4 = new SealImage(TextureType.States_Block, "Carrot_Stage_4.png");
             Farmland = new SealImage(TextureType.Block, "Farmland.png");
+            Cotton = new SealImage(TextureType.Item, "Cotton.png");
+            Berry = new SealImage(TextureType.Item, "Berry.png");
+            Berry_Bush_Stage1 = new SealImage(TextureType.States_Block, "Berry_Bush_Stage_1.png");
+            Berry_Bush_Stage2 = new SealImage(TextureType.States_Block, "Berry_Bush_Stage_2.png");
+            Cotton_Stage1 = new SealImage(TextureType.States_Block, "Cotton_Stage_1.png");
+            Cotton_Stage2 = new SealImage(TextureType.States_Block, "Cotton_Stage_2.png");
+            SugarCane = new SealImage(TextureType.Block, "Sugar_Cane.png");
+            SugarCaneItem = new SealImage(TextureType.Item, "Sugar_Cane_Item.png");
         }
 
         //-- Images --//
@@ -658,6 +666,14 @@ namespace SeeloewenCraft
         public static SealImage Carrot_Stage3;
         public static SealImage Carrot_Stage4;
         public static SealImage Farmland;
+        public static SealImage Berry;
+        public static SealImage Cotton;
+        public static SealImage Berry_Bush_Stage1;
+        public static SealImage Berry_Bush_Stage2;
+        public static SealImage Cotton_Stage1;
+        public static SealImage Cotton_Stage2;
+        public static SealImage SugarCane;
+        public static SealImage SugarCaneItem;
     }
 
     public class SealImage

@@ -781,11 +781,12 @@
         }
     }
 
-    public class CarrotItem : Item
+    public class CarrotItem : FoodItem
     {
         public CarrotItem() : base()
         {
             Init("Carrot", "sc:carrot_item", "sc:carrot_crop_block", true, Images.Carrot);
+            healAmount = 1.5;
         }
     }
 
@@ -802,6 +803,31 @@
         public FarmlandItem() : base()
         {
             Init("Farmland", "sc:farmland_item", "sc:farmland_block", true, Images.Farmland);
+        }
+    }
+
+    public class BerryItem : FoodItem
+    {
+        public BerryItem() : base()
+        {
+            Init("Berry", "sc:berry_item", "sc:berry_bush_crop_block", true, Images.Berry);
+            healAmount = 1;
+        }
+    }
+
+    public class CottonItem : Item
+    {
+        public CottonItem() : base()
+        {
+            Init("Cotton", "sc:cotton_item", "sc:cotton_crop_block", true, Images.Cotton);
+        }
+    }
+
+    public class SugarCaneItem : Item
+    {
+        public SugarCaneItem() : base()
+        {
+            Init("Sugar Cane", "sc:sugar_cane_item", "sc:sugar_cane_block", true, Images.SugarCaneItem);
         }
     }
 }

@@ -287,6 +287,12 @@
                     return new WheatCropBlock(false);
                 case "sc:carrot_crop_block":
                     return new CarrotCropBlock(false);
+                case "sc:cotton_crop_block":
+                    return new CottonCropBlock(false);
+                case "sc:berry_bush_crop_block":
+                    return new BerryBushCropBlock(false);
+                case "sc:sugar_cane_block":
+                    return new SugarCaneBlock(false);
                 default:
                     return null;
 
