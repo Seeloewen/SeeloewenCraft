@@ -61,19 +61,18 @@ namespace SeeloewenCraft
 
         public async static void HandleSyncPos(IdTcpClient client, NetworkPacket packet)
         {
-            //Synchronize the position of all entities to ensure their position is correct
-            /*
-            foreach (Entity entity in Game.world.entities)
+            //Synchronize the position of all entities to ensure their position is correct            
+            foreach (Entity entity in world.entityManager.entities)
             {
-                if (entity.id == Convert.ToInt32(args[1]) && entity is MovingEntity movEntity)
+                if (entity.id == Convert.ToInt32(packet.content[0]) && entity is MovingEntity movEntity)
                 {
-                    movEntity.HandleSyncData(args);
+                    movEntity.HandleSyncData(packet.content);
                 }
-            }*/
+            }
 
             try
             {
-                world.entityManager.Sync(SyncPosEvent.Create(packet.content[0]));
+                //world.entityManager.Sync(SyncPosEvent.Create(packet.content[0]));
             }
             catch (Exception e)
             {
@@ -85,30 +84,32 @@ namespace SeeloewenCraft
         {
             try
             {
-                world.entityManager.ReceivePressedChange(packet.content);
+                foreach (Entity entity in world.entityManager.entities)
+                {
+                    if (entity.id == Convert.ToInt32(packet.content[0]) && entity is MovingEntity movEntity)
+                    {
+                        movEntity.pressedLeft = Convert.ToBoolean(packet.content[1]);
+                        movEntity.pressedRight = Convert.ToBoolean(packet.content[2]);
+                        movEntity.pressedUp = Convert.ToBoolean(packet.content[3]);
+                        movEntity.pressedSneak = Convert.ToBoolean(packet.content[4]);
+                        movEntity.pressedSprint = Convert.ToBoolean(packet.content[5]);
+                    }
+                }
+
+                //If the server receives the packet, send it to all other clients to make sure the player moves on all of them
+                if (IsServer())
+                {
+                    server.SendDataExceptClients(packet, client.id);
+                }
+
+                //world.entityManager.ReceivePressedChange(packet.content);
             }
             catch (Exception e)
             {
                 Log.Write($"Error while trying to handle PressedChange event: {e.Message}", "Error");
             }
 
-            /*
-            foreach (Entity entity in Game.world.entities)
-            {
-                if (entity.id == Convert.ToInt32(args[1]) && entity is MovingEntity movEntity)
-                {
-                    movEntity.pressedLeft = Convert.ToBoolean(args[2]);
-                    movEntity.pressedRight = Convert.ToBoolean(args[3]);
-                    movEntity.pressedUp = Convert.ToBoolean(args[4]);
-                    movEntity.pressedSneak = Convert.ToBoolean(args[5]);
-                    movEntity.pressedSprint = Convert.ToBoolean(args[6]);
-                }
-            }
-            //If the server receives the packet, send it to all other clients to make sure the player moves on all of them
-            if (Game.isServer)
-            {
-                Game.server.SendDataExceptClients(client.id, $"MovePlayer;{args[1]};{args[2]};{args[3]};{args[4]};{args[5]};{args[6]}");
-            }*/
+
         }
 
         public async static void HandleCreateEntity(IdTcpClient client, NetworkPacket packet)

@@ -12,7 +12,7 @@ namespace SeeloewenCraft
         public static Dictionary<MultiplayerPacketType, (int length, Action<IdTcpClient, NetworkPacket> action)> packetTypeDictionary = new Dictionary<MultiplayerPacketType, (int length, Action<IdTcpClient, NetworkPacket> action)>() {
         { MultiplayerPacketType.ADD_TO_INV, (8, HandleAddToInv ) },
         { MultiplayerPacketType.REMOVE_FROM_INV, (6, HandleRemoveFromInv) },
-        { MultiplayerPacketType.SYNC_POS, (1, HandleSyncPos) },
+        { MultiplayerPacketType.SYNC_POS, (5, HandleSyncPos) }, //1
         { MultiplayerPacketType.PRESSED_CHANGE, (6, HandlePressedChange) },
         { MultiplayerPacketType.CREATE_ENTITY, (1, HandleCreateEntity) },
         { MultiplayerPacketType.REMOVE_ENTITY, (1, HandleRemoveEntity) },

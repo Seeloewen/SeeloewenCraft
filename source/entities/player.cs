@@ -81,10 +81,33 @@ namespace SeeloewenCraft.entity
         public void HandleInputs()
         {
             if (this != Game.world.player) return;
+
+            bool changed = false;
+
+            changed = changed || pressedLeft != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedRight != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedUp != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedSneak != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedSprint != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedThrow != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+
+            pressedLeft = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            pressedRight = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveRight);
+            pressedUp = Game.world.wndGame.pressedKeys.Contains(Settings.cJump);
+            pressedSneak = Game.world.wndGame.pressedKeys.Contains(Settings.cSneak);
+            pressedSprint = Game.world.wndGame.pressedKeys.Contains(Settings.cSprint);
+            pressedThrow = Game.world.wndGame.pressedKeys.Contains(Settings.cThrowItem);
+
+            if (changed)
+            {
+                NetworkHandler.SendData(MultiplayerPacketType.PRESSED_CHANGE, Game.world.player.id.ToString(), pressedLeft.ToString(), pressedRight.ToString(), pressedUp.ToString(), pressedSneak.ToString(), pressedSprint.ToString());
+            }
+
+            /* Too laggy, needs a rework
+            //will get synced
             //doesnt get synced
             bool newPressedThrow = Game.world.wndGame.pressedKeys.Contains(Settings.cThrowItem);
 
-            //will get synced
             bool newPressedLeft = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
             bool newPressedRight = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveRight);
             bool newPressedUp = Game.world.wndGame.pressedKeys.Contains(Settings.cJump);
@@ -102,7 +125,7 @@ namespace SeeloewenCraft.entity
             {
                 HandlePressedChangeEvent(e);
                 e.Send();
-            }
+            }*/
 
             UpdateHeadPosition();
 

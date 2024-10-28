@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Media;
+using SeeloewenCraft.entity;
 
 namespace SeeloewenCraft
 {
@@ -123,6 +124,27 @@ namespace SeeloewenCraft
         {
             maxTick = Settings.autoSaveInterval * 60000;
         }
+    }
+
+    public class EntitySyncEvent : GameLoopEvent //Temporarily reverted to legacy system
+    {
+        public EntitySyncEvent(GameLoop gameLoop) : base(gameLoop)
+        {
+            maxTick = 400;
+        }
+
+        public override void DoEvent()
+        {
+            Game.world.player.SendSyncData();
+            foreach (Entity entity in Game.world.entityManager.entities)
+            {
+                if (entity is MovingEntity movEntity)
+                {
+                    movEntity.SendSyncData();
+                }
+            }
+        }
+
     }
 
     public class DayNightCycle : GameLoopEvent

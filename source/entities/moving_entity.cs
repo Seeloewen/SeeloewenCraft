@@ -70,23 +70,23 @@ namespace SeeloewenCraft.entity
 
         protected abstract void InitTexture();
 
-        /*public void SendSyncData()
+        public void SendSyncData()
         {
-            if(this is Player && this != Game.world.player && !Game.isServer)
+            if(this is Player && this != Game.world.player && !Game.IsServer())
             {
                 return;
             }
 
             //Only send sync data of the current player or entities
-            NetworkHandler.SendData(MultiplayerPacketType.SYNC_POS, $"{id};{posX};{posY};{velX};{velY}");
-        }*/
+            NetworkHandler.SendData(MultiplayerPacketType.SYNC_POS, id.ToString(), posX.ToString(), posY.ToString(), velX.ToString(), velY.ToString());
+        }
 
         public void HandleSyncData(string[] args)
         {
-            posX = Convert.ToInt32(args[2]);
-            posY = Convert.ToInt32(args[3]);
-            velX = Convert.ToInt32(args[4]);
-            velY = Convert.ToInt32(args[5]);
+            posX = Convert.ToInt32(args[1]);
+            posY = Convert.ToInt32(args[2]);
+            velX = Convert.ToInt32(args[3]);
+            velY = Convert.ToInt32(args[4]);
         }
 
         internal void HandlePressedChangeEvent(PressedChangeEvent e)

@@ -16,6 +16,7 @@ namespace SeeloewenCraft
         private DayNightCycle dayNightCycle;
         public AutoSaveEvent autoSaveEvent;
         private CropTimerEvent cropTimerEvent;
+        private EntitySyncEvent entitySyncEvent;
 
         //-- Constructor --//
 
@@ -34,6 +35,7 @@ namespace SeeloewenCraft
             dayNightCycle = new DayNightCycle(this);
             cropTimerEvent = new CropTimerEvent(this);
             autoSaveEvent = new AutoSaveEvent(this);
+            entitySyncEvent = new EntitySyncEvent(this);
         }
 
         //-- Custom Methods --//
