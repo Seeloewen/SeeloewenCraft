@@ -113,7 +113,7 @@ namespace SeeloewenCraft
 
                     if (inventory.block != null && inventory.block.chunk != null)
                     {
-                        NetworkHandler.SendData(MultiplayerPacketType.ADD_TO_INV, inventory.block.xPos.ToString(), inventory.block.yPos.ToString(), inventory.block.chunk.index.ToString(), id, amount.ToString(), xPos.ToString(), yPos.ToString(), tag);
+                        NetworkHandler.SendData(MultiplayerPacketType.ADD_TO_INV, inventory.block.xPos.ToString(), inventory.block.yPos.ToString(), inventory.block.chunk.index.ToString(), id, amount.ToString(), xPos.ToString(), yPos.ToString(), tag ??= "");
                     }
 
                     ToggleDurabilityDisplay();

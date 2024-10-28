@@ -1,6 +1,5 @@
 ﻿using SeeloewenCraft.entity;
 using System;
-using Windows.Media.Protection.PlayReady;
 using static SeeloewenCraft.Game;
 
 namespace SeeloewenCraft
@@ -65,7 +64,7 @@ namespace SeeloewenCraft
             //Synchronize the position of all entities to ensure their position is correct            
             foreach (Entity entity in world.entityManager.entities)
             {
-                if (entity.id == Convert.ToInt32(packet.content[0]) && entity is MovingEntity movEntity)
+                if (entity.id == Convert.ToInt32(packet.content[0]) && entity is MovingEntity movEntity && entity != world.player)
                 {
                     movEntity.HandleSyncData(packet.content);
                 }
@@ -87,7 +86,7 @@ namespace SeeloewenCraft
             {
                 foreach (Entity entity in world.entityManager.entities)
                 {
-                    if (entity.id == Convert.ToInt32(packet.content[0]) && entity is MovingEntity movEntity)
+                    if (entity.id == Convert.ToInt32(packet.content[0]) && entity is MovingEntity movEntity && entity != world.player)
                     {
                         movEntity.pressedLeft = Convert.ToBoolean(packet.content[1]);
                         movEntity.pressedRight = Convert.ToBoolean(packet.content[2]);
