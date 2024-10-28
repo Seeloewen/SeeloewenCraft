@@ -289,13 +289,6 @@ namespace SeeloewenCraft
         public void RemoveEntity(int id)
         {
             entityManager.Remove(id);
-
-            NetworkHandler.SendData(MultiplayerPacketType.REMOVE_ENTITY, $"{id}");
-        }
-
-        public void RemoveMultiplayerEntity(int id)
-        {
-            entityManager.Remove(id);
         }
 
         public void SetBlock(Block block, int posX, int posY)

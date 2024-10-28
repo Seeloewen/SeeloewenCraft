@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace SeeloewenCraft.entity {
     //this class stores all entities that exist
@@ -166,6 +167,7 @@ namespace SeeloewenCraft.entity {
                     Entity entity = entities[i];
                     if (entity.id == id)
                     {
+                        NetworkHandler.SendData(MultiplayerPacketType.REMOVE_ENTITY, id.ToString());
                         entities.Remove(entity);
                         Game.world.worldRenderer.RemoveEntity(entity);
 

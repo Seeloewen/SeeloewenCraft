@@ -137,7 +137,7 @@ namespace SeeloewenCraft
         public async static void HandleRemoveEntity(IdTcpClient client, NetworkPacket packet)
         {
             //Remove the entity
-            world.RemoveMultiplayerEntity(int.Parse(packet.content[0]));
+            world.RemoveEntity(int.Parse(packet.content[0]));
 
             //If the server receives the packet, send it to all clients except the one it came from to ensure the entity gets removed on all clients
             if (IsServer())
