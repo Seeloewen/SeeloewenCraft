@@ -50,8 +50,8 @@ namespace SeeloewenCraft
                     HandleNotificationCommand(args);
                     break;
                 case "ping":
-                    NotificationHandler.ShowNotification("Pong!", 3000, Images.Diamond.GetTexture());
-                    break;
+                    HandlePingCommand(args);
+                        break;
                 case "help":
                     MessageBox.Show("List of commands:" +
                         "\n/help - Shows this menu" +

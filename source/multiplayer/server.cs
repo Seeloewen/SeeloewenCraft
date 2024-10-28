@@ -1,18 +1,19 @@
 ﻿using System;
-using System.Windows;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using static SeeloewenCraft.NetworkHandler;
 using System.Linq;
+using Windows.Media.Protection.PlayReady;
 
 namespace SeeloewenCraft;
 
 public class Server
 {
     public TcpListener server;
-    public List<AdvancedTcpClient> clients = new List<AdvancedTcpClient>();
+    public List<IdTcpClient> clients = new List<IdTcpClient>();
     private static int nextClientId = 0;
 
     public async void Start(int port)
@@ -38,7 +39,7 @@ public class Server
             TcpClient tcpClient = await server.AcceptTcpClientAsync();
 
             //Convert it to an advanced client and assign an id
-            AdvancedTcpClient client = new AdvancedTcpClient();
+            IdTcpClient client = new IdTcpClient();
             client.Client = tcpClient.Client;
             client.id = nextClientId;
             nextClientId++;
@@ -47,7 +48,7 @@ public class Server
             if (client.GetStream() != null)
             {
                 clients.Add(client);
-                Log.Write("The connection with client was successfully established.", "Info");
+                Log.Write($"The connection with client #{client.id} was successfully established.", "Info");
             }
 
             //Start receiving data from the client
@@ -55,26 +56,51 @@ public class Server
         }
     }
 
-    public async Task ReceiveData(AdvancedTcpClient client)
+    public async Task ReceiveData(IdTcpClient client)
     {
         while (true)
         {
             try
             {
-                //First get the length of the data so the server knows how many bytes the following actual data is long
-                byte[] lengthBuffer = new byte[sizeof(int)];
-                int lengthBytesRead = await client.GetStream().ReadAsync(lengthBuffer, 0, lengthBuffer.Length);
-                int dataLength = BitConverter.ToInt32(lengthBuffer, 0);
+                //Get the length of the following packet
+                int dataLength = BitConverter.ToInt32(await ReceivePacket(sizeof(int), client.GetStream()));
 
-                //Get the data bytes based on the previously received length
-                byte[] dataBuffer = new byte[dataLength];
-                int dataBytesRead = await client.GetStream().ReadAsync(dataBuffer, 0, dataBuffer.Length);
-                string receivedData = Encoding.ASCII.GetString(dataBuffer, 0, dataBytesRead);
+                //Read data into the buffer and copy data from buffer to receivedData
+                byte[] receivedData = await ReceivePacket(dataLength, client.GetStream());
 
-                //Log.Write($"Received data from client #{client.id}: {receivedData}.", "Info");
+                //Get the type bytes and convert it to type
+                int typeLength = BitConverter.ToInt32(receivedData, 0);
+                string typeString = Encoding.ASCII.GetString(receivedData, 4, typeLength);
+                Enum.TryParse(typeString, out MultiplayerPacketType type);
+
+                //Go through the remaining bytes and read the string length first, then the string based on the length
+                List<string> contentList = new List<string>();
+                int index = 4 + typeLength;
+                while (index < receivedData.Length)
+                {
+                    //Get string length
+                    int stringLength = BitConverter.ToInt32(receivedData, index);
+                    index += 4;
+
+                    //Get the bytes for the message starting from the index with determined length
+                    byte[] stringBytes = new byte[stringLength];
+                    Array.Copy(receivedData, index, stringBytes, 0, stringLength);
+                    index += stringLength;
+
+                    //Convert bytes to string
+                    string str = Encoding.UTF8.GetString(stringBytes);
+                    contentList.Add(str);
+                }
+
+                string[] content = contentList.ToArray();
+
+                //Create the packet from previously determined information
+                NetworkPacket packet = CreatePacket(type, content);
 
                 //Handle the data
-                await NetworkHandler.HandleData(client, receivedData);
+                await HandleData(client, packet);
+
+                //Log.Write($"Received data from client #{client.id}: {$"{type} ({content.ToString()})"}.", "Info");
             }
             catch (Exception ex)
             {
@@ -84,95 +110,105 @@ public class Server
         }
     }
 
-    public async Task SendData(MultiplayerPacketType type, string data)
+    public async Task SendData(NetworkPacket packet, IdTcpClient client)
     {
-        data = $"{type};{data}";
+        //Get the bytes of the data and the length of the data
+        byte[] dataBytes = packet.GetBytes();
+        byte[] lengthBytes = BitConverter.GetBytes(dataBytes.Length);
 
-        //Send the data to all connected clients
-        foreach (AdvancedTcpClient client in clients)
-        {
-            if (client.GetStream() != null)
-            {            
-                try
-                {
-                    //Convert the data and the length of the data to bytes
-                    byte[] dataBytes = Encoding.ASCII.GetBytes(data);
-                    byte[] lengthBytes = BitConverter.GetBytes(dataBytes.Length);
+        //First send the length of the data as a packet, then send the actual data packet
+        await client.GetStream().WriteAsync(lengthBytes, 0, lengthBytes.Length);
+        await client.GetStream().WriteAsync(dataBytes, 0, dataBytes.Length);
 
-                    //First send the length of the data, then send the actual data
-                    await client.GetStream().WriteAsync(lengthBytes, 0, lengthBytes.Length);
-                    await client.GetStream().WriteAsync(dataBytes, 0, dataBytes.Length);
-
-                    //Log.Write($"Sent data to client #{client.id}: {data}.", "Info");
-                }
-                catch (Exception ex)
-                {
-                    Log.Write($"Could not send data to client #{client.id}: {ex.Message}", "Error");
-                }
-            }
-        }
+        //Log.Write($"Sent data to client #{client.id}: {BitConverter.ToString(dataBytes).Replace("-", " ")}.", "Info");
     }
 
-    public async Task SendDataSingleClient(int clientId, MultiplayerPacketType type, string data)
+    public async Task SendDataToAll(NetworkPacket packet)
     {
-        data = $"{type};{data}";
-
-        //Send the data to a specific client
-        AdvancedTcpClient client = GetClient(clientId);
-
-        if (client != null && client.GetStream() != null)
+        //Send the data to all connected clients
+        for (int i = 0; i < clients.Count; i++)
         {
+
             try
             {
-                //Convert the data and the length of the data to bytes
-                byte[] dataBytes = Encoding.ASCII.GetBytes(data);
-                byte[] lengthBytes = BitConverter.GetBytes(dataBytes.Length);
-
-                //First send the length of the data, then send the actual data
-                await client.GetStream().WriteAsync(lengthBytes, 0, lengthBytes.Length);
-                await client.GetStream().WriteAsync(dataBytes, 0, dataBytes.Length);
-
-                //Log.Write($"Sent data to single client #{client.id}: {data}.", "Info");
+                if (clients[i].GetStream() != null)
+                {
+                    SendData(packet, clients[i]);
+                }
             }
             catch (Exception ex)
             {
-                Log.Write($"Could not send data to client #{client.id}: {ex.Message}", "Error");
+                Log.Write($"Could not send data to client #{clients[i].id}: {ex.Message}", "Error");
+
+                if (ex is InvalidOperationException)
+                {
+                    Log.Write($"Client #{clients[0].id} lost connection to the server.", "Warning");
+                    clients.Remove(clients[i]);
+                }
             }
         }
     }
 
-    public async Task SendDataExceptClients(int clientId, MultiplayerPacketType type, string data)
+
+    public async Task SendDataSingleClient(NetworkPacket packet, int clientId)
     {
-        data = $"{type};{data}";
-        //Send the data to all connected clients except the clients mentioned
-        foreach (AdvancedTcpClient client in clients)
+        //Send the data to a specific client
+        IdTcpClient client = GetClient(clientId);
+
+        if (client != null)
         {
-            if (clientId != client.id && client.GetStream() != null)
+            try
+            {
+                if (client.GetStream() != null)
+                {
+                    SendData(packet, client);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Write($"Could not send data to single client #{client.id}: {ex.Message}", "Error");
+
+                if (ex is SocketException)
+                {
+                    Log.Write($"Client #{client.id} lost connection to the server.", "Warning");
+                    clients.Remove(client);
+                }
+            }
+        }
+    }
+
+    public async Task SendDataExceptClients(NetworkPacket packet, params int[] ignoredIds)
+    {
+        //Send the data to all connected clients except the clients mentioned
+        foreach (IdTcpClient client in clients)
+        {
+            if (!ignoredIds.Contains(client.id))
             {
                 try
                 {
-                    //Convert the data and the length of the data to bytes
-                    byte[] dataBytes = Encoding.ASCII.GetBytes(data);
-                    byte[] lengthBytes = BitConverter.GetBytes(dataBytes.Length);
-
-                    //First send the length of the data, then send the actual data
-                    await client.GetStream().WriteAsync(lengthBytes, 0, lengthBytes.Length);
-                    await client.GetStream().WriteAsync(dataBytes, 0, dataBytes.Length);
-
-                    //Log.Write($"Sent data to client #{client.id} (except {clientId}): {data}.", "Info");
+                    if (client.GetStream() != null)
+                    {
+                        SendData(packet, client);
+                    }
                 }
                 catch (Exception ex)
                 {
-                    Log.Write($"Could not send data to client #{client.id}: {ex.Message}", "Error");
+                    Log.Write($"Could not send data to client #{client.id} using except: {ex.Message}", "Error");
+
+                    if (ex is SocketException)
+                    {
+                        Log.Write($"Client #{client.id} lost connection to the server.", "Warning");
+                        clients.Remove(client);
+                    }
                 }
             }
         }
     }
 
-    public AdvancedTcpClient GetClient(int id)
+    public IdTcpClient GetClient(int id)
     {
         //Go through all clients and return the correct one
-        foreach (AdvancedTcpClient client in clients)
+        foreach (IdTcpClient client in clients)
         {
             if (client.id == id)
             {

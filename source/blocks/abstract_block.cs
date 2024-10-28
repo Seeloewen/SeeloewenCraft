@@ -729,7 +729,7 @@ namespace SeeloewenCraft
             }
 
             //Send the data on the network if it's multiplayer
-            NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, $"{block.id};{chunk.index};{block.xPos};{block.yPos}");
+            NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, block.id, chunk.index.ToString(), block.xPos.ToString(), block.yPos.ToString());
         }
 
         public Block GetBlockBelow()

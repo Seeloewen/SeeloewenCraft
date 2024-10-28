@@ -95,7 +95,7 @@ namespace SeeloewenCraft
             //Only start a server when requested
             if (multiplayerType == MultiplayerType.SERVER)
             {
-                NetworkHandler.StartServer();
+                NetworkHandler.StartServer(5000);
             }
 
             Game.world.wndGame.Show();
@@ -276,7 +276,7 @@ namespace SeeloewenCraft
             entityManager.Add(entity);
         }
 
-        public void AddMultiplayerEntity(Entity entity)
+        public void AddEntity_Multiplayer(Entity entity)
         {
             if (entity.id == player.id)
             {
@@ -303,7 +303,7 @@ namespace SeeloewenCraft
             GetBlock(posX, posY).SetBlock(block);
         }
 
-        public void SetBlockMultiplayer(Block block, int cIndex, int x, int y)
+        public void SetBlock_Multiplayer(Block block, int cIndex, int x, int y)
         {
             //Check if the chunk exists before placing a block there, if not, create it
             if (GetTotalChunk(cIndex) == null)
@@ -573,7 +573,7 @@ namespace SeeloewenCraft
                 {
                     foreach (Block block in newChunk.blockList.blocks)
                     {
-                        NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, $"{block.id};{newChunk.index};{block.xPos};{block.yPos}");
+                        NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, block.id.ToString(), newChunk.index.ToString(), block.xPos.ToString(), block.yPos.ToString());
                     }
                 }
             }
@@ -596,7 +596,7 @@ namespace SeeloewenCraft
                 {
                     foreach (Block block in newChunk.blockList.blocks)
                     {
-                        NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, $"{block.id};{newChunk.index};{block.xPos};{block.yPos}");
+                        NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, block.id.ToString(), newChunk.index.ToString(), block.xPos.ToString(), block.yPos.ToString());
                     }
                 }
             }
