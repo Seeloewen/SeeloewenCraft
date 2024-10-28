@@ -1,5 +1,6 @@
 ﻿using SeeloewenCraft.entity;
 using System;
+using Windows.Media.Protection.PlayReady;
 using static SeeloewenCraft.Game;
 
 namespace SeeloewenCraft
@@ -93,6 +94,15 @@ namespace SeeloewenCraft
                         movEntity.pressedUp = Convert.ToBoolean(packet.content[3]);
                         movEntity.pressedSneak = Convert.ToBoolean(packet.content[4]);
                         movEntity.pressedSprint = Convert.ToBoolean(packet.content[5]);
+                    }
+
+                    if(entity is Player player)
+                    {
+                        player.UpdateHeadPosition();
+
+                        //Do animation if necessary
+                        player.movingHorizontally = player.pressedLeft || player.pressedRight;
+                        player.DoMovementAnimation();
                     }
                 }
 

@@ -20,7 +20,7 @@ namespace SeeloewenCraft.entity
         private AnimationTimeline anRightArm;
         private AnimationTimeline anLeftArm;
 
-        private bool movingHorizontally = false;
+        public bool movingHorizontally = false;
         private bool animationRunning = false;
 
         private int legMaxSwing = 45;
