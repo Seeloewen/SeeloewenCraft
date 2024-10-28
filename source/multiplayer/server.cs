@@ -63,10 +63,13 @@ public class Server
             try
             {
                 //Get the length of the following packet
-                int dataLength = BitConverter.ToInt32(await ReceivePacket(sizeof(int), client.GetStream()));
+                byte[] lengthPacket = await ReceivePacket(sizeof(int), client.GetStream());
+                if (lengthPacket.Length < 4) return; //The packet is invalid if the length is below 4 bytes
+                int dataLength = BitConverter.ToInt32(lengthPacket);
 
                 //Read data into the buffer and copy data from buffer to receivedData
                 byte[] receivedData = await ReceivePacket(dataLength, client.GetStream());
+                if(receivedData.Length < dataLength) return; //If the data wasn't read correctly and isn't long enough, the packet is invalid
 
                 //Get the type bytes and convert it to type
                 int typeLength = BitConverter.ToInt32(receivedData, 0);
@@ -104,7 +107,7 @@ public class Server
             }
             catch (Exception ex)
             {
-                Log.Write($"Could not receive data from client #{client.id}: {ex.Message}", "Error");
+                Log.Write($"Could not receive data from client #{client.id}: {ex.Message}\n{ex.StackTrace}", "Error");
                 break;
             }
         }
@@ -138,7 +141,7 @@ public class Server
             }
             catch (Exception ex)
             {
-                Log.Write($"Could not send data to client #{clients[i].id}: {ex.Message}", "Error");
+                Log.Write($"Could not send data to client #{clients[i].id}: {ex.Message}\n{ex.StackTrace}", "Error");
 
                 if (ex is InvalidOperationException)
                 {
@@ -166,7 +169,7 @@ public class Server
             }
             catch (Exception ex)
             {
-                Log.Write($"Could not send data to single client #{client.id}: {ex.Message}", "Error");
+                Log.Write($"Could not send data to single client #{client.id}: {ex.Message}\n{ex.StackTrace}", "Error");
 
                 if (ex is SocketException)
                 {
@@ -193,7 +196,7 @@ public class Server
                 }
                 catch (Exception ex)
                 {
-                    Log.Write($"Could not send data to client #{client.id} using except: {ex.Message}", "Error");
+                    Log.Write($"Could not send data to client #{client.id} using except: {ex.Message}\n{ex.StackTrace}", "Error");
 
                     if (ex is SocketException)
                     {
