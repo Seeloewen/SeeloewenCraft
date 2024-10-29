@@ -69,7 +69,7 @@ namespace SeeloewenCraft
                 }
                 else
                 {
-                    Log.Write($"Couldn't handle packet {packet.type} ({packet.content.ToString()}", "Error");
+                    Log.Write($"Couldn't handle packet {packet.type} ({packet.content.ToString()})", LogType.NETWORK, LogLevel.ERROR);
                 }
             }
             catch (Exception e)

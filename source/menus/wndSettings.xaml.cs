@@ -42,7 +42,7 @@ namespace SeeloewenCraft
             }
             else
             {
-                Log.Write("No settings file was found, creating a new one...", "Info");
+                Log.Write("No settings file was found, creating a new one!", LogType.GENERAL, LogLevel.INFO);
 
                 //If not, create a new one
                 using (JsonWriter writer = JsonWriter.Create())
@@ -59,40 +59,59 @@ namespace SeeloewenCraft
         {
             //Save the settings locally
             Settings.saveLogOnExit = Convert.ToBoolean(cbSaveLogOnExit.IsChecked);
-            Log.Write($"Saved setting saveLogOnExit as {Settings.saveLogOnExit}", "Info");
+            Log.Write($"Saved setting saveLogOnExit as {Settings.saveLogOnExit}", LogType.GENERAL, LogLevel.INFO);
 
             Settings.saveWorldOnClose = Convert.ToBoolean(cbSaveWorldWhenClosing.IsChecked);
-            Log.Write($"Saved setting saveWorldOnClose as {Settings.saveWorldOnClose}", "Info");
+            Log.Write($"Saved setting saveWorldOnClose as {Settings.saveWorldOnClose}", LogType.GENERAL, LogLevel.INFO);
 
             Settings.showNotifications = Convert.ToBoolean(cbShowNotifications.IsChecked);
-            Log.Write($"Saved setting showNotifications as {Settings.showNotifications}", "Info");
+            Log.Write($"Saved setting showNotifications as {Settings.showNotifications}", LogType.GENERAL, LogLevel.INFO);
 
             Settings.enableMobs = Convert.ToBoolean(cbEnableMobs.IsChecked);
-            Log.Write($"Saved setting enableMobs as {Settings.enableMobs}", "Info");
+            Log.Write($"Saved setting enableMobs as {Settings.enableMobs}", LogType.GENERAL, LogLevel.INFO);
 
             Settings.enableAutoSave = Convert.ToBoolean(cbAutoSave.IsChecked);
-            Log.Write($"Saved setting enableAutoSave as {Settings.enableAutoSave}", "Info");
+            Log.Write($"Saved setting enableAutoSave as {Settings.enableAutoSave}", LogType.GENERAL, LogLevel.INFO);
 
             Settings.showAutoSaveNotification = Convert.ToBoolean(cbAutoSaveNotification.IsChecked);
-            Log.Write($"Saved setting showAutoSaveNotification as {Settings.showAutoSaveNotification}", "Info");
+            Log.Write($"Saved setting showAutoSaveNotification as {Settings.showAutoSaveNotification}", LogType.GENERAL, LogLevel.INFO);
 
             Settings.resolution = Convert.ToString(cbxResolution.SelectedItem);
-            Log.Write($"Saved setting resolution as {Settings.resolution}", "Info");
+            Log.Write($"Saved setting resolution as {Settings.resolution}", LogType.GENERAL, LogLevel.INFO);
 
             Settings.videoMode = Convert.ToString(cbxMode.SelectedItem);
-            Log.Write($"Saved setting videoMode as {Settings.videoMode}", "Info");
+            Log.Write($"Saved setting videoMode as {Settings.videoMode}", LogType.GENERAL, LogLevel.INFO);
 
             Settings.customResX = Convert.ToInt32(tbWidth.Text);
-            Log.Write($"Saved setting customResX as {Settings.customResX}", "Info");
+            Log.Write($"Saved setting customResX as {Settings.customResX}", LogType.GENERAL, LogLevel.INFO);
 
             Settings.customResY = Convert.ToInt32(tbHeight.Text);
-            Log.Write($"Saved setting customResY as {Settings.customResY}", "Info");
+            Log.Write($"Saved setting customResY as {Settings.customResY}", LogType.GENERAL, LogLevel.INFO);
 
             Settings.autoSaveInterval = Convert.ToInt32(tbAutosave.Text);
-            Log.Write($"Saved setting autoSaveInterval as {Settings.autoSaveInterval}", "Info");
+            Log.Write($"Saved setting autoSaveInterval as {Settings.autoSaveInterval}", LogType.GENERAL, LogLevel.INFO);
 
             Settings.texturepack = cbxTexturepack.Text;
-            Log.Write($"Saved setting texturepack as {Settings.texturepack}", "Info");
+            Log.Write($"Saved setting texturepack as {Settings.texturepack}", LogType.GENERAL, LogLevel.INFO);
+
+            //Save the log settings
+            Settings.logEntities = Convert.ToBoolean(cbLogEntities.IsChecked);
+            Log.Write($"Saved setting logEntities as {Settings.logEntities}", LogType.GENERAL, LogLevel.INFO);
+
+            Settings.logGeneral = Convert.ToBoolean(cbLogGeneral.IsChecked);
+            Log.Write($"Saved setting logGeneral as {Settings.logGeneral}", LogType.GENERAL, LogLevel.INFO);
+
+            Settings.logNetwork = Convert.ToBoolean(cbLogNetwork.IsChecked);
+            Log.Write($"Saved setting logNetwork as {Settings.logNetwork}", LogType.GENERAL, LogLevel.INFO);
+
+            Settings.logRendering = Convert.ToBoolean(cbLogRendering.IsChecked);
+            Log.Write($"Saved setting logRendering as {Settings.logRendering}", LogType.GENERAL, LogLevel.INFO);
+
+            Settings.logStructureGeneration = Convert.ToBoolean(cbLogStructureGeneration.IsChecked);
+            Log.Write($"Saved setting logStructureGeneration as {Settings.logStructureGeneration}", LogType.GENERAL, LogLevel.INFO);
+
+            Settings.logWorldGeneration = Convert.ToBoolean(cbLogWorldGeneration.IsChecked);
+            Log.Write($"Saved setting logWorldGeneration as {Settings.logWorldGeneration}", LogType.GENERAL, LogLevel.INFO);
 
             //Save the keybinds locally
             Settings.cMoveRight = KeyConverter.StringToKey(tbMoveRight.Text);
@@ -134,6 +153,13 @@ namespace SeeloewenCraft
             tbWidth.Text = Settings.customResX.ToString();
             tbAutosave.Text = Settings.autoSaveInterval.ToString();
             tbAutosave.IsEnabled = Settings.enableAutoSave;
+
+            cbLogGeneral.IsEnabled = Settings.logGeneral;
+            cbLogWorldGeneration.IsEnabled = Settings.logWorldGeneration;
+            cbLogStructureGeneration.IsEnabled = Settings.logStructureGeneration;
+            cbLogNetwork.IsEnabled = Settings.logNetwork;
+            cbLogEntities.IsEnabled = Settings.logEntities;
+            cbLogRendering.IsEnabled = Settings.logRendering;
 
             tbMoveRight.Text = KeyConverter.KeyToString(Settings.cMoveRight);
             tbMoveLeft.Text = KeyConverter.KeyToString(Settings.cMoveLeft);
@@ -188,24 +214,24 @@ namespace SeeloewenCraft
                     //Try to read the texturepack version
                     try
                     {
-                        Log.Write($"Detected texturepack version {fileContent[1].Replace("texturepackVersion=", "")}", "Info");
+                        Log.Write($"Detected texturepack version {fileContent[1].Replace("texturepackVersion=", "")}", LogType.GENERAL, LogLevel.INFO);
                         return Convert.ToInt32(fileContent[1].Replace("texturepackVersion=", ""));
                     }
                     catch (Exception ex)
                     {
-                        Log.Write($"Could not get texturepack version: {ex.Message}", "Error");
+                        Log.Write($"Could not get texturepack version: {ex.Message}\n{ex.StackTrace}", LogType.GENERAL, LogLevel.ERROR);
                         return 0;
                     }
                 }
                 else
                 {
-                    Log.Write($"Could not get texturepack version because the file is empty", "Error");
+                    Log.Write($"Could not get texturepack version because the pack.txt file is empty", LogType.GENERAL, LogLevel.ERROR);
                     return 0;
                 }
             }
             else
             {
-                Log.Write($"Could not get texturepack version because the pack.txt file does not exist", "Error");
+                Log.Write($"Could not get texturepack version because the pack.txt file does not exist", LogType.GENERAL, LogLevel.ERROR);
                 return 0;
             }
         }
@@ -224,18 +250,15 @@ namespace SeeloewenCraft
                 //Check the texturepack version and apply that if possible
                 if (GetTexturepackVersion($"{FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}") < Game.TEXTUREPACK_VERSION)
                 {
-                    Log.Write($"The texture pack you are trying to load ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}) is outdated", "Warning");
+                    Log.Write($"The texture pack you are trying to load ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}) is outdated", LogType.GENERAL, LogLevel.WARNING);
                     MessageBox.Show("Warning: The texturepack that you are trying to load is outdated. This may lead to issues.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
-                Log.Write($"Successfully applied texturepack ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem})", "Warning");
+                Log.Write($"Successfully applied texturepack ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem})", LogType.GENERAL, LogLevel.INFO);
             }
 
-            if (Game.world != null)
+            if (Game.world != null && Game.world.finishedLoading)
             {
-                if (Game.world.finishedLoading)
-                {
-                    Game.world.RefreshTextures();
-                }
+                Game.world.RefreshTextures();
             }
         }
 

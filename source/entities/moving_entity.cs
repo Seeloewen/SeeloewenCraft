@@ -119,7 +119,7 @@ namespace SeeloewenCraft.entity
             if (fallHeight > 3950)
             {
                 Damage((fallHeight - 2000) / 3000.0);
-                Log.Write($"new hp after fall damage applied: {hp}", "Info");
+                Log.Write($"Applied fall damage, entity {type} ({id}) now has {hp} HP.", LogType.ENTITIES, LogLevel.INFO);
             }
         }
 

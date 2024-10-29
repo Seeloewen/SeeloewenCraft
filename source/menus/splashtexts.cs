@@ -25,7 +25,7 @@ namespace SeeloewenCraft
         public string GetText()
         {
             string splashText = texts[Game.rnd.Next(texts.Length)];
-            Log.Write($"Rolled splash text {splashText}", "Info");
+            Log.Write($"Rolled splash text {splashText}", LogType.GENERAL, LogLevel.INFO);
             return splashText;
         }
 

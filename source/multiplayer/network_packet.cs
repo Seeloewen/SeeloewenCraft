@@ -44,7 +44,7 @@ namespace SeeloewenCraft
             if (entry.length != content.Length)
             {
                 isValid = false;
-                Log.Write($"Length of arguments for packet {type} was invalid. Expected {entry.length} arguments, got {content.Length}.", "Error");
+                Log.Write($"Length of arguments for packet {type} was invalid. Expected {entry.length} arguments, got {content.Length}", LogType.NETWORK, LogLevel.ERROR);
             }
         }
 

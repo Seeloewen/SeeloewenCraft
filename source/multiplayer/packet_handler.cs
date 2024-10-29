@@ -76,7 +76,7 @@ namespace SeeloewenCraft
             }
             catch (Exception e)
             {
-                Log.Write($"Error while trying to handle PressedChange event: {e.Message}", "Error");
+                Log.Write($"Error while trying to handle PressedChange event: {e.Message}\n{e.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
             }
         }
 
@@ -115,7 +115,7 @@ namespace SeeloewenCraft
             }
             catch (Exception e)
             {
-                Log.Write($"Error while trying to handle PressedChange event: {e.Message}", "Error");
+                Log.Write($"Error while trying to handle PressedChange event: {e.Message}\n{e.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
             }
 
 
@@ -215,12 +215,12 @@ namespace SeeloewenCraft
         {
             if (IsServer())
             {
-                Log.Write($"Your ping to client #{client.id} is {Math.Round(double.Parse(packet.content[0]))}ms.", "Info");
+                Log.Write($"Your ping to client #{client.id} is {Math.Round(double.Parse(packet.content[0]))}ms.", LogType.NETWORK, LogLevel.INFO);
             }
             else
             {
                 NotificationHandler.ShowNotification($"Your ping to the server is {Math.Round(double.Parse(packet.content[0]))}ms.", 5000, Images.Paper.GetTexture());
-                Log.Write($"Your ping to the server is {Math.Round(double.Parse(packet.content[0]))}ms.", "Info");
+                Log.Write($"Your ping to the server is {Math.Round(double.Parse(packet.content[0]))}ms.", LogType.NETWORK, LogLevel.INFO);
             }
         }
     }

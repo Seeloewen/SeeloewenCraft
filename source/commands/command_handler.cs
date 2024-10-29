@@ -7,10 +7,10 @@ namespace SeeloewenCraft
     {
         public static void HandleCommand(string command)
         {
+            Log.Write($"Handling command '{command}'...", LogType.GENERAL, LogLevel.INFO);
+
             //Remove the slash at the beginning
             command = command.ToLower().Remove(0, 1);
-
-            Log.Write($"Handling command: {command}", "Info");
 
             //Split up the command into args so it can be handled
             string[] args = command.Split(' ');

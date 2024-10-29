@@ -180,7 +180,7 @@ namespace SeeloewenCraft.entity
         {
             //Setup the character canvas that is shown but does not count in movement checks
 
-            Log.Write($"Created player at position x{posX} y{posY}", "Info");
+            Log.Write($"Created player at position x{posX} y{posY}.", LogType.ENTITIES, LogLevel.INFO);
 
             //Add initial debug menu lines
             Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "Player Stats:");
@@ -258,7 +258,7 @@ namespace SeeloewenCraft.entity
 
         public void SavePosition(string path)
         {
-            Log.Write($"Saved player position to {path}", "Info");
+            Log.Write($"Saved player position to {path}.", LogType.ENTITIES, LogLevel.INFO);
 
             using (JsonWriter writer = JsonWriter.Create())
             {

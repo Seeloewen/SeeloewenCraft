@@ -106,7 +106,7 @@ namespace SeeloewenCraft
             }
             else
             {
-                Log.Write($"Could not update value for bar {name} because an invalid value was given.", "Error");
+                Log.Write($"Could not update value for attribute bar {name} because an invalid value was given ({value})", LogType.GENERAL, LogLevel.ERROR);
             }
         }
     }

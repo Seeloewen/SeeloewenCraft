@@ -12,7 +12,7 @@
     <Grid>
         <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="65,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="50" FontWeight="DemiBold" Foreground="White"><Run Language="de-de" Text="SeeloewenCraft"/></TextBlock>
         <TextBlock x:Name="tblVersion" HorizontalAlignment="Left" Margin="39,71,0,0" TextWrapping="Wrap" Text="Version {0}" VerticalAlignment="Top" FontSize="20" TextAlignment="Center" Width="396" Foreground="White"/>
-        <TextBlock x:Name="tblDeveloperName" HorizontalAlignment="Left" Margin="174,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Foreground="White"><Run Language="de-de" Text="By "/><Run Text="Seeloewen"/></TextBlock>
+        <TextBlock x:Name="tblDeveloperName" HorizontalAlignment="Left" Margin="122,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Foreground="White"><Run Text="By "/><Run Text="Seeloewen"/><Run Language="de-de" Text=" and CDLemmi"/><Run Text=""/></TextBlock>
         <TabControl x:Name="tcAbout" Margin="10,144,0,0" HorizontalAlignment="Left" Width="447" Height="334" VerticalAlignment="Top">
             <TabItem x:Name="tiAbout" Header="About">
                 <Canvas x:Name="cvsAbout">

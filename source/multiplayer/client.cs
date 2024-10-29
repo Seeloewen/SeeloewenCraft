@@ -16,13 +16,13 @@ public class IdTcpClient : TcpClient
 public class Client
 {
     public IdTcpClient client;
-    public NetworkStream stream;
+    private NetworkStream stream;
     public bool isConnected;
 
     public async void Connect(string address, int port)
     {
         client = new IdTcpClient();
-        Log.Write("Connecting to server...", "Info");
+        Log.Write("Connecting to server...", LogType.NETWORK, LogLevel.INFO);
 
         try
         {
@@ -32,14 +32,14 @@ public class Client
         }
         catch (Exception ex)
         {
-            Log.Write($"Failed to connect to the server: {ex.Message}", "Error");
+            Log.Write($"Failed to connect to the server: {ex.Message}\n{ex.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
             return;
         }
 
         if (stream != null)
         {
             //Check if the stream exists to confirm that the connection was successful
-            Log.Write("The connection with the server was successfully established.", "Info");
+            Log.Write("The connection with the server was successfully established", LogType.NETWORK, LogLevel.INFO);
             isConnected = true;
 
             //Send a request to the server to do an initial load, which gets all blocks in all chunks and their content
@@ -54,7 +54,7 @@ public class Client
         }
         else
         {
-            Log.Write("Failed to connect to the server!", "Error");
+            Log.Write("Failed to connect to the server!", LogType.NETWORK, LogLevel.ERROR);
             return;
         }
 
@@ -81,7 +81,7 @@ public class Client
             }
             catch (Exception ex)
             {
-                Log.Write($"Could not send data to server: {ex.Message}\n{ex.StackTrace}", "Error");
+                Log.Write($"Could not send data to server: {ex.Message}\n{ex.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
             }
         }
     }
@@ -134,14 +134,14 @@ public class Client
                 NetworkPacket packet = CreatePacket(type, content);
 
                 //Handle the data
-                await NetworkHandler.HandleData(client, packet);
+                await HandleData(client, packet);
 
                 //Log.Write($"Received data from server: {BitConverter.ToString(receivedData).Replace("-", " ")}.", "Info");
             }
             catch (Exception ex)
             {
                 e = ex;
-                Log.Write($"Could not receive data from server: {ex.Message}\n{ex.StackTrace}", "Error");
+                Log.Write($"Could not receive data from server: {ex.Message}\n{ex.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
                 break;
             }
         }

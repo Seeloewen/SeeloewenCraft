@@ -115,12 +115,12 @@ namespace SeeloewenCraft
             }
             else if (File.Exists($"{worldDirectory}/settings.txt"))
             {
-                Log.Write("Detected old saving system, can't load the world. Please use an older version of the game.", "Error");
+                Log.Write("Detected old saving system, can't load the world. Please use an older version of the game", LogType.GENERAL, LogLevel.ERROR);
                 return false;
             }
             else
             {
-                Log.Write("Could not read world version from settings file because the settings file was not found.", "Error");
+                Log.Write("Could not read world version from settings file because the settings file was not found", LogType.GENERAL, LogLevel.ERROR);
                 return false;
             }
 
@@ -131,7 +131,7 @@ namespace SeeloewenCraft
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        Log.Write("You are loading an outdated world. This may cause issues or corruption.", "Warning");
+                        Log.Write("You are loading an outdated world, this may cause issues or corruption", LogType.GENERAL, LogLevel.WARNING);
                         return true;
                 }
                 return false;
@@ -141,7 +141,7 @@ namespace SeeloewenCraft
 
         public void InitGame(string worldName, bool isNew, int worldVersion)
         {
-            Log.Write($"Beginning to init game for world {worldName}", "Info");
+            Log.Write($"Initializing game for world {worldName}...", LogType.WORLD_GENERATION, LogLevel.INFO);
 
             InitWorldDirectory();
 
@@ -182,7 +182,7 @@ namespace SeeloewenCraft
             //Load the player inventory if the world is not new
             InitPlayerInventory(!isNew);
 
-            Log.Write($"Completed initializing of world {worldName}!", "Info");
+            Log.Write($"Successfully initialized game for world {worldName}!", LogType.GENERAL, LogLevel.INFO);
 
 
             //this is a temporary fix to avoid all item entities getting collected by the player
@@ -398,7 +398,7 @@ namespace SeeloewenCraft
                 }
             }
 
-            Log.Write("Refreshing Textures for items and blocks!", "Info");
+            Log.Write("Refreshing Textures for items and blocks!", LogType.RENDERING, LogLevel.INFO);
         }
 
         public void GenerateBlockContainer()
@@ -436,10 +436,10 @@ namespace SeeloewenCraft
             if (!Directory.Exists($"{FolderUtil.worldsFolder}\\{worldName}"))
             {
                 Directory.CreateDirectory($"{FolderUtil.worldsFolder}\\{worldName}");
-                Log.Write($"Created directory for world {worldName}: {FolderUtil.worldsFolder}\\{worldName}", "Info");
+                Log.Write($"Created directory for world {worldName} ({FolderUtil.worldsFolder}\\{worldName})", LogType.GENERAL, LogLevel.INFO);
             }
             worldDirectory = $"{FolderUtil.worldsFolder}\\{worldName}";
-            Log.Write($"Set directory for world {worldName} to {worldDirectory}", "Info");
+            Log.Write($"Set directory for world {worldName} to {worldDirectory}", LogType.GENERAL, LogLevel.INFO);
         }
 
         private void InitEntityManager(bool loaded)
@@ -498,7 +498,7 @@ namespace SeeloewenCraft
             Game.world.wndGame.relativeSvPos = Game.world.wndGame.svWorld.VerticalOffset;
             Game.world.wndGame.defaultSvPos = Game.world.wndGame.svWorld.VerticalOffset;
 
-            Log.Write($"Created player at position x:{playerPosX}, y:{playerPosY}", "Info");
+            Log.Write($"Created player at position x{playerPosX} y{playerPosY}", LogType.GENERAL, LogLevel.INFO);
         }
 
         private (int x, int y) FindPlayerStartPos(bool loaded)
@@ -510,7 +510,7 @@ namespace SeeloewenCraft
                 JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_position.json");
                 int x = documentToken.GetInt("/pos_x");
                 int y = documentToken.GetInt("/pos_y");
-                Log.Write($"loaded player start point at: x{x} y{y}", "Info");
+                Log.Write($"Loaded player start position at x{x} y{y}", LogType.GENERAL, LogLevel.INFO);
                 return (x, y);
             }
             else
@@ -528,7 +528,7 @@ namespace SeeloewenCraft
 
                 yPos = Math.Max((yPos * 1000) - 1900, 2000);
 
-                Log.Write($"found player spawn point at pos: x: {28050}, y: {yPos}", "Info");
+                Log.Write($"Found player spawn point at position x{28050} y{yPos}", LogType.GENERAL, LogLevel.INFO);
                 worldSpawnX = 28050;
                 worldSpawnY = yPos;
                 return (28050, yPos);

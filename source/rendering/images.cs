@@ -18,12 +18,12 @@ namespace SeeloewenCraft
             if (Game.selectedTexturepack == "default" || string.IsNullOrEmpty(Game.selectedTexturepack))
             {
                 textureDirectory = "pack://application:,,,/SeeloewenCraft;component/Resources";
-                Log.Write($"Set texture directory to 'pack://application:,,,/SeeloewenCraft;component/Resources' (internal resources)", "Info");
+                Log.Write($"Set texture directory to 'pack://application:,,,/SeeloewenCraft;component/Resources' (internal resources)", LogType.RENDERING, LogLevel.INFO);
             }
             else if (Game.selectedTexturepack != "default" && !string.IsNullOrEmpty(Game.selectedTexturepack))
             {
                 textureDirectory = Game.selectedTexturepack;
-                Log.Write($"Set texture directory to '{Game.selectedTexturepack}'", "Info");
+                Log.Write($"Set texture directory to '{Game.selectedTexturepack}'", LogType.RENDERING, LogLevel.INFO);
             }
 
             //Actually load the resources
@@ -157,7 +157,7 @@ namespace SeeloewenCraft
             else
             {
                 //If default one doesn't exist, use missing texture image
-                Log.Write($"Could not load texture {resourceName} (Type '{type}'): No image file in texturepack or internally found. Is the type and file name correct?", "Error");
+                Log.Write($"Could not load texture {resourceName} (Type '{type}'): No image file in texturepack or internally found. Is the type and file name correct?", LogType.RENDERING, LogLevel.ERROR);
                 return new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/Missing_Texture.png", UriKind.Absolute);
             }
         }

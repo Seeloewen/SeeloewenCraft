@@ -18,7 +18,7 @@ public class Server
 
     public async void Start(int port)
     {
-        Log.Write($"Starting server on port {port}...", "Info");
+        Log.Write($"Starting server on port {port}...", LogType.NETWORK, LogLevel.INFO);
 
         try
         {
@@ -27,11 +27,11 @@ public class Server
         }
         catch (Exception ex)
         {
-            Log.Write($"Failed to start the server: {ex.Message}", "Error");
+            Log.Write($"Failed to start the server: {ex.Message}\n{ex.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
             return;
         }
 
-        Log.Write("The server was successfully started!", "Info");
+        Log.Write("The server was successfully started!", LogType.NETWORK, LogLevel.INFO);
 
         while (true)
         {
@@ -48,7 +48,7 @@ public class Server
             if (client.GetStream() != null)
             {
                 clients.Add(client);
-                Log.Write($"The connection with client #{client.id} was successfully established.", "Info");
+                Log.Write($"The connection with client #{client.id} was successfully established", LogType.NETWORK, LogLevel.INFO);
             }
 
             //Start receiving data from the client
@@ -107,7 +107,7 @@ public class Server
             }
             catch (Exception ex)
             {
-                Log.Write($"Could not receive data from client #{client.id}: {ex.Message}\n{ex.StackTrace}", "Error");
+                Log.Write($"Could not receive data from client #{client.id}: {ex.Message}\n{ex.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
                 break;
             }
         }
@@ -141,11 +141,11 @@ public class Server
             }
             catch (Exception ex)
             {
-                Log.Write($"Could not send data to client #{clients[i].id}: {ex.Message}\n{ex.StackTrace}", "Error");
+                Log.Write($"Could not send data to client #{clients[i].id}: {ex.Message}\n{ex.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
 
                 if (ex is InvalidOperationException)
                 {
-                    Log.Write($"Client #{clients[0].id} lost connection to the server.", "Warning");
+                    Log.Write($"Client #{clients[0].id} lost connection to the server", LogType.NETWORK, LogLevel.WARNING);
                     clients.Remove(clients[i]);
                 }
             }
@@ -169,11 +169,11 @@ public class Server
             }
             catch (Exception ex)
             {
-                Log.Write($"Could not send data to single client #{client.id}: {ex.Message}\n{ex.StackTrace}", "Error");
+                Log.Write($"Could not send data to single client #{client.id}: {ex.Message}\n{ex.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
 
                 if (ex is SocketException)
                 {
-                    Log.Write($"Client #{client.id} lost connection to the server.", "Warning");
+                    Log.Write($"Client #{client.id} lost connection to the server", LogType.NETWORK, LogLevel.WARNING);
                     clients.Remove(client);
                 }
             }
@@ -196,11 +196,11 @@ public class Server
                 }
                 catch (Exception ex)
                 {
-                    Log.Write($"Could not send data to client #{client.id} using except: {ex.Message}\n{ex.StackTrace}", "Error");
+                    Log.Write($"Could not send data to client #{client.id} using except: {ex.Message}\n{ex.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
 
                     if (ex is SocketException)
                     {
-                        Log.Write($"Client #{client.id} lost connection to the server.", "Warning");
+                        Log.Write($"Client #{client.id} lost connection to the server", LogType.NETWORK, LogLevel.WARNING);
                         clients.Remove(client);
                     }
                 }
