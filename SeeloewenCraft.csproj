@@ -23,11 +23,17 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<Resource Include="Resources\**\*.*" />
+		<None Remove="resources\shader\frag.glsl" />
+		<None Remove="Resources\shader\player\frag.glsl" />
+		<None Remove="Resources\shader\player\vert.glsl" />
+		<None Remove="resources\shader\vert.glsl" />
 		<Resource Remove="Resources\Cactus_Left.png" />
 		<Resource Remove="Resources\Cactus_Right.png" />
 		<Resource Remove="Resources\Glass.png" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 		<PackageReference Include="Microsoft.Json.Pointer" Version="2.3.0" />
+		<PackageReference Include="OpenTK" Version="4.8.2" />
+		<PackageReference Include="OpenTK.GLWpfControl" Version="4.3.2" />
 		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="System.Collections.Immutable" Version="8.0.0" />

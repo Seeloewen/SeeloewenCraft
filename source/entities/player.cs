@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
+using SeeloewenCraft.gl_rendering;
 using System;
-using System.Windows;
 using System.Windows.Media;
 
 namespace SeeloewenCraft.entity
@@ -15,12 +15,31 @@ namespace SeeloewenCraft.entity
         public const double HIT_RANGE = 4000.0;
         public const double HIT_DAMAGE = 2.0;
 
-        private const int PLAYER_WIDTH = 350;
-        private const int PLAYER_HEIGHT = 1950;
+        private const int PLAYER_WIDTH = 475;
+        private const int PLAYER_HEIGHT = 1900;
 
         private int directionScale = 1;
 
-        //-- Constructor --//
+        float t = 0.0f;
+        Direction headDir = Direction.LEFT;
+
+        public PlayerRenderInfo playerRenderInfo = new PlayerRenderInfo(0, 0, Direction.LEFT, 0.0f, 0.0f, 0.0f, 0.0f);
+
+        void UpdateAnimation(double dt)
+        {
+            t += (float)dt * Math.Abs(velX) * 0.003f;
+            t %= (float) (2 * Math.PI);
+            //double a = Math.Max(0, 1 - 50 / (40+Math.Pow(Math.Abs(velX), 0.8)));
+            double a = 1 - Math.Pow(Math.E, -0.001 * Math.Abs(velX));
+            if (velX < 0) headDir = Direction.LEFT;
+            if(velX > 0) headDir = Direction.RIGHT;
+            playerRenderInfo = new PlayerRenderInfo(posX, posY,
+                headDir,
+                (float)(a * -0.6 * Math.Sin(t)),
+                (float)(a * 0.6 * Math.Sin(t)),
+                (float)(a*0.8*Math.Sin(t)),
+                (float)(a*-0.8*Math.Sin(t)));
+        }
 
         public Player(int x, int y) : base(PLAYER_WIDTH, PLAYER_HEIGHT, x, y, 0, 0)
         {
@@ -33,8 +52,6 @@ namespace SeeloewenCraft.entity
         {
             InitPlayer();
         }
-
-        //-- Custom Methods --//
 
         protected override void InitTexture()
         {
@@ -247,6 +264,7 @@ namespace SeeloewenCraft.entity
             HandleInputs();
             HandleThrow();
             base.OnUpdateStart(tps);
+            UpdateAnimation(1.0 / tps);
             DisplayDebugInformation();
         }
 

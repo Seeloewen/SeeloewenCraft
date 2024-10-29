@@ -10,6 +10,7 @@ using System.Linq;
 
 using SeeloewenCraft.entity;
 using System.Windows.Documents;
+using SeeloewenCraft.gl_rendering;
 
 namespace SeeloewenCraft
 {
@@ -33,6 +34,8 @@ namespace SeeloewenCraft
         public RecipeCreator recipeCreator;
         public WorldRenderer worldRenderer;
         public EntityManager entityManager;
+
+        public Renderer renderer;
 
         //Constants
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
@@ -629,6 +632,8 @@ namespace SeeloewenCraft
             debugMenu.AddLine(debugMenu.tblGameStats, $"worldName: {worldName}");
             debugMenu.AddLine(debugMenu.tblGameStats, $"worldVersion: {worldVersion}");
             debugMenu.AddLine(debugMenu.tblGameStats, $"seed: {seed}");
+            debugMenu.AddLine(debugMenu.tblGameStats, $"fps: 0");
+
         }
 
         public void SetNight(int nightState)
@@ -694,6 +699,8 @@ namespace SeeloewenCraft
             worldRenderer.playerPosY = (double)player.posY / 1000;
 
             worldRenderer.Render();
+
+            renderer.cam.SetCamCenterPhysicsCoord(player.posX+237, player.posY+950);
         }
     }
 

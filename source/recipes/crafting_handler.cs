@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Windows.UI.Core;
 
 namespace SeeloewenCraft
 {
@@ -26,7 +27,19 @@ namespace SeeloewenCraft
 
         //Variables
         public int recipeProgress;
-        public bool recipeRunning;
+        private bool _recipeRunning;
+        public bool recipeRunning
+        {
+            set
+            {
+                if(block is FurnaceBlock)
+                {
+                    block.state = value ? "running" : "running";
+                }
+                _recipeRunning = value;
+            }
+            get { return _recipeRunning; }
+        }
         public bool recipeClaimable;
         private int craftingProgressStep;
         public int amount = 1;
@@ -265,6 +278,7 @@ namespace SeeloewenCraft
 
                 //Show notification and log that crafting process is complete
                 NotificationHandler.ShowNotification($"Crafting for x{amount} {selectedRecipe.displayName} completed!", 3000, Images.CraftingTable.GetTexture());
+              
                 if (block != null) Log.Write($"Completed crafting for {amount}x {selectedRecipe.id} at workstation {workstation} (x{block.xPos} y{block.yPos}, Chunk {block.chunk.index})", LogType.GENERAL, LogLevel.INFO);
             }
         }

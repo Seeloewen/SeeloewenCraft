@@ -3,11 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:glWpfControl="clr-namespace:OpenTK.Wpf;assembly=GLWpfControl"
         mc:Ignorable="d"
         Title="SeeloewenCraft World" Height="720" Width="1280" KeyDown="MainWindow_KeyDown" KeyUp="MainWindow_KeyUp" MouseMove="Window_MouseMove" WindowStartupLocation="CenterScreen" Closing="wndGame1_Closing" SizeChanged="wndGame1_SizeChanged">
     <Canvas x:Name="cvsGame" SnapsToDevicePixels="True" UseLayoutRounding="True">
+        <glWpfControl:GLWpfControl
+        x:Name="OpenTkControl"
+        RenderSize="1200, 700" Render="OpenTkControl_OnRender" Height="714" Canvas.Left="0" Canvas.Top="0" Width="1280" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <glWpfControl:GLWpfControl.Settings>
+                <glWpfControl:GLWpfControlSettings 
+                    MajorVersion="3"
+                    MinorVersion="3"
+                    ContextFlags="Debug"/>
+            </glWpfControl:GLWpfControl.Settings>
+        </glWpfControl:GLWpfControl>
         <ScrollViewer x:Name="svWorld" Height="720" Width="1280" PreviewMouseWheel="svWorld_PreviewMouseWheel" Panel.ZIndex="0" VerticalScrollBarVisibility="Hidden" Visibility="Visible">
-            <Canvas x:Name="cvsWorld" Height="3785" Background="#FFBCF4F7" Visibility="Visible">
+            <Canvas x:Name="cvsWorld" Height="3785" Background="#FFBCF4F7" Visibility="Hidden">
             </Canvas>
         </ScrollViewer>
         <Border x:Name="bdrMenu" BorderBrush="#FF252525" BorderThickness="2" Height="382" Width="379" Canvas.Left="455" Canvas.Top="152" HorizontalAlignment="Center" VerticalAlignment="Top" Panel.ZIndex="6" Background="#FFC8C8C8" Visibility="Hidden">
@@ -21,6 +32,6 @@
             </Canvas>
         </Border>
         <Button x:Name="btnClose" Content="X" Canvas.Left="1219" Canvas.Top="17" Height="45" Width="45" FontSize="27" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#FFFF5F5F" Click="btnClose_Click" FontWeight="DemiBold" IsTabStop="False"/>
-
+        <Button x:Name="btnToggleRenderer" Content="Toggle Renderer" Canvas.Left="979" Canvas.Top="17" Height="45" Width="221" FontSize="27" HorizontalAlignment="Left" VerticalAlignment="Center" Background="LightBlue" FontWeight="DemiBold" IsTabStop="False" Click="btnToggleRenderer_Click"/>
     </Canvas>
 </Window>
