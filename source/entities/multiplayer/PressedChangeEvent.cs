@@ -35,18 +35,18 @@ namespace SeeloewenCraft.entity
         internal static PressedChangeEvent Create(string[] args)
         {
             return new PressedChangeEvent(
-                int.Parse(args[1]),
+                int.Parse(args[0]),
+                bool.Parse(args[1]),
                 bool.Parse(args[2]),
                 bool.Parse(args[3]),
                 bool.Parse(args[4]),
-                bool.Parse(args[5]),
-                bool.Parse(args[6])
+                bool.Parse(args[5])
             );
         }
 
         public void Send()
         {
-            NetworkHandler.SendData(MultiplayerPacketType.PRESSED_CHANGE, $"{id};{pressedUp};{pressedRight};{pressedLeft};{pressedSneak};{pressedSprint}");
+            NetworkHandler.SendData(MultiplayerPacketType.PRESSED_CHANGE, id.ToString(), pressedUp.ToString(), pressedRight.ToString(), pressedLeft.ToString(), pressedSneak.ToString(), pressedSprint.ToString());
         }
 
     }

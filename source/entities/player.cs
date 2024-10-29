@@ -5,8 +5,8 @@ using System.Windows.Media;
 
 namespace SeeloewenCraft.entity
 {
-    public class Player : MovingEntity
-    {
+    public partial class Player : MovingEntity
+    {         
         public Inventory inventory;
         public HealthBar healthBar;
 
@@ -14,6 +14,11 @@ namespace SeeloewenCraft.entity
 
         public const double HIT_RANGE = 4000.0;
         public const double HIT_DAMAGE = 2.0;
+
+        private const int PLAYER_WIDTH = 475;
+        private const int PLAYER_HEIGHT = 1900;
+
+        private int directionScale = 1;
 
         float t = 0.0f;
         Direction headDir = Direction.LEFT;
@@ -36,15 +41,14 @@ namespace SeeloewenCraft.entity
                 (float)(a*-0.8*Math.Sin(t)));
         }
 
-
-        public Player(int x, int y) : base(475, 1900, x, y, 0, 0)
+        public Player(int x, int y) : base(PLAYER_WIDTH, PLAYER_HEIGHT, x, y, 0, 0)
         {
             //Generate the player
             type = "Player";
             InitPlayer();
         }
 
-        public Player(JsonToken token) : base(token, 475, 1900, new SolidColorBrush(Colors.Red))
+        public Player(JsonToken token) : base(token, PLAYER_WIDTH, PLAYER_HEIGHT, new SolidColorBrush(Colors.Red))
         {
             InitPlayer();
         }
@@ -94,10 +98,33 @@ namespace SeeloewenCraft.entity
         public void HandleInputs()
         {
             if (this != Game.world.player) return;
+
+            bool changed = false;
+
+            changed = changed || pressedLeft != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedRight != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedUp != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedSneak != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedSprint != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            changed = changed || pressedThrow != Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+
+            pressedLeft = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
+            pressedRight = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveRight);
+            pressedUp = Game.world.wndGame.pressedKeys.Contains(Settings.cJump);
+            pressedSneak = Game.world.wndGame.pressedKeys.Contains(Settings.cSneak);
+            pressedSprint = Game.world.wndGame.pressedKeys.Contains(Settings.cSprint);
+            pressedThrow = Game.world.wndGame.pressedKeys.Contains(Settings.cThrowItem);
+
+            if (changed)
+            {
+                NetworkHandler.SendData(MultiplayerPacketType.PRESSED_CHANGE, Game.world.player.id.ToString(), pressedLeft.ToString(), pressedRight.ToString(), pressedUp.ToString(), pressedSneak.ToString(), pressedSprint.ToString());
+            }
+
+            /* Too laggy, needs a rework
+            //will get synced
             //doesnt get synced
             bool newPressedThrow = Game.world.wndGame.pressedKeys.Contains(Settings.cThrowItem);
 
-            //will get synced
             bool newPressedLeft = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveLeft);
             bool newPressedRight = Game.world.wndGame.pressedKeys.Contains(Settings.cMoveRight);
             bool newPressedUp = Game.world.wndGame.pressedKeys.Contains(Settings.cJump);
@@ -115,7 +142,34 @@ namespace SeeloewenCraft.entity
             {
                 HandlePressedChangeEvent(e);
                 e.Send();
+            }*/
+
+            UpdateHeadPosition();
+
+            //Do animation if necessary
+            movingHorizontally = pressedLeft || pressedRight;
+            DoMovementAnimation();
+        }
+
+        public void UpdateHeadPosition()
+        {
+            //Update player head position based on the direction he's looking
+            if (pressedRight)
+            {
+                directionScale = -1;
             }
+            else if (pressedLeft)
+            {
+                directionScale = 1;
+            }
+
+            ScaleTransform flipTransform = new ScaleTransform
+            {
+                ScaleX = directionScale,
+                CenterX = cvsHead.ActualWidth / 2
+            };
+
+            cvsHead.RenderTransform = flipTransform;
         }
 
         protected override void DoFallDamage()
@@ -143,7 +197,7 @@ namespace SeeloewenCraft.entity
         {
             //Setup the character canvas that is shown but does not count in movement checks
 
-            Log.Write($"Created player at position x{posX} y{posY}", "Info");
+            Log.Write($"Created player at position x{posX} y{posY}.", LogType.ENTITIES, LogLevel.INFO);
 
             //Add initial debug menu lines
             Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "Player Stats:");
@@ -164,6 +218,9 @@ namespace SeeloewenCraft.entity
             {
                 healthBar.Hide();
             }
+
+            texture.Background = new SolidColorBrush(Colors.Transparent);
+            InitAnimations();
         }
 
         public override void Die()
@@ -219,7 +276,7 @@ namespace SeeloewenCraft.entity
 
         public void SavePosition(string path)
         {
-            Log.Write($"Saved player position to {path}", "Info");
+            Log.Write($"Saved player position to {path}.", LogType.ENTITIES, LogLevel.INFO);
 
             using (JsonWriter writer = JsonWriter.Create())
             {
@@ -262,6 +319,6 @@ namespace SeeloewenCraft.entity
                 Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "touchingWater", $"touchingWater={touchingStatus[TOUCHING_WATER]}");
                 Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "breathing", $"breathing={breathing}");
             }
-        }
+        }      
     }
 }

@@ -37,9 +37,10 @@
                 else if (!block.hasRightClickAction && selectedItem != null)
                 {
                     Block newBlock = selectedItem.GetBlock();
+                    Block blockBelow = block.GetBlockBelow();
 
                     //Don't place the block if it needs a ground but there is none
-                    if (block.GetBlockBelow() != null && !block.GetBlockBelow().isSolid && newBlock != null && newBlock.needsGround)
+                    if(newBlock != null && newBlock.needsGround.doesNeed && !block.CanStayOnBlockBelow(newBlock, blockBelow))
                     {
                         return;
                     }
@@ -93,10 +94,10 @@
                                 selectedSlot.slot.Remove(1);
                                 selectedSlot.slot.inventory.UpdateHotbar();
                             }
+
+                            newBlock.tags.Add("placedManually");
                         }
                     }
-
-                    newBlock.tags.Add("placedManually");
                 }
 
                 block.chunk.GetBlock(block.xPos, block.yPos).DisplayDebugInformation();

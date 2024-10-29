@@ -19,6 +19,14 @@ namespace SeeloewenCraft
         public static int autoSaveInterval = 10;
         public static string texturepack;
 
+        //Log types
+        public static bool logGeneral = true;
+        public static bool logWorldGeneration = true;
+        public static bool logStructureGeneration = false;
+        public static bool logNetwork = true;
+        public static bool logEntities = true;
+        public static bool logRendering = true;
+
         //Keybinds
         public static Key cMoveRight = Key.D;
         public static Key cMoveLeft = Key.A;
@@ -110,6 +118,31 @@ namespace SeeloewenCraft
 
             writer.WriteEndObject();
 
+            //Save all the keybinds
+            writer.WritePropertyName("log_types");
+
+            writer.WriteStartObject();
+
+            writer.WritePropertyName("general");
+            writer.WriteValue(logGeneral);
+
+            writer.WritePropertyName("world_generation");
+            writer.WriteValue(logWorldGeneration);
+
+            writer.WritePropertyName("structure_generation");
+            writer.WriteValue(logStructureGeneration);
+
+            writer.WritePropertyName("network");
+            writer.WriteValue(logNetwork);
+
+            writer.WritePropertyName("entities");
+            writer.WriteValue(logEntities);
+
+            writer.WritePropertyName("rendering");
+            writer.WriteValue(logRendering);
+
+            writer.WriteEndObject();
+
             writer.WriteEndObject();
         }
 
@@ -120,6 +153,7 @@ namespace SeeloewenCraft
             {
                 JsonToken settingsToken = fileToken.GetToken("/settings");
                 JsonToken keybindsToken = fileToken.GetToken("/keybinds");
+                JsonToken logTypesToken = fileToken.GetToken("/log_types");
 
                 saveLogOnExit = settingsToken.GetBool("/save_log_on_exit");
                 saveWorldOnClose = settingsToken.GetBool("/save_world_on_close");
@@ -136,6 +170,13 @@ namespace SeeloewenCraft
                     customResY = settingsToken.GetInt("/custom_res_y");
                 }
                 autoSaveInterval = settingsToken.GetInt("/auto_save_interval");
+
+                logGeneral = logTypesToken.GetBool("/general");
+                logWorldGeneration = logTypesToken.GetBool("/world_generation");
+                logStructureGeneration = logTypesToken.GetBool("/structure_generation");
+                logNetwork = logTypesToken.GetBool("/network");
+                logEntities = logTypesToken.GetBool("/entities");
+                logRendering = logTypesToken.GetBool("/rendering");
 
                 cMoveRight = KeyConverter.StringToKey(keybindsToken.GetString("/move_right"));
                 cMoveLeft = KeyConverter.StringToKey(keybindsToken.GetString("/move_left"));

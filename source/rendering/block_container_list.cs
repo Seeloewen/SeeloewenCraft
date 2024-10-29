@@ -37,22 +37,14 @@ namespace SeeloewenCraft
                     return container;
                 }
             }
-            Log.Write($"Could not get container for position x{x} y{y}", "Warning");
+            Log.Write($"Could not get container for position x{x} y{y}", LogType.RENDERING, LogLevel.ERROR);
             return null;
         }
 
         public bool IsAvailable()
         {
             //Check if a chunk with the index of this list is currently loaded (which means it's not available)
-            if (Game.world.GetLoadedChunk(chunkIndex) == null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
+            return Game.world.GetLoadedChunk(chunkIndex) == null;
         }
 
         public void AssignToChunk(Chunk chunk)
@@ -75,7 +67,7 @@ namespace SeeloewenCraft
 
         public void RemoveFromChunk()
         {
-            chunkIndex = int.MaxValue;      
+            chunkIndex = int.MaxValue;
             chunk.blockContainerList = null;
 
             foreach (BlockContainer container in containerList)

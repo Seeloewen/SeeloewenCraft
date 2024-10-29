@@ -2453,6 +2453,120 @@
           "amount": 1
         }
       ]
+    },
+    {
+      "id": "sc:recipe_seeds",
+      "workstation": "Crafting_Table",
+      "display_name": "Seeds",
+      "required_time": 2000,
+      "ingredients": [
+        {
+          "item_id": "sc:wheat_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:seeds_item",
+          "amount": 2
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_seeds",
+      "workstation": "Hand_Crafting",
+      "display_name": "Seeds",
+      "required_time": 2000,
+      "ingredients": [
+        {
+          "item_id": "sc:wheat_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:seeds_item",
+          "amount": 2
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_bread",
+      "workstation": "Crafting_Table",
+      "display_name": "Bread",
+      "required_time": 3000,
+      "ingredients": [
+        {
+          "item_id": "sc:wheat_item",
+          "amount": 3
+        },
+        {
+          "item_id": "sc:bucket_water_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:bread_item",
+          "amount": 1
+        },
+        {
+          "item_id": "sc:bucket_empty_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_croissant",
+      "workstation": "Crafting_Table",
+      "display_name": "Croissant",
+      "required_time": 2500,
+      "ingredients": [
+        {
+          "item_id": "sc:wheat_item",
+          "amount": 2
+        },
+        {
+          "item_id": "sc:bucket_water_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:croissant_item",
+          "amount": 1
+        },
+        {
+          "item_id": "sc:bucket_empty_item",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "sc:recipe_paper",
+      "workstation": "Crafting_Table",
+      "display_name": "Paper",
+      "required_time": 2000,
+      "ingredients": [
+        {
+          "item_id": "sc:sugar_cane_item",
+          "amount": 2
+        },
+        {
+          "item_id": "sc:bucket_water_item",
+          "amount": 1
+        }
+      ],
+      "outgredients": [
+        {
+          "item_id": "sc:paper_item",
+          "amount": 1
+        },
+        {
+          "item_id": "sc:bucket_empty_item",
+          "amount": 1
+        }
+      ]
     }
   ]
 }

@@ -24,7 +24,7 @@ namespace SeeloewenCraft
                     break;
             }
 
-            Log.Write($"Generating chunk {index} with biome {biome}", "Info");
+            Log.Write($"Generating chunk {index} with biome {biome}", LogType.WORLD_GENERATION, LogLevel.INFO);
 
             //Generate terrain & structure
             GenerateTerrain();
@@ -52,12 +52,12 @@ namespace SeeloewenCraft
                     newBiome = GetRandomBiome();
                 }
 
-                Log.Write($"Determined new biome {newBiome} for chunk {index}", "Info");
+                Log.Write($"Determined new biome {newBiome} for chunk {index}", LogType.WORLD_GENERATION, LogLevel.INFO);
                 return newBiome;
             }
             else if (!generateNewBiome && adjacentBiome != Biome.None)
             {
-                Log.Write($"Determined biome {adjacentBiome} for chunk {index} based on adjacent chunk", "Info");
+                Log.Write($"Determined biome {adjacentBiome} for chunk {index} based on adjacent chunk", LogType.WORLD_GENERATION, LogLevel.INFO);
                 return adjacentBiome;
             }
 

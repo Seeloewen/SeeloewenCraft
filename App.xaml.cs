@@ -13,7 +13,7 @@ namespace SeeloewenCraft
             Dispatcher.UnhandledException += OnDispatcherUnhandledException;
 
             //Show the version in log
-            Log.Write($"SeeloewenCraft Version {Game.GAME_VERSION} ({Game.VERSION_DATE})", "Info");
+            Log.Write($"SeeloewenCraft Version {Game.GAME_VERSION} ({Game.VERSION_DATE})", LogType.GENERAL, LogLevel.INFO);
 
             //parse command line arguments to start option variables
             StartOptions.Parse(e.Args);
@@ -56,7 +56,7 @@ namespace SeeloewenCraft
         void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             //Create crash dump
-            Log.Write("An unhandled exception has occured. Creating crash dump...", "Error");
+            Log.Write("An unhandled exception has occured. Creating crash dump...", LogType.GENERAL, LogLevel.ERROR);
             Log.CreateCrashDump(e.Exception);
             Game.ShowException(e.Exception);
 

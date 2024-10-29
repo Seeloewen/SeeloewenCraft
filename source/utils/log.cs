@@ -5,19 +5,36 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Media;
+using SeeloewenCraft.Properties;
 using SeeloewenLib;
-using Windows.Security.Isolation;
 using static System.Environment;
 
 namespace SeeloewenCraft
 {
+    public enum LogType
+    {
+        GENERAL,
+        WORLD_GENERATION,
+        STRUCTURE_GENERATION,
+        NETWORK,
+        ENTITIES,
+        RENDERING
+    }
+
+    public enum LogLevel
+    {
+        INFO,
+        WARNING,
+        ERROR
+    }
+
     public static class Log
     {
         public static wndMenu wndMenu;
         private static Paragraph paragraph;
         public static wndLog wndLog;
         private static SeeloewenLibTools seeloewenLibTools = new SeeloewenLibTools();
-        private static List<string> messages = new List<string>();
+        private static List<(string text, LogLevel level)> messages = new List<(string, LogLevel)>();
         public static bool isOpen;
 
         //-- Custom Methods --//
@@ -30,24 +47,28 @@ namespace SeeloewenCraft
 
                 //Add all messages to the log richtextbox in the respective color
                 paragraph = new Paragraph();
-                foreach (string message in messages)
+
+                foreach (var message in messages)
                 {
-                    string[] messageSplit = message.Split('§');
-                    Run line;
-                    if (messageSplit[1] == "red")
+                    //Determine the color based on the log level
+                    SolidColorBrush color;
+
+                    switch (message.level)
                     {
-                        line = new Run($"{messageSplit[0]}\n") { Foreground = new SolidColorBrush(Colors.Red) };
+                        case LogLevel.ERROR:
+                            color = new SolidColorBrush(Colors.Red);
+                            break;
+                        case LogLevel.WARNING:
+                            color = new SolidColorBrush(Colors.DarkOrange);
+                            break;
+                        default:
+                            color = new SolidColorBrush(Colors.Blue);
+                            break;
                     }
-                    else if (messageSplit[1] == "orange")
-                    {
-                        line = new Run($"{messageSplit[0]}\n") { Foreground = new SolidColorBrush(Colors.DarkOrange) };
-                    }
-                    else
-                    {
-                        line = new Run($"{messageSplit[0]}\n") { Foreground = new SolidColorBrush(Colors.Blue) };
-                    }
-                    paragraph.Inlines.Add(line);
+
+                    paragraph.Inlines.Add(new Run($"{message.text}\n") { Foreground = new SolidColorBrush(Colors.Red) });
                 }
+
                 wndLog.rtbLog.Document.Blocks.Clear();
                 wndLog.rtbLog.Document.Blocks.Add(paragraph);
 
@@ -63,17 +84,20 @@ namespace SeeloewenCraft
             SaveFileDialog sfdLog = new SaveFileDialog();
             sfdLog.Filter = "Text (*.txt)|*.txt|All (*.*)|*.*";
             sfdLog.FileName = $"SeeloewenCraft_Log_{DateTime.Now.ToString().Replace(":", "-").Replace(".", "-").Replace(" ", "-")}.txt";
-            sfdLog.ShowDialog();
+
+            if (sfdLog.ShowDialog() == DialogResult.Cancel)
+            {
+                return;
+            }
 
             //Save the log content to the selected file
             try
             {
                 //Split the color info at the end from the message and only save the messages
                 List<string> onlyMessages = new List<string>();
-                foreach (string message in messages)
+                foreach (var message in messages)
                 {
-                    string[] messageSplit = message.Split(';');
-                    onlyMessages.Add(messageSplit[0]);
+                    onlyMessages.Add(message.text);
                 }
                 File.WriteAllLines(sfdLog.FileName, onlyMessages);
 
@@ -88,7 +112,7 @@ namespace SeeloewenCraft
                 {
                     System.Windows.MessageBox.Show($"Error while saving log to {sfdLog.FileName}: {ex}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                Write($"Error while saving log to {sfdLog.FileName}: {ex}", "Error");
+                Write($"Error while saving log to {sfdLog.FileName}: {ex}\n{ex.StackTrace}", LogType.GENERAL, LogLevel.ERROR);
             }
         }
 
@@ -97,7 +121,7 @@ namespace SeeloewenCraft
             //If location is invalid, use fallback
             if (string.IsNullOrEmpty(location) || !File.Exists(location))
             {
-                location = $"{GetFolderPath(SpecialFolder.ApplicationData)}/SeeloewenCraft/logs";
+                location = FolderUtil.logsFolder;
             }
 
             //Save the log content to the selected file
@@ -105,18 +129,15 @@ namespace SeeloewenCraft
             {
                 //Split the color info at the end from the message and only save the messages
                 List<string> onlyMessages = new List<string>();
-                foreach (string message in messages)
+                foreach (var message in messages)
                 {
-                    string[] messageSplit = message.Split('§');
-                    onlyMessages.Add(messageSplit[0]);
+                    onlyMessages.Add(message.text);
                 }
                 File.WriteAllLines($"{location}/SeeloewenCraft_Log_{DateTime.Now.ToString().Replace(":", "-").Replace(".", "-").Replace(" ", "-")}.txt", onlyMessages);
 
                 if (showMessageBoxes)
                 {
-                    {
-                        System.Windows.MessageBox.Show($"Successfully saved the log to {location}!", "Saved log", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
+                    System.Windows.MessageBox.Show($"Successfully saved the log to {location}!", "Saved log", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             catch (Exception ex)
@@ -125,7 +146,7 @@ namespace SeeloewenCraft
                 {
                     System.Windows.MessageBox.Show($"Error while saving log to {location}: {ex}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                Write($"Could not save log to {location}: {ex}", "Error");
+                Write($"Could not save log to {location}: {ex}\n{ex.StackTrace}", LogType.GENERAL, LogLevel.ERROR);
             }
         }
 
@@ -134,61 +155,57 @@ namespace SeeloewenCraft
             //Ask the user whether they want to clear the log
             MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure that you want to clear your current log? You will not be able to recover it!", "Clear Log", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
-            switch (result)
+            //Clear the log
+            if (result == MessageBoxResult.Yes)
             {
-                //Clear the log
-                case MessageBoxResult.Yes:
-                    messages.Clear();
-                    paragraph.Inlines.Clear();
-                    break;
+                messages.Clear();
+                paragraph.Inlines.Clear();
             }
         }
 
-        public static void Write(string message, string type)
+
+        public static void Write(string message, LogType type, LogLevel level)
         {
+            if (!LogTypeEnabled(type))
+            {
+                return;
+            }
+
             //Write a message to log depending on the message type.
-            string prefix = "";
-            string color = "";
+            string prefix;
+            SolidColorBrush color;
 
-            if (type == "Error")
+            switch (level)
             {
-                prefix = "ERROR";
-                color = "red";
-            }
-            else if (type == "Warning")
-            {
-                prefix = "WARNING";
-                color = "orange";
-            }
-            else if (type == "Info")
-            {
-                prefix = "INFO";
-                color = "blue";
+                case LogLevel.ERROR:
+                    prefix = "Error";
+                    color = new SolidColorBrush(Colors.Red);
+                    break;
+                case LogLevel.WARNING:
+                    prefix = "Warning";
+                    color = new SolidColorBrush(Colors.DarkOrange);
+                    break;
+                default:
+                    prefix = "Info";
+                    color = new SolidColorBrush(Colors.Blue);
+                    break;
             }
 
-            messages.Add($"[{DateTime.Now}] [{prefix}] {message}§{color}");
+            messages.Add(($"[{DateTime.Now}] [{prefix}] {message}", level));
+
+            //If there's too many messages, remove the first one
+            if (messages.Count > 100)
+            {
+                messages.Remove(messages[0]);
+            }
 
             if (wndLog != null)
             {
                 //Add all messages to the log richtextbox in the respective color
                 paragraph = new Paragraph();
-                foreach (string mes in messages)
+                foreach (var mes in messages)
                 {
-                    string[] messageSplit = mes.Split('§');
-                    Run line;
-                    if (messageSplit[1] == "red")
-                    {
-                        line = new Run($"{messageSplit[0]}\n") { Foreground = new SolidColorBrush(Colors.Red) };
-                    }
-                    else if (messageSplit[1] == "orange")
-                    {
-                        line = new Run($"{messageSplit[0]}\n") { Foreground = new SolidColorBrush(Colors.DarkOrange) };
-                    }
-                    else
-                    {
-                        line = new Run($"{messageSplit[0]}\n") { Foreground = new SolidColorBrush(Colors.Blue) };
-                    }
-                    paragraph.Inlines.Add(line);
+                    paragraph.Inlines.Add(new Run($"{mes.text}\n") { Foreground = color });
                 }
                 wndLog.rtbLog.Document.Blocks.Clear();
                 wndLog.rtbLog.Document.Blocks.Add(paragraph);
@@ -199,13 +216,24 @@ namespace SeeloewenCraft
         public static void CreateCrashDump(Exception ex)
         {
             //Log all relevant information for a crash
-            Write("-------------------------------------", "Error");
-            Write($"SeeloewenCraft {Game.GAME_VERSION} - A crash has been detected!", "Error");
-            Write($"Exception: {ex.GetType().ToString()}!", "Error");
-            Write($"Message: {ex.Message}", "Error");
-            Write($"Source: {ex.Source}", "Error");
-            Write($"Additional Data:\n{ex.StackTrace}", "Error");
-            Write("-------------------------------------", "Error");
+            Write("-------------------------------------", LogType.GENERAL, LogLevel.ERROR);
+            Write($"SeeloewenCraft {Game.GAME_VERSION} - A crash has been detected!", LogType.GENERAL, LogLevel.ERROR);
+            Write($"Exception: {ex.GetType().ToString()}!", LogType.GENERAL, LogLevel.ERROR);
+            Write($"Message: {ex.Message}", LogType.GENERAL, LogLevel.ERROR);
+            Write($"Source: {ex.Source}", LogType.GENERAL, LogLevel.ERROR);
+            Write($"Stack Trace:\n{ex.StackTrace}", LogType.GENERAL, LogLevel.ERROR);
+            Write("-------------------------------------", LogType.GENERAL, LogLevel.ERROR);
+        }
+
+        private static bool LogTypeEnabled(LogType type)
+        {
+            return type == LogType.GENERAL && Settings.logGeneral ||
+                type == LogType.WORLD_GENERATION && Settings.logWorldGeneration ||
+                type == LogType.STRUCTURE_GENERATION && Settings.logStructureGeneration ||
+                type == LogType.NETWORK && Settings.logNetwork ||
+                type == LogType.ENTITIES && Settings.logEntities ||
+                type == LogType.RENDERING && Settings.logRendering;
+
         }
     }
 }

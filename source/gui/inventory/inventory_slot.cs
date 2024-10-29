@@ -111,11 +111,11 @@ namespace SeeloewenCraft
                     itemTag = tag;
                     cvsItem.Background = ItemRegister.GenerateItem(id).image;
 
-                    if(inventory.block != null && inventory.block.chunk != null)
+                    if (inventory.block != null && inventory.block.chunk != null)
                     {
-                        NetworkHandler.SendData(MultiplayerPacketType.ADD_TO_INV, $"{inventory.block.xPos};{inventory.block.yPos};{inventory.block.chunk.index};{id};{amount};{xPos};{yPos}");
+                        NetworkHandler.SendData(MultiplayerPacketType.ADD_TO_INV, inventory.block.xPos.ToString(), inventory.block.yPos.ToString(), inventory.block.chunk.index.ToString(), id, amount.ToString(), xPos.ToString(), yPos.ToString(), tag ??= "");
                     }
-                  
+
                     ToggleDurabilityDisplay();
                 }
                 else
@@ -129,16 +129,16 @@ namespace SeeloewenCraft
             }
         }
 
-        public void AddMultiplayer(string id, string tag, int amount)
+        public void Add_Multiplayer(string id, string tag, int amount)
         {
             //Update the slot
             itemId = id;
             Amount += amount;
             itemTag = tag;
-            cvsItem.Background = ItemRegister.GenerateItem(id).image;          
+            cvsItem.Background = ItemRegister.GenerateItem(id).image;
             ToggleDurabilityDisplay();
         }
-      
+
         public void ToggleDurabilityDisplay()
         {
             if (GetDurability() != 0)
@@ -176,13 +176,13 @@ namespace SeeloewenCraft
                     cvsItem.Background = new SolidColorBrush(Colors.Transparent);
                     itemId = "";
                     pbDurability.Visibility = Visibility.Hidden;
-                    if(hotbarSlot != null) hotbarSlot.pbDurability.Visibility= Visibility.Hidden;
+                    if (hotbarSlot != null) hotbarSlot.pbDurability.Visibility = Visibility.Hidden;
                     inventory.UpdateHotbar();
                 }
 
                 if (inventory.block != null && inventory.block.chunk != null)
                 {
-                    NetworkHandler.SendData(MultiplayerPacketType.REMOVE_FROM_INV, $"{inventory.block.xPos};{inventory.block.yPos};{inventory.block.chunk.index};{amount};{xPos};{yPos}");
+                    NetworkHandler.SendData(MultiplayerPacketType.REMOVE_FROM_INV, inventory.block.xPos.ToString(), inventory.block.yPos.ToString(), inventory.block.chunk.index.ToString(), amount.ToString(), xPos.ToString(), yPos.ToString());
                 }
             }
             else
@@ -191,7 +191,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public void RemoveMultiplayer(int amount)
+        public void Remove_Multiplayer(int amount)
         {
             //Update the slot and clear it if the amount is 0
             Amount -= amount;
@@ -202,7 +202,7 @@ namespace SeeloewenCraft
                 itemId = "";
             }
         }
-      
+
         public int GetAvailableSpace()
         {
             //Return the available space, obviously
@@ -270,7 +270,7 @@ namespace SeeloewenCraft
                 int durability = GetDurability();
                 itemTag = itemTag.Replace(durability.ToString(), (durability - 1).ToString());
                 pbDurability.Value--;
-                if(hotbarSlot != null) hotbarSlot.pbDurability.Value--;
+                if (hotbarSlot != null) hotbarSlot.pbDurability.Value--;
 
                 if (durability - 1 <= 0)
                 {

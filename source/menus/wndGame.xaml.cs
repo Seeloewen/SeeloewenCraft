@@ -11,7 +11,6 @@ using System.Windows.Media;
 using System.Windows.Media.TextFormatting;
 using System.Windows.Resources;
 using Newtonsoft.Json;
-
 using OpenTK.Graphics.GL;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Graphics.OpenGL4;
@@ -317,7 +316,7 @@ namespace SeeloewenCraft
             }
             catch (Exception ex)
             {
-                Log.Write($"Could not get rectangle for canvas {canvas.Uid}: {ex.Message}", "Warning");
+                Log.Write($"Could not get rectangle for canvas {canvas.Uid}: {ex.Message}", LogType.RENDERING, LogLevel.ERROR);
                 return new Rect(1, 1, 1, 1);
             }
         }
@@ -341,7 +340,7 @@ namespace SeeloewenCraft
             }
             catch (Exception ex)
             {
-                Log.Write($"Could not get rectangle for border {border.Uid}: {ex.Message}", "Warning");
+                Log.Write($"Could not get rectangle for border {border.Uid}: {ex.Message}", LogType.RENDERING, LogLevel.INFO);
                 return new Rect(1, 1, 1, 1);
             }
         }
@@ -367,7 +366,7 @@ namespace SeeloewenCraft
             }
             catch (Exception ex)
             {
-                Log.Write($"Could not get rectangle for grid {grid.Uid}: {ex.Message}", "Warning");
+                Log.Write($"Could not get rectangle for grid {grid.Uid}: {ex.Message}\n{ex.StackTrace}", LogType.RENDERING, LogLevel.ERROR);
                 return new Rect(1, 1, 1, 1);
             }
         }

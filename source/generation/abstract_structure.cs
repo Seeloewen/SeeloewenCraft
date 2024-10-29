@@ -185,7 +185,7 @@ namespace SeeloewenCraft
                     }
                 }
             }
-            Log.Write($"Generated structure {id} at x{xBase} y{yBase} with width {totalWidth}, name {name}, direction {direction}, isCutOff = {isCutOff}, widthRemaining = {widthRemaining}", "Info");
+            Log.Write($"Generated structure {id} at x{xBase} y{yBase} with width {totalWidth}, name {name}, direction {direction}, isCutOff = {isCutOff}, widthRemaining = {widthRemaining}", LogType.STRUCTURE_GENERATION, LogLevel.INFO);
 
         }
 

@@ -81,9 +81,9 @@ namespace SeeloewenCraft
                         }
                         catch (Exception ex)
                         {
-                            Log.Write($"Could not delete world {cbxWorld.SelectedItem}: {ex.Message}", "Info");
+                            Log.Write($"Could not delete world {cbxWorld.SelectedItem}: {ex.Message}\n{ex.StackTrace}", LogType.GENERAL, LogLevel.ERROR);
                         }
-                        Log.Write($"Deleted world {cbxWorld.SelectedItem}", "Info");
+                        Log.Write($"Deleted world {cbxWorld.SelectedItem}", LogType.GENERAL, LogLevel.INFO);
                         break;
                 }
             }

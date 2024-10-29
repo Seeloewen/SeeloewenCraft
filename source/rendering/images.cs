@@ -18,12 +18,12 @@ namespace SeeloewenCraft
             if (Game.selectedTexturepack == "default" || string.IsNullOrEmpty(Game.selectedTexturepack))
             {
                 textureDirectory = "pack://application:,,,/SeeloewenCraft;component/Resources";
-                Log.Write($"Set texture directory to 'pack://application:,,,/SeeloewenCraft;component/Resources' (internal resources)", "Info");
+                Log.Write($"Set texture directory to 'pack://application:,,,/SeeloewenCraft;component/Resources' (internal resources)", LogType.RENDERING, LogLevel.INFO);
             }
             else if (Game.selectedTexturepack != "default" && !string.IsNullOrEmpty(Game.selectedTexturepack))
             {
                 textureDirectory = Game.selectedTexturepack;
-                Log.Write($"Set texture directory to '{Game.selectedTexturepack}'", "Info");
+                Log.Write($"Set texture directory to '{Game.selectedTexturepack}'", LogType.RENDERING, LogLevel.INFO);
             }
 
             //Actually load the resources
@@ -157,7 +157,7 @@ namespace SeeloewenCraft
             else
             {
                 //If default one doesn't exist, use missing texture image
-                Log.Write($"Could not load texture {resourceName} (Type '{type}'): No image file in texturepack or internally found. Is the type and file name correct?", "Error");
+                Log.Write($"Could not load texture {resourceName} (Type '{type}'): No image file in texturepack or internally found. Is the type and file name correct?", LogType.RENDERING, LogLevel.ERROR);
                 return new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/textures/Missing_Texture.png", UriKind.Absolute);
             }
         }
@@ -178,13 +178,13 @@ namespace SeeloewenCraft
             Chest = new SealImage(TextureType.Block, "Chest.png");
             MagmaBlock = new SealImage(TextureType.Block, "Magma_Block.png");
             MissingTexture = new SealImage(TextureType.General, "Missing_Texture.png");
-            StoneHammer = new SealImage(TextureType.Item, "Stone_Hammer.png");
+            StoneHammer = new SealImage(TextureType.Tool_Item, "Stone_Hammer.png");
             SpruceLog = new SealImage(TextureType.Block, "Spruce_Log.png");
             SpruceLeaves = new SealImage(TextureType.Block, "Spruce_Leaves.png");
             Torch = new SealImage(TextureType.Block, "Torch.png");
             PottedCactus_Base = new SealImage(TextureType.Connected_Block, "Potted_Cactus_Base.png");
             PottedCactus_Top = new SealImage(TextureType.Connected_Block, "Potted_Cactus_Top.png");
-            PottedCactus = new SealImage(TextureType.Connected_Block, "Potted_Cactus.png");
+            PottedCactus = new SealImage(TextureType.Item, "Potted_Cactus.png");
             Water_1_Right = new SealImage(TextureType.Block, "Water_1_Right.png");
             Water_1_Left = new SealImage(TextureType.Block, "Water_1_Left.png");
             Water_2_Right = new SealImage(TextureType.Block, "Water_2_Right.png");
@@ -391,6 +391,32 @@ namespace SeeloewenCraft
             Glass = new SealImage(TextureType.Block, "Glass.png");
             Cactus_Right = new SealImage(TextureType.Connected_Block, "Cactus_Right.png");
             Cactus_Left = new SealImage(TextureType.Connected_Block, "Cactus_Left.png");
+            PlayerArmLeft = new SealImage(TextureType.Entity, "Player_Arm_Left.png");
+            PlayerArmRight = new SealImage(TextureType.Entity, "Player_Arm_Right.png");
+            PlayerLegLeft = new SealImage(TextureType.Entity, "Player_Leg_Left.png");
+            PlayerLegRight = new SealImage(TextureType.Entity, "Player_Leg_Right.png");
+            PlayerBody = new SealImage(TextureType.Entity, "Player_Body.png");
+            PlayerHead = new SealImage(TextureType.Entity, "Player_Head.png");
+            Wheat = new SealImage(TextureType.Item, "Wheat.png");
+            Carrot = new SealImage(TextureType.Item, "Carrot.png");
+            Seeds = new SealImage(TextureType.Item, "Seeds.png");
+            Wheat_Stage1 = new SealImage(TextureType.States_Block, "Wheat_Stage_1.png");
+            Wheat_Stage2 = new SealImage(TextureType.States_Block, "Wheat_Stage_2.png");
+            Wheat_Stage3 = new SealImage(TextureType.States_Block, "Wheat_Stage_3.png");
+            Wheat_Stage4 = new SealImage(TextureType.States_Block, "Wheat_Stage_4.png");
+            Carrot_Stage1 = new SealImage(TextureType.States_Block, "Carrot_Stage_1.png");
+            Carrot_Stage2 = new SealImage(TextureType.States_Block, "Carrot_Stage_2.png");
+            Carrot_Stage3 = new SealImage(TextureType.States_Block, "Carrot_Stage_3.png");
+            Carrot_Stage4 = new SealImage(TextureType.States_Block, "Carrot_Stage_4.png");
+            Farmland = new SealImage(TextureType.Block, "Farmland.png");
+            Cotton = new SealImage(TextureType.Item, "Cotton.png");
+            Berry = new SealImage(TextureType.Item, "Berry.png");
+            Berry_Bush_Stage1 = new SealImage(TextureType.States_Block, "Berry_Bush_Stage_1.png");
+            Berry_Bush_Stage2 = new SealImage(TextureType.States_Block, "Berry_Bush_Stage_2.png");
+            Cotton_Stage1 = new SealImage(TextureType.States_Block, "Cotton_Stage_1.png");
+            Cotton_Stage2 = new SealImage(TextureType.States_Block, "Cotton_Stage_2.png");
+            SugarCane = new SealImage(TextureType.Block, "Sugar_Cane.png");
+            SugarCaneItem = new SealImage(TextureType.Item, "Sugar_Cane_Item.png");
         }
 
         //-- Images --//
@@ -621,7 +647,33 @@ namespace SeeloewenCraft
         public static SealImage YellowFlower;
         public static SealImage Glass;
         public static SealImage Cactus_Right;
-        public static SealImage Cactus_Left;
+        public static SealImage Cactus_Left; 
+        public static SealImage PlayerLegRight;
+        public static SealImage PlayerLegLeft;
+        public static SealImage PlayerArmRight;
+        public static SealImage PlayerArmLeft;
+        public static SealImage PlayerHead;
+        public static SealImage PlayerBody;
+        public static SealImage Wheat;
+        public static SealImage Carrot;
+        public static SealImage Seeds;
+        public static SealImage Wheat_Stage1;
+        public static SealImage Wheat_Stage2;
+        public static SealImage Wheat_Stage3;
+        public static SealImage Wheat_Stage4;
+        public static SealImage Carrot_Stage1;
+        public static SealImage Carrot_Stage2;
+        public static SealImage Carrot_Stage3;
+        public static SealImage Carrot_Stage4;
+        public static SealImage Farmland;
+        public static SealImage Berry;
+        public static SealImage Cotton;
+        public static SealImage Berry_Bush_Stage1;
+        public static SealImage Berry_Bush_Stage2;
+        public static SealImage Cotton_Stage1;
+        public static SealImage Cotton_Stage2;
+        public static SealImage SugarCane;
+        public static SealImage SugarCaneItem;
     }
 
     public class SealImage

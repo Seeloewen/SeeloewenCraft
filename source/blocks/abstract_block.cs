@@ -28,7 +28,7 @@ namespace SeeloewenCraft
         private Block foregroundBlock;
         public List<(int xOffset, int yOffset, string blockId)> connectedBlocks = new List<(int, int, string)>();
         public (int? xOffset, int? yOffset) baseBlock;
-        public LootTable lootTable;
+        public (LootTable lootTable, int minRolls, int maxRolls) lootTable;
         public Gui gui;
         public CraftingHandler craftingHandler;
 
@@ -45,12 +45,11 @@ namespace SeeloewenCraft
         public bool hasRightClickAction = false;
         public bool dropsOnWrongTool = true;
         public int breakTime = 150;
-        public int dropAmountMin = 1;
-        public int dropAmountMax = 1;
+        public List<(string id, int min, int max)> drops = new List<(string, int, int)>(); //Can be empty, means that item id will drop
         public Collision collision;
         public Tool effectiveTool;
         public Material? effectiveMaterial;
-        public bool needsGround = false;
+        public (bool doesNeed, string tag) needsGround = (false, "");
         public bool willFall;
 
         //variables
@@ -495,6 +494,20 @@ namespace SeeloewenCraft
             }
         }
 
+        public bool CanStayOnBlockBelow(Block block, Block blockBelow)
+        {
+            if (block != null && blockBelow != null && block.needsGround.doesNeed)
+            {
+                //If the block doesn't need a specific ground block (besides being solid) or the ground block has the needed tag, the block can stay
+                if ((block.needsGround.tag == "" && blockBelow.isSolid)
+                 || blockBelow.tags.Contains(block.needsGround.tag))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
 
         public void RemoveForegroundBlock()
@@ -531,6 +544,11 @@ namespace SeeloewenCraft
         public virtual void SetTexture()
         {
             image = sImage.GetTexture();
+
+            if(blockContainer != null)
+            {
+                blockContainer.UpdateTexture();
+            }
         }
 
         public virtual void RightClickAction(object sender)
@@ -591,34 +609,52 @@ namespace SeeloewenCraft
 
             if ((Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == block.effectiveTool && ToolIsCorrectMaterial(tool.material) && !block.dropsOnWrongTool) || block.dropsOnWrongTool)
             {
-                //Get the amount of times the item gets dropped
-                int rolls = Game.rnd.Next(block.dropAmountMin, block.dropAmountMax + 1);
-
-                for (int i = 0; i < rolls; i++)
+                //If the block has a loot table, roll an entry and give the items to player
+                if (block.lootTable.lootTable != null)
                 {
-                    //If the block has a loot table, roll an entry and give the items to player
-                    if (block.lootTable != null)
+                    //Get the amount of times the item gets dropped
+                    int rolls = Game.rnd.Next(block.lootTable.minRolls, block.lootTable.maxRolls + 1);
+
+                    for (int i = 0; i < rolls; i++)
                     {
-                        List<Item> items = block.lootTable.RollEntry().RollItems();
+                        List<Item> items = block.lootTable.lootTable.RollEntry().RollItems();
                         foreach (Item item in items)
                         {
-                            Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
-                                (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
-                                yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
-                                Game.rnd.Next(-6000, 6000), Game.rnd.Next(-15000, -10000))); //velX and velY 
+                            SpawnItem(item);
                         }
                     }
-                    //If it has only an item, only give that item
-                    else if (block.GetItem() != null)
+                }
+                //If it has a specified droplist
+                else if (block.drops.Count > 0)
+                {
+                    foreach (var entry in block.drops)
                     {
-                        Item item = block.GetItem();
+                        //Roll an amount of drops for each item and drop that amount of that item
+                        int amount = Game.rnd.Next(entry.min, entry.max + 1);
 
-                        Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
-                                (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
-                                yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
-                                Game.rnd.Next(-6000, 6000), Game.rnd.Next(-15000, -10000))); //velX and velY 
+                        for (int j = 0; j < amount; j++)
+                        {
+                            SpawnItem(ItemRegister.GenerateItem(entry.id));
+                        }
                     }
                 }
+                //If it has only an item, only give that item
+                else if (block.GetItem() != null)
+                {
+                    SpawnItem(block.GetItem());
+                }
+            }
+        }
+
+        private void SpawnItem(Item item)
+        {
+            if(item != null)
+            {
+                //Spawn the item entity in the world
+                Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
+                    (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
+                    yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
+                Game.rnd.Next(-6000, 6000), Game.rnd.Next(-15000, -10000))); //velX and velY 
             }
         }
 
@@ -708,7 +744,7 @@ namespace SeeloewenCraft
             }
 
             //Send the data on the network if it's multiplayer
-            NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, $"{block.id};{chunk.index};{block.xPos};{block.yPos}");
+            NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, block.id, chunk.index.ToString(), block.xPos.ToString(), block.yPos.ToString());
         }
 
         public Block GetBlockBelow()

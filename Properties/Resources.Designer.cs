@@ -183,6 +183,36 @@ namespace SeeloewenCraft.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Berry {
+            get {
+                object obj = ResourceManager.GetObject("Berry", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Berry_Bush_Stage_1 {
+            get {
+                object obj = ResourceManager.GetObject("Berry_Bush_Stage_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Berry_Bush_Stage_2 {
+            get {
+                object obj = ResourceManager.GetObject("Berry_Bush_Stage_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Blue_Flower {
             get {
                 object obj = ResourceManager.GetObject("Blue_Flower", resourceCulture);
@@ -421,6 +451,56 @@ namespace SeeloewenCraft.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Carrot {
+            get {
+                object obj = ResourceManager.GetObject("Carrot", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Carrot_Stage_1 {
+            get {
+                object obj = ResourceManager.GetObject("Carrot_Stage_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Carrot_Stage_2 {
+            get {
+                object obj = ResourceManager.GetObject("Carrot_Stage_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Carrot_Stage_3 {
+            get {
+                object obj = ResourceManager.GetObject("Carrot_Stage_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Carrot_Stage_4 {
+            get {
+                object obj = ResourceManager.GetObject("Carrot_Stage_4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die changelog.txt ähnelt.
         /// </summary>
         internal static string changelog_txt {
@@ -632,6 +712,36 @@ namespace SeeloewenCraft.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Cotton {
+            get {
+                object obj = ResourceManager.GetObject("Cotton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Cotton_Stage_1 {
+            get {
+                object obj = ResourceManager.GetObject("Cotton_Stage_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Cotton_Stage_2 {
+            get {
+                object obj = ResourceManager.GetObject("Cotton_Stage_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Crafting_Table {
             get {
                 object obj = ResourceManager.GetObject("Crafting_Table", resourceCulture);
@@ -765,6 +875,16 @@ namespace SeeloewenCraft.Properties {
         internal static System.Drawing.Bitmap Emerald_Ore {
             get {
                 object obj = ResourceManager.GetObject("Emerald_Ore", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Farmland {
+            get {
+                object obj = ResourceManager.GetObject("Farmland", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1382,6 +1502,66 @@ namespace SeeloewenCraft.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Player_Arm_Left {
+            get {
+                object obj = ResourceManager.GetObject("Player_Arm_Left", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Player_Arm_Right {
+            get {
+                object obj = ResourceManager.GetObject("Player_Arm_Right", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Player_Body {
+            get {
+                object obj = ResourceManager.GetObject("Player_Body", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Player_Head {
+            get {
+                object obj = ResourceManager.GetObject("Player_Head", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Player_Leg_Left {
+            get {
+                object obj = ResourceManager.GetObject("Player_Leg_Left", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Player_Leg_Right {
+            get {
+                object obj = ResourceManager.GetObject("Player_Leg_Right", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Pot_Shard {
             get {
                 object obj = ResourceManager.GetObject("Pot_Shard", resourceCulture);
@@ -1585,6 +1765,16 @@ namespace SeeloewenCraft.Properties {
         internal static System.Drawing.Bitmap Sand_Stone_TopRight {
             get {
                 object obj = ResourceManager.GetObject("Sand_Stone_TopRight", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Seeds {
+            get {
+                object obj = ResourceManager.GetObject("Seeds", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2032,6 +2222,26 @@ namespace SeeloewenCraft.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Sugar_Cane {
+            get {
+                object obj = ResourceManager.GetObject("Sugar_Cane", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Sugar_Cane_Item {
+            get {
+                object obj = ResourceManager.GetObject("Sugar_Cane_Item", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Tin_Axe {
             get {
                 object obj = ResourceManager.GetObject("Tin_Axe", resourceCulture);
@@ -2265,6 +2475,56 @@ namespace SeeloewenCraft.Properties {
         internal static System.Drawing.Bitmap Wax {
             get {
                 object obj = ResourceManager.GetObject("Wax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Wheat {
+            get {
+                object obj = ResourceManager.GetObject("Wheat", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Wheat_Stage_1 {
+            get {
+                object obj = ResourceManager.GetObject("Wheat_Stage_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Wheat_Stage_2 {
+            get {
+                object obj = ResourceManager.GetObject("Wheat_Stage_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Wheat_Stage_3 {
+            get {
+                object obj = ResourceManager.GetObject("Wheat_Stage_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Wheat_Stage_4 {
+            get {
+                object obj = ResourceManager.GetObject("Wheat_Stage_4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace SeeloewenCraft.entity {
     //this class stores all entities that exist
@@ -12,7 +13,7 @@ namespace SeeloewenCraft.entity {
         private int timeSinceLastSync = 0;
 
         //list of all entities
-        private List<Entity> entities;
+        public List<Entity> entities;
         //current player
         public Player player;
 
@@ -27,7 +28,7 @@ namespace SeeloewenCraft.entity {
         //does one tick for every entity and delays all entity removals/adds until after
         public void DoStep(int tps)
         {
-            if(Game.IsServer())
+            /*if(Game.IsServer())
             {
                 timeSinceLastSync += 1000 / tps;
                 if(timeSinceLastSync > syncPeriod)
@@ -35,7 +36,7 @@ namespace SeeloewenCraft.entity {
                     timeSinceLastSync %= syncPeriod;
                     SyncPosEvent.Create(entities).Send();
                 }
-            }
+            }*/
 
             allowModify = false;
             foreach (Entity entity in entities)
@@ -166,6 +167,7 @@ namespace SeeloewenCraft.entity {
                     Entity entity = entities[i];
                     if (entity.id == id)
                     {
+                        NetworkHandler.SendData(MultiplayerPacketType.REMOVE_ENTITY, id.ToString());
                         entities.Remove(entity);
                         Game.world.worldRenderer.RemoveEntity(entity);
 
@@ -185,7 +187,7 @@ namespace SeeloewenCraft.entity {
             using (JsonWriter writer = JsonWriter.Create())
             {
                 Game.world.player.SaveToJson(writer);
-                Game.server.SendDataSingleClient(clientID, MultiplayerPacketType.CREATE_ENTITY, $"{writer.ToString()}");
+                Game.server.SendDataSingleClient(NetworkHandler.CreatePacket(MultiplayerPacketType.CREATE_ENTITY, writer.ToString()), clientID);
             }
         }
 

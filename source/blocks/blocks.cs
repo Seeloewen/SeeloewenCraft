@@ -20,8 +20,12 @@ namespace SeeloewenCraft
     {
         public GrassBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Grass Block", "sc:grass_block", 150, "sc:dirt_item", Tool.Shovel, Images.GrassBlock);
+            Init("Grass Block", "sc:grass_block", 150, "sc:grass_block_item", Tool.Shovel, Images.GrassBlock);
+            drops.Add(("sc:dirt_item", 1, 1));
+
             tags.Add("canBeFloor");
+            tags.Add("ground/plant");
+            tags.Add("scytheable");
         }
     }
 
@@ -31,7 +35,8 @@ namespace SeeloewenCraft
         {
             //lootTable = Game.world.lootTables.stoneLootTable;
             Init("Stone Block", "sc:stone_block", 1250, "sc:stone_block_item", Tool.Pickaxe, Images.StoneBlock);
-            lootTable = LootTables.stoneLootTable;
+            drops.Add(("sc:rock_item", 1, 4));
+
             tags.Add("canBeFloor");
         }
     }
@@ -42,6 +47,8 @@ namespace SeeloewenCraft
         {
             Init("Dirt", "sc:dirt_block", 150, "sc:dirt_item", Tool.Shovel, Images.Dirt);
             tags.Add("canBeFloor");
+            tags.Add("ground/plant");
+            tags.Add("scytheable");
         }
     }
 
@@ -73,7 +80,7 @@ namespace SeeloewenCraft
         public CoalOreBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Coal Ore", "sc:coal_ore_block", 1750, "sc:coal_ore_item", Tool.Pickaxe, Images.CoalOre);
-            lootTable = LootTables.coalLootTable;
+            drops.Add(("sc:coal_item", 1, 3));
             dropsOnWrongTool = false;
         }
     }
@@ -82,7 +89,8 @@ namespace SeeloewenCraft
     {
         public DiamondOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Diamond Ore", "sc:diamond_ore_block", 1750, "sc:diamond_item", Tool.Pickaxe, Images.DiamondOre);
+            Init("Diamond Ore", "sc:diamond_ore_block", 1750, "sc:diamond_ore_item", Tool.Pickaxe, Images.DiamondOre);
+            drops.Add(("sc:diamond_item", 1, 1));
             effectiveMaterial = Material.Iron;
             dropsOnWrongTool = false;
         }
@@ -112,7 +120,7 @@ namespace SeeloewenCraft
         public OakLeavesBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Oak Leaves", "sc:oak_leaves_block", 125, "sc:oak_leaves_item", Tool.None, Images.OakLeaves);
-            lootTable = LootTables.oakTreeLootTable;
+            lootTable = (LootTables.oakTreeLootTable, 1, 1);
             tags.Add("type/leaf");
         }
     }
@@ -131,7 +139,7 @@ namespace SeeloewenCraft
         public SpruceLeavesBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Spruce Leaves", "sc:spruce_leaves_block", 125, "sc:spruce_leaves_item", Tool.None, Images.SpruceLeaves);
-            lootTable = LootTables.spruceTreeLootTable;
+            lootTable = (LootTables.spruceTreeLootTable, 1, 1);
             tags.Add("type/leaf");
         }
     }
@@ -197,7 +205,7 @@ namespace SeeloewenCraft
             isBase = true;
             connectedBlocks.Add((0, -1, "sc:potted_cactus_top"));
             collision = new MultipleRectangleCollision([125, 251], [875, 749], [375, 1], [1000, 375]);
-            needsGround = true;
+            needsGround = (true, "");
         }
     }
 
@@ -319,7 +327,7 @@ namespace SeeloewenCraft
             Init("Spruce Door Base", "sc:spruce_door_base", 500, "sc:spruce_door_item", Tool.Axe, Images.SpruceDoor_Closed_Base);
             isBase = true;
             hasRightClickAction = true;
-            needsGround = true;
+            needsGround = (true, "");
             collision = new RectangleCollision(720, 1000, 0, 1000);
 
             connectedBlocks.Add((0, -1, "sc:spruce_door_top"));
@@ -404,7 +412,8 @@ namespace SeeloewenCraft
     {
         public Cactus_TopFruit(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Top Fruit", "sc:cactus_top_fruit", 250, "sc:cactus_fruit_item", Tool.Axe, Images.Cactus_Top_Fruit);
+            Init("Cactus Top Fruit", "sc:cactus_top_fruit", 250, "sc:cactus_top_fruit_item", Tool.Axe, Images.Cactus_Top_Fruit);
+            drops.Add(("sc:cactus_fruit_item", 1, 1));
             collision = new RectangleCollision(191, 809, 631, 999);
             cactusCollision = new RectangleCollision(190, 810, 630, 1000);
         }
@@ -686,7 +695,8 @@ namespace SeeloewenCraft
     {
         public AmethystOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Amethyst Ore", "sc:amethyst_ore_block", 1750, "sc:amethyst_item", Tool.Pickaxe, Images.AmethystOre);
+            Init("Amethyst Ore", "sc:amethyst_ore_block", 1750, "sc:amethyst_ore_item", Tool.Pickaxe, Images.AmethystOre);
+            drops.Add(("sc:amethyst_item", 1, 1));
             effectiveMaterial = Material.Diamond;
             dropsOnWrongTool = false;
         }
@@ -759,7 +769,7 @@ namespace SeeloewenCraft
         {
             Init("Blue Flower", "sc:blue_flower_block", 0, "sc:blue_flower_item", Tool.None, Images.BlueFlower);
             isSolid = false;
-            needsGround = true;
+            needsGround = (true, "ground/plant");
         }
     }
 
@@ -775,9 +785,9 @@ namespace SeeloewenCraft
     {
         public CactusFruitBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Fruit", "sc:cactus_fruit_block", 0, "sc:cactus_fruit_item", Game.rnd.Next(180000, 480001), "sc:cactus_fruit_item", "sc:cactus_fruit_item", Tool.None, Images.CactusFruit);
+            Init("Cactus Fruit", "sc:cactus_fruit_block", 0, "sc:cactus_fruit_item", Game.rnd.Next(180000, 480001), "sc:cactus_fruit_item", "sc:cactus_fruit_item", 0, 0, Tool.None, Images.CactusFruit);
             isSolid = false;
-            needsGround = true;
+            needsGround = (true, "ground/sand");
         }
 
         public override void UpdateProgress(int amount)
@@ -808,7 +818,7 @@ namespace SeeloewenCraft
         {
             Init("Candle", "sc:candle_block", 0, "sc:candle_item", Tool.None, Images.Candle);
             isSolid = false;
-            needsGround = true;
+            needsGround = (true, "");
         }
     }
 
@@ -828,7 +838,7 @@ namespace SeeloewenCraft
         {
             Init("Dead Bush", "sc:dead_bush_block", 0, "sc:dead_bush_item", Tool.None, Images.DeadBush);
             isSolid = false;
-            needsGround = true;
+            needsGround = (true, "ground/sand");
         }
     }
 
@@ -836,7 +846,8 @@ namespace SeeloewenCraft
     {
         public EmeraldOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Emerald Ore", "sc:emerald_ore_block", 1750, "sc:emerald_item", Tool.Pickaxe, Images.EmeraldOre);
+            Init("Emerald Ore", "sc:emerald_ore_block", 1750, "sc:emerald_ore_item", Tool.Pickaxe, Images.EmeraldOre);
+            drops.Add(("sc:emerald_item", 1, 1));
             effectiveMaterial = Material.Diamond;
             dropsOnWrongTool = false;
         }
@@ -867,7 +878,7 @@ namespace SeeloewenCraft
         {
             Init("Grass", "sc:grass", 0, "sc:grass_item", Tool.None, Images.Grass);
             isSolid = false;
-            needsGround = true;
+            needsGround = (true, "ground/plant");
         }
     }
 
@@ -910,9 +921,9 @@ namespace SeeloewenCraft
     {
         public OakSaplingBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Oak Sapling", "sc:oak_sapling_block", 0, "sc:oak_sapling_item", Game.rnd.Next(600000, 1200001), "sc:oak_sapling_item", "sc:oak_sapling_item", Tool.None, Images.OakSapling);
+            Init("Oak Sapling", "sc:oak_sapling_block", 0, "sc:oak_sapling_item", Game.rnd.Next(600000, 1200001), "sc:oak_sapling_item", "sc:oak_sapling_item", 0, 0, Tool.None, Images.OakSapling);
             isSolid = false;
-            needsGround = true;
+            needsGround = (true, "ground/plant");
         }
 
         public override void UpdateProgress(int amount)
@@ -942,9 +953,9 @@ namespace SeeloewenCraft
     {
         public SpruceSaplingBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Sapling", "sc:spruce_sapling_block", 0, "sc:spruce_sapling_item", Game.rnd.Next(600000, 1200001), "sc:tree_sapling_item", "sc:tree_sapling_item", Tool.None, Images.SpruceSapling);
+            Init("Spruce Sapling", "sc:spruce_sapling_block", 0, "sc:spruce_sapling_item", Game.rnd.Next(600000, 1200001), "sc:tree_sapling_item", "sc:tree_sapling_item", 0, 0, Tool.None, Images.SpruceSapling);
             isSolid = false;
-            needsGround = true;
+            needsGround = (true, "ground/plant");
         }
 
         public override void UpdateProgress(int amount)
@@ -996,6 +1007,7 @@ namespace SeeloewenCraft
         {
             Init("Sand", "sc:sand_block", 150, "sc:sand_item", Tool.Shovel, Images.Sand);
             tags.Add("canBeFloor");
+            tags.Add("ground/sand");
             willFall = true;
         }
     }
@@ -1042,7 +1054,7 @@ namespace SeeloewenCraft
         {
             Init("Yellow Flower", "sc:yellow_flower_block", 0, "sc:yellow_flower_item", Tool.None, Images.YellowFlower);
             isSolid = false;
-            needsGround = true;
+            needsGround = (true, "ground/plant");
         }
     }
 
@@ -1052,6 +1064,214 @@ namespace SeeloewenCraft
         {
             Init("Glass", "sc:glass_block", 250, "sc:glass_item", Tool.None, Images.Glass);
             dropsOnWrongTool = false;
+        }
+    }
+
+    public class FarmlandBlock : Block
+    {
+        public FarmlandBlock(bool isInBackground) : base(isInBackground)
+        {
+            Init("Farmland", "sc:farmland_block", 250, "sc:farmland_item", Tool.None, Images.Farmland);
+            drops.Add(("sc:dirt_item", 1, 1));
+            tags.Add("ground/plant");
+            tags.Add("ground/farmland");
+        }
+    }
+
+    public class WheatCropBlock : CropBlock
+    {
+        int state = 1;
+
+        public WheatCropBlock(bool isInBackground) : base(isInBackground)
+        {
+            Init("Wheat", "sc:wheat_crop_block", 0, "sc:seeds_item", Game.rnd.Next(10000, 20000), "sc:seeds_item", "sc:wheat_item", 1, 4, Tool.None, Images.Wheat_Stage1);
+            drops.Add(("sc:seeds_item", 1, 1));
+            isSolid = false;
+            needsGround = (true, "ground/farmland"); //Game.rnd.Next(1200000, 1800001)
+        }
+
+        public override void UpdateProgress(int amount)
+        {
+            base.UpdateProgress(amount);
+
+            if (progress >= growthTime / 3 && state < 2)
+            {
+                state = 2;
+                sImage = Images.Wheat_Stage2;
+                SetTexture();
+            }
+            else if (progress >= 2 * (growthTime / 3) && state < 3)
+            {
+                state = 3;
+                sImage = Images.Wheat_Stage3;
+                SetTexture();
+            }
+            else if (IsReady())
+            {
+                state = 4;
+                sImage = Images.Wheat_Stage4;
+                SetTexture();
+            }
+        }
+    }
+
+    public class CarrotCropBlock : CropBlock
+    {
+        int state = 1;
+
+        public CarrotCropBlock(bool isInBackground) : base(isInBackground)
+        {
+            Init("Carrot", "sc:carrot_crop_block", 0, "sc:carrot_item", Game.rnd.Next(10000, 20000), "sc:carrot_item", "sc:carrot_item", 1, 3, Tool.None, Images.Carrot_Stage1);
+            drops.Add(("sc:carrot_item", 1, 1));
+            isSolid = false;
+            needsGround = (true, "ground/farmland"); //Game.rnd.Next(1400000, 2000001)
+        }
+
+        public override void UpdateProgress(int amount)
+        {
+            base.UpdateProgress(amount);
+
+            if (progress >= growthTime / 3 && state < 2)
+            {
+                state = 2;
+                sImage = Images.Carrot_Stage2;
+                SetTexture();
+            }
+            else if (progress >= 2 * (growthTime / 3) && state < 3)
+            {
+                state = 3;
+                sImage = Images.Carrot_Stage3;
+                SetTexture();
+            }
+            else if (IsReady())
+            {
+                state = 4;
+                sImage = Images.Carrot_Stage4;
+                SetTexture();
+            }
+        }
+    }
+    public class CottonCropBlock : CropBlock
+    {
+        public CottonCropBlock(bool isInBackground) : base(isInBackground)
+        {
+            Init("Cotton", "sc:cotton_crop_block", 0, "sc:cotton_item", Game.rnd.Next(10000, 20000), "sc:cotton_item", "sc:cotton_item", 1, 2, Tool.None, Images.Cotton_Stage1);
+            drops.Add(("sc:cotton_item", 1, 1));
+            isSolid = false;
+            hasRightClickAction = true;
+            needsGround = (true, "ground/farmland"); //Game.rnd.Next(1400000, 2000001)
+        }
+
+        public override void UpdateProgress(int amount)
+        {
+            base.UpdateProgress(amount);
+
+            if (IsReady())
+            {
+                sImage = Images.Cotton_Stage2;
+                SetTexture();
+            }
+        }
+
+        public override void RightClickAction(object sender)
+        {
+            if (IsReady())
+            {
+                //Drop the item and reset the progress without breaking the block
+                Drop(isForeground);
+                growthTime = Game.rnd.Next(10000, 20000);
+                progress = 0;
+
+                drops.Clear();
+                drops.Add(("sc:cotton_item", 1, 1));
+
+                sImage = Images.Cotton_Stage1;
+                SetTexture();
+            }
+        }
+    }
+
+    public class BerryBushCropBlock : CropBlock
+    {
+        public BerryBushCropBlock(bool isInBackground) : base(isInBackground)
+        {
+            Init("Berry Bush", "sc:berry_bush_crop_block", 0, "sc:berry_item", Game.rnd.Next(10000, 20000), "sc:berry_item", "sc:berry_item", 1, 3, Tool.None, Images.Berry_Bush_Stage1);
+            drops.Add(("sc:berry_item", 1, 1));
+            isSolid = false;
+            hasRightClickAction = true;
+            needsGround = (true, ""); //Game.rnd.Next(1400000, 2000001)
+        }
+
+        public override void UpdateProgress(int amount)
+        {
+            base.UpdateProgress(amount);
+
+            if (IsReady())
+            {
+                sImage = Images.Berry_Bush_Stage2;
+                SetTexture();
+            }
+        }
+
+        public override void RightClickAction(object sender)
+        {
+            if (IsReady())
+            {
+                //Drop the item and reset the progress without breaking the block
+                Drop(isForeground);
+                growthTime = Game.rnd.Next(10000, 20000);
+                progress = 0;
+
+                drops.Clear();
+                drops.Add(("sc:berry_item", 1, 1));
+
+                sImage = Images.Berry_Bush_Stage1;
+                SetTexture();
+            }
+        }
+    }
+
+    public class SugarCaneBlock : CropBlock
+    {
+        protected int height = 1;
+        protected bool shouldGrow = true;
+
+        public SugarCaneBlock(bool isInBackground) : base(isInBackground)
+        {
+            Init("Sugar Cane", "sc:sugar_cane_block", 0, "sc:sugar_cane_item", Game.rnd.Next(10000, 20000), "sc:sugar_cane_item", "sc:sugar_cane_item", 0, 0, Tool.None, Images.SugarCane);
+            drops.Add(("sc:sugar_cane_item", 1, 1));
+            isSolid = false;
+            isBase = true;
+            needsGround = (true, ""); //Game.rnd.Next(1400000, 2000001)
+
+            //Implement additional check for nearby water (maybe)
+        }
+
+        public override void UpdateProgress(int amount)
+        {
+            base.UpdateProgress(amount);
+
+            if (IsReady() && shouldGrow)
+            {
+                Block blockAbove = chunk.GetBlock(xPos, yPos - height);
+
+                //If there's space above, place a new sugar cane
+                if (blockAbove != null && blockAbove.isReplacable && height < 4)
+                {
+                    SugarCaneBlock newBlockAbove = new SugarCaneBlock(false);
+                    newBlockAbove.needsGround = (false, "");
+                    newBlockAbove.baseBlock = (0, height);
+                    newBlockAbove.shouldGrow = false;
+                    newBlockAbove.isBase = false;
+                    
+                    blockAbove.SetBlock(newBlockAbove);
+                    connectedBlocks.Add((0, -height, newBlockAbove.id));
+
+                    progress = 0;
+                    height++;
+                    growthTime = Game.rnd.Next(10000, 20000);
+                }
+            }
         }
     }
 }
