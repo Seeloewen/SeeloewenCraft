@@ -154,12 +154,12 @@ namespace SeeloewenCraft
             tbAutosave.Text = Settings.autoSaveInterval.ToString();
             tbAutosave.IsEnabled = Settings.enableAutoSave;
 
-            cbLogGeneral.IsEnabled = Settings.logGeneral;
-            cbLogWorldGeneration.IsEnabled = Settings.logWorldGeneration;
-            cbLogStructureGeneration.IsEnabled = Settings.logStructureGeneration;
-            cbLogNetwork.IsEnabled = Settings.logNetwork;
-            cbLogEntities.IsEnabled = Settings.logEntities;
-            cbLogRendering.IsEnabled = Settings.logRendering;
+            cbLogGeneral.IsChecked = Settings.logGeneral;
+            cbLogWorldGeneration.IsChecked = Settings.logWorldGeneration;
+            cbLogStructureGeneration.IsChecked = Settings.logStructureGeneration;
+            cbLogNetwork.IsChecked = Settings.logNetwork;
+            cbLogEntities.IsChecked = Settings.logEntities;
+            cbLogRendering.IsChecked = Settings.logRendering;
 
             tbMoveRight.Text = KeyConverter.KeyToString(Settings.cMoveRight);
             tbMoveLeft.Text = KeyConverter.KeyToString(Settings.cMoveLeft);
@@ -275,7 +275,11 @@ namespace SeeloewenCraft
             }
 
             //Apply some settings instantly
-            Game.world.gameLoop.autoSaveEvent.UpdateMaxTick();
+            if (Game.world != null)
+            {
+                Game.world.gameLoop.autoSaveEvent.UpdateMaxTick();
+            }
+
             ApplyTexturepack();
             Close();
         }
