@@ -110,23 +110,23 @@ namespace SeeloewenCraft
             if (severity != DebugSeverity.DebugSeverityNotification)
             {
                 MessageBox.Show(String.Format("[{0} source={1} type={2} id={3}] {4}", severity, source, type, id, message));
-            }
         }
-        
-        
+        }
+
+
         private void OpenTkControl_OnRender(TimeSpan delta)
         {
             frameTime += delta.TotalSeconds;
 
             frames++;
-            if(frameTime > 0.5)
+            if (frameTime > 0.5)
             {
                 frameTime %= 0.5;
                 Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblGameStats, "fps", $"fps: {frames / 0.5}");
                 frames = 0;
             }
 
-            world.renderer.render();
+            world.doGameLoop(delta.TotalSeconds);
         }
 
 

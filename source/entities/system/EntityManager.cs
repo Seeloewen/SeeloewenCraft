@@ -42,7 +42,7 @@ namespace SeeloewenCraft.entity {
             foreach (Entity entity in entities)
             {
                 //do the tick
-                entity.OnUpdate(63);
+                entity.OnUpdate(tps);
 
                 //checks if item entity player intersect and let player pick up the item
                 if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && entity.posX < Game.world.player.posX + Game.world.player.sizeX && entity.posX + entity.sizeX > Game.world.player.posX && entity.posY < Game.world.player.posY + Game.world.player.sizeY && entity.posY + entity.sizeY > Game.world.player.posY)

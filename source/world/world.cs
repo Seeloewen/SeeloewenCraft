@@ -200,9 +200,6 @@ namespace SeeloewenCraft
 
 
             //Start the main timer
-            tmrMovement.Interval = 16;
-            tmrMovement.Tick += tmrMovement_Tick;
-            tmrMovement.Start();
 
             //Start the game loop timer
             gameLoop.Start();
@@ -691,17 +688,23 @@ namespace SeeloewenCraft
 
         //-- Event Handlers --//
 
-        private void tmrMovement_Tick(object sender, EventArgs e)
+        public void doGameLoop(double dt)
         {
-            entityManager.DoStep(63);
+            dt = Math.Max(0.001, Math.Min(dt, 0.1));
+
+            entityManager.DoStep((int)(1.3/dt));
 
             worldRenderer.playerPosX = (double)player.posX / 1000;
             worldRenderer.playerPosY = (double)player.posY / 1000;
 
             worldRenderer.Render();
 
-            renderer.cam.SetCamCenterPhysicsCoord(player.posX+237, player.posY+950);
+            renderer.cam.SetCamCenterPhysicsCoord(player.posX + 237, player.posY + 950);
+
+            renderer.render();
+
         }
+
     }
 
     public enum Gamemode
