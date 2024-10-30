@@ -21,6 +21,7 @@ namespace SeeloewenCraft
         public static List<string> unstackableItems = new List<string>();
         public static string selectedTexturepack;
         public static Random rnd = new Random(DateTime.Now.Millisecond * DateTime.Now.Microsecond);
+        public static int playerId;
 
         //Methods
         public static bool IsMultiplayer()

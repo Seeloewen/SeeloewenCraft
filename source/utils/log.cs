@@ -5,9 +5,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Media;
-using SeeloewenCraft.Properties;
 using SeeloewenLib;
-using static System.Environment;
 
 namespace SeeloewenCraft
 {
@@ -66,7 +64,7 @@ namespace SeeloewenCraft
                             break;
                     }
 
-                    paragraph.Inlines.Add(new Run($"{message.text}\n") { Foreground = new SolidColorBrush(Colors.Red) });
+                    paragraph.Inlines.Add(new Run($"{message.text}\n") { Foreground = color });
                 }
 
                 wndLog.rtbLog.Document.Blocks.Clear();
@@ -144,7 +142,7 @@ namespace SeeloewenCraft
             {
                 if (showMessageBoxes)
                 {
-                    System.Windows.MessageBox.Show($"Error while saving log to {location}: {ex}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    System.Windows.MessageBox.Show($"Error while saving log to {location}: {ex.Message}\n{ex.StackTrace}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 Write($"Could not save log to {location}: {ex}\n{ex.StackTrace}", LogType.GENERAL, LogLevel.ERROR);
             }
