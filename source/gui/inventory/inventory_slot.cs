@@ -174,7 +174,8 @@ namespace SeeloewenCraft
                 if (Amount == 0)
                 {
                     cvsItem.Background = new SolidColorBrush(Colors.Transparent);
-                    itemId = "";
+                    itemId = null;
+                    itemTag = null;
                     pbDurability.Visibility = Visibility.Hidden;
                     if (hotbarSlot != null) hotbarSlot.pbDurability.Visibility = Visibility.Hidden;
                     inventory.UpdateHotbar();
