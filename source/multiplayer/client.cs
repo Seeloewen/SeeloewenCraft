@@ -10,7 +10,9 @@ namespace SeeloewenCraft;
 
 public class IdTcpClient : TcpClient
 {
-    public int id;
+    public int id = 0;
+    public string userName = "NONE";
+    public bool isConnected = true;
 }
 
 public class Client
@@ -43,7 +45,7 @@ public class Client
             isConnected = true;
 
             //Send a request to the server to do an initial load, which gets all blocks in all chunks and their content
-            await Game.client.SendData(CreatePacket(MultiplayerPacketType.INITIAL_LOAD, ""));
+            await Game.client.SendData(CreatePacket(MultiplayerPacketType.INITIAL_LOAD, Game.world.player.id.ToString(), "NO_NAME"));
 
             using (JsonWriter writer = JsonWriter.Create())
             {
@@ -97,7 +99,7 @@ public class Client
             {
                 //Get the length of the following packet
                 byte[] lengthPacket = await ReceivePacket(sizeof(int), stream);
-                if (lengthPacket.Length < 4) return; //The packet is invalid if the length is below 4 bytes
+                if (lengthPacket.Length < 4) break; //The packet is invalid if the length is below 4 bytes
                 int dataLength = BitConverter.ToInt32(lengthPacket);
 
                 //Read data into the buffer and copy data from buffer to receivedData
@@ -105,7 +107,9 @@ public class Client
                 if (receivedData.Length < dataLength) break; //If the data wasn't read correctly and isn't long enough, the packet is invalid
 
                 //Get the type bytes and convert it to type
+                if (receivedData.Length < 4) break;
                 int typeLength = BitConverter.ToInt32(receivedData, 0);
+                if (receivedData.Length < 4 + typeLength) break;
                 string typeString = Encoding.ASCII.GetString(receivedData, 4, typeLength);
                 Enum.TryParse(typeString, out MultiplayerPacketType type);
 

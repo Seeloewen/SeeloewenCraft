@@ -19,7 +19,9 @@ namespace SeeloewenCraft
         DAMAGE_ENTITY,
         HEAL_ENTITY,
         PING_REQUEST,
-        PING_RESPONSE
+        PING_RESPONSE,
+        DISCONNECT,
+        CONNECTION_CONFIRMATION
     }
 
     public enum MultiplayerType

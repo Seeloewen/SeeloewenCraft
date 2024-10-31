@@ -192,7 +192,7 @@ namespace SeeloewenCraft
             messages.Add(($"[{DateTime.Now}] [{prefix}] {message}", level));
 
             //If there's too many messages, remove the first one
-            if (messages.Count > 100)
+            if (messages.Count > 2000)
             {
                 messages.Remove(messages[0]);
             }

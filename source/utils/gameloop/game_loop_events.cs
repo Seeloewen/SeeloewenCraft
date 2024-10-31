@@ -1,9 +1,57 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Media;
 using SeeloewenCraft.entity;
+using Windows.Media.Protection.PlayReady;
 
 namespace SeeloewenCraft
 {
+
+    public class SendConnectionStateEvent : GameLoopEvent
+    {
+        public SendConnectionStateEvent(GameLoop gameLoop) : base(gameLoop)
+        {
+            maxTick = 10000;
+        }
+
+        public override void DoEvent()
+        {
+            //Sends a packet to the server that confirms that the connection is still standing
+            if (Game.IsClient())
+            {
+                NetworkHandler.SendData(MultiplayerPacketType.CONNECTION_CONFIRMATION, "");
+            }
+        }
+    }
+
+    public class ClientConnectedCheckEvent : GameLoopEvent
+    {
+        public ClientConnectedCheckEvent(GameLoop gameLoop) : base(gameLoop)
+        {
+            maxTick = 20000;
+        }
+
+        public override void DoEvent()
+        {
+            //Checks for each client if it is listed as connected. If not, disconnect it properly
+            if (Game.IsServer())
+            {
+                for (int i = 0; i < Game.server.clients.Count; i++)
+                {
+                    IdTcpClient client = Game.server.clients[i];
+
+                    if (!client.isConnected)
+                    {
+                        Game.server.Disconnect(client, "Timed out");
+                    }
+                    else
+                    {
+                        client.isConnected = false;
+                    }
+                }
+            }
+        }
+    }
+
     public class BlockUpdateEvent : GameLoopEvent
     {
         public BlockUpdateEvent(GameLoop gameLoop) : base(gameLoop)

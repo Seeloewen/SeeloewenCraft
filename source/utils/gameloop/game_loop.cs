@@ -17,6 +17,8 @@ namespace SeeloewenCraft
         public AutoSaveEvent autoSaveEvent;
         private CropTimerEvent cropTimerEvent;
         private EntitySyncEvent entitySyncEvent;
+        private ClientConnectedCheckEvent clientConnectedCheckEvent;
+        private SendConnectionStateEvent sendConnectionStateEvent;
 
         //-- Constructor --//
 
@@ -36,6 +38,8 @@ namespace SeeloewenCraft
             cropTimerEvent = new CropTimerEvent(this);
             autoSaveEvent = new AutoSaveEvent(this);
             entitySyncEvent = new EntitySyncEvent(this);
+            clientConnectedCheckEvent = new ClientConnectedCheckEvent(this);
+            sendConnectionStateEvent = new SendConnectionStateEvent(this);
         }
 
         //-- Custom Methods --//

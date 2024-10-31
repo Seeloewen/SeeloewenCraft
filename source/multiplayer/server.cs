@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using static SeeloewenCraft.NetworkHandler;
 using System.Linq;
-using Windows.Media.Protection.PlayReady;
 
 namespace SeeloewenCraft;
 
@@ -58,7 +57,7 @@ public class Server
 
     public async Task ReceiveData(IdTcpClient client)
     {
-        while (true)
+        while (true && clients.Contains(client))
         {
             try
             {
@@ -69,11 +68,13 @@ public class Server
 
                 //Read data into the buffer and copy data from buffer to receivedData
                 byte[] receivedData = await ReceivePacket(dataLength, client.GetStream());
-                if(receivedData.Length < dataLength) return; //If the data wasn't read correctly and isn't long enough, the packet is invalid
+                if (receivedData.Length < dataLength) return; //If the data wasn't read correctly and isn't long enough, the packet is invalid
 
                 //Get the type bytes and convert it to type
                 int typeLength = BitConverter.ToInt32(receivedData, 0);
+                if (receivedData.Length < 4) break;
                 string typeString = Encoding.ASCII.GetString(receivedData, 4, typeLength);
+                if (receivedData.Length < 4 + typeLength) break;
                 Enum.TryParse(typeString, out MultiplayerPacketType type);
 
                 //Go through the remaining bytes and read the string length first, then the string based on the length
@@ -131,7 +132,6 @@ public class Server
         //Send the data to all connected clients
         for (int i = 0; i < clients.Count; i++)
         {
-
             try
             {
                 if (clients[i].GetStream() != null)
@@ -145,8 +145,7 @@ public class Server
 
                 if (ex is InvalidOperationException)
                 {
-                    Log.Write($"Client #{clients[0].id} lost connection to the server", LogType.NETWORK, LogLevel.WARNING);
-                    clients.Remove(clients[i]);
+                    Disconnect(clients[i], ex.Message);
                 }
             }
         }
@@ -173,8 +172,7 @@ public class Server
 
                 if (ex is SocketException)
                 {
-                    Log.Write($"Client #{client.id} lost connection to the server", LogType.NETWORK, LogLevel.WARNING);
-                    clients.Remove(client);
+                    Disconnect(client, ex.Message);
                 }
             }
         }
@@ -200,8 +198,7 @@ public class Server
 
                     if (ex is SocketException)
                     {
-                        Log.Write($"Client #{client.id} lost connection to the server", LogType.NETWORK, LogLevel.WARNING);
-                        clients.Remove(client);
+                        Disconnect(client, ex.Message);
                     }
                 }
             }
@@ -220,5 +217,12 @@ public class Server
         }
 
         return null;
+    }
+
+    public void Disconnect(IdTcpClient client, string message)
+    {
+        clients.Remove(client);
+        Game.world.entityManager.Remove(client.id);
+        Log.Write($"Client #{client.id} ({client.userName}) disconnected: {message}", LogType.NETWORK, LogLevel.WARNING);
     }
 }

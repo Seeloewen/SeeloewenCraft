@@ -95,7 +95,7 @@ namespace SeeloewenCraft
                         movEntity.pressedSprint = Convert.ToBoolean(packet.content[5]);
                     }
 
-                    if(entity is Player player)
+                    if (entity is Player player)
                     {
                         player.UpdateHeadPosition();
 
@@ -150,6 +150,9 @@ namespace SeeloewenCraft
             //Called when a player connects
             if (IsServer())
             {
+                client.id = int.Parse(packet.content[0]);
+                client.userName = packet.content[1];
+
                 //Go through each chunk and each block and send it to the client that requested it
                 foreach (Chunk chunk in world.totalChunkList)
                 {
@@ -221,6 +224,22 @@ namespace SeeloewenCraft
             {
                 NotificationHandler.ShowNotification($"Your ping to the server is {Math.Round(double.Parse(packet.content[0]))}ms.", 5000, Images.Paper.GetTexture());
                 Log.Write($"Your ping to the server is {Math.Round(double.Parse(packet.content[0]))}ms.", LogType.NETWORK, LogLevel.INFO);
+            }
+        }
+
+        public static async void HandleDisconnect(IdTcpClient client, NetworkPacket packet)
+        {
+            if (IsServer())
+            {
+                server.Disconnect(client, "Disconnected manually");
+            }
+        }
+
+        public static async void HandleConnectionConfirmation(IdTcpClient client, NetworkPacket packet)
+        {
+            if (IsServer())
+            {
+                client.isConnected = true;
             }
         }
     }
