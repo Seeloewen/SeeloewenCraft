@@ -48,23 +48,7 @@ namespace SeeloewenCraft
 
                 foreach (var message in messages)
                 {
-                    //Determine the color based on the log level
-                    SolidColorBrush color;
-
-                    switch (message.level)
-                    {
-                        case LogLevel.ERROR:
-                            color = new SolidColorBrush(Colors.Red);
-                            break;
-                        case LogLevel.WARNING:
-                            color = new SolidColorBrush(Colors.DarkOrange);
-                            break;
-                        default:
-                            color = new SolidColorBrush(Colors.Blue);
-                            break;
-                    }
-
-                    paragraph.Inlines.Add(new Run($"{message.text}\n") { Foreground = color });
+                    paragraph.Inlines.Add(new Run($"{message.text}\n") { Foreground = GetColor(message.level) });
                 }
 
                 wndLog.rtbLog.Document.Blocks.Clear();
@@ -161,6 +145,32 @@ namespace SeeloewenCraft
             }
         }
 
+        public static string GetPrefix(LogLevel level)
+        {
+            switch (level)
+            {
+                case LogLevel.ERROR:
+                   return "Error";
+                case LogLevel.WARNING:
+                    return "Warning";
+                default:
+                    return "Info";
+            }
+        }
+
+        public static SolidColorBrush GetColor(LogLevel level)
+        {
+            switch (level)
+            {
+                case LogLevel.ERROR:
+                    return new SolidColorBrush(Colors.Red);
+                case LogLevel.WARNING:
+                    return new SolidColorBrush(Colors.DarkOrange);
+                default:
+                    return new SolidColorBrush(Colors.Blue);
+            }
+        }
+
 
         public static void Write(string message, LogType type, LogLevel level)
         {
@@ -170,26 +180,7 @@ namespace SeeloewenCraft
             }
 
             //Write a message to log depending on the message type.
-            string prefix;
-            SolidColorBrush color;
-
-            switch (level)
-            {
-                case LogLevel.ERROR:
-                    prefix = "Error";
-                    color = new SolidColorBrush(Colors.Red);
-                    break;
-                case LogLevel.WARNING:
-                    prefix = "Warning";
-                    color = new SolidColorBrush(Colors.DarkOrange);
-                    break;
-                default:
-                    prefix = "Info";
-                    color = new SolidColorBrush(Colors.Blue);
-                    break;
-            }
-
-            messages.Add(($"[{DateTime.Now}] [{prefix}] {message}", level));
+            messages.Add(($"[{DateTime.Now}] [{GetPrefix(level)}] {message}", level));
 
             //If there's too many messages, remove the first one
             if (messages.Count > 2000)
@@ -201,10 +192,12 @@ namespace SeeloewenCraft
             {
                 //Add all messages to the log richtextbox in the respective color
                 paragraph = new Paragraph();
+
                 foreach (var mes in messages)
                 {
-                    paragraph.Inlines.Add(new Run($"{mes.text}\n") { Foreground = color });
+                    paragraph.Inlines.Add(new Run($"{mes.text}\n") { Foreground = GetColor(mes.level) });
                 }
+
                 wndLog.rtbLog.Document.Blocks.Clear();
                 wndLog.rtbLog.Document.Blocks.Add(paragraph);
                 wndLog.rtbLog.ScrollToEnd();
