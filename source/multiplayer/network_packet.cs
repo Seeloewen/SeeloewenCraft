@@ -18,10 +18,11 @@ namespace SeeloewenCraft
         REMOVE_FROM_INV,
         DAMAGE_ENTITY,
         HEAL_ENTITY,
-        PING_REQUEST,
+        REQUEST,
         PING_RESPONSE,
         DISCONNECT,
-        CONNECTION_CONFIRMATION
+        CONNECTION_CONFIRMATION,
+        PLAYER_INFORMATION
     }
 
     public enum MultiplayerType

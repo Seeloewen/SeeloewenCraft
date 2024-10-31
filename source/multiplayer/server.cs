@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using static SeeloewenCraft.NetworkHandler;
 using System.Linq;
+using SeeloewenCraft.entity;
+using System.IO;
 
 namespace SeeloewenCraft;
 
@@ -223,6 +225,6 @@ public class Server
     {
         clients.Remove(client);
         Game.world.entityManager.Remove(client.id);
-        Log.Write($"Client #{client.id} ({client.userName}) disconnected: {message}", LogType.NETWORK, LogLevel.WARNING);
+        Log.Write($"Client #{client.id} ({client.nickname}) disconnected: {message}", LogType.NETWORK, LogLevel.WARNING);
     }
 }

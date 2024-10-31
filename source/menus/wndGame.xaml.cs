@@ -423,8 +423,9 @@ namespace SeeloewenCraft
 
         private void wndGame1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if(Game.IsClient())
+            if (Game.IsClient())
             {
+                Game.client.SendPlayerInformation();
                 NetworkHandler.SendData(MultiplayerPacketType.DISCONNECT, "");
             }
             else
@@ -448,7 +449,7 @@ namespace SeeloewenCraft
                     writer.WriteToFile($"{FolderUtil.gameFolder}\\clientSettings.json");
                 }
             }
-        
+
             //Check if the user wants to return to the menu, else close the entire app
             if (world.returnToMenu)
             {

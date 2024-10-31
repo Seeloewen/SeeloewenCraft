@@ -7,9 +7,7 @@ using Newtonsoft.Json;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Linq;
-
 using SeeloewenCraft.entity;
-using System.Windows.Documents;
 
 namespace SeeloewenCraft
 {
@@ -40,6 +38,7 @@ namespace SeeloewenCraft
         public int worldVersion;
         public string gameVersion;
         public string worldDirectory = "";
+        public string multiplayerDirectory = "";
         public int lightRange = 7; //The range that all light sources use
         public int worldSpawnX;
         public int worldSpawnY;
@@ -51,6 +50,7 @@ namespace SeeloewenCraft
         public bool showBlockInfo = false;
         public int nightState = 0;
         public Gamemode gamemode = Gamemode.Survival;
+        public MultiplayerType multiplayerType;
 
         //-- Constructor --//
 
@@ -62,6 +62,7 @@ namespace SeeloewenCraft
             this.gameVersion = gameVersion;
             this.wndMenu = wndMenu;
             this.seed = seed;
+            this.multiplayerType = multiplayerType;
 
             if (seed == 0)
             {
@@ -239,6 +240,11 @@ namespace SeeloewenCraft
                 }
 
                 chunk.Save();
+            }
+
+            if (Game.IsServer())
+            {
+                NetworkHandler.SendData(MultiplayerPacketType.REQUEST, "player_information", "");
             }
 
             player.SaveInventory(worldDirectory);
@@ -440,6 +446,18 @@ namespace SeeloewenCraft
             }
             worldDirectory = $"{FolderUtil.worldsFolder}\\{worldName}";
             Log.Write($"Set directory for world {worldName} to {worldDirectory}", LogType.GENERAL, LogLevel.INFO);
+
+            if (multiplayerType == MultiplayerType.SERVER)
+            {
+                //Check if the world's multiplayer directory exists and create it otherwise
+                if (!Directory.Exists($"{worldDirectory}\\multiplayer"))
+                {
+                    Directory.CreateDirectory($"{worldDirectory}\\multiplayer");
+                    Log.Write($"Created multiplayer directory for world {worldName} ({worldDirectory}\\multiplayer)", LogType.NETWORK, LogLevel.INFO);
+                }
+                multiplayerDirectory = $"{worldDirectory}\\multiplayer";
+                Log.Write($"Set multiplayer directory for world {worldName} to {multiplayerDirectory}", LogType.GENERAL, LogLevel.INFO);
+            }
         }
 
         private void InitEntityManager(bool loaded)
@@ -455,7 +473,6 @@ namespace SeeloewenCraft
             {
                 JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_inventory.json");
                 player.inventory = Inventory.LoadFromJson(documentToken, true);
-                inventoryList.Add(player.inventory);
             }
             else
             {
@@ -465,7 +482,6 @@ namespace SeeloewenCraft
             player.inventory.UpdateHotbar();
             inventoryList.Add(player.inventory);
             player.inventory.hotbarSlotList[0].Select();
-
         }
 
         public bool HasOpenGui(bool ignoreInventory)
@@ -493,6 +509,8 @@ namespace SeeloewenCraft
         public void CreatePlayer(int playerPosX, int playerPosY)
         {
             entityManager.player = new Player(playerPosX, playerPosY);
+            entityManager.player.SetId(Game.playerId);
+            entityManager.player.tblId.SetAlignedText(Settings.nickname);
             AddEntity(player);
 
             Game.world.wndGame.relativeSvPos = Game.world.wndGame.svWorld.VerticalOffset;

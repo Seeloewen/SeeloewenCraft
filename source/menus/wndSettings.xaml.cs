@@ -94,6 +94,9 @@ namespace SeeloewenCraft
             Settings.texturepack = cbxTexturepack.Text;
             Log.Write($"Saved setting texturepack as {Settings.texturepack}", LogType.GENERAL, LogLevel.INFO);
 
+            Settings.nickname = tbNickname.Text;
+            Log.Write($"Saved setting nickname as {Settings.nickname}", LogType.GENERAL, LogLevel.INFO);
+
             //Save the log settings
             Settings.logEntities = Convert.ToBoolean(cbLogEntities.IsChecked);
             Log.Write($"Saved setting logEntities as {Settings.logEntities}", LogType.GENERAL, LogLevel.INFO);
@@ -153,6 +156,7 @@ namespace SeeloewenCraft
             tbWidth.Text = Settings.customResX.ToString();
             tbAutosave.Text = Settings.autoSaveInterval.ToString();
             tbAutosave.IsEnabled = Settings.enableAutoSave;
+            tbNickname.Text = Settings.nickname;
 
             cbLogGeneral.IsChecked = Settings.logGeneral;
             cbLogWorldGeneration.IsChecked = Settings.logWorldGeneration;

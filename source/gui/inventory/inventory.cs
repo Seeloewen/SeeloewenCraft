@@ -502,7 +502,6 @@ namespace SeeloewenCraft
 
         public static Inventory LoadFromJson(JsonToken token, bool isPlayer)
         {
-
             //Get the inventory size
             int slotsX = token.GetInt("/size_x");
             int slotsY = token.GetInt("/size_y");

@@ -73,7 +73,13 @@ namespace SeeloewenCraft
         {
             int playerId;
 
-            if (File.Exists(FolderUtil.playerInfoFile))
+            if(StartOptions.playerId != 0)
+            {
+               playerId = StartOptions.playerId;
+
+                Log.Write($"Used player id from start options: {playerId}", LogType.GENERAL, LogLevel.INFO);
+            }
+            else if (File.Exists(FolderUtil.playerInfoFile))
             {
                 try
                 {
@@ -101,9 +107,10 @@ namespace SeeloewenCraft
 
                 JsonWriter writer = JsonWriter.Create();
                 writer.WriteStartObject();
+                writer.WritePropertyName("_comment");
+                writer.WriteValue("This ID is used to identify you in multiplayer sessions. DO NOT CHANGE IT UNLESS YOU KNOW WHAT YOU ARE DOING.");
                 writer.WritePropertyName("player_id");
                 writer.WriteValue(playerId);
-                writer.WriteComment("This ID is used to identify you in multiplayer games. It is needed to assign you the correct inventory, for example. DO NOT CHANGE THIS ID UNLESS YOU KNOW WHAT YOU'RE DOING!");
                 writer.WriteEndObject();
 
                 File.WriteAllText(FolderUtil.playerInfoFile, writer.ToString());
@@ -111,7 +118,7 @@ namespace SeeloewenCraft
                 Log.Write($"Generated player id {playerId}", LogType.GENERAL, LogLevel.INFO);
             }
 
-            return Game.playerId;
+            return playerId;
         }
     }
 
@@ -123,6 +130,7 @@ namespace SeeloewenCraft
         public static bool startCreative;
         public static bool disableLighting;
         public static int seed = 0;
+        public static int playerId;
 
         public static void Parse(string[] args)
         {
@@ -147,6 +155,10 @@ namespace SeeloewenCraft
                         break;
                     case "-SEED":
                         seed = int.Parse(args[i + 1]);
+                        i++;
+                        break;
+                    case "-ID":
+                        playerId = int.Parse(args[i + 1]);
                         i++;
                         break;
                 }

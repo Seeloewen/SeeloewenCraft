@@ -11,7 +11,7 @@ namespace SeeloewenCraft;
 public class IdTcpClient : TcpClient
 {
     public int id = 0;
-    public string userName = "NONE";
+    public string nickname = "NONE";
     public bool isConnected = true;
 }
 
@@ -45,7 +45,7 @@ public class Client
             isConnected = true;
 
             //Send a request to the server to do an initial load, which gets all blocks in all chunks and their content
-            await Game.client.SendData(CreatePacket(MultiplayerPacketType.INITIAL_LOAD, Game.world.player.id.ToString(), "NO_NAME"));
+            await Game.client.SendData(CreatePacket(MultiplayerPacketType.INITIAL_LOAD, Game.playerId.ToString(), Settings.nickname));
 
             using (JsonWriter writer = JsonWriter.Create())
             {
@@ -153,5 +153,13 @@ public class Client
         MessageBox.Show($"Lost connection to the server! {e.Message}\n{e.StackTrace}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         Game.world.wndGame.Close();
         Game.world.wndMenu.Show();
+    }
+
+    public void SendPlayerInformation()
+    {
+        //Get the inventory and send it to the server to save it
+        JsonWriter writer = JsonWriter.Create();
+        Game.world.player.inventory.SaveToJson(writer);
+        NetworkHandler.SendData(MultiplayerPacketType.PLAYER_INFORMATION, writer.ToString());
     }
 }

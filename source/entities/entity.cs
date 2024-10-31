@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -127,6 +128,12 @@ namespace SeeloewenCraft.entity
         protected virtual void OnUpdateEnd(int tps)
         {
 
+        }
+
+        public void SetId(int id)
+        {
+            this.id = id;
+            tblId.SetAlignedText(id.ToString());
         }
 
         public virtual void DoPhysicsStep(int tps)
@@ -420,15 +427,15 @@ namespace SeeloewenCraft.entity
 
             texture.Children.Clear();
             tblId = new TextBlock() { FontSize = 20, FontWeight = FontWeights.DemiBold };
-            tblId.Text = id.ToString();
+            tblId.SetAlignedText(id.ToString());
 
             if (this is MovingEntity)
             {
                 texture.Children.Add(tblId);
-                Canvas.SetTop(tblId, -30);
-                Canvas.SetLeft(tblId, 8);
+                Canvas.SetTop(tblId, -33);
             }
         }
+
 
         public Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, Brush image)
         {
@@ -452,12 +459,11 @@ namespace SeeloewenCraft.entity
 
             texture.Children.Clear();
             tblId = new TextBlock() { FontSize = 20, FontWeight = FontWeights.DemiBold };
-            tblId.Text = id.ToString();
+            tblId.SetAlignedText(id.ToString());
             if (this is MovingEntity)
             {
                 texture.Children.Add(tblId);
-                Canvas.SetTop(tblId, -30);
-                Canvas.SetLeft(tblId, 8);
+                Canvas.SetTop(tblId, -33);
             }
         }
 
