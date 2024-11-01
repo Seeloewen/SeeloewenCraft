@@ -423,28 +423,26 @@ namespace SeeloewenCraft
 
         private void wndGame1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (world.finishedLoading)
+            {
+                world.tmrMovement.Stop();
+                world.gameLoop.tmrGameLoop.Stop();
+            }
+
             if (Game.IsClient())
             {
                 Game.client.SendPlayerInformation();
                 NetworkHandler.SendData(MultiplayerPacketType.DISCONNECT, "");
                 Game.client.Disconnect();
-
-                if(world.finishedLoading)
-                {
-                    world.tmrMovement.Stop();
-                    world.gameLoop.tmrGameLoop.Stop();
-                }
             }
             else
             {
                 //If the setting to save worlds on closing is enabled
                 if (world.finishedLoading)
                 {
-                    world.tmrMovement.Stop();
                     if (Settings.saveWorldOnClose)
                     {
                         world.Save();
-                        world.gameLoop.tmrGameLoop.Stop();
                     }
                 }
 

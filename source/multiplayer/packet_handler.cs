@@ -172,7 +172,7 @@ namespace SeeloewenCraft
 
                 if (File.Exists($"{world.multiplayerDirectory}\\inventory_{client.id}.json"))
                 {
-                    server.SendDataSingleClient(CreatePacket(MultiplayerPacketType.PLAYER_INFORMATION, File.ReadAllText($"{world.multiplayerDirectory}\\inventory_{client.id}.json")), client.id);
+                   await server.SendDataSingleClient(CreatePacket(MultiplayerPacketType.PLAYER_INFORMATION, File.ReadAllText($"{world.multiplayerDirectory}\\inventory_{client.id}.json")), client.id);
                 }
             }
         }
