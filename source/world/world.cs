@@ -36,6 +36,7 @@ namespace SeeloewenCraft
         public EntityManager entityManager;
 
         public Renderer renderer;
+        public Screen screen;
 
         //Constants
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
@@ -184,6 +185,9 @@ namespace SeeloewenCraft
 
             //Load the player inventory if the world is not new
             InitPlayerInventory(!isNew);
+
+            screen = new Screen(renderer.cam);
+            renderer.screen = screen;
 
             Log.Write($"Successfully initialized game for world {worldName}!", LogType.GENERAL, LogLevel.INFO);
 
@@ -691,6 +695,8 @@ namespace SeeloewenCraft
         public void doGameLoop(double dt)
         {
             dt = Math.Max(0.001, Math.Min(dt, 0.1));
+
+            screen.Update();
 
             entityManager.DoStep((int)(1.3/dt));
 

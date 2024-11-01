@@ -395,12 +395,12 @@ namespace SeeloewenCraft
         {
             this.blockContainer = blockContainer;
             this.blockContainer.cvsBlock.Background = image;
-            this.blockContainer.cvsBlock.MouseLeftButtonDown += cvsBlock_MouseLeftButtonDown;
+            /*this.blockContainer.cvsBlock.MouseLeftButtonDown += cvsBlock_MouseLeftButtonDown;
             this.blockContainer.cvsBlock.MouseLeftButtonUp += cvsBlock_MouseLeftButtonUp;
             this.blockContainer.cvsBlock.MouseRightButtonUp += cvsBlock_MouseRightButtonUp;
             this.blockContainer.cvsBlock.MouseRightButtonDown += cvsBlock_MouseRightButtonDown;
             this.blockContainer.cvsBlock.MouseEnter += cvsBlock_MouseEnter;
-            this.blockContainer.cvsBlock.MouseLeave += cvsBlock_MouseLeave;
+            this.blockContainer.cvsBlock.MouseLeave += cvsBlock_MouseLeave;*/
 
             //Add image and events to the container
             if (canBeMovedToBackground)
@@ -425,18 +425,18 @@ namespace SeeloewenCraft
             //Remove the events from the container
             if (blockContainer != null)
             {
-                blockContainer.cvsBlock.MouseLeftButtonDown -= cvsBlock_MouseLeftButtonDown;
+                /*blockContainer.cvsBlock.MouseLeftButtonDown -= cvsBlock_MouseLeftButtonDown;
                 blockContainer.cvsBlock.MouseLeftButtonUp -= cvsBlock_MouseLeftButtonUp;
                 blockContainer.cvsBlock.MouseRightButtonUp -= cvsBlock_MouseRightButtonUp;
                 blockContainer.cvsBlock.MouseRightButtonDown -= cvsBlock_MouseRightButtonDown;
                 blockContainer.cvsBlock.MouseEnter -= cvsBlock_MouseEnter;
-                blockContainer.cvsBlock.MouseLeave -= cvsBlock_MouseLeave;
+                blockContainer.cvsBlock.MouseLeave -= cvsBlock_MouseLeave;*/
             }
         }
 
-        public bool IsCollidingWithPlayer(object element)
+        public bool IsCollidingWithPlayer()
         {
-            if (element is Canvas)
+            /*if (element is Canvas)
             {
                 //Check for collision
                 if (Game.world.wndGame.GetRectangle(Game.world.player.texture).IntersectsWith(Game.world.wndGame.GetRectangle(blockContainer.cvsBlock)))
@@ -451,7 +451,8 @@ namespace SeeloewenCraft
             else
             {
                 return false;
-            }
+            }*/
+            return false;
         }
 
         public void MoveToBackground()
@@ -551,7 +552,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public virtual void RightClickAction(object sender)
+        public virtual void RightClickAction()
         {
             return;
         }
@@ -1018,7 +1019,7 @@ namespace SeeloewenCraft
         }
 
         //-- Event Handlers --//
-        private void cvsBlock_MouseEnter(object sender, EventArgs e)
+        public void HandleMouseEnter()
         {
             //Display the debug information of the block
             DisplayDebugInformation();
@@ -1032,7 +1033,7 @@ namespace SeeloewenCraft
             }
         }
 
-        private void cvsBlock_MouseLeave(object sender, EventArgs e)
+        public void HandleMouseLeave()
         {
             //Remove the border from the block
             if (blockContainer != null)
@@ -1048,7 +1049,7 @@ namespace SeeloewenCraft
             blockContainer.SetHammerState(0);
         }
 
-        private void cvsBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        public void HandleMouseLeftDown()
         {
             //Stop possible hammer process
             tmrHammer.Stop();
@@ -1062,7 +1063,7 @@ namespace SeeloewenCraft
                     {
                         if (Game.world.gamemode == Gamemode.Creative || foregroundBlock.breakTime == 0)
                         {
-                            Game.world.clickHandler.DoLeftClick(this, sender);
+                            Game.world.clickHandler.DoLeftClick(this);
                         }
                         else
                         {
@@ -1084,7 +1085,7 @@ namespace SeeloewenCraft
                     {
                         if (Game.world.gamemode == Gamemode.Creative || breakTime == 0)
                         {
-                            Game.world.clickHandler.DoLeftClick(this, sender);
+                            Game.world.clickHandler.DoLeftClick(this);
                         }
                         else
                         {
@@ -1104,14 +1105,14 @@ namespace SeeloewenCraft
 
         }
 
-        private void cvsBlock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        public void HandleMouseLeftUp()
         {
             //Stop a possible block modification progress
             tmrBreak.Stop();
             blockContainer.SetBreakState(0);
         }
 
-        private void cvsBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        public void HandleMouseRightDown()
         {
             //Stop possible breaking process
             tmrBreak.Stop();
@@ -1132,10 +1133,10 @@ namespace SeeloewenCraft
             }
 
             //If all of the checks above fail, handle it the normal way
-            Game.world.clickHandler.DoRightClick(this, sender);
+            Game.world.clickHandler.DoRightClick(this);
         }
 
-        private void cvsBlock_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        private void cvsBlock_MouseRightButtonUp()
         {
             //Stop a possible block modification progress
             tmrHammer.Stop();
@@ -1149,7 +1150,7 @@ namespace SeeloewenCraft
                 //If the block is broken, drop it
                 if (blockContainer.breakState == 5)
                 {
-                    Game.world.clickHandler.DoLeftClick(this, sender);
+                    Game.world.clickHandler.DoLeftClick(this);
                     blockContainer.SetBreakState(0);
                     tmrBreak.Stop();
                     return;
@@ -1167,7 +1168,7 @@ namespace SeeloewenCraft
                 //If the hammer is done, do right-click
                 if (blockContainer.hammerState == 5)
                 {
-                    Game.world.clickHandler.DoRightClick(this, sender);
+                    Game.world.clickHandler.DoRightClick(this);
                     blockContainer.SetHammerState(0);
                     tmrHammer.Stop();
                     return;

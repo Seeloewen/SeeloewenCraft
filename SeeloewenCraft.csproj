@@ -26,6 +26,8 @@
 		<None Remove="resources\shader\frag.glsl" />
 		<None Remove="Resources\shader\player\frag.glsl" />
 		<None Remove="Resources\shader\player\vert.glsl" />
+		<None Remove="resources\shader\primitive\frag.glsl" />
+		<None Remove="resources\shader\primitive\vert.glsl" />
 		<None Remove="resources\shader\vert.glsl" />
 		<Resource Remove="Resources\Cactus_Left.png" />
 		<Resource Remove="Resources\Cactus_Right.png" />
@@ -65,5 +67,8 @@
 			<Generator>SettingsSingleFileGenerator</Generator>
 			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
 		</None>
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Resources\shader\primitive\" />
 	</ItemGroup>
 </Project>

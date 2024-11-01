@@ -3,7 +3,7 @@
     public class ClickHandler
     {
 
-        public void DoRightClick(Block block, object sender)
+        public void DoRightClick(Block block)
         {
             //Check if selected item should do an action
             HotbarSlot selectedSlot = Game.world.player.inventory.GetSelectedHotbarSlot();
@@ -16,7 +16,7 @@
 
             if (selectedItem != null && selectedItem.hasRightClickAction)
             {
-                selectedItem.RightClickAction(block, selectedSlot.slot, sender);
+                selectedItem.RightClickAction(block, selectedSlot.slot);
                 return;
             }
 
@@ -25,13 +25,13 @@
                 //Check if the block has a foreground block that has an action
                 if (block.GetForegroundBlock() != null && block.GetForegroundBlock().hasRightClickAction)
                 {
-                    block.GetForegroundBlock().RightClickAction(sender);
+                    block.GetForegroundBlock().RightClickAction();
                 }
 
                 //Check if the block has an action
                 else if (block.hasRightClickAction)
                 {
-                    block.RightClickAction(sender);
+                    block.RightClickAction();
                 }
                 //Place the block
                 else if (!block.hasRightClickAction && selectedItem != null)
@@ -72,7 +72,7 @@
                         }
                     }
                     //Check if the block isn't in background and can be replaced
-                    else if (block.IsInRange() && block.isReplacable && !block.IsCollidingWithPlayer(sender) && !block.isBackground)
+                    else if (block.IsInRange() && block.isReplacable && !block.IsCollidingWithPlayer() && !block.isBackground)
                     {
                         if (newBlock != null)
                         {
@@ -104,7 +104,7 @@
             }
         }
 
-        public void DoLeftClick(Block block, object sender)
+        public void DoLeftClick(Block block)
         {
             int oldXPos = block.xPos;
             int oldYPos = block.yPos;

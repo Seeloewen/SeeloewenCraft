@@ -156,7 +156,7 @@ namespace SeeloewenCraft
             hasRightClickAction = true;
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             if (IsInRange() && isSolid && hasInventory)
             {
@@ -230,7 +230,7 @@ namespace SeeloewenCraft
             gui = new CraftingTableGui(535, 720, 120, 285, "sc:crafting_table", null, this);
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             if (IsInRange())
             {
@@ -264,7 +264,7 @@ namespace SeeloewenCraft
             gui = new ChiselerGui(535, 720, 120, 285, "sc:chiseler", null, this);
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             if (IsInRange())
             {
@@ -300,7 +300,7 @@ namespace SeeloewenCraft
             craftingHandler = new CraftingHandler(this);
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             if (IsInRange())
             {
@@ -348,20 +348,20 @@ namespace SeeloewenCraft
             imgOpen = Images.SpruceDoor_Open_Top.GetTexture();
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             if (!isForeground)
             {
                 if (GetBaseBlock() is DoorBlock block)
                 {
-                    block.RightClickAction(sender);
+                    block.RightClickAction();
                 }
             }
             else
             {
                 if (GetBaseBlock().GetForegroundBlock() is DoorBlock block)
                 {
-                    block.RightClickAction(sender);
+                    block.RightClickAction();
                 }
             }
         }
@@ -546,20 +546,20 @@ namespace SeeloewenCraft
             imgOpen = Images.OakDoor_Open_Top.GetTexture();
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             if (!isForeground)
             {
                 if (GetBaseBlock() is DoorBlock block)
                 {
-                    block.RightClickAction(sender);
+                    block.RightClickAction();
                 }
             }
             else
             {
                 if (GetBaseBlock().GetForegroundBlock() is DoorBlock block)
                 {
-                    block.RightClickAction(sender);
+                    block.RightClickAction();
                 }
             }
         }
@@ -604,7 +604,7 @@ namespace SeeloewenCraft
             gui = new FurnaceGui(535, 720, 120, 285, "sc:furnace", null, this);
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             if (IsInRange())
             {
@@ -717,7 +717,7 @@ namespace SeeloewenCraft
             collision = new RectangleCollision(0, 1000, 190, 1000);
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             if (IsInRange())
             {
@@ -750,7 +750,7 @@ namespace SeeloewenCraft
             hasRightClickAction = true;
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             if (IsInRange() && isSolid && hasInventory)
             {
@@ -1173,7 +1173,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             if (IsReady())
             {
@@ -1213,7 +1213,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             if (IsReady())
             {

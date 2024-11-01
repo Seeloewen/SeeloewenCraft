@@ -58,7 +58,7 @@ namespace SeeloewenCraft
             return null;
         }
 
-        public virtual void RightClickAction(Block block, InventorySlot invSlot, object sender)
+        public virtual void RightClickAction(Block block, InventorySlot invSlot)
         {
             throw new NotImplementedException();
         }

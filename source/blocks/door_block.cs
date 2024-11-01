@@ -13,7 +13,7 @@ namespace SeeloewenCraft
             state = "closed";
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             //Open or close the door, based on the current state and whether it's a foreground block
             if (isOpen)

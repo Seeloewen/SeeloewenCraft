@@ -96,7 +96,7 @@ namespace SeeloewenCraft
             item = new ModdedItem(type,  this);
         }*/
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             throw new NotImplementedException();
         }

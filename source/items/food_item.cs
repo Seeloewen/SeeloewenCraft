@@ -9,7 +9,7 @@
             hasRightClickAction = true;
         }
 
-        public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
+        public override void RightClickAction(Block block, InventorySlot invSlot)
         {
             //Heal the player and remove the item
             Game.world.player.Heal(healAmount);

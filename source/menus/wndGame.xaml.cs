@@ -110,7 +110,7 @@ namespace SeeloewenCraft
             if (severity != DebugSeverity.DebugSeverityNotification)
             {
                 MessageBox.Show(String.Format("[{0} source={1} type={2} id={3}] {4}", severity, source, type, id, message));
-        }
+            }
         }
 
 
@@ -489,21 +489,20 @@ namespace SeeloewenCraft
             HandleKeyPresses();
         }
 
-        private void Window_MouseMove(object sender, MouseEventArgs e)
+        private void Window_MouseMove_1(object sender, MouseEventArgs e)
         {
-            //Get the current mouse position
-            mousePosition = e.GetPosition(cvsGame);
-
-            InventorySlot selectedSlot = world.GetSelectedInvSlot();
-
-            //Make the canvas follow the mouse
-            if (selectedSlot != null)
-            {
-                Canvas.SetLeft(cvsInvItem, mousePosition.X + 5);
-                Canvas.SetTop(cvsInvItem, mousePosition.Y + 5);
-            }
+            InputHandler.HandleMouseMove(e.GetPosition(OpenTkControl));
         }
 
+        private void OpenTkControl_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            InputHandler.HandleMouseClick(e.ChangedButton, e.ButtonState);
+        }
+
+        private void OpenTkControl_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            InputHandler.HandleMouseClick(e.ChangedButton, e.ButtonState);
+        }
 
         private void wndGame1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -618,6 +617,8 @@ namespace SeeloewenCraft
             //DEBUG - Toggle visibility of WPF renderer for OpenGL testing
             cvsWorld.Visibility = cvsWorld.Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
         }
+
+        
     }
 }
 

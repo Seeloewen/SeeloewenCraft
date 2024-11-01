@@ -38,7 +38,7 @@
             hasRightClickAction = true;
         }
 
-        public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
+        public override void RightClickAction(Block block, InventorySlot invSlot)
         {
             if (block.tags.Contains("scytheable"))
             {
@@ -59,7 +59,7 @@
             hasRightClickAction = true;
         }
 
-        public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
+        public override void RightClickAction(Block block, InventorySlot invSlot)
         {
             HammerRightClickAction(block);
         }
@@ -118,7 +118,7 @@
             hasRightClickAction = true;
         }
 
-        public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
+        public override void RightClickAction(Block block, InventorySlot invSlot)
         {
             HammerRightClickAction(block);
         }
@@ -176,7 +176,7 @@
             hasRightClickAction = true;
         }
 
-        public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
+        public override void RightClickAction(Block block, InventorySlot invSlot)
         {
             HammerRightClickAction(block);
         }
@@ -234,7 +234,7 @@
             hasRightClickAction = true;
         }
 
-        public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
+        public override void RightClickAction(Block block, InventorySlot invSlot)
         {
             HammerRightClickAction(block);
         }
@@ -292,7 +292,7 @@
             hasRightClickAction = true;
         }
 
-        public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
+        public override void RightClickAction(Block block, InventorySlot invSlot)
         {
             HammerRightClickAction(block);
         }

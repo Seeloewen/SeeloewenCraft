@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:glWpfControl="clr-namespace:OpenTK.Wpf;assembly=GLWpfControl"
         mc:Ignorable="d"
-        Title="SeeloewenCraft World" Height="720" Width="1280" KeyDown="MainWindow_KeyDown" KeyUp="MainWindow_KeyUp" MouseMove="Window_MouseMove" WindowStartupLocation="CenterScreen" Closing="wndGame1_Closing" SizeChanged="wndGame1_SizeChanged">
+        Title="SeeloewenCraft World" Height="720" Width="1280" KeyDown="MainWindow_KeyDown" KeyUp="MainWindow_KeyUp" WindowStartupLocation="CenterScreen" Closing="wndGame1_Closing" SizeChanged="wndGame1_SizeChanged">
     <Canvas x:Name="cvsGame" SnapsToDevicePixels="True" UseLayoutRounding="True">
         <glWpfControl:GLWpfControl
         x:Name="OpenTkControl"
-        RenderSize="1200, 700" Render="OpenTkControl_OnRender" Height="714" Canvas.Left="0" Canvas.Top="0" Width="1280" HorizontalAlignment="Center" VerticalAlignment="Top">
+        MouseDown="OpenTkControl_MouseDown" MouseUp="OpenTkControl_MouseUp" MouseMove="Window_MouseMove_1" RenderSize="1280, 720" Render="OpenTkControl_OnRender" Height="720" Canvas.Left="0" Canvas.Top="0" Width="1280" HorizontalAlignment="Center" VerticalAlignment="Top" >
             <glWpfControl:GLWpfControl.Settings>
                 <glWpfControl:GLWpfControlSettings 
                     MajorVersion="3"
@@ -17,7 +17,7 @@
                     ContextFlags="Debug"/>
             </glWpfControl:GLWpfControl.Settings>
         </glWpfControl:GLWpfControl>
-        <ScrollViewer x:Name="svWorld" Height="720" Width="1280" PreviewMouseWheel="svWorld_PreviewMouseWheel" Panel.ZIndex="0" VerticalScrollBarVisibility="Hidden" Visibility="Visible">
+        <ScrollViewer x:Name="svWorld" Height="720" Width="1280" PreviewMouseWheel="svWorld_PreviewMouseWheel" Panel.ZIndex="0" VerticalScrollBarVisibility="Hidden" Visibility="Hidden">
             <Canvas x:Name="cvsWorld" Height="3785" Background="#FFBCF4F7" Visibility="Hidden">
             </Canvas>
         </ScrollViewer>
