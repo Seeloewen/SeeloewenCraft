@@ -16,14 +16,14 @@ namespace SeeloewenCraft
         { MultiplayerPacketType.PRESSED_CHANGE, (6, HandlePressedChange) },
         { MultiplayerPacketType.CREATE_ENTITY, (1, HandleCreateEntity) },
         { MultiplayerPacketType.REMOVE_ENTITY, (1, HandleRemoveEntity) },
-        { MultiplayerPacketType.INITIAL_LOAD, (2, HandleInitialLoad) },
+        { MultiplayerPacketType.INITIAL_LOAD, (1, HandleInitialLoad) },
         { MultiplayerPacketType.SET_BLOCK, (4, HandleSetBlock) },
         { MultiplayerPacketType.CREATE_CHUNK, (1, HandleCreateChunk) },
         { MultiplayerPacketType.REQUEST, (2, HandleRequest) },
         { MultiplayerPacketType.PING_RESPONSE, (1, HandlePingResponse) },
         { MultiplayerPacketType.DISCONNECT, (1, HandleDisconnect) },
         { MultiplayerPacketType.CONNECTION_CONFIRMATION, (1, HandleConnectionConfirmation) },
-        { MultiplayerPacketType.PLAYER_INFORMATION, (1, HandlePlayerInformation) }};
+        { MultiplayerPacketType.PLAYER_INFORMATION, (3, HandlePlayerInformation) }};
 
 
         public static NetworkPacket CreatePacket(MultiplayerPacketType type, params string[] data)

@@ -158,9 +158,6 @@ namespace SeeloewenCraft
             //Called when a player connects
             if (IsServer())
             {
-                client.id = int.Parse(packet.content[0]);
-                client.nickname = packet.content[1];
-
                 //Go through each chunk and each block and send it to the client that requested it
                 foreach (Chunk chunk in world.totalChunkList)
                 {
@@ -279,8 +276,20 @@ namespace SeeloewenCraft
             }
             else if (IsServer())
             {
-                //If server receives the packet, save the inventory
-                File.WriteAllText($"{world.multiplayerDirectory}\\inventory_{client.id}.json", packet.content[0]);
+                if (!string.IsNullOrEmpty(packet.content[0])) //Player ID
+                {
+                    client.id = int.Parse(packet.content[0]);
+                }
+
+                if (!string.IsNullOrEmpty(packet.content[1])) //Player Name
+                {
+                    client.nickname = packet.content[1];
+                }
+
+                if (!string.IsNullOrEmpty(packet.content[2])) //Player Inventory
+                {
+                    File.WriteAllText($"{world.multiplayerDirectory}\\inventory_{client.id}.json", packet.content[0]);
+                }
             }
         }
     }

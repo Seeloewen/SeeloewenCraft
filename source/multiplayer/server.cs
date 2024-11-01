@@ -65,48 +65,56 @@ public class Server
             {
                 //Get the length of the following packet
                 byte[] lengthPacket = await ReceivePacket(sizeof(int), client.GetStream());
-                if (lengthPacket.Length < 4) return; //The packet is invalid if the length is below 4 bytes
-                int dataLength = BitConverter.ToInt32(lengthPacket);
 
-                //Read data into the buffer and copy data from buffer to receivedData
-                byte[] receivedData = await ReceivePacket(dataLength, client.GetStream());
-                if (receivedData.Length < dataLength) return; //If the data wasn't read correctly and isn't long enough, the packet is invalid
-
-                //Get the type bytes and convert it to type
-                int typeLength = BitConverter.ToInt32(receivedData, 0);
-                if (receivedData.Length < 4) break;
-                string typeString = Encoding.ASCII.GetString(receivedData, 4, typeLength);
-                if (receivedData.Length < 4 + typeLength) break;
-                Enum.TryParse(typeString, out MultiplayerPacketType type);
-
-                //Go through the remaining bytes and read the string length first, then the string based on the length
-                List<string> contentList = new List<string>();
-                int index = 4 + typeLength;
-                while (index < receivedData.Length)
+                if (lengthPacket.Length >= 4) //The packet is invalid if the length is below 4 bytes
                 {
-                    //Get string length
-                    int stringLength = BitConverter.ToInt32(receivedData, index);
-                    index += 4;
+                    int dataLength = BitConverter.ToInt32(lengthPacket);
 
-                    //Get the bytes for the message starting from the index with determined length
-                    byte[] stringBytes = new byte[stringLength];
-                    Array.Copy(receivedData, index, stringBytes, 0, stringLength);
-                    index += stringLength;
+                    //Read data into the buffer and copy data from buffer to receivedData
+                    byte[] receivedData = await ReceivePacket(dataLength, client.GetStream());
 
-                    //Convert bytes to string
-                    string str = Encoding.UTF8.GetString(stringBytes);
-                    contentList.Add(str);
+                    if (receivedData.Length >= dataLength && receivedData.Length >= 4) //If the data wasn't read correctly and isn't long enough, the packet is invalid
+                    {
+                        //Get the type bytes and convert it to type
+                        int typeLength = BitConverter.ToInt32(receivedData, 0);
+
+                        if (receivedData.Length >= 4 + typeLength)
+                        {
+                            string typeString = Encoding.ASCII.GetString(receivedData, 4, typeLength);
+                            Enum.TryParse(typeString, out MultiplayerPacketType type);
+
+                            //Go through the remaining bytes and read the string length first, then the string based on the length
+                            List<string> contentList = new List<string>();
+                            int index = 4 + typeLength;
+                            while (index < receivedData.Length)
+                            {
+                                //Get string length
+                                int stringLength = BitConverter.ToInt32(receivedData, index);
+                                index += 4;
+
+                                //Get the bytes for the message starting from the index with determined length
+                                byte[] stringBytes = new byte[stringLength];
+                                Array.Copy(receivedData, index, stringBytes, 0, stringLength);
+                                index += stringLength;
+
+                                //Convert bytes to string
+                                string str = Encoding.UTF8.GetString(stringBytes);
+                                contentList.Add(str);
+                            }
+
+                            string[] content = contentList.ToArray();
+
+                            //Create the packet from previously determined information
+                            NetworkPacket packet = CreatePacket(type, content);
+
+                            //Handle the data
+                            await HandleData(client, packet);
+
+                            //Log.Write($"Received data from client #{client.id}: {$"{type} ({content.ToString()})"}.", "Info");
+                        }
+                    }
                 }
 
-                string[] content = contentList.ToArray();
-
-                //Create the packet from previously determined information
-                NetworkPacket packet = CreatePacket(type, content);
-
-                //Handle the data
-                await HandleData(client, packet);
-
-                //Log.Write($"Received data from client #{client.id}: {$"{type} ({content.ToString()})"}.", "Info");
             }
             catch (Exception ex)
             {
