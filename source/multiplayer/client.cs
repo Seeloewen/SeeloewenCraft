@@ -63,7 +63,6 @@ namespace SeeloewenCraft
                     Game.world.player.SaveToJson(writer);
                     await SendData(CreatePacket(MultiplayerPacketType.CREATE_ENTITY, writer.ToString()));
                 }
-                Game.world.wndGame.Show();
             }
             else
             {
@@ -163,14 +162,29 @@ namespace SeeloewenCraft
                 catch (Exception ex)
                 {
                     e = ex;
-                    Log.Write($"Could not receive data from server: {ex.Message}\n{ex.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
+                    if (isConnected)
+                    {
+                        Log.Write($"Could not receive data from server: {ex.Message}\n{ex.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
+                    }
                     break;
                 }
             }
 
-            MessageBox.Show($"Lost connection to the server! {e.Message}\n{e.StackTrace}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            if (isConnected)
+            {
+                MessageBox.Show($"Lost connection to the server! {e.Message}\n{e.StackTrace}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
             Game.world.wndGame.Close();
             Game.world.wndMenu.Show();
+        }
+
+        public void Disconnect()
+        {
+            isConnected = false;
+            client.Close();
+            stream = null;
+            Log.Write("Connection to the server was interupted manually", LogType.NETWORK, LogLevel.WARNING);
         }
 
         public void SendPlayerInformation()

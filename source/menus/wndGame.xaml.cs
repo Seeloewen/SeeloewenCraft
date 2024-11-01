@@ -427,6 +427,13 @@ namespace SeeloewenCraft
             {
                 Game.client.SendPlayerInformation();
                 NetworkHandler.SendData(MultiplayerPacketType.DISCONNECT, "");
+                Game.client.Disconnect();
+
+                if(world.finishedLoading)
+                {
+                    world.tmrMovement.Stop();
+                    world.gameLoop.tmrGameLoop.Stop();
+                }
             }
             else
             {

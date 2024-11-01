@@ -227,29 +227,32 @@ namespace SeeloewenCraft
 
         public void Save()
         {
-            //Save all chunks and the inventory of the player
-            foreach (Chunk chunk in Game.world.totalChunkList)
+            if(!Game.IsClient())
             {
-                //Stop all running crafting timers
-                foreach (Block block in chunk.blockList.blocks)
+                //Save all chunks and the inventory of the player
+                foreach (Chunk chunk in Game.world.totalChunkList)
                 {
-                    if (block.craftingHandler != null && block.craftingHandler.tmrCrafting.IsRunning)
+                    //Stop all running crafting timers
+                    foreach (Block block in chunk.blockList.blocks)
                     {
-                        block.craftingHandler.tmrCrafting.Stop();
+                        if (block.craftingHandler != null && block.craftingHandler.tmrCrafting.IsRunning)
+                        {
+                            block.craftingHandler.tmrCrafting.Stop();
+                        }
                     }
+
+                    chunk.Save();
                 }
 
-                chunk.Save();
-            }
+                if (Game.IsServer())
+                {
+                    NetworkHandler.SendData(MultiplayerPacketType.REQUEST, "player_information", "");
+                }
 
-            if (Game.IsServer())
-            {
-                NetworkHandler.SendData(MultiplayerPacketType.REQUEST, "player_information", "");
+                player.SaveInventory(worldDirectory);
+                player.SavePosition(worldDirectory);
+                SaveEntities();
             }
-
-            player.SaveInventory(worldDirectory);
-            player.SavePosition(worldDirectory);
-            SaveEntities();
         }
 
         public string? LoadWorldSetting(string settingName)
@@ -439,13 +442,16 @@ namespace SeeloewenCraft
         private void InitWorldDirectory()
         {
             //Check if the world directory exists and create it otherwise
-            if (!Directory.Exists($"{FolderUtil.worldsFolder}\\{worldName}"))
+            if(multiplayerType != MultiplayerType.CLIENT)
             {
-                Directory.CreateDirectory($"{FolderUtil.worldsFolder}\\{worldName}");
-                Log.Write($"Created directory for world {worldName} ({FolderUtil.worldsFolder}\\{worldName})", LogType.GENERAL, LogLevel.INFO);
+                if (!Directory.Exists($"{FolderUtil.worldsFolder}\\{worldName}"))
+                {
+                    Directory.CreateDirectory($"{FolderUtil.worldsFolder}\\{worldName}");
+                    Log.Write($"Created directory for world {worldName} ({FolderUtil.worldsFolder}\\{worldName})", LogType.GENERAL, LogLevel.INFO);
+                }
+                worldDirectory = $"{FolderUtil.worldsFolder}\\{worldName}";
+                Log.Write($"Set directory for world {worldName} to {worldDirectory}", LogType.GENERAL, LogLevel.INFO);
             }
-            worldDirectory = $"{FolderUtil.worldsFolder}\\{worldName}";
-            Log.Write($"Set directory for world {worldName} to {worldDirectory}", LogType.GENERAL, LogLevel.INFO);
 
             if (multiplayerType == MultiplayerType.SERVER)
             {
