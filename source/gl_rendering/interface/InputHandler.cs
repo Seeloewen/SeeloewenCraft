@@ -12,7 +12,8 @@ namespace SeeloewenCraft.gl_rendering
         public static float currentMouseX;
         public static float currentMouseY;
 
-        public static bool mouseClick;
+        public static bool pressedLeft;
+        public static bool pressedRight;
 
 
 
@@ -27,7 +28,11 @@ namespace SeeloewenCraft.gl_rendering
 
             Log.Write($"button={button}, action={action}, x={currentMouseX}, y={currentMouseY}", LogType.RENDERING, LogLevel.INFO);
             if(button == MouseButton.Left) { 
-                mouseClick = action == MouseButtonState.Pressed;
+                pressedLeft = action == MouseButtonState.Pressed;
+            }
+            if(button == MouseButton.Right)
+            {
+                pressedRight = action == MouseButtonState.Pressed;
             }
 
 

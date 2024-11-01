@@ -1136,7 +1136,7 @@ namespace SeeloewenCraft
             Game.world.clickHandler.DoRightClick(this);
         }
 
-        private void cvsBlock_MouseRightButtonUp()
+        public void HandleMouseRightUp()
         {
             //Stop a possible block modification progress
             tmrHammer.Stop();

@@ -1,5 +1,7 @@
 ﻿
 
+using Windows.Services.Maps.OfflineMaps;
+
 namespace SeeloewenCraft.gl_rendering
 {
     public class GameScreen
@@ -8,7 +10,7 @@ namespace SeeloewenCraft.gl_rendering
         GameCamera cam;
 
         public int blockX, blockY;
-        bool pressedLeft;
+        bool pressedLeft, pressedRight;
 
         internal void Render(PrimitiveRenderer renderer)
         {
@@ -34,7 +36,7 @@ namespace SeeloewenCraft.gl_rendering
             float mouseY = InputHandler.currentMouseY;
 
             int newBlockX = (int)((mouseX - cam.blockXAnchor) / cam.blockLength);
-            int newBlockY = (int)-((mouseY - cam.blockYAnchor) / (cam.blockLength * 16/9.0f));
+            int newBlockY = (int)-((mouseY - cam.blockYAnchor) / (cam.blockLength * 16 / 9.0f));
 
             var block = Game.world.GetBlock(newBlockX, newBlockY);
             if (newBlockX != blockX || newBlockY != blockY)
@@ -42,7 +44,12 @@ namespace SeeloewenCraft.gl_rendering
                 var oldBlock = Game.world.GetBlock(blockX, blockY);
                 oldBlock.HandleMouseLeave();
                 block.HandleMouseEnter();
-                if(pressedLeft)
+                if (pressedLeft)
+                {
+                    oldBlock.HandleMouseLeftUp();
+                    block.HandleMouseLeftDown();
+                }
+                else if (pressedRight)
                 {
                     oldBlock.HandleMouseLeftUp();
                     block.HandleMouseLeftDown();
@@ -51,15 +58,27 @@ namespace SeeloewenCraft.gl_rendering
                 blockY = newBlockY;
             }
 
-            bool newPressedLeft = InputHandler.mouseClick;
+            bool newPressedLeft = InputHandler.pressedLeft;
+            bool newPressedRight = InputHandler.pressedRight;
             if (pressedLeft && !newPressedLeft)
             {
                 block.HandleMouseLeftUp();
             }
-            if(!pressedLeft && newPressedLeft)
+            if (!pressedLeft && newPressedLeft)
             {
                 block.HandleMouseLeftDown();
+                if(pressedRight) block.HandleMouseRightUp();
             }
+            pressedLeft = newPressedLeft;
+            if(!pressedLeft && pressedRight && !newPressedRight)
+            {
+                block.HandleMouseRightUp();
+            }
+            if(!pressedLeft && !pressedRight && newPressedRight)
+            {
+                block.HandleMouseRightDown();
+            }
+            
 
         }
 
