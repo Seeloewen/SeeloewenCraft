@@ -19,9 +19,10 @@ namespace SeeloewenCraft
     {
         private IdTcpClient client;
         private NetworkStream stream;
-        public bool isConnected;
+        public bool isConnected = false;
+        public Exception connectionException;
 
-        public async void Connect(string address, int port)
+        public async Task Connect(string address, int port)
         {
             client = new IdTcpClient();
             Log.Write("Connecting to server...", LogType.NETWORK, LogLevel.INFO);
@@ -31,18 +32,27 @@ namespace SeeloewenCraft
                 //Try to connect to the server
                 await client.ConnectAsync(address, port);
                 stream = client.GetStream();
+
+                if (stream != null)
+                {
+                    connectionException = new Exception("Could not get NetworkStream");
+                    isConnected = true;
+                }
             }
             catch (Exception ex)
             {
+                connectionException = ex;
                 Log.Write($"Failed to connect to the server: {ex.Message}\n{ex.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
                 return;
             }
+        }
 
+        public async void Initialize()
+        {
             if (stream != null)
             {
                 //Check if the stream exists to confirm that the connection was successful
                 Log.Write("The connection with the server was successfully established", LogType.NETWORK, LogLevel.INFO);
-                isConnected = true;
 
                 //Send a request to the server to do an initial load, which gets all blocks in all chunks and their content
                 await Game.client.SendData(CreatePacket(MultiplayerPacketType.PLAYER_INFORMATION, Game.playerId.ToString(), Settings.nickname, ""));
