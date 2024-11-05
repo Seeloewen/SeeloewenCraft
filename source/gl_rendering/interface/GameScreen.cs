@@ -1,5 +1,6 @@
 ﻿
 
+using System;
 using Windows.Services.Maps.OfflineMaps;
 
 namespace SeeloewenCraft.gl_rendering
@@ -35,7 +36,7 @@ namespace SeeloewenCraft.gl_rendering
             float mouseX = InputHandler.currentMouseX;
             float mouseY = InputHandler.currentMouseY;
 
-            int newBlockX = (int)((mouseX - cam.blockXAnchor) / cam.blockLength);
+            int newBlockX = (int) Math.Floor((mouseX - cam.blockXAnchor) / cam.blockLength);
             int newBlockY = (int)-((mouseY - cam.blockYAnchor) / (cam.blockLength * 16 / 9.0f));
 
             var block = Game.world.GetBlock(newBlockX, newBlockY);
