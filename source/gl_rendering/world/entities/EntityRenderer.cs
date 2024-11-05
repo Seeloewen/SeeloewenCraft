@@ -1,0 +1,43 @@
+﻿
+
+using SeeloewenCraft.entity;
+
+namespace SeeloewenCraft.gl_rendering
+{
+    internal class EntityRenderer
+    {
+
+        PlayerRenderer playerRenderer;
+        ItemEntityRenderer itemEntityRenderer;
+
+        GameCamera camera;
+
+        internal EntityRenderer(TextureManager textureManager)
+        {
+            playerRenderer = new PlayerRenderer(textureManager);
+            itemEntityRenderer = new ItemEntityRenderer(textureManager);
+        }
+
+        internal void Render(GameCamera camera) {
+            this.camera = camera;
+
+            itemEntityRenderer.ApplyCam(camera);
+            itemEntityRenderer.Begin();
+
+            foreach(Entity entity in Game.world.entityManager.entities) {
+                if(entity is Player player)
+                {
+                    playerRenderer.Render(player.playerRenderInfo, camera);
+                }
+                else if(entity is ItemEntity itemEntity)
+                {
+                    itemEntityRenderer.DrawItemEntity(itemEntity);
+                }
+            }
+
+            itemEntityRenderer.End();
+
+        }
+
+    }
+}

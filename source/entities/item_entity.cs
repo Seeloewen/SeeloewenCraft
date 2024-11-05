@@ -10,6 +10,8 @@ namespace SeeloewenCraft.entity
 
         public Item item;
 
+        public string itemID { get { return item.id; } }
+
         protected override void SaveSpecialInfo(JsonWriter writer)
         {
             writer.WritePropertyName("item_id");

@@ -78,7 +78,7 @@ namespace SeeloewenCraft.gl_rendering
             {
                 block.HandleMouseRightDown();
             }
-            
+            pressedRight = newPressedRight;
 
         }
 

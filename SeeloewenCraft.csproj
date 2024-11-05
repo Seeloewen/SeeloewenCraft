@@ -10,8 +10,7 @@
 		<UseWindowsForms>true</UseWindowsForms>
 		<UseWPF>true</UseWPF>
 		<ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-	</PropertyGroup>
-	<PropertyGroup>
+		
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<SupportedOSPlatformVersion>10.0.20348.0</SupportedOSPlatformVersion>
 		<StartupObject>SeeloewenCraft.App</StartupObject>
@@ -67,8 +66,6 @@
 			<Generator>SettingsSingleFileGenerator</Generator>
 			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
 		</None>
-	</ItemGroup>
-	<ItemGroup>
 	  <Folder Include="Resources\shader\primitive\" />
 	</ItemGroup>
 </Project>

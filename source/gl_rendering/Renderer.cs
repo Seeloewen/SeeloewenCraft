@@ -8,8 +8,10 @@ namespace SeeloewenCraft.gl_rendering
 
 
         WorldRenderer worldRenderer;
-        PlayerRenderer playerRenderer;
+        //ItemEntityRenderer itemEntityRenderer;
+        //PlayerRenderer playerRenderer;
         PrimitiveRenderer primitiveRenderer;
+        EntityRenderer entityRenderer;
         public Screen screen;
 
         public GameCamera cam;
@@ -19,8 +21,10 @@ namespace SeeloewenCraft.gl_rendering
             TextureManager textureManager = new TextureManager();
 
             worldRenderer = new WorldRenderer(textureManager);
-            playerRenderer = new PlayerRenderer(textureManager);
+            //itemEntityRenderer = new ItemEntityRenderer(textureManager);
+            //playerRenderer = new PlayerRenderer(textureManager);
             primitiveRenderer = new PrimitiveRenderer();
+            entityRenderer = new EntityRenderer(textureManager);
 
             cam = new GameCamera();
 
@@ -33,7 +37,10 @@ namespace SeeloewenCraft.gl_rendering
 
 
             worldRenderer.Render(cam);
-            playerRenderer.Render(cam, Game.world.player.playerRenderInfo);
+
+            entityRenderer.Render(cam);
+
+            //playerRenderer.Render(Game.world.player.playerRenderInfo, cam);
 
             //InventoryRenderer.Render(primitiveRenderer);
             primitiveRenderer.Begin();

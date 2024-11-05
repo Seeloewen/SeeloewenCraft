@@ -36,7 +36,7 @@ namespace SeeloewenCraft.gl_rendering
             unitSize = camera.blockLength * 0.475f * 0.125f; 
         }
 
-        internal void Render(GameCamera cam, PlayerRenderInfo info)
+        internal void Render(PlayerRenderInfo info, GameCamera cam)
         {
             ApplyCam(cam, info);
 
