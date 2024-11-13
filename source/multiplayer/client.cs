@@ -19,13 +19,13 @@ namespace SeeloewenCraft
     {
         private IdTcpClient client;
         private NetworkStream stream;
-        public bool isConnected = false;
         public Exception connectionException;
+        public bool isConnected = false;
 
         public async Task Connect(string address, int port)
         {
             client = new IdTcpClient();
-            Log.Write("Connecting to server...", LogType.NETWORK, LogLevel.INFO);
+            Log.Write($"Connecting to server {address}:{port}...", LogType.NETWORK, LogLevel.INFO);
 
             try
             {
@@ -35,43 +35,33 @@ namespace SeeloewenCraft
 
                 if (stream != null)
                 {
-                    connectionException = new Exception("Could not get NetworkStream");
+                    connectionException = new Exception("Could not get Network Stream");
                     isConnected = true;
+                    Log.Write("The connection with the server was successfully established", LogType.NETWORK, LogLevel.INFO);
                 }
             }
             catch (Exception ex)
             {
                 connectionException = ex;
                 Log.Write($"Failed to connect to the server: {ex.Message}\n{ex.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
-                return;
             }
         }
 
         public async void Initialize()
         {
-            if (stream != null)
-            {
-                //Check if the stream exists to confirm that the connection was successful
-                Log.Write("The connection with the server was successfully established", LogType.NETWORK, LogLevel.INFO);
+            //Send a request to the server to do an initial load and send the necessary information, which gets all blocks in all chunks and their content
+            await Game.client.SendData(CreatePacket(MultiplayerPacketType.PLAYER_INFORMATION, Game.playerId.ToString(), Settings.nickname, ""));
+            await Game.client.SendData(CreatePacket(MultiplayerPacketType.INITIAL_LOAD, ""));
 
-                //Send a request to the server to do an initial load, which gets all blocks in all chunks and their content
-                await Game.client.SendData(CreatePacket(MultiplayerPacketType.PLAYER_INFORMATION, Game.playerId.ToString(), Settings.nickname, ""));
-                await Game.client.SendData(CreatePacket(MultiplayerPacketType.INITIAL_LOAD, ""));
-
-                using (JsonWriter writer = JsonWriter.Create())
-                {
-                    Game.world.player.SaveToJson(writer);
-                    await SendData(CreatePacket(MultiplayerPacketType.CREATE_ENTITY, writer.ToString()));
-                }
-            }
-            else
+            //Send this clients player to the server
+            using (JsonWriter writer = JsonWriter.Create())
             {
-                Log.Write("Failed to connect to the server!", LogType.NETWORK, LogLevel.ERROR);
-                return;
+                Game.world.player.SaveToJson(writer);
+                await SendData(CreatePacket(MultiplayerPacketType.CREATE_ENTITY, writer.ToString()));
             }
 
             //Start receiving data from the server
-            ReceiveData();
+            await ReceiveData();
         }
 
         public async Task SendData(NetworkPacket packet)
@@ -89,11 +79,11 @@ namespace SeeloewenCraft
                     await stream.WriteAsync(lengthBytes, 0, lengthBytes.Length);
                     await stream.WriteAsync(dataBytes, 0, dataBytes.Length);
 
-                    //Log.Write($"Sent data to server: {BitConverter.ToString(dataBytes).Replace("-", " ")}.", "Info");
+                    //Log.Write($"Sent data to server: {BitConverter.ToString(dataBytes).Replace("-", " ")}.", LogType.NETWORK, LogLevel.INFO);
                 }
                 catch (Exception ex)
                 {
-                    Log.Write($"Could not send data to server: {ex.Message}\n{ex.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
+                    Log.Write($"Could not send packet {packet.type} to server: {ex.Message}\n{ex.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
                 }
             }
         }
@@ -101,8 +91,6 @@ namespace SeeloewenCraft
         public async Task ReceiveData()
         {
             //Receive data from the server
-            Exception e = null;
-
             while (true)
             {
                 try
@@ -161,18 +149,14 @@ namespace SeeloewenCraft
                 }
                 catch (Exception ex)
                 {
-                    e = ex;
                     if (isConnected)
                     {
-                        Log.Write($"Could not receive data from server: {ex.Message}\n{ex.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
+                        Log.Write($"Could not receive packet from server: {ex.Message}\n{ex.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
+                        MessageBox.Show($"Lost connection to the server: {ex.Message}\n{ex.StackTrace}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
+
                     break;
                 }
-            }
-
-            if (isConnected)
-            {
-                MessageBox.Show($"Lost connection to the server! {e.Message}\n{e.StackTrace}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             Game.world.wndGame.Close();
@@ -183,8 +167,7 @@ namespace SeeloewenCraft
         {
             isConnected = false;
             client.Close();
-            stream = null;
-            Log.Write("Connection to the server was interupted manually", LogType.NETWORK, LogLevel.WARNING);
+            Log.Write("Connection to the server was interrupted manually", LogType.NETWORK, LogLevel.WARNING);
         }
 
         public void SendPlayerInformation()
