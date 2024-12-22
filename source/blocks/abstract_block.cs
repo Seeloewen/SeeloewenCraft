@@ -5,9 +5,7 @@ using System.Windows.Input;
 using System.Windows;
 using System;
 using SeeloewenCraft.entity;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Text;
-using System.Runtime.CompilerServices;
 
 namespace SeeloewenCraft
 {
@@ -47,7 +45,8 @@ namespace SeeloewenCraft
         public Tool effectiveTool;
         public Material? effectiveMaterial;
         public (bool doesNeed, string tag) needsGround = (false, "");
-        public bool willFall;
+        public bool willFall = false;
+        public bool doesntDrop = false;
 
         //variables
         public int xPos;
@@ -592,6 +591,11 @@ namespace SeeloewenCraft
             //Get the block that should drop
             Block block = dropForeground ? foregroundBlock : this;
 
+            if(block.doesntDrop)
+            {
+                return;
+            }
+
             if ((Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == block.effectiveTool && ToolIsCorrectMaterial(tool.material) && !block.dropsOnWrongTool) || block.dropsOnWrongTool)
             {
                 //If the block has a loot table, roll an entry and give the items to player
@@ -727,6 +731,8 @@ namespace SeeloewenCraft
                 block.BreakBlock(true, true, false);
                 Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos, block.id));
             }
+
+            chunk.GetBlock(xPos, yPos).DisplayDebugInformation();
 
             //Send the data on the network if it's multiplayer
             NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, block.id, chunk.index.ToString(), block.xPos.ToString(), block.yPos.ToString());
@@ -1024,13 +1030,13 @@ namespace SeeloewenCraft
             {
                 blockContainer.bdrBlock.BorderThickness = new Thickness(0, 0, 0, 0);
                 blockContainer.bdrBlock.BorderBrush = new SolidColorBrush(Colors.Transparent);
-            }
 
-            //Stop a possible block modification progress
-            tmrBreak.Stop();
-            blockContainer.SetBreakState(0);
-            tmrHammer.Stop();
-            blockContainer.SetHammerState(0);
+                //Stop a possible block modification progress
+                tmrBreak.Stop();
+                blockContainer.SetBreakState(0);
+                tmrHammer.Stop();
+                blockContainer.SetHammerState(0);
+            }
         }
 
         private void cvsBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

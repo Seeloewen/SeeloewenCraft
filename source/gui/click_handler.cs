@@ -33,6 +33,7 @@
                 {
                     block.RightClickAction(sender);
                 }
+
                 //Place the block
                 else if (!block.hasRightClickAction && selectedItem != null)
                 {
@@ -40,10 +41,16 @@
                     Block blockBelow = block.GetBlockBelow();
 
                     //Don't place the block if it needs a ground but there is none
-                    if(newBlock != null && newBlock.needsGround.doesNeed && !block.CanStayOnBlockBelow(newBlock, blockBelow))
+                    if (newBlock != null && newBlock.needsGround.doesNeed && !block.CanStayOnBlockBelow(newBlock, blockBelow))
                     {
+                        if (selectedItem is FoodItem food)
+                        {
+                            food.RightClickAction(block, selectedSlot.slot, sender);
+                        }
+
                         return;
                     }
+
 
                     //Check if the block meets all requirements to be placed in foreground of another block
                     if (block.IsInRange() && block.GetForegroundBlock() == null && block.isBackground)
@@ -69,6 +76,7 @@
                                 selectedSlot.slot.inventory.UpdateHotbar();
                             }
 
+                            return;
                         }
                     }
                     //Check if the block isn't in background and can be replaced
@@ -96,11 +104,16 @@
                             }
 
                             newBlock.tags.Add("placedManually");
+
+                            return;
                         }
                     }
                 }
+            }
 
-                block.chunk.GetBlock(block.xPos, block.yPos).DisplayDebugInformation();
+            if (ItemRegister.GenerateItem(selectedSlot.slot.itemId) is FoodItem foodItem)
+            {
+                foodItem.RightClickAction(block, selectedSlot.slot, sender);
             }
         }
 

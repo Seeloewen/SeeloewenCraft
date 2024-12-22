@@ -4,11 +4,6 @@
     {
         public double healAmount;
 
-        public FoodItem()
-        {
-            hasRightClickAction = true;
-        }
-
         public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
         {
             //Heal the player and remove the item

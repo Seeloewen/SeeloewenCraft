@@ -615,6 +615,10 @@
                 invSlot.inventory.AddItem("sc:bucket_water_item", 1, "");
                 block.SetBlock(new AirBlock(false));
             }
+            else if(block is Rice_Top rice && rice.IsReady())
+            {
+                rice.RightClickAction(sender);
+            }
         }
     }
 
@@ -828,6 +832,108 @@
         public SugarCaneItem() : base()
         {
             Init("Sugar Cane", "sc:sugar_cane_item", "sc:sugar_cane_block", true, Images.SugarCaneItem);
+        }
+    }
+
+    public class PumpkinItem : Item
+    {
+        public PumpkinItem() : base()
+        {
+            Init("Pumpkin", "sc:pumpkin_item", "sc:pumpkin_block", true, Images.Pumpkin);
+        }
+    }
+
+    public class WoolItem : Item
+    {
+        public WoolItem() : base()
+        {
+            Init("Wool", "sc:wool_item", "sc:wool_block", true, Images.Wool);
+        }
+    }
+
+    public class LanternItem : Item
+    {
+        public LanternItem() : base()
+        {
+            Init("Lantern", "sc:lantern_item", "sc:lantern_block", true, Images.Lantern);
+        }
+    }
+
+    public class BucketRiceItem : FoodItem
+    {
+        public BucketRiceItem() : base()
+        {
+            Init("Rice Bucket", "sc:bucket_rice_item", "sc:rice_base", true, Images.BucketRice);
+            healAmount = 2;
+        }
+    }
+
+    public class TomatoItem : FoodItem
+    {
+        public TomatoItem() : base()
+        {
+            Init("Tomato", "sc:tomato_item", "sc:tomato_crop_block", true, Images.Tomato);
+            healAmount = 1.5;
+        }
+    }
+
+    public class PumpkinSeedsItem : Item
+    {
+        public PumpkinSeedsItem() : base()
+        {
+            Init("Pumpkin Seeds", "sc:pumpkin_seeds_item", "sc:pumpkin_crop_block", true, Images.PumpkinSeeds);
+        }
+    }
+
+    public class SeehundiumItem : Item
+    {
+        public SeehundiumItem() : base()
+        {
+            Init("Seehundium", "sc:seehundium_item", null, false, Images.Seehundium);
+        }
+    }
+
+    public class SaladItem : FoodItem
+    {
+        public SaladItem() : base()
+        {
+            Init("Salad", "sc:salad_item", null, false, Images.Salad);
+            healAmount = 5;
+        }
+    }
+
+    public class PotatoItem : FoodItem
+    {
+        public PotatoItem() : base()
+        {
+            Init("Potato", "sc:potato_item", "sc:potato_crop_block", true, Images.Potato);
+            healAmount = 1;
+        }
+    }
+
+    public class CucumberItem : FoodItem
+    {
+        public CucumberItem() : base()
+        {
+            Init("Cucumber", "sc:cucumber_item", "sc:cucumber_crop_block", true, Images.Cucumber);
+            healAmount = 1.5;
+        }
+    }
+
+    public class CabbageItem : FoodItem
+    {
+        public CabbageItem() : base()
+        {
+            Init("Cabbage", "sc:cabbage_item", null, false, Images.Cabbage);
+            healAmount = 1.5;
+        }
+    }
+
+    public class CabbageSeedsItem : Item
+    {
+        public CabbageSeedsItem() : base()
+        {
+            Init("Cabbage Seeds", "sc:cabbage_item", "sc:cabbage_crop_block", true, Images.CabbageSeeds);
         }
     }
 }

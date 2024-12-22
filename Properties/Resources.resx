@@ -877,7 +877,107 @@
 	<data name="Sugar_Cane" type="System.Resources.ResXFileRef, System.Windows.Forms">
 		<value>..\Resources\Textures\Blocks\Sugar_Cane.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
 	</data>
+	<data name="Lantern" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Lantern.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Pumpkin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Pumpkin.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Wool" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Wool.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
 	<data name="Sugar_Cane_Item" type="System.Resources.ResXFileRef, System.Windows.Forms">
 		<value>..\Resources\Textures\Items\Sugar_Cane_Item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
 	</data>
+	<data name="Tomato" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Tomato.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Pumpkin_Seeds" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Pumpkin_Seeds.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Seehundium" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Seehundium.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Salad" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Salad.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Potato" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Potato.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cucumber" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Cucumber.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Bucket_Rice" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Bucket_Rice.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cabbage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Cabbage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cabbage_Seeds" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Items\Cabbage_Seeds.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Rice_Base" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Rice_Base.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Rice_Top_Stage_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Rice_Top_Stage_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Rice_Top_Stage_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Rice_Top_Stage_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Rice_Top_Stage_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Rice_Top_Stage_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Rice_Top_Stage_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\Connected\Rice_Top_Stage_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cabbage_Stage_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Cabbage_Stage_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cabbage_Stage_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Cabbage_Stage_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cabbage_Stage_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Cabbage_Stage_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cabbage_Stage_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Cabbage_Stage_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Potato_Stage_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Potato_Stage_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Potato_Stage_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Potato_Stage_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Potato_Stage_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Potato_Stage_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Potato_Stage_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Potato_Stage_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Pumpkin_Stage_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Pumpkin_Stage_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Pumpkin_Stage_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Pumpkin_Stage_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Pumpkin_Stage_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Pumpkin_Stage_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Pumpkin_Stage_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Pumpkin_Stage_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Tomato_Stage_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Tomato_Stage_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Tomato_Stage_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Tomato_Stage_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cucumber_Stage_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Cucumber_Stage_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="Cucumber_Stage_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\Textures\Blocks\States\Cucumber_Stage_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+
 </root>

@@ -554,6 +554,44 @@
                 case "sc:sugar_cane_item":
                     return new SugarCaneItem();
 
+
+
+                case "sc:pumpkin_item":
+                    return new PumpkinItem();
+
+                case "sc:wool_item":
+                    return new WoolItem();
+
+                case "sc:lantern_item":
+                    return new LanternItem();
+
+                case "sc:tomato_item":
+                    return new TomatoItem();
+
+                case "sc:pumpkin_seeds_item":
+                    return new PumpkinSeedsItem();
+
+                case "sc:seehundium_item":
+                    return new SeehundiumItem();
+
+                case "sc:salad_item":
+                    return new SaladItem();
+
+                case "sc:potato_item":
+                    return new PotatoItem();
+
+                case "sc:cucumber_item":
+                    return new CucumberItem();
+
+                case "sc:bucket_rice_item":
+                    return new BucketRiceItem();
+
+                case "sc:cabbage_item":
+                    return new CabbageItem();
+
+                case "sc:cabbage_seeds_item":
+                    return new CabbageSeedsItem();
+
                 default:
                     return null;
             }

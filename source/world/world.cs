@@ -484,7 +484,23 @@ namespace SeeloewenCraft
             {
                 player.inventory = new Inventory(9, 4, true);
                 player.inventory.InitHotbar();
+                player.inventory.AddItem("sc:wool_item", 64, "");
+                player.inventory.AddItem("sc:diamond_scythe_item", 1, "durability=10000000");
+                player.inventory.AddItem("sc:seeds_item", 64, "");
+                player.inventory.AddItem("sc:carrot_item", 64, "");
+                player.inventory.AddItem("sc:lantern_item", 64, "");
+                player.inventory.AddItem("sc:pumpkin_item", 64, "");
+                player.inventory.AddItem("sc:tomato_item", 64, "");
+                player.inventory.AddItem("sc:pumpkin_seeds_item", 64, "");
+                player.inventory.AddItem("sc:seehundium_item", 64, "");
+                player.inventory.AddItem("sc:salad_item", 64, "");
+                player.inventory.AddItem("sc:potato_item", 64, "");
+                player.inventory.AddItem("sc:cucumber_item", 64, "");
+                player.inventory.AddItem("sc:bucket_rice_item", 64, "");
+                player.inventory.AddItem("sc:cabbage_item", 64, "");
+                player.inventory.AddItem("sc:cabbage_seeds_item", 64, "");
             }
+
             player.inventory.UpdateHotbar();
             inventoryList.Add(player.inventory);
             player.inventory.hotbarSlotList[0].Select();
