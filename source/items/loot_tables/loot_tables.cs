@@ -54,6 +54,7 @@ namespace SeeloewenCraft
         {
             lootTableEntries.Add(new LootTableEntry(new OakSaplingItem(), 1, 1, 1));
             lootTableEntries.Add(new LootTableEntry(new OakLeavesItem(), 1, 1, 6));
+            lootTableEntries.Add(new LootTableEntry(new AppleItem(), 1, 1, 1));
         }
     }
 
