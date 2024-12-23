@@ -877,6 +877,7 @@ namespace SeeloewenCraft
         public Grass(bool isInBackground) : base(isInBackground)
         {
             Init("Grass", "sc:grass", 0, "sc:grass_item", Tool.None, Images.Grass);
+            lootTable = (LootTables.grassLootTable, 1, 1);
             isSolid = false;
             needsGround = (true, "ground/plant");
         }
