@@ -156,20 +156,42 @@
 
     public class SugarCaneBlock : CropBlock
     {
-        protected int height = 1;
         protected bool shouldGrow = true;
+        private int maxHeight = 3;
 
         public SugarCaneBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Sugar Cane", "sc:sugar_cane_block", 0, "sc:sugar_cane_item", Game.rnd.Next(10000, 20000), "sc:sugar_cane_item", "sc:sugar_cane_item", 0, 0, Tool.None, Images.SugarCane);
             drops.Add(("sc:sugar_cane_item", 1, 1));
+            tags.Add("Crops/SugarCane");
             isSolid = false;
-            isBase = true;
             hasRightClickAction = true;
             needsGround = (true, ""); //Game.rnd.Next(1400000, 2000001)
 
             //Implement additional check for nearby water (maybe)
         }
+
+        public void PlaceBlockAbove(int currentY, int maxY)
+        {
+            Block blockAbove = chunk.GetBlock(xPos, currentY - 1);
+
+            //Stop if new block would be above max height or block above is null
+            if (currentY - 1 < maxY) return;
+            if (blockAbove == null) return;
+
+            if (blockAbove.isReplacable)
+            {
+                //Place the new block
+                Block newBlockAbove = new SugarCaneBlock(false) { needsGround = (true, "Crops/SugarCane"), shouldGrow = false };
+                blockAbove.SetBlock(newBlockAbove);
+            }
+            else if (blockAbove.id == "sc:sugar_cane_block")
+            {
+                //If the block above is a sugarcane, check its block above
+                PlaceBlockAbove(currentY - 1, maxY);
+            }
+        }
+
 
         public override void UpdateProgress(int amount)
         {
@@ -177,41 +199,50 @@
 
             if (IsReady() && shouldGrow)
             {
-                Block blockAbove = chunk.GetBlock(xPos, yPos - height);
-
-                //If there's space above, place a new sugar cane
-                if (blockAbove != null && blockAbove.isReplacable && height < 4)
-                {
-                    SugarCaneBlock newBlockAbove = new SugarCaneBlock(false);
-                    newBlockAbove.needsGround = (false, "");
-                    newBlockAbove.baseBlock = (0, height);
-                    newBlockAbove.shouldGrow = false;
-                    newBlockAbove.isBase = false;
-
-                    blockAbove.SetBlock(newBlockAbove);
-                    connectedBlocks.Add((0, -height, newBlockAbove.id));
-
-                    progress = 0;
-                    height++;
-                    growthTime = Game.rnd.Next(10000, 20000);
-                }
+                PlaceBlockAbove(yPos, yPos - maxHeight);
+                progress = 0;
+                growthTime = Game.rnd.Next(10000, 20000);
             }
         }
     }
 
     public class TomatoCropBlock : CropBlock
     {
-        protected int height = 1;
         protected bool shouldGrow = true;
+        private int maxHeight = 2;
 
         public TomatoCropBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Tomato", "sc:tomato_crop_block", 0, "sc:tomato_item", Game.rnd.Next(10000, 20000), "sc:tomato_item", "sc:tomato_item", 1, 3, Tool.None, Images.Tomato_Stage1);
             drops.Add(("sc:tomato_item", 1, 1));
+            tags.Add("Crops/Tomato");
             isSolid = false;
             isBase = true;
             hasRightClickAction = true;
             needsGround = (true, "ground/farmland"); //Game.rnd.Next(1400000, 2000001)
+        }
+
+        public void PlaceBlockAbove(int currentY, int maxY)
+        {
+            Block blockAbove = chunk.GetBlock(xPos, currentY - 1);
+
+            //Stop if new block would be above max height or block above is null
+            if (currentY - 1 < maxY || blockAbove == null) return;
+
+            if (blockAbove.isReplacable)
+            {
+                //Place the new block
+                Block newBlockAbove = new TomatoCropBlock(false) { needsGround = (true, "Crops/Tomato"), shouldGrow = false };
+                blockAbove.SetBlock(newBlockAbove);
+
+                growthTime = Game.rnd.Next(10000, 20000);
+                progress = 0;
+            }
+            else if (blockAbove.id == "sc:tomato_crop_block")
+            {
+                //If the block above is a sugarcane, check its block above
+                PlaceBlockAbove(currentY - 1, maxY);
+            }
         }
 
         public override void UpdateProgress(int amount)
@@ -225,24 +256,7 @@
 
                 if (shouldGrow)
                 {
-                    Block blockAbove = chunk.GetBlock(xPos, yPos - height);
-
-                    //If there's space above, place a new sugar cane
-                    if (blockAbove != null && blockAbove.isReplacable && height < 3)
-                    {
-                        TomatoCropBlock newBlockAbove = new TomatoCropBlock(false);
-                        newBlockAbove.needsGround = (false, "");
-                        newBlockAbove.baseBlock = (0, height);
-                        newBlockAbove.shouldGrow = false;
-                        newBlockAbove.isBase = false;
-
-                        blockAbove.SetBlock(newBlockAbove);
-                        connectedBlocks.Add((0, -height, newBlockAbove.id));
-
-                        progress = 0;
-                        height++;
-                        growthTime = Game.rnd.Next(10000, 20000);
-                    }
+                    PlaceBlockAbove(yPos, yPos - maxHeight);
                 }
             }
         }
