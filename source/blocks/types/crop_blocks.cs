@@ -337,7 +337,8 @@
                 progress = 0;
                 state = 1;
 
-                Game.world.player.inventory.AddItem("sc:bucket_rice_item", 1, "");
+                Game.world.player.inventory.AddItem("sc:bucket_rice_item", 1, null);
+                Game.world.player.inventory.RemoveItem("sc:bucket_empty_item", 1);
 
                 sImage = Images.Rice_Top_Stage1;
                 SetTexture();

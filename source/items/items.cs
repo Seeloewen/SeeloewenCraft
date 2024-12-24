@@ -866,6 +866,13 @@
             Init("Rice Bucket", "sc:bucket_rice_item", "sc:rice_base", true, Images.BucketRice);
             healAmount = 2;
         }
+
+        public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
+        {
+            base.RightClickAction(block, invSlot, sender);
+
+            Game.world.player.inventory.AddItem("sc:bucket_empty_item", 1, null);
+        }
     }
 
     public class TomatoItem : FoodItem
