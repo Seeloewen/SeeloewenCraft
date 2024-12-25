@@ -276,6 +276,12 @@ namespace SeeloewenCraft
                     {
                         crop.UpdateProgress(maxTick);
                     }
+
+                    Block foregroundBlock = block.GetForegroundBlock();
+                    if (block.isBackground && foregroundBlock != null && foregroundBlock is CropBlock foreCrop)
+                    {
+                        foreCrop.UpdateProgress(maxTick);
+                    }
                 }
             }
         }

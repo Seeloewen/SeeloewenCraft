@@ -20,19 +20,19 @@
             {
                 state = 2;
                 sImage = Images.Wheat_Stage2;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
             else if (progress >= 2 * (growthTime / 3) && state < 3)
             {
                 state = 3;
                 sImage = Images.Wheat_Stage3;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
             else if (IsReady())
             {
                 state = 4;
                 sImage = Images.Wheat_Stage4;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
         }
     }
@@ -57,19 +57,19 @@
             {
                 state = 2;
                 sImage = Images.Carrot_Stage2;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
             else if (progress >= 2 * (growthTime / 3) && state < 3)
             {
                 state = 3;
                 sImage = Images.Carrot_Stage3;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
             else if (IsReady())
             {
                 state = 4;
                 sImage = Images.Carrot_Stage4;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
         }
     }
@@ -92,7 +92,7 @@
             if (IsReady())
             {
                 sImage = Images.Cotton_Stage2;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
         }
 
@@ -101,7 +101,7 @@
             if (IsReady())
             {
                 //Drop the item and reset the progress without breaking the block
-                Drop(isForeground);
+                Drop();
                 growthTime = Game.rnd.Next(10000, 20000);
                 progress = 0;
 
@@ -109,7 +109,7 @@
                 drops.Add(("sc:cotton_item", 1, 1));
 
                 sImage = Images.Cotton_Stage1;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
         }
     }
@@ -132,7 +132,7 @@
             if (IsReady())
             {
                 sImage = Images.Berry_Bush_Stage2;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
         }
 
@@ -141,7 +141,7 @@
             if (IsReady())
             {
                 //Drop the item and reset the progress without breaking the block
-                Drop(isForeground);
+                Drop();
                 growthTime = Game.rnd.Next(10000, 20000);
                 progress = 0;
 
@@ -149,7 +149,7 @@
                 drops.Add(("sc:berry_item", 1, 1));
 
                 sImage = Images.Berry_Bush_Stage1;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
         }
     }
@@ -229,7 +229,16 @@
             //Stop if new block would be above max height or block above is null
             if (currentY - 1 < maxY || blockAbove == null) return;
 
-            if (blockAbove.isReplacable)
+            if (blockAbove.isBackground && blockAbove.GetForegroundBlock() == null)
+            {
+                //Place the new block in foreground
+                Block newBlockAbove = new TomatoCropBlock(false) { needsGround = (true, "Crops/Tomato"), shouldGrow = false };
+                blockAbove.SetForegroundBlock(newBlockAbove);
+
+                growthTime = Game.rnd.Next(10000, 20000);
+                progress = 0;
+            }
+            else if (blockAbove.isReplacable)
             {
                 //Place the new block
                 Block newBlockAbove = new TomatoCropBlock(false) { needsGround = (true, "Crops/Tomato"), shouldGrow = false };
@@ -238,9 +247,9 @@
                 growthTime = Game.rnd.Next(10000, 20000);
                 progress = 0;
             }
-            else if (blockAbove.id == "sc:tomato_crop_block")
+            else if (blockAbove.id == "sc:tomato_crop_block" || blockAbove.isBackground && blockAbove.GetForegroundBlock() != null && blockAbove.GetForegroundBlock().id == "sc:tomato_crop_block")
             {
-                //If the block above is a sugarcane, check its block above
+                //If the block above is a tomato, check its block above
                 PlaceBlockAbove(currentY - 1, maxY);
             }
         }
@@ -252,7 +261,7 @@
             if (IsReady())
             {
                 sImage = Images.Tomato_Stage2;
-                SetTexture();
+                blockContainer.UpdateTexture();
 
                 if (shouldGrow)
                 {
@@ -266,7 +275,7 @@
             if (IsReady())
             {
                 //Drop the item and reset the progress without breaking the block
-                Drop(isForeground);
+                Drop();
                 growthTime = Game.rnd.Next(10000, 20000);
                 progress = 0;
 
@@ -274,7 +283,7 @@
                 drops.Add(("sc:tomato_item", 1, 1));
 
                 sImage = Images.Tomato_Stage1;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
         }
     }
@@ -312,19 +321,19 @@
             {
                 state = 2;
                 sImage = Images.Rice_Top_Stage2;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
             else if (progress >= 2 * (growthTime / 3) && state < 3)
             {
                 state = 3;
                 sImage = Images.Rice_Top_Stage3;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
             else if (IsReady())
             {
                 state = 4;
                 sImage = Images.Rice_Top_Stage4;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
         }
 
@@ -341,7 +350,7 @@
                 Game.world.player.inventory.RemoveItem("sc:bucket_empty_item", 1);
 
                 sImage = Images.Rice_Top_Stage1;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
         }
     }
@@ -367,19 +376,19 @@
             {
                 state = 2;
                 sImage = Images.Pumpkin_Stage2;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
             else if (progress >= 2 * (growthTime / 3) && state < 3)
             {
                 state = 3;
                 sImage = Images.Pumpkin_Stage3;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
             else if (IsReady())
             {
                 state = 4;
                 sImage = Images.Pumpkin_Stage4;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
         }
 
@@ -390,7 +399,7 @@
                 drops.Clear();
 
                 //Drop the item and reset the progress without breaking the block
-                Drop(isForeground);
+                Drop();
                 growthTime = Game.rnd.Next(10000, 20000);
                 progress = 0;
                 state = 1;
@@ -399,7 +408,7 @@
                 drops.Add(("sc:pumpkin_seeds_item", 1, 1));
 
                 sImage = Images.Pumpkin_Stage1;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
         }
     }
@@ -424,19 +433,19 @@
             {
                 state = 2;
                 sImage = Images.Cabbage_Stage2;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
             else if (progress >= 2 * (growthTime / 3) && state < 3)
             {
                 state = 3;
                 sImage = Images.Cabbage_Stage3;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
             else if (IsReady())
             {
                 state = 4;
                 sImage = Images.Cabbage_Stage4;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
         }
     }
@@ -461,19 +470,19 @@
             {
                 state = 2;
                 sImage = Images.Potato_Stage2;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
             else if (progress >= 2 * (growthTime / 3) && state < 3)
             {
                 state = 3;
                 sImage = Images.Potato_Stage3;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
             else if (IsReady())
             {
                 state = 4;
                 sImage = Images.Potato_Stage4;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
         }
     }
@@ -497,7 +506,7 @@
             if (IsReady())
             {
                 sImage = Images.Cucumber_Stage2;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
         }
 
@@ -506,7 +515,7 @@
             if (IsReady())
             {
                 //Drop the item and reset the progress without breaking the block
-                Drop(isForeground);
+                Drop();
                 growthTime = Game.rnd.Next(10000, 20000);
                 progress = 0;
 
@@ -514,7 +523,7 @@
                 drops.Add(("sc:cucumber _item", 1, 1));
 
                 sImage = Images.Cucumber_Stage1;
-                SetTexture();
+                blockContainer.UpdateTexture();
             }
         }
     }

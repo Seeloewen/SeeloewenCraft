@@ -19,6 +19,7 @@
             this.growthTime = growthTime;
             this.productMin = productMin; 
             this.productMax = productMax;
+            canBeMovedToBackground = false;
         }
 
         public override void ShowAdditionalDebugInfo()
@@ -57,7 +58,7 @@
         }
 
         //Hahn war hier
-        protected override void Drop(bool dropForeground)
+        protected override void Drop()
         {
             //If the item is ready, also add the product as a drop
             if(IsReady())
@@ -65,7 +66,7 @@
                 drops.Add((productId, productMin, productMax));
             }
 
-            base.Drop(dropForeground);
+            base.Drop();
         }
     }
 }

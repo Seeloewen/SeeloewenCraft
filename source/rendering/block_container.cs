@@ -335,6 +335,11 @@ namespace SeeloewenCraft
             {
                 cvsBlock.Background = block.sImage.GetTexture();
             }
+
+            if (block.GetForegroundBlock() != null)
+            {
+                cvsForegroundBlock.Background = block.GetForegroundBlock().sImage.GetTexture();
+            }
         }
 
         public void ShowDarkRectangle()

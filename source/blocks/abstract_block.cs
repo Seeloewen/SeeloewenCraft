@@ -529,7 +529,7 @@ namespace SeeloewenCraft
         {
             image = sImage.GetTexture();
 
-            if(blockContainer != null)
+            if (blockContainer != null)
             {
                 blockContainer.UpdateTexture();
             }
@@ -586,27 +586,26 @@ namespace SeeloewenCraft
             return Math.Abs(yDiff);
         }
 
-        protected virtual void Drop(bool dropForeground)
+        protected virtual void Drop()
         {
             //Get the block that should drop
-            Block block = dropForeground ? foregroundBlock : this;
 
-            if(block.doesntDrop)
+            if (doesntDrop)
             {
                 return;
             }
 
-            if ((Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == block.effectiveTool && ToolIsCorrectMaterial(tool.material) && !block.dropsOnWrongTool) || block.dropsOnWrongTool)
+            if ((Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == effectiveTool && ToolIsCorrectMaterial(tool.material) && !dropsOnWrongTool) || dropsOnWrongTool)
             {
                 //If the block has a loot table, roll an entry and give the items to player
-                if (block.lootTable.lootTable != null)
+                if (lootTable.lootTable != null)
                 {
                     //Get the amount of times the item gets dropped
-                    int rolls = Game.rnd.Next(block.lootTable.minRolls, block.lootTable.maxRolls + 1);
+                    int rolls = Game.rnd.Next(lootTable.minRolls, lootTable.maxRolls + 1);
 
                     for (int i = 0; i < rolls; i++)
                     {
-                        List<Item> items = block.lootTable.lootTable.RollEntry().RollItems();
+                        List<Item> items = lootTable.lootTable.RollEntry().RollItems();
                         foreach (Item item in items)
                         {
                             SpawnItem(item);
@@ -614,9 +613,9 @@ namespace SeeloewenCraft
                     }
                 }
                 //If it has a specified droplist
-                else if (block.drops.Count > 0)
+                else if (drops.Count > 0)
                 {
-                    foreach (var entry in block.drops)
+                    foreach (var entry in drops)
                     {
                         //Roll an amount of drops for each item and drop that amount of that item
                         int amount = Game.rnd.Next(entry.min, entry.max + 1);
@@ -628,16 +627,16 @@ namespace SeeloewenCraft
                     }
                 }
                 //If it has only an item, only give that item
-                else if (block.GetItem() != null)
+                else if (GetItem() != null)
                 {
-                    SpawnItem(block.GetItem());
+                    SpawnItem(GetItem());
                 }
             }
         }
 
         private void SpawnItem(Item item)
         {
-            if(item != null)
+            if (item != null)
             {
                 //Spawn the item entity in the world
                 Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
@@ -659,7 +658,7 @@ namespace SeeloewenCraft
                     {
                         if (dropItems)
                         {
-                            Drop(true);
+                            foregroundBlock.Drop();
 
                             if (foregroundBlock.hasInventory)
                             {
@@ -686,7 +685,7 @@ namespace SeeloewenCraft
 
                     if (dropItems)
                     {
-                        Drop(false);
+                        Drop();
 
                         if (hasInventory)
                         {
@@ -759,6 +758,7 @@ namespace SeeloewenCraft
             if (blockContainer != null)
             {
                 blockContainer.RenderForegroundBlock(block);
+                block.blockContainer = blockContainer;
             }
         }
 
