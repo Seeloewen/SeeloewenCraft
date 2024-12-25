@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Media;
 using SeeloewenCraft.entity;
-using Windows.Media.Protection.PlayReady;
 
 namespace SeeloewenCraft
 {
@@ -73,6 +72,11 @@ namespace SeeloewenCraft
                     //Update blocks that aren't allowed to float
                     UpdateFloating(block);
 
+                    if (block is FarmlandBlock farmland)
+                    {
+                        UpdateFarmland(farmland);
+                    }
+
                     //Update leaves that might need to decay
                     if (block.tags.Contains("type/leaf") && !block.tags.Contains("placedManually"))
                     {
@@ -94,6 +98,18 @@ namespace SeeloewenCraft
                 block.BreakBlock(true, false, true);
             }
         }
+
+        public void UpdateFarmland(Block block)
+        {
+            if (!HasWaterNearby(block) || block.lightLevel >= 0.9)
+            {
+                if (Game.rnd.Next(0, 9) == 0)
+                {
+                    block.SetBlock(BlockRegister.GenerateBlock("sc:dirt_block"));
+                }
+            }
+        }
+
 
         public void UpdateLeaves(List<Block> leafList)
         {
@@ -148,6 +164,21 @@ namespace SeeloewenCraft
             //If it's a leaf, check if the adjacent blocks are connected to a log
             return HasAdjacentLog(blockBelow, visitedBlocks) || HasAdjacentLog(blockAbove, visitedBlocks) || HasAdjacentLog(blockRight, visitedBlocks) || HasAdjacentLog(blockLeft, visitedBlocks);
 
+        }
+
+        public bool HasWaterNearby(Block block)
+        {
+            //Checks 4 blocks to the left and right on the same y level whether they are a water block
+            for (int i = 1; i < 5; i++)
+            {
+                if (block.chunk.GetBlock(block.xPos + i, block.yPos).tags.Contains("liquids/water") //Blocks to the right
+                    || block.chunk.GetBlock(block.xPos - i, block.yPos).tags.Contains("liquids/water")) //Blocks to the left
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 
