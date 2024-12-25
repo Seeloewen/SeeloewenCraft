@@ -750,6 +750,11 @@ namespace SeeloewenCraft
             return chunk.GetBlock(xPos, yPos + 1);
         }
 
+        public Block GetBlockAbove()
+        {
+            return chunk.GetBlock(xPos, yPos - 1);
+        }
+
         public void SetForegroundBlock(Block block)
         {
             if (block == null)

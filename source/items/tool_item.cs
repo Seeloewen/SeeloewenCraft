@@ -40,12 +40,14 @@
 
         public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
         {
-            if (!block.IsInRange())
+            Block foregroundBlock = block.GetForegroundBlock();
+            Block blockAbove = block.GetBlockAbove();
+
+            //Stop action if block not in range or block has a solid block above
+            if (!block.IsInRange() || block.GetBlockAbove().isSolid)
             {
                 return;
             }
-
-            Block foregroundBlock = block.GetForegroundBlock();
 
             if (block.isBackground && foregroundBlock != null && foregroundBlock.tags.Contains("scytheable"))  //Foreground block
             {
