@@ -40,14 +40,25 @@
 
         public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
         {
-            if (block.tags.Contains("scytheable"))
+            if (!block.IsInRange())
+            {
+                return;
+            }
+
+            Block foregroundBlock = block.GetForegroundBlock();
+
+            if (block.isBackground && foregroundBlock != null && foregroundBlock.tags.Contains("scytheable"))  //Foreground block
+            {
+                block.SetForegroundBlock(new FarmlandBlock(block.isBackground));
+                invSlot.RemoveDurablity();
+            }
+            else if (block.tags.Contains("scytheable")) //Background or normal block
             {
                 block.SetBlock(new FarmlandBlock(block.isBackground));
                 invSlot.RemoveDurablity();
             }
         }
     }
-
 
     #region Wood Items
 
@@ -164,7 +175,7 @@
         }
     }
 
-    #endregion        
+    #endregion
 
     #region Tin Items
 

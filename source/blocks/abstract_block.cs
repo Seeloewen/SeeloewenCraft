@@ -721,7 +721,15 @@ namespace SeeloewenCraft
             block.rangeToNearestLightSource = rangeToNearestLightSource;
             chunk.SetBlock(block, xPos, yPos);
             UpdateAirLightsources(block);
-            block.MoveToNormal();
+
+            if (block.isBackground)
+            {
+                block.MoveToBackground();
+            }
+            else
+            {
+                block.MoveToNormal();
+            }
 
             Block blockBelow = block.GetBlockFromOffset(0, 1);
             if (block.willFall

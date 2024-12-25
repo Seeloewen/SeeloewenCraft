@@ -1076,6 +1076,7 @@ namespace SeeloewenCraft
             drops.Add(("sc:dirt_item", 1, 1));
             tags.Add("ground/plant");
             tags.Add("ground/farmland");
+            canBeMovedToBackground = false;
         }
     }
 
