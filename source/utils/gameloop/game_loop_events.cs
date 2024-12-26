@@ -242,8 +242,11 @@ namespace SeeloewenCraft
             //Checks 4 blocks to the left and right on the same y level whether they are a water block
             for (int i = 1; i < 5; i++)
             {
-                if (block.chunk.GetBlock(block.xPos + i, block.yPos).tags.Contains("liquids/water") //Blocks to the right
-                    || block.chunk.GetBlock(block.xPos - i, block.yPos).tags.Contains("liquids/water")) //Blocks to the left
+                Block blockRight = block.chunk.GetBlock(block.xPos + i, block.yPos);
+                Block blockLeft = block.chunk.GetBlock(block.xPos - i, block.yPos);
+
+                if (blockRight != null && blockRight.tags.Contains("liquids/water") //Blocks to the right
+                    || blockLeft != null && blockLeft.tags.Contains("liquids/water")) //Blocks to the left
                 {
                     return true;
                 }

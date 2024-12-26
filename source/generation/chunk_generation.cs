@@ -85,12 +85,13 @@ namespace SeeloewenCraft
 
         private void GenerateStructues()
         {
-            if (index != 0)
+            if (index != 0) //Honestly no idea why I excluded chunk 0 - but don't fix something that's working, right?
             {
                 //Generate structures
                 if (biome != Biome.Desert) GenerateLakes();
                 if (biome != Biome.Desert) GenerateTrees();
                 if (biome == Biome.Desert) GenerateCacti();
+                if (biome == Biome.SpruceForest) GenerateCottonFields();
                 if (biome == Biome.Desert) GeneratePyramids();
                 GenerateOres();
                 GenerateCaves();
@@ -139,6 +140,22 @@ namespace SeeloewenCraft
             }
 
             return (x, y);
+        }
+
+        private void GenerateCottonFields()
+        {
+            ContinueStructureGeneration("Cotton Field");
+
+            //Generate up to 1 Cotton field
+            if (seededRnd.Next(0, 12) == 0)
+            {
+                (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
+
+                if (y != 0)
+                {
+                    structureList.Add(new CottonFieldStructure(x, y + 1, index, true, this, false));
+                }
+            }
         }
 
         private void GeneratePyramids()

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace SeeloewenCraft
 {
@@ -84,6 +85,86 @@ namespace SeeloewenCraft
             AddBlock(new BoneBlock(false), 4, 0);
             AddBlock(new BoneBlock(false), 4, 1);
             AddBlock(new BoneBlock(false), 4, 2);
+
+            //Begin generation
+            BeginGeneration(x, y, index, isNew);
+        }
+    }
+
+    public class CottonFieldStructure : Structure
+    {
+        public CottonFieldStructure(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
+        {
+            id = "sc:cotton_field_structure";
+            name = "Cotton Field";
+            canReplaceSolidBlocks = true;
+
+            int appends = structRnd.Next(2, 6);
+
+            //Starter pillar
+            AddBlock(new SpruceLogBlock(false), 0, -1);
+            AddBlock(new SpruceLogBlock(false), 0, 0);
+            AddBlock(new SpruceLogBlock(true), 0, 1);
+            AddBlock(new SpruceLogBlock(true), 0, 2);
+            AddBlock(new LanternBlock(true), 0, 3);
+
+            //Starter pillar
+            AddBlock(new SpruceLogBlock(false), 0, 0);
+            AddBlock(new SpruceLogBlock(false), 0, 1);
+            AddBlock(new SpruceLogBlock(true), 0, 2);
+            AddBlock(new SpruceLogBlock(true), 0, 3);
+            AddBlock(new LanternBlock(true), 0, 4);
+
+            //First field
+            for (int i = 0; i < 3; i++)
+            {
+                AddBlock(new SpruceLogBlock(false), i + 1, 0);
+                AddBlock(new FarmlandBlock(false), i + 1, 1);
+                AddBlock(new CottonCropBlock(false), i + 1, 2);
+                AddBlock(new AirBlock(false), i + 1, 3);
+                AddBlock(new AirBlock(false), i + 1, 4);
+            }
+
+            //Appends 
+            int offset = 4;
+            for (int i = 0; i < appends; i++)
+            {
+                //Field seperator
+                AddBlock(new SpruceLogBlock(false), offset, 0);
+                AddBlock(new SpruceLogBlock(false), offset + 1, 0);
+                AddBlock(new SpruceLogBlock(false), offset + 2, 0);
+                AddBlock(new SpruceLogBlock(false), offset, 1);
+                AddBlock(new SpruceLogBlock(true), offset, 2);
+                AddBlock(new SpruceLogBlock(true), offset, 3);
+                AddBlock(new LanternBlock(true), offset, 4);
+                AddBlock(new WaterBlock_6(false), offset + 1, 1);
+                AddBlock(new SprucePlanksBlock_SlabBottom(false), offset + 1, 2);
+                AddBlock(new AirBlock(false), offset + 1, 3);
+                AddBlock(new AirBlock(false), offset + 1, 4);
+                AddBlock(new SpruceLogBlock(false), offset + 2, 1);
+                AddBlock(new SpruceLogBlock(true), offset + 2, 2);
+                AddBlock(new SpruceLogBlock(true), offset + 2, 3);
+                AddBlock(new LanternBlock(true), offset + 2, 4);
+
+                //Field
+                for (int j = 0; j < 4; j++)
+                {
+                    AddBlock(new SpruceLogBlock(false), j + offset + 3, 0);
+                    AddBlock(new FarmlandBlock(false), j + offset + 3, 1);
+                    AddBlock(new CottonCropBlock(false), j + offset + 3, 2);
+                    AddBlock(new AirBlock(false), j + offset + 3, 3);
+                    AddBlock(new AirBlock(false), j + offset + 3, 4);
+                }
+
+                offset += 7;
+            }
+
+            //End pillar
+            AddBlock(new SpruceLogBlock(false), offset - 1, 0);
+            AddBlock(new SpruceLogBlock(false), offset - 1, 1);
+            AddBlock(new SpruceLogBlock(true), offset - 1, 2);
+            AddBlock(new SpruceLogBlock(true), offset - 1, 3);
+            AddBlock(new LanternBlock(true), offset - 1, 4);
 
             //Begin generation
             BeginGeneration(x, y, index, isNew);

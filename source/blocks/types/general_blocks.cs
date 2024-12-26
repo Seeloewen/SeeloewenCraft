@@ -1103,7 +1103,6 @@ namespace SeeloewenCraft
             Init("Lantern", "sc:lantern_block", 500, "sc:lantern_item", Tool.Pickaxe, Images.Lantern);
             isLightSource = true;
             isSolid = false;
-            canBeMovedToBackground = false;
         }
     }
 }
