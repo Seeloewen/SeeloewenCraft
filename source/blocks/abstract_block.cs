@@ -755,6 +755,16 @@ namespace SeeloewenCraft
             return chunk.GetBlock(xPos, yPos - 1);
         }
 
+        public Block GetBlockRight()
+        {
+            return chunk.GetBlock(xPos + 1, yPos);
+        }
+
+        public Block GetBlockLeft()
+        {
+            return chunk.GetBlock(xPos - 1, yPos);
+        }
+
         public void SetForegroundBlock(Block block)
         {
             if (block == null)
