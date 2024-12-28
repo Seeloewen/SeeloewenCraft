@@ -11,10 +11,11 @@ using System.Runtime.CompilerServices;
 using SeeloewenCraft.gl_rendering;
 using OpenTK.Graphics.OpenGL;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SeeloewenCraft
 {
-    public abstract partial class Block
+    public abstract partial class Block : IDebugMenuTargetable
     {
         //references
         private HighPrecisionTimer.MultimediaTimer tmrBreak = new HighPrecisionTimer.MultimediaTimer();
@@ -93,12 +94,12 @@ namespace SeeloewenCraft
 
         public BlockRenderInfo GetBlockRenderInfo()
         {
-            if(this is FurnaceBlock)
+            if (this is FurnaceBlock)
             {
                 Debug.Assert(false);
             }
             var info = new BlockRenderInfo(xPos + chunk.index * 8, yPos, id, state, isBackground);
-            if(foregroundBlock != null) info.AddForegroundBlock(foregroundBlock.id, foregroundBlock.state);
+            if (foregroundBlock != null) info.AddForegroundBlock(foregroundBlock.id, foregroundBlock.state);
             return info;
         }
 
@@ -546,7 +547,7 @@ namespace SeeloewenCraft
         {
             image = sImage.GetTexture();
 
-            if(blockContainer != null)
+            if (blockContainer != null)
             {
                 blockContainer.UpdateTexture();
             }
@@ -557,10 +558,59 @@ namespace SeeloewenCraft
             return;
         }
 
-        public virtual void ShowAdditionalDebugInfo()
+        #region Debug menu implementation
+
+
+
+        public virtual void AddDebugMenu()
         {
-            return;
+            //Show the debug information for the block in debug menu
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, "id", $"{id}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, "name", $"{name}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, "x", $"{xPos + chunk.index * 8}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, "y", $"{yPos}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, "x;chunk", $"{xPos};{chunk.index}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, "isSolid");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, "isBackground");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"lightLevel");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"isLightSource", $"{isLightSource}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"rangeToNearestLightSource");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"hasRightClickAction", $"{hasRightClickAction}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"hasInventory", $"{hasInventory}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"isBase", $"{isBase}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"isSurface", $"{isSurface}");
+            if (foregroundBlock != null)
+            {
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"foregroundBlock", $"{foregroundBlock.id}");
+            }
+            if (GetBaseBlock() != null)
+            {
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"baseBlock", $"{GetBaseBlock().id} [{xPos + baseBlock.xOffset}|y{yPos + baseBlock.yOffset}]");
+            }
+
+            if (tags.Count > 0)
+            {
+                string s = tags.Count != 0 ? tags[0] : "";
+                for(int i = 1; i < tags.Count; i++)
+                {
+                    s += "; " + tags[i];
+                }
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, "Tags", s);
+                
+            }
         }
+
+
+        public virtual void UpdateDebugMenu()
+        {
+            DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, "isSolid", $"{isSolid} ");
+            DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, "isBackground", $"{isBackground} ");
+            DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, "lightLevel", $"{lightLevel} ");
+            DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, "rangeToNearestLightSource", $"{rangeToNearestLightSource} ");
+        }
+
+
+        #endregion
 
         public List<Block> GetBlocksInRange(int range)
         {
@@ -649,7 +699,7 @@ namespace SeeloewenCraft
 
         private void SpawnItem(Item item)
         {
-            if(item != null)
+            if (item != null)
             {
                 //Spawn the item entity in the world
                 Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
@@ -900,56 +950,6 @@ namespace SeeloewenCraft
             }
         }
 
-        public void DisplayDebugInformation()
-        {
-            //Show the debug information for the block in debug menu
-            if (Game.world.debugMenu.isEnabled)
-            {
-                Game.world.debugMenu.tblBlockStats.Text = "";
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, "Selected Block:");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"id={id}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"name={name}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"xPos={xPos}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"yPos={yPos}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"chunk={chunk.index}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"isSolid={isSolid}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"isBackground={isBackground}");
-                if (foregroundBlock != null)
-                {
-                    Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"foregroundBlock={foregroundBlock.id}");
-                }
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"lightLevel={lightLevel}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"isLightSource={isLightSource}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"rangeToNearestLightSource={rangeToNearestLightSource}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"hasRightClickAction={hasRightClickAction}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"hasInventory={hasInventory}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"isBase={isBase}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"isSurface={isSurface}");
-                if (GetBaseBlock() != null)
-                {
-                    Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"baseBlock={GetBaseBlock().id} at x{xPos + baseBlock.xOffset} y{yPos + baseBlock.yOffset}");
-                }
-
-                //Try to show the additional debug information
-                try
-                {
-                    ShowAdditionalDebugInfo();
-                }
-                catch (NotImplementedException)
-                {
-                    //No additional debug info to show
-                }
-
-                if (tags.Count > 0)
-                {
-                    Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, "Tags:");
-                    foreach (string tag in tags)
-                    {
-                        Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, tag);
-                    }
-                }
-            }
-        }
 
         public void RegisterTool(Tool tool)
         {
@@ -1021,8 +1021,6 @@ namespace SeeloewenCraft
         //-- Event Handlers --//
         public void HandleMouseEnter()
         {
-            //Display the debug information of the block
-            DisplayDebugInformation();
 
             //Checks if the block is in range and breakable
             if (IsInRange() == true)

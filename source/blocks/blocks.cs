@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.entity;
+using SeeloewenCraft.gl_rendering;
 
 /* 
  * General overview of block break times:
@@ -238,16 +239,16 @@ namespace SeeloewenCraft
             }
         }
 
-        public override void ShowAdditionalDebugInfo()
+        public override void AddDebugMenu()
         {
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"recipeClaimable={craftingHandler.recipeClaimable}");
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"recipeRunning={craftingHandler.recipeRunning}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeClaimable={craftingHandler.recipeClaimable}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeRunning={craftingHandler.recipeRunning}");
 
             if (craftingHandler.recipeRunning)
             {
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"selectedRecipe={craftingHandler.selectedRecipe}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"recipeProgress={craftingHandler.recipeProgress}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"amount={craftingHandler.amount}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"selectedRecipe={craftingHandler.selectedRecipe}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeProgress={craftingHandler.recipeProgress}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"amount={craftingHandler.amount}");
             }
         }
     }
@@ -272,16 +273,16 @@ namespace SeeloewenCraft
             }
         }
 
-        public override void ShowAdditionalDebugInfo()
+        public override void AddDebugMenu()
         {
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"recipeClaimable={craftingHandler.recipeClaimable}");
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"recipeRunning={craftingHandler.recipeRunning}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeClaimable={craftingHandler.recipeClaimable}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeRunning={craftingHandler.recipeRunning}");
 
             if (craftingHandler.recipeRunning)
             {
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"selectedRecipe={craftingHandler.selectedRecipe}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"recipeProgress={craftingHandler.recipeProgress}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"amount={craftingHandler.amount}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"selectedRecipe={craftingHandler.selectedRecipe}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeProgress={craftingHandler.recipeProgress}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"amount={craftingHandler.amount}");
             }
         }
     }
@@ -612,16 +613,16 @@ namespace SeeloewenCraft
             }
         }
 
-        public override void ShowAdditionalDebugInfo()
+        public override void AddDebugMenu()
         {
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"recipeClaimable={craftingHandler.recipeClaimable}");
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"recipeRunning={craftingHandler.recipeRunning}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeClaimable={craftingHandler.recipeClaimable}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeRunning={craftingHandler.recipeRunning}");
 
             if (craftingHandler.recipeRunning)
             {
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"selectedRecipe={craftingHandler.selectedRecipe}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"recipeProgress={craftingHandler.recipeProgress}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"amount={craftingHandler.amount}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"selectedRecipe={craftingHandler.selectedRecipe}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeProgress={craftingHandler.recipeProgress}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"amount={craftingHandler.amount}");
             }
         }
     }
@@ -725,16 +726,16 @@ namespace SeeloewenCraft
             }
         }
 
-        public override void ShowAdditionalDebugInfo()
+        public override void AddDebugMenu()
         {
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"recipeClaimable={craftingHandler.recipeClaimable}");
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"recipeRunning={craftingHandler.recipeRunning}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeClaimable={craftingHandler.recipeClaimable}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeRunning={craftingHandler.recipeRunning}");
 
             if (craftingHandler.recipeRunning)
             {
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"selectedRecipe={craftingHandler.selectedRecipe}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"recipeProgress={craftingHandler.recipeProgress}");
-                Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"amount={craftingHandler.amount}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"selectedRecipe={craftingHandler.selectedRecipe}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeProgress={craftingHandler.recipeProgress}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"amount={craftingHandler.amount}");
             }
         }
     }

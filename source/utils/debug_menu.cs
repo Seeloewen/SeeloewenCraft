@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace SeeloewenCraft
 {
-    public class DebugMenu
+    public class DebugMenu_old
     {
         
         public Canvas cvsDebugMenu = new Canvas() { Height = 630, Width = 1250 };
@@ -17,7 +17,7 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public DebugMenu()
+        public DebugMenu_old()
         {
             
 

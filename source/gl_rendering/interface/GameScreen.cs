@@ -57,6 +57,8 @@ namespace SeeloewenCraft.gl_rendering
                 }
                 blockX = newBlockX;
                 blockY = newBlockY;
+                DebugMenu.NewTargeted(block);
+                
             }
 
             bool newPressedLeft = InputHandler.pressedLeft;

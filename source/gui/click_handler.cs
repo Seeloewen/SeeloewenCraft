@@ -100,7 +100,7 @@
                     }
                 }
 
-                block.chunk.GetBlock(block.xPos, block.yPos).DisplayDebugInformation();
+                block.chunk.GetBlock(block.xPos, block.yPos).AddDebugMenu();
             }
         }
 
@@ -156,7 +156,7 @@
             }
 
 
-            block.chunk.GetBlock(oldXPos, oldYPos).DisplayDebugInformation();
+            block.chunk.GetBlock(oldXPos, oldYPos).AddDebugMenu();
         }
 
         private void BreakConstruct(Block baseBlock)

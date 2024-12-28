@@ -101,7 +101,7 @@ namespace SeeloewenCraft
             throw new NotImplementedException();
         }
 
-        public override void ShowAdditionalDebugInfo()
+        public override void AddDebugMenu()
         {
             throw new NotImplementedException();
         }

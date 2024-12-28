@@ -13,7 +13,7 @@ namespace SeeloewenCraft.gl_rendering
 
         
 
-        internal Texture(Bitmap bitmap) {
+        internal Texture(Bitmap bitmap, bool antiAlias) {
 
 
             int width = bitmap.Width;
@@ -39,10 +39,11 @@ namespace SeeloewenCraft.gl_rendering
 
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, id);
+
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, antiAlias ? (int) TextureMinFilter.Linear : (int)TextureMinFilter.Nearest);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, antiAlias ? (int)TextureMagFilter.Linear : (int)TextureMagFilter.Nearest);
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba8, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
         }

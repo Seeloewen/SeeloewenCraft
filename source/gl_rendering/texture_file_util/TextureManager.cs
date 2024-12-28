@@ -8,6 +8,10 @@ namespace SeeloewenCraft.gl_rendering
 
         string texturePackPath = $"{GetFolderPath(SpecialFolder.ApplicationData)}\\SeeloewenCraft\\assets";
 
+        public string fontPath = $"{GetFolderPath(SpecialFolder.ApplicationData)}\\SeeloewenCraft\\assets\\font\\block font - final3.png";
+        public Dictionary<char, (int x, int y, int w)> charMappings = new Dictionary<char, (int x, int y, int w)>();
+        public List<char> mappedChars = new List<char>();
+
         Dictionary<string, string> blockMappings = new Dictionary<string, string>();
         public List<string> blockTextures = new List<string>();
 
@@ -46,6 +50,21 @@ namespace SeeloewenCraft.gl_rendering
             playerMappings.Add("arm_left", token.GetString("/skin/arm_left"));
             playerMappings.Add("leg_left", token.GetString("/skin/leg_left"));
             playerMappings.Add("leg_right", token.GetString("/skin/leg_right"));
+
+
+
+            token = JsonUtil.ReadFile($"{GetFolderPath(SpecialFolder.ApplicationData)}\\SeeloewenCraft\\assets\\font\\font-map.json");
+            for (int i = 0; i < token.GetToken("/characters").GetArrayLength(); i++)
+            {
+                JsonToken mappingToken = token.GetToken($"/characters/{i}");
+                char c = char.Parse(mappingToken.GetString("/character"));
+                int x = mappingToken.GetInt("/offsetX");
+                int y = mappingToken.GetInt("/offsetY");
+                int w = mappingToken.GetInt("/width");
+                charMappings.Add(c, (x, y, w));
+                mappedChars.Add(c);
+            }
+
 
         }
 

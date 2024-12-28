@@ -29,7 +29,7 @@ namespace SeeloewenCraft
         public Player player { get => entityManager.player; }
         public WaterHandler waterHandler;
         public ClickHandler clickHandler;
-        public DebugMenu debugMenu;
+        public DebugMenu_old debugMenu;
         public GameLoop gameLoop;
         public RecipeCreator recipeCreator;
         public WorldRenderer worldRenderer;
@@ -81,7 +81,7 @@ namespace SeeloewenCraft
             wndGame = new wndGame();
             waterHandler = new WaterHandler();
             clickHandler = new ClickHandler();
-            debugMenu = new DebugMenu();
+            debugMenu = new DebugMenu_old();
             gameLoop = new GameLoop(25);
             recipeCreator = new RecipeCreator();
             worldRenderer = new WorldRenderer();
@@ -634,6 +634,11 @@ namespace SeeloewenCraft
             debugMenu.AddLine(debugMenu.tblGameStats, $"worldVersion: {worldVersion}");
             debugMenu.AddLine(debugMenu.tblGameStats, $"seed: {seed}");
             debugMenu.AddLine(debugMenu.tblGameStats, $"fps: 0");
+            gl_rendering.DebugMenu.AddLine(gl_rendering.DebugMenu.Section.WORLD, "Version", $"{Game.GAME_VERSION} ({Game.VERSION_DATE})");
+            gl_rendering.DebugMenu.AddLine(gl_rendering.DebugMenu.Section.WORLD, "worldName", $"{worldName}");
+            gl_rendering.DebugMenu.AddLine(gl_rendering.DebugMenu.Section.WORLD, "worldVersion", $"{worldVersion}");
+            gl_rendering.DebugMenu.AddLine(gl_rendering.DebugMenu.Section.WORLD, "seed", $"{seed}");
+            gl_rendering.DebugMenu.AddLine(gl_rendering.DebugMenu.Section.WORLD, "fps");
 
         }
 

@@ -9,9 +9,10 @@ namespace SeeloewenCraft.gl_rendering
 
         WorldRenderer worldRenderer;
         //ItemEntityRenderer itemEntityRenderer;
-        //PlayerRenderer playerRenderer;
+        PlayerRenderer playerRenderer;
         PrimitiveRenderer primitiveRenderer;
         EntityRenderer entityRenderer;
+        TextRenderer textRenderer;
         public Screen screen;
 
         public GameCamera cam;
@@ -22,9 +23,10 @@ namespace SeeloewenCraft.gl_rendering
 
             worldRenderer = new WorldRenderer(textureManager);
             //itemEntityRenderer = new ItemEntityRenderer(textureManager);
-            //playerRenderer = new PlayerRenderer(textureManager);
+            playerRenderer = new PlayerRenderer(textureManager);
             primitiveRenderer = new PrimitiveRenderer();
             entityRenderer = new EntityRenderer(textureManager);
+            textRenderer = new TextRenderer(textureManager);
 
             cam = new GameCamera();
 
@@ -40,12 +42,26 @@ namespace SeeloewenCraft.gl_rendering
 
             entityRenderer.Render(cam);
 
-            //playerRenderer.Render(Game.world.player.playerRenderInfo, cam);
+            playerRenderer.Render(Game.world.player.playerRenderInfo, cam);
 
             //InventoryRenderer.Render(primitiveRenderer);
             primitiveRenderer.Begin();
+            textRenderer.Begin();
+
+            if(screen.showDebugMenu)
+            {
+                DebugMenu.Render(textRenderer);
+                textRenderer.Draw("DEBUG MENU ENABLED", 200, 200, 5);
+            }
+
             screen.Render(primitiveRenderer);
+
+
+
+
             primitiveRenderer.End();
+            textRenderer.End();
+
 
         }
 

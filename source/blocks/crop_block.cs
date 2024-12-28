@@ -1,4 +1,6 @@
-﻿namespace SeeloewenCraft
+﻿using SeeloewenCraft.gl_rendering;
+
+namespace SeeloewenCraft
 {
     public class CropBlock : Block
     {
@@ -21,10 +23,10 @@
             this.productMax = productMax;
         }
 
-        public override void ShowAdditionalDebugInfo()
+        public override void AddDebugMenu()
         {
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"growthTime={growthTime}");
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"progress={progress}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, "growthTime", $"{growthTime}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"progress");
         }
 
         public virtual void UpdateProgress(int amount)

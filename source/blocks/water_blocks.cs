@@ -1,5 +1,6 @@
 ﻿
 using SeeloewenCraft.entity;
+using SeeloewenCraft.gl_rendering;
 
 namespace SeeloewenCraft
 {
@@ -41,9 +42,9 @@ namespace SeeloewenCraft
             return (true, 0);
         }
 
-        public override void ShowAdditionalDebugInfo()
+        public override void AddDebugMenu()
         {
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblBlockStats, $"waterLevel={waterLevel}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"waterLevel", $"{waterLevel}");
         }
     }
 

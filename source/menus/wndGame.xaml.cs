@@ -33,6 +33,9 @@ using VertexAttribPointerType = OpenTK.Graphics.OpenGL.VertexAttribPointerType;
 using SeeloewenCraft.gl_rendering;
 using BlendingFactor = OpenTK.Graphics.OpenGL.BlendingFactor;
 using System.Windows.Media.Animation;
+using FramebufferTarget = OpenTK.Graphics.OpenGL.FramebufferTarget;
+using FramebufferAttachment = OpenTK.Graphics.OpenGL.FramebufferAttachment;
+using FramebufferAttachmentParameterName = OpenTK.Graphics.OpenGL.FramebufferAttachmentParameterName;
 
 
 namespace SeeloewenCraft
@@ -85,6 +88,12 @@ namespace SeeloewenCraft
             OpenTK.Graphics.OpenGL4.GL.Enable(EnableCap.DebugOutput);
             GL.Enable((OpenTK.Graphics.OpenGL.EnableCap)EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+
+            /*int framebufferWidth, framebufferHeight;
+            GL.GetFramebufferAttachmentParameter(FramebufferTarget.Framebuffer, FramebufferAttachment.Depth, FramebufferAttachmentParameterName.FramebufferAttachmentDepthSize, out framebufferWidth);
+            GL.GetFramebufferAttachmentParameter(FramebufferTarget.Framebuffer, FramebufferAttachment.Depth, FramebufferAttachmentParameterName.FramebufferHeight, out framebufferHeight);
+            */
+
         }
 
         private static DebugProc DebugMessageDelegate = OnDebugMessage;
@@ -265,13 +274,15 @@ namespace SeeloewenCraft
             if (pressedKeys.Contains(Settings.cToggleDebug))
             {
                 //Open debug menu
-                if (world.debugMenu.isEnabled)
+                if(world.renderer.screen.showDebugMenu)
                 {
-                    world.debugMenu.Hide();
+                    world.renderer.screen.showDebugMenu = false;
+                    //world.debugMenu.Hide();
                 }
                 else
                 {
-                    world.debugMenu.Show();
+                    world.renderer.screen.showDebugMenu = true;
+                    //world.debugMenu.Show();
                 }
             }
         }

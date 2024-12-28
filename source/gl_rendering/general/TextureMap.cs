@@ -43,7 +43,7 @@ namespace SeeloewenCraft.gl_rendering
         protected void Finalize()
         {
             finalized = true;
-            texture = new Texture(map);
+            texture = new Texture(map, false);
         }
 
         internal (float s1, float t1, float s2, float t2) GetTexture(string blockID)

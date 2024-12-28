@@ -4,6 +4,7 @@ namespace SeeloewenCraft.gl_rendering
     public class Screen
     {
 
+        public bool showDebugMenu;
 
         GameScreen gameScreen;
 
@@ -27,8 +28,6 @@ namespace SeeloewenCraft.gl_rendering
             {
                 case ScreenMode.GAME:
                     gameScreen.Render(renderer);
-
-
                     break;
             }
         }
