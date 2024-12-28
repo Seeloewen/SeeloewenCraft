@@ -18,6 +18,7 @@ namespace SeeloewenCraft
         public static int customResY = 720;
         public static int autoSaveInterval = 10;
         public static string texturepack;
+        public static string nickname;
 
         //Log types
         public static bool logGeneral = true;
@@ -81,6 +82,9 @@ namespace SeeloewenCraft
 
             writer.WritePropertyName("texturepack");
             writer.WriteValue(texturepack);
+
+            writer.WritePropertyName("nickname");
+            writer.WriteValue(nickname);
 
             writer.WriteEndObject();
 
@@ -148,6 +152,8 @@ namespace SeeloewenCraft
 
         public static void Load(JsonToken fileToken, bool overwriteResolution)
         {
+            nickname = Game.playerId.ToString(); //Default value, will be overwritten if a name is saved
+
             //Get the settings from the JSON file
             try
             {
@@ -170,6 +176,7 @@ namespace SeeloewenCraft
                     customResY = settingsToken.GetInt("/custom_res_y");
                 }
                 autoSaveInterval = settingsToken.GetInt("/auto_save_interval");
+                nickname = settingsToken.GetString("/nickname");
 
                 logGeneral = logTypesToken.GetBool("/general");
                 logWorldGeneration = logTypesToken.GetBool("/world_generation");

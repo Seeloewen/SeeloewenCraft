@@ -12,7 +12,7 @@
     <Grid>
         <TextBox x:Name="tbIp" HorizontalAlignment="Left" Margin="17,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="297" FontSize="16"/>
         <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="17,12,0,0" TextWrapping="Wrap" Text="Connect to server..." VerticalAlignment="Top" FontSize="28" FontWeight="DemiBold" Foreground="White"/>
-        <TextBox x:Name="tbPort" HorizontalAlignment="Left" Margin="325,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118" FontSize="16" Text="5000"/>
+        <TextBox x:Name="tbPort" HorizontalAlignment="Left" Margin="325,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118" FontSize="16" Text="5000" PreviewTextInput="tbPort_PreviewTextInput"/>
         <TextBlock x:Name="tblIpHeader" HorizontalAlignment="Left" Margin="18,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Width="390" Foreground="White"><Run Text="IP Address                          "/><Run Text="  "/><Run Text="     "/><Run Language="de-de" Text=" "/><Run Text="   "/><Run Text="       "/><Run Text=" "/><Run Text=" "/><Run Text="Port"/></TextBlock>
         <Button x:Name="btnConnect" Content="Connect" HorizontalAlignment="Left" Margin="241,132,0,0" VerticalAlignment="Top" Height="32" Width="202" FontSize="20" Click="btnConnect_Click"/>
         <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Left" Margin="18,132,0,0" VerticalAlignment="Top" Height="32" Width="211" FontSize="20" Click="btnClose_Click"/>

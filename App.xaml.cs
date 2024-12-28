@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows;
-using Windows.Devices.Sensors;
 
 namespace SeeloewenCraft
 {
@@ -20,6 +20,8 @@ namespace SeeloewenCraft
 
             //Initialize folders
             FolderUtil.InitializeDirectories();
+
+            Game.playerId = GetPlayerId();
 
             //load mods if enabled
             if (StartOptions.modded)
@@ -67,6 +69,57 @@ namespace SeeloewenCraft
             }
         }
 
+        private int GetPlayerId()
+        {
+            int playerId;
+
+            if(StartOptions.playerId != 0)
+            {
+               playerId = StartOptions.playerId;
+
+                Log.Write($"Used player id from start options: {playerId}", LogType.GENERAL, LogLevel.INFO);
+            }
+            else if (File.Exists(FolderUtil.playerInfoFile))
+            {
+                try
+                {
+                    //Read the ID from the file
+                    JsonToken playerInfoToken = JsonUtil.ReadFile(FolderUtil.playerInfoFile);
+                    playerId = playerInfoToken.GetInt("/player_id");
+
+                    Log.Write($"Read player id from file: {playerId}", LogType.GENERAL, LogLevel.INFO);
+                }
+                catch (Exception ex)
+                {
+                    //If reading from the json fails, delete the file and generate a new id. If the player had a previous ID that he wants back, he will need to
+                    //Contact players he played with as his ID is saved in their worlds to match inventories
+                    Log.Write("Could not get player id from file, generating new one...", LogType.GENERAL, LogLevel.WARNING);
+                    File.Delete(FolderUtil.playerInfoFile);
+                    playerId = GetPlayerId();
+                }
+            }
+            else
+            {
+                //If no ID was specified, get a random integer as the ID
+                //Not a very reliable approach as duplicates can occur, but it's highly unlikely and
+                //doesn't really matter right now
+                playerId = Game.rnd.Next();
+
+                JsonWriter writer = JsonWriter.Create();
+                writer.WriteStartObject();
+                writer.WritePropertyName("_comment");
+                writer.WriteValue("This ID is used to identify you in multiplayer sessions. DO NOT CHANGE IT UNLESS YOU KNOW WHAT YOU ARE DOING.");
+                writer.WritePropertyName("player_id");
+                writer.WriteValue(playerId);
+                writer.WriteEndObject();
+
+                File.WriteAllText(FolderUtil.playerInfoFile, writer.ToString());
+
+                Log.Write($"Generated player id {playerId}", LogType.GENERAL, LogLevel.INFO);
+            }
+
+            return playerId;
+        }
     }
 
     class StartOptions
@@ -77,6 +130,7 @@ namespace SeeloewenCraft
         public static bool startCreative;
         public static bool disableLighting;
         public static int seed = 0;
+        public static int playerId;
 
         public static void Parse(string[] args)
         {
@@ -103,7 +157,11 @@ namespace SeeloewenCraft
                         seed = int.Parse(args[i + 1]);
                         i++;
                         break;
-                    }
+                    case "-ID":
+                        playerId = int.Parse(args[i + 1]);
+                        i++;
+                        break;
+                }
             }
         }
     }

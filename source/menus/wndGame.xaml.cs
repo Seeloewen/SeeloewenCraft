@@ -517,23 +517,36 @@ namespace SeeloewenCraft
 
         private void wndGame1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //If the setting to save worlds on closing is enabled
             if (world.finishedLoading)
             {
                 world.tmrMovement.Stop();
-                if (Settings.saveWorldOnClose)
-                {
-                    world.Save();
-                    world.gameLoop.tmrGameLoop.Stop();
-                }
+                world.gameLoop.tmrGameLoop.Stop();
             }
 
-            //Save the user settings
-            using (JsonWriter writer = JsonWriter.Create())
+            if (Game.IsClient())
             {
-                writer.Formatting = Formatting.Indented;
-                Settings.Save(writer);
-                writer.WriteToFile($"{FolderUtil.gameFolder}\\clientSettings.json");
+                Game.client.SendPlayerInformation();
+                NetworkHandler.SendData(MultiplayerPacketType.DISCONNECT, "");
+                Game.client.Disconnect();
+            }
+            else
+            {
+                //If the setting to save worlds on closing is enabled
+                if (world.finishedLoading)
+                {
+                    if (Settings.saveWorldOnClose)
+                    {
+                        world.Save();
+                    }
+                }
+
+                //Save the user settings
+                using (JsonWriter writer = JsonWriter.Create())
+                {
+                    writer.Formatting = Formatting.Indented;
+                    Settings.Save(writer);
+                    writer.WriteToFile($"{FolderUtil.gameFolder}\\clientSettings.json");
+                }
             }
 
             //Check if the user wants to return to the menu, else close the entire app

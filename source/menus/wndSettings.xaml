@@ -26,6 +26,9 @@
                     <CheckBox x:Name="cbAutoSave" Content="Auto-Save the game every               minutes" RenderTransformOrigin="0.364,0.246" IsChecked="True" FontSize="18" Padding="4,-5,0,0" Canvas.Left="20" Canvas.Top="91" HorizontalAlignment="Center" VerticalAlignment="Top" Click="cbAutoSave_Click"/>
                     <TextBox x:Name="tbAutosave" TextWrapping="Wrap" Width="59" Canvas.Left="257" Canvas.Top="89" HorizontalAlignment="Center" VerticalAlignment="Top" Text="1" FontSize="14" PreviewTextInput="tbAutosave_PreviewTextInput" TextChanged="tbAutosave_TextChanged"/>
                     <CheckBox x:Name="cbAutoSaveNotification" Content="Show notification on Auto-Save" RenderTransformOrigin="0.364,0.246" IsChecked="True" FontSize="18" Padding="4,-5,0,0" Click="cbAutoSave_Click" Canvas.Left="20" Canvas.Top="115" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tblMultiplayer" TextWrapping="Wrap" RenderTransformOrigin="0.285,0.455" FontSize="18" Width="127" Height="27" FontWeight="DemiBold" Canvas.Left="20" Canvas.Top="223" HorizontalAlignment="Center" VerticalAlignment="Top" Text="Multiplayer:&#xD;&#xA;"/>
+                    <TextBlock x:Name="tblNickname" TextWrapping="Wrap" RenderTransformOrigin="0.285,0.455" FontSize="18" Width="127" Height="27" Canvas.Left="20" Canvas.Top="249" Text="Nickname:&#xA;" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBox x:Name="tbNickname" TextWrapping="Wrap" Width="213" Canvas.Left="113" Canvas.Top="252" FontSize="14"  HorizontalAlignment="Center" VerticalAlignment="Top"/>
                 </Canvas>
             </TabItem>
             <TabItem Header="Log">

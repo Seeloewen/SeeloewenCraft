@@ -19,7 +19,6 @@ namespace SeeloewenCraft
         public Block block;
 
         //Variables
-        private static int rndOffset;
         public bool hasHotbar = false;
         private int slotsX;
         private int slotsY;
@@ -226,7 +225,8 @@ namespace SeeloewenCraft
                 //Only check existing slots if it's stackable
                 AddToExistingSlot(id, ref amount, tag);
             }
-            AddToNewSlot(id, ref amount, tag);
+            AddToNewSlot(id, ref amount, tag);           
+
             UpdateHotbar();
 
             //Output the remaining amount of items that couldn't be added
@@ -250,6 +250,12 @@ namespace SeeloewenCraft
             //Go through all inventory slots and check if the slot has the specified id
             foreach (InventorySlot slot in slotList)
             {
+                //If amount is 0, all items have been added and the process is done
+                if (amount == 0)
+                {
+                    break;
+                }
+
                 if (slot.itemId == id)
                 {
                     //Check if the slot has enough space available
@@ -266,12 +272,6 @@ namespace SeeloewenCraft
                     }
 
                 }
-
-                //If amount is 0, all items have been added and the process is done
-                if (amount == 0)
-                {
-                    break;
-                }
             }
         }
 
@@ -280,6 +280,13 @@ namespace SeeloewenCraft
             //Go through all inventory slots and check if the slot is empty
             foreach (InventorySlot slot in slotList)
             {
+                //If amount is 0, all items have been added and the process is done
+                if (amount == 0)
+                {
+                    UpdateHotbar();
+                    break;
+                }
+
                 if (slot.IsEmpty())
                 {
                     //If it's unstackable, only add one
@@ -304,13 +311,6 @@ namespace SeeloewenCraft
                         }
                     }
                 }
-
-                //If amount is 0, all items have been added and the process is done
-                if (amount == 0)
-                {
-                    UpdateHotbar();
-                    break;
-                }
             }
         }
 
@@ -320,6 +320,12 @@ namespace SeeloewenCraft
             //Go through all slots and check if the slot has the specified id
             foreach (InventorySlot slot in slotList)
             {
+                //If the amount is 0, all items have been removed and the process is done
+                if (amount == 0)
+                {
+                    break;
+                }
+
                 if (slot.itemId == id)
                 {
                     //If the amount in the slot is bigger than the amount that should be removed, simply remove it
@@ -335,12 +341,6 @@ namespace SeeloewenCraft
                         amount -= slot.Amount;
                     }
 
-                }
-
-                //If the amount is 0, all items have been removed and the process is done
-                if (amount == 0)
-                {
-                    break;
                 }
             }
 
@@ -502,7 +502,6 @@ namespace SeeloewenCraft
 
         public static Inventory LoadFromJson(JsonToken token, bool isPlayer)
         {
-
             //Get the inventory size
             int slotsX = token.GetInt("/size_x");
             int slotsY = token.GetInt("/size_y");

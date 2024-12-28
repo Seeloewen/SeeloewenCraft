@@ -184,12 +184,14 @@ namespace SeeloewenCraft.entity {
 
         public void SendInitLoadData(int clientID)
         {
-            using (JsonWriter writer = JsonWriter.Create())
+            foreach (Entity entity in entities)
             {
-                Game.world.player.SaveToJson(writer);
-                Game.server.SendDataSingleClient(NetworkHandler.CreatePacket(MultiplayerPacketType.CREATE_ENTITY, writer.ToString()), clientID);
+                using (JsonWriter writer = JsonWriter.Create())
+                {
+                    entity.SaveToJson(writer);
+                    Game.server.SendDataSingleClient(NetworkHandler.CreatePacket(MultiplayerPacketType.CREATE_ENTITY, writer.ToString()), clientID);
+                }
             }
         }
-
     }
 }

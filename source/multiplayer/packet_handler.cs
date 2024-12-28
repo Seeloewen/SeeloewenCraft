@@ -1,5 +1,7 @@
-﻿using SeeloewenCraft.entity;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.entity;
 using System;
+using System.IO;
 using static SeeloewenCraft.Game;
 
 namespace SeeloewenCraft
@@ -95,7 +97,7 @@ namespace SeeloewenCraft
                         movEntity.pressedSprint = Convert.ToBoolean(packet.content[5]);
                     }
 
-                    if(entity is Player player)
+                    if (entity is Player player)
                     {
                         player.UpdateHeadPosition();
 
@@ -124,7 +126,13 @@ namespace SeeloewenCraft
         public async static void HandleCreateEntity(IdTcpClient client, NetworkPacket packet)
         {
             //Add the entity
-            world.AddEntity_Multiplayer(Entity.LoadFromJson(JsonUtil.ReadString(packet.content[0])));
+            Entity newEntity = Entity.LoadFromJson(JsonUtil.ReadString(packet.content[0]));
+            world.AddEntity_Multiplayer(newEntity);
+
+            if (newEntity.id == client.id)
+            {
+                newEntity.tblId.Text = client.nickname;
+            }
 
             //If the server receives the packet, send it to all clients except the one it came from to ensure the entity gets created on all clients
             if (IsServer())
@@ -161,6 +169,11 @@ namespace SeeloewenCraft
 
                 //Send all moving entities to the connecting client
                 world.entityManager.SendInitLoadData(client.id);
+
+                if (File.Exists($"{world.multiplayerDirectory}\\inventory_{client.id}.json"))
+                {
+                   await server.SendDataSingleClient(CreatePacket(MultiplayerPacketType.PLAYER_INFORMATION, File.ReadAllText($"{world.multiplayerDirectory}\\inventory_{client.id}.json")), client.id);
+                }
             }
         }
         public async static void HandleSetBlock(IdTcpClient client, NetworkPacket packet) //Handled by both server and clients
@@ -196,18 +209,28 @@ namespace SeeloewenCraft
             }
         }
 
-        public static async void HandlePingRequest(IdTcpClient client, NetworkPacket packet)
+        public static async void HandleRequest(IdTcpClient client, NetworkPacket packet)
         {
-            DateTime sentDate = DateTime.Parse(packet.content[0]);
-            double ping = (DateTime.Now - sentDate).TotalMilliseconds;
+            if (packet.content[0] == "ping")
+            {
+                DateTime sentDate = DateTime.Parse(packet.content[1]);
+                double ping = (DateTime.Now - sentDate).TotalMilliseconds;
 
-            if (IsServer())
-            {
-                server.SendDataSingleClient(CreatePacket(MultiplayerPacketType.PING_RESPONSE, ping.ToString()), client.id);
+                if (IsServer())
+                {
+                    server.SendDataSingleClient(CreatePacket(MultiplayerPacketType.PING_RESPONSE, ping.ToString()), client.id);
+                }
+                else
+                {
+                    SendData(MultiplayerPacketType.PING_RESPONSE, ping.ToString());
+                }
             }
-            else
+            else if (packet.content[0] == "player_information")
             {
-                SendData(MultiplayerPacketType.PING_RESPONSE, ping.ToString());
+                if (IsClient())
+                {
+                    Game.client.SendPlayerInformation();
+                }
             }
         }
 
@@ -221,6 +244,52 @@ namespace SeeloewenCraft
             {
                 NotificationHandler.ShowNotification($"Your ping to the server is {Math.Round(double.Parse(packet.content[0]))}ms.", 5000, Images.Paper.GetTexture());
                 Log.Write($"Your ping to the server is {Math.Round(double.Parse(packet.content[0]))}ms.", LogType.NETWORK, LogLevel.INFO);
+            }
+        }
+
+        public static async void HandleDisconnect(IdTcpClient client, NetworkPacket packet)
+        {
+            if (IsServer())
+            {
+                server.Disconnect(client, "Disconnected manually");
+            }
+        }
+
+        public static async void HandleConnectionConfirmation(IdTcpClient client, NetworkPacket packet)
+        {
+            if (IsServer())
+            {
+                client.isConnected = true;
+            }
+        }
+
+        public static async void HandlePlayerInformation(IdTcpClient client, NetworkPacket packet)
+        {
+            if (IsClient())
+            {
+                //If client receives the packet, load the inventory
+                JsonToken invToken = JsonUtil.ReadString(packet.content[0]);
+                world.player.inventory = Inventory.LoadFromJson(invToken, true);
+                world.player.inventory.UpdateHotbar();
+                world.inventoryList.Add(world.player.inventory);
+                world.player.inventory.hotbarSlotList[0].Select();
+            }
+            else if (IsServer())
+            {
+                if (!string.IsNullOrEmpty(packet.content[0])) //Player ID
+                {
+                    client.id = int.Parse(packet.content[0]);
+                }
+
+                if (!string.IsNullOrEmpty(packet.content[1])) //Player Name
+                {
+                    client.nickname = packet.content[1];
+                }
+
+                if (!string.IsNullOrEmpty(packet.content[2])) //Player Inventory
+                {
+                    File.WriteAllText($"{world.multiplayerDirectory}\\inventory_{client.id}.json", packet.content[0]);
+                }
             }
         }
     }

@@ -13,14 +13,17 @@ namespace SeeloewenCraft
 
         //Constants
         public const int WORLD_VERSION = 6; //Up to date as of Alpha 1.2.1 (Recent changes: Seeding)
-        public const string GAME_VERSION = "Alpha 1.2.2-dev";
-        public const string VERSION_DATE = "21.10.2024";
+        public const string GAME_VERSION = "Alpha 1.2.2-dev3";
+        public const string VERSION_DATE = "22.12.2024";
         public const int TEXTUREPACK_VERSION = 2;
 
         //Variables
         public static List<string> unstackableItems = new List<string>();
         public static string selectedTexturepack;
         public static Random rnd = new Random(DateTime.Now.Millisecond * DateTime.Now.Microsecond);
+        public static int playerId;
+        public static bool generated;
+
 
         //Methods
         public static bool IsMultiplayer()

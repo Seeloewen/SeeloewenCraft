@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Linq;
-
 using SeeloewenCraft.entity;
 using System.Windows.Documents;
 using SeeloewenCraft.gl_rendering;
@@ -44,6 +43,7 @@ namespace SeeloewenCraft
         public int worldVersion;
         public string gameVersion;
         public string worldDirectory = "";
+        public string multiplayerDirectory = "";
         public int lightRange = 7; //The range that all light sources use
         public int worldSpawnX;
         public int worldSpawnY;
@@ -55,6 +55,7 @@ namespace SeeloewenCraft
         public bool showBlockInfo = false;
         public int nightState = 0;
         public Gamemode gamemode = Gamemode.Survival;
+        public MultiplayerType multiplayerType;
 
         //-- Constructor --//
 
@@ -66,6 +67,7 @@ namespace SeeloewenCraft
             this.gameVersion = gameVersion;
             this.wndMenu = wndMenu;
             this.seed = seed;
+            this.multiplayerType = multiplayerType;
 
             if (seed == 0)
             {
@@ -230,24 +232,32 @@ namespace SeeloewenCraft
 
         public void Save()
         {
-            //Save all chunks and the inventory of the player
-            foreach (Chunk chunk in Game.world.totalChunkList)
+            if(!Game.IsClient())
             {
-                //Stop all running crafting timers
-                foreach (Block block in chunk.blockList.blocks)
+                //Save all chunks and the inventory of the player
+                foreach (Chunk chunk in Game.world.totalChunkList)
                 {
-                    if (block.craftingHandler != null && block.craftingHandler.tmrCrafting.IsRunning)
+                    //Stop all running crafting timers
+                    foreach (Block block in chunk.blockList.blocks)
                     {
-                        block.craftingHandler.tmrCrafting.Stop();
+                        if (block.craftingHandler != null && block.craftingHandler.tmrCrafting.IsRunning)
+                        {
+                            block.craftingHandler.tmrCrafting.Stop();
+                        }
                     }
+
+                    chunk.Save();
                 }
 
-                chunk.Save();
-            }
+                if (Game.IsServer())
+                {
+                    NetworkHandler.SendData(MultiplayerPacketType.REQUEST, "player_information", "");
+                }
 
-            player.SaveInventory(worldDirectory);
-            player.SavePosition(worldDirectory);
-            SaveEntities();
+                player.SaveInventory(worldDirectory);
+                player.SavePosition(worldDirectory);
+                SaveEntities();
+            }
         }
 
         public string? LoadWorldSetting(string settingName)
@@ -437,13 +447,28 @@ namespace SeeloewenCraft
         private void InitWorldDirectory()
         {
             //Check if the world directory exists and create it otherwise
-            if (!Directory.Exists($"{FolderUtil.worldsFolder}\\{worldName}"))
+            if(multiplayerType != MultiplayerType.CLIENT)
             {
-                Directory.CreateDirectory($"{FolderUtil.worldsFolder}\\{worldName}");
-                Log.Write($"Created directory for world {worldName} ({FolderUtil.worldsFolder}\\{worldName})", LogType.GENERAL, LogLevel.INFO);
+                if (!Directory.Exists($"{FolderUtil.worldsFolder}\\{worldName}"))
+                {
+                    Directory.CreateDirectory($"{FolderUtil.worldsFolder}\\{worldName}");
+                    Log.Write($"Created directory for world {worldName} ({FolderUtil.worldsFolder}\\{worldName})", LogType.GENERAL, LogLevel.INFO);
+                }
+                worldDirectory = $"{FolderUtil.worldsFolder}\\{worldName}";
+                Log.Write($"Set directory for world {worldName} to {worldDirectory}", LogType.GENERAL, LogLevel.INFO);
             }
-            worldDirectory = $"{FolderUtil.worldsFolder}\\{worldName}";
-            Log.Write($"Set directory for world {worldName} to {worldDirectory}", LogType.GENERAL, LogLevel.INFO);
+
+            if (multiplayerType == MultiplayerType.SERVER)
+            {
+                //Check if the world's multiplayer directory exists and create it otherwise
+                if (!Directory.Exists($"{worldDirectory}\\multiplayer"))
+                {
+                    Directory.CreateDirectory($"{worldDirectory}\\multiplayer");
+                    Log.Write($"Created multiplayer directory for world {worldName} ({worldDirectory}\\multiplayer)", LogType.NETWORK, LogLevel.INFO);
+                }
+                multiplayerDirectory = $"{worldDirectory}\\multiplayer";
+                Log.Write($"Set multiplayer directory for world {worldName} to {multiplayerDirectory}", LogType.GENERAL, LogLevel.INFO);
+            }
         }
 
         private void InitEntityManager(bool loaded)
@@ -459,17 +484,31 @@ namespace SeeloewenCraft
             {
                 JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_inventory.json");
                 player.inventory = Inventory.LoadFromJson(documentToken, true);
-                inventoryList.Add(player.inventory);
             }
             else
             {
                 player.inventory = new Inventory(9, 4, true);
                 player.inventory.InitHotbar();
+                player.inventory.AddItem("sc:wool_item", 64, "");
+                player.inventory.AddItem("sc:diamond_scythe_item", 1, "durability=10000000");
+                player.inventory.AddItem("sc:seeds_item", 64, "");
+                player.inventory.AddItem("sc:carrot_item", 64, "");
+                player.inventory.AddItem("sc:lantern_item", 64, "");
+                player.inventory.AddItem("sc:pumpkin_item", 64, "");
+                player.inventory.AddItem("sc:tomato_item", 64, "");
+                player.inventory.AddItem("sc:pumpkin_seeds_item", 64, "");
+                player.inventory.AddItem("sc:seehundium_item", 64, "");
+                player.inventory.AddItem("sc:salad_item", 64, "");
+                player.inventory.AddItem("sc:potato_item", 64, "");
+                player.inventory.AddItem("sc:cucumber_item", 64, "");
+                player.inventory.AddItem("sc:bucket_rice_item", 64, "");
+                player.inventory.AddItem("sc:cabbage_item", 64, "");
+                player.inventory.AddItem("sc:cabbage_seeds_item", 64, "");
             }
+
             player.inventory.UpdateHotbar();
             inventoryList.Add(player.inventory);
             player.inventory.hotbarSlotList[0].Select();
-
         }
 
         public bool HasOpenGui(bool ignoreInventory)
@@ -497,6 +536,8 @@ namespace SeeloewenCraft
         public void CreatePlayer(int playerPosX, int playerPosY)
         {
             entityManager.player = new Player(playerPosX, playerPosY);
+            entityManager.player.SetId(Game.playerId);
+            entityManager.player.tblId.SetAlignedText(Settings.nickname);
             AddEntity(player);
 
             Game.world.wndGame.relativeSvPos = Game.world.wndGame.svWorld.VerticalOffset;

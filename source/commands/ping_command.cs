@@ -8,7 +8,7 @@ namespace SeeloewenCraft
         {
             if (Game.IsMultiplayer())
             {
-                NetworkHandler.SendData(MultiplayerPacketType.PING_REQUEST, DateTime.Now.ToString());
+                NetworkHandler.SendData(MultiplayerPacketType.REQUEST, DateTime.Now.ToString());
 
                 if (Game.IsServer())
                 {

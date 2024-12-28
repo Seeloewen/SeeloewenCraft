@@ -1,71 +1,72 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
-		<OutputType>WinExe</OutputType>
-		<LangVersion>latest</LangVersion>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
-		<PublishSingleFile>true</PublishSingleFile>
-		<SelfContained>false</SelfContained>
-		<UseWindowsForms>true</UseWindowsForms>
-		<UseWPF>true</UseWPF>
-		<ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-		
-		<ApplicationManifest>app.manifest</ApplicationManifest>
-		<SupportedOSPlatformVersion>10.0.20348.0</SupportedOSPlatformVersion>
-		<StartupObject>SeeloewenCraft.App</StartupObject>
-		<ApplicationIcon>SeeloewenCraft.ico</ApplicationIcon>
-		<GenerateDocumentationFile>False</GenerateDocumentationFile>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<Optimize>True</Optimize>
-	</PropertyGroup>
-	<ItemGroup>
-		<Resource Include="Resources\**\*.*" />
-		<None Remove="resources\shader\frag.glsl" />
-		<None Remove="Resources\shader\player\frag.glsl" />
-		<None Remove="Resources\shader\player\vert.glsl" />
-		<None Remove="resources\shader\primitive\frag.glsl" />
-		<None Remove="resources\shader\primitive\vert.glsl" />
-		<None Remove="resources\shader\vert.glsl" />
-		<Resource Remove="Resources\Cactus_Left.png" />
-		<Resource Remove="Resources\Cactus_Right.png" />
-		<Resource Remove="Resources\Glass.png" />
-		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-		<PackageReference Include="Microsoft.Json.Pointer" Version="2.3.0" />
-		<PackageReference Include="OpenTK" Version="4.8.2" />
-		<PackageReference Include="OpenTK.GLWpfControl" Version="4.3.2" />
-		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
-		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
-	</ItemGroup>
-	<ItemGroup>
-		<Content Include="SeeloewenCraft.ico" />
-	</ItemGroup>
-	<ItemGroup>
-		<Compile Update="Properties\Resources.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Resources.resx</DependentUpon>
-		</Compile>
-		<Compile Update="Properties\Settings.Designer.cs">
-			<DesignTimeSharedInput>True</DesignTimeSharedInput>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Settings.settings</DependentUpon>
-		</Compile>
-	</ItemGroup>
-	<ItemGroup>
-		<EmbeddedResource Update="Properties\Resources.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-	</ItemGroup>
-	<ItemGroup>
-		<None Update="Properties\Settings.settings">
-			<Generator>SettingsSingleFileGenerator</Generator>
-			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
-		</None>
-	  <Folder Include="Resources\shader\primitive\" />
-	</ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <LangVersion>latest</LangVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>false</SelfContained>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <SupportedOSPlatformVersion>10.0.20348.0</SupportedOSPlatformVersion>
+    <StartupObject>SeeloewenCraft.App</StartupObject>
+    <ApplicationIcon>SeeloewenCraft.ico</ApplicationIcon>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+  <ItemGroup>
+    <Resource Include="Resources\**\*.*" />
+    <Resource Remove="Resources\Cactus_Left.png" />
+    <Resource Remove="Resources\Cactus_Right.png" />
+    <Resource Remove="Resources\Glass.png" />
+	<None Remove="resources\shader\frag.glsl" />
+	<None Remove="Resources\shader\player\frag.glsl" />
+	<None Remove="Resources\shader\player\vert.glsl" />
+	<None Remove="resources\shader\primitive\frag.glsl" />
+	<None Remove="resources\shader\primitive\vert.glsl" />
+	<None Remove="resources\shader\vert.glsl" />
+	<PackageReference Include="OpenTK" Version="4.8.2" />
+	<PackageReference Include="OpenTK.GLWpfControl" Version="4.3.2" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+	<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Json.Pointer" Version="2.3.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Collections.Immutable" Version="9.0.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SeeloewenCraft.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Folder Include="Resources\shader\primitive\" />
+  </ItemGroup>
 </Project>

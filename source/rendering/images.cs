@@ -417,9 +417,44 @@ namespace SeeloewenCraft
             Cotton_Stage2 = new SealImage(TextureType.States_Block, "Cotton_Stage_2.png");
             SugarCane = new SealImage(TextureType.Block, "Sugar_Cane.png");
             SugarCaneItem = new SealImage(TextureType.Item, "Sugar_Cane_Item.png");
+            Pumpkin = new SealImage(TextureType.Block, "Pumpkin.png");
+            Lantern = new SealImage(TextureType.Block, "Lantern.png");
+            Wool = new SealImage(TextureType.Block, "Wool.png");
+            Tomato = new SealImage(TextureType.Item, "Tomato.png");
+            PumpkinSeeds = new SealImage(TextureType.Item, "Pumpkin_Seeds.png");
+            Seehundium = new SealImage(TextureType.Item, "Seehundium.png");
+            Salad = new SealImage(TextureType.Item, "Salad.png");
+            Potato = new SealImage(TextureType.Item, "Potato.png");
+            Cucumber = new SealImage(TextureType.Item, "Cucumber.png");
+            BucketRice = new SealImage(TextureType.Item, "Bucket_Rice.png");
+            Cabbage = new SealImage(TextureType.Item, "Cabbage.png");
+            CabbageSeeds = new SealImage(TextureType.Item, "Cabbage_Seeds.png");
+            Rice_Base = new SealImage(TextureType.Connected_Block, "Rice_Base.png");
+            Rice_Top_Stage1 = new SealImage(TextureType.Connected_Block, "Rice_Top_Stage_1.png");
+            Rice_Top_Stage2 = new SealImage(TextureType.Connected_Block, "Rice_Top_Stage_2.png");
+            Rice_Top_Stage3 = new SealImage(TextureType.Connected_Block, "Rice_Top_Stage_3.png");
+            Rice_Top_Stage4 = new SealImage(TextureType.Connected_Block, "Rice_Top_Stage_4.png");
+            Cabbage_Stage1 = new SealImage(TextureType.States_Block, "Cabbage_Stage_1.png");
+            Cabbage_Stage2 = new SealImage(TextureType.States_Block, "Cabbage_Stage_2.png");
+            Cabbage_Stage3 = new SealImage(TextureType.States_Block, "Cabbage_Stage_3.png");
+            Cabbage_Stage4 = new SealImage(TextureType.States_Block, "Cabbage_Stage_4.png");
+            Potato_Stage1 = new SealImage(TextureType.States_Block, "Potato_Stage_1.png");
+            Potato_Stage2 = new SealImage(TextureType.States_Block, "Potato_Stage_2.png");
+            Potato_Stage3 = new SealImage(TextureType.States_Block, "Potato_Stage_3.png");
+            Potato_Stage4 = new SealImage(TextureType.States_Block, "Potato_Stage_4.png");
+            Pumpkin_Stage1 = new SealImage(TextureType.States_Block, "Pumpkin_Stage_1.png");
+            Pumpkin_Stage2 = new SealImage(TextureType.States_Block, "Pumpkin_Stage_2.png");
+            Pumpkin_Stage3 = new SealImage(TextureType.States_Block, "Pumpkin_Stage_3.png");
+            Pumpkin_Stage4 = new SealImage(TextureType.States_Block, "Pumpkin_Stage_4.png");
+            Tomato_Stage1 = new SealImage(TextureType.States_Block, "Tomato_Stage_1.png");
+            Tomato_Stage2 = new SealImage(TextureType.States_Block, "Tomato_Stage_2.png");
+            Cucumber_Stage1 = new SealImage(TextureType.States_Block, "Cucumber_Stage_1.png");
+            Cucumber_Stage2 = new SealImage(TextureType.States_Block, "Cucumber_Stage_2.png");
         }
 
         //-- Images --//
+
+        #region SealImage Declarations
 
         public static SealImage Background;
         public static SealImage GrassBlock;
@@ -674,6 +709,41 @@ namespace SeeloewenCraft
         public static SealImage Cotton_Stage2;
         public static SealImage SugarCane;
         public static SealImage SugarCaneItem;
+        public static SealImage Pumpkin;
+        public static SealImage Wool;
+        public static SealImage Tomato;
+        public static SealImage PumpkinSeeds;
+        public static SealImage Seehundium;
+        public static SealImage Salad;
+        public static SealImage Potato;
+        public static SealImage Cucumber;
+        public static SealImage BucketRice;
+        public static SealImage Cabbage;
+        public static SealImage CabbageSeeds;
+        public static SealImage Rice_Base;
+        public static SealImage Rice_Top_Stage1;
+        public static SealImage Rice_Top_Stage2;
+        public static SealImage Rice_Top_Stage3;
+        public static SealImage Rice_Top_Stage4;
+        public static SealImage Cabbage_Stage1;
+        public static SealImage Cabbage_Stage2;
+        public static SealImage Cabbage_Stage3;
+        public static SealImage Cabbage_Stage4;
+        public static SealImage Potato_Stage1;
+        public static SealImage Potato_Stage2;
+        public static SealImage Potato_Stage3;
+        public static SealImage Potato_Stage4;
+        public static SealImage Pumpkin_Stage1;
+        public static SealImage Pumpkin_Stage2;
+        public static SealImage Pumpkin_Stage3;
+        public static SealImage Pumpkin_Stage4;
+        public static SealImage Tomato_Stage1;
+        public static SealImage Tomato_Stage2;
+        public static SealImage Cucumber_Stage1;
+        public static SealImage Cucumber_Stage2;
+        public static SealImage Lantern;
+
+        #endregion
     }
 
     public class SealImage

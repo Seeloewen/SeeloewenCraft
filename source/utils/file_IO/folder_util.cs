@@ -11,9 +11,10 @@ namespace SeeloewenCraft
         public static string logsFolder;
         public static string texturepacksFolder;
         public static string? modFolder;
+        public static string playerInfoFile;
 
         public static void InitializeDirectories()
-        { 
+        {
             appData = GetFolderPath(SpecialFolder.ApplicationData);
 
             //Check if the game directory exists and create it otherwise
@@ -51,6 +52,8 @@ namespace SeeloewenCraft
             }
             texturepacksFolder = $"{gameFolder}\\texturepacks";
             Log.Write($"Set texturepack directory to {texturepacksFolder}", LogType.GENERAL, LogLevel.INFO);
+
+            playerInfoFile = $"{gameFolder}\\playerInfo.json";
         }
     }
 

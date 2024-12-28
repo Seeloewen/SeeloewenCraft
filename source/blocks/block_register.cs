@@ -293,6 +293,26 @@
                     return new BerryBushCropBlock(false);
                 case "sc:sugar_cane_block":
                     return new SugarCaneBlock(false);
+                case "sc:pumpkin_block":
+                    return new PumpkinBlock(false);
+                case "sc:wool_block":
+                    return new WoolBlock(false);
+                case "sc:lantern_block":
+                    return new LanternBlock(false);
+                case "sc:rice_base":
+                    return new Rice_Base(false);
+                case "sc:rice_top":
+                    return new Rice_Top(false);
+                case "sc:cabbage_crop_block":
+                    return new CabbageCropBlock(false);
+                case "sc:potato_crop_block":
+                    return new PotatoCropBlock(false);
+                case "sc:pumpkin_crop_block":
+                    return new PumpkinCropBlock(false);
+                case "sc:tomato_crop_block":
+                    return new TomatoCropBlock(false);
+                case "sc:cucumber_crop_block":
+                    return new CucumberCropBlock(false);
                 default:
                     return null;
 

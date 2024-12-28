@@ -1,9 +1,59 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Windows.Markup.Localizer;
 using System.Windows.Media;
 using SeeloewenCraft.entity;
 
 namespace SeeloewenCraft
 {
+
+    public class SendConnectionStateEvent : GameLoopEvent
+    {
+        public SendConnectionStateEvent(GameLoop gameLoop) : base(gameLoop)
+        {
+            maxTick = 10000;
+        }
+
+        public override void DoEvent()
+        {
+            //Sends a packet to the server that confirms that the connection is still standing
+            if (Game.IsClient())
+            {
+                NetworkHandler.SendData(MultiplayerPacketType.CONNECTION_CONFIRMATION, "");
+            }
+        }
+    }
+
+    public class ClientConnectedCheckEvent : GameLoopEvent
+    {
+        public ClientConnectedCheckEvent(GameLoop gameLoop) : base(gameLoop)
+        {
+            maxTick = 20000;
+        }
+
+        public override void DoEvent()
+        {
+            //Checks for each client if it is listed as connected. If not, disconnect it properly
+            if (Game.IsServer())
+            {
+                for (int i = 0; i < Game.server.clients.Count; i++)
+                {
+                    IdTcpClient client = Game.server.clients[i];
+
+                    if (!client.isConnected)
+                    {
+                        Game.server.Disconnect(client, "Timed out");
+                    }
+                    else
+                    {
+                        client.isConnected = false;
+                    }
+                }
+            }
+        }
+    }
+
     public class BlockUpdateEvent : GameLoopEvent
     {
         public BlockUpdateEvent(GameLoop gameLoop) : base(gameLoop)
@@ -25,6 +75,16 @@ namespace SeeloewenCraft
                     //Update blocks that aren't allowed to float
                     UpdateFloating(block);
 
+                    if (block is FarmlandBlock farmland)
+                    {
+                        UpdateFarmland(farmland);
+                    }
+
+                    if (block is GrassBlock grass)
+                    {
+                        UpdateGrass(grass);
+                    }
+
                     //Update leaves that might need to decay
                     if (block.tags.Contains("type/leaf") && !block.tags.Contains("placedManually"))
                     {
@@ -34,6 +94,69 @@ namespace SeeloewenCraft
             }
 
             UpdateLeaves(leaves);
+        }
+
+        public void UpdateGrass(Block block)
+        {
+            //Roll whether to grow grass to adjacent dirt
+            if (Game.rnd.Next(0, 40) == 0)
+            {
+                Block blockRight = block.GetBlockRight();
+                Block blockLeft = block.GetBlockLeft();
+
+                //Skip check for blocks at chunk borders, would only cause issues
+                if (blockRight == null || blockLeft == null)
+                {
+                    return;
+                }
+
+                List<Block> candidates = new List<Block>
+                {
+                    blockRight,
+                    blockLeft,
+                    blockRight.GetBlockAbove(),
+                    blockRight.GetBlockBelow(),
+                    block.GetBlockLeft(),
+                    blockLeft.GetBlockAbove(),
+                    blockLeft.GetBlockBelow(),
+                };
+
+                //Evaluate possible candidates
+                foreach (Block candidate in candidates)
+                {
+                    //Confirms that the candidate is actually a dirt block that has either nothing above (top world border), or a non-solid block above
+                    if (candidate != null && candidate is DirtBlock dirt && (candidate.GetBlockAbove == null || !candidate.GetBlockAbove().isSolid))
+                    {
+                        candidate.SetBlock(BlockRegister.GenerateBlock("sc:grass_block"));
+                    }
+                }
+            }
+
+
+            //Roll whether to grow a random plant
+            if (Game.rnd.Next(0, 100000) == 0)
+            {
+                Block blockAbove = block.GetBlockAbove();
+
+                if (blockAbove != null && blockAbove.id == "sc:air_block")
+                {
+                    //Roll the crop
+                    string cropId = Game.rnd.Next(0, 9) switch
+                    {
+                        0 => "sc:potato_crop_block",
+                        1 => "sc:berry_bush_crop_block",
+                        2 => "sc:carrots_crop_block",
+                        3 => "sc:pumpkin_crop_block",
+                        4 => "sc:cotton_crop_block",
+                        5 => "sc:cucumber_crop_block",
+                        6 => "sc:yellow_flower_block",
+                        7 => "sc:blue_flower_block",
+                        _ => "sc:grass"
+                    };
+
+                    blockAbove.SetBlock(BlockRegister.GenerateBlock(cropId));
+                }
+            }
         }
 
         public void UpdateFloating(Block block)
@@ -46,6 +169,18 @@ namespace SeeloewenCraft
                 block.BreakBlock(true, false, true);
             }
         }
+
+        public void UpdateFarmland(Block block)
+        {
+            if (!HasWaterNearby(block) || block.lightLevel >= 0.9)
+            {
+                if (Game.rnd.Next(0, 9) == 0)
+                {
+                    block.SetBlock(BlockRegister.GenerateBlock("sc:dirt_block"));
+                }
+            }
+        }
+
 
         public void UpdateLeaves(List<Block> leafList)
         {
@@ -100,6 +235,24 @@ namespace SeeloewenCraft
             //If it's a leaf, check if the adjacent blocks are connected to a log
             return HasAdjacentLog(blockBelow, visitedBlocks) || HasAdjacentLog(blockAbove, visitedBlocks) || HasAdjacentLog(blockRight, visitedBlocks) || HasAdjacentLog(blockLeft, visitedBlocks);
 
+        }
+
+        public bool HasWaterNearby(Block block)
+        {
+            //Checks 4 blocks to the left and right on the same y level whether they are a water block
+            for (int i = 1; i < 5; i++)
+            {
+                Block blockRight = block.chunk.GetBlock(block.xPos + i, block.yPos);
+                Block blockLeft = block.chunk.GetBlock(block.xPos - i, block.yPos);
+
+                if (blockRight != null && blockRight.tags.Contains("liquids/water") //Blocks to the right
+                    || blockLeft != null && blockLeft.tags.Contains("liquids/water")) //Blocks to the left
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 
@@ -227,6 +380,12 @@ namespace SeeloewenCraft
                     if (block is CropBlock crop)
                     {
                         crop.UpdateProgress(maxTick);
+                    }
+
+                    Block foregroundBlock = block.GetForegroundBlock();
+                    if (block.isBackground && foregroundBlock != null && foregroundBlock is CropBlock foreCrop)
+                    {
+                        foreCrop.UpdateProgress(maxTick);
                     }
                 }
             }
