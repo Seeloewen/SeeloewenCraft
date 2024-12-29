@@ -45,7 +45,7 @@
                     {
                         if (selectedItem is FoodItem food)
                         {
-                            food.RightClickAction(block, selectedSlot.slot, sender);
+                            food.RightClickAction(block, selectedSlot.slot);
                         }
 
                         return;
@@ -114,7 +114,7 @@
                 block.chunk.GetBlock(block.xPos, block.yPos).AddDebugMenu();
             if (ItemRegister.GenerateItem(selectedSlot.slot.itemId) is FoodItem foodItem)
             {
-                foodItem.RightClickAction(block, selectedSlot.slot, sender);
+                foodItem.RightClickAction(block, selectedSlot.slot);
             }
         }
 

@@ -617,7 +617,7 @@
             }
             else if(block is Rice_Top rice && rice.IsReady())
             {
-                rice.RightClickAction(sender);
+                rice.RightClickAction();
             }
         }
     }
@@ -867,9 +867,9 @@
             healAmount = 2;
         }
 
-        public override void RightClickAction(Block block, InventorySlot invSlot, object sender)
+        public override void RightClickAction(Block block, InventorySlot invSlot )
         {
-            base.RightClickAction(block, invSlot, sender);
+            base.RightClickAction(block, invSlot);
 
             Game.world.player.inventory.AddItem("sc:bucket_empty_item", 1, null);
         }

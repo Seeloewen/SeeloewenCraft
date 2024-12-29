@@ -96,7 +96,7 @@
             }
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             if (IsReady())
             {
@@ -136,7 +136,7 @@
             }
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             if (IsReady())
             {
@@ -270,7 +270,7 @@
             }
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             if (IsReady())
             {
@@ -337,7 +337,7 @@
             }
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             if (IsReady() && Game.world.player.inventory.GetSelectedHotbarSlot().slot.itemId == "sc:bucket_empty_item")
             {
@@ -392,7 +392,7 @@
             }
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             if (IsReady())
             {
@@ -510,7 +510,7 @@
             }
         }
 
-        public override void RightClickAction(object sender)
+        public override void RightClickAction()
         {
             if (IsReady())
             {
