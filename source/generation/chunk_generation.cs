@@ -93,6 +93,8 @@ namespace SeeloewenCraft
                 if (biome == Biome.Desert) GenerateCacti();
                 if (biome == Biome.SpruceForest) GenerateCottonFields();
                 if (biome == Biome.Desert) GeneratePyramids();
+                GenerateAbandonedFarm();
+                //if (biome == Biome.Plains) GenerateAbandonedFarm();
                 GenerateOres();
                 GenerateCaves();
                 if (biome == Biome.Desert) GenerateFossil();
@@ -142,12 +144,28 @@ namespace SeeloewenCraft
             return (x, y);
         }
 
+        private void GenerateAbandonedFarm()
+        {
+            ContinueStructureGeneration("Abandoned Farm");
+
+            //Generate up to 1 Abandoned Farm
+            if (seededRnd.Next(0, 15) == 0)
+            {
+                (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
+
+                if (y != 0)
+                {
+                    structureList.Add(new AbandonedFarm(x, y, index, true, this, false));
+                }
+            }
+        }
+
         private void GenerateCottonFields()
         {
             ContinueStructureGeneration("Cotton Field");
 
             //Generate up to 1 Cotton field
-            if (seededRnd.Next(0, 12) == 0)
+            if (seededRnd.Next(0, 15) == 0)
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 
@@ -163,7 +181,7 @@ namespace SeeloewenCraft
             ContinueStructureGeneration("Pyramid");
 
             //Generate up to 1 Pyramid
-            if (seededRnd.Next(0, 10) == 0)
+            if (seededRnd.Next(0, 15) == 0)
             {
                 (int x, int y) = GetCoordinatesOnSurface(0, 7, false);
 

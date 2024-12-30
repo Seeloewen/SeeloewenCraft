@@ -22,7 +22,6 @@ namespace SeeloewenCraft
         public static string selectedTexturepack;
         public static Random rnd = new Random(DateTime.Now.Millisecond * DateTime.Now.Microsecond);
         public static int playerId;
-        public static bool generated;
 
 
         //Methods

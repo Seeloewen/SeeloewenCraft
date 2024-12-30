@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 
 namespace SeeloewenCraft
 {
@@ -88,6 +87,129 @@ namespace SeeloewenCraft
 
             //Begin generation
             BeginGeneration(x, y, index, isNew);
+        }
+    }
+
+    public class AbandonedFarm : Structure
+    {
+        public AbandonedFarm(int x, int y, int index, bool isNew, Chunk chunk, bool canFloat) : base(chunk, canFloat)
+        {
+            id = "sc:abandoned_farm";
+            name = "Abandoned Farm";
+            canReplaceSolidBlocks = true;
+
+            //Frame
+            #region Frame
+            AddBlock(new OakPlanksBlock(false), 2, 0);
+            AddBlock(new OakPlanksBlock(false), 3, 0);
+            AddBlock(new OakPlanksBlock(false), 4, 0);
+            AddBlock(new OakPlanksBlock(false), 5, 0);
+            AddBlock(new OakPlanksBlock(false), 6, 0);
+            AddBlock(new OakPlanksBlock(false), 7, 0);
+            AddBlock(new OakLogBlock(false), 1, 0);
+            AddBlock(new OakLogBlock(false), 7, 0);
+            AddBlock(new OakLogBlock(false), 1, 1);
+            AddBlock(new OakLogBlock(false), 1, 2);
+            AddBlock(new OakLogBlock(false), 1, 3);
+            AddBlock(new OakLogBlock(false), 1, 4);
+            AddBlock(new OakLogBlock(false), 1, 5);
+            AddBlock(new OakLogBlock(false), 7, 3);
+            AddBlock(new OakLogBlock(false), 7, 4);
+            AddBlock(new OakLogBlock(false), 7, 5);
+            AddBlock(new OakLogBlock(false), 2, 5);
+            AddBlock(new OakLogBlock(false), 3, 5);
+            AddBlock(new OakLogBlock(false), 4, 5);
+            AddBlock(new OakLogBlock(false), 5, 5);
+            AddBlock(new OakLogBlock(false), 6, 5);
+            AddBlock(new OakLogBlock(false), 7, 5);
+
+            //OakDoor_Base door = new DoorBlock(false);
+            AddBackgroundBlock(new OakLogBlock(false), 7, 2, new OakDoor_Top(false) { baseBlock = (0, 1) });
+            AddBackgroundBlock(new OakLogBlock(false), 7, 1, new OakDoor_Base(false) { baseBlock = (0, -1) });
+            #endregion
+
+            //Background
+            #region Background
+            for (int i = 2; i < 7; i++)
+            {
+                for (int j = 1; j < 5; j++)
+                {
+                    if (i == 3 && (j == 2 || j == 3) || i == 5 && (j == 2 || j == 3)) AddBackgroundBlock(new GlassBlock(false), i, j, null); //Windows
+                    else if ((i == 2 || i == 4 || i == 6) && j == 2) AddBackgroundBlock(new OakPlanksBlock(false), i, j, new TorchBlock(false)); //Torch
+                    else if (i == 3 && j == 1) AddBackgroundBlock(new OakPlanksBlock(false), i, j, new CraftingTableBlock(false)); //Crafting Table
+                    else AddBackgroundBlock(new OakPlanksBlock(false), i, j, null); //Wood Background
+                }
+            }
+            #endregion
+
+            //Roof
+            #region Roof
+            AddBlock(new CobblestoneBlock_StairBottomRight(false), 0, 5);
+            AddBlock(new CobblestoneBlock_StairBottomRight(false), 1, 6);
+            AddBlock(new CobblestoneBlock_StairBottomRight(false), 2, 7);
+            AddBlock(new CobblestoneBlock_StairBottomRight(false), 3, 8);
+            AddBlock(new CobblestoneBlock_SlabBottom(false), 4, 9);
+            AddBlock(new CobblestoneBlock_StairBottomLeft(false), 5, 8);
+            AddBlock(new CobblestoneBlock_StairBottomLeft(false), 6, 7);
+            AddBlock(new CobblestoneBlock_StairBottomLeft(false), 7, 6);
+            AddBlock(new CobblestoneBlock_StairBottomLeft(false), 8, 5);
+            AddBlock(new CobblestoneBlock(false), 2, 6);
+            AddBlock(new CobblestoneBlock(false), 3, 6);
+            AddBlock(new CobblestoneBlock(false), 3, 7);
+            AddBlock(new CobblestoneBlock(false), 4, 6);
+            AddBlock(new CobblestoneBlock(false), 4, 7);
+            AddBlock(new CobblestoneBlock(false), 4, 8);
+            AddBlock(new CobblestoneBlock(false), 5, 6);
+            AddBlock(new CobblestoneBlock(false), 5, 7);
+            AddBlock(new CobblestoneBlock(false), 6, 6);
+            #endregion
+
+            //Field
+            #region Field
+            for (int i = 8; i < 15; i++)
+            {
+                if (i != 11)
+                {
+                    AddBlock(new DirtBlock(false), i, -1);
+                    AddBlock(new DirtBlock(false), i, -2);
+                    AddBlock(new FarmlandBlock(false), i, 0);
+                    AddBlock(new AirBlock(false), i, 2);
+                    AddBlock(new AirBlock(false), i, 3);
+                    AddBlock(GetRandomCrop(), i, 1);
+                }
+                else
+                {
+                    AddBlock(new DirtBlock(false), i, -1);
+                    AddBlock(new DirtBlock(false), i, -2);
+                    AddBlock(new AirBlock(false), i, 1);
+                    AddBlock(new AirBlock(false), i, 2);
+                    AddBlock(new AirBlock(false), i, 3);
+                    AddBlock(new WaterBlock_6(false), i, 0);
+                }
+            }
+            AddBlock(new OakLogBlock(false), 15, 0);
+            AddBackgroundBlock(new OakLogBlock(false), 15, 1, null);
+            AddBackgroundBlock(new OakLogBlock(false), 15, 2, null);
+            AddBlock(new LanternBlock(false), 15, 3);
+            #endregion
+
+            //Begin generation
+            BeginGeneration(x, y, index, isNew);
+        }
+
+        public Block GetRandomCrop()
+        {
+            return structRnd.Next(0, 7) switch
+            {
+                0 => new PotatoCropBlock(false),
+                1 => new CarrotCropBlock(false),
+                2 => new WheatCropBlock(false),
+                3 => new PumpkinCropBlock(false),
+                4 => new CabbageCropBlock(false),
+                5 => new TomatoCropBlock(false),
+                6 => new CucumberCropBlock(false),
+                _ => new Grass(false)
+            };
         }
     }
 
