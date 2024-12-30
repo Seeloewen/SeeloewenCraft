@@ -48,6 +48,13 @@ namespace SeeloewenCraft.gl_rendering
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba8, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
         }
 
+
+        ~Texture()
+        {
+            GL.DeleteTexture(id);
+        }
+
+
         internal void Bind()
         {
             GL.BindTexture(TextureTarget.Texture2D, id);

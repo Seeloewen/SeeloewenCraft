@@ -65,6 +65,12 @@ namespace SeeloewenCraft.gl_rendering
             }
         }
 
+        ~VertexBuffer()
+        {
+            GL.DeleteBuffer(vbo);
+            GL.DeleteVertexArray(vao);
+        }
+
         internal void SetVertices(float[] vertices)
         {
             Debug.Assert(vertices.Length <= count); //could be <=
