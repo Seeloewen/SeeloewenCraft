@@ -136,7 +136,7 @@ namespace SeeloewenCraft
                 {
                     if (i == 3 && (j == 2 || j == 3) || i == 5 && (j == 2 || j == 3)) AddBackgroundBlock(new GlassBlock(false), i, j, null); //Windows
                     else if ((i == 2 || i == 4 || i == 6) && j == 2) AddBackgroundBlock(new OakPlanksBlock(false), i, j, new TorchBlock(false)); //Torch
-                    else if (i == 3 && j == 1) AddBackgroundBlock(new OakPlanksBlock(false), i, j, new CraftingTableBlock(false)); //Crafting Table
+                    else if (i == 4 && j == 1) AddBackgroundBlock(new OakPlanksBlock(false), i, j, new CraftingTableBlock(false)); //Crafting Table
                     else AddBackgroundBlock(new OakPlanksBlock(false), i, j, null); //Wood Background
                 }
             }
@@ -354,6 +354,27 @@ namespace SeeloewenCraft
             }
 
             while (yPos <= floorHeight);
+
+
+            if (structRnd.Next(0, 4) == 0) //Chance to generate sugar cane
+            {
+                if (structRnd.Next(0, 2) == 0) AddBlock(new SugarCaneBlock(false) { progress = 10000 }, 0, floorHeight);
+                else AddBlock(new SugarCaneBlock(false) { progress = 10000 }, xPos, floorHeight);
+            }
+            else if (structRnd.Next(0, 7) == 0) //Chance to generate rice
+            {
+                if (structRnd.Next(0, 2) == 0)
+                {
+                    AddBlock(new Rice_Base(false), 0, floorHeight);
+                    AddBlock(new Rice_Top(false) { progress = 10000, baseBlock = (0, 1) }, 0, floorHeight + 1);
+                }
+                else
+                {
+                    AddBlock(new Rice_Base(false), xPos, floorHeight);
+                    AddBlock(new Rice_Top(false) { progress = 10000, baseBlock = (0, 2) }, xPos, floorHeight + 1);
+                }
+            }
+
 
             //Begin generation
             BeginGeneration(x, y, index, isNew);
