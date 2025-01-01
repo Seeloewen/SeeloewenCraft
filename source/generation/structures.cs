@@ -201,13 +201,13 @@ namespace SeeloewenCraft
         {
             return structRnd.Next(0, 7) switch
             {
-                0 => new PotatoCropBlock(false),
-                1 => new CarrotCropBlock(false),
-                2 => new WheatCropBlock(false),
-                3 => new PumpkinCropBlock(false),
-                4 => new CabbageCropBlock(false),
-                5 => new TomatoCropBlock(false),
-                6 => new CucumberCropBlock(false),
+                0 => new PotatoCropBlock(false) { progress = 10000000 },
+                1 => new CarrotCropBlock(false) { progress = 10000000 },
+                2 => new WheatCropBlock(false) { progress = 10000000 },
+                3 => new PumpkinCropBlock(false) { progress = 10000000 },
+                4 => new CabbageCropBlock(false) { progress = 10000000 },
+                5 => new TomatoCropBlock(false) { progress = 10000000 },
+                6 => new CucumberCropBlock(false) { progress = 10000000 },
                 _ => new Grass(false)
             };
         }
@@ -242,7 +242,7 @@ namespace SeeloewenCraft
             {
                 AddBlock(new SpruceLogBlock(false), i + 1, 0);
                 AddBlock(new FarmlandBlock(false), i + 1, 1);
-                AddBlock(new CottonCropBlock(false), i + 1, 2);
+                AddBlock(new CottonCropBlock(false) { progress = 10000000 }, i + 1, 2);
                 AddBlock(new AirBlock(false), i + 1, 3);
                 AddBlock(new AirBlock(false), i + 1, 4);
             }
@@ -273,7 +273,7 @@ namespace SeeloewenCraft
                 {
                     AddBlock(new SpruceLogBlock(false), j + offset + 3, 0);
                     AddBlock(new FarmlandBlock(false), j + offset + 3, 1);
-                    AddBlock(new CottonCropBlock(false), j + offset + 3, 2);
+                    AddBlock(new CottonCropBlock(false) { progress = 10000000 }, j + offset + 3, 2);
                     AddBlock(new AirBlock(false), j + offset + 3, 3);
                     AddBlock(new AirBlock(false), j + offset + 3, 4);
                 }

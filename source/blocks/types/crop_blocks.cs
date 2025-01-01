@@ -6,10 +6,10 @@
 
         public WheatCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Wheat", "sc:wheat_crop_block", 0, "sc:seeds_item", Game.rnd.Next(10000, 20000), "sc:seeds_item", "sc:wheat_item", 1, 4, Tool.None, Images.Wheat_Stage1);
+            Init("Wheat", "sc:wheat_crop_block", 0, "sc:seeds_item", Game.rnd.Next(1200000, 1800000), "sc:seeds_item", "sc:wheat_item", 1, 4, Tool.None, Images.Wheat_Stage1);
             drops.Add(("sc:seeds_item", 1, 1));
             isSolid = false;
-            needsGround = (true, "ground/farmland"); //Game.rnd.Next(1200000, 1800001)
+            needsGround = (true, "ground/farmland");
         }
 
         public override void UpdateProgress(int amount)
@@ -43,10 +43,10 @@
 
         public CarrotCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Carrot", "sc:carrot_crop_block", 0, "sc:carrot_item", Game.rnd.Next(10000, 20000), "sc:carrot_item", "sc:carrot_item", 1, 3, Tool.None, Images.Carrot_Stage1);
+            Init("Carrot", "sc:carrot_crop_block", 0, "sc:carrot_item", Game.rnd.Next(1200000, 1800000), "sc:carrot_item", "sc:carrot_item", 1, 3, Tool.None, Images.Carrot_Stage1);
             drops.Add(("sc:carrot_item", 1, 1));
             isSolid = false;
-            needsGround = (true, "ground/farmland"); //Game.rnd.Next(1400000, 2000001)
+            needsGround = (true, "ground/farmland");
         }
 
         public override void UpdateProgress(int amount)
@@ -78,11 +78,11 @@
     {
         public CottonCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Cotton", "sc:cotton_crop_block", 0, "sc:cotton_item", Game.rnd.Next(10000, 20000), "sc:cotton_item", "sc:cotton_item", 1, 2, Tool.None, Images.Cotton_Stage1);
+            Init("Cotton", "sc:cotton_crop_block", 0, "sc:cotton_item", Game.rnd.Next(800000, 1200000), "sc:cotton_item", "sc:cotton_item", 1, 2, Tool.None, Images.Cotton_Stage1);
             drops.Add(("sc:cotton_item", 1, 1));
             isSolid = false;
             hasRightClickAction = true;
-            needsGround = (true, "ground/farmland"); //Game.rnd.Next(1400000, 2000001)
+            needsGround = (true, "ground/farmland");
         }
 
         public override void UpdateProgress(int amount)
@@ -102,7 +102,7 @@
             {
                 //Drop the item and reset the progress without breaking the block
                 Drop();
-                growthTime = Game.rnd.Next(10000, 20000);
+                growthTime = Game.rnd.Next(800000, 1200000);
                 progress = 0;
 
                 drops.Clear();
@@ -118,11 +118,11 @@
     {
         public BerryBushCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Berry Bush", "sc:berry_bush_crop_block", 0, "sc:berry_item", Game.rnd.Next(10000, 20000), "sc:berry_item", "sc:berry_item", 1, 3, Tool.None, Images.Berry_Bush_Stage1);
+            Init("Berry Bush", "sc:berry_bush_crop_block", 0, "sc:berry_item", Game.rnd.Next(800000, 1500000), "sc:berry_item", "sc:berry_item", 1, 3, Tool.None, Images.Berry_Bush_Stage1);
             drops.Add(("sc:berry_item", 1, 1));
             isSolid = false;
             hasRightClickAction = true;
-            needsGround = (true, ""); //Game.rnd.Next(1400000, 2000001)
+            needsGround = (true, "");
         }
 
         public override void UpdateProgress(int amount)
@@ -142,7 +142,7 @@
             {
                 //Drop the item and reset the progress without breaking the block
                 Drop();
-                growthTime = Game.rnd.Next(10000, 20000);
+                growthTime = Game.rnd.Next(800000, 1500000);
                 progress = 0;
 
                 drops.Clear();
@@ -161,12 +161,12 @@
 
         public SugarCaneBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Sugar Cane", "sc:sugar_cane_block", 0, "sc:sugar_cane_item", Game.rnd.Next(10000, 20000), "sc:sugar_cane_item", "sc:sugar_cane_item", 0, 0, Tool.None, Images.SugarCane);
+            Init("Sugar Cane", "sc:sugar_cane_block", 0, "sc:sugar_cane_item", Game.rnd.Next(1400000, 2000001), "sc:sugar_cane_item", "sc:sugar_cane_item", 0, 0, Tool.None, Images.SugarCane);
             drops.Add(("sc:sugar_cane_item", 1, 1));
             tags.Add("Crops/SugarCane");
             isSolid = false;
             hasRightClickAction = true;
-            needsGround = (true, ""); //Game.rnd.Next(1400000, 2000001)
+            needsGround = (true, "");
 
             //Implement additional check for nearby water (maybe)
         }
@@ -201,7 +201,7 @@
             {
                 PlaceBlockAbove(yPos, yPos - maxHeight);
                 progress = 0;
-                growthTime = Game.rnd.Next(10000, 20000);
+                growthTime = Game.rnd.Next(1400000, 2000001);
             }
         }
     }
@@ -213,13 +213,13 @@
 
         public TomatoCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Tomato", "sc:tomato_crop_block", 0, "sc:tomato_item", Game.rnd.Next(10000, 20000), "sc:tomato_item", "sc:tomato_item", 1, 3, Tool.None, Images.Tomato_Stage1);
+            Init("Tomato", "sc:tomato_crop_block", 0, "sc:tomato_item", Game.rnd.Next(1200000, 1600000), "sc:tomato_item", "sc:tomato_item", 1, 3, Tool.None, Images.Tomato_Stage1);
             drops.Add(("sc:tomato_item", 1, 1));
             tags.Add("Crops/Tomato");
             isSolid = false;
             isBase = true;
             hasRightClickAction = true;
-            needsGround = (true, "ground/farmland"); //Game.rnd.Next(1400000, 2000001)
+            needsGround = (true, "ground/farmland");
         }
 
         public void PlaceBlockAbove(int currentY, int maxY)
@@ -235,7 +235,7 @@
                 Block newBlockAbove = new TomatoCropBlock(false) { needsGround = (true, "Crops/Tomato"), shouldGrow = false };
                 blockAbove.SetForegroundBlock(newBlockAbove);
 
-                growthTime = Game.rnd.Next(10000, 20000);
+                growthTime = Game.rnd.Next(1200000, 1600000);
                 progress = 0;
             }
             else if (blockAbove.isReplacable)
@@ -244,7 +244,7 @@
                 Block newBlockAbove = new TomatoCropBlock(false) { needsGround = (true, "Crops/Tomato"), shouldGrow = false };
                 blockAbove.SetBlock(newBlockAbove);
 
-                growthTime = Game.rnd.Next(10000, 20000);
+                growthTime = Game.rnd.Next(1200000, 1600000);
                 progress = 0;
             }
             else if (blockAbove.id == "sc:tomato_crop_block" || blockAbove.isBackground && blockAbove.GetForegroundBlock() != null && blockAbove.GetForegroundBlock().id == "sc:tomato_crop_block")
@@ -294,7 +294,7 @@
         {
             Init("Rice Base", "sc:rice_base", 500, "sc:rice_item", Tool.Axe, Images.Rice_Base);
             isBase = true;
-            needsGround = (true, "ground/plant"); //Game.rnd.Next(1400000, 2000001)
+            needsGround = (true, "ground/plant");
             isSolid = false;
             doesntDrop = true;
 
@@ -308,7 +308,7 @@
 
         public Rice_Top(bool isInBackground) : base(isInBackground)
         {
-            Init("Rice Top", "sc:rice_top", 0, "sc:bucket_rice_item", Game.rnd.Next(10000, 20000), "sc:bucket_rice_item", "sc:bucket_rice_item", 1, 1, Tool.None, Images.Rice_Top_Stage1);
+            Init("Rice Top", "sc:rice_top", 0, "sc:bucket_rice_item", Game.rnd.Next(1000000, 2000000), "sc:bucket_rice_item", "sc:bucket_rice_item", 1, 1, Tool.None, Images.Rice_Top_Stage1);
             isSolid = false;
             doesntDrop = true;
         }
@@ -342,7 +342,7 @@
             if (IsReady() && Game.world.player.inventory.GetSelectedHotbarSlot().slot.itemId == "sc:bucket_empty_item")
             {
                 //Drop the item and reset the progress without breaking the block
-                growthTime = Game.rnd.Next(10000, 20000);
+                growthTime = Game.rnd.Next(1000000, 2000000);
                 progress = 0;
                 state = 1;
 
@@ -361,11 +361,11 @@
 
         public PumpkinCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Pumpkin", "sc:pumpkin_crop_block", 0, "sc:pumpkin_item", Game.rnd.Next(10000, 20000), "sc:pumpkin_seeds_item", "sc:pumpkin_item", 1, 1, Tool.None, Images.Pumpkin_Stage1);
+            Init("Pumpkin", "sc:pumpkin_crop_block", 0, "sc:pumpkin_item", Game.rnd.Next(1400000, 2000001), "sc:pumpkin_seeds_item", "sc:pumpkin_item", 1, 1, Tool.None, Images.Pumpkin_Stage1);
             drops.Add(("sc:pumpkin_seeds_item", 1, 1));
             isSolid = false;
             hasRightClickAction = true;
-            needsGround = (true, "ground/farmland"); //Game.rnd.Next(1400000, 2000001)
+            needsGround = (true, "ground/farmland");
         }
 
         public override void UpdateProgress(int amount)
@@ -400,7 +400,7 @@
 
                 //Drop the item and reset the progress without breaking the block
                 Drop();
-                growthTime = Game.rnd.Next(10000, 20000);
+                growthTime = Game.rnd.Next(1400000, 2000001);
                 progress = 0;
                 state = 1;
 
@@ -419,10 +419,10 @@
 
         public CabbageCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Cabbage", "sc:cabbage_crop_block", 0, "sc:cabbage_seeds_item", Game.rnd.Next(10000, 20000), "sc:cabbage_seeds_item", "sc:cabbage_item", 1, 1, Tool.None, Images.Cabbage_Stage1);
+            Init("Cabbage", "sc:cabbage_crop_block", 0, "sc:cabbage_seeds_item", Game.rnd.Next(1200000, 1800001), "sc:cabbage_seeds_item", "sc:cabbage_item", 1, 1, Tool.None, Images.Cabbage_Stage1);
             drops.Add(("sc:cabbage_seeds_item", 1, 1));
             isSolid = false;
-            needsGround = (true, "ground/farmland"); //Game.rnd.Next(1200000, 1800001)
+            needsGround = (true, "ground/farmland");
         }
 
         public override void UpdateProgress(int amount)
@@ -456,10 +456,10 @@
 
         public PotatoCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Potato", "sc:potato_crop_block", 0, "sc:potato_item", Game.rnd.Next(10000, 20000), "sc:potato_item", "sc:potato_item", 1, 3, Tool.None, Images.Potato_Stage1);
+            Init("Potato", "sc:potato_crop_block", 0, "sc:potato_item", Game.rnd.Next(1400000, 2000001), "sc:potato_item", "sc:potato_item", 1, 3, Tool.None, Images.Potato_Stage1);
             drops.Add(("sc:potato_item", 1, 1));
             isSolid = false;
-            needsGround = (true, "ground/farmland"); //Game.rnd.Next(1400000, 2000001)
+            needsGround = (true, "ground/farmland");
         }
 
         public override void UpdateProgress(int amount)
@@ -492,11 +492,11 @@
 
         public CucumberCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Cucumber", "sc:cucumber_crop_block", 0, "sc:cucumber_item", Game.rnd.Next(10000, 20000), "sc:cucumber_item", "sc:cucumber_item", 1, 2, Tool.None, Images.Cucumber_Stage1);
+            Init("Cucumber", "sc:cucumber_crop_block", 0, "sc:cucumber_item", Game.rnd.Next(1200000, 1500000), "sc:cucumber_item", "sc:cucumber_item", 1, 2, Tool.None, Images.Cucumber_Stage1);
             drops.Add(("sc:cucumber_item", 1, 1));
             isSolid = false;
             hasRightClickAction = true;
-            needsGround = (true, "ground/farmland"); //Game.rnd.Next(1400000, 2000001)
+            needsGround = (true, "ground/farmland");
         }
 
         public override void UpdateProgress(int amount)
@@ -516,7 +516,7 @@
             {
                 //Drop the item and reset the progress without breaking the block
                 Drop();
-                growthTime = Game.rnd.Next(10000, 20000);
+                growthTime = Game.rnd.Next(1200000, 1500000);
                 progress = 0;
 
                 drops.Clear();
