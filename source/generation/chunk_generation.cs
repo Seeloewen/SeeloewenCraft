@@ -93,8 +93,7 @@ namespace SeeloewenCraft
                 if (biome == Biome.Desert) GenerateCacti();
                 if (biome == Biome.SpruceForest) GenerateCottonFields();
                 if (biome == Biome.Desert) GeneratePyramids();
-                GenerateAbandonedFarm();
-                //if (biome == Biome.Plains) GenerateAbandonedFarm();
+                if (biome == Biome.Plains) GenerateAbandonedFarm();
                 GenerateOres();
                 GenerateCaves();
                 if (biome == Biome.Desert) GenerateFossil();

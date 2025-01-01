@@ -12,9 +12,9 @@ namespace SeeloewenCraft
         public static Server server;
 
         //Constants
-        public const int WORLD_VERSION = 6; //Up to date as of Alpha 1.2.1 (Recent changes: Seeding)
-        public const string GAME_VERSION = "Alpha 1.2.2-dev3";
-        public const string VERSION_DATE = "22.12.2024";
+        public const int WORLD_VERSION = 7; //Up to date as of Alpha 1.2.2 (Recent changes: ground block checking)
+        public const string GAME_VERSION = "Alpha 1.2.2";
+        public const string VERSION_DATE = "01.01.2025";
         public const int TEXTUREPACK_VERSION = 2;
 
         //Variables
