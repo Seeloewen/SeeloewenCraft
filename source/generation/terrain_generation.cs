@@ -101,19 +101,19 @@
                 }
                 else if (y == floorHeight - 1 && seededRnd.Next(1, 3) == 1)
                 {
-                    //If it's 1 above, potentially add grass or a flower
-                    int random = seededRnd.Next(1, 9);
-                    switch (random)
+                    //If it's 1 above, potentially add crop, flower or grass
+                    int random = seededRnd.Next(0, 100);
+                    if (random >= 0 && random <= 5) //Crop
                     {
-                        case 1:
-                            blockList.Add(new YellowFlowerBlock(false), x, y);
-                            break;
-                        case 2:
-                            blockList.Add(new BlueFlowerBlock(false), x, y);
-                            break;
-                        case > 2:
-                            blockList.Add(new Grass(false), x, y);
-                            break;
+                        blockList.Add(GetRandomCrop(), x, y);
+                    }
+                    else if (random > 5 && random <= 25) //Flower
+                    {
+                        blockList.Add(GetRandomFlower(), x, y);
+                    }
+                    else //Grass 
+                    {
+                        blockList.Add(new Grass(false), x, y);
                     }
                 }
                 else if (y == floorHeight + 1 || y == floorHeight + 2)
@@ -143,6 +143,30 @@
                     blockList.Add(new AirBlock(false), x, y);
                 }
             }
+        }
+
+        public Block GetRandomCrop()
+        {
+            return seededRnd.Next(0, 6) switch
+            {
+                0 => new BerryBushCropBlock(false) { progress = 10000000, needsGround = (true, "ground/plant") },
+                1 => new CarrotCropBlock(false) { progress = 10000000, needsGround = (true, "ground/plant") },
+                2 => new PumpkinCropBlock(false) { progress = 10000000, needsGround = (true, "ground/plant") },
+                3 => new CabbageCropBlock(false) { progress = 10000000, needsGround = (true, "ground/plant") },
+                4 => new TomatoCropBlock(false) { progress = 10000000, needsGround = (true, "ground/plant") },
+                5 => new CucumberCropBlock(false) { progress = 10000000, needsGround = (true, "ground/plant") },
+                _ => new Grass(false)
+            };
+        }
+
+        public Block GetRandomFlower()
+        {
+            return seededRnd.Next(0, 2) switch
+            {
+                0 => new YellowFlowerBlock(false),
+                1 => new BlueFlowerBlock(false),
+                _ => new Grass(false)
+            };
         }
 
         private void GenerateDesert(int x)
