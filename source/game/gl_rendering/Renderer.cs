@@ -43,18 +43,8 @@ namespace SeeloewenCraft.gl_rendering
             playerRenderer.Render(Game.world.player.playerRenderInfo);
 
             //InventoryRenderer.Render(primitiveRenderer);
-            primitiveRenderer.Begin();
-            textRenderer.Begin();
-
-            if(Screen.showDebugMenu)
-            {
-                DebugMenu.Render(textRenderer);
-                textRenderer.Draw("DEBUG MENU ENABLED", 200, 200, 5);
-            }
 
             Screen.Render(primitiveRenderer, textRenderer);
-            primitiveRenderer.End();
-            textRenderer.End();
 
 
 

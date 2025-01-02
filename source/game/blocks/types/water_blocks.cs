@@ -44,6 +44,7 @@ namespace SeeloewenCraft
 
         public override void AddDebugMenu()
         {
+            base.AddDebugMenu();
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"waterLevel", $"{waterLevel}");
         }
     }

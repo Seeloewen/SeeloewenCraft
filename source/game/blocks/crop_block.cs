@@ -26,6 +26,8 @@ namespace SeeloewenCraft
 
         public override void AddDebugMenu()
         {
+            base.AddDebugMenu();
+
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, "growthTime", $"{growthTime}");
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"progress");
         }

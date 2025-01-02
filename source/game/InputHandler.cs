@@ -17,7 +17,7 @@ namespace SeeloewenCraft
         public static int mouseYPixel { get; private set; }
 
         public static float mouseXScreen { get => ((float)mouseXPixel) /(Resolution.WIDTH/2) - 1; }
-        public static float mouseYScreen { get => ((float)mouseYPixel) / (Resolution.HEIGHT / 2) + 1; }
+        public static float mouseYScreen { get => ((float)mouseYPixel) / (-Resolution.HEIGHT / 2) + 1; }
 
 
 
@@ -32,7 +32,6 @@ namespace SeeloewenCraft
             {
                 mouseXPixel = (int)x;
                 mouseYPixel = (int)y;
-                Log.Write($"mouse move {x} {y}", LogType.GENERAL, LogLevel.INFO);
             });
 
             GLFW.SetMouseButtonCallback(window, (_, button, action, _) =>
@@ -59,7 +58,19 @@ namespace SeeloewenCraft
             GLFW.SetKeyCallback(window, (_, k, _, a, _) =>
             {
                 if(KeyBinds.bindings.TryGetValue(k, out var v)) {
-                    KeyBinds.pressed[v] = a != InputAction.Release;
+                    if (a == InputAction.Press)
+                    {
+                        KeyBinds.pressed[v] = true;
+                        KeyBinds.pressedFirst[v] = true;
+                    }
+                    else if (a == InputAction.Release)
+                    {
+                        KeyBinds.pressed[v] = false;
+                        KeyBinds.pressedFirst[v] |= false;
+                    } else
+                    {
+                        return;
+                    }
                 }
                 Log.Write($"key {k} {a}", LogType.GENERAL, LogLevel.INFO);
             });

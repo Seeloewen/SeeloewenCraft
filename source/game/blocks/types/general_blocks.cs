@@ -241,6 +241,8 @@ namespace SeeloewenCraft
 
         public override void AddDebugMenu()
         {
+            base.AddDebugMenu();
+
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeClaimable={craftingHandler.recipeClaimable}");
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeRunning={craftingHandler.recipeRunning}");
 
@@ -275,6 +277,7 @@ namespace SeeloewenCraft
 
         public override void AddDebugMenu()
         {
+            base.AddDebugMenu();
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeClaimable={craftingHandler.recipeClaimable}");
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeRunning={craftingHandler.recipeRunning}");
 
@@ -598,6 +601,7 @@ namespace SeeloewenCraft
 
         public override void AddDebugMenu()
         {
+            base.AddDebugMenu();
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeClaimable={craftingHandler.recipeClaimable}");
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeRunning={craftingHandler.recipeRunning}");
 
@@ -711,6 +715,7 @@ namespace SeeloewenCraft
 
         public override void AddDebugMenu()
         {
+            base.AddDebugMenu();
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeClaimable={craftingHandler.recipeClaimable}");
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeRunning={craftingHandler.recipeRunning}");
 

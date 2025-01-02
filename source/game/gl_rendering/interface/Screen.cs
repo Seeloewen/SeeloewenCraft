@@ -7,12 +7,12 @@ namespace SeeloewenCraft.gl_rendering
 
 
 
-        public static bool showGame;
-        public static bool showGameOverlay;
-        public static bool showDebugMenu;
-        public static bool showInventory;
-        public static bool showIngameMenu;
-        public static bool showEscapeMenu;
+        public static bool showGame = true;
+        public static bool showGameOverlay = true;
+        public static bool showDebugMenu = false;
+        public static bool showInventory = false;
+        public static bool showIngameMenu = false;
+        public static bool showEscapeMenu = false;
 
 
 
@@ -20,7 +20,6 @@ namespace SeeloewenCraft.gl_rendering
 
 
 
-        enum ScreenMode {GAME, INVENTORY, MENU}
 
         public static void Init()
         {
@@ -30,13 +29,41 @@ namespace SeeloewenCraft.gl_rendering
 
         public static void Update()
         {
-            GameScreen.Update();
+            HandleInputs();
+
+            if (showGameOverlay)
+            {
+                GameScreen.Update();
+            }
+        }
+
+        static void HandleInputs()
+        {
+            if (KeyBinds.checkPressedFirst(KeyBinds.TOGGLE_DEBUG))
+            {
+                showDebugMenu = !showDebugMenu;
+            }
         }
 
         internal static void Render(PrimitiveRenderer primitiveRenderer, TextRenderer textRenderer)
         {
-            GameScreen.Render(primitiveRenderer);
+            if (showGameOverlay)
+            {
+                primitiveRenderer.Begin();
+                GameScreen.Render(primitiveRenderer);
+                primitiveRenderer.End();
+            }
+            if (showDebugMenu)
+            {
 
+                primitiveRenderer.Begin();
+                textRenderer.Begin();
+
+                DebugMenu.Render(textRenderer);
+
+                primitiveRenderer.End();
+                textRenderer.End();
+            }
         }
 
 

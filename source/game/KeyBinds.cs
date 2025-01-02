@@ -22,6 +22,19 @@ namespace SeeloewenCraft
 
         public static bool[] pressed = new bool[KEYBINDS_COUNT];
 
+        public static bool[] pressedFirst = new bool[KEYBINDS_COUNT];
+
+        public static bool checkPressedFirst(int keybind)
+        {
+            if (pressed[keybind])
+            {
+                pressed[keybind] = false;
+                return true;
+            }
+            return false;
+        }
+
+
         public static Dictionary<Keys, int> bindings = new Dictionary<Keys, int>()
         {
             {Keys.D, MOVE_RIGHT },

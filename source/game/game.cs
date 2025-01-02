@@ -119,7 +119,7 @@ namespace SeeloewenCraft
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
-            GLFW.SwapInterval(0);
+            //GLFW.SwapInterval(0);
 
 
             return window;
