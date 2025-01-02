@@ -35,13 +35,19 @@ namespace SeeloewenCraft.gl_rendering
             float mouseX = InputHandler.currentMouseX;
             float mouseY = InputHandler.currentMouseY;
 
-            int newBlockX = (int) Math.Floor((mouseX - GameCamera.blockXAnchor) / GameCamera.blockLength);
+            int newBlockX = (int)Math.Floor((mouseX - GameCamera.blockXAnchor) / GameCamera.blockLength);
             int newBlockY = (int)-((mouseY - GameCamera.blockYAnchor) / (GameCamera.blockLength * 16 / 9.0f));
 
             var block = Game.world.GetBlock(newBlockX, newBlockY);
             if (newBlockX != blockX || newBlockY != blockY)
             {
                 var oldBlock = Game.world.GetBlock(blockX, blockY);
+
+                if (oldBlock == null || block == null)
+                {
+                    return;
+                }
+
                 oldBlock.HandleMouseLeave();
                 block.HandleMouseEnter();
                 if (pressedLeft)
@@ -57,7 +63,7 @@ namespace SeeloewenCraft.gl_rendering
                 blockX = newBlockX;
                 blockY = newBlockY;
                 DebugMenu.NewTargeted(block);
-                
+
             }
 
             bool newPressedLeft = InputHandler.pressedLeft;
@@ -69,14 +75,14 @@ namespace SeeloewenCraft.gl_rendering
             if (!pressedLeft && newPressedLeft)
             {
                 block.HandleMouseLeftDown();
-                if(pressedRight) block.HandleMouseRightUp();
+                if (pressedRight) block.HandleMouseRightUp();
             }
             pressedLeft = newPressedLeft;
-            if(!pressedLeft && pressedRight && !newPressedRight)
+            if (!pressedLeft && pressedRight && !newPressedRight)
             {
                 block.HandleMouseRightUp();
             }
-            if(!pressedLeft && !pressedRight && newPressedRight)
+            if (!pressedLeft && !pressedRight && newPressedRight)
             {
                 block.HandleMouseRightDown();
             }
