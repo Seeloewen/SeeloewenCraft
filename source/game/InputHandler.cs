@@ -59,7 +59,7 @@ namespace SeeloewenCraft
             GLFW.SetKeyCallback(window, (_, k, _, a, _) =>
             {
                 if(KeyBinds.bindings.TryGetValue(k, out var v)) {
-                    KeyBinds.pressed[v] = a != InputAction.Press;
+                    KeyBinds.pressed[v] = a != InputAction.Release;
                 }
                 Log.Write($"key {k} {a}", LogType.GENERAL, LogLevel.INFO);
             });

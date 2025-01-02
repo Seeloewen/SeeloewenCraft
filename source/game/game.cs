@@ -35,11 +35,11 @@ namespace SeeloewenCraft
         {
             while (!GLFW.WindowShouldClose(window))
             {
-                DeltaTimer.Tick();
+                double dt = DeltaTimer.Tick();
 
                 Screen.Update();
 
-                world.doGameTick(0.1);
+                world.doGameTick(dt * 0.5);
 
 
                 Renderer.Render();

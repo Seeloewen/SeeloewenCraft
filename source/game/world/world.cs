@@ -683,7 +683,7 @@ namespace SeeloewenCraft
 
             Screen.Update();
 
-            entityManager.DoStep((int)(1.3/dt));
+            entityManager.DoStep((int)(1.0/dt));
 
 
             GameCamera.SetCamCenterPhysicsCoord(player.posX + 237, player.posY + 950);
