@@ -63,7 +63,7 @@ namespace SeeloewenCraft.gl_rendering
                 blockX = newBlockX;
                 blockY = newBlockY;
                 DebugMenu.NewTargeted(block);
-                
+
             }
 
             bool newPressedLeft = InputHandler.pressedLeft;
@@ -75,14 +75,14 @@ namespace SeeloewenCraft.gl_rendering
             if (!pressedLeft && newPressedLeft)
             {
                 block.HandleMouseLeftDown();
-                if(pressedRight) block.HandleMouseRightUp();
+                if (pressedRight) block.HandleMouseRightUp();
             }
             pressedLeft = newPressedLeft;
-            if(!pressedLeft && pressedRight && !newPressedRight)
+            if (!pressedLeft && pressedRight && !newPressedRight)
             {
                 block.HandleMouseRightUp();
             }
-            if(!pressedLeft && !pressedRight && newPressedRight)
+            if (!pressedLeft && !pressedRight && newPressedRight)
             {
                 block.HandleMouseRightDown();
             }
