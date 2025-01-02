@@ -1,66 +1,65 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
+using SeeloewenCraft.util;
 
 namespace SeeloewenCraft.gl_rendering
 {
-    public class Renderer
+    public static class Renderer
     {
 
 
-        WorldRenderer worldRenderer;
-        //ItemEntityRenderer itemEntityRenderer;
-        PlayerRenderer playerRenderer;
-        PrimitiveRenderer primitiveRenderer;
-        EntityRenderer entityRenderer;
-        TextRenderer textRenderer;
-        public Screen screen;
+        static WorldRenderer worldRenderer;
+        static ItemEntityRenderer itemEntityRenderer;
+        static PlayerRenderer playerRenderer;
+        static PrimitiveRenderer primitiveRenderer;
+        static EntityRenderer entityRenderer;
+        static TextRenderer textRenderer;
 
-        public GameCamera cam;
 
-        public Renderer()
+        static public void Init()
         {
             TextureManager textureManager = new TextureManager();
 
             worldRenderer = new WorldRenderer(textureManager);
-            //itemEntityRenderer = new ItemEntityRenderer(textureManager);
+            itemEntityRenderer = new ItemEntityRenderer(textureManager);
             playerRenderer = new PlayerRenderer(textureManager);
             primitiveRenderer = new PrimitiveRenderer();
             entityRenderer = new EntityRenderer(textureManager);
             textRenderer = new TextRenderer(textureManager);
 
-            cam = new GameCamera();
-
             GL.ClearColor(0.74f, 0.96f, 0.97f, 1f);
         }
 
-        public void render()
+        static public void Render()
         {
+
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 
-            worldRenderer.Render(cam);
+            worldRenderer.Render();
 
-            entityRenderer.Render(cam);
+            entityRenderer.Render();
 
-            playerRenderer.Render(Game.world.player.playerRenderInfo, cam);
+            playerRenderer.Render(Game.world.player.playerRenderInfo);
 
             //InventoryRenderer.Render(primitiveRenderer);
             primitiveRenderer.Begin();
             textRenderer.Begin();
 
-            if(screen.showDebugMenu)
+            if(Screen.showDebugMenu)
             {
                 DebugMenu.Render(textRenderer);
                 textRenderer.Draw("DEBUG MENU ENABLED", 200, 200, 5);
             }
 
-            screen.Render(primitiveRenderer);
-
-
-
-
+            Screen.Render(primitiveRenderer, textRenderer);
             primitiveRenderer.End();
             textRenderer.End();
+
+
+
+
+
 
 
         }

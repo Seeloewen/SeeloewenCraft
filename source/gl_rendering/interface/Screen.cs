@@ -1,41 +1,43 @@
 ﻿
+using System.Windows.Forms;
+
 namespace SeeloewenCraft.gl_rendering
 {
-    public class Screen
+    public static class Screen
     {
 
-        public bool showDebugMenu;
 
-        GameScreen gameScreen;
+
+        public static bool showGame;
+        public static bool showGameOverlay;
+        public static bool showDebugMenu;
+        public static bool showInventory;
+        public static bool showIngameMenu;
+        public static bool showEscapeMenu;
+
+
+
+        
+
+
 
         enum ScreenMode {GAME, INVENTORY, MENU}
 
-        ScreenMode currentMode = ScreenMode.GAME;
 
-        public void Update()
+        public static void Update()
         {
-            switch(currentMode)
-            {
-                case ScreenMode.GAME:
-                    gameScreen.Update();
-                    break;
-            }
+            GameScreen.Update();
         }
 
-        internal void Render(PrimitiveRenderer renderer)
+        internal static void Render(PrimitiveRenderer primitiveRenderer, TextRenderer textRenderer)
         {
-            switch (currentMode)
-            {
-                case ScreenMode.GAME:
-                    gameScreen.Render(renderer);
-                    break;
-            }
+            GameScreen.Render(primitiveRenderer);
+
         }
 
-        public Screen(GameCamera cam)
-        {
-            gameScreen = new GameScreen(cam);
-        }
+
+        
+
 
     }
 }

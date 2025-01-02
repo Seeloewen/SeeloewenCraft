@@ -11,9 +11,8 @@ namespace SeeloewenCraft.gl_rendering
             blockRenderer = new BlockRenderer(textureMap);
         }
 
-        internal void Render(GameCamera cam)
+        internal void Render()
         {
-            blockRenderer.ApplyCam(cam);
             blockRenderer.Begin();
 
             //blockRenderer.DrawBlock(" ", 0, 0);

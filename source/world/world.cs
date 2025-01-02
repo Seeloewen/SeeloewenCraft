@@ -34,8 +34,6 @@ namespace SeeloewenCraft
         public WorldRenderer worldRenderer;
         public EntityManager entityManager;
 
-        public Renderer renderer;
-        public Screen screen;
 
         //Constants
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
@@ -87,6 +85,8 @@ namespace SeeloewenCraft
             gameLoop = new GameLoop(25);
             recipeCreator = new RecipeCreator();
             worldRenderer = new WorldRenderer();
+
+            Renderer.Init();
 
             //Actually initialize the game
             InitGame(worldName, isNew, worldVersion);
@@ -188,8 +188,9 @@ namespace SeeloewenCraft
             //Load the player inventory if the world is not new
             InitPlayerInventory(!isNew);
 
-            screen = new Screen(renderer.cam);
-            renderer.screen = screen;
+
+
+
 
             Log.Write($"Successfully initialized game for world {worldName}!", LogType.GENERAL, LogLevel.INFO);
 
@@ -742,7 +743,7 @@ namespace SeeloewenCraft
         {
             dt = Math.Max(0.001, Math.Min(dt, 0.1));
 
-            screen.Update();
+            Screen.Update();
 
             entityManager.DoStep((int)(1.3/dt));
 
@@ -751,9 +752,9 @@ namespace SeeloewenCraft
 
             worldRenderer.Render();
 
-            renderer.cam.SetCamCenterPhysicsCoord(player.posX + 237, player.posY + 950);
+            GameCamera.SetCamCenterPhysicsCoord(player.posX + 237, player.posY + 950);
 
-            renderer.render();
+            Renderer.Render();
 
         }
 

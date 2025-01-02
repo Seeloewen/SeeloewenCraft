@@ -10,7 +10,6 @@ namespace SeeloewenCraft.gl_rendering
         PlayerRenderer playerRenderer;
         ItemEntityRenderer itemEntityRenderer;
 
-        GameCamera camera;
 
         internal EntityRenderer(TextureManager textureManager)
         {
@@ -18,16 +17,14 @@ namespace SeeloewenCraft.gl_rendering
             itemEntityRenderer = new ItemEntityRenderer(textureManager);
         }
 
-        internal void Render(GameCamera camera) {
-            this.camera = camera;
+        internal void Render() {
 
-            itemEntityRenderer.ApplyCam(camera);
             itemEntityRenderer.Begin();
 
             foreach(Entity entity in Game.world.entityManager.entities) {
                 if(entity is Player player)
                 {
-                    playerRenderer.Render(player.playerRenderInfo, camera);
+                    playerRenderer.Render(player.playerRenderInfo);
                 }
                 else if(entity is ItemEntity itemEntity)
                 {

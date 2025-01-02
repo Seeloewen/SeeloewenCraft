@@ -12,8 +12,6 @@ namespace SeeloewenCraft.gl_rendering
         Shader shader;
         VertexBuffer vertexBuffer;
 
-        GameCamera cam;
-
         float[] vertices;
         int index;
         bool drawing;
@@ -26,17 +24,13 @@ namespace SeeloewenCraft.gl_rendering
 
         }
 
-        internal void ApplyCam(GameCamera cam)
-        {
-            this.cam = cam;
-        }
 
         internal void DrawItemEntity(ItemEntity entity)
         {
-            float x1 = cam.blockXAnchor + cam.blockLength * (entity.posX / 1000.0f);
-            float y1 = cam.blockYAnchor - cam.blockLength * (entity.posY / 1000.0f) * 16/9f;
-            float x2 = x1 + cam.blockLength * (entity.sizeX / 1000.0f);
-            float y2 = y1 - cam.blockLength * (entity.sizeY / 1000.0f) * 16 / 9f;
+            float x1 = GameCamera.blockXAnchor + GameCamera.blockLength * (entity.posX / 1000.0f);
+            float y1 = GameCamera.blockYAnchor - GameCamera.blockLength * (entity.posY / 1000.0f) * 16/9f;
+            float x2 = x1 + GameCamera.blockLength * (entity.sizeX / 1000.0f);
+            float y2 = y1 - GameCamera.blockLength * (entity.sizeY / 1000.0f) * 16 / 9f;
 
             (float s1, float t1, float s2, float t2) = textureMap.GetTexture(entity.itemID);
 

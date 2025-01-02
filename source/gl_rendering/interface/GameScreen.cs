@@ -8,21 +8,20 @@ namespace SeeloewenCraft.gl_rendering
     public class GameScreen
     {
 
-        GameCamera cam;
 
-        public int blockX, blockY;
-        bool pressedLeft, pressedRight;
+        public static int blockX, blockY;
+        static bool pressedLeft, pressedRight;
 
-        internal void Render(PrimitiveRenderer renderer)
+        static internal void Render(PrimitiveRenderer renderer)
         {
             if (Game.world.GetBlock(blockX, blockY).IsInRange())
             {
-                float x1 = cam.blockXAnchor + cam.blockLength * blockX;
-                float y1 = cam.blockYAnchor - cam.blockLength * blockY * cam.ratio;
-                float x2 = x1 + cam.blockLength;
-                float y2 = y1 - cam.blockLength * cam.ratio;
-                float lx = cam.blockLength / 15;
-                float ly = lx * cam.ratio;
+                float x1 = GameCamera.blockXAnchor + GameCamera.blockLength * blockX;
+                float y1 = GameCamera.blockYAnchor - GameCamera.blockLength * blockY * Resolution.RATIO;
+                float x2 = x1 + GameCamera.blockLength;
+                float y2 = y1 - GameCamera.blockLength * Resolution.RATIO;
+                float lx = GameCamera.blockLength / 15;
+                float ly = lx * Resolution.RATIO;
 
                 renderer.DrawRectangle(x1, y1, x2, y1 - ly, 0.0f, 0.0f, 0.0f);
                 renderer.DrawRectangle(x1, y1, x1 + lx, y2, 0.0f, 0.0f, 0.0f);
@@ -31,13 +30,13 @@ namespace SeeloewenCraft.gl_rendering
             }
         }
 
-        public void Update()
+        public static void Update()
         {
             float mouseX = InputHandler.currentMouseX;
             float mouseY = InputHandler.currentMouseY;
 
-            int newBlockX = (int) Math.Floor((mouseX - cam.blockXAnchor) / cam.blockLength);
-            int newBlockY = (int)-((mouseY - cam.blockYAnchor) / (cam.blockLength * 16 / 9.0f));
+            int newBlockX = (int) Math.Floor((mouseX - GameCamera.blockXAnchor) / GameCamera.blockLength);
+            int newBlockY = (int)-((mouseY - GameCamera.blockYAnchor) / (GameCamera.blockLength * 16 / 9.0f));
 
             var block = Game.world.GetBlock(newBlockX, newBlockY);
             if (newBlockX != blockX || newBlockY != blockY)
@@ -87,10 +86,6 @@ namespace SeeloewenCraft.gl_rendering
 
 
 
-        public GameScreen(GameCamera cam)
-        {
-            this.cam = cam;
-        }
 
 
     }

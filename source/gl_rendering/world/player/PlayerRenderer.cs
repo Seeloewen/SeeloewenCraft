@@ -20,7 +20,6 @@ namespace SeeloewenCraft.gl_rendering
         float originX = -0.8f;
         float originY = 0.6f;
         float unitSize = 0.02f;
-        const float ratio = 16.0f / 9.0f;
 
         internal PlayerRenderer(TextureManager manager)
         {
@@ -29,16 +28,16 @@ namespace SeeloewenCraft.gl_rendering
             buffer = new VertexBuffer(new VBLayout().AddAttribute(2).AddAttribute(2), 4 * 6 * 7);
         }
 
-        internal void ApplyCam(GameCamera camera, PlayerRenderInfo renderInfo)
+        internal void ApplyCam(PlayerRenderInfo renderInfo)
         {
-            originX = camera.blockXAnchor + (renderInfo.posX / 1000.0f)*camera.blockLength;
-            originY = camera.blockYAnchor - (renderInfo.posY / 1000.0f) * camera.blockLength*ratio;
-            unitSize = camera.blockLength * 0.475f * 0.125f; 
+            originX = GameCamera.blockXAnchor + (renderInfo.posX / 1000.0f)*GameCamera.blockLength;
+            originY = GameCamera.blockYAnchor - (renderInfo.posY / 1000.0f) * GameCamera.blockLength*Resolution.RATIO;
+            unitSize = GameCamera.blockLength * 0.475f * 0.125f; 
         }
 
-        internal void Render(PlayerRenderInfo info, GameCamera cam)
+        internal void Render(PlayerRenderInfo info)
         {
-            ApplyCam(cam, info);
+            ApplyCam(info);
 
             vertices = new float[4 * 7 * 6];
             index = 0;
@@ -65,10 +64,10 @@ namespace SeeloewenCraft.gl_rendering
             var topLeft = new Vector2f(unitSize * -2, 0);
             var botRight = new Vector2f(unitSize * 2, unitSize * -12);
             var botLeft = new Vector2f(unitSize * -2, unitSize * -12);
-            topRight = topRight.Rotate(info.legBack).Scale(1, ratio).Add(originX + 4 * unitSize, originY - 20 * unitSize * ratio);
-            topLeft = topLeft.Rotate(info.legBack).Scale(1, ratio).Add(originX + 4 * unitSize, originY - 20 * unitSize * ratio);
-            botRight = botRight.Rotate(info.legBack).Scale(1, ratio).Add(originX + 4 * unitSize, originY - 20 * unitSize * ratio);
-            botLeft = botLeft.Rotate(info.legBack).Scale(1, ratio).Add(originX + 4 * unitSize, originY - 20 * unitSize * ratio);
+            topRight = topRight.Rotate(info.legBack).Scale(1, Resolution.RATIO).Add(originX + 4 * unitSize, originY - 20 * unitSize * Resolution.RATIO);
+            topLeft = topLeft.Rotate(info.legBack).Scale(1, Resolution.RATIO).Add(originX + 4 * unitSize, originY - 20 * unitSize * Resolution.RATIO);
+            botRight = botRight.Rotate(info.legBack).Scale(1, Resolution.RATIO).Add(originX + 4 * unitSize, originY - 20 * unitSize * Resolution.RATIO);
+            botLeft = botLeft.Rotate(info.legBack).Scale(1, Resolution.RATIO).Add(originX + 4 * unitSize, originY - 20 * unitSize * Resolution.RATIO);
 
             DrawRegion(topLeft, topRight, botLeft, botRight, s1, t1, s2, t2);
         }
@@ -80,10 +79,10 @@ namespace SeeloewenCraft.gl_rendering
             var topLeft = new Vector2f(unitSize * -2, 0);
             var botRight = new Vector2f(unitSize * 2, unitSize * -12);
             var botLeft = new Vector2f(unitSize * -2, unitSize * -12);
-            topRight = topRight.Rotate(info.legFront).Scale(1, ratio).Add(originX + 4 * unitSize, originY - 20 * unitSize * ratio);
-            topLeft = topLeft.Rotate(info.legFront).Scale(1, ratio).Add(originX + 4 * unitSize, originY - 20 * unitSize * ratio);
-            botRight = botRight.Rotate(info.legFront).Scale(1, ratio).Add(originX + 4 * unitSize, originY - 20 * unitSize * ratio);
-            botLeft = botLeft.Rotate(info.legFront).Scale(1, ratio).Add(originX + 4 * unitSize, originY - 20 * unitSize * ratio);
+            topRight = topRight.Rotate(info.legFront).Scale(1, Resolution.RATIO).Add(originX + 4 * unitSize, originY - 20 * unitSize * Resolution.RATIO);
+            topLeft = topLeft.Rotate(info.legFront).Scale(1, Resolution.RATIO).Add(originX + 4 * unitSize, originY - 20 * unitSize * Resolution.RATIO);
+            botRight = botRight.Rotate(info.legFront).Scale(1, Resolution.RATIO).Add(originX + 4 * unitSize, originY - 20 * unitSize * Resolution.RATIO);
+            botLeft = botLeft.Rotate(info.legFront).Scale(1, Resolution.RATIO).Add(originX + 4 * unitSize, originY - 20 * unitSize * Resolution.RATIO);
 
             DrawRegion(topLeft, topRight, botLeft, botRight, s1, t1, s2, t2);
         }
@@ -96,10 +95,10 @@ namespace SeeloewenCraft.gl_rendering
             var topLeft = new Vector2f(unitSize * -2, unitSize * 2);
             var botRight = new Vector2f(unitSize * 2, unitSize * -10);
             var botLeft = new Vector2f(unitSize * -2, unitSize * -10);
-            topRight = topRight.Rotate(info.armBack).Scale(1, ratio).Add(originX + 4 * unitSize, originY - 10 * unitSize * ratio);
-            topLeft = topLeft.Rotate(info.armBack).Scale(1, ratio).Add(originX + 4 * unitSize, originY - 10 * unitSize * ratio);
-            botRight = botRight.Rotate(info.armBack).Scale(1, ratio).Add(originX + 4 * unitSize, originY - 10 * unitSize * ratio);
-            botLeft = botLeft.Rotate(info.armBack).Scale(1, ratio).Add(originX + 4 * unitSize, originY - 10 * unitSize * ratio);
+            topRight = topRight.Rotate(info.armBack).Scale(1, Resolution.RATIO).Add(originX + 4 * unitSize, originY - 10 * unitSize * Resolution.RATIO);
+            topLeft = topLeft.Rotate(info.armBack).Scale(1, Resolution.RATIO).Add(originX + 4 * unitSize, originY - 10 * unitSize * Resolution.RATIO);
+            botRight = botRight.Rotate(info.armBack).Scale(1, Resolution.RATIO).Add(originX + 4 * unitSize, originY - 10 * unitSize * Resolution.RATIO);
+            botLeft = botLeft.Rotate(info.armBack).Scale(1, Resolution.RATIO).Add(originX + 4 * unitSize, originY - 10 * unitSize * Resolution.RATIO);
 
             DrawRegion(topLeft, topRight, botLeft, botRight, s1, t1, s2, t2);
         }
@@ -112,10 +111,10 @@ namespace SeeloewenCraft.gl_rendering
             var topLeft = new Vector2f(unitSize * -2, unitSize * 2);
             var botRight = new Vector2f(unitSize * 2, unitSize * -10);
             var botLeft = new Vector2f(unitSize * -2, unitSize * -10);
-            topRight = topRight.Rotate(info.armFront).Scale(1, ratio).Add(originX + 4*unitSize, originY-10*unitSize * ratio);
-            topLeft = topLeft.Rotate(info.armFront).Scale(1, ratio).Add(originX + 4 * unitSize, originY - 10 * unitSize * ratio);
-            botRight = botRight.Rotate(info.armFront).Scale(1, ratio).Add(originX + 4 * unitSize, originY - 10 * unitSize * ratio);
-            botLeft = botLeft.Rotate(info.armFront).Scale(1, ratio).Add(originX + 4 * unitSize, originY - 10 * unitSize * ratio);
+            topRight = topRight.Rotate(info.armFront).Scale(1, Resolution.RATIO).Add(originX + 4*unitSize, originY-10*unitSize * Resolution.RATIO);
+            topLeft = topLeft.Rotate(info.armFront).Scale(1, Resolution.RATIO).Add(originX + 4 * unitSize, originY - 10 * unitSize * Resolution.RATIO);
+            botRight = botRight.Rotate(info.armFront).Scale(1, Resolution.RATIO).Add(originX + 4 * unitSize, originY - 10 * unitSize * Resolution.RATIO);
+            botLeft = botLeft.Rotate(info.armFront).Scale(1, Resolution.RATIO).Add(originX + 4 * unitSize, originY - 10 * unitSize * Resolution.RATIO);
 
             DrawRegion(topLeft, topRight, botLeft, botRight, s1, t1, s2, t2);
         }
@@ -124,9 +123,9 @@ namespace SeeloewenCraft.gl_rendering
         {
             (float s1, float t1, float s2, float t2) = textureMap.GetTexture("body");
             float x1 = originX + 2*unitSize;
-            float y1 = originY - 8*unitSize*ratio;
+            float y1 = originY - 8*unitSize*Resolution.RATIO;
             float x2 = x1 + 4 * unitSize;
-            float y2 = y1 - 12 * unitSize * ratio;
+            float y2 = y1 - 12 * unitSize * Resolution.RATIO;
             DrawRegion(x1, y1, x2, y2, s1, t1, s2, t2);
         }
 
@@ -136,7 +135,7 @@ namespace SeeloewenCraft.gl_rendering
             float x1 = originX;
             float y1 = originY;
             float x2 = originX + 8 * unitSize;
-            float y2 = originY - 8 * unitSize * ratio;
+            float y2 = originY - 8 * unitSize * Resolution.RATIO;
             switch (info.direction)
             {
                 case Direction.LEFT: DrawRegion(x1, y1, x2, y2, s1, t1, s2, t2); break;

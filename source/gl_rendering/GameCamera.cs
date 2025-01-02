@@ -1,20 +1,19 @@
 ﻿
 namespace SeeloewenCraft.gl_rendering
 {
-    public class GameCamera
+    public static class GameCamera
     {
 
-        public float blockLength = 0.09f;
-        public float blockXAnchor;
-        public float blockYAnchor;
+        public static float blockLength = 0.09f;
+        public static float blockXAnchor;
+        public static float blockYAnchor;
 
         //window constants
-        public float ratio = 16 / 9.0f;
 
-        public void SetCamCenterPhysicsCoord(int x, int y)
+        public static void SetCamCenterPhysicsCoord(int x, int y)
         {
             blockXAnchor = -(x / 1000.0f) * blockLength;
-            blockYAnchor = (y / 1000.0f) * blockLength * ratio;
+            blockYAnchor = (y / 1000.0f) * blockLength * Resolution.RATIO;
 
 
         }

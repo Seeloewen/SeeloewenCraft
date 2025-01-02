@@ -82,7 +82,6 @@ namespace SeeloewenCraft
 
 
             OpenTkControl.Start();
-            world.renderer = new Renderer();
 
             OpenTK.Graphics.OpenGL4.GL.DebugMessageCallback(DebugMessageDelegate, IntPtr.Zero);
             OpenTK.Graphics.OpenGL4.GL.Enable(EnableCap.DebugOutput);
@@ -274,6 +273,7 @@ namespace SeeloewenCraft
             if (pressedKeys.Contains(Settings.cToggleDebug))
             {
                 //Open debug menu
+                /*
                 if(world.renderer.screen.showDebugMenu)
                 {
                     world.renderer.screen.showDebugMenu = false;
@@ -284,6 +284,9 @@ namespace SeeloewenCraft
                     world.renderer.screen.showDebugMenu = true;
                     //world.debugMenu.Show();
                 }
+                //*/
+                Screen.showDebugMenu = !Screen.showDebugMenu;
+
             }
         }
 
