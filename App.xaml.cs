@@ -44,8 +44,15 @@ namespace SeeloewenCraft
                     Directory.Delete($"{FolderUtil.worldsFolder}/debug", true);
                 }
 
+                //show start log on start of program if enabled through start options
+                if (StartOptions.showLog)
+                {
+                    Log.Show();
+                }
+
                 //create new world with name "debug"
-                World world = new World(wndMenu, "Debug", StartOptions.seed, true, Game.WORLD_VERSION, Game.GAME_VERSION, MultiplayerType.OFFLINE);
+                //World world = new World(wndMenu, "Debug", StartOptions.seed, true, Game.WORLD_VERSION, Game.GAME_VERSION, MultiplayerType.OFFLINE);
+                Game.CreateGame("Debug", StartOptions.seed, true, Game.WORLD_VERSION, Game.GAME_VERSION, MultiplayerType.OFFLINE);
             }
 
             //show start log on start of program if enabled through start options

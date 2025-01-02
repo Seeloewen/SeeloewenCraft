@@ -17,6 +17,7 @@
     <StartupObject>SeeloewenCraft.App</StartupObject>
     <ApplicationIcon>SeeloewenCraft.ico</ApplicationIcon>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>True</Optimize>
