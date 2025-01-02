@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Windows.Markup.Localizer;
 using System.Windows.Media;
@@ -377,13 +378,13 @@ namespace SeeloewenCraft
             {
                 foreach (Block block in chunk.blockList.blocks)
                 {
-                    if (block is CropBlock crop)
+                    if (block is CropBlock crop && crop.progress < 200000000)
                     {
                         crop.UpdateProgress(maxTick);
                     }
 
                     Block foregroundBlock = block.GetForegroundBlock();
-                    if (block.isBackground && foregroundBlock != null && foregroundBlock is CropBlock foreCrop)
+                    if (block.isBackground && foregroundBlock != null && foregroundBlock is CropBlock foreCrop && foreCrop.progress < 200000000)
                     {
                         foreCrop.UpdateProgress(maxTick);
                     }

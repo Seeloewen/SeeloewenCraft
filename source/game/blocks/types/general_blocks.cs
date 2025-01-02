@@ -1077,6 +1077,7 @@ namespace SeeloewenCraft
         public PumpkinBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Pumpkin", "sc:pumpkin_block", 500, "sc:pumpkin_item", Tool.Axe);
+            isSolid = false;
         }
     }
 

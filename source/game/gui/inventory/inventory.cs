@@ -16,6 +16,8 @@ namespace SeeloewenCraft
         public List<HotbarSlot> hotbarSlotList = new List<HotbarSlot>();
         public Grid grdInventory = new Grid();
         public Grid grdHotbar = new Grid();
+        public Canvas cvsItemName = new Canvas();
+        public TextBlock tblItemName = new TextBlock();
         public Block block;
 
         //Variables
@@ -41,6 +43,19 @@ namespace SeeloewenCraft
             Canvas.SetLeft(grdInventory, 22);
             Canvas.SetTop(grdInventory, 40);
             inventoryGui.cvsGui.Children.Add(grdInventory);
+
+            //Create the item name display
+            cvsItemName.Width = 132;
+            cvsItemName.Height = 25;
+            cvsItemName.Background = new SolidColorBrush(Colors.Black);
+            cvsItemName.Opacity = 0.8;
+            cvsItemName.Visibility = Visibility.Hidden;
+            tblItemName.Text = "NO_ITEM_SELECTED";
+            tblItemName.FontSize = 18;
+            Canvas.SetLeft(tblItemName, 7);
+            tblItemName.Foreground = new SolidColorBrush(Colors.White);
+            cvsItemName.Children.Add(tblItemName);
+            inventoryGui.cvsGui.Children.Add(cvsItemName);
 
             //Add colums and rows to the grid
             for (int i = 0; i < slotsX; i++)
@@ -111,6 +126,27 @@ namespace SeeloewenCraft
 
             }
         }
+
+        public void ShowItemName(InventorySlot slot)
+        {
+            if (slot.Amount <= 0)
+            {
+                return;
+            }
+
+            //Display the item name and adjust the length of the tooltip accordingly
+            tblItemName.Text = ItemRegister.GenerateItem(slot.itemId).name;
+            cvsItemName.Width = slot.itemId.Length * 6.5;
+            cvsItemName.Visibility = Visibility.Visible;
+            Canvas.SetLeft(cvsItemName, Canvas.GetLeft(slot.inventory.grdInventory) + slot.xPos * 70 + 15 - cvsItemName.Width * 0.25);
+            Canvas.SetTop(cvsItemName, Canvas.GetTop(slot.inventory.grdInventory) + slot.yPos * 72 + 75);
+        }
+
+        public void HideItemName()
+        {
+            cvsItemName.Visibility = Visibility.Hidden;
+        }
+
 
         public int GetSelectedHotbarIndex()
         {
@@ -207,9 +243,9 @@ namespace SeeloewenCraft
         public InventorySlot GetSlot(int x, int y)
         {
             //Go through all slots and check if the x and y pos matches
-            foreach(InventorySlot slot in slotList)
+            foreach (InventorySlot slot in slotList)
             {
-                if(slot.xPos == x && slot.yPos == y)
+                if (slot.xPos == x && slot.yPos == y)
                 {
                     return slot;
                 }
@@ -217,16 +253,16 @@ namespace SeeloewenCraft
 
             return null;
         }
-      
+
         public void AddItem(string id, int amount, string tag, out int remainingAmount)
         {
             //Add the item by first checking if a slot already has the item, otherwise add it to a new slot. Also update the hotbar.
-            if(!Game.unstackableItems.Contains(id))
+            if (!Game.unstackableItems.Contains(id))
             {
                 //Only check existing slots if it's stackable
                 AddToExistingSlot(id, ref amount, tag);
             }
-            AddToNewSlot(id, ref amount, tag);           
+            AddToNewSlot(id, ref amount, tag);
 
             UpdateHotbar();
 
@@ -291,7 +327,7 @@ namespace SeeloewenCraft
                 if (slot.IsEmpty())
                 {
                     //If it's unstackable, only add one
-                    if(Game.unstackableItems.Contains(id))
+                    if (Game.unstackableItems.Contains(id))
                     {
                         slot.Add(id, 1, tag, out bool success);
                         amount--;

@@ -1,4 +1,21 @@
-﻿Alpha 1.2.1 - 19.10.2024
+﻿Alpha 1.2.2 - 01.01.2025
++ Added farmland, pumpkins and wool
++ Added crops that can grow and be harvested
++ Added player id and nickname
++ Added cotton field and abandoned farm structure
+* Upgraded to .NET 9
+* Completely reworked network packet handling
+* Logging types and levels can now be toggled in settings
+* Some blocks now require specific blocks below them
+* Scythes can now turn dirt into farmland
+* Grass now drops seeds
+* Oak leaves now drop apples
+* Player movement animations and inventories are now synced in multiplayer
+* Fixed exception when trying to smelt in furnace
+* Fixed many multiplayer sync issues
+* Fixed 0 amount item stacks when picking up items you already have in inventory
+
+Alpha 1.2.1 - 19.10.2024
 * Added a Player Skin
 * Added movement animations
 * Added world seed support
