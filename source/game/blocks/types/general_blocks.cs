@@ -21,7 +21,7 @@ namespace SeeloewenCraft
     {
         public GrassBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Grass Block", "sc:grass_block", 150, "sc:grass_block_item", Tool.Shovel, Images.GrassBlock);
+            Init("Grass Block", "sc:grass_block", 150, "sc:grass_block_item", Tool.Shovel);
             drops.Add(("sc:dirt_item", 1, 1));
 
             tags.Add("canBeFloor");
@@ -35,7 +35,7 @@ namespace SeeloewenCraft
         public StoneBlock(bool isInBackground) : base(isInBackground)
         {
             //lootTable = Game.world.lootTables.stoneLootTable;
-            Init("Stone Block", "sc:stone_block", 1250, "sc:stone_block_item", Tool.Pickaxe, Images.StoneBlock);
+            Init("Stone Block", "sc:stone_block", 1250, "sc:stone_block_item", Tool.Pickaxe);
             drops.Add(("sc:rock_item", 1, 4));
 
             tags.Add("canBeFloor");
@@ -46,7 +46,7 @@ namespace SeeloewenCraft
     {
         public DirtBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Dirt", "sc:dirt_block", 150, "sc:dirt_item", Tool.Shovel, Images.Dirt);
+            Init("Dirt", "sc:dirt_block", 150, "sc:dirt_item", Tool.Shovel);
             tags.Add("canBeFloor");
             tags.Add("ground/plant");
             tags.Add("scytheable");
@@ -57,7 +57,7 @@ namespace SeeloewenCraft
     {
         public AirBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Air", "sc:air_block", 150, "sc:air_item", Tool.None, Images.Air);
+            Init("Air", "sc:air_block", 150, "sc:air_item", Tool.None);
             isBreakable = false;
             isSolid = false;
             isReplacable = true;
@@ -70,7 +70,7 @@ namespace SeeloewenCraft
     {
         public BedrockBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Bedrock", "sc:bedrock_block", 150, "sc:bedrock_item", Tool.None, Images.Bedrock);
+            Init("Bedrock", "sc:bedrock_block", 150, "sc:bedrock_item", Tool.None);
             isBreakable = false;
             canBeMovedToBackground = false;
         }
@@ -80,7 +80,7 @@ namespace SeeloewenCraft
     {
         public CoalOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Coal Ore", "sc:coal_ore_block", 1750, "sc:coal_ore_item", Tool.Pickaxe, Images.CoalOre);
+            Init("Coal Ore", "sc:coal_ore_block", 1750, "sc:coal_ore_item", Tool.Pickaxe);
             drops.Add(("sc:coal_item", 1, 3));
             dropsOnWrongTool = false;
         }
@@ -90,7 +90,7 @@ namespace SeeloewenCraft
     {
         public DiamondOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Diamond Ore", "sc:diamond_ore_block", 1750, "sc:diamond_ore_item", Tool.Pickaxe, Images.DiamondOre);
+            Init("Diamond Ore", "sc:diamond_ore_block", 1750, "sc:diamond_ore_item", Tool.Pickaxe);
             drops.Add(("sc:diamond_item", 1, 1));
             effectiveMaterial = Material.Iron;
             dropsOnWrongTool = false;
@@ -101,7 +101,7 @@ namespace SeeloewenCraft
     {
         public IronOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Iron Ore", "sc:iron_ore_block", 1750, "sc:iron_ore_item", Tool.Pickaxe, Images.IronOre);
+            Init("Iron Ore", "sc:iron_ore_block", 1750, "sc:iron_ore_item", Tool.Pickaxe);
             effectiveMaterial = Material.Stone;
             dropsOnWrongTool = false;
         }
@@ -111,7 +111,7 @@ namespace SeeloewenCraft
     {
         public OakLogBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Oak Log", "sc:oak_log_block", 350, "sc:oak_log_item", Tool.Axe, Images.OakLog);
+            Init("Oak Log", "sc:oak_log_block", 350, "sc:oak_log_item", Tool.Axe);
             tags.Add("type/log");
         }
     }
@@ -120,7 +120,7 @@ namespace SeeloewenCraft
     {
         public OakLeavesBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Oak Leaves", "sc:oak_leaves_block", 125, "sc:oak_leaves_item", Tool.None, Images.OakLeaves);
+            Init("Oak Leaves", "sc:oak_leaves_block", 125, "sc:oak_leaves_item", Tool.None);
             lootTable = (LootTables.oakTreeLootTable, 1, 1);
             tags.Add("type/leaf");
         }
@@ -130,7 +130,7 @@ namespace SeeloewenCraft
     {
         public SpruceLogBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Log", "sc:spruce_log_block", 350, "sc:spruce_log_item", Tool.Axe, Images.SpruceLog);
+            Init("Spruce Log", "sc:spruce_log_block", 350, "sc:spruce_log_item", Tool.Axe);
             tags.Add("type/log");
         }
     }
@@ -139,7 +139,7 @@ namespace SeeloewenCraft
     {
         public SpruceLeavesBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Leaves", "sc:spruce_leaves_block", 125, "sc:spruce_leaves_item", Tool.None, Images.SpruceLeaves);
+            Init("Spruce Leaves", "sc:spruce_leaves_block", 125, "sc:spruce_leaves_item", Tool.None);
             lootTable = (LootTables.spruceTreeLootTable, 1, 1);
             tags.Add("type/leaf");
         }
@@ -149,7 +149,7 @@ namespace SeeloewenCraft
     {
         public ChestBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Chest", "sc:chest_block", 500, "sc:chest_item", Tool.Axe, Images.Chest);
+            Init("Chest", "sc:chest_block", 500, "sc:chest_item", Tool.Axe);
             hasInventory = true;
             blockInventory = new Inventory(9, 4, false);
             blockInventory.block = this;
@@ -174,7 +174,7 @@ namespace SeeloewenCraft
     {
         public MagmaBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Magma Block", "sc:magma_block", 750, "sc:magma_block_item", Tool.Pickaxe, Images.MagmaBlock);
+            Init("Magma Block", "sc:magma_block", 750, "sc:magma_block_item", Tool.Pickaxe);
             collision = new RectangleCollision(0, 1000, 1, 1000);
         }
 
@@ -191,7 +191,7 @@ namespace SeeloewenCraft
     {
         public TorchBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Torch", "sc:torch_block", 0, "sc:torch_item", Tool.None, Images.Torch);
+            Init("Torch", "sc:torch_block", 0, "sc:torch_item", Tool.None);
             isSolid = false;
             canBeMovedToBackground = false;
             isLightSource = true;
@@ -202,7 +202,7 @@ namespace SeeloewenCraft
     {
         public PottedCactus_Base(bool isInBackground) : base(isInBackground)
         {
-            Init("Potted Cactus Base", "sc:potted_cactus_base", 0, "sc:potted_cactus_item", Tool.None, Images.PottedCactus_Base);
+            Init("Potted Cactus Base", "sc:potted_cactus_base", 0, "sc:potted_cactus_item", Tool.None);
             isBase = true;
             connectedBlocks.Add((0, -1, "sc:potted_cactus_top"));
             collision = new MultipleRectangleCollision([125, 251], [875, 749], [375, 1], [1000, 375]);
@@ -214,7 +214,7 @@ namespace SeeloewenCraft
     {
         public PottedCactus_Top(bool isInBackground) : base(isInBackground)
         {
-            Init("Potted Cactus Top", "sc:potted_cactus_top", 0, null, Tool.None, Images.PottedCactus_Top);
+            Init("Potted Cactus Top", "sc:potted_cactus_top", 0, null, Tool.None);
             collision = new RectangleCollision(251, 749, 188, 999);
         }
     }
@@ -223,7 +223,7 @@ namespace SeeloewenCraft
     {
         public CraftingTableBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Crafting Table", "sc:crafting_table_block", 500, "sc:crafting_table_item", Tool.Axe, Images.CraftingTable);
+            Init("Crafting Table", "sc:crafting_table_block", 500, "sc:crafting_table_item", Tool.Axe);
             tags.Add("workstation");
             hasRightClickAction = true;
 
@@ -257,7 +257,7 @@ namespace SeeloewenCraft
     {
         public ChiselerBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Chiseler", "sc:chiseler_block", 500, "sc:chiseler_item", Tool.Axe, Images.Chiseler);
+            Init("Chiseler", "sc:chiseler_block", 500, "sc:chiseler_item", Tool.Axe);
             tags.Add("workstation");
             hasRightClickAction = true;
 
@@ -291,7 +291,7 @@ namespace SeeloewenCraft
     {
         public UnchiselerBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Unchiseler", "sc:unchiseler_block", 500, "sc:unchiseler_item", Tool.Axe, Images.Unchiseler);
+            Init("Unchiseler", "sc:unchiseler_block", 500, "sc:unchiseler_item", Tool.Axe);
             hasRightClickAction = true;
             collision = new RectangleCollision(0, 1000, 565, 1000);
             gui = new UnchiselerGui(225, 225, 420, 530, "sc:unchiseler");
@@ -316,7 +316,7 @@ namespace SeeloewenCraft
     {
         public CobblestoneBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Cobblestone", "sc:cobblestone_block", 1250, "sc:cobblestone_item", Tool.Pickaxe, Images.CobbleStoneBlock);
+            Init("Cobblestone", "sc:cobblestone_block", 1250, "sc:cobblestone_item", Tool.Pickaxe);
             dropsOnWrongTool = false;
         }
     }
@@ -325,7 +325,7 @@ namespace SeeloewenCraft
     {
         public SpruceDoor_Base(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Door Base", "sc:spruce_door_base", 500, "sc:spruce_door_item", Tool.Axe, Images.SpruceDoor_Closed_Base);
+            Init("Spruce Door Base", "sc:spruce_door_base", 500, "sc:spruce_door_item", Tool.Axe);
             isBase = true;
             hasRightClickAction = true;
             needsGround = (true, "");
@@ -341,7 +341,7 @@ namespace SeeloewenCraft
     {
         public SpruceDoor_Top(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Door Top", "sc:spruce_door_top", 500, null, Tool.Axe, Images.SpruceDoor_Closed_Top);
+            Init("Spruce Door Top", "sc:spruce_door_top", 500, null, Tool.Axe);
             hasRightClickAction = true;
             collision = new RectangleCollision(720, 1000, 0, 1000);
 
@@ -372,7 +372,7 @@ namespace SeeloewenCraft
     {
         public SandStoneBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Sand Stone", "sc:sand_stone_block", 1250, "sc:sand_stone_item", Tool.Pickaxe, Images.SandStone);
+            Init("Sand Stone", "sc:sand_stone_block", 1250, "sc:sand_stone_item", Tool.Pickaxe);
             dropsOnWrongTool = false;
         }
     }
@@ -381,7 +381,7 @@ namespace SeeloewenCraft
     {
         public OakPlanksBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Oak Plank", "sc:oak_planks_block", 500, "sc:oak_planks_item", Tool.Axe, Images.OakPlanks);
+            Init("Oak Plank", "sc:oak_planks_block", 500, "sc:oak_planks_item", Tool.Axe);
         }
     }
 
@@ -389,7 +389,7 @@ namespace SeeloewenCraft
     {
         public SprucePlanksBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Planks", "sc:spruce_planks_block", 500, "sc:spruce_planks_item", Tool.Axe, Images.SprucePlanks);
+            Init("Spruce Planks", "sc:spruce_planks_block", 500, "sc:spruce_planks_item", Tool.Axe);
         }
     }
 
@@ -413,7 +413,7 @@ namespace SeeloewenCraft
     {
         public Cactus_TopFruit(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Top Fruit", "sc:cactus_top_fruit", 250, "sc:cactus_top_fruit_item", Tool.Axe, Images.Cactus_Top_Fruit);
+            Init("Cactus Top Fruit", "sc:cactus_top_fruit", 250, "sc:cactus_top_fruit_item", Tool.Axe);
             drops.Add(("sc:cactus_fruit_item", 1, 1));
             collision = new RectangleCollision(191, 809, 631, 999);
             cactusCollision = new RectangleCollision(190, 810, 630, 1000);
@@ -424,7 +424,7 @@ namespace SeeloewenCraft
     {
         public Cactus_Vertical(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Vertical", "sc:cactus_vertical", 250, null, Tool.Axe, Images.Cactus_Vertical);
+            Init("Cactus Vertical", "sc:cactus_vertical", 250, null, Tool.Axe);
             collision = new RectangleCollision(191, 809, 1, 999);
             cactusCollision = new RectangleCollision(190, 810, 0, 1000);
         }
@@ -434,7 +434,7 @@ namespace SeeloewenCraft
     {
         public Cactus_Top(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Top", "sc:cactus_top", 250, null, Tool.Axe, Images.Cactus_Top);
+            Init("Cactus Top", "sc:cactus_top", 250, null, Tool.Axe);
             collision = new RectangleCollision(191, 809, 631, 999);
             cactusCollision = new RectangleCollision(190, 810, 630, 1000);
         }
@@ -444,7 +444,7 @@ namespace SeeloewenCraft
     {
         public Cactus_TopLeft(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Top Left", "sc:cactus_top_left", 250, null, Tool.Axe, Images.Cactus_TopLeft);
+            Init("Cactus Top Left", "sc:cactus_top_left", 250, null, Tool.Axe);
             collision = new MultipleRectangleCollision([191, 1], [809, 189], [1, 191], [809, 809]);
             cactusCollision = new MultipleRectangleCollision([190, 0], [810, 190], [0, 190], [810, 810]);
         }
@@ -454,7 +454,7 @@ namespace SeeloewenCraft
     {
         public Cactus_TopRight(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Top Right", "sc:cactus_top_right", 250, null, Tool.Axe, Images.Cactus_TopRight);
+            Init("Cactus Top Right", "sc:cactus_top_right", 250, null, Tool.Axe);
             collision = new MultipleRectangleCollision([191, 811], [809, 999], [1, 191], [809, 809]);
             cactusCollision = new MultipleRectangleCollision([190, 810], [810, 1000], [0, 190], [810, 810]);
         }
@@ -464,7 +464,7 @@ namespace SeeloewenCraft
     {
         public Cactus_Cross(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Cross", "sc:cactus_cross", 250, null, Tool.Axe, Images.Cactus_Cross);
+            Init("Cactus Cross", "sc:cactus_cross", 250, null, Tool.Axe);
             collision = new MultipleRectangleCollision([191, 811, 1], [809, 999, 189], [1, 191, 191], [999, 809, 809]);
             cactusCollision = new MultipleRectangleCollision([190, 810, 0], [810, 1000, 190], [0, 190, 190], [1000, 810, 810]);
         }
@@ -474,7 +474,7 @@ namespace SeeloewenCraft
     {
         public Cactus_Right(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Right", "sc:cactus_right", 250, null, Tool.Axe, Images.Cactus_Right);
+            Init("Cactus Right", "sc:cactus_right", 250, null, Tool.Axe);
             collision = new MultipleRectangleCollision([191, 811], [809, 999], [1, 191], [999, 809]);
             cactusCollision = new MultipleRectangleCollision([190, 810], [810, 1000], [0, 190], [1000, 810]);
         }
@@ -484,7 +484,7 @@ namespace SeeloewenCraft
     {
         public Cactus_Left(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Left", "sc:cactus_left", 250, null, Tool.Axe, Images.Cactus_Left);
+            Init("Cactus Left", "sc:cactus_left", 250, null, Tool.Axe);
             collision = new MultipleRectangleCollision([191, 1], [809, 189], [1, 191], [999, 809]);
             cactusCollision = new MultipleRectangleCollision([190, 0], [810, 190], [0, 190], [1000, 810]);
         }
@@ -494,7 +494,7 @@ namespace SeeloewenCraft
     {
         public Cactus_Horizontal(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Horizontal", "sc:cactus_horizontal", 250, null, Tool.Axe, Images.Cactus_Horizontal);
+            Init("Cactus Horizontal", "sc:cactus_horizontal", 250, null, Tool.Axe);
             collision = new RectangleCollision(1, 999, 189, 811);
             cactusCollision = new RectangleCollision(0, 1000, 190, 810);
         }
@@ -504,7 +504,7 @@ namespace SeeloewenCraft
     {
         public Cactus_BottomLeft(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Bottom Left", "sc:cactus_bottom_left", 250, null, Tool.Axe, Images.Cactus_BottomLeft);
+            Init("Cactus Bottom Left", "sc:cactus_bottom_left", 250, null, Tool.Axe);
             collision = new MultipleRectangleCollision([191, 1], [809, 191], [191, 191], [999, 809]);
             cactusCollision = new MultipleRectangleCollision([190, 0], [810, 190], [190, 190], [1000, 810]);
         }
@@ -514,7 +514,7 @@ namespace SeeloewenCraft
     {
         public Cactus_BottomRight(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Bottom Right", "sc:cactus_bottom_right", 250, null, Tool.Axe, Images.Cactus_BottomRight);
+            Init("Cactus Bottom Right", "sc:cactus_bottom_right", 250, null, Tool.Axe);
             collision = new MultipleRectangleCollision([191, 811], [809, 999], [189, 189], [999, 809]);
             cactusCollision = new MultipleRectangleCollision([190, 810], [810, 1000], [190, 190], [1000, 810]);
         }
@@ -524,7 +524,7 @@ namespace SeeloewenCraft
     {
         public OakDoor_Base(bool isInBackground) : base(isInBackground)
         {
-            Init("Oak Door Base", "sc:oak_door_base", 500, "sc:oak_door_item", Tool.Axe, Images.OakDoor_Closed_Base);
+            Init("Oak Door Base", "sc:oak_door_base", 500, "sc:oak_door_item", Tool.Axe);
             isBase = true;
             hasRightClickAction = true;
             collision = new RectangleCollision(720, 1000, 0, 1000);
@@ -539,7 +539,7 @@ namespace SeeloewenCraft
     {
         public OakDoor_Top(bool isInBackground) : base(isInBackground)
         {
-            Init("Oak Door Top", "sc:oak_door_top", 500, null, Tool.Axe, Images.OakDoor_Closed_Top);
+            Init("Oak Door Top", "sc:oak_door_top", 500, null, Tool.Axe);
             hasRightClickAction = true;
             collision = new RectangleCollision(720, 1000, 0, 1000);
 
@@ -570,7 +570,7 @@ namespace SeeloewenCraft
     {
         public OakTrapDoor(bool isInBackground) : base(isInBackground)
         {
-            Init("Oak Trapdoor Base", "sc:oak_trapdoor", 500, "sc:oak_trapdoor_item", Tool.Axe, Images.OakTrapdoor_Closed);
+            Init("Oak Trapdoor Base", "sc:oak_trapdoor", 500, "sc:oak_trapdoor_item", Tool.Axe);
             hasRightClickAction = true;
             collision = new RectangleCollision(0, 1000, 0, 150);
 
@@ -583,7 +583,7 @@ namespace SeeloewenCraft
     {
         public SpruceTrapDoor(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Trapdoor Base", "sc:spruce_trapdoor", 500, "sc:spruce_trapdoor_item", Tool.Axe, Images.SpruceTrapdoor_Closed);
+            Init("Spruce Trapdoor Base", "sc:spruce_trapdoor", 500, "sc:spruce_trapdoor_item", Tool.Axe);
             hasRightClickAction = true;
             collision = new RectangleCollision(0, 1000, 0, 150);
 
@@ -596,7 +596,7 @@ namespace SeeloewenCraft
     {
         public FurnaceBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Furnace", "sc:furnace_block", 500, "sc:furnace_item", Tool.Pickaxe, Images.Furnace_Idle);
+            Init("Furnace", "sc:furnace_block", 500, "sc:furnace_item", Tool.Pickaxe);
             tags.Add("workstation");
             hasRightClickAction = true;
             dropsOnWrongTool = false;
@@ -631,7 +631,7 @@ namespace SeeloewenCraft
     {
         public OakChair_Base(bool isInBackground) : base(isInBackground)
         {
-            Init("Oak Chair Base", "sc:oak_chair_base", 0, "sc:oak_chair_item", Tool.Axe, Images.OakChair_Bottom);
+            Init("Oak Chair Base", "sc:oak_chair_base", 0, "sc:oak_chair_item", Tool.Axe);
             isBase = true;
             isSolid = false;
 
@@ -643,7 +643,7 @@ namespace SeeloewenCraft
     {
         public OakChair_Top(bool isInBackground) : base(isInBackground)
         {
-            Init("Oak Chair Top", "sc:oak_chair_top", 0, null, Tool.Axe, Images.OakChair_Top);
+            Init("Oak Chair Top", "sc:oak_chair_top", 0, null, Tool.Axe);
             isSolid = false;
         }
     }
@@ -652,7 +652,7 @@ namespace SeeloewenCraft
     {
         public SpruceChair_Base(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Chair Base", "sc:spruce_chair_base", 0, "sc:spruce_chair_item", Tool.Axe, Images.SpruceChair_Bottom);
+            Init("Spruce Chair Base", "sc:spruce_chair_base", 0, "sc:spruce_chair_item", Tool.Axe);
             isBase = true;
             isSolid = false;
 
@@ -664,7 +664,7 @@ namespace SeeloewenCraft
     {
         public SpruceChair_Top(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Chair Top", "sc:spruce_chair_top", 0, null, Tool.Axe, Images.SpruceChair_Top);
+            Init("Spruce Chair Top", "sc:spruce_chair_top", 0, null, Tool.Axe);
             isSolid = false;
         }
     }
@@ -673,7 +673,7 @@ namespace SeeloewenCraft
     {
         public ArcheologyPot_Base(bool isInBackground) : base(isInBackground)
         {
-            Init("Archeology Pot Base", "sc:archeology_pot_base", 100, "sc:archeology_pot_item", Tool.Pickaxe, Images.ArcheologyPot_Base);
+            Init("Archeology Pot Base", "sc:archeology_pot_base", 100, "sc:archeology_pot_item", Tool.Pickaxe);
             isBase = true;
             isSolid = false;
             blockInventory = new Inventory(1, 1, false);
@@ -687,7 +687,7 @@ namespace SeeloewenCraft
     {
         public ArcheologyPot_Top(bool isInBackground) : base(isInBackground)
         {
-            Init("Archeology Pot Top", "sc:archeology_pot_top", 100, null, Tool.Pickaxe, Images.ArcheologyPot_Top);
+            Init("Archeology Pot Top", "sc:archeology_pot_top", 100, null, Tool.Pickaxe);
             isSolid = false;
         }
     }
@@ -696,7 +696,7 @@ namespace SeeloewenCraft
     {
         public AmethystOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Amethyst Ore", "sc:amethyst_ore_block", 1750, "sc:amethyst_ore_item", Tool.Pickaxe, Images.AmethystOre);
+            Init("Amethyst Ore", "sc:amethyst_ore_block", 1750, "sc:amethyst_ore_item", Tool.Pickaxe);
             drops.Add(("sc:amethyst_item", 1, 1));
             effectiveMaterial = Material.Diamond;
             dropsOnWrongTool = false;
@@ -707,7 +707,7 @@ namespace SeeloewenCraft
     {
         public AnvilBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Anvil", "sc:anvil_block", 2000, "sc:anvil_item", Tool.Pickaxe, Images.Anvil);
+            Init("Anvil", "sc:anvil_block", 2000, "sc:anvil_item", Tool.Pickaxe);
             tags.Add("workstation");
             hasRightClickAction = true;
             dropsOnWrongTool = false;
@@ -744,7 +744,7 @@ namespace SeeloewenCraft
     {
         public BarrelBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Barrel", "sc:barrel_block", 500, "sc:barrel_item", Tool.Axe, Images.Barrel);
+            Init("Barrel", "sc:barrel_block", 500, "sc:barrel_item", Tool.Axe);
             hasInventory = true;
             blockInventory = new Inventory(9, 2, false);
             Game.world.inventoryList.Add(blockInventory);
@@ -768,7 +768,7 @@ namespace SeeloewenCraft
     {
         public BlueFlowerBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Blue Flower", "sc:blue_flower_block", 0, "sc:blue_flower_item", Tool.None, Images.BlueFlower);
+            Init("Blue Flower", "sc:blue_flower_block", 0, "sc:blue_flower_item", Tool.None);
             isSolid = false;
             needsGround = (true, "ground/plant");
         }
@@ -778,7 +778,7 @@ namespace SeeloewenCraft
     {
         public BoneBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Bone Block", "sc:bone_block", 750, "sc:bone_block_item", Tool.None, Images.BoneBlock);
+            Init("Bone Block", "sc:bone_block", 750, "sc:bone_block_item", Tool.None);
         }
     }
 
@@ -786,7 +786,7 @@ namespace SeeloewenCraft
     {
         public CactusFruitBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Cactus Fruit", "sc:cactus_fruit_block", 0, "sc:cactus_fruit_item", Game.rnd.Next(180000, 480001), "sc:cactus_fruit_item", "sc:cactus_fruit_item", 0, 0, Tool.None, Images.CactusFruit);
+            Init("Cactus Fruit", "sc:cactus_fruit_block", 0, "sc:cactus_fruit_item", Game.rnd.Next(180000, 480001), "sc:cactus_fruit_item", "sc:cactus_fruit_item", 0, 0, Tool.None);
             isSolid = false;
             needsGround = (true, "ground/sand");
         }
@@ -817,7 +817,7 @@ namespace SeeloewenCraft
     {
         public CandleBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Candle", "sc:candle_block", 0, "sc:candle_item", Tool.None, Images.Candle);
+            Init("Candle", "sc:candle_block", 0, "sc:candle_item", Tool.None);
             isSolid = false;
             needsGround = (true, "");
         }
@@ -827,7 +827,7 @@ namespace SeeloewenCraft
     {
         public CopperOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Copper Ore", "sc:copper_ore_block", 1750, "sc:copper_ore_block", Tool.Pickaxe, Images.CopperOre);
+            Init("Copper Ore", "sc:copper_ore_block", 1750, "sc:copper_ore_block", Tool.Pickaxe);
             effectiveMaterial = Material.Tin;
             dropsOnWrongTool = false;
         }
@@ -837,7 +837,7 @@ namespace SeeloewenCraft
     {
         public DeadBushBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Dead Bush", "sc:dead_bush_block", 0, "sc:dead_bush_item", Tool.None, Images.DeadBush);
+            Init("Dead Bush", "sc:dead_bush_block", 0, "sc:dead_bush_item", Tool.None);
             isSolid = false;
             needsGround = (true, "ground/sand");
         }
@@ -847,7 +847,7 @@ namespace SeeloewenCraft
     {
         public EmeraldOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Emerald Ore", "sc:emerald_ore_block", 1750, "sc:emerald_ore_item", Tool.Pickaxe, Images.EmeraldOre);
+            Init("Emerald Ore", "sc:emerald_ore_block", 1750, "sc:emerald_ore_item", Tool.Pickaxe);
             drops.Add(("sc:emerald_item", 1, 1));
             effectiveMaterial = Material.Diamond;
             dropsOnWrongTool = false;
@@ -858,7 +858,7 @@ namespace SeeloewenCraft
     {
         public FlowerPotBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Flower Pot", "sc:flower_pot_block", 200, "sc:flower_pot_item", Tool.Pickaxe, Images.FlowerPot);
+            Init("Flower Pot", "sc:flower_pot_block", 200, "sc:flower_pot_item", Tool.Pickaxe);
             isSolid = false;
         }
     }
@@ -867,7 +867,7 @@ namespace SeeloewenCraft
     {
         public GoldOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Gold Ore", "sc:gold_ore_block", 1750, "sc:gold_ore_item", Tool.Pickaxe, Images.GoldOre);
+            Init("Gold Ore", "sc:gold_ore_block", 1750, "sc:gold_ore_item", Tool.Pickaxe);
             effectiveMaterial = Material.Tin;
             dropsOnWrongTool = false;
         }
@@ -877,7 +877,7 @@ namespace SeeloewenCraft
     {
         public Grass(bool isInBackground) : base(isInBackground)
         {
-            Init("Grass", "sc:grass", 0, "sc:grass_item", Tool.None, Images.Grass);
+            Init("Grass", "sc:grass", 0, "sc:grass_item", Tool.None);
             lootTable = (LootTables.grassLootTable, 1, 1);
             isSolid = false;
             needsGround = (true, "ground/plant");
@@ -888,7 +888,7 @@ namespace SeeloewenCraft
     {
         public IronGatesBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Iron Gates", "sc:iron_gates_block", 2000, "sc:iron_gates_item", Tool.Pickaxe, Images.IronGates);
+            Init("Iron Gates", "sc:iron_gates_block", 2000, "sc:iron_gates_item", Tool.Pickaxe);
             effectiveMaterial = Material.Stone;
             dropsOnWrongTool = false;
         }
@@ -898,7 +898,7 @@ namespace SeeloewenCraft
     {
         public LadderBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Ladder", "sc:ladder_block", 250, "sc:ladder_item", Tool.Axe, Images.Ladder);
+            Init("Ladder", "sc:ladder_block", 250, "sc:ladder_item", Tool.Axe);
             isSolid = false;
         }
 
@@ -914,7 +914,7 @@ namespace SeeloewenCraft
     {
         public MossyCobblestoneBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Mossy Cobblestone", "sc:mossy_cobblestone_block", 1250, "sc:mossy_cobblestone_item", Tool.Pickaxe, Images.MossyCobblestone);
+            Init("Mossy Cobblestone", "sc:mossy_cobblestone_block", 1250, "sc:mossy_cobblestone_item", Tool.Pickaxe);
             dropsOnWrongTool = false;
         }
     }
@@ -923,7 +923,7 @@ namespace SeeloewenCraft
     {
         public OakSaplingBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Oak Sapling", "sc:oak_sapling_block", 0, "sc:oak_sapling_item", Game.rnd.Next(600000, 1200001), "sc:oak_sapling_item", "sc:oak_sapling_item", 0, 0, Tool.None, Images.OakSapling);
+            Init("Oak Sapling", "sc:oak_sapling_block", 0, "sc:oak_sapling_item", Game.rnd.Next(600000, 1200001), "sc:oak_sapling_item", "sc:oak_sapling_item", 0, 0, Tool.None);
             isSolid = false;
             needsGround = (true, "ground/plant");
         }
@@ -955,7 +955,7 @@ namespace SeeloewenCraft
     {
         public SpruceSaplingBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Sapling", "sc:spruce_sapling_block", 0, "sc:spruce_sapling_item", Game.rnd.Next(600000, 1200001), "sc:tree_sapling_item", "sc:tree_sapling_item", 0, 0, Tool.None, Images.SpruceSapling);
+            Init("Spruce Sapling", "sc:spruce_sapling_block", 0, "sc:spruce_sapling_item", Game.rnd.Next(600000, 1200001), "sc:tree_sapling_item", "sc:tree_sapling_item", 0, 0, Tool.None);
             isSolid = false;
             needsGround = (true, "ground/plant");
         }
@@ -988,7 +988,7 @@ namespace SeeloewenCraft
     {
         public OakTableBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Oak Table", "sc:oak_table_block", 350, "sc:oak_table_item", Tool.Axe, Images.OakTable);
+            Init("Oak Table", "sc:oak_table_block", 350, "sc:oak_table_item", Tool.Axe);
             isSolid = false;
         }
 
@@ -998,7 +998,7 @@ namespace SeeloewenCraft
     {
         public SpruceTableBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Spruce Table", "sc:spruce_table_block", 350, "sc:spruce_table_item", Tool.Axe, Images.SpruceTable);
+            Init("Spruce Table", "sc:spruce_table_block", 350, "sc:spruce_table_item", Tool.Axe);
             isSolid = false;
         }
     }
@@ -1007,7 +1007,7 @@ namespace SeeloewenCraft
     {
         public SandBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Sand", "sc:sand_block", 150, "sc:sand_item", Tool.Shovel, Images.Sand);
+            Init("Sand", "sc:sand_block", 150, "sc:sand_item", Tool.Shovel);
             tags.Add("canBeFloor");
             tags.Add("ground/sand");
             willFall = true;
@@ -1018,7 +1018,7 @@ namespace SeeloewenCraft
     {
         public SandStoneBricksBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Sand Stone Bricks", "sc:sand_stone_bricks_block", 1250, "sc:sand_stone_bricks_item", Tool.Pickaxe, Images.SandStoneBricks);
+            Init("Sand Stone Bricks", "sc:sand_stone_bricks_block", 1250, "sc:sand_stone_bricks_item", Tool.Pickaxe);
             dropsOnWrongTool = false;
         }
     }
@@ -1027,7 +1027,7 @@ namespace SeeloewenCraft
     {
         public StoneBricksBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Stone Bricks", "sc:stone_bricks_block", 1250, "sc:stone_bricks_item", Tool.Pickaxe, Images.StoneBricks);
+            Init("Stone Bricks", "sc:stone_bricks_block", 1250, "sc:stone_bricks_item", Tool.Pickaxe);
             dropsOnWrongTool = false;
         }
     }
@@ -1036,7 +1036,7 @@ namespace SeeloewenCraft
     {
         public TinOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Tin Ore", "sc:tin_ore_block", 1750, "sc:tin_ore_item", Tool.Pickaxe, Images.TinOre);
+            Init("Tin Ore", "sc:tin_ore_block", 1750, "sc:tin_ore_item", Tool.Pickaxe);
             dropsOnWrongTool = false;
         }
     }
@@ -1045,7 +1045,7 @@ namespace SeeloewenCraft
     {
         public TungstenOreBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Tungsten Ore", "sc:tungsten_ore_block", 1750, "sc:tungsten_ore_item", Tool.Pickaxe, Images.TungstenOre);
+            Init("Tungsten Ore", "sc:tungsten_ore_block", 1750, "sc:tungsten_ore_item", Tool.Pickaxe);
             dropsOnWrongTool = false;
         }
     }
@@ -1054,7 +1054,7 @@ namespace SeeloewenCraft
     {
         public YellowFlowerBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Yellow Flower", "sc:yellow_flower_block", 0, "sc:yellow_flower_item", Tool.None, Images.YellowFlower);
+            Init("Yellow Flower", "sc:yellow_flower_block", 0, "sc:yellow_flower_item", Tool.None);
             isSolid = false;
             needsGround = (true, "ground/plant");
         }
@@ -1064,7 +1064,7 @@ namespace SeeloewenCraft
     {
         public GlassBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Glass", "sc:glass_block", 250, "sc:glass_item", Tool.None, Images.Glass);
+            Init("Glass", "sc:glass_block", 250, "sc:glass_item", Tool.None);
             dropsOnWrongTool = false;
         }
     }
@@ -1073,7 +1073,7 @@ namespace SeeloewenCraft
     {
         public FarmlandBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Farmland", "sc:farmland_block", 150, "sc:farmland_item", Tool.Shovel, Images.Farmland);
+            Init("Farmland", "sc:farmland_block", 150, "sc:farmland_item", Tool.Shovel);
             drops.Add(("sc:dirt_item", 1, 1));
             tags.Add("ground/plant");
             tags.Add("ground/farmland");
@@ -1085,7 +1085,7 @@ namespace SeeloewenCraft
     {
         public WoolBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Wool", "sc:wool_block", 150, "sc:wool_item", Tool.None, Images.Wool);
+            Init("Wool", "sc:wool_block", 150, "sc:wool_item", Tool.None);
         }
     }
 
@@ -1093,7 +1093,7 @@ namespace SeeloewenCraft
     {
         public PumpkinBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Pumpkin", "sc:pumpkin_block", 500, "sc:pumpkin_item", Tool.Axe, Images.Pumpkin);
+            Init("Pumpkin", "sc:pumpkin_block", 500, "sc:pumpkin_item", Tool.Axe);
         }
     }
 
@@ -1101,7 +1101,7 @@ namespace SeeloewenCraft
     {
         public LanternBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Lantern", "sc:lantern_block", 500, "sc:lantern_item", Tool.Pickaxe, Images.Lantern);
+            Init("Lantern", "sc:lantern_block", 500, "sc:lantern_item", Tool.Pickaxe);
             isLightSource = true;
             isSolid = false;
         }

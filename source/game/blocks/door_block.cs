@@ -45,7 +45,6 @@ namespace SeeloewenCraft
             //Open the current door block
             isOpen = true;
             image = imgOpen;
-            blockContainer.cvsBlock.Background = image;
             isSolid = false;
             state = "open";
 
@@ -64,7 +63,6 @@ namespace SeeloewenCraft
             //Open the current door block
             isOpen = true;
             image = imgOpen;
-            chunk.GetBlock(xPos, yPos).blockContainer.cvsForegroundBlock.Background = image;
             isSolid = false;
             state = "open";
 
@@ -84,7 +82,6 @@ namespace SeeloewenCraft
             isOpen = false;
             image = imgClose;
             isSolid = true;
-            blockContainer.cvsBlock.Background = image;
             state = "closed";
 
             //If it's a base block, also close all connected doorblocks
@@ -104,7 +101,6 @@ namespace SeeloewenCraft
             isOpen = false;
             image = imgClose;
             isSolid = true;
-            chunk.GetBlock(xPos, yPos).blockContainer.cvsForegroundBlock.Background = image;
             state = "closed";
 
             //If it's a base block, also close all connected doorblocks

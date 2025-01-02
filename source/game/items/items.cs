@@ -6,7 +6,7 @@
     {
         public GrassBlockItem() : base()
         {
-            Init("Grass Block", "sc:grass_block_item", "sc:grass_block", true, Images.GrassBlock);
+            Init("Grass Block", "sc:grass_block_item", "sc:grass_block", true);
         }
     }
 
@@ -14,7 +14,7 @@
     {
         public StoneBlockItem() : base()
         {
-            Init("Stone Block", "sc:stone_block_item", "sc:stone_block", true, Images.StoneBlock);
+            Init("Stone Block", "sc:stone_block_item", "sc:stone_block", true);
         }
     }
 
@@ -22,7 +22,7 @@
     {
         public DirtItem() : base()
         {
-            Init("Dirt", "sc:dirt_item", "sc:dirt_block", true, Images.Dirt);
+            Init("Dirt", "sc:dirt_item", "sc:dirt_block", true);
         }
     }
 
@@ -30,7 +30,7 @@
     {
         public CoalOreItem() : base()
         {
-            Init("Coal Ore", "sc:coal_ore_item", "sc:coal_ore_block", true, Images.CoalOre);
+            Init("Coal Ore", "sc:coal_ore_item", "sc:coal_ore_block", true);
         }
     }
 
@@ -38,7 +38,7 @@
     {
         public DiamondOreItem() : base()
         {
-            Init("Diamond Ore", "sc:diamond_ore_item", "sc:diamond_ore_block", true, Images.DiamondOre);
+            Init("Diamond Ore", "sc:diamond_ore_item", "sc:diamond_ore_block", true);
         }
     }
 
@@ -46,7 +46,7 @@
     {
         public IronOreItem() : base()
         {
-            Init("Iron Ore", "sc:iron_ore_item", "sc:iron_ore_block", true, Images.IronOre);
+            Init("Iron Ore", "sc:iron_ore_item", "sc:iron_ore_block", true);
         }
     }
 
@@ -54,7 +54,7 @@
     {
         public OakLogItem() : base()
         {
-            Init("Oak Log", "sc:oak_log_item", "sc:oak_log_block", true, Images.OakLog);
+            Init("Oak Log", "sc:oak_log_item", "sc:oak_log_block", true);
         }
     }
 
@@ -62,7 +62,7 @@
     {
         public OakLeavesItem() : base()
         {
-            Init("Oak Leaves", "sc:oak_leaves_item", "sc:oak_leaves_block", true, Images.OakLeaves);
+            Init("Oak Leaves", "sc:oak_leaves_item", "sc:oak_leaves_block", true);
         }
     }
 
@@ -70,7 +70,7 @@
     {
         public SpruceLogItem() : base()
         {
-            Init("Spruce Log", "sc:spruce_log_item", "sc:spruce_log_block", true, Images.SpruceLog);
+            Init("Spruce Log", "sc:spruce_log_item", "sc:spruce_log_block", true);
         }
     }
 
@@ -78,7 +78,7 @@
     {
         public SpruceLeavesItem() : base()
         {
-            Init("Spruce Leaves", "sc:spruce_leaves_item", "sc:spruce_leaves_block", true, Images.SpruceLeaves);
+            Init("Spruce Leaves", "sc:spruce_leaves_item", "sc:spruce_leaves_block", true);
         }
     }
 
@@ -86,7 +86,7 @@
     {
         public BedrockItem() : base()
         {
-            Init("Bedrock", "sc:bedrock_item", "sc:bedrock_block", true, Images.Bedrock);
+            Init("Bedrock", "sc:bedrock_item", "sc:bedrock_block", true);
         }
     }
 
@@ -94,7 +94,7 @@
     {
         public AirItem() : base()
         {
-            Init("Air", "sc:air_item", "sc:air_block", true, Images.Air);
+            Init("Air", "sc:air_item", "sc:air_block", true);
         }
     }
 
@@ -102,7 +102,7 @@
     {
         public ChestItem() : base()
         {
-            Init("Chest", "sc:chest_item", "sc:chest_block", true, Images.Chest);
+            Init("Chest", "sc:chest_item", "sc:chest_block", true);
         }
     }
 
@@ -110,7 +110,7 @@
     {
         public MagmaBlockItem() : base()
         {
-            Init("Magma Block", "sc:magma_block_item", "sc:magma_block", true, Images.MagmaBlock);
+            Init("Magma Block", "sc:magma_block_item", "sc:magma_block", true);
         }
     }
 
@@ -118,7 +118,7 @@
     {
         public TorchItem() : base()
         {
-            Init("Torch", "sc:torch_item", "sc:torch_block", true, Images.Torch);
+            Init("Torch", "sc:torch_item", "sc:torch_block", true);
         }
     }
 
@@ -126,7 +126,7 @@
     {
         public WaterItem() : base()
         {
-            Init("Water", "sc:water_item", "sc:water_6_block", true, Images.Water_6);
+            Init("Water", "sc:water_item", "sc:water_6_block", true);
         }
     }
 
@@ -134,7 +134,7 @@
     {
         public PottedCactusItem() : base()
         {
-            Init("Potted Cactus", "sc:potted_cactus_item", "sc:potted_cactus_base", true, Images.PottedCactus);
+            Init("Potted Cactus", "sc:potted_cactus_item", "sc:potted_cactus_base", true);
         }
     }
 
@@ -142,7 +142,7 @@
     {
         public CraftingTable() : base()
         {
-            Init("Crafting Table", "sc:crafting_table_item", "sc:crafting_table_block", true, Images.CraftingTable);
+            Init("Crafting Table", "sc:crafting_table_item", "sc:crafting_table_block", true);
         }
     }
 
@@ -150,7 +150,7 @@
     {
         public CobbleStoneItem() : base()
         {
-            Init("Cobblestone", "sc:cobblestone_item", "sc:cobblestone_block", true, Images.CobbleStoneBlock);
+            Init("Cobblestone", "sc:cobblestone_item", "sc:cobblestone_block", true);
         }
     }
 
@@ -158,7 +158,7 @@
     {
         public ChiselerItem() : base()
         {
-            Init("Chiseler", "sc:chiseler_item", "sc:chiseler_block", true, Images.Chiseler);
+            Init("Chiseler", "sc:chiseler_item", "sc:chiseler_block", true);
         }
     }
 
@@ -166,7 +166,7 @@
     {
         public UnchiselerItem() : base()
         {
-            Init("Unchiseler", "sc:unchiseler_item", "sc:unchiseler_block", true, Images.Unchiseler);
+            Init("Unchiseler", "sc:unchiseler_item", "sc:unchiseler_block", true);
         }
     }
 
@@ -199,7 +199,7 @@
     {
         public SpruceDoorItem() : base()
         {
-            Init("Spruce Door", "sc:spruce_door_item", "sc:spruce_door_base", true, Images.SpruceDoor);
+            Init("Spruce Door", "sc:spruce_door_item", "sc:spruce_door_base", true);
         }
     }
 
@@ -207,7 +207,7 @@
     {
         public OakPlanksItem() : base()
         {
-            Init("Oak Planks", "sc:oak_planks_item", "sc:oak_planks_block", true, Images.OakPlanks);
+            Init("Oak Planks", "sc:oak_planks_item", "sc:oak_planks_block", true);
         }
     }
 
@@ -215,7 +215,7 @@
     {
         public SprucePlanksItem() : base()
         {
-            Init("Spruce Planks", "sc:spruce_planks_item", "sc:spruce_planks_block", true, Images.SprucePlanks);
+            Init("Spruce Planks", "sc:spruce_planks_item", "sc:spruce_planks_block", true);
         }
     }
 
@@ -223,7 +223,7 @@
     {
         public SandStoneItem() : base()
         {
-            Init("Sand Stone", "sc:sand_stone_item", "sc:sand_stone_block", true, Images.SandStone);
+            Init("Sand Stone", "sc:sand_stone_item", "sc:sand_stone_block", true);
         }
     }
 
@@ -231,7 +231,7 @@
     {
         public ArcheologyPotItem() : base()
         {
-            Init("Archeology Pot", "sc:archeology_pot_item", "sc:archeology_pot_base", true, Images.ArcheologyPot);
+            Init("Archeology Pot", "sc:archeology_pot_item", "sc:archeology_pot_base", true);
         }
     }
 
@@ -239,7 +239,7 @@
     {
         public Cactus_LeftItem() : base()
         {
-            Init("Cactus Left", "sc:cactus_left_item", "sc:cactus_left", true, Images.Cactus_Left);
+            Init("Cactus Left", "sc:cactus_left_item", "sc:cactus_left", true);
         }
     }
 
@@ -247,7 +247,7 @@
     {
         public Cactus_RightItem() : base()
         {
-            Init("Cactus Right Left", "sc:cactus_right_item", "sc:cactus_right", true, Images.Cactus_Right);
+            Init("Cactus Right Left", "sc:cactus_right_item", "sc:cactus_right", true);
         }
     }
 
@@ -255,7 +255,7 @@
     {
         public Cactus_BottomLeftItem() : base()
         {
-            Init("Cactus Bottom Left", "sc:cactus_bottom_left_item", "sc:cactus_bottom_left", true, Images.Cactus_BottomLeft);
+            Init("Cactus Bottom Left", "sc:cactus_bottom_left_item", "sc:cactus_bottom_left", true);
         }
     }
 
@@ -263,7 +263,7 @@
     {
         public Cactus_BottomRightItem() : base()
         {
-            Init("Cactus Bottom Right", "sc:cactus_bottom_right_item", "sc:cactus_bottom_right", true, Images.Cactus_BottomRight);
+            Init("Cactus Bottom Right", "sc:cactus_bottom_right_item", "sc:cactus_bottom_right", true);
         }
     }
 
@@ -271,7 +271,7 @@
     {
         public Cactus_TopRightItem() : base()
         {
-            Init("Cactus Top Right", "sc:cactus_top_right_item", "sc:cactus_top_right", true, Images.Cactus_TopRight);
+            Init("Cactus Top Right", "sc:cactus_top_right_item", "sc:cactus_top_right", true);
         }
     }
 
@@ -279,7 +279,7 @@
     {
         public Cactus_TopLeftItem() : base()
         {
-            Init("Cactus Top Left", "sc:cactus_top_left_item", "sc:cactus_top_left", true, Images.Cactus_TopLeft);
+            Init("Cactus Top Left", "sc:cactus_top_left_item", "sc:cactus_top_left", true);
         }
     }
 
@@ -287,7 +287,7 @@
     {
         public Cactus_CrossItem() : base()
         {
-            Init("Cactus Cross", "sc:cactus_cross_item", "sc:cactus_cross", true, Images.Cactus_Cross);
+            Init("Cactus Cross", "sc:cactus_cross_item", "sc:cactus_cross", true);
         }
     }
 
@@ -295,7 +295,7 @@
     {
         public Cactus_HorizontalItem() : base()
         {
-            Init("Cactus Horizontal", "sc:cactus_horizontal_item", "sc:cactus_horizontal", true, Images.Cactus_Horizontal);
+            Init("Cactus Horizontal", "sc:cactus_horizontal_item", "sc:cactus_horizontal", true);
         }
     }
 
@@ -303,7 +303,7 @@
     {
         public Cactus_VerticalItem() : base()
         {
-            Init("Cactus Vertical", "sc:cactus_vertical_item", "sc:cactus_vertical", true, Images.Cactus_Vertical);
+            Init("Cactus Vertical", "sc:cactus_vertical_item", "sc:cactus_vertical", true);
         }
     }
 
@@ -311,7 +311,7 @@
     {
         public Cactus_TopItem() : base()
         {
-            Init("Cactus Top", "sc:cactus_top_item", "sc:cactus_top", true, Images.Cactus_Top);
+            Init("Cactus Top", "sc:cactus_top_item", "sc:cactus_top", true);
         }
     }
 
@@ -319,7 +319,7 @@
     {
         public Cactus_TopFruitItem() : base()
         {
-            Init("Cactus Top Fruit", "sc:cactus_top_fruit_item", "sc:cactus_top_fruit", true, Images.Cactus_Top_Fruit);
+            Init("Cactus Top Fruit", "sc:cactus_top_fruit_item", "sc:cactus_top_fruit", true);
         }
     }
 
@@ -327,7 +327,7 @@
     {
         public OakChairItem() : base()
         {
-            Init("Oak Chair", "sc:oak_chair_item", "sc:oak_chair_base", true, Images.OakChair);
+            Init("Oak Chair", "sc:oak_chair_item", "sc:oak_chair_base", true);
         }
     }
 
@@ -335,7 +335,7 @@
     {
         public SpruceChairItem() : base()
         {
-            Init("Spruce Chair", "sc:spruce_chair_item", "sc:spruce_chair_base", true, Images.SpruceChair);
+            Init("Spruce Chair", "sc:spruce_chair_item", "sc:spruce_chair_base", true);
         }
     }
 
@@ -343,7 +343,7 @@
     {
         public FurnaceItem() : base()
         {
-            Init("Furnace", "sc:furnace_item", "sc:furnace_block", true, Images.Furnace_Idle);
+            Init("Furnace", "sc:furnace_item", "sc:furnace_block", true);
         }
     }
 
@@ -351,7 +351,7 @@
     {
         public OakDoor() : base()
         {
-            Init("Oak Door", "sc:oak_door_item", "sc:oak_door_base", true, Images.OakDoorItem);
+            Init("Oak Door", "sc:oak_door_item", "sc:oak_door_base", true);
         }
     }
 
@@ -359,7 +359,7 @@
     {
         public OakTrapDoorItem() : base()
         {
-            Init("Oak Trapdoor", "sc:oak_trapdoor_item", "sc:oak_trapdoor", true, Images.OakTrapdoor_Closed);
+            Init("Oak Trapdoor", "sc:oak_trapdoor_item", "sc:oak_trapdoor", true);
         }
     }
 
@@ -367,7 +367,7 @@
     {
         public SpruceTrapDoorItem() : base()
         {
-            Init("Spruce Trapdoor", "sc:spruce_trapdoor_item", "sc:spruce_trapdoor", true, Images.SpruceTrapdoor_Closed);
+            Init("Spruce Trapdoor", "sc:spruce_trapdoor_item", "sc:spruce_trapdoor", true);
         }
     }
 
@@ -375,7 +375,7 @@
     {
         public AmethystOreItem() : base()
         {
-            Init("Amethyst Ore", "sc:amethyst_ore_item", "sc:amethyst_ore_block", true, Images.AmethystOre);
+            Init("Amethyst Ore", "sc:amethyst_ore_item", "sc:amethyst_ore_block", true);
         }
     }
 
@@ -383,7 +383,7 @@
     {
         public AnvilItem() : base()
         {
-            Init("Anvil", "sc:anvil_item", "sc:anvil_block", true, Images.Anvil);
+            Init("Anvil", "sc:anvil_item", "sc:anvil_block", true);
         }
     }
 
@@ -391,7 +391,7 @@
     {
         public BarrelItem() : base()
         {
-            Init("Barrel", "sc:barrel_item", "sc:barrel_block", true, Images.Barrel);
+            Init("Barrel", "sc:barrel_item", "sc:barrel_block", true);
         }
     }
 
@@ -399,7 +399,7 @@
     {
         public BlueFlowerItem() : base()
         {
-            Init("Blue Flower", "sc:blue_flower_item", "sc:blue_flower_block", true, Images.BlueFlower);
+            Init("Blue Flower", "sc:blue_flower_item", "sc:blue_flower_block", true);
         }
     }
 
@@ -407,7 +407,7 @@
     {
         public BoneBlockItem() : base()
         {
-            Init("Bone Block", "sc:bone_block_item", "sc:bone_block", true, Images.BoneBlock);
+            Init("Bone Block", "sc:bone_block_item", "sc:bone_block", true);
         }
     }
 
@@ -415,7 +415,7 @@
     {
         public CactusFruitItem() : base()
         {
-            Init("Cactus Fruit", "sc:cactus_fruit_item", "sc:cactus_fruit_block", true, Images.CactusFruit);
+            Init("Cactus Fruit", "sc:cactus_fruit_item", "sc:cactus_fruit_block", true);
         }
     }
 
@@ -423,14 +423,14 @@
     {
         public CandleItem() : base()
         {
-            Init("Candle", "sc:candle_item", "sc:candle_block", true, Images.Candle);
+            Init("Candle", "sc:candle_item", "sc:candle_block", true);
         }
     }
     public class CopperOreItem : Item
     {
         public CopperOreItem() : base()
         {
-            Init("Copper Ore", "sc:copper_ore_item", "sc:copper_ore_block", true, Images.CopperOre);
+            Init("Copper Ore", "sc:copper_ore_item", "sc:copper_ore_block", true);
         }
     }
 
@@ -438,7 +438,7 @@
     {
         public DeadBushItem() : base()
         {
-            Init("Dead Bush", "sc:dead_bush_item", "sc:dead_bush_block", true, Images.DeadBush);
+            Init("Dead Bush", "sc:dead_bush_item", "sc:dead_bush_block", true);
         }
     }
 
@@ -446,35 +446,35 @@
     {
         public EmeraldOreItem() : base()
         {
-            Init("Emerald Ore", "sc:emerald_ore_item", "sc:emerald_ore_block", true, Images.EmeraldOre);
+            Init("Emerald Ore", "sc:emerald_ore_item", "sc:emerald_ore_block", true);
         }
     }
     public class TungstenOreItem : Item
     {
         public TungstenOreItem() : base()
         {
-            Init("Tungsten Ore", "sc:tungsten_ore_item", "sc:tungsten_ore_block", true, Images.TungstenOre);
+            Init("Tungsten Ore", "sc:tungsten_ore_item", "sc:tungsten_ore_block", true);
         }
     }
     public class FlowerPotItem : Item
     {
         public FlowerPotItem() : base()
         {
-            Init("Flower Pot", "sc:flower_pot_item", "sc:flower_pot_block", true, Images.FlowerPot);
+            Init("Flower Pot", "sc:flower_pot_item", "sc:flower_pot_block", true);
         }
     }
     public class GoldOreItem : Item
     {
         public GoldOreItem() : base()
         {
-            Init("Gold Ore", "sc:gold_ore_item", "sc:gold_ore_block", true, Images.GoldOre);
+            Init("Gold Ore", "sc:gold_ore_item", "sc:gold_ore_block", true);
         }
     }
     public class TinOreItem : Item
     {
         public TinOreItem() : base()
         {
-            Init("Tin Ore", "sc:tin_ore_item", "sc:tin_ore_block", true, Images.TinOre);
+            Init("Tin Ore", "sc:tin_ore_item", "sc:tin_ore_block", true);
         }
     }
 
@@ -482,7 +482,7 @@
     {
         public GrassItem() : base()
         {
-            Init("Grass", "sc:grass_item", "sc:grass", true, Images.Grass);
+            Init("Grass", "sc:grass_item", "sc:grass", true);
         }
     }
 
@@ -490,14 +490,14 @@
     {
         public IronGatesItem() : base()
         {
-            Init("Iron Gates", "sc:iron_gates_item", "sc:iron_gates_block", true, Images.IronGates);
+            Init("Iron Gates", "sc:iron_gates_item", "sc:iron_gates_block", true);
         }
     }
     public class LadderItem : Item
     {
         public LadderItem() : base()
         {
-            Init("Ladder", "sc:ladder_item", "sc:ladder_block", true, Images.Ladder);
+            Init("Ladder", "sc:ladder_item", "sc:ladder_block", true);
         }
     }
 
@@ -505,7 +505,7 @@
     {
         public MossyCobblestoneItem() : base()
         {
-            Init("Mossy Cobblestone", "sc:mossy_cobblestone_item", "sc:mossy_cobblestone_block", true, Images.MossyCobblestone);
+            Init("Mossy Cobblestone", "sc:mossy_cobblestone_item", "sc:mossy_cobblestone_block", true);
         }
     }
 
@@ -513,7 +513,7 @@
     {
         public OakSaplingItem() : base()
         {
-            Init("Oak Sapling", "sc:oak_sapling_item", "sc:oak_sapling_block", true, Images.OakSapling);
+            Init("Oak Sapling", "sc:oak_sapling_item", "sc:oak_sapling_block", true);
         }
     }
 
@@ -521,7 +521,7 @@
     {
         public SpruceSaplingItem() : base()
         {
-            Init("Spruce Sapling", "sc:spruce_sapling_item", "sc:spruce_sapling_block", true, Images.SpruceSapling);
+            Init("Spruce Sapling", "sc:spruce_sapling_item", "sc:spruce_sapling_block", true);
         }
     }
 
@@ -529,7 +529,7 @@
     {
         public OakTableItem() : base()
         {
-            Init("Oak Table", "sc:oak_table_item", "sc:oak_table_block", true, Images.OakTable);
+            Init("Oak Table", "sc:oak_table_item", "sc:oak_table_block", true);
         }
     }
 
@@ -537,7 +537,7 @@
     {
         public SpruceTableItem() : base()
         {
-            Init("Spruce Table", "sc:spruce_table_item", "sc:spruce_table_block", true, Images.SpruceTable);
+            Init("Spruce Table", "sc:spruce_table_item", "sc:spruce_table_block", true);
         }
     }
 
@@ -545,7 +545,7 @@
     {
         public SandItem() : base()
         {
-            Init("Sand", "sc:sand_item", "sc:sand_block", true, Images.Sand);
+            Init("Sand", "sc:sand_item", "sc:sand_block", true);
         }
     }
 
@@ -553,7 +553,7 @@
     {
         public SandStoneBricksItem() : base()
         {
-            Init("Sand Stone Bricks", "sc:sand_stone_bricks_item", "sc:sand_stone_bricks_block", true, Images.SandStoneBricks);
+            Init("Sand Stone Bricks", "sc:sand_stone_bricks_item", "sc:sand_stone_bricks_block", true);
         }
     }
 
@@ -561,7 +561,7 @@
     {
         public StoneBricksItem() : base()
         {
-            Init("Stone Bricks", "sc:stone_bricks_item", "sc:stone_bricks_block", true, Images.StoneBricks);
+            Init("Stone Bricks", "sc:stone_bricks_item", "sc:stone_bricks_block", true);
         }
     }
 
@@ -569,7 +569,7 @@
     {
         public YellowFlowerItem() : base()
         {
-            Init("Yellow Flower", "sc:yellow_flower_item", "sc:yellow_flower_block", true, Images.YellowFlower);
+            Init("Yellow Flower", "sc:yellow_flower_item", "sc:yellow_flower_block", true);
         }
     }
 
@@ -773,7 +773,7 @@
     {
         public GlassItem() : base()
         {
-            Init("Glass", "sc:glass_item", "sc:glass_block", true, Images.Glass);
+            Init("Glass", "sc:glass_item", "sc:glass_block", true);
         }
     }
 
@@ -781,7 +781,7 @@
     {
         public SeedsItem() : base()
         {
-            Init("Seeds", "sc:seeds_item", "sc:wheat_crop_block", true, Images.Seeds);
+            Init("Seeds", "sc:seeds_item", "sc:wheat_crop_block", true);
         }
     }
 
@@ -789,7 +789,7 @@
     {
         public CarrotItem() : base()
         {
-            Init("Carrot", "sc:carrot_item", "sc:carrot_crop_block", true, Images.Carrot);
+            Init("Carrot", "sc:carrot_item", "sc:carrot_crop_block", true);
             healAmount = 1.5;
         }
     }
@@ -806,7 +806,7 @@
     {
         public FarmlandItem() : base()
         {
-            Init("Farmland", "sc:farmland_item", "sc:farmland_block", true, Images.Farmland);
+            Init("Farmland", "sc:farmland_item", "sc:farmland_block", true);
         }
     }
 
@@ -814,7 +814,7 @@
     {
         public BerryItem() : base()
         {
-            Init("Berry", "sc:berry_item", "sc:berry_bush_crop_block", true, Images.Berry);
+            Init("Berry", "sc:berry_item", "sc:berry_bush_crop_block", true);
             healAmount = 1;
         }
     }
@@ -823,7 +823,7 @@
     {
         public CottonItem() : base()
         {
-            Init("Cotton", "sc:cotton_item", "sc:cotton_crop_block", true, Images.Cotton);
+            Init("Cotton", "sc:cotton_item", "sc:cotton_crop_block", true);
         }
     }
 
@@ -831,7 +831,7 @@
     {
         public SugarCaneItem() : base()
         {
-            Init("Sugar Cane", "sc:sugar_cane_item", "sc:sugar_cane_block", true, Images.SugarCaneItem);
+            Init("Sugar Cane", "sc:sugar_cane_item", "sc:sugar_cane_block", true);
         }
     }
 
@@ -839,7 +839,7 @@
     {
         public PumpkinItem() : base()
         {
-            Init("Pumpkin", "sc:pumpkin_item", "sc:pumpkin_block", true, Images.Pumpkin);
+            Init("Pumpkin", "sc:pumpkin_item", "sc:pumpkin_block", true);
         }
     }
 
@@ -847,7 +847,7 @@
     {
         public WoolItem() : base()
         {
-            Init("Wool", "sc:wool_item", "sc:wool_block", true, Images.Wool);
+            Init("Wool", "sc:wool_item", "sc:wool_block", true);
         }
     }
 
@@ -855,7 +855,7 @@
     {
         public LanternItem() : base()
         {
-            Init("Lantern", "sc:lantern_item", "sc:lantern_block", true, Images.Lantern);
+            Init("Lantern", "sc:lantern_item", "sc:lantern_block", true);
         }
     }
 
@@ -863,7 +863,7 @@
     {
         public BucketRiceItem() : base()
         {
-            Init("Rice Bucket", "sc:bucket_rice_item", "sc:rice_base", true, Images.BucketRice);
+            Init("Rice Bucket", "sc:bucket_rice_item", "sc:rice_base", true);
             healAmount = 2;
         }
 
@@ -879,7 +879,7 @@
     {
         public TomatoItem() : base()
         {
-            Init("Tomato", "sc:tomato_item", "sc:tomato_crop_block", true, Images.Tomato);
+            Init("Tomato", "sc:tomato_item", "sc:tomato_crop_block", true);
             healAmount = 1.5;
         }
     }
@@ -888,7 +888,7 @@
     {
         public PumpkinSeedsItem() : base()
         {
-            Init("Pumpkin Seeds", "sc:pumpkin_seeds_item", "sc:pumpkin_crop_block", true, Images.PumpkinSeeds);
+            Init("Pumpkin Seeds", "sc:pumpkin_seeds_item", "sc:pumpkin_crop_block", true);
         }
     }
 
@@ -913,7 +913,7 @@
     {
         public PotatoItem() : base()
         {
-            Init("Potato", "sc:potato_item", "sc:potato_crop_block", true, Images.Potato);
+            Init("Potato", "sc:potato_item", "sc:potato_crop_block", true);
             healAmount = 1;
         }
     }
@@ -922,7 +922,7 @@
     {
         public CucumberItem() : base()
         {
-            Init("Cucumber", "sc:cucumber_item", "sc:cucumber_crop_block", true, Images.Cucumber);
+            Init("Cucumber", "sc:cucumber_item", "sc:cucumber_crop_block", true);
             healAmount = 1.5;
         }
     }
@@ -931,7 +931,7 @@
     {
         public CabbageItem() : base()
         {
-            Init("Cabbage", "sc:cabbage_item", null, false, Images.Cabbage);
+            Init("Cabbage", "sc:cabbage_item", null, false);
             healAmount = 1.5;
         }
     }
@@ -940,7 +940,7 @@
     {
         public CabbageSeedsItem() : base()
         {
-            Init("Cabbage Seeds", "sc:cabbage_item", "sc:cabbage_crop_block", true, Images.CabbageSeeds);
+            Init("Cabbage Seeds", "sc:cabbage_item", "sc:cabbage_crop_block", true);
         }
     }
 }

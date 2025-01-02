@@ -4,7 +4,7 @@
     {
         public CobblestoneBlock_BottomLeft(bool isInBackground) : base(isInBackground)
         {
-            Init("Chiseled Cobblestone", "sc:cobblestone_bottomleft", 1250, "sc:cobblestone_bottomleft_item", Tool.Pickaxe, Images.CobbleStoneBlock_BottomLeft);
+            Init("Chiseled Cobblestone", "sc:cobblestone_bottomleft", 1250, "sc:cobblestone_bottomleft_item", Tool.Pickaxe);
             collision = new RectangleCollision(0, 500, 500, 1000);
             dropsOnWrongTool = false;
         }
@@ -12,9 +12,9 @@
 
     public class CobblestoneBlock_BottomRight : Block
     {
-        public CobblestoneBlock_BottomRight(bool isInBackground) : base(isInBackground)
+        public CobblestoneBlock_BottomRight(bool isInBackground) : base(isInBackground) 
         {
-            Init("Chiseled Cobblestone", "sc:cobblestone_bottomright", 1250, "sc:cobblestone_bottomright_item", Tool.Pickaxe, Images.CobbleStoneBlock_BottomRight);
+            Init("Chiseled Cobblestone", "sc:cobblestone_bottomright", 1250, "sc:cobblestone_bottomright_item", Tool.Pickaxe    );
             collision = new RectangleCollision(500, 1000, 500, 1000);
             dropsOnWrongTool = false;
         }
@@ -24,7 +24,7 @@
     {
         public CobbleStoneBlock_TopLeft(bool isInBackground) : base(isInBackground)
         {
-            Init("Chiseled Cobblestone", "sc:cobblestone_topleft", 1250, "sc:cobblestone_topleft_item", Tool.Pickaxe, Images.CobbleStoneBlock_TopLeft);
+            Init("Chiseled Cobblestone", "sc:cobblestone_topleft", 1250, "sc:cobblestone_topleft_item", Tool.Pickaxe);
             dropsOnWrongTool = false;
             collision = new RectangleCollision(0, 500, 0, 500);
         }
@@ -34,7 +34,7 @@
     {
         public CobblestoneBlock_TopRight(bool isInBackground) : base(isInBackground)
         {
-            Init("Chiseled Cobblestone", "sc:cobblestone_topright", 1250, "sc:cobblestone_topright_item", Tool.Pickaxe, Images.CobbleStoneBlock_TopRight);
+            Init("Chiseled Cobblestone", "sc:cobblestone_topright", 1250, "sc:cobblestone_topright_item", Tool.Pickaxe);
             dropsOnWrongTool = false;
             collision = new RectangleCollision(500, 1000, 0, 500);
         }
@@ -44,7 +44,7 @@
     {
         public CobblestoneBlock_SlabRight(bool isInBackground) : base(isInBackground)
         {
-            Init("Chiseled Cobblestone", "sc:cobblestone_slabright", 1250, "sc:cobblestone_slabright_item", Tool.Pickaxe, Images.CobbleStoneBlock_SlabRight);
+            Init("Chiseled Cobblestone", "sc:cobblestone_slabright", 1250, "sc:cobblestone_slabright_item", Tool.Pickaxe);
             collision = new RectangleCollision(500, 1000, 0, 1000);
             dropsOnWrongTool = false;
         }
@@ -54,7 +54,7 @@
     {
         public CobblestoneBlock_SlabLeft(bool isInBackground) : base(isInBackground)
         {
-            Init("Chiseled Cobblestone", "sc:cobblestone_slableft", 1250, "sc:cobblestone_slableft_item", Tool.Pickaxe, Images.CobbleStoneBlock_SlabLeft);
+            Init("Chiseled Cobblestone", "sc:cobblestone_slableft", 1250, "sc:cobblestone_slableft_item", Tool.Pickaxe);
             collision = new RectangleCollision(0, 500, 0, 1000);
             dropsOnWrongTool = false;
         }
@@ -64,7 +64,7 @@
     {
         public CobblestoneBlock_SlabTop(bool isInBackground) : base(isInBackground)
         {
-            Init("Chiseled Cobblestone", "sc:cobblestone_slabtop", 1250, "sc:cobblestone_slabtop_item", Tool.Pickaxe, Images.CobbleStoneBlock_SlabTop);
+            Init("Chiseled Cobblestone", "sc:cobblestone_slabtop", 1250, "sc:cobblestone_slabtop_item", Tool.Pickaxe);
             collision = new RectangleCollision(0, 1000, 0, 500);
             dropsOnWrongTool = false;
         }
@@ -74,7 +74,7 @@
     {
         public CobblestoneBlock_SlabBottom(bool isInBackground) : base(isInBackground)
         {
-            Init("Chiseled Cobblestone", "sc:cobblestone_slabbottom", 1250, "sc:cobblestone_slabbottom_item", Tool.Pickaxe, Images.CobbleStoneBlock_SlabBottom);
+            Init("Chiseled Cobblestone", "sc:cobblestone_slabbottom", 1250, "sc:cobblestone_slabbottom_item", Tool.Pickaxe);
             collision = new RectangleCollision(0, 1000, 500, 1000);
             dropsOnWrongTool = false;
         }
@@ -84,7 +84,7 @@
     {
         public CobblestoneBlock_StairTopRight(bool isInBackground) : base(isInBackground)
         {
-            Init("Chiseled Cobblestone", "sc:cobblestone_stairtopright", 1250, "sc:cobblestone_stairtopright_item", Tool.Pickaxe, Images.CobbleStoneBlock_StairTopRight);
+            Init("Chiseled Cobblestone", "sc:cobblestone_stairtopright", 1250, "sc:cobblestone_stairtopright_item", Tool.Pickaxe);
             collision = new MultipleRectangleCollision([0, 500], [1000, 1000], [0, 500], [500, 1000]);
             dropsOnWrongTool = false;
         }
@@ -94,7 +94,7 @@
     {
         public CobblestoneBlock_StairTopLeft(bool isInBackground) : base(isInBackground)
         {
-            Init("Chiseled Cobblestone", "sc:cobblestone_stairtopleft", 1250, "sc:cobblestone_stairtopleft_item", Tool.Pickaxe, Images.CobbleStoneBlock_StairTopLeft);
+            Init("Chiseled Cobblestone", "sc:cobblestone_stairtopleft", 1250, "sc:cobblestone_stairtopleft_item", Tool.Pickaxe);
             collision = new MultipleRectangleCollision([0, 500], [500, 1000], [0, 0], [1000, 500]);
             dropsOnWrongTool = false;
         }
@@ -104,7 +104,7 @@
     {
         public CobblestoneBlock_StairBottomRight(bool isInBackground) : base(isInBackground)
         {
-            Init("Chiseled Cobblestone", "sc:cobblestone_stairbottomright", 1250, "sc:cobblestone_stairbottomright_item", Tool.Pickaxe, Images.CobbleStoneBlock_StairBottomRight);
+            Init("Chiseled Cobblestone", "sc:cobblestone_stairbottomright", 1250, "sc:cobblestone_stairbottomright_item", Tool.Pickaxe);
             collision = new MultipleRectangleCollision([500, 0], [1000, 1000], [0, 500], [500, 1000]);
             dropsOnWrongTool = false;
         }
@@ -114,7 +114,7 @@
     {
         public CobblestoneBlock_StairBottomLeft(bool isInBackground) : base(isInBackground)
         {
-            Init("Chiseled Cobblestone", "sc:cobblestone_stairbottomleft", 1250, "sc:cobblestone_stairbottomleft_item", Tool.Pickaxe, Images.CobbleStoneBlock_StairBottomLeft);
+            Init("Chiseled Cobblestone", "sc:cobblestone_stairbottomleft", 1250, "sc:cobblestone_stairbottomleft_item", Tool.Pickaxe);
             collision = new MultipleRectangleCollision([0, 500], [500, 1000], [0, 500], [1000, 1000]);
             dropsOnWrongTool = false;
         }
@@ -124,7 +124,7 @@
     {
         public CobbleStoneBlock_Center(bool isInBackground) : base(isInBackground)
         {
-            Init("Chiseled Cobblestone", "sc:cobblestone_center", 1250, "sc:cobblestone_center_item", Tool.Pickaxe, Images.CobbleStoneBlock_Center);
+            Init("Chiseled Cobblestone", "sc:cobblestone_center", 1250, "sc:cobblestone_center_item", Tool.Pickaxe);
             collision = new RectangleCollision(333, 666, 333, 666);
             dropsOnWrongTool = false;
         }
