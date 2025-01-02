@@ -54,7 +54,7 @@ namespace SeeloewenCraft
     {
         public WaterBlock_1_Right(bool isInBackground) : base(isInBackground)
         {
-            Init("Water", "sc:water_1_right_block", 0, null, Tool.None, Images.Water_1_Right);
+            Init("Water", "sc:water_1_right_block", 0, null, Tool.None);
             waterLevel = 1;
         }
 
@@ -68,7 +68,7 @@ namespace SeeloewenCraft
     {
         public WaterBlock_1_Left(bool isInBackground) : base(isInBackground)
         {
-            Init("Water", "sc:water_1_left_block", 0, null, Tool.None, Images.Water_1_Left);
+            Init("Water", "sc:water_1_left_block", 0, null, Tool.None);
             waterLevel = 1;
         }
 
@@ -82,7 +82,7 @@ namespace SeeloewenCraft
     {
         public WaterBlock_2_Right(bool isInBackground) : base(isInBackground)
         {
-            Init("Water", "sc:water_2_right_block", 0, null, Tool.None, Images.Water_2_Right);
+            Init("Water", "sc:water_2_right_block", 0, null, Tool.None);
             waterLevel = 2;
         }
 
@@ -96,7 +96,7 @@ namespace SeeloewenCraft
     {
         public WaterBlock_2_Left(bool isInBackground) : base(isInBackground)
         {
-            Init("Water", "sc:water_2_left_block", 0, null, Tool.None, Images.Water_2_Left);
+            Init("Water", "sc:water_2_left_block", 0, null, Tool.None);
             waterLevel = 2;
         }
 
@@ -110,7 +110,7 @@ namespace SeeloewenCraft
     {
         public WaterBlock_3_Right(bool isInBackground) : base(isInBackground)
         {
-            Init("Water", "sc:water_3_right_block", 0, null, Tool.None, Images.Water_3_Right);
+            Init("Water", "sc:water_3_right_block", 0, null, Tool.None);
             waterLevel = 3;
         }
 
@@ -124,7 +124,7 @@ namespace SeeloewenCraft
     {
         public WaterBlock_3_Left(bool isInBackground) : base(isInBackground)
         {
-            Init("Water", "sc:water_3_left_block", 0, null, Tool.None, Images.Water_3_Left);
+            Init("Water", "sc:water_3_left_block", 0, null, Tool.None);
             waterLevel = 3;
         }
 
@@ -138,7 +138,7 @@ namespace SeeloewenCraft
     {
         public WaterBlock_4_Right(bool isInBackground) : base(isInBackground)
         {
-            Init("Water", "sc:water_4_right_block", 0, null, Tool.None, Images.Water_4_Right);
+            Init("Water", "sc:water_4_right_block", 0, null, Tool.None);
             waterLevel = 4;
         }
 
@@ -152,7 +152,7 @@ namespace SeeloewenCraft
     {
         public WaterBlock_4_Left(bool isInBackground) : base(isInBackground)
         {
-            Init("Water", "sc:water_4_left_block", 0, null, Tool.None, Images.Water_4_Left);
+            Init("Water", "sc:water_4_left_block", 0, null, Tool.None);
             waterLevel = 4;
         }
 
@@ -166,7 +166,7 @@ namespace SeeloewenCraft
     {
         public WaterBlock_5_Right(bool isInBackground) : base(isInBackground)
         {
-            Init("Water", "sc:water_5_right_block", 0, null, Tool.None, Images.Water_5_Right);
+            Init("Water", "sc:water_5_right_block", 0, null, Tool.None);
             waterLevel = 5;
         }
 
@@ -180,7 +180,7 @@ namespace SeeloewenCraft
     {
         public WaterBlock_5_Left(bool isInBackground) : base(isInBackground)
         {
-            Init("Water", "sc:water_5_left_block", 0, null, Tool.None, Images.Water_5_Left);
+            Init("Water", "sc:water_5_left_block", 0, null, Tool.None);
             waterLevel = 5;
         }
 
@@ -194,7 +194,7 @@ namespace SeeloewenCraft
     {
         public WaterBlock_6(bool isInBackground) : base(isInBackground)
         {
-            Init("Water", "sc:water_6_block", 0, null, Tool.None, Images.Water_6);
+            Init("Water", "sc:water_6_block", 0, null, Tool.None);
             waterLevel = 6;
         }
     }
