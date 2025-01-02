@@ -39,7 +39,7 @@ namespace SeeloewenCraft
             }
 
             //Show the notification
-            NotificationHandler.ShowNotification(message, time, image);
+            NotificationHandler.ShowNotification(message, time);
         }
     }
 }

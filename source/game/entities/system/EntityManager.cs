@@ -148,7 +148,6 @@ namespace SeeloewenCraft.entity {
             if (allowModify)
             {
                 entities.Add(entity);
-                Game.world.worldRenderer.AddEntity(entity);
             }
             else
             {
@@ -169,7 +168,6 @@ namespace SeeloewenCraft.entity {
                     {
                         NetworkHandler.SendData(MultiplayerPacketType.REMOVE_ENTITY, id.ToString());
                         entities.Remove(entity);
-                        Game.world.worldRenderer.RemoveEntity(entity);
 
                         i--;
                     }

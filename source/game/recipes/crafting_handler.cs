@@ -236,20 +236,12 @@ namespace SeeloewenCraft
 
         public void ShowBlockProgressbar()
         {
-            //If possible, render the progressbar on the block
-            if (block != null && block.blockContainer != null)
-            {
-                block.blockContainer.cvsBlock.Children.Add(pbCraftingBlock);
-            }
+            //TODO
         }
 
         public void HideBlockProgressbar()
         {
-            //If possible, hide the progressbar on the block
-            if (block != null && block.blockContainer != null)
-            {
-                block.blockContainer.cvsBlock.Children.Remove(pbCraftingBlock);
-            }
+            //TODO
         }
 
         private void UpdateCraftingProgress()
@@ -260,11 +252,12 @@ namespace SeeloewenCraft
             pbCrafting.Maximum = selectedRecipe.requiredTime * amount;
             pbCrafting.Value += 25;
 
-            if (block != null && block.blockContainer != null)
+            //TODO
+            /*if (block != null && block.blockContainer != null)
             {
                 pbCraftingBlock.Maximum = selectedRecipe.requiredTime * amount;
                 pbCraftingBlock.Value += 25;
-            }
+            }*/
 
             if (recipeProgress >= selectedRecipe.requiredTime * amount)
             {
@@ -277,7 +270,7 @@ namespace SeeloewenCraft
                 tbAmount.IsEnabled = true;
 
                 //Show notification and log that crafting process is complete
-                NotificationHandler.ShowNotification($"Crafting for x{amount} {selectedRecipe.displayName} completed!", 3000, Images.CraftingTable.GetTexture());
+                NotificationHandler.ShowNotification($"Crafting for x{amount} {selectedRecipe.displayName} completed!", 3000);
               
                 if (block != null) Log.Write($"Completed crafting for {amount}x {selectedRecipe.id} at workstation {workstation} (x{block.xPos} y{block.yPos}, Chunk {block.chunk.index})", LogType.GENERAL, LogLevel.INFO);
             }
@@ -343,10 +336,8 @@ namespace SeeloewenCraft
                 RenderCraftingDetails(cvsIngredients, selectedRecipe);
 
                 //Hide progress bar
-                if (block != null && block.blockContainer != null)
-                {
-                    block.blockContainer.cvsBlock.Children.Remove(pbCraftingBlock);
-                }
+                //TODO
+
 
                 //Check if all requirements for crafting the recipe are met
                 btnCraft.IsEnabled = RequiredItemsAvailable();

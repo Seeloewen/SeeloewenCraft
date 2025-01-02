@@ -269,7 +269,7 @@ namespace SeeloewenCraft
 
             if (Settings.showAutoSaveNotification)
             {
-                NotificationHandler.ShowNotification("Successfully Auto-Saved the world!", 3000, Images.Diamond.GetTexture());
+                NotificationHandler.ShowNotification("Successfully Auto-Saved the world!", 3000);
             }
         }
 

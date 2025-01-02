@@ -263,7 +263,7 @@ namespace SeeloewenCraft
 
             if (Game.world != null && Game.world.finishedLoading)
             {
-                Game.world.RefreshTextures();
+                //TODO: Game.world.RefreshTextures();
             }
         }
 
