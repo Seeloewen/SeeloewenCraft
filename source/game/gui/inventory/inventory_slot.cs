@@ -64,6 +64,8 @@ namespace SeeloewenCraft
             bdrSlot.Background = new SolidColorBrush(Colors.DarkGray);
             bdrSlot.MouseLeftButtonDown += bdrSlot_LeftMouseButtonDown;
             bdrSlot.MouseRightButtonDown += bdrSlot_RightMouseButtonDown;
+            bdrSlot.MouseEnter += BdrSlot_MouseEnter;
+            bdrSlot.MouseLeave += BdrSlot_MouseLeave;
             bdrSlot.Child = cvsItem;
 
             //Setup the slot textblock
@@ -296,6 +298,16 @@ namespace SeeloewenCraft
         }
 
         //-- Event Handlers --//
+
+        private void BdrSlot_MouseLeave(object sender, MouseEventArgs e)
+        {
+            inventory.HideItemName();
+        }
+
+        private void BdrSlot_MouseEnter(object sender, MouseEventArgs e)
+        {
+                inventory.ShowItemName(this);
+        }
 
         private void bdrSlot_LeftMouseButtonDown(object sender, EventArgs e)
         {
