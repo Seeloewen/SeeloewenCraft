@@ -6,7 +6,7 @@
 
         public WheatCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Wheat", "sc:wheat_crop_block", 0, "sc:seeds_item", Game.rnd.Next(10000, 20000), "sc:seeds_item", "sc:wheat_item", 1, 4, Tool.None, Images.Wheat_Stage1);
+            Init("Wheat", "sc:wheat_crop_block", 0, "sc:seeds_item", Game.rnd.Next(10000, 20000), "sc:seeds_item", "sc:wheat_item", 1, 4, Tool.None);
             drops.Add(("sc:seeds_item", 1, 1));
             isSolid = false;
             needsGround = (true, "ground/farmland"); //Game.rnd.Next(1200000, 1800001)
@@ -19,20 +19,14 @@
             if (progress >= growthTime / 3 && state < 2)
             {
                 state = 2;
-                sImage = Images.Wheat_Stage2;
-                blockContainer.UpdateTexture();
             }
             else if (progress >= 2 * (growthTime / 3) && state < 3)
             {
                 state = 3;
-                sImage = Images.Wheat_Stage3;
-                blockContainer.UpdateTexture();
             }
             else if (IsReady())
             {
                 state = 4;
-                sImage = Images.Wheat_Stage4;
-                blockContainer.UpdateTexture();
             }
         }
     }
@@ -43,7 +37,7 @@
 
         public CarrotCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Carrot", "sc:carrot_crop_block", 0, "sc:carrot_item", Game.rnd.Next(10000, 20000), "sc:carrot_item", "sc:carrot_item", 1, 3, Tool.None, Images.Carrot_Stage1);
+            Init("Carrot", "sc:carrot_crop_block", 0, "sc:carrot_item", Game.rnd.Next(10000, 20000), "sc:carrot_item", "sc:carrot_item", 1, 3, Tool.None);
             drops.Add(("sc:carrot_item", 1, 1));
             isSolid = false;
             needsGround = (true, "ground/farmland"); //Game.rnd.Next(1400000, 2000001)
@@ -56,20 +50,14 @@
             if (progress >= growthTime / 3 && state < 2)
             {
                 state = 2;
-                sImage = Images.Carrot_Stage2;
-                blockContainer.UpdateTexture();
             }
             else if (progress >= 2 * (growthTime / 3) && state < 3)
             {
                 state = 3;
-                sImage = Images.Carrot_Stage3;
-                blockContainer.UpdateTexture();
             }
             else if (IsReady())
             {
                 state = 4;
-                sImage = Images.Carrot_Stage4;
-                blockContainer.UpdateTexture();
             }
         }
     }
@@ -78,7 +66,7 @@
     {
         public CottonCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Cotton", "sc:cotton_crop_block", 0, "sc:cotton_item", Game.rnd.Next(10000, 20000), "sc:cotton_item", "sc:cotton_item", 1, 2, Tool.None, Images.Cotton_Stage1);
+            Init("Cotton", "sc:cotton_crop_block", 0, "sc:cotton_item", Game.rnd.Next(10000, 20000), "sc:cotton_item", "sc:cotton_item", 1, 2, Tool.None);
             drops.Add(("sc:cotton_item", 1, 1));
             isSolid = false;
             hasRightClickAction = true;
@@ -91,8 +79,6 @@
 
             if (IsReady())
             {
-                sImage = Images.Cotton_Stage2;
-                blockContainer.UpdateTexture();
             }
         }
 
@@ -108,8 +94,6 @@
                 drops.Clear();
                 drops.Add(("sc:cotton_item", 1, 1));
 
-                sImage = Images.Cotton_Stage1;
-                blockContainer.UpdateTexture();
             }
         }
     }
@@ -118,7 +102,7 @@
     {
         public BerryBushCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Berry Bush", "sc:berry_bush_crop_block", 0, "sc:berry_item", Game.rnd.Next(10000, 20000), "sc:berry_item", "sc:berry_item", 1, 3, Tool.None, Images.Berry_Bush_Stage1);
+            Init("Berry Bush", "sc:berry_bush_crop_block", 0, "sc:berry_item", Game.rnd.Next(10000, 20000), "sc:berry_item", "sc:berry_item", 1, 3, Tool.None);
             drops.Add(("sc:berry_item", 1, 1));
             isSolid = false;
             hasRightClickAction = true;
@@ -131,8 +115,6 @@
 
             if (IsReady())
             {
-                sImage = Images.Berry_Bush_Stage2;
-                blockContainer.UpdateTexture();
             }
         }
 
@@ -148,8 +130,6 @@
                 drops.Clear();
                 drops.Add(("sc:berry_item", 1, 1));
 
-                sImage = Images.Berry_Bush_Stage1;
-                blockContainer.UpdateTexture();
             }
         }
     }
@@ -161,7 +141,7 @@
 
         public SugarCaneBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Sugar Cane", "sc:sugar_cane_block", 0, "sc:sugar_cane_item", Game.rnd.Next(10000, 20000), "sc:sugar_cane_item", "sc:sugar_cane_item", 0, 0, Tool.None, Images.SugarCane);
+            Init("Sugar Cane", "sc:sugar_cane_block", 0, "sc:sugar_cane_item", Game.rnd.Next(10000, 20000), "sc:sugar_cane_item", "sc:sugar_cane_item", 0, 0, Tool.None);
             drops.Add(("sc:sugar_cane_item", 1, 1));
             tags.Add("Crops/SugarCane");
             isSolid = false;
@@ -213,7 +193,7 @@
 
         public TomatoCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Tomato", "sc:tomato_crop_block", 0, "sc:tomato_item", Game.rnd.Next(10000, 20000), "sc:tomato_item", "sc:tomato_item", 1, 3, Tool.None, Images.Tomato_Stage1);
+            Init("Tomato", "sc:tomato_crop_block", 0, "sc:tomato_item", Game.rnd.Next(10000, 20000), "sc:tomato_item", "sc:tomato_item", 1, 3, Tool.None);
             drops.Add(("sc:tomato_item", 1, 1));
             tags.Add("Crops/Tomato");
             isSolid = false;
@@ -260,8 +240,6 @@
 
             if (IsReady())
             {
-                sImage = Images.Tomato_Stage2;
-                blockContainer.UpdateTexture();
 
                 if (shouldGrow)
                 {
@@ -282,8 +260,6 @@
                 drops.Clear();
                 drops.Add(("sc:tomato_item", 1, 1));
 
-                sImage = Images.Tomato_Stage1;
-                blockContainer.UpdateTexture();
             }
         }
     }
@@ -292,7 +268,7 @@
     {
         public Rice_Base(bool isInBackground) : base(isInBackground)
         {
-            Init("Rice Base", "sc:rice_base", 500, "sc:rice_item", Tool.Axe, Images.Rice_Base);
+            Init("Rice Base", "sc:rice_base", 500, "sc:rice_item", Tool.Axe);
             isBase = true;
             needsGround = (true, "ground/plant"); //Game.rnd.Next(1400000, 2000001)
             isSolid = false;
@@ -308,7 +284,7 @@
 
         public Rice_Top(bool isInBackground) : base(isInBackground)
         {
-            Init("Rice Top", "sc:rice_top", 0, "sc:bucket_rice_item", Game.rnd.Next(10000, 20000), "sc:bucket_rice_item", "sc:bucket_rice_item", 1, 1, Tool.None, Images.Rice_Top_Stage1);
+            Init("Rice Top", "sc:rice_top", 0, "sc:bucket_rice_item", Game.rnd.Next(10000, 20000), "sc:bucket_rice_item", "sc:bucket_rice_item", 1, 1, Tool.None);
             isSolid = false;
             doesntDrop = true;
         }
@@ -320,20 +296,14 @@
             if (progress >= growthTime / 3 && state < 2)
             {
                 state = 2;
-                sImage = Images.Rice_Top_Stage2;
-                blockContainer.UpdateTexture();
             }
             else if (progress >= 2 * (growthTime / 3) && state < 3)
             {
                 state = 3;
-                sImage = Images.Rice_Top_Stage3;
-                blockContainer.UpdateTexture();
             }
             else if (IsReady())
             {
                 state = 4;
-                sImage = Images.Rice_Top_Stage4;
-                blockContainer.UpdateTexture();
             }
         }
 
@@ -349,8 +319,6 @@
                 Game.world.player.inventory.AddItem("sc:bucket_rice_item", 1, null);
                 Game.world.player.inventory.RemoveItem("sc:bucket_empty_item", 1);
 
-                sImage = Images.Rice_Top_Stage1;
-                blockContainer.UpdateTexture();
             }
         }
     }
@@ -361,7 +329,7 @@
 
         public PumpkinCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Pumpkin", "sc:pumpkin_crop_block", 0, "sc:pumpkin_item", Game.rnd.Next(10000, 20000), "sc:pumpkin_seeds_item", "sc:pumpkin_item", 1, 1, Tool.None, Images.Pumpkin_Stage1);
+            Init("Pumpkin", "sc:pumpkin_crop_block", 0, "sc:pumpkin_item", Game.rnd.Next(10000, 20000), "sc:pumpkin_seeds_item", "sc:pumpkin_item", 1, 1, Tool.None);
             drops.Add(("sc:pumpkin_seeds_item", 1, 1));
             isSolid = false;
             hasRightClickAction = true;
@@ -375,20 +343,14 @@
             if (progress >= growthTime / 3 && state < 2)
             {
                 state = 2;
-                sImage = Images.Pumpkin_Stage2;
-                blockContainer.UpdateTexture();
             }
             else if (progress >= 2 * (growthTime / 3) && state < 3)
             {
                 state = 3;
-                sImage = Images.Pumpkin_Stage3;
-                blockContainer.UpdateTexture();
             }
             else if (IsReady())
             {
                 state = 4;
-                sImage = Images.Pumpkin_Stage4;
-                blockContainer.UpdateTexture();
             }
         }
 
@@ -407,8 +369,6 @@
                 drops.Clear();
                 drops.Add(("sc:pumpkin_seeds_item", 1, 1));
 
-                sImage = Images.Pumpkin_Stage1;
-                blockContainer.UpdateTexture();
             }
         }
     }
@@ -419,7 +379,7 @@
 
         public CabbageCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Cabbage", "sc:cabbage_crop_block", 0, "sc:cabbage_seeds_item", Game.rnd.Next(10000, 20000), "sc:cabbage_seeds_item", "sc:cabbage_item", 1, 1, Tool.None, Images.Cabbage_Stage1);
+            Init("Cabbage", "sc:cabbage_crop_block", 0, "sc:cabbage_seeds_item", Game.rnd.Next(10000, 20000), "sc:cabbage_seeds_item", "sc:cabbage_item", 1, 1, Tool.None);
             drops.Add(("sc:cabbage_seeds_item", 1, 1));
             isSolid = false;
             needsGround = (true, "ground/farmland"); //Game.rnd.Next(1200000, 1800001)
@@ -432,20 +392,14 @@
             if (progress >= growthTime / 3 && state < 2)
             {
                 state = 2;
-                sImage = Images.Cabbage_Stage2;
-                blockContainer.UpdateTexture();
             }
             else if (progress >= 2 * (growthTime / 3) && state < 3)
             {
                 state = 3;
-                sImage = Images.Cabbage_Stage3;
-                blockContainer.UpdateTexture();
             }
             else if (IsReady())
             {
                 state = 4;
-                sImage = Images.Cabbage_Stage4;
-                blockContainer.UpdateTexture();
             }
         }
     }
@@ -456,7 +410,7 @@
 
         public PotatoCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Potato", "sc:potato_crop_block", 0, "sc:potato_item", Game.rnd.Next(10000, 20000), "sc:potato_item", "sc:potato_item", 1, 3, Tool.None, Images.Potato_Stage1);
+            Init("Potato", "sc:potato_crop_block", 0, "sc:potato_item", Game.rnd.Next(10000, 20000), "sc:potato_item", "sc:potato_item", 1, 3, Tool.None);
             drops.Add(("sc:potato_item", 1, 1));
             isSolid = false;
             needsGround = (true, "ground/farmland"); //Game.rnd.Next(1400000, 2000001)
@@ -469,20 +423,14 @@
             if (progress >= growthTime / 3 && state < 2)
             {
                 state = 2;
-                sImage = Images.Potato_Stage2;
-                blockContainer.UpdateTexture();
             }
             else if (progress >= 2 * (growthTime / 3) && state < 3)
             {
                 state = 3;
-                sImage = Images.Potato_Stage3;
-                blockContainer.UpdateTexture();
             }
             else if (IsReady())
             {
                 state = 4;
-                sImage = Images.Potato_Stage4;
-                blockContainer.UpdateTexture();
             }
         }
     }
@@ -492,7 +440,7 @@
 
         public CucumberCropBlock(bool isInBackground) : base(isInBackground)
         {
-            Init("Cucumber", "sc:cucumber_crop_block", 0, "sc:cucumber_item", Game.rnd.Next(10000, 20000), "sc:cucumber_item", "sc:cucumber_item", 1, 2, Tool.None, Images.Cucumber_Stage1);
+            Init("Cucumber", "sc:cucumber_crop_block", 0, "sc:cucumber_item", Game.rnd.Next(10000, 20000), "sc:cucumber_item", "sc:cucumber_item", 1, 2, Tool.None);
             drops.Add(("sc:cucumber_item", 1, 1));
             isSolid = false;
             hasRightClickAction = true;
@@ -505,8 +453,6 @@
 
             if (IsReady())
             {
-                sImage = Images.Cucumber_Stage2;
-                blockContainer.UpdateTexture();
             }
         }
 
@@ -522,8 +468,6 @@
                 drops.Clear();
                 drops.Add(("sc:cucumber _item", 1, 1));
 
-                sImage = Images.Cucumber_Stage1;
-                blockContainer.UpdateTexture();
             }
         }
     }

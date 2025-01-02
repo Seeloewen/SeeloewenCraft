@@ -61,21 +61,8 @@ namespace SeeloewenCraft.entity
         {
             Random random = new Random(DateTime.Now.Millisecond);
 
-            switch (random.Next(0, 5))
-            {
-                case 0:
-                    return Images.Slime_Blue.GetTexture();
-                case 1:
-                    return Images.Slime_Red.GetTexture();
-                case 2:
-                    return Images.Slime_Green.GetTexture();
-                case 3:
-                    return Images.Slime_Magenta.GetTexture();
-                case 4:
-                    return Images.Slime_Yellow.GetTexture();
-                default:
-                    return Images.Slime_Blue.GetTexture();    
-            }
+            //TODO
+            return null;
         }
     }
 }

@@ -63,7 +63,7 @@ namespace SeeloewenCraft
                         "\n/ping - Return pong, used as a test command", "/help", MessageBoxButton.OK, MessageBoxImage.Question);
                     break;
                 default:
-                    NotificationHandler.ShowNotification("Unknown command. Type /help for help.", 3000, Images.StoneBlock.GetTexture());
+                    NotificationHandler.ShowNotification("Unknown command. Type /help for help.", 3000);
                     break;
             }
 

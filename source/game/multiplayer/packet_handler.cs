@@ -101,9 +101,6 @@ namespace SeeloewenCraft
                     {
                         player.UpdateHeadPosition();
 
-                        //Do animation if necessary
-                        player.movingHorizontally = player.pressedLeft || player.pressedRight;
-                        player.DoMovementAnimation();
                     }
                 }
 

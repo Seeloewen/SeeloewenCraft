@@ -10,7 +10,7 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_TopRight() : base()
         {
-            Init("Chiseled Spruce Planks", "sc:spruce_planks_topright_item", "sc:spruce_planks_topright", true, Images.SprucePlanksBlock_TopRight);
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_topright_item", "sc:spruce_planks_topright", true);
             unchiselItems.Add(new SprucePlanksItem_Center());
         }
     }
@@ -19,7 +19,7 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_TopLeft() : base()
         {
-            Init("Chiseled Spruce Planks", "sc:spruce_planks_topleft_item", "sc:spruce_planks_topleft", true, Images.SprucePlanksBlock_TopLeft);
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_topleft_item", "sc:spruce_planks_topleft", true);
             unchiselItems.Add(new SprucePlanksItem_Center());
         }
     }
@@ -28,7 +28,7 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_BottomRight() : base()
         {
-            Init("Chiseled Spruce Planks", "sc:spruce_planks_bottomright_item", "sc:spruce_planks_bottomright", true, Images.SprucePlanksBlock_BottomRight);
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_bottomright_item", "sc:spruce_planks_bottomright", true);
             unchiselItems.Add(new SprucePlanksItem_Center());
         }
     }
@@ -37,7 +37,7 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_BottomLeft() : base()
         {
-            Init("Chiseled Spruce Planks", "sc:spruce_planks_bottomleft_item", "sc:spruce_planks_bottomleft", true, Images.SprucePlanksBlock_BottomLeft);
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_bottomleft_item", "sc:spruce_planks_bottomleft", true);
             unchiselItems.Add(new SprucePlanksItem_Center());
         }
     }
@@ -46,7 +46,7 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_SlabRight() : base()
         {
-            Init("Chiseled Spruce Planks", "sc:spruce_planks_slabright_item", "sc:spruce_planks_slabright", true, Images.SprucePlanksBlock_SlabRight);
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_slabright_item", "sc:spruce_planks_slabright", true);
 
             for (int i = 0; i < 2; i++)
             {
@@ -59,7 +59,7 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_SlabLeft() : base()
         {
-            Init("Chiseled Spruce Planks", "sc:spruce_planks_slableft_item", "sc:spruce_planks_slableft", true, Images.SprucePlanksBlock_SlabLeft);
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_slableft_item", "sc:spruce_planks_slableft", true);
 
             for (int i = 0; i < 2; i++)
             {
@@ -72,7 +72,7 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_SlabTop() : base()
         {
-            Init("Chiseled Spruce Planks", "sc:spruce_planks_slabtop_item", "sc:spruce_planks_slabtop", true, Images.SprucePlanksBlock_SlabTop);
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_slabtop_item", "sc:spruce_planks_slabtop", true);
 
             for (int i = 0; i < 2; i++)
             {
@@ -85,7 +85,7 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_SlabBottom() : base()
         {
-            Init("Chiseled Spruce Planks", "sc:spruce_planks_slabbottom_item", "sc:spruce_planks_slabbottom", true, Images.SprucePlanksBlock_SlabBottom);
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_slabbottom_item", "sc:spruce_planks_slabbottom", true);
 
             for (int i = 0; i < 2; i++)
             {
@@ -98,7 +98,7 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_StairTopRight() : base()
         {
-            Init("Chiseled Spruce Planks", "sc:spruce_planks_stairtopright_item", "sc:spruce_planks_stairtopright", true, Images.SprucePlanksBlock_StairTopRight);
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_stairtopright_item", "sc:spruce_planks_stairtopright", true);
 
             for (int i = 0; i < 3; i++)
             {
@@ -111,7 +111,7 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_StairTopLeft() : base()
         {
-            Init("Chiseled Spruce Planks", "sc:spruce_planks_stairtopleft_item", "sc:spruce_planks_stairtopleft", true, Images.SprucePlanksBlock_StairTopLeft);
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_stairtopleft_item", "sc:spruce_planks_stairtopleft", true);
 
             for (int i = 0; i < 3; i++)
             {
@@ -124,7 +124,7 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_StairBottomRight() : base()
         {
-            Init("Chiseled Spruce Planks", "sc:spruce_planks_stairbottomright_item", "sc:spruce_planks_stairbottomright", true, Images.SprucePlanksBlock_StairBottomRight);
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_stairbottomright_item", "sc:spruce_planks_stairbottomright", true);
 
             for (int i = 0; i < 3; i++)
             {
@@ -137,7 +137,7 @@ namespace SeeloewenCraft
     {
         public SprucePlanksItem_StairBottomLeft() : base()
         {
-            Init("Chiseled Spruce Planks", "sc:spruce_planks_stairbottomleft_item", "sc:spruce_planks_stairbottomleft", true, Images.SprucePlanksBlock_StairBottomLeft);
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_stairbottomleft_item", "sc:spruce_planks_stairbottomleft", true);
 
             for (int i = 0; i < 3; i++)
             {
@@ -152,7 +152,7 @@ namespace SeeloewenCraft
         {
             isChiseled = false;
             isPlacable = true;
-            Init("Chiseled Spruce Planks", "sc:spruce_planks_center_item", "sc:spruce_planks_center", true, Images.SprucePlanksBlock_Center);
+            Init("Chiseled Spruce Planks", "sc:spruce_planks_center_item", "sc:spruce_planks_center", true);
         }
     }
 }

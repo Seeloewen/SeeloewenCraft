@@ -10,7 +10,7 @@ namespace SeeloewenCraft
     {
         public SandStoneItem_TopRight() : base()
         {
-            Init("Chiseled Sand Stone", "sc:sand_stone_topright_item", "sc:sand_stone_topright", true, Images.SandStoneBlock_TopRight);
+            Init("Chiseled Sand Stone", "sc:sand_stone_topright_item", "sc:sand_stone_topright", true);
             unchiselItems.Add(new SandStoneItem_Center());
         }
     }
@@ -19,7 +19,7 @@ namespace SeeloewenCraft
     {
         public SandStoneItem_TopLeft() : base()
         {
-            Init("Chiseled Sand Stone", "sc:sand_stone_topleft_item", "sc:sand_stone_topleft", true, Images.SandStoneBlock_TopLeft);
+            Init("Chiseled Sand Stone", "sc:sand_stone_topleft_item", "sc:sand_stone_topleft", true);
             unchiselItems.Add(new SandStoneItem_Center());
         }
     }
@@ -28,7 +28,7 @@ namespace SeeloewenCraft
     {
         public SandStoneItem_BottomRight() : base()
         {
-            Init("Chiseled Sand Stone", "sc:sand_stone_bottomright_item", "sc:sand_stone_bottomright", true, Images.SandStoneBlock_BottomRight);
+            Init("Chiseled Sand Stone", "sc:sand_stone_bottomright_item", "sc:sand_stone_bottomright", true);
             unchiselItems.Add(new SandStoneItem_Center());
         }
     }
@@ -37,7 +37,7 @@ namespace SeeloewenCraft
     {
         public SandStoneItem_BottomLeft() : base()
         {
-            Init("Chiseled Sand Stone", "sc:sand_stone_bottomleft_item", "sc:sand_stone_bottomleft", true, Images.SandStoneBlock_BottomLeft);
+            Init("Chiseled Sand Stone", "sc:sand_stone_bottomleft_item", "sc:sand_stone_bottomleft", true);
             unchiselItems.Add(new SandStoneItem_Center());
         }
     }
@@ -46,7 +46,7 @@ namespace SeeloewenCraft
     {
         public SandStoneItem_SlabRight() : base()
         {
-            Init("Chiseled Sand Stone", "sc:sand_stone_slabright_item", "sc:sand_stone_slabright", true, Images.SandStoneBlock_SlabRight);
+            Init("Chiseled Sand Stone", "sc:sand_stone_slabright_item", "sc:sand_stone_slabright", true);
             for (int i = 0; i < 2; i++)
             {
                 unchiselItems.Add(new SandStoneItem_Center());
@@ -58,7 +58,7 @@ namespace SeeloewenCraft
     {
         public SandStoneItem_SlabLeft() : base()
         {
-            Init("Chiseled Sand Stone", "sc:sand_stone_slableft_item", "sc:sand_stone_slableft", true, Images.SandStoneBlock_SlabLeft);
+            Init("Chiseled Sand Stone", "sc:sand_stone_slableft_item", "sc:sand_stone_slableft", true);
             for (int i = 0; i < 2; i++)
             {
                 unchiselItems.Add(new SandStoneItem_Center());
@@ -70,7 +70,7 @@ namespace SeeloewenCraft
     {
         public SandStoneItem_SlabTop() : base()
         {
-            Init("Chiseled Sand Stone", "sc:sand_stone_slabtop_item", "sc:sand_stone_slabtop", true, Images.SandStoneBlock_SlabTop);
+            Init("Chiseled Sand Stone", "sc:sand_stone_slabtop_item", "sc:sand_stone_slabtop", true);
             for (int i = 0; i < 2; i++)
             {
                 unchiselItems.Add(new SandStoneItem_Center());
@@ -82,7 +82,7 @@ namespace SeeloewenCraft
     {
         public SandStoneItem_SlabBottom() : base()
         {
-            Init("Chiseled Sand Stone", "sc:sand_stone_slabbottom_item", "sc:sand_stone_slabbottom", true, Images.SandStoneBlock_SlabBottom);
+            Init("Chiseled Sand Stone", "sc:sand_stone_slabbottom_item", "sc:sand_stone_slabbottom", true);
             for (int i = 0; i < 2; i++)
             {
                 unchiselItems.Add(new SandStoneItem_Center());
@@ -94,7 +94,7 @@ namespace SeeloewenCraft
     {
         public SandStoneItem_StairTopRight() : base()
         {
-            Init("Chiseled Sand Stone", "sc:sand_stone_stairtopright_item", "sc:sand_stone_stairtopright", true, Images.SandStoneBlock_StairTopRight);
+            Init("Chiseled Sand Stone", "sc:sand_stone_stairtopright_item", "sc:sand_stone_stairtopright", true);
             for (int i = 0; i < 3; i++)
             {
                 unchiselItems.Add(new SandStoneItem_Center());
@@ -106,7 +106,7 @@ namespace SeeloewenCraft
     {
         public SandStoneItem_StairTopLeft() : base()
         {
-            Init("Chiseled Sand Stone", "sc:sand_stone_stairtopleft_item", "sc:sand_stone_stairtopleft", true, Images.SandStoneBlock_StairTopLeft);
+            Init("Chiseled Sand Stone", "sc:sand_stone_stairtopleft_item", "sc:sand_stone_stairtopleft", true);
             for (int i = 0; i < 3; i++)
             {
                 unchiselItems.Add(new SandStoneItem_Center());
@@ -118,7 +118,7 @@ namespace SeeloewenCraft
     {
         public SandStoneItem_StairBottomRight() : base()
         {
-            Init("Chiseled Sand Stone", "sc:sand_stone_stairbottomright_item", "sc:sand_stone_stairbottomright", true, Images.SandStoneBlock_StairBottomRight);
+            Init("Chiseled Sand Stone", "sc:sand_stone_stairbottomright_item", "sc:sand_stone_stairbottomright", true);
             for (int i = 0; i < 3; i++)
             {
                 unchiselItems.Add(new SandStoneItem_Center());
@@ -130,7 +130,7 @@ namespace SeeloewenCraft
     {
         public SandStoneItem_StairBottomLeft() : base()
         {
-            Init("Chiseled Sand Stone", "sc:sand_stone_stairbottomleft_item", "sc:sand_stone_stairbottomleft", true, Images.SandStoneBlock_StairBottomLeft);
+            Init("Chiseled Sand Stone", "sc:sand_stone_stairbottomleft_item", "sc:sand_stone_stairbottomleft", true);
             for (int i = 0; i < 3; i++)
             {
                 unchiselItems.Add(new SandStoneItem_Center());
@@ -142,7 +142,7 @@ namespace SeeloewenCraft
     {
         public SandStoneItem_Center() : base()
         {
-            Init("Chiseled Sand Stone", "sc:sand_stone_center_item", "sc:sand_stone_center", true, Images.SandStoneBlock_Center);
+            Init("Chiseled Sand Stone", "sc:sand_stone_center_item", "sc:sand_stone_center", true);
         }
     }
 }

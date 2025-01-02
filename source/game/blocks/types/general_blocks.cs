@@ -332,8 +332,6 @@ namespace SeeloewenCraft
             collision = new RectangleCollision(720, 1000, 0, 1000);
 
             connectedBlocks.Add((0, -1, "sc:spruce_door_top"));
-            imgClose = Images.SpruceDoor_Closed_Base.GetTexture();
-            imgOpen = Images.SpruceDoor_Open_Base.GetTexture();
         }
     }
 
@@ -344,9 +342,6 @@ namespace SeeloewenCraft
             Init("Spruce Door Top", "sc:spruce_door_top", 500, null, Tool.Axe);
             hasRightClickAction = true;
             collision = new RectangleCollision(720, 1000, 0, 1000);
-
-            imgClose = Images.SpruceDoor_Closed_Top.GetTexture();
-            imgOpen = Images.SpruceDoor_Open_Top.GetTexture();
         }
 
         public override void RightClickAction()
@@ -530,8 +525,6 @@ namespace SeeloewenCraft
             collision = new RectangleCollision(720, 1000, 0, 1000);
 
             connectedBlocks.Add((0, -1, "sc:oak_door_top"));
-            imgClose = Images.OakDoor_Closed_Base.GetTexture();
-            imgOpen = Images.OakDoor_Open_Base.GetTexture();
         }
     }
 
@@ -542,9 +535,6 @@ namespace SeeloewenCraft
             Init("Oak Door Top", "sc:oak_door_top", 500, null, Tool.Axe);
             hasRightClickAction = true;
             collision = new RectangleCollision(720, 1000, 0, 1000);
-
-            imgClose = Images.OakDoor_Closed_Top.GetTexture();
-            imgOpen = Images.OakDoor_Open_Top.GetTexture();
         }
 
         public override void RightClickAction()
@@ -573,9 +563,6 @@ namespace SeeloewenCraft
             Init("Oak Trapdoor Base", "sc:oak_trapdoor", 500, "sc:oak_trapdoor_item", Tool.Axe);
             hasRightClickAction = true;
             collision = new RectangleCollision(0, 1000, 0, 150);
-
-            imgClose = Images.OakTrapdoor_Closed.GetTexture();
-            imgOpen = Images.OakTrapdoor_Open.GetTexture();
         }
     }
 
@@ -586,12 +573,8 @@ namespace SeeloewenCraft
             Init("Spruce Trapdoor Base", "sc:spruce_trapdoor", 500, "sc:spruce_trapdoor_item", Tool.Axe);
             hasRightClickAction = true;
             collision = new RectangleCollision(0, 1000, 0, 150);
-
-            imgClose = Images.SpruceTrapdoor_Closed.GetTexture();
-            imgOpen = Images.SpruceTrapdoor_Open.GetTexture();
         }
     }
-
     public class FurnaceBlock : Block
     {
         public FurnaceBlock(bool isInBackground) : base(isInBackground)
@@ -1107,4 +1090,5 @@ namespace SeeloewenCraft
         }
     }
 }
+
 

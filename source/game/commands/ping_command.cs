@@ -12,12 +12,12 @@ namespace SeeloewenCraft
 
                 if (Game.IsServer())
                 {
-                    NotificationHandler.ShowNotification("You can see the ping to your clients in the log.", 3000, Images.Paper.GetTexture());
+                    NotificationHandler.ShowNotification("You can see the ping to your clients in the log.", 3000);
                 }
             }
             else
             {
-                NotificationHandler.ShowNotification("This command only works in Multiplayer!", 3000, Images.Paper.GetTexture());
+                NotificationHandler.ShowNotification("This command only works in Multiplayer!", 3000);
             }
         }
     }

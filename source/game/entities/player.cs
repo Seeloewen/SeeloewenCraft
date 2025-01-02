@@ -146,9 +146,6 @@ namespace SeeloewenCraft.entity
 
             UpdateHeadPosition();
 
-            //Do animation if necessary
-            movingHorizontally = pressedLeft || pressedRight;
-            DoMovementAnimation();
         }
 
         public void UpdateHeadPosition()
@@ -163,13 +160,6 @@ namespace SeeloewenCraft.entity
                 directionScale = 1;
             }
 
-            ScaleTransform flipTransform = new ScaleTransform
-            {
-                ScaleX = directionScale,
-                CenterX = cvsHead.ActualWidth / 2
-            };
-
-            cvsHead.RenderTransform = flipTransform;
         }
 
         protected override void DoFallDamage()
@@ -220,7 +210,6 @@ namespace SeeloewenCraft.entity
             }
 
             texture.Background = new SolidColorBrush(Colors.Transparent);
-            InitAnimations();
         }
 
         public override void Die()

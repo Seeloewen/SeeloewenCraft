@@ -20,7 +20,6 @@ namespace SeeloewenCraft
 
             //Setup Canvas
             cvsGui = new Canvas();
-            cvsGui.Background = Images.Gui.GetTexture();
             cvsGui.Width = width;
             cvsGui.Height = height;
             cvsGui.Visibility = Visibility.Hidden;

@@ -10,7 +10,7 @@ namespace SeeloewenCraft
             //Check if the command has enough args
             if (args.Length < 4)
             {
-                NotificationHandler.ShowNotification("Invalid command syntax: incorrect number of arguments", 3000, Images.Paper.GetTexture());
+                NotificationHandler.ShowNotification("Invalid command syntax: incorrect number of arguments", 3000);
                 return;
             }
 
@@ -23,7 +23,7 @@ namespace SeeloewenCraft
             }
             catch
             {
-                NotificationHandler.ShowNotification("Invalid command syntax: can't parse amount to int", 3000, Images.Paper.GetTexture());
+                NotificationHandler.ShowNotification("Invalid command syntax: can't parse amount to int", 3000);
                 return;
             }
 

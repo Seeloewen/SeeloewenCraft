@@ -174,7 +174,7 @@
     {
         public BoneItem() : base()
         {
-            Init("Bone", "sc:bone_item", null, true, Images.Bone);
+            Init("Bone", "sc:bone_item", null, true);
         }
     }
 
@@ -182,7 +182,7 @@
     {
         public ArrowItem() : base()
         {
-            Init("Arrow", "sc:arrow_item", null, true, Images.Arrow);
+            Init("Arrow", "sc:arrow_item", null, true);
         }
     }
 
@@ -191,7 +191,7 @@
     {
         public SnowballItem() : base()
         {
-            Init("Snowball", "sc:snowball_item", null, true, Images.Snowball);
+            Init("Snowball", "sc:snowball_item", null, true);
         }
     }
 
@@ -577,7 +577,7 @@
     {
         public AmethystItem() : base()
         {
-            Init("Amethyst", "sc:amethyst_item", null, false, Images.Amethyst);
+            Init("Amethyst", "sc:amethyst_item", null, false);
         }
     }
 
@@ -585,7 +585,7 @@
     {
         public AppleItem() : base()
         {
-            Init("Apple", "sc:apple_item", null, false, Images.Apple);
+            Init("Apple", "sc:apple_item", null, false);
             healAmount = 2;
         }
     }
@@ -594,7 +594,7 @@
     {
         public BreadItem() : base()
         {
-            Init("Bread", "sc:bread_item", null, false, Images.Bread);
+            Init("Bread", "sc:bread_item", null, false);
             healAmount = 3;
         }
     }
@@ -603,7 +603,7 @@
     {
         public BucketEmptyItem() : base()
         {
-            Init("Empty Bucket", "sc:bucket_empty_item", null, false, Images.BucketEmpty);
+            Init("Empty Bucket", "sc:bucket_empty_item", null, false);
             hasRightClickAction = true;
         }
 
@@ -626,7 +626,7 @@
     {
         public BucketWaterItem() : base()
         {
-            Init("Water Bucket", "sc:bucket_water_item", null, false, Images.BucketWater);
+            Init("Water Bucket", "sc:bucket_water_item", null, false);
             hasRightClickAction = true;
         }
 
@@ -645,7 +645,7 @@
     {
         public CoalItem() : base()
         {
-            Init("Coal", "sc:coal_item", null, false, Images.Coal);
+            Init("Coal", "sc:coal_item", null, false);
         }
     }
 
@@ -653,7 +653,7 @@
     {
         public CopperBarItem() : base()
         {
-            Init("Copper Bar", "sc:copper_bar_item", null, false, Images.CopperBar);
+            Init("Copper Bar", "sc:copper_bar_item", null, false);
         }
     }
 
@@ -661,7 +661,7 @@
     {
         public CroissantItem() : base()
         {
-            Init("Croissant", "sc:croissant_item", null, false, Images.Croissant);
+            Init("Croissant", "sc:croissant_item", null, false);
             healAmount = 2;
         }
     }
@@ -670,7 +670,7 @@
     {
         public DiamondItem() : base()
         {
-            Init("Diamond", "sc:diamond_item", null, false, Images.Diamond);
+            Init("Diamond", "sc:diamond_item", null, false);
         }
     }
 
@@ -678,7 +678,7 @@
     {
         public EmeraldItem() : base()
         {
-            Init("Emerald", "sc:emerald_item", null, false, Images.Emerald);
+            Init("Emerald", "sc:emerald_item", null, false);
         }
     }
 
@@ -686,7 +686,7 @@
     {
         public FossilFragmentItem() : base()
         {
-            Init("Fossil Fragment", "sc:fossil_fragment_item", null, false, Images.FossilFragment);
+            Init("Fossil Fragment", "sc:fossil_fragment_item", null, false);
         }
     }
 
@@ -694,7 +694,7 @@
     {
         public GoldBarItem() : base()
         {
-            Init("Gold Bar", "sc:gold_bar_item", null, false, Images.GoldBar);
+            Init("Gold Bar", "sc:gold_bar_item", null, false);
         }
     }
 
@@ -702,7 +702,7 @@
     {
         public IronBarItem() : base()
         {
-            Init("Iron Bar", "sc:iron_bar_item", null, false, Images.IronBar);
+            Init("Iron Bar", "sc:iron_bar_item", null, false);
         }
     }
 
@@ -710,7 +710,7 @@
     {
         public IronRodItem() : base()
         {
-            Init("Iron Rod", "sc:iron_rod_item", null, false, Images.IronRod);
+            Init("Iron Rod", "sc:iron_rod_item", null, false);
         }
     }
 
@@ -718,7 +718,7 @@
     {
         public PaperItem() : base()
         {
-            Init("Paper", "sc:paper_item", null, false, Images.Paper);
+            Init("Paper", "sc:paper_item", null, false);
         }
     }
 
@@ -726,7 +726,7 @@
     {
         public PotShardItem() : base()
         {
-            Init("Pot Shard", "sc:pot_shard_item", null, false, Images.PotShard);
+            Init("Pot Shard", "sc:pot_shard_item", null, false);
         }
     }
 
@@ -734,7 +734,7 @@
     {
         public RockItem() : base()
         {
-            Init("Rock", "sc:rock_item", null, false, Images.Rock);
+            Init("Rock", "sc:rock_item", null, false);
         }
     }
 
@@ -742,7 +742,7 @@
     {
         public StickItem() : base()
         {
-            Init("Stick", "sc:stick_item", null, false, Images.Stick);
+            Init("Stick", "sc:stick_item", null, false);
         }
     }
 
@@ -750,7 +750,7 @@
     {
         public TinBarItem() : base()
         {
-            Init("Tin Bar", "sc:tin_bar_item", null, false, Images.TinBar);
+            Init("Tin Bar", "sc:tin_bar_item", null, false);
         }
     }
 
@@ -758,14 +758,14 @@
     {
         public TungstenBar() : base()
         {
-            Init("Tungsten Bar", "sc:tungsten_bar_item", null, false, Images.TungstenBar);
+            Init("Tungsten Bar", "sc:tungsten_bar_item", null, false);
         }
     }
     public class WaxItem : Item
     {
         public WaxItem() : base()
         {
-            Init("Wax", "sc:wax_item", null, false, Images.Wax);
+            Init("Wax", "sc:wax_item", null, false);
         }
     }
 
@@ -798,7 +798,7 @@
     {
         public WheatItem() : base()
         {
-            Init("Wheat", "sc:wheat_item", null, false, Images.Wheat);
+            Init("Wheat", "sc:wheat_item", null, false);
         }
     }
 
@@ -896,7 +896,7 @@
     {
         public SeehundiumItem() : base()
         {
-            Init("Seehundium", "sc:seehundium_item", null, false, Images.Seehundium);
+            Init("Seehundium", "sc:seehundium_item", null, false);
         }
     }
 
@@ -904,7 +904,7 @@
     {
         public SaladItem() : base()
         {
-            Init("Salad", "sc:salad_item", null, false, Images.Salad);
+            Init("Salad", "sc:salad_item", null, false);
             healAmount = 5;
         }
     }

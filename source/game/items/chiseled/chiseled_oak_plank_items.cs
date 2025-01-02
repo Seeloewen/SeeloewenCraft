@@ -4,7 +4,7 @@
     {
         public OakPlanksItem_TopRight() : base()
         {
-            Init("Chiseled Oak Plank", "sc:oak_planks_topright_item", "sc:oak_planks_topright", true, Images.OakPlanksBlock_TopRight);
+            Init("Chiseled Oak Plank", "sc:oak_planks_topright_item", "sc:oak_planks_topright", true);
             unchiselItems.Add(new OakPlanksItem_Center());
         }
     }
@@ -13,7 +13,7 @@
     {
         public OakPlanksItem_TopLeft() : base()
         {
-            Init("Chiseled Oak Plank", "sc:oak_planks_topleft_item", "sc:oak_planks_topleft", true, Images.OakPlanksBlock_TopLeft);
+            Init("Chiseled Oak Plank", "sc:oak_planks_topleft_item", "sc:oak_planks_topleft", true);
             unchiselItems.Add(new OakPlanksItem_Center());
         }
     }
@@ -22,7 +22,7 @@
     {
         public OakPlanksItem_BottomRight() : base()
         {
-            Init("Chiseled Oak Plank", "sc:oak_planks_bottomright_item", "sc:oak_planks_bottomright", true, Images.OakPlanksBlock_BottomRight);
+            Init("Chiseled Oak Plank", "sc:oak_planks_bottomright_item", "sc:oak_planks_bottomright", true);
             unchiselItems.Add(new OakPlanksItem_Center());
         }
     }
@@ -31,7 +31,7 @@
     {
         public OakPlanksItem_BottomLeft() : base()
         {
-            Init("Chiseled Oak Plank", "sc:oak_planks_bottomleft_item", "sc:oak_planks_bottomleft", true, Images.OakPlanksBlock_BottomLeft);
+            Init("Chiseled Oak Plank", "sc:oak_planks_bottomleft_item", "sc:oak_planks_bottomleft", true);
             unchiselItems.Add(new OakPlanksItem_Center());
         }
     }
@@ -40,7 +40,7 @@
     {
         public OakPlanksItem_SlabRight() : base()
         {
-            Init("Chiseled Oak Plank", "sc:oak_planks_slabright_item", "sc:oak_planks_slabright", true, Images.OakPlanksBlock_SlabRight);
+            Init("Chiseled Oak Plank", "sc:oak_planks_slabright_item", "sc:oak_planks_slabright", true);
             for (int i = 0; i < 2; i++)
             {
                 unchiselItems.Add(new OakPlanksItem_Center());
@@ -52,7 +52,7 @@
     {
         public OakPlanksItem_SlabLeft() : base()
         {
-            Init("Chiseled Oak Plank", "sc:oak_planks_slableft_item", "sc:oak_planks_slableft", true, Images.OakPlanksBlock_SlabLeft);
+            Init("Chiseled Oak Plank", "sc:oak_planks_slableft_item", "sc:oak_planks_slableft", true);
             for (int i = 0; i < 2; i++)
             {
                 unchiselItems.Add(new OakPlanksItem_Center());
@@ -64,7 +64,7 @@
     {
         public OakPlanksItem_SlabTop() : base()
         {
-            Init("Chiseled Oak Plank", "sc:oak_planks_slabtop_item", "sc:oak_planks_slabtop", true, Images.OakPlanksBlock_SlabTop);
+            Init("Chiseled Oak Plank", "sc:oak_planks_slabtop_item", "sc:oak_planks_slabtop", true);
             for (int i = 0; i < 2; i++)
             {
                 unchiselItems.Add(new OakPlanksItem_Center());
@@ -76,7 +76,7 @@
     {
         public OakPlanksItem_SlabBottom() : base()
         {
-            Init("Chiseled Oak Plank", "sc:oak_planks_slabbottom_item", "sc:oak_planks_slabbottom", true, Images.OakPlanksBlock_SlabBottom);
+            Init("Chiseled Oak Plank", "sc:oak_planks_slabbottom_item", "sc:oak_planks_slabbottom", true);
             for (int i = 0; i < 2; i++)
             {
                 unchiselItems.Add(new OakPlanksItem_Center());
@@ -88,7 +88,7 @@
     {
         public OakPlanksItem_StairTopRight() : base()
         {
-            Init("Chiseled Oak Plank", "sc:oak_planks_stairtopright_item", "sc:oak_planks_stairtopright", true, Images.OakPlanksBlock_StairTopRight);
+            Init("Chiseled Oak Plank", "sc:oak_planks_stairtopright_item", "sc:oak_planks_stairtopright", true);
             for (int i = 0; i < 3; i++)
             {
                 unchiselItems.Add(new OakPlanksItem_Center());
@@ -100,7 +100,7 @@
     {
         public OakPlanksItem_StairTopLeft() : base()
         {
-            Init("Chiseled Oak Plank", "sc:oak_planks_stairtopleft_item", "sc:oak_planks_stairtopleft", true, Images.OakPlanksBlock_StairTopLeft);
+            Init("Chiseled Oak Plank", "sc:oak_planks_stairtopleft_item", "sc:oak_planks_stairtopleft", true);
             for (int i = 0; i < 3; i++)
             {
                 unchiselItems.Add(new OakPlanksItem_Center());
@@ -112,7 +112,7 @@
     {
         public OakPlanksItem_StairBottomRight() : base()
         {
-            Init("Chiseled Oak Plank", "sc:oak_planks_stairbottomright_item", "sc:oak_planks_stairbottomright", true, Images.OakPlanksBlock_StairBottomRight);
+            Init("Chiseled Oak Plank", "sc:oak_planks_stairbottomright_item", "sc:oak_planks_stairbottomright", true);
             for (int i = 0; i < 3; i++)
             {
                 unchiselItems.Add(new OakPlanksItem_Center());
@@ -124,7 +124,7 @@
     {
         public OakPlanksItem_StairBottomLeft() : base()
         {
-            Init("Chiseled Oak Plank", "sc:oak_planks_stairbottomleft_item", "sc:oak_planks_stairbottomleft", true, Images.OakPlanksBlock_StairBottomLeft);
+            Init("Chiseled Oak Plank", "sc:oak_planks_stairbottomleft_item", "sc:oak_planks_stairbottomleft", true);
             for (int i = 0; i < 3; i++)
             {
                 unchiselItems.Add(new OakPlanksItem_Center());
@@ -136,7 +136,7 @@
     {
         public OakPlanksItem_Center() : base()
         {
-            Init("Chiseled Oak Plank", "sc:oak_planks_center_item", "sc:oak_planks_center", true, Images.OakPlanksBlock_Center);
+            Init("Chiseled Oak Plank", "sc:oak_planks_center_item", "sc:oak_planks_center", true);
         }
     }
 }

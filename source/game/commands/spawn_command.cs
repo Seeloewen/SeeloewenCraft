@@ -11,14 +11,14 @@ namespace SeeloewenCraft
             {
                 if (args.Length != 4)
                 {
-                    NotificationHandler.ShowNotification("Invalid command syntax: incorrect number of arguments", 3000, Images.Slime_Magenta.GetTexture());
+                    NotificationHandler.ShowNotification("Invalid command syntax: incorrect number of arguments", 3000);
                     return;
                 }
 
                 Entity entity = EntityRegister.GenerateEntity(args[1]);
                 if (entity == null)
                 {
-                    NotificationHandler.ShowNotification($"Invalid command syntax: entity id was not found ({args[1]})", 3000, Images.Slime_Magenta.GetTexture());
+                    NotificationHandler.ShowNotification($"Invalid command syntax: entity id was not found ({args[1]})", 3000);
                     return;
                 }
 
@@ -29,16 +29,16 @@ namespace SeeloewenCraft
                 }
                 catch
                 {
-                    NotificationHandler.ShowNotification("Invalid command syntax: couldn't parse coordinates to int", 3000, Images.Slime_Magenta.GetTexture());
+                    NotificationHandler.ShowNotification("Invalid command syntax: couldn't parse coordinates to int", 3000);
                     return;
                 }
 
                 Game.world.AddEntity(entity);
-                NotificationHandler.ShowNotification($"Successfully spawned entity {entity.id} at x{entity.posX} y{entity.posY}", 3000, Images.Slime_Magenta.GetTexture());
+                NotificationHandler.ShowNotification($"Successfully spawned entity {entity.id} at x{entity.posX} y{entity.posY}", 3000);
             }
             else
             {
-                NotificationHandler.ShowNotification($"Cannot spawn mobs because it's disabled in the settings.", 3000, Images.Slime_Magenta.GetTexture());
+                NotificationHandler.ShowNotification($"Cannot spawn mobs because it's disabled in the settings.", 3000);
             }
         }
     }
