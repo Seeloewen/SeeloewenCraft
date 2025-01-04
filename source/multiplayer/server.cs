@@ -16,6 +16,7 @@ public class Server
     public TcpListener server;
     public List<IdTcpClient> clients = new List<IdTcpClient>();
     private static int nextClientId = 0;
+    MultiplayerPacketType currentType;
 
     public async void Start(int port)
     {
@@ -82,6 +83,7 @@ public class Server
                         {
                             string typeString = Encoding.ASCII.GetString(receivedData, 4, typeLength);
                             Enum.TryParse(typeString, out MultiplayerPacketType type);
+                            currentType = type;
 
                             //Go through the remaining bytes and read the string length first, then the string based on the length
                             List<string> contentList = new List<string>();
@@ -89,17 +91,21 @@ public class Server
                             while (index < receivedData.Length)
                             {
                                 //Get string length
-                                int stringLength = BitConverter.ToInt32(receivedData, index);
-                                index += 4;
+                                if(receivedData.Length >= index + 4)
+                                {
+                                    int stringLength = BitConverter.ToInt32(receivedData, index);
+                                    index += 4;
 
-                                //Get the bytes for the message starting from the index with determined length
-                                byte[] stringBytes = new byte[stringLength];
-                                Array.Copy(receivedData, index, stringBytes, 0, stringLength);
-                                index += stringLength;
+                                    //Get the bytes for the message starting from the index with determined length
+                                    byte[] stringBytes = new byte[stringLength];
+                                    Array.Copy(receivedData, index, stringBytes, 0, stringLength);
+                                    index += stringLength;
 
-                                //Convert bytes to string
-                                string str = Encoding.UTF8.GetString(stringBytes);
-                                contentList.Add(str);
+
+                                    //Convert bytes to string
+                                    string str = Encoding.UTF8.GetString(stringBytes);
+                                    contentList.Add(str);
+                                }
                             }
 
                             string[] content = contentList.ToArray();
