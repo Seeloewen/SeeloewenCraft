@@ -14,6 +14,7 @@ namespace SeeloewenCraft.gl_rendering
 
         static internal void Render(PrimitiveRenderer renderer)
         {
+            renderer.Begin();
             if (Game.world.GetBlock(blockX, blockY).IsInRange())
             {
                 float x1 = GameCamera.blockXAnchor + GameCamera.blockLength * blockX;
@@ -28,6 +29,7 @@ namespace SeeloewenCraft.gl_rendering
                 renderer.DrawRectangle(x2, y1, x2 - lx, y2, 0.0f, 0.0f, 0.0f);
                 renderer.DrawRectangle(x1, y2, x2, y2 + ly, 0.0f, 0.0f, 0.0f);
             }
+            renderer.End();
         }
 
         public static void Update()

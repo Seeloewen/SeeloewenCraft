@@ -9,9 +9,9 @@ namespace SeeloewenCraft.gl_rendering
 
 
         static WorldRenderer worldRenderer;
-        static ItemEntityRenderer itemEntityRenderer;
         static PlayerRenderer playerRenderer;
         static PrimitiveRenderer primitiveRenderer;
+        static ItemRenderer itemRenderer;
         static EntityRenderer entityRenderer;
         static TextRenderer textRenderer;
 
@@ -21,10 +21,10 @@ namespace SeeloewenCraft.gl_rendering
             TextureManager textureManager = new TextureManager();
 
             worldRenderer = new WorldRenderer(textureManager);
-            itemEntityRenderer = new ItemEntityRenderer(textureManager);
             playerRenderer = new PlayerRenderer(textureManager);
             primitiveRenderer = new PrimitiveRenderer();
-            entityRenderer = new EntityRenderer(textureManager);
+            itemRenderer = new ItemRenderer(textureManager);
+            entityRenderer = new EntityRenderer(textureManager, itemRenderer);
             textRenderer = new TextRenderer(textureManager);
 
             GL.ClearColor(0.74f, 0.96f, 0.97f, 1f);
@@ -44,7 +44,7 @@ namespace SeeloewenCraft.gl_rendering
 
             //InventoryRenderer.Render(primitiveRenderer);
 
-            Screen.Render(primitiveRenderer, textRenderer);
+            Screen.Render(primitiveRenderer, textRenderer, itemRenderer);
 
 
 

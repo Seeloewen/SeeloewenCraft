@@ -8,13 +8,13 @@ namespace SeeloewenCraft.gl_rendering
     {
 
         PlayerRenderer playerRenderer;
-        ItemEntityRenderer itemEntityRenderer;
+        ItemRenderer itemEntityRenderer;
 
 
-        internal EntityRenderer(TextureManager textureManager)
+        internal EntityRenderer(TextureManager textureManager, ItemRenderer itemRenderer)
         {
             playerRenderer = new PlayerRenderer(textureManager);
-            itemEntityRenderer = new ItemEntityRenderer(textureManager);
+            itemEntityRenderer = itemRenderer;
         }
 
         internal void Render() {

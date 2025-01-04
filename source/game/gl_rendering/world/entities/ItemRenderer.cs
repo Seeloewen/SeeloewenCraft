@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace SeeloewenCraft.gl_rendering
 {
-    internal class ItemEntityRenderer
+    internal class ItemRenderer
     {
 
         ItemTextureMap textureMap;
@@ -16,7 +16,7 @@ namespace SeeloewenCraft.gl_rendering
         int index;
         bool drawing;
 
-        internal ItemEntityRenderer(TextureManager textureManager)
+        internal ItemRenderer(TextureManager textureManager)
         {
             textureMap = new ItemTextureMap(textureManager);
             shader = new Shader("shader/blockworld");
@@ -33,6 +33,13 @@ namespace SeeloewenCraft.gl_rendering
             float y2 = y1 - GameCamera.blockLength * (entity.sizeY / 1000.0f) * 16 / 9f;
 
             (float s1, float t1, float s2, float t2) = textureMap.GetTexture(entity.itemID);
+
+            Draw(x1, y1, x2, y2, s1, t1, s2, t2);
+        }
+
+        internal void DrawItem(string itemID, float x1, float y1, float x2, float y2)
+        {
+            (float s1, float t1, float s2, float t2) = textureMap.GetTexture(itemID);
 
             Draw(x1, y1, x2, y2, s1, t1, s2, t2);
         }

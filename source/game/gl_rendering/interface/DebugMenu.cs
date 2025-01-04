@@ -33,19 +33,19 @@ namespace SeeloewenCraft.gl_rendering
         internal static void Render(TextRenderer textRenderer)
         {
             target.UpdateDebugMenu();
-            int y = 1150;
+            int y = 125;
             foreach(var line in linesWorld)
             {
                 textRenderer.Draw($"{line.Key}={line.Value}", 5, y, 2);
-                y -= 37;
+                y += 20;
             }
 
-            y = 1150;
+            y = 125;
             foreach(var line in linesTargeted)
             {
                 string s = $"{line.Key}={line.Value}";
-                textRenderer.Draw(s, 2400 - 2*TextRenderer.GetWidth(s, 2), y, 2);
-                y -= 37;
+                textRenderer.Draw(s, Resolution.WIDTH - 5 - TextRenderer.GetWidth(s, 2), y, 2);
+                y += 20;
             }
 
         }

@@ -45,13 +45,12 @@ namespace SeeloewenCraft.gl_rendering
             }
         }
 
-        internal static void Render(PrimitiveRenderer primitiveRenderer, TextRenderer textRenderer)
+        internal static void Render(PrimitiveRenderer primitiveRenderer, TextRenderer textRenderer, ItemRenderer itemRenderer)
         {
             if (showGameOverlay)
-            {
-                primitiveRenderer.Begin();
+            {  
                 GameScreen.Render(primitiveRenderer);
-                primitiveRenderer.End();
+                HotbarRenderer.Render(primitiveRenderer, itemRenderer, textRenderer);
             }
             if (showDebugMenu)
             {

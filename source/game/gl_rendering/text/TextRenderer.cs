@@ -3,6 +3,7 @@ using OpenTK.Graphics.OpenGL4;
 using SeeloewenCraft.entity;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Windows.Media.Media3D;
 
 namespace SeeloewenCraft.gl_rendering
 {
@@ -46,26 +47,27 @@ namespace SeeloewenCraft.gl_rendering
 
         internal void Draw(string s, int x, int y, int size)
         {
-            float x1 = (x - 1280f + 0.5f) / 1280f;
 
-            float y1 = ((y+74) - 720f + 0.5f) / 720f;
-            float sizeY = 1 / 360f;
+            (float x1, float y1) = Resolution.PixelToScreen(x, y);
+            float sizeY = 2f / Resolution.HEIGHT;
 
-            Draw(s, x1, y1, size * 8 * sizeY);
+            Draw(s, x1, y1 - size * 8 * sizeY, size * 8 * sizeY);
+            //Draw(s, x2, y2, size * 8 * sizeY);
         }
 
         public static int GetWidth(string s, int size)
         {
-            int width = -1;
+            int width = 0;
             foreach(char c in s) {
-                width += 1;
                 int charWidth;
                 if (!widthMappings.TryGetValue(c, out charWidth))
                 {
                     charWidth = 5;
                 } 
                 width += charWidth;
+                width += 1;
             }
+            if(width!=0) width--;
             return width * size;
         }
 

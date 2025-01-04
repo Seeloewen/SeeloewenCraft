@@ -22,7 +22,12 @@ namespace SeeloewenCraft.gl_rendering
 
         static public (float x, float y) PixelToScreen(int x, int y)
         {
-            return ((float)x / (WIDTH/2) - 1, (float)y / -(HEIGHT/2) + 1);
+            return ((float)x / (WIDTH / 2) - 1, (float)y / -(HEIGHT / 2) + 1);
+        }
+
+        static public (float x, float y) PixelToScreen(double x, double y)
+        {
+            return ((float)x / (WIDTH / 2) - 1, (float)y / -(HEIGHT / 2) + 1);
         }
 
     }
