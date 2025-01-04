@@ -420,22 +420,25 @@ namespace SeeloewenCraft
 
         private void SaveWorldSettings()
         {
-            //write world version to settings.json
-            using (JsonWriter writer = JsonWriter.Create())
+            if(!Game.IsClient())
             {
-                writer.Formatting = Formatting.Indented;
+                //write world version to settings.json
+                using (JsonWriter writer = JsonWriter.Create())
+                {
+                    writer.Formatting = Formatting.Indented;
 
-                writer.WriteStartObject();
+                    writer.WriteStartObject();
 
-                writer.WritePropertyName("world_version");
-                writer.WriteValue(worldVersion);
+                    writer.WritePropertyName("world_version");
+                    writer.WriteValue(worldVersion);
 
-                writer.WritePropertyName("seed");
-                writer.WriteValue(seed);
+                    writer.WritePropertyName("seed");
+                    writer.WriteValue(seed);
 
-                writer.WriteEndObject();
+                    writer.WriteEndObject();
 
-                writer.WriteToFile($"{worldDirectory}/world_settings.json");
+                    writer.WriteToFile($"{worldDirectory}/world_settings.json");
+                }
             }
         }
 
