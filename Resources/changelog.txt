@@ -1,9 +1,13 @@
-﻿Alpha 1.2.2 - 01.01.2025
+﻿Alpha 1.2.2_01 - 05.01.2025
+* Removed debug items from inventory
+* Fixed several critical multiplayer crashes
+
+Alpha 1.2.2 - 01.01.2025
 + Added farmland, pumpkins and wool
 + Added crops that can grow and be harvested
 + Added player id and nickname
 + Added cotton field and abandoned farm structure
-* Upgraded to .NET 9
+* Upgraded to .NET 9.0
 * Completely reworked network packet handling
 * Logging types and levels can now be toggled in settings
 * Some blocks now require specific blocks below them
