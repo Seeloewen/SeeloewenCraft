@@ -168,7 +168,7 @@ namespace SeeloewenCraft
             }
 
             Game.world.wndGame.Close();
-            Game.world.wndMenu.Show();
+            //Game.world.wndMenu.Show(); -- Causes issues, temporarily disabled
         }
 
         public void Disconnect()
