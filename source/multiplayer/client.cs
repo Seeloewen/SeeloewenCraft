@@ -75,10 +75,12 @@ namespace SeeloewenCraft
                     byte[] dataBytes = packet.GetBytes();
                     byte[] lengthBytes = BitConverter.GetBytes(dataBytes.Length);
 
-                    //First send the length of the data, then send the actual data
-                    await stream.WriteAsync(lengthBytes, 0, lengthBytes.Length);
-                    await stream.WriteAsync(dataBytes, 0, dataBytes.Length);
-
+                    if (dataBytes.Length != 0 && lengthBytes.Length != 0)
+                    {
+                        //First send the length of the data, then send the actual data
+                        await stream.WriteAsync(lengthBytes, 0, lengthBytes.Length);
+                        await stream.WriteAsync(dataBytes, 0, dataBytes.Length);
+                    }
                     //Log.Write($"Sent data to server: {BitConverter.ToString(dataBytes).Replace("-", " ")}.", LogType.NETWORK, LogLevel.INFO);
                 }
                 catch (Exception ex)
@@ -98,17 +100,14 @@ namespace SeeloewenCraft
                     //Get the length of the following packet
                     byte[] lengthPacket = await ReceivePacket(sizeof(int), stream);
 
-                    if (lengthPacket.Length >= 4) //The packet is invalid if the length is below 4 bytes
+                    if (lengthPacket.Length == 4) //The packet is invalid if the length is not 4 bytes
                     {
                         int dataLength = BitConverter.ToInt32(lengthPacket);
+                        byte[] receivedData = await ReceivePacket(dataLength, stream); //Read data into the buffer and copy data from buffer to receivedData
 
-                        //Read data into the buffer and copy data from buffer to receivedData
-                        byte[] receivedData = await ReceivePacket(dataLength, stream);
-
-                        if (receivedData.Length >= dataLength && receivedData.Length >= 4) //If the data wasn't read correctly and isn't long enough, the packet is invalid
+                        if (receivedData.Length >= dataLength && receivedData.Length >= 4 && receivedData.Length < 1024) //If the data wasn't read correctly and isn't long enough, the packet is invalid
                         {
-                            //Get the type bytes and convert it to type
-                            int typeLength = BitConverter.ToInt32(receivedData, 0);
+                            int typeLength = BitConverter.ToInt32(receivedData, 0); //Get the type bytes and convert it to type
 
                             if (receivedData.Length >= 4 + typeLength)
                             {
@@ -136,6 +135,10 @@ namespace SeeloewenCraft
                                         //Convert bytes to string
                                         string str = Encoding.UTF8.GetString(stringBytes);
                                         contentList.Add(str);
+                                    }
+                                    else
+                                    {
+                                        break;
                                     }
                                 }
 

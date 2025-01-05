@@ -8,6 +8,8 @@ using static SeeloewenCraft.NetworkHandler;
 using System.Linq;
 using SeeloewenCraft.entity;
 using System.IO;
+using System.Diagnostics;
+using System.Data;
 
 namespace SeeloewenCraft;
 
@@ -67,14 +69,14 @@ public class Server
                 //Get the length of the following packet
                 byte[] lengthPacket = await ReceivePacket(sizeof(int), client.GetStream());
 
-                if (lengthPacket.Length >= 4) //The packet is invalid if the length is below 4 bytes
+                if (lengthPacket.Length == 4) //The packet is invalid if the length is below 4 bytes
                 {
                     int dataLength = BitConverter.ToInt32(lengthPacket);
 
                     //Read data into the buffer and copy data from buffer to receivedData
                     byte[] receivedData = await ReceivePacket(dataLength, client.GetStream());
 
-                    if (receivedData.Length >= dataLength && receivedData.Length >= 4) //If the data wasn't read correctly and isn't long enough, the packet is invalid
+                    if (receivedData.Length >= dataLength && receivedData.Length >= 4 && receivedData.Length < 1024) //If the data wasn't read correctly and isn't long enough, the packet is invalid
                     {
                         //Get the type bytes and convert it to type
                         int typeLength = BitConverter.ToInt32(receivedData, 0);
@@ -91,7 +93,7 @@ public class Server
                             while (index < receivedData.Length)
                             {
                                 //Get string length
-                                if(receivedData.Length >= index + 4)
+                                if (receivedData.Length >= index + 4)
                                 {
                                     int stringLength = BitConverter.ToInt32(receivedData, index);
                                     index += 4;
@@ -101,10 +103,13 @@ public class Server
                                     Array.Copy(receivedData, index, stringBytes, 0, stringLength);
                                     index += stringLength;
 
-
                                     //Convert bytes to string
                                     string str = Encoding.UTF8.GetString(stringBytes);
                                     contentList.Add(str);
+                                }
+                                else
+                                {
+                                    break;
                                 }
                             }
 
@@ -136,9 +141,12 @@ public class Server
         byte[] dataBytes = packet.GetBytes();
         byte[] lengthBytes = BitConverter.GetBytes(dataBytes.Length);
 
-        //First send the length of the data as a packet, then send the actual data packet
-        await client.GetStream().WriteAsync(lengthBytes, 0, lengthBytes.Length);
-        await client.GetStream().WriteAsync(dataBytes, 0, dataBytes.Length);
+        if (dataBytes.Length != 0 && lengthBytes.Length != 0)
+        {
+            //First send the length of the data as a packet, then send the actual data packet
+            await client.GetStream().WriteAsync(lengthBytes, 0, lengthBytes.Length);
+            await client.GetStream().WriteAsync(dataBytes, 0, dataBytes.Length);
+        }
 
         //Log.Write($"Sent data to client #{client.id}: {BitConverter.ToString(dataBytes).Replace("-", " ")}.", "Info");
     }
