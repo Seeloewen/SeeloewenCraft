@@ -39,7 +39,7 @@ namespace SeeloewenCraft
 
                 Screen.Update();
 
-                world.doGameTick(dt * 0.5);
+                world.doGameTick(dt * 0.7);
 
 
                 Renderer.Render();

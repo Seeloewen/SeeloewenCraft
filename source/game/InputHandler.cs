@@ -45,14 +45,11 @@ namespace SeeloewenCraft
                         pressedRight = action == InputAction.Press; 
                         break;
                 }
-            Log.Write($"click mouse {button} {action}", LogType.GENERAL, LogLevel.INFO);
             });
 
             GLFW.SetWindowCloseCallback(window, (window) =>
             {
                 GLFW.SetWindowShouldClose(window, true);
-
-                Log.Write("close window", LogType.GENERAL, LogLevel.INFO);
             });
 
             GLFW.SetKeyCallback(window, (_, k, _, a, _) =>
@@ -66,13 +63,12 @@ namespace SeeloewenCraft
                     else if (a == InputAction.Release)
                     {
                         KeyBinds.pressed[v] = false;
-                        KeyBinds.pressedFirst[v] |= false;
+                        KeyBinds.pressedFirst[v] = false;
                     } else
                     {
                         return;
                     }
                 }
-                Log.Write($"key {k} {a}", LogType.GENERAL, LogLevel.INFO);
             });
 
            

@@ -17,7 +17,8 @@ namespace SeeloewenCraft
         public const int THROW_ITEM = 6;
         public const int SNEAK = 7;
         public const int SPRINT = 8;
-        const int KEYBINDS_COUNT = 9;
+        public const int OPEN_MENU = 9;
+        const int KEYBINDS_COUNT = 10;
 
 
         public static bool[] pressed = new bool[KEYBINDS_COUNT];
@@ -46,7 +47,7 @@ namespace SeeloewenCraft
             {Keys.Q, THROW_ITEM },
             {Keys.LeftShift, SNEAK },
             {Keys.LeftControl, SPRINT },
-
+            {Keys.Escape, OPEN_MENU }
         };
 
         public static void Save(JsonWriter writer)
@@ -118,6 +119,7 @@ namespace SeeloewenCraft
             bindings[throwItem] = THROW_ITEM;
             bindings[sneak] = SNEAK;
             bindings[sprint] = SPRINT;
+            bindings[Keys.Escape] = OPEN_MENU;
 
         }
 

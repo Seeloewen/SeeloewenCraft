@@ -98,22 +98,22 @@ namespace SeeloewenCraft.entity
         public void HandleInputs()
         {
             if (this != Game.world.player) return;
-
+            
             bool changed = false;
 
-            changed = changed || pressedLeft != KeyBinds.pressed[KeyBinds.MOVE_LEFT];
-            changed = changed || pressedRight != KeyBinds.pressed[KeyBinds.MOVE_RIGHT];
-            changed = changed || pressedUp != KeyBinds.pressed[KeyBinds.JUMP];
-            changed = changed || pressedSneak != KeyBinds.pressed[KeyBinds.SNEAK];
-            changed = changed || pressedSprint != KeyBinds.pressed[KeyBinds.SPRINT];
-            changed = changed || pressedThrow != KeyBinds.pressed[KeyBinds.THROW_ITEM];
+            changed = changed || pressedLeft != KeyBinds.pressed[KeyBinds.MOVE_LEFT] && Screen.allowIngameInputs;
+            changed = changed || pressedRight != KeyBinds.pressed[KeyBinds.MOVE_RIGHT] && Screen.allowIngameInputs;
+            changed = changed || pressedUp != KeyBinds.pressed[KeyBinds.JUMP] && Screen.allowIngameInputs;
+            changed = changed || pressedSneak != KeyBinds.pressed[KeyBinds.SNEAK] && Screen.allowIngameInputs;
+            changed = changed || pressedSprint != KeyBinds.pressed[KeyBinds.SPRINT] && Screen.allowIngameInputs;
+            changed = changed || pressedThrow != KeyBinds.pressed[KeyBinds.THROW_ITEM] && Screen.allowIngameInputs;
 
-            pressedLeft = KeyBinds.pressed[KeyBinds.MOVE_LEFT];
-            pressedRight = KeyBinds.pressed[KeyBinds.MOVE_RIGHT];
-            pressedUp = KeyBinds.pressed[KeyBinds.JUMP];
-            pressedSneak = KeyBinds.pressed[KeyBinds.SNEAK];
-            pressedSprint = KeyBinds.pressed[KeyBinds.SPRINT];
-            pressedThrow = KeyBinds.pressed[KeyBinds.THROW_ITEM];
+            pressedLeft = KeyBinds.pressed[KeyBinds.MOVE_LEFT] && Screen.allowIngameInputs;
+            pressedRight = KeyBinds.pressed[KeyBinds.MOVE_RIGHT] && Screen.allowIngameInputs;
+            pressedUp = KeyBinds.pressed[KeyBinds.JUMP] && Screen.allowIngameInputs;
+            pressedSneak = KeyBinds.pressed[KeyBinds.SNEAK] && Screen.allowIngameInputs;
+            pressedSprint = KeyBinds.pressed[KeyBinds.SPRINT] && Screen.allowIngameInputs;
+            pressedThrow = KeyBinds.pressed[KeyBinds.THROW_ITEM] && Screen.allowIngameInputs;
 
             if (changed)
             {

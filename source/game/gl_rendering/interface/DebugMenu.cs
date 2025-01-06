@@ -14,7 +14,7 @@ namespace SeeloewenCraft.gl_rendering
     public interface IDebugMenuTargetable
     {
         public void UpdateDebugMenu();
-        
+
         public void AddDebugMenu();
 
     }
@@ -22,7 +22,7 @@ namespace SeeloewenCraft.gl_rendering
     public static class DebugMenu
     {
 
-        public enum Section { WORLD, PLAYER, TARGETED}
+        public enum Section { WORLD, PLAYER, TARGETED }
 
         static Dictionary<string, string> linesWorld = new Dictionary<string, string>();
         static Dictionary<string, string> linesPlayer = new Dictionary<string, string>();
@@ -32,16 +32,16 @@ namespace SeeloewenCraft.gl_rendering
 
         internal static void Render(TextRenderer textRenderer)
         {
-            target.UpdateDebugMenu();
+            if (target != null) target.UpdateDebugMenu();
             int y = 125;
-            foreach(var line in linesWorld)
+            foreach (var line in linesWorld)
             {
                 textRenderer.Draw($"{line.Key}={line.Value}", 5, y, 2);
                 y += 20;
             }
 
             y = 125;
-            foreach(var line in linesTargeted)
+            foreach (var line in linesTargeted)
             {
                 string s = $"{line.Key}={line.Value}";
                 textRenderer.Draw(s, Resolution.WIDTH - 5 - TextRenderer.GetWidth(s, 2), y, 2);
@@ -50,11 +50,11 @@ namespace SeeloewenCraft.gl_rendering
 
         }
 
-        internal static void NewTargeted (IDebugMenuTargetable target)
+        internal static void NewTargeted(IDebugMenuTargetable target)
         {
             linesTargeted = new Dictionary<string, string>();
             DebugMenu.target = target;
-            target.AddDebugMenu();
+            if (target != null) target.AddDebugMenu();
         }
 
 
@@ -85,7 +85,7 @@ namespace SeeloewenCraft.gl_rendering
             lines[name] = value;
         }
 
-        
+
 
         static Dictionary<string, string> GetLines(Section section)
         {
