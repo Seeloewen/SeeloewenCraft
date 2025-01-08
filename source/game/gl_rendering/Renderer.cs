@@ -18,7 +18,7 @@ namespace SeeloewenCraft.gl_rendering
 
         static public void Init()
         {
-            TextureManager textureManager = new TextureManager();
+            /*TextureManager textureManager = new TextureManager();
 
             worldRenderer = new WorldRenderer(textureManager);
             playerRenderer = new PlayerRenderer(textureManager);
@@ -26,7 +26,7 @@ namespace SeeloewenCraft.gl_rendering
             itemRenderer = new ItemRenderer(textureManager);
             entityRenderer = new EntityRenderer(textureManager, itemRenderer);
             textRenderer = new TextRenderer(textureManager);
-
+            */
             GL.ClearColor(0.74f, 0.96f, 0.97f, 1f);
         }
 

@@ -688,7 +688,6 @@ namespace SeeloewenCraft
 
             GameCamera.SetCamCenterPhysicsCoord(player.posX + 237, player.posY + 950);
 
-            Renderer.Render();
 
         }
 

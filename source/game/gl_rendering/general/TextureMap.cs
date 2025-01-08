@@ -8,7 +8,7 @@ namespace SeeloewenCraft.gl_rendering
     {
 
         Dictionary<string, (float s1, float t1, float s2, float t2)> mappings = new Dictionary<string, (float s1, float t1, float s2, float t2)>();
-
+       
 
         Bitmap map;
         bool finalized;

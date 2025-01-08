@@ -35,7 +35,7 @@ namespace SeeloewenCraft.gl_rendering
 
         ~Shader()
         {
-            GL.DeleteProgram(programID);
+            //GL.DeleteProgram(programID);
         }
 
         internal void SetUniform(string name, int value)

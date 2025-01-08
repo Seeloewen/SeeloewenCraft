@@ -4,8 +4,10 @@ using System.Runtime.InteropServices;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using SeeloewenCraft.game.ui;
 using SeeloewenCraft.gl_rendering;
 using Windows.Gaming.Input.Preview;
+using Renderer = SeeloewenCraft.game.ui.Renderer;
 
 namespace SeeloewenCraft
 {
@@ -42,6 +44,7 @@ namespace SeeloewenCraft
                 world.doGameTick(dt * 0.7);
 
 
+                //gl_rendering.Renderer.Render();
                 Renderer.Render();
 
                 GLFW.SwapBuffers(window);
@@ -67,7 +70,7 @@ namespace SeeloewenCraft
 
             world = new World(null, worldName, seed, isNew, worldVersion, gameVersion, multiplayerType);
 
-
+            Renderer.Init();
 
             GameLoop(window);
 

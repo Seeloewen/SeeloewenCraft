@@ -50,7 +50,7 @@ namespace SeeloewenCraft.gl_rendering
 
         ~Texture()
         {
-            GL.DeleteTexture(id);
+            //GL.DeleteTexture(id);
         }
 
 

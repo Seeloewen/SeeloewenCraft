@@ -64,10 +64,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="source\game\gl_rendering\abstractions\" />
+    <Folder Include="source\game\ui\screen\" />
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Folder Include="Resources\shader\blockworld\" />
     <Folder Include="Resources\shader\primitive\" />
   </ItemGroup>
 </Project>
