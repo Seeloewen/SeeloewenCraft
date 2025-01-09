@@ -26,7 +26,7 @@ namespace SeeloewenCraft.game.ui
             buffer = new VertexBuffer(new VBLayout().AddAttribute(2).AddAttribute(4), 1024);
         }
 
-        internal static void DrawRectangle(Rectangle rectangle, Color color)
+        internal static void DrawRectangle(Rectangle rectangle, ColorI color)
         {
             float x1 = rectangle.x1;
             float y1 = rectangle.y1;

@@ -15,7 +15,7 @@ namespace SeeloewenCraft.game.ui
         {
 
             Rectangle r = new Rectangle(100, 200, 500, 400);
-            Color c = new Color(0.4f, 0.4f, 0.4f);
+            ColorI c = new ColorI(0.4f, 0.4f, 0.4f);
             PrimitiveRenderer.Begin();
             PrimitiveRenderer.DrawRectangle(r, c);
             PrimitiveRenderer.End();

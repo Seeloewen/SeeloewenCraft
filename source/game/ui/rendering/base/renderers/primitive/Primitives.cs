@@ -28,18 +28,18 @@ namespace SeeloewenCraft.game.ui
 
     }
 
-    struct Color
+    struct ColorI
     {
         public float r, g, b, a;
 
-        public Color(float r, float g, float b)
+        public ColorI(float r, float g, float b)
         {
             this.r = r;
             this.g = g;
             this.b = b;
             this.a = 1.0f;
         }
-        public Color(float r, float g, float b, float a)
+        public ColorI(float r, float g, float b, float a)
         {
             this.r = r;
             this.g = g;
