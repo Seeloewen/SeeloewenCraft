@@ -3,7 +3,7 @@ using OpenTK.Graphics.OpenGL4;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace SeeloewenCraft.gl_rendering
+namespace SeeloewenCraft.game.ui
 {
 
     internal class VBLayout

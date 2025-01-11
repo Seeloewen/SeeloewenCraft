@@ -8,13 +8,15 @@ using SeeloewenCraft.entity;
 using System.Text;
 using System.Runtime.CompilerServices;
 using SeeloewenCraft.gl_rendering;
+using SeeloewenCraft.game.ui;
 using OpenTK.Graphics.OpenGL4;
 using System.Diagnostics;
 using System.Linq;
+using BlockRenderInfo = SeeloewenCraft.game.ui.BlockRenderInfo;
 
 namespace SeeloewenCraft
 {
-    public abstract partial class Block : IDebugMenuTargetable
+    public abstract partial class Block : gl_rendering.IDebugMenuTargetable
     {
         //references
         private HighPrecisionTimer.MultimediaTimer tmrBreak = new HighPrecisionTimer.MultimediaTimer();

@@ -6,8 +6,10 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using SeeloewenCraft.game.ui;
 using SeeloewenCraft.gl_rendering;
+using SeeloewenCraft.util;
 using Windows.Gaming.Input.Preview;
 using Renderer = SeeloewenCraft.game.ui.Renderer;
+using TextureManager = SeeloewenCraft.game.ui.TextureManager;
 
 namespace SeeloewenCraft
 {
@@ -66,6 +68,7 @@ namespace SeeloewenCraft
 
             Screen.Init();
 
+            TextureManager.Init();
 
 
             world = new World(null, worldName, seed, isNew, worldVersion, gameVersion, multiplayerType);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SeeloewenCraft.util;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -12,6 +13,35 @@ namespace SeeloewenCraft.game.ui
         static string texturePackPath = $"{GetFolderPath(SpecialFolder.ApplicationData)}\\SeeloewenCraft\\assets";
 
         static Dictionary<string, Dictionary<string, string>> mappings;
+
+
+        static public void Init() //TODO add texturepack support
+        {
+
+            mappings = new Dictionary<string, Dictionary<string, string>>();
+
+            JsonToken token = JsonUtil.ReadFile($"{texturePackPath}\\content.json").GetToken("/sections");
+
+            for (int i = 0; i < token.GetArrayLength();i++)
+            {
+                var sectionToken = token.GetToken($"/{i}");
+
+                string sectionName = sectionToken.GetString("/section_name");
+                mappings[sectionName] = new Dictionary<string, string>();
+
+                var textureArrayToken = sectionToken.GetToken("/textures");
+                for(int j = 0; j < textureArrayToken.GetArrayLength(); j++)
+                {
+                    JsonToken textureToken = textureArrayToken.GetToken($"/{j}");
+                    string id = textureToken.GetString("/id");
+                    string file = textureToken.GetString("/file");
+                    mappings[sectionName][id] = $"{texturePackPath}\\{file}"; 
+                }
+
+            }
+
+        }
+
 
         static internal List<string> GetMappings(string section)
         {
@@ -36,7 +66,14 @@ namespace SeeloewenCraft.game.ui
         }
 
         static TextureImage LoadTexture(string file) {
-            Bitmap bitmap = new Bitmap(file);
+            Bitmap bitmap;
+            try
+            {
+                bitmap = new Bitmap(file);
+            } catch
+            {
+                bitmap = new Bitmap("C:\\Users\\clemm\\AppData\\Roaming\\SeeloewenCraft\\assets\\Missing_Texture.png");
+            }
 
             return new TextureImage(bitmap);
         }

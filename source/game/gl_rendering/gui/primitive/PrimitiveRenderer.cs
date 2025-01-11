@@ -1,6 +1,6 @@
 ﻿
 using OpenTK.Graphics.OpenGL4;
-using SeeloewenCraft.gl_rendering.math;
+using SeeloewenCraft.game.ui;
 using System.Diagnostics;
 using System.Windows.Forms;
 

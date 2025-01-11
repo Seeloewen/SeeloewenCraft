@@ -7,7 +7,7 @@ namespace SeeloewenCraft.util
 {
     class LagTimer
     {
-        static int idToBeTested = 3;
+        static int idToBeTested = 1;
 
         private int id;
         private Stopwatch timer;

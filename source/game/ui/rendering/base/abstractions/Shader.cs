@@ -5,7 +5,7 @@ using System.Windows.Resources;
 
 using OpenTK.Graphics.OpenGL4;
 
-namespace SeeloewenCraft.gl_rendering
+namespace SeeloewenCraft.game.ui
 {
     internal class Shader
     {

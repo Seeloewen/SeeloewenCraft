@@ -4,6 +4,7 @@ using SeeloewenCraft.entity;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Media.Media3D;
+using SeeloewenCraft.game.ui;
 
 namespace SeeloewenCraft.gl_rendering
 {

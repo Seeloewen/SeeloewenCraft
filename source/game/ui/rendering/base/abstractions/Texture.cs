@@ -4,7 +4,7 @@ using System.Drawing;
 using OpenTK.Graphics.OpenGL4;
 using SeeloewenCraft.game.ui;
 
-namespace SeeloewenCraft.gl_rendering
+namespace SeeloewenCraft.game.ui
 {
     internal class Texture
     {
@@ -13,25 +13,13 @@ namespace SeeloewenCraft.gl_rendering
 
 
 
-        internal Texture(TextureImage textureImage) {
+        internal Texture(TextureImage textureImage, bool antiAlias) {
             int width = textureImage.width;
             int height = textureImage.height;
             byte[] data = textureImage.rawData;
 
 
-            byte[] data = new byte[width * height * 4];
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    Color c = bitmap.GetPixel(x, y);
-                    int index = (x + y * width) * 4;
-                    data[index] = c.R;
-                    data[index + 1] = c.G;
-                    data[index + 2] = c.B;
-                    data[index + 3] = c.A;
-                }
-            }
+
 
             id = GL.GenTexture();
 

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SeeloewenCraft.gl_rendering
+﻿
+namespace SeeloewenCraft.game.ui
 {
     public class BlockRenderInfo
     {
@@ -59,7 +54,7 @@ namespace SeeloewenCraft.gl_rendering
             this.foregroundID = id;
             this.foregroundState = state;
         }
-        
+
 
 
     }

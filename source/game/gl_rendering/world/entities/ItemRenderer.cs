@@ -2,6 +2,7 @@
 using OpenTK.Graphics.OpenGL4;
 using SeeloewenCraft.entity;
 using System.Diagnostics;
+using SeeloewenCraft.game.ui;
 
 namespace SeeloewenCraft.gl_rendering
 {
