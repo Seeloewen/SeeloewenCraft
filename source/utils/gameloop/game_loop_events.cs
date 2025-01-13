@@ -192,7 +192,14 @@ namespace SeeloewenCraft
             {
                 if (!HasAdjacentLog(block, new List<Block>()))
                 {
-                    decayingLeaves.Add(block);
+                    if (!block.tags.Contains("structure_leaves"))
+                    {
+                        decayingLeaves.Add(block);
+                    }
+                }
+                else if (block.tags.Contains("structure_leaves"))
+                {
+                    block.tags.Remove("structure_leaves");
                 }
             }
 
