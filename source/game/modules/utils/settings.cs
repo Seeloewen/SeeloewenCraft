@@ -1,5 +1,5 @@
-﻿using System;
-using System.Windows.Input;
+﻿using SeeloewenCraft.game.ui;
+using System;
 
 namespace SeeloewenCraft
 {

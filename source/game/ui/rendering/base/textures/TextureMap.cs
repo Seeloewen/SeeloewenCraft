@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Windows.Media.Capture.Core;
 
 
 namespace SeeloewenCraft.game.ui

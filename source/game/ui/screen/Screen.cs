@@ -1,12 +1,9 @@
 ﻿
 
-using SeeloewenCraft.game.ui;
-
-namespace SeeloewenCraft.gl_rendering
+namespace SeeloewenCraft.game.ui
 {
-    public static class Screen
+    internal static class Screen
     {
-
 
 
         public static bool showGame = true;
@@ -25,7 +22,7 @@ namespace SeeloewenCraft.gl_rendering
 
         public static void Init()
         {
-            EscapeMenuScreen.Init();
+            //EscapeMenuScreen.Init();
         }
 
 
@@ -36,10 +33,11 @@ namespace SeeloewenCraft.gl_rendering
             if (showGameOverlay)
             {
                 GameScreen.Update();
+                HotbarScreen.Update();
             }
-            if(showEscapeMenu)
+            if (showEscapeMenu)
             {
-                EscapeMenuScreen.Update();
+                //EscapeMenuScreen.Update();
             }
         }
 
@@ -55,33 +53,24 @@ namespace SeeloewenCraft.gl_rendering
             }
         }
 
-        internal static void Render(PrimitiveRenderer primitiveRenderer, TextRenderer textRenderer, ItemRenderer itemRenderer)
+        internal static void Render()
         {
             if (showGameOverlay)
             {
-                if(allowIngameInputs) GameScreen.Render(primitiveRenderer);
-                HotbarRenderer.Render(primitiveRenderer, itemRenderer, textRenderer);
+                if (allowIngameInputs) GameScreen.Render();
+                HotbarScreen.Render();
             }
             if (showDebugMenu)
             {
 
-                primitiveRenderer.Begin();
-                textRenderer.Begin();
+                DebugMenu.Render();
 
-                DebugMenu.Render(textRenderer);
-
-                primitiveRenderer.End();
-                textRenderer.End();
             }
             if (showEscapeMenu)
             {
-                EscapeMenuScreen.Render(primitiveRenderer, textRenderer);
+                //EscapeMenuScreen.Render();
             }
         }
-
-
-
-
 
     }
 }

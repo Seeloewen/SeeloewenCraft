@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.game.ui
 {
     public static class KeyBinds
     {

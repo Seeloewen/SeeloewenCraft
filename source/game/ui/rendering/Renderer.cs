@@ -12,10 +12,13 @@ namespace SeeloewenCraft.game.ui
         {
             PrimitiveRenderer.Init();
             TextureRenderer.Init();
+            TextRenderer.Init();
+
 
             WorldRenderer.Init();
             ItemRenderer.Init();
             PlayerRenderer.Init();
+
         }
 
         public static void Render()
@@ -32,6 +35,9 @@ namespace SeeloewenCraft.game.ui
             WorldRenderer.Render();
             ItemEntityRenderer.Render();
             PlayerRenderer.Render();
+
+
+            Screen.Render();
 
         } 
 

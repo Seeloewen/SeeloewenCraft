@@ -5,7 +5,6 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using SeeloewenCraft.game.ui;
-using SeeloewenCraft.gl_rendering;
 using SeeloewenCraft.util;
 using Windows.Gaming.Input.Preview;
 using Renderer = SeeloewenCraft.game.ui.Renderer;
@@ -121,7 +120,7 @@ namespace SeeloewenCraft
 
             GL.Viewport(0, 0, 1280, 720);
 
-
+            GL.ClearColor(188f/255, 244f/255, 247f/255, 1f);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 

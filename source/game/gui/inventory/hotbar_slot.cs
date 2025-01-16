@@ -62,14 +62,10 @@ namespace SeeloewenCraft
             //Unselect all other slots
             foreach (HotbarSlot slot in slot.inventory.hotbarSlotList)
             {
-                slot.bdrSlot.BorderBrush = null;
-                slot.bdrSlot.BorderThickness = new Thickness(3, 3, 3, 3);
                 slot.isSelected = false;
             }
 
             //Select the slot
-            bdrSlot.BorderBrush = new SolidColorBrush(Color.FromArgb(100, 18, 18, 18));
-            bdrSlot.BorderThickness = new Thickness(5, 5, 5, 5);
             isSelected = true;
         }
 

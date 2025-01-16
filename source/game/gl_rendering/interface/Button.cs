@@ -63,7 +63,7 @@ namespace SeeloewenCraft.gl_rendering
 
         internal void Update()
         {
-            hovered = (InputHandler.mouseXPixel >= x1 && InputHandler.mouseXPixel < x2
+            /*hovered = (InputHandler.mouseXPixel >= x1 && InputHandler.mouseXPixel < x2
                 && InputHandler.mouseYPixel >= y1 && InputHandler.mouseYPixel < y2);
             if (hovered)
             {
@@ -88,7 +88,7 @@ namespace SeeloewenCraft.gl_rendering
             {
                 pressed = false;
                 muwh = false;
-            }
+            }*/
 
         }
 

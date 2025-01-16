@@ -40,7 +40,7 @@ namespace SeeloewenCraft.gl_rendering
 
             entityRenderer.Render();
 
-            playerRenderer.Render(Game.world.player.playerRenderInfo);
+            //playerRenderer.Render();
 
             //InventoryRenderer.Render(primitiveRenderer);
 

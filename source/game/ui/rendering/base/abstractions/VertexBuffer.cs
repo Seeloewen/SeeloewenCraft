@@ -65,11 +65,7 @@ namespace SeeloewenCraft.game.ui
             }
         }
 
-        ~VertexBuffer()
-        {
-            GL.DeleteBuffer(vbo);
-            GL.DeleteVertexArray(vao);
-        }
+       
 
         internal void SetVertices(float[] vertices)
         {

@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using SeeloewenCraft.gl_rendering;
+using SeeloewenCraft.game.ui;
 using System;
 using System.Windows.Media;
 
@@ -190,16 +190,16 @@ namespace SeeloewenCraft.entity
             Log.Write($"Created player at position x{posX} y{posY}.", LogType.ENTITIES, LogLevel.INFO);
 
             //Add initial debug menu lines
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "Player Stats:");
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "health");
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "posX");
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "posY");
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "velX");
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "velY");
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "blockPosX");
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "blockPosY");
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "touchingWater");
-            Game.world.debugMenu.AddLine(Game.world.debugMenu.tblPlayerStats, "breathing");
+            DebugMenu.AddLine(DebugMenu.Section.PLAYER, "Player Stats:");
+            DebugMenu.AddLine(DebugMenu.Section.PLAYER, "health");
+            DebugMenu.AddLine(DebugMenu.Section.PLAYER, "posX");
+            DebugMenu.AddLine(DebugMenu.Section.PLAYER, "posY");
+            DebugMenu.AddLine(DebugMenu.Section.PLAYER, "velX");
+            DebugMenu.AddLine(DebugMenu.Section.PLAYER, "velY");
+            DebugMenu.AddLine(DebugMenu.Section.PLAYER, "blockPosX");
+            DebugMenu.AddLine(DebugMenu.Section.PLAYER, "blockPosY");
+            DebugMenu.AddLine(DebugMenu.Section.PLAYER, "touchingWater");
+            DebugMenu.AddLine(DebugMenu.Section.PLAYER, "breathing");
 
             //Setup health bar
             healthBar = new HealthBar(10, 740);
@@ -254,7 +254,6 @@ namespace SeeloewenCraft.entity
             HandleThrow();
             base.OnUpdateStart(tps);
             UpdateAnimation(1.0 / tps);
-            DisplayDebugInformation();
         }
 
         protected override void OnUpdateEnd(int tps)
@@ -296,18 +295,16 @@ namespace SeeloewenCraft.entity
 
         public void DisplayDebugInformation()
         {
-            if (Game.world.debugMenu.isEnabled)
-            {
-                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "health", $"health={healthBar.value}");
-                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "posX", $"posX={posX}");
-                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "posY", $"posY={posY}");
-                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "velX", $"velX={velX}");
-                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "velY", $"velY={velY}");
-                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "blockPosX", $"blockPosX={(posX / 1000) % 8}");
-                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "blockPosY", $"blockPosY={posY / 1000}");
-                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "touchingWater", $"touchingWater={touchingStatus[TOUCHING_WATER]}");
-                Game.world.debugMenu.ChangeLine(Game.world.debugMenu.tblPlayerStats, "breathing", $"breathing={breathing}");
-            }
+                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "health", $"health={healthBar.value}");
+                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "posX", $"posX={posX}");
+                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "posY", $"posY={posY}");
+                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "velX", $"velX={velX}");
+                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "velY", $"velY={velY}");
+                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "blockPosX", $"blockPosX={(posX / 1000) % 8}");
+                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "blockPosY", $"blockPosY={posY / 1000}");
+                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "touchingWater", $"touchingWater={touchingStatus[TOUCHING_WATER]}");
+                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "breathing", $"breathing={breathing}");
+            
         }
     }
 }

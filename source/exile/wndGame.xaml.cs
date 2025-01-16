@@ -31,12 +31,12 @@ using ShaderParameter = OpenTK.Graphics.OpenGL.ShaderParameter;
 using ShaderType = OpenTK.Graphics.OpenGL.ShaderType;
 using VertexAttribPointerType = OpenTK.Graphics.OpenGL.VertexAttribPointerType;
 
-using SeeloewenCraft.gl_rendering;
 using BlendingFactor = OpenTK.Graphics.OpenGL.BlendingFactor;
 using System.Windows.Media.Animation;
 using FramebufferTarget = OpenTK.Graphics.OpenGL.FramebufferTarget;
 using FramebufferAttachment = OpenTK.Graphics.OpenGL.FramebufferAttachment;
 using FramebufferAttachmentParameterName = OpenTK.Graphics.OpenGL.FramebufferAttachmentParameterName;
+using SeeloewenCraft.game.ui;
 
 
 namespace SeeloewenCraft

@@ -7,16 +7,13 @@ using System;
 using SeeloewenCraft.entity;
 using System.Text;
 using System.Runtime.CompilerServices;
-using SeeloewenCraft.gl_rendering;
 using SeeloewenCraft.game.ui;
 using OpenTK.Graphics.OpenGL4;
 using System.Diagnostics;
-using System.Linq;
-using BlockRenderInfo = SeeloewenCraft.game.ui.BlockRenderInfo;
 
 namespace SeeloewenCraft
 {
-    public abstract partial class Block : gl_rendering.IDebugMenuTargetable
+    public abstract partial class Block : IDebugMenuTargetable
     {
         //references
         private HighPrecisionTimer.MultimediaTimer tmrBreak = new HighPrecisionTimer.MultimediaTimer();
@@ -65,6 +62,8 @@ namespace SeeloewenCraft
         public int xOffset;
         public int yOffset;
         public string state = "";
+        public bool breaking;
+        public int breakProgress;
 
         //Water
         public int waterLevel = 0; //constant depending on block type

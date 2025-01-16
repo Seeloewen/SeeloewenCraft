@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Linq;
 using SeeloewenCraft.entity;
 using System.Windows.Documents;
-using SeeloewenCraft.gl_rendering;
+using SeeloewenCraft.game.ui;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTK.Graphics.OpenGL4;
 
@@ -616,17 +616,11 @@ namespace SeeloewenCraft
         public void DisplayDebugInformation()
         {
             //Show the debug information for the world in the debug menu
-            debugMenu.tblGameStats.Text = "";
-            debugMenu.AddLine(debugMenu.tblGameStats, $"SeeloewenCraft {Game.GAME_VERSION} ({Game.VERSION_DATE})");
-            debugMenu.AddLine(debugMenu.tblGameStats, $"worldName: {worldName}");
-            debugMenu.AddLine(debugMenu.tblGameStats, $"worldVersion: {worldVersion}");
-            debugMenu.AddLine(debugMenu.tblGameStats, $"seed: {seed}");
-            debugMenu.AddLine(debugMenu.tblGameStats, $"fps: 0");
-            gl_rendering.DebugMenu.AddLine(gl_rendering.DebugMenu.Section.WORLD, "Version", $"{Game.GAME_VERSION} ({Game.VERSION_DATE})");
-            gl_rendering.DebugMenu.AddLine(gl_rendering.DebugMenu.Section.WORLD, "worldName", $"{worldName}");
-            gl_rendering.DebugMenu.AddLine(gl_rendering.DebugMenu.Section.WORLD, "worldVersion", $"{worldVersion}");
-            gl_rendering.DebugMenu.AddLine(gl_rendering.DebugMenu.Section.WORLD, "seed", $"{seed}");
-            gl_rendering.DebugMenu.AddLine(gl_rendering.DebugMenu.Section.WORLD, "fps");
+            DebugMenu.AddLine(DebugMenu.Section.WORLD, "Version", $"{Game.GAME_VERSION} ({Game.VERSION_DATE})");
+            DebugMenu.AddLine(DebugMenu.Section.WORLD, "worldName", $"{worldName}");
+            DebugMenu.AddLine(DebugMenu.Section.WORLD, "worldVersion", $"{worldVersion}");
+            DebugMenu.AddLine(DebugMenu.Section.WORLD, "seed", $"{seed}");
+            DebugMenu.AddLine(DebugMenu.Section.WORLD, "fps");
 
         }
 

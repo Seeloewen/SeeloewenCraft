@@ -1,10 +1,8 @@
 ﻿using OpenTK.Windowing.GraphicsLibraryFramework;
-using SeeloewenCraft.gl_rendering;
+using SeeloewenCraft.game.ui;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Windows.Navigation;
-namespace SeeloewenCraft
+namespace SeeloewenCraft.game.ui
 {
     public static class InputHandler
     {
@@ -20,10 +18,10 @@ namespace SeeloewenCraft
         public static float mouseYScreen { get => ((float)mouseYPixel) / (-Resolution.HEIGHT / 2) + 1; }
 
 
+        public static int scrollAmount { get; private set; }
 
         public static bool pressedLeft { get; private set; }
         public static bool pressedRight { get; private set; }
-
 
 
         public unsafe static void Init(Window* window)
@@ -45,6 +43,11 @@ namespace SeeloewenCraft
                         pressedRight = action == InputAction.Press; 
                         break;
                 }
+            });
+
+            GLFW.SetScrollCallback(window, (_, _, y) =>
+            {
+                scrollAmount += Convert.ToInt32(y);
             });
 
             GLFW.SetWindowCloseCallback(window, (window) =>
@@ -75,6 +78,12 @@ namespace SeeloewenCraft
 
         }
 
+        public static int HandleScrollOffset()
+        {
+            int s = scrollAmount;
+            scrollAmount = 0;
+            return s;
+        }
 
         /*public static void HandleMouseMove(Point p)
         {

@@ -1,6 +1,4 @@
-﻿using SeeloewenCraft.gl_rendering.math;
-using SeeloewenCraft.gl_rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -62,14 +60,14 @@ namespace SeeloewenCraft.game.ui
         internal static void DrawRectangle(int x1, int y1, int x2, int y2, float r, float g, float b)
         {
             (float s1, float t1) = Resolution.PixelToScreen(x1, y1);
-            (float s2, float t2) = Resolution.PixelToScreen(x1, y1);
+            (float s2, float t2) = Resolution.PixelToScreen(x2, y2);
             DrawRectangle(s1, t1, s2, t2, r, g, b, 1.0f);
         }
 
         internal static void DrawRectangle(int x1, int y1, int x2, int y2, float r, float g, float b, float a)
         {
             (float s1, float t1) = Resolution.PixelToScreen(x1, y1);
-            (float s2, float t2) = Resolution.PixelToScreen(x1, y1);
+            (float s2, float t2) = Resolution.PixelToScreen(x2, y2);
             DrawRectangle(s1, t1, s2, t2, r, g, b, a);
         }
 

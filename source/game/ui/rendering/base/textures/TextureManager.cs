@@ -15,12 +15,27 @@ namespace SeeloewenCraft.game.ui
         static Dictionary<string, Dictionary<string, string>> mappings;
 
 
+        public static string fontMap { get; private set; }
+        public static string fontMappings { get; private set; }
+
+
+
+
+
         static public void Init() //TODO add texturepack support
         {
 
             mappings = new Dictionary<string, Dictionary<string, string>>();
 
-            JsonToken token = JsonUtil.ReadFile($"{texturePackPath}\\content.json").GetToken("/sections");
+            JsonToken fileToken = JsonUtil.ReadFile($"{texturePackPath}\\content.json");
+
+            JsonToken fontToken = fileToken.GetToken("/font");
+
+            fontMap = $"{GetFolderPath(SpecialFolder.ApplicationData)}\\SeeloewenCraft\\assets\\{fontToken.GetString("/font_map")}";
+            fontMappings = $"{GetFolderPath(SpecialFolder.ApplicationData)}\\SeeloewenCraft\\assets\\{fontToken.GetString("/mappings")}";
+
+
+            JsonToken token = fileToken.GetToken("/sections");
 
             for (int i = 0; i < token.GetArrayLength();i++)
             {
@@ -65,6 +80,7 @@ namespace SeeloewenCraft.game.ui
             return LoadTexture(file); //TODO mechanism for loading file from resources when necessary
         }
 
+        //TODO problem: font map is handled seperatly
         static TextureImage LoadTexture(string file) {
             Bitmap bitmap;
             try
@@ -72,7 +88,7 @@ namespace SeeloewenCraft.game.ui
                 bitmap = new Bitmap(file);
             } catch
             {
-                bitmap = new Bitmap("C:\\Users\\clemm\\AppData\\Roaming\\SeeloewenCraft\\assets\\Missing_Texture.png");
+                bitmap = new Bitmap("C:\\Users\\clemm\\AppData\\Roaming\\SeeloewenCraft\\assets\\Missing_Texture.png"); //TODO 💀
             }
 
             return new TextureImage(bitmap);

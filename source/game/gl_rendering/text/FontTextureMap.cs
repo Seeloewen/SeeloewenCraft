@@ -12,9 +12,9 @@ namespace SeeloewenCraft.gl_rendering
 
         Dictionary<char, (float s1, float t1, float s2, float t2)> mappings;
 
-        internal FontTextureMap(TextureManager textureManager)
+        internal FontTextureMap()
         {
-            mappings = new Dictionary<char, (float, float, float, float)>();
+            /*mappings = new Dictionary<char, (float, float, float, float)>();
 
             Bitmap bitmap = new Bitmap(textureManager.fontPath);
 
@@ -33,7 +33,7 @@ namespace SeeloewenCraft.gl_rendering
                 mappings.Add(c, (s1, t1, s2, t2));
             }
 
-            texture = new Texture(bitmap, false);
+            texture = new Texture(bitmap, false);*/
         }
 
         internal (float s1, float t1,float s2,float t2) GetMapping(char c)

@@ -24,7 +24,7 @@ namespace SeeloewenCraft.gl_rendering
             foreach(Entity entity in Game.world.entityManager.entities) {
                 if(entity is Player player)
                 {
-                    playerRenderer.Render(player.playerRenderInfo);
+                    //playerRenderer.Render(player.playerRenderInfo);
                 }
                 else if(entity is ItemEntity itemEntity)
                 {

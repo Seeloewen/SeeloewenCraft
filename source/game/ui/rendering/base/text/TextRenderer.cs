@@ -3,40 +3,33 @@ using OpenTK.Graphics.OpenGL4;
 using SeeloewenCraft.entity;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Windows.Media.Media3D;
-using SeeloewenCraft.game.ui;
 
-namespace SeeloewenCraft.gl_rendering
+namespace SeeloewenCraft.game.ui
 {
-    internal class TextRenderer
+    internal static class TextRenderer
     {
 
-        FontTextureMap textureMap;
-        Shader shader;
-        VertexBuffer vertexBuffer;
+        static FontTextureMap textureMap;
+        static Shader shader;
+        static VertexBuffer vertexBuffer;
 
         static Dictionary<char, int> widthMappings;
 
-        internal TextRenderer(TextureManager manager)
+        internal static void Init()
         {
-            //textureMap = new FontTextureMap(manager);
-            widthMappings = new Dictionary<char, int>();
-            foreach (char c in manager.mappedChars)
-            {
-                (_, _, int w) = manager.charMappings[c];
-                widthMappings.Add(c, w);
-            }
-            shader = new Shader("shader/blockworld");
+            (textureMap, widthMappings) = FontTextureMap.ParseFontMap();
+            
+            shader = new Shader("shader/texture");
             vertexBuffer = new VertexBuffer(new VBLayout().AddAttribute(2).AddAttribute(2).AddAttribute(1), 1024);
         }
 
 
-        float[] vertices;
-        int index;
-        bool drawing;
+        static float[] vertices;
+        static int index;
+        static bool drawing;
 
 
-        internal void Test()
+        static internal void Test()
         {
             Begin();
             
@@ -46,14 +39,13 @@ namespace SeeloewenCraft.gl_rendering
             End();
         }
 
-        internal void Draw(string s, int x, int y, int size)
+        internal static void Draw(string s, int x, int y, int size)
         {
 
             (float x1, float y1) = Resolution.PixelToScreen(x, y);
             float sizeY = 2f / Resolution.HEIGHT;
 
             Draw(s, x1, y1 - size * 8 * sizeY, size * 8 * sizeY);
-            //Draw(s, x2, y2, size * 8 * sizeY);
         }
 
         public static int GetWidth(string s, int size)
@@ -72,7 +64,7 @@ namespace SeeloewenCraft.gl_rendering
             return width * size;
         }
 
-        private void Draw(string s, float x, float y, float h)
+        static private void Draw(string s, float x, float y, float h)
         {
             float w = (h / 8) * (9 / 16f);
 
@@ -84,7 +76,7 @@ namespace SeeloewenCraft.gl_rendering
         }
 
         //returns width
-        private float Draw(char c, float x, float y, float h)
+        static private float Draw(char c, float x, float y, float h)
         {
             (float s1, float t1, float s2, float t2) = textureMap.GetMapping(c);
 
@@ -99,7 +91,7 @@ namespace SeeloewenCraft.gl_rendering
             return w;
         }
 
-        private void Draw(float x1, float y1, float x2, float y2, float s1, float t1, float s2, float t2)
+        static private void Draw(float x1, float y1, float x2, float y2, float s1, float t1, float s2, float t2)
         {
             Debug.Assert(drawing);
             if (index + 4 * 6 >= 1024)
@@ -115,7 +107,7 @@ namespace SeeloewenCraft.gl_rendering
             Put(x2, y2, s2, t2, 1.0f);
         }
 
-        private void Put(float x, float y, float s, float t, float g)
+        static private void Put(float x, float y, float s, float t, float g)
         {
             vertices[index++] = x;
             vertices[index++] = y;
@@ -124,14 +116,14 @@ namespace SeeloewenCraft.gl_rendering
             vertices[index++] = g;
         }
 
-        internal void Begin()
+        static internal void Begin()
         {
             drawing = true;
             index = 0;
             vertices = new float[1024];
         }
 
-        internal void End()
+        static internal void End()
         {
             drawing = false;
             vertexBuffer.SetVertices(vertices);
