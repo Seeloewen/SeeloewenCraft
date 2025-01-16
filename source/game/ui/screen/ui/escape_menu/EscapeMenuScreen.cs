@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace SeeloewenCraft.gl_rendering
+namespace SeeloewenCraft.game.ui
 {
     internal class EscapeMenuScreen
     {
@@ -51,15 +51,15 @@ namespace SeeloewenCraft.gl_rendering
             }
         }
 
-        internal static void Render(PrimitiveRenderer renderer, TextRenderer textRenderer)
+        internal static void Render()
         {
-            renderer.Begin();
-            renderer.DrawRectangle(-1f, -1f, 1f, 1f, 0f, 0f, 0f, .5f);
-            renderer.End();
+            PrimitiveRenderer.Begin();
+            PrimitiveRenderer.DrawRectangle(-1f, -1f, 1f, 1f, 0f, 0f, 0f, .5f);
+            PrimitiveRenderer.End();
 
             foreach (Button b in buttons)
             {
-                b.Render(renderer, textRenderer);
+                b.Render();
             }
 
 

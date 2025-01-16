@@ -22,7 +22,7 @@ namespace SeeloewenCraft.game.ui
 
         public static void Init()
         {
-            //EscapeMenuScreen.Init();
+            EscapeMenuScreen.Init();
         }
 
 
@@ -37,7 +37,7 @@ namespace SeeloewenCraft.game.ui
             }
             if (showEscapeMenu)
             {
-                //EscapeMenuScreen.Update();
+                EscapeMenuScreen.Update();
             }
         }
 
@@ -68,7 +68,7 @@ namespace SeeloewenCraft.game.ui
             }
             if (showEscapeMenu)
             {
-                //EscapeMenuScreen.Render();
+                EscapeMenuScreen.Render();
             }
         }
 

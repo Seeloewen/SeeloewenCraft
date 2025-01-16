@@ -36,6 +36,7 @@ namespace SeeloewenCraft
 
         static unsafe void GameLoop(Window* window)
         {
+            DeltaTimer.Start();
             while (!GLFW.WindowShouldClose(window))
             {
                 double dt = DeltaTimer.Tick();
@@ -124,7 +125,7 @@ namespace SeeloewenCraft
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
-            //GLFW.SwapInterval(0);
+            GLFW.SwapInterval(0);
 
 
             return window;

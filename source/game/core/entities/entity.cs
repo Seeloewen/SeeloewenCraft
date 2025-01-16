@@ -30,7 +30,7 @@ namespace SeeloewenCraft.entity
         protected int frictionGround = 10;
         protected int frictionAir = 10;
         protected int frictionWater = 25;
-        private const int slowestGroundSpeed = 100;
+        private const int slowestGroundSpeed = 10000;
 
         public long lifeTime;
 
@@ -88,12 +88,12 @@ namespace SeeloewenCraft.entity
                     {
                         //this reduces the velocity by f_ground * v_x * dt until v_x reaches a threshold with value slowest_ground_speed, when it gets set to zero
                         int v_reduction = frictionGround * velX / tps;
-                        velX -= Math.Max(Math.Min(slowestGroundSpeed, velX), v_reduction);
+                        velX -= Math.Max(Math.Min(slowestGroundSpeed / tps, velX), v_reduction);
                     }
                     else if (velX < 0)
                     {
                         int v_reduction = -frictionGround * velX / tps;
-                        velX += Math.Max(Math.Min(slowestGroundSpeed, -velX), v_reduction);
+                        velX += Math.Max(Math.Min(slowestGroundSpeed /tps, -velX), v_reduction);
                     }
                 }
                 else

@@ -75,7 +75,7 @@ namespace SeeloewenCraft.gl_rendering
             }
             if (showEscapeMenu)
             {
-                EscapeMenuScreen.Render(primitiveRenderer, textRenderer);
+                EscapeMenuScreen.Render();
             }
         }
 
