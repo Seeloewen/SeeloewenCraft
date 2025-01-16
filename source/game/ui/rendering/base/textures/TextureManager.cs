@@ -88,7 +88,7 @@ namespace SeeloewenCraft.game.ui
                 bitmap = new Bitmap(file);
             } catch
             {
-                bitmap = new Bitmap("C:\\Users\\clemm\\AppData\\Roaming\\SeeloewenCraft\\assets\\Missing_Texture.png"); //TODO 💀
+                bitmap = new Bitmap($"{texturePackPath}\\Missing_Texture.png"); //TODO 💀
             }
 
             return new TextureImage(bitmap);
