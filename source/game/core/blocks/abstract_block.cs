@@ -16,8 +16,6 @@ namespace SeeloewenCraft
     public abstract partial class Block : IDebugMenuTargetable
     {
         //references
-        private HighPrecisionTimer.MultimediaTimer tmrBreak = new HighPrecisionTimer.MultimediaTimer();
-        private HighPrecisionTimer.MultimediaTimer tmrHammer = new HighPrecisionTimer.MultimediaTimer();
         public List<string> tags = new List<string>();
         public ImageBrush image = new ImageBrush();
         public Chunk chunk;
@@ -42,6 +40,7 @@ namespace SeeloewenCraft
         public bool hasRightClickAction = false;
         public bool dropsOnWrongTool = true;
         public int breakTime = 150;
+        public int breakTimeTicks { get => breakTime / 20; }
         public List<(string id, int min, int max)> drops = new List<(string, int, int)>(); //Can be empty, means that item id will drop
         public Collision collision;
         public Tool effectiveTool;
@@ -64,6 +63,7 @@ namespace SeeloewenCraft
         public string state = "";
         public bool breaking;
         public int breakProgress;
+        bool mouseLeftDown;
 
         //Water
         public int waterLevel = 0; //constant depending on block type
@@ -85,19 +85,29 @@ namespace SeeloewenCraft
             //Set the attributes
             this.isBackground = isBackground;
 
-            tmrBreak.Elapsed += tmrBreak_Tick;
-            tmrHammer.Elapsed += tmrHammer_Tick;
         }
 
         //-- Custom Methods --//
 
+        public void DoUpdate()
+        {
+            if(breaking)
+            {
+                int power = 1;
+                //if(Game.world.player.inventory.GetSelectedItem() is ToolItem item)
+                breakProgress -= power;
+                if (breakProgress <= 0) BreakBlock(false, false, true);
+            }
+        }
+
         public BlockRenderInfo GetBlockRenderInfo()
         {
-            if (this is FurnaceBlock)
+            if (this is FurnaceBlock) // wtf is this code
             {
                 Debug.Assert(false);
             }
-            var info = new BlockRenderInfo(xPos + chunk.index * 8, yPos, id, state, isBackground);
+            int breakAnimation = breaking ? 5-(5 * breakProgress) / breakTime : 0;
+            var info = new BlockRenderInfo(xPos + chunk.index * 8, yPos, id, state, isBackground, breakAnimation);
             if (foregroundBlock != null) info.AddForegroundBlock(foregroundBlock.id, foregroundBlock.state);
             return info;
         }
@@ -981,14 +991,17 @@ namespace SeeloewenCraft
         public void HandleMouseLeave()
         {
             //Stop a possible block modification progress
-            tmrBreak.Stop();
-            tmrHammer.Stop();
+            //tmrBreak.Stop();
+            //tmrHammer.Stop();
 
         }
 
         public void HandleMouseLeftDown()
         {
-            //Stop possible hammer process
+            breakProgress = (int)(breakTime);
+            breaking = true;
+
+            /*/Stop possible hammer process
             tmrHammer.Stop();
 
             //If the block is in range, check if it has a foreground block or not and check if that block is breakable before starting the break animation
@@ -1038,19 +1051,19 @@ namespace SeeloewenCraft
                         }
                     }
                 }
-            }
+            }*/
 
         }
 
         public void HandleMouseLeftUp()
         {
             //Stop a possible block modification progress
-            tmrBreak.Stop();
+            breaking = false;
         }
 
         public void HandleMouseRightDown()
         {
-            //Stop possible breaking process
+            /*/Stop possible breaking process
             tmrBreak.Stop();
 
             if (Game.world.player.inventory.GetSelectedItem() != null && Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == Tool.Hammer)
@@ -1069,13 +1082,12 @@ namespace SeeloewenCraft
             }
 
             //If all of the checks above fail, handle it the normal way
-            Game.world.clickHandler.DoRightClick(this);
+            Game.world.clickHandler.DoRightClick(this);*/
         }
 
         public void HandleMouseRightUp()
         {
             //Stop a possible block modification progress
-            tmrHammer.Stop();
         }
 
 

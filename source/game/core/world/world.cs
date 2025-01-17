@@ -53,6 +53,7 @@ namespace SeeloewenCraft
         public int nightState = 0;
         public Gamemode gamemode = Gamemode.Survival;
         public MultiplayerType multiplayerType;
+        public int currentChunk; //idk if this works in mp
 
         //-- Constructor --//
 
@@ -195,7 +196,7 @@ namespace SeeloewenCraft
             Log.Write($"Successfully initialized game for world {worldName}!", LogType.GENERAL, LogLevel.INFO);
 
 
-            
+
 
             //Start the main timer
 
@@ -224,7 +225,7 @@ namespace SeeloewenCraft
 
         public void Save()
         {
-            if(!Game.IsClient())
+            if (!Game.IsClient())
             {
                 //Save all chunks and the inventory of the player
                 foreach (Chunk chunk in Game.world.totalChunkList)
@@ -396,7 +397,7 @@ namespace SeeloewenCraft
         private void InitWorldDirectory()
         {
             //Check if the world directory exists and create it otherwise
-            if(multiplayerType != MultiplayerType.CLIENT)
+            if (multiplayerType != MultiplayerType.CLIENT)
             {
                 if (!Directory.Exists($"{FolderUtil.worldsFolder}\\{worldName}"))
                 {
@@ -438,9 +439,7 @@ namespace SeeloewenCraft
             {
                 player.inventory = new Inventory(9, 4, true);
                 player.inventory.InitHotbar();
-                player.inventory.AddItem("sc:wool_item", 64, "");
-                player.inventory.AddItem("sc:diamond_scythe_item", 1, "durability=10000000");
-                player.inventory.AddItem("sc:seeds_item", 64, "");
+                player.inventory.AddItem("sc:diamond_scythe_item", 1, "durability=507");
                 player.inventory.AddItem("sc:carrot_item", 64, "");
                 player.inventory.AddItem("sc:lantern_item", 64, "");
                 player.inventory.AddItem("sc:pumpkin_item", 64, "");
@@ -532,6 +531,7 @@ namespace SeeloewenCraft
 
         private void LoadStartChunks(int midChunk)
         {
+            currentChunk = midChunk;
             for (int i = midChunk - 3; i <= midChunk + 3; i++)
             {
                 Chunk c = GetChunk(i);
@@ -543,13 +543,15 @@ namespace SeeloewenCraft
         {
             if (dir.IsRight())
             {
+                currentChunk++;
+
                 Chunk chunk = Game.world.GetLoadedChunk(Game.world.loadedChunkList[0].index);
                 Game.world.UnloadChunk(chunk);
                 Chunk newChunk = Game.world.GetChunk(Game.world.loadedChunkList[5].index + 1);
                 Game.world.LoadChunk(newChunk);
 
                 //Sort the chunklist again
-                Game.world.loadedChunkList = Game.world.loadedChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+                Game.world.loadedChunkList = Game.world.loadedChunkList.OrderBy(obj => obj.index).ToList();
 
                 //Send the chunk on the network
                 NetworkHandler.SendData(MultiplayerPacketType.CREATE_CHUNK, $"{newChunk.index}");
@@ -565,13 +567,14 @@ namespace SeeloewenCraft
             }
             else if (dir.IsLeft())
             {
+                currentChunk--;
                 Chunk chunk = Game.world.GetLoadedChunk(Game.world.loadedChunkList[6].index);
                 Game.world.UnloadChunk(chunk);
                 Chunk newChunk = Game.world.GetChunk(Game.world.loadedChunkList[0].index - 1);
                 Game.world.LoadChunk(newChunk);
 
                 //Sort the list again
-                Game.world.loadedChunkList = Game.world.loadedChunkList.OrderBy(obj => Canvas.GetLeft(obj.grdChunk)).ToList();
+                Game.world.loadedChunkList = Game.world.loadedChunkList.OrderBy(obj => obj.index).ToList();
 
                 //Send the chunk on the network
                 NetworkHandler.SendData(MultiplayerPacketType.CREATE_CHUNK, $"{newChunk.index}");
@@ -672,16 +675,40 @@ namespace SeeloewenCraft
 
         //-- Event Handlers --//
 
-        public void doGameTick(double dt)
+        public void doGameTick(double dt, bool blockUpdate)
         {
 
             Screen.Update();
 
-            entityManager.DoStep((int)(1.0/dt));
+            foreach(Chunk chunk in loadedChunkList)
+            {
+                foreach(Block block in chunk.blockList.blocks)
+                {
+                    block.DoUpdate();
+                }
+            }
+
+            entityManager.DoStep((int)(1.0 / dt));
 
 
             GameCamera.SetCamCenterPhysicsCoord(player.posX + 237, player.posY + 950);
 
+            {
+                int chunk = player.GetChunkIndex();
+                if (chunk != currentChunk)
+                {
+                    if (chunk > currentChunk)
+                    {
+                        MoveLoadedChunks(Direction.RIGHT);
+                        Log.Write($"move chunks right {chunk} {currentChunk}", LogType.GENERAL, LogLevel.WARNING);
+                    }
+                    else
+                    {
+                        MoveLoadedChunks(Direction.LEFT);
+                        Log.Write($"move chunks left {chunk} {currentChunk}", LogType.GENERAL, LogLevel.WARNING);
+                    }
+                }
+            }
 
         }
 

@@ -264,7 +264,7 @@ namespace SeeloewenCraft
             newBlock.hasWaterSource = true;
             newBlock.waterSourceXPos = currentBlock.xPos;
             newBlock.waterSourceYPos = currentBlock.yPos;
-            newBlock.waterSourceChunkIndex = currentBlock.chunk.index;
+            //newBlock.waterSourceChunkIndex = currentBlock.chunk.index;
         }
     }
 }

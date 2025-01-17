@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.PerformanceData;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Composition;
 using static System.Reflection.Metadata.BlobBuilder;
 
 namespace SeeloewenCraft.game.ui
@@ -20,10 +22,10 @@ namespace SeeloewenCraft.game.ui
         {
             int s = -InputHandler.HandleScrollOffset();
             int c = Game.world.player.inventory.GetSelectedHotbarIndex();
-            int n = (((c + s) % 9)+9)%9;
-            foreach(HotbarSlot slot in Game.world.player.inventory.hotbarSlotList)
+            int n = (((c + s) % 9) + 9) % 9;
+            foreach (HotbarSlot slot in Game.world.player.inventory.hotbarSlotList)
             {
-                if(slot.xPos == n) slot.Select();
+                if (slot.xPos == n) slot.Select();
             }
         }
 
@@ -47,11 +49,11 @@ namespace SeeloewenCraft.game.ui
                 (x1, y1) = (startPos + edgeSize + (slotSize + edgeSize) * i, startPos + edgeSize);
                 (x2, y2) = (startPos + edgeSize + (slotSize + edgeSize) * i + slotSize, startPos + edgeSize + slotSize);
 
-                if(slot.isSelected) PrimitiveRenderer.DrawRectangle(x1 - edgeSize, y1 - edgeSize, x2 + edgeSize, y2 + edgeSize, 0.1f, 0.1f, 0.1f);
+                if (slot.isSelected) PrimitiveRenderer.DrawRectangle(x1 - edgeSize, y1 - edgeSize, x2 + edgeSize, y2 + edgeSize, 0.1f, 0.1f, 0.1f);
 
                 PrimitiveRenderer.DrawRectangle(x1, y1, x2, y2, 0.8f, 0.8f, 0.8f);
-                
-                
+
+
             }
             PrimitiveRenderer.End();
 
@@ -80,7 +82,7 @@ namespace SeeloewenCraft.game.ui
 
                 int i = slot.xPos;
 
-                if (amount > 10)
+                if (amount > 1)
                 {
 
                     int t = TextRenderer.GetWidth($"{amount}", 2);
@@ -91,17 +93,40 @@ namespace SeeloewenCraft.game.ui
                     TextRenderer.Draw($"{amount}", x, y, 2);
 
                 }
-                else if (amount > 1)
-                {
-
-                }
-                else
-                {
-
-                }
             }
             TextRenderer.End();
 
+            PrimitiveRenderer.Begin();
+            foreach (HotbarSlot slot in slots)
+            {
+
+                if (slot.slot.itemTag.Contains("durability="))
+                {
+                    ToolItem item = (ToolItem)ItemRegister.GenerateItem(slot.slot.itemId);
+                    float d2 = item.maxDurability;
+                    float d1 = slot.slot.GetDurability();
+
+                    float d = d1/d2;
+                    d = Math.Min(1f, d);
+
+                    int i = slot.xPos;
+
+
+
+                    x1 = (startPos + edgeSize + (slotSize + edgeSize) * i + 7);
+                    y1 = (startPos + edgeSize + 60);
+                    x2 = x1 + 56;
+                    y2 = y1 + 7;
+                    PrimitiveRenderer.DrawRectangle(x1, y1, x2, y2, 0f, 0f, 0f);
+
+                    float g = Math.Min(1f, 2 * d);
+                    float r = Math.Min(1f, 2 - 2 * d);
+                    x2 = (int)(x1 + (x2 - x1) * d);
+                    PrimitiveRenderer.DrawRectangle(x1, y1, x2, y2, r, g, 0f);
+
+                }
+            }
+            PrimitiveRenderer.End();
 
 
         }

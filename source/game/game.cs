@@ -39,11 +39,11 @@ namespace SeeloewenCraft
             DeltaTimer.Start();
             while (!GLFW.WindowShouldClose(window))
             {
-                double dt = DeltaTimer.Tick();
-
+                double dt = DeltaTimer.Tick(out bool blockUpdate);
+                
                 Screen.Update();
 
-                world.doGameTick(dt * 0.7);
+                world.doGameTick(dt * 0.7, blockUpdate);
 
 
                 //gl_rendering.Renderer.Render();
@@ -54,7 +54,6 @@ namespace SeeloewenCraft
 
             }
         }
-
 
 
 

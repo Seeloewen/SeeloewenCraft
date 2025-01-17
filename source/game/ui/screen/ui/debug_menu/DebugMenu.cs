@@ -32,6 +32,35 @@ namespace SeeloewenCraft.game.ui
         {
             if (target != null) target.UpdateDebugMenu();
             int y = 125;
+            PrimitiveRenderer.Begin();
+            foreach (var line in linesWorld)
+            {
+                int w = TextRenderer.GetWidth($"{line.Key}={line.Value}", 2);
+                PrimitiveRenderer.DrawRectangle(5-2, y-2, 5+w+2, y+18, 0.8f, 0.8f, 0.8f, 0.5f);
+                y += 20;
+            }
+
+            y += 40;
+            foreach (var line in linesPlayer)
+            {
+                int w = TextRenderer.GetWidth($"{line.Key}={line.Value}", 2);
+                PrimitiveRenderer.DrawRectangle(5 - 2, y - 2, 5 + w + 2, y + 18, 0.8f, 0.8f, 0.8f, 0.5f);
+                TextRenderer.Draw($"{line.Key}={line.Value}", 5, y, 2);
+                y += 20;
+            }
+
+            y = 125;
+            foreach (var line in linesTargeted)
+            {
+                string s = $"{line.Key}={line.Value}";
+                int w = TextRenderer.GetWidth(s, 2);
+                PrimitiveRenderer.DrawRectangle(Resolution.WIDTH - 5 - w - 2, y - 2, Resolution.WIDTH - 3, y + 18, 0.8f, 0.8f, 0.8f, 0.5f);
+                TextRenderer.Draw(s, Resolution.WIDTH - 5 - w, y, 2);
+                y += 20;
+            }
+            PrimitiveRenderer.End();
+
+            y = 125;
             TextRenderer.Begin();
             foreach (var line in linesWorld)
             {

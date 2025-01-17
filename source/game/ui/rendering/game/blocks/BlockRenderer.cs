@@ -14,7 +14,11 @@ namespace SeeloewenCraft.game.ui
 
             DrawBlock(info.GetTextureID(), info.x, info.y, info.isBackground);
             if (info.hasForegroundBlock) DrawBlock(info.GetForegroundTextureID(), info.x, info.y, false);
-        
+            if(info.breakAnimation > 0)
+            {
+                string id = $"sc:break_animation_{info.breakAnimation}";
+                DrawBlock(id, info.x, info.y, false);
+            }
 
         }
         static void DrawBlock(string blockID, int blockX, int blockY, bool isBackground)
