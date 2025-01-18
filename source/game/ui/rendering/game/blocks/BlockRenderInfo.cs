@@ -13,6 +13,7 @@ namespace SeeloewenCraft.game.ui
         internal bool isBackground;
 
         internal int breakAnimation;
+        internal bool hammering;
 
         internal bool hasForegroundBlock;
         string foregroundID;
@@ -41,7 +42,7 @@ namespace SeeloewenCraft.game.ui
             }
         }
 
-        public BlockRenderInfo(int x, int y, string id, string state, bool isBackground, int breakAnimation)
+        public BlockRenderInfo(int x, int y, string id, string state, bool isBackground, int breakAnimation, bool hammering)
         {
             this.x = x;
             this.y = y;
@@ -49,6 +50,7 @@ namespace SeeloewenCraft.game.ui
             this.state = state;
             this.isBackground = isBackground;
             this.breakAnimation = breakAnimation;
+            this.hammering = hammering;
         }
 
         public void AddForegroundBlock(string id, string state)

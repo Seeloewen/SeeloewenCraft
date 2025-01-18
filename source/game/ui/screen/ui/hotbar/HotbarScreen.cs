@@ -99,6 +99,10 @@ namespace SeeloewenCraft.game.ui
             PrimitiveRenderer.Begin();
             foreach (HotbarSlot slot in slots)
             {
+                if(slot.slot.Amount == 0)
+                {
+                    continue;
+                }
 
                 if (slot.slot.itemTag.Contains("durability="))
                 {
