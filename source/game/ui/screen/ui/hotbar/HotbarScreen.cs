@@ -97,9 +97,10 @@ namespace SeeloewenCraft.game.ui
             TextRenderer.End();
 
             PrimitiveRenderer.Begin();
-            foreach (HotbarSlot slot in slots)
+            
+            foreach (HotbarSlot slot in slots) //Durablity renderer
             {
-                if(slot.slot.Amount == 0)
+                if(slot.slot.IsEmpty() || slot.slot.itemTag == null)
                 {
                     continue;
                 }
