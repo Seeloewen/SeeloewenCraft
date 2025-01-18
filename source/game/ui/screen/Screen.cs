@@ -23,6 +23,7 @@ namespace SeeloewenCraft.game.ui
         public static void Init()
         {
             EscapeMenuScreen.Init();
+            InventoryScreen.Init();
         }
 
 
@@ -51,6 +52,10 @@ namespace SeeloewenCraft.game.ui
             {
                 showDebugMenu = !showDebugMenu;
             }
+            else if (KeyBinds.checkPressedFirst(KeyBinds.SHOW_INV))
+            {
+                showInventory = !showInventory;
+            }
         }
 
         internal static void Render()
@@ -65,6 +70,10 @@ namespace SeeloewenCraft.game.ui
 
                 DebugMenu.Render();
 
+            }
+            if (showInventory)
+            {
+                InventoryScreen.Render();
             }
             if (showEscapeMenu)
             {
