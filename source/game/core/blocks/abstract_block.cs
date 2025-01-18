@@ -999,64 +999,10 @@ namespace SeeloewenCraft
         {
             breakProgress = 0;
             breaking = true;
-
-            /*/Stop possible hammer process
-            tmrHammer.Stop();
-
-            //If the block is in range, check if it has a foreground block or not and check if that block is breakable before starting the break animation
-            if (IsInRange())
-            {
-                if (foregroundBlock != null)
-                {
-                    if (foregroundBlock.isBreakable)
-                    {
-                        if (Game.world.gamemode == Gamemode.Creative || foregroundBlock.breakTime == 0)
-                        {
-                            Game.world.clickHandler.DoLeftClick(this);
-                        }
-                        else
-                        {
-                            //Default breakpower to 1. If the right tool is selected, apply that breakpower
-                            double breakPower = 1;
-                            if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && foregroundBlock.effectiveTool == tool.type && ToolIsCorrectMaterial(tool.material))
-                            {
-                                breakPower = tool.breakPower;
-                            }
-
-                            tmrBreak.Interval = (int)(foregroundBlock.breakTime / breakPower);
-                            tmrBreak.Start();
-                        }
-                    }
-                }
-                else
-                {
-                    if (isBreakable)
-                    {
-                        if (Game.world.gamemode == Gamemode.Creative || breakTime == 0)
-                        {
-                            Game.world.clickHandler.DoLeftClick(this);
-                        }
-                        else
-                        {
-                            //Default breakpower to 1. If the right tool is selected, apply that breakpower
-                            double breakPower = 1;
-                            if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && effectiveTool == tool.type && ToolIsCorrectMaterial(tool.material))
-                            {
-                                breakPower = tool.breakPower;
-                            }
-
-                            tmrBreak.Interval = (int)(breakTime / breakPower);
-                            tmrBreak.Start();
-                        }
-                    }
-                }
-            }*/
-
         }
 
         public void HandleMouseLeftUp()
         {
-            //Stop a possible block modification progress
             breaking = false;
         }
 
@@ -1067,6 +1013,10 @@ namespace SeeloewenCraft
             if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == Tool.Hammer)
             {
                 hammering = true;
+            }
+            else
+            {
+                Game.world.clickHandler.DoRightClick(this);
             }
         }
 
