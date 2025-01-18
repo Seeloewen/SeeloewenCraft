@@ -171,7 +171,7 @@ namespace SeeloewenCraft
         {
             foreach (Block block in newBlocks)
             {
-                if (block != null && block.yPos > 0 && block.yPos < 76)
+                if (block != null && block.chunk != null && block.yPos > 0 && block.yPos < 76)
                 {
                     //Check if a new water blocks needs to be placed or a block needs to be removed
                     if (block.tags.Contains("liquids/water"))
@@ -247,6 +247,8 @@ namespace SeeloewenCraft
 
         private void SetSourceBlock(Block currentBlock, Block newBlock)
         {
+            if (currentBlock == null || currentBlock.chunk == null) return;
+
             //If the block at the location is a background block
             if (currentBlock.isBackground && currentBlock.GetForegroundBlock() != null)
             {
@@ -264,7 +266,7 @@ namespace SeeloewenCraft
             newBlock.hasWaterSource = true;
             newBlock.waterSourceXPos = currentBlock.xPos;
             newBlock.waterSourceYPos = currentBlock.yPos;
-            //newBlock.waterSourceChunkIndex = currentBlock.chunk.index;
+            newBlock.waterSourceChunkIndex = currentBlock.chunk.index;
         }
     }
 }
