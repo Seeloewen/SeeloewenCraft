@@ -10,7 +10,7 @@ namespace SeeloewenCraft.game.ui
 
         public static Block targetedBlock = null;
 
-        public static void Update()
+        public static void Update() //💀💀💀
         {
             float mouseX = InputHandler.mouseXScreen;
             float mouseY = InputHandler.mouseYScreen;
@@ -31,8 +31,8 @@ namespace SeeloewenCraft.game.ui
                 }
                 else if (pressedRight)
                 {
-                    if (targetedBlock != null) targetedBlock.HandleMouseLeftUp();
-                    if (block != null) block.HandleMouseLeftDown();
+                    if (targetedBlock != null) targetedBlock.HandleMouseRightUp();
+                    if (block != null) block.HandleMouseRightDown();
                 }
                 DebugMenu.NewTargeted(block);
                 targetedBlock = block;

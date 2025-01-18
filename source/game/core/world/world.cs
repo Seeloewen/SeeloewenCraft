@@ -440,18 +440,8 @@ namespace SeeloewenCraft
                 player.inventory = new Inventory(9, 4, true);
                 player.inventory.InitHotbar();
                 player.inventory.AddItem("sc:diamond_scythe_item", 1, "durability=507");
-                player.inventory.AddItem("sc:carrot_item", 64, "");
-                player.inventory.AddItem("sc:lantern_item", 64, "");
-                player.inventory.AddItem("sc:pumpkin_item", 64, "");
-                player.inventory.AddItem("sc:tomato_item", 64, "");
-                player.inventory.AddItem("sc:pumpkin_seeds_item", 64, "");
-                player.inventory.AddItem("sc:seehundium_item", 64, "");
-                player.inventory.AddItem("sc:salad_item", 64, "");
-                player.inventory.AddItem("sc:potato_item", 64, "");
-                player.inventory.AddItem("sc:cucumber_item", 64, "");
-                player.inventory.AddItem("sc:bucket_rice_item", 64, "");
-                player.inventory.AddItem("sc:cabbage_item", 64, "");
-                player.inventory.AddItem("sc:cabbage_seeds_item", 64, "");
+                player.inventory.AddItem("sc:diamond_hammer_item", 1, "durability=507");
+                player.inventory.AddItem("sc:dirt_item", 64, "");
             }
 
             player.inventory.UpdateHotbar();
@@ -680,11 +670,14 @@ namespace SeeloewenCraft
 
             Screen.Update();
 
-            foreach(Chunk chunk in loadedChunkList)
+            if(blockUpdate)
             {
-                foreach(Block block in chunk.blockList.blocks)
+                foreach (Chunk chunk in loadedChunkList)
                 {
-                    block.DoUpdate();
+                    foreach (Block block in chunk.blockList.blocks)
+                    {
+                        block.DoUpdate();
+                    }
                 }
             }
 

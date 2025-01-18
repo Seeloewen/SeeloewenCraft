@@ -1,10 +1,4 @@
-﻿
-
-
-using GameCamera = SeeloewenCraft.gl_rendering.GameCamera;
-using Resolution = SeeloewenCraft.gl_rendering.Resolution;
-
-namespace SeeloewenCraft.game.ui
+﻿namespace SeeloewenCraft.game.ui
 {
     internal static class BlockRenderer
     {
@@ -16,7 +10,8 @@ namespace SeeloewenCraft.game.ui
             if (info.hasForegroundBlock) DrawBlock(info.GetForegroundTextureID(), info.x, info.y, false);
             if(info.breakAnimation > 0)
             {
-                string id = $"sc:break_animation_{info.breakAnimation}";
+                string type = info.hammering ? "hammer" : "break";
+                string id = $"sc:{type}_animation_{info.breakAnimation}";
                 DrawBlock(id, info.x, info.y, false);
             }
 

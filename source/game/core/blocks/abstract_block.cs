@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using SeeloewenCraft.game.ui;
 using OpenTK.Graphics.OpenGL4;
 using System.Diagnostics;
+using Windows.Networking.Vpn;
 
 namespace SeeloewenCraft
 {
@@ -40,7 +41,7 @@ namespace SeeloewenCraft
         public bool hasRightClickAction = false;
         public bool dropsOnWrongTool = true;
         public int breakTime = 150;
-        public int breakTimeTicks { get => breakTime / 20; }
+        public int breakTimeTicks { get => breakTime * 12 / 100; }
         public List<(string id, int min, int max)> drops = new List<(string, int, int)>(); //Can be empty, means that item id will drop
         public Collision collision;
         public Tool effectiveTool;
@@ -62,8 +63,9 @@ namespace SeeloewenCraft
         public int yOffset;
         public string state = "";
         public bool breaking;
-        public int breakProgress;
-        bool mouseLeftDown;
+        public double breakProgress;
+        public bool hammering;
+        public int hammerProgress;
 
         //Water
         public int waterLevel = 0; //constant depending on block type
@@ -91,23 +93,22 @@ namespace SeeloewenCraft
 
         public void DoUpdate()
         {
-            if(breaking)
+            if (breaking)
             {
-                int power = 1;
-                //if(Game.world.player.inventory.GetSelectedItem() is ToolItem item)
-                breakProgress -= power;
-                if (breakProgress <= 0) BreakBlock(false, false, true);
+                hammering = false;
+                UpdateBreaking();
+            }
+            else if (hammering)
+            {
+                breaking = false;
+                UpdateHammering();
             }
         }
 
         public BlockRenderInfo GetBlockRenderInfo()
         {
-            if (this is FurnaceBlock) // wtf is this code
-            {
-                Debug.Assert(false);
-            }
-            int breakAnimation = breaking ? 5-(5 * breakProgress) / breakTime : 0;
-            var info = new BlockRenderInfo(xPos + chunk.index * 8, yPos, id, state, isBackground, breakAnimation);
+            int breakAnimation = (int)(breaking || hammering ? (6 * breakProgress) / breakTimeTicks : 0);
+            var info = new BlockRenderInfo(xPos + chunk.index * 8, yPos, id, state, isBackground, breakAnimation, hammering);
             if (foregroundBlock != null) info.AddForegroundBlock(foregroundBlock.id, foregroundBlock.state);
             return info;
         }
@@ -784,7 +785,7 @@ namespace SeeloewenCraft
             block.chunk = chunk;
 
         }
-        
+
 
         public void InsertLootTable(LootTable lootTable, int amount)
         {
@@ -990,133 +991,105 @@ namespace SeeloewenCraft
 
         public void HandleMouseLeave()
         {
-            //Stop a possible block modification progress
-            //tmrBreak.Stop();
-            //tmrHammer.Stop();
-
+            hammering = false;
+            breaking = false;
         }
 
         public void HandleMouseLeftDown()
         {
-            breakProgress = (int)(breakTime);
+            breakProgress = 0;
             breaking = true;
-
-            /*/Stop possible hammer process
-            tmrHammer.Stop();
-
-            //If the block is in range, check if it has a foreground block or not and check if that block is breakable before starting the break animation
-            if (IsInRange())
-            {
-                if (foregroundBlock != null)
-                {
-                    if (foregroundBlock.isBreakable)
-                    {
-                        if (Game.world.gamemode == Gamemode.Creative || foregroundBlock.breakTime == 0)
-                        {
-                            Game.world.clickHandler.DoLeftClick(this);
-                        }
-                        else
-                        {
-                            //Default breakpower to 1. If the right tool is selected, apply that breakpower
-                            double breakPower = 1;
-                            if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && foregroundBlock.effectiveTool == tool.type && ToolIsCorrectMaterial(tool.material))
-                            {
-                                breakPower = tool.breakPower;
-                            }
-
-                            tmrBreak.Interval = (int)(foregroundBlock.breakTime / breakPower);
-                            tmrBreak.Start();
-                        }
-                    }
-                }
-                else
-                {
-                    if (isBreakable)
-                    {
-                        if (Game.world.gamemode == Gamemode.Creative || breakTime == 0)
-                        {
-                            Game.world.clickHandler.DoLeftClick(this);
-                        }
-                        else
-                        {
-                            //Default breakpower to 1. If the right tool is selected, apply that breakpower
-                            double breakPower = 1;
-                            if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && effectiveTool == tool.type && ToolIsCorrectMaterial(tool.material))
-                            {
-                                breakPower = tool.breakPower;
-                            }
-
-                            tmrBreak.Interval = (int)(breakTime / breakPower);
-                            tmrBreak.Start();
-                        }
-                    }
-                }
-            }*/
-
         }
 
         public void HandleMouseLeftUp()
         {
-            //Stop a possible block modification progress
             breaking = false;
         }
 
         public void HandleMouseRightDown()
         {
-            /*/Stop possible breaking process
-            tmrBreak.Stop();
+            breakProgress = 0;
 
-            if (Game.world.player.inventory.GetSelectedItem() != null && Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == Tool.Hammer)
+            if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == Tool.Hammer)
             {
-                //If the player holds a hammer, is in gamemode survival, the block is in range and doesn't have a foreground block
-                if (Game.world.gamemode == Gamemode.Survival && IsInRange() && foregroundBlock == null && canBeMovedToBackground)
-                {
-                    //Get the break power from the selected tool
-                    double breakPower = tool.breakPower;
-
-                    //Start the timer for the hammer
-                    tmrHammer.Interval = (int)(breakTime / breakPower); //TO-DO: Include tool efficiency
-                    tmrHammer.Start();
-                    return;
-                }
+                hammering = true;
             }
-
-            //If all of the checks above fail, handle it the normal way
-            Game.world.clickHandler.DoRightClick(this);*/
+            else
+            {
+                Game.world.clickHandler.DoRightClick(this);
+            }
         }
 
         public void HandleMouseRightUp()
         {
-            //Stop a possible block modification progress
+            hammering = false;
         }
 
+        private void UpdateBreaking()
+        {
+            if (!IsInRange() || !isBreakable) return;
 
-        private void tmrBreak_Tick(object sender, EventArgs e)
-        { }//TODO
+            Block effectiveBlock = foregroundBlock ?? this; //The block which the break get's performed on
 
-        private void tmrHammer_Tick(object sender, EventArgs e)
-        {//TODO
+            if (Game.world.gamemode == Gamemode.Creative || breakTime == 0)
+            {
+                //Instantly perform the break when in creative or when time is 0
+                Game.world.clickHandler.DoLeftClick(this);
+            }
+            else
+            {
+                //Default breakpower to 1. If the right tool is selected, apply that breakpower
+                double breakPower = 1;
+                if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && effectiveBlock.effectiveTool == tool.type && effectiveBlock.ToolIsCorrectMaterial(tool.material))
+                {
+                    breakPower = tool.breakPower == 0 ? 1 : tool.breakPower;
+                }
+
+                effectiveBlock.breakProgress += 1 * breakPower;
+
+                if (effectiveBlock.breakProgress >= effectiveBlock.breakTimeTicks) Game.world.clickHandler.DoLeftClick(effectiveBlock);
+            }
+        }
+
+        public void UpdateHammering()
+        {
+            if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == Tool.Hammer)
+            {
+                //If the player holds a hammer, is in gamemode survival, the block is in range and doesn't have a foreground block
+                if (IsInRange() && foregroundBlock == null && canBeMovedToBackground)
+                {
+                    //Get the break power from the selected tool
+                    double breakPower = tool.breakPower == 0 ? 1 : tool.breakPower;
+                    breakProgress += 1 * breakPower;
+
+                    if (breakProgress >= breakTimeTicks || Game.world.gamemode == Gamemode.Creative)
+                    {
+                        Game.world.clickHandler.DoRightClick(this);
+                        hammering = false;
+                    }
+                }
+            }
         }
 
     }
 
     public enum Tool
-{
-    Pickaxe,
-    Axe,
-    Shovel,
-    Scythe,
-    Sword,
-    Hammer,
-    None
-}
+    {
+        Pickaxe,
+        Axe,
+        Shovel,
+        Scythe,
+        Sword,
+        Hammer,
+        None
+    }
 
-public enum Material
-{
-    Wood,
-    Stone,
-    Tin,
-    Iron,
-    Diamond
-}
+    public enum Material
+    {
+        Wood,
+        Stone,
+        Tin,
+        Iron,
+        Diamond
+    }
 }
