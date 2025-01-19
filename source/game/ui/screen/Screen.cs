@@ -40,6 +40,10 @@ namespace SeeloewenCraft.game.ui
             {
                 EscapeMenuScreen.Update();
             }
+            if (showInventory)
+            {
+                InventoryScreen.Update();
+            }
         }
 
         static void HandleInputs()

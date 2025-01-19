@@ -15,6 +15,6 @@ namespace SeeloewenCraft.game.ui
         internal const int slotSize = 70;
         internal const int edgeSize = 5;
 
-
+        internal const int yOffset = 300;
     }
 }
