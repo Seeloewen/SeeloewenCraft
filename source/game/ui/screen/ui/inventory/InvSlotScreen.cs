@@ -21,7 +21,7 @@ namespace SeeloewenCraft.game.ui
         internal int amount;
 
         internal bool hovered;
-
+        internal bool pressed;
 
 
         internal InvSlotScreen(int x, int y)
@@ -43,23 +43,30 @@ namespace SeeloewenCraft.game.ui
 
         internal void RenderBack()
         {
-            /*int x1 = InvSizes.mx - (InvSizes.slotSize*4+InvSizes.slotSize/2+4*InvSizes.edgeSize) + xIndex*(InvSizes.slotSize + InvSizes.edgeSize);
-            int y1 = InvSizes.my - (InvSizes.yOffset) +yIndex* (InvSizes.slotSize + InvSizes.edgeSize);
-            if (yIndex == 3) y1 += InvSizes.edgeSize;
-            int x2 = x1 + InvSizes.slotSize;
-            int y2 = y1 + InvSizes.slotSize;
-            */
 
-            ColorI color = hovered
+            ColorI color = pressed 
+                ? new ColorI(0.9f, 0.9f, 0.9f)
+                : hovered
                 ? new ColorI(0.8f, 0.8f, 0.8f)
-                : new ColorI(0.9f, 0.9f, 0.9f);
+                : new ColorI(0.7f, 0.7f, 0.7f);
 
             PrimitiveRenderer.DrawRectangle(
                 new Rectangle(xPixel, yPixel, xPixel+InvSizes.slotSize, yPixel+InvSizes.slotSize),
                 color);
         }
 
+        internal void RenderMid()
+        {
+            var slot = Game.world.player.inventory.GetSlot(xIndex, yIndex);
+            string itemID = slot.itemId;
+            int amount = slot.Amount;
 
+            if(itemID != null) ItemRenderer.Draw(itemID,
+                xPixel+InvSizes.edgeSize, 
+                yPixel + InvSizes.edgeSize, 
+                xPixel + InvSizes.slotSize - InvSizes.edgeSize,
+                yPixel + InvSizes.slotSize - InvSizes.edgeSize);
+        }
 
     }
 }

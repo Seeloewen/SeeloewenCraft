@@ -173,6 +173,11 @@ namespace SeeloewenCraft
         }
 
 
+        public static void WriteD(string msg)
+        {
+            Write(msg, LogType.GENERAL, LogLevel.WARNING);
+        }
+
         public static void Write(string message, LogType type, LogLevel level)
         {
             if (!LogTypeEnabled(type))

@@ -71,7 +71,7 @@ namespace SeeloewenCraft.game.ui
             writer.WritePropertyName("move_left");
             writer.WriteValue(moveLeft);
 
-            writer.WritePropertyName("show_inv");
+            writer.WritePropertyName("show_inventory");
             writer.WriteValue(showInv);
 
             writer.WritePropertyName("toggle_debug");
@@ -101,7 +101,7 @@ namespace SeeloewenCraft.game.ui
 
             Enum.TryParse(token.GetString("/move_right"), out Keys moveRight);
             Enum.TryParse(token.GetString("/move_left"), out Keys moveLeft);
-            Enum.TryParse(token.GetString("/show_inv"), out Keys showInv);
+            Enum.TryParse(token.GetString("/show_inventory"), out Keys showInv);
             Enum.TryParse(token.GetString("/toggle_debug"), out Keys toggleDebug);
             Enum.TryParse(token.GetString("/jump"), out Keys jump);
             Enum.TryParse(token.GetString("/show_notification_list"), out Keys showNotificationList);

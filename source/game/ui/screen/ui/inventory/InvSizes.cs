@@ -9,12 +9,12 @@ namespace SeeloewenCraft.game.ui
     internal static class InvSizes
     {
 
-        internal const int mx = 640;
-        internal const int my = 360;
+        internal static int mx { get => Resolution.WIDTH / 2; }
+        internal static int my { get => Resolution.HEIGHT / 2; }
 
         internal const int slotSize = 70;
         internal const int edgeSize = 5;
 
-        internal const int yOffset = 300;
+        internal const int yOffset = 150;
     }
 }

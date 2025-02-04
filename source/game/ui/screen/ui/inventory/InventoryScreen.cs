@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Windows.Devices.Geolocation;
+﻿
 
 namespace SeeloewenCraft.game.ui
 {
@@ -13,6 +7,8 @@ namespace SeeloewenCraft.game.ui
         static Inventory inventory { get => Game.world.player.inventory; }
 
         static InvSlotScreen[] slotScreens;
+        //static InvSlotScreen currentSlot { get => slotScreens[currentSlotIndex]; }
+
 
         static bool itemSelected;
         static string selectedItemID;
@@ -30,6 +26,8 @@ namespace SeeloewenCraft.game.ui
         static int mouseY;
         static int currentSlotIndex;
 
+        static bool notPressedOnCurrentSlot;
+
         internal static void Update()
         {
             #region pressed updates
@@ -37,6 +35,7 @@ namespace SeeloewenCraft.game.ui
             unpressedNewLeft = false;
             pressedNewRight = false;
             unpressedNewRight = false;
+            if(!pressedLeft ) notPressedOnCurrentSlot = true;
             if (pressedLeft != InputHandler.pressedLeft)
             {
                 if (pressedLeft)
@@ -47,7 +46,7 @@ namespace SeeloewenCraft.game.ui
                 else
                 {
                     pressedLeft = false;
-                    unpressedNewLeft = false;
+                    unpressedNewLeft = true;
                 }
             }
             if (pressedRight != InputHandler.pressedRight)
@@ -87,6 +86,7 @@ namespace SeeloewenCraft.game.ui
                         if (slotScreens[i].IsInBounds(mouseX, mouseY))
                         {
                             enteredSlot = true;
+                            notPressedOnCurrentSlot = false;
                             newSlotIndex = i;
                             currentSlotIndex = i;
                             break;
@@ -96,6 +96,8 @@ namespace SeeloewenCraft.game.ui
             }
             #endregion
 
+            if (pressedNewLeft) Log.WriteD("pressedNewLeft");
+            if (pressedNewRight) Log.WriteD("pressednewRight");
 
             if (leftSlot)
             {
@@ -106,6 +108,17 @@ namespace SeeloewenCraft.game.ui
                 slotScreens[newSlotIndex].hovered = true;
             }
             
+            if(pressedNewLeft)
+            {
+                if (notPressedOnCurrentSlot)
+                {
+                    currentSlot.pressed = true;
+                }
+            }
+            if(unpressedNewLeft)
+            {
+                if(currentSlotIndex == -1) currentSlot.pressed = false;
+            }
 
         }
 
@@ -127,16 +140,16 @@ namespace SeeloewenCraft.game.ui
         {
             PrimitiveRenderer.Begin();
 
-            (int mx, int my) = Resolution.ScreenToPixel(0f, 0f);
+            
 
             //int sizeX = 600, sizeY = 400;
 
-            var background = new Rectangle(mx - InvSizes.slotSize * 4 - InvSizes.slotSize / 2 - 5 * InvSizes.edgeSize,
-                my - InvSizes.yOffset - InvSizes.edgeSize,
-                mx + InvSizes.slotSize * 4 + InvSizes.slotSize / 2 + 5 * InvSizes.edgeSize,
-                my - InvSizes.yOffset + InvSizes.slotSize * 4 + InvSizes.edgeSize * 5);
+            var background = new Rectangle(InvSizes.mx - InvSizes.slotSize * 4 - InvSizes.slotSize / 2 - 5 * InvSizes.edgeSize,
+                InvSizes.my - InvSizes.yOffset - InvSizes.edgeSize,
+                InvSizes.mx + InvSizes.slotSize * 4 + InvSizes.slotSize / 2 + 5 * InvSizes.edgeSize,
+                InvSizes.my - InvSizes.yOffset + InvSizes.slotSize * 4 + InvSizes.edgeSize * 5);
 
-            PrimitiveRenderer.DrawRectangle(background, new ColorI(0.4f, 0.4f, 0.4f));
+            PrimitiveRenderer.DrawRectangle(background, new ColorI(0.3f, 0.3f, 0.3f));
 
             for (int i = 0; i < 4 * 9; i++)
             {
@@ -145,6 +158,14 @@ namespace SeeloewenCraft.game.ui
 
             PrimitiveRenderer.End();
 
+            TextureRenderer.Begin();
+
+            for (int i = 0; i < 4 * 9; i++)
+            {
+                slotScreens[i].RenderMid();
+            }
+
+            TextureRenderer.End();
 
         }
 
