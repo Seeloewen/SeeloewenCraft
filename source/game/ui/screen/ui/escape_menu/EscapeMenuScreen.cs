@@ -6,12 +6,12 @@ namespace SeeloewenCraft.game.ui
     internal class EscapeMenuScreen
     {
 
-        static Button[] buttons;
+        static Button_old[] buttons;
 
 
         internal static void Init()
         {
-            buttons = new Button[4];
+            buttons = new Button_old[4];
             int mx = Resolution.WIDTH / 2;
             int my = Resolution.HEIGHT / 2;
 
@@ -33,7 +33,7 @@ namespace SeeloewenCraft.game.ui
 
             for (int i = 0; i < 4; i++)
             {
-                buttons[i] = new Button(actions[i], texts[i],
+                buttons[i] = new Button_old(actions[i], texts[i],
                     mx - w / 2,
                     top + i * (h + gap),
                     mx + w / 2,
@@ -45,7 +45,7 @@ namespace SeeloewenCraft.game.ui
 
         internal static void Update()
         {
-            foreach (Button button in buttons)
+            foreach (Button_old button in buttons)
             {
                 button.Update();
             }
@@ -57,7 +57,7 @@ namespace SeeloewenCraft.game.ui
             PrimitiveRenderer.DrawRectangle(-1f, -1f, 1f, 1f, 0f, 0f, 0f, .5f);
             PrimitiveRenderer.End();
 
-            foreach (Button b in buttons)
+            foreach (Button_old b in buttons)
             {
                 b.Render();
             }

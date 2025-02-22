@@ -12,7 +12,7 @@ namespace SeeloewenCraft.game.ui
 
         static public (int, int) ScreenToPixel(float x, float y)
         {
-            return ((int)((x+1)*0.5*WIDTH),(int)((y+1)*0.5*HEIGHT));
+            return ((int)(0.5+(x+1)*0.5*WIDTH),(int)(0.5-(y-1)*0.5*HEIGHT));
         }
 
         static public (float x, float y) PixelToScreen(int x, int y)

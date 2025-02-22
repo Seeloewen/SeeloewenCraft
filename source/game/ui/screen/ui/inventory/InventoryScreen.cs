@@ -17,10 +17,6 @@ namespace SeeloewenCraft.game.ui
         static bool pressedLeft;
         static bool pressedRight;
 
-        static bool pressedNewLeft;
-        static bool unpressedNewLeft;
-        static bool pressedNewRight;
-        static bool unpressedNewRight;
 
         static int mouseX;
         static int mouseY;
@@ -31,10 +27,10 @@ namespace SeeloewenCraft.game.ui
         internal static void Update()
         {
             #region pressed updates
-            pressedNewLeft = false;
-            unpressedNewLeft = false;
-            pressedNewRight = false;
-            unpressedNewRight = false;
+            bool pressedNewLeft = false;
+            bool unpressedNewLeft = false;
+            bool pressedNewRight = false;
+            bool unpressedNewRight = false;
             if(!pressedLeft ) notPressedOnCurrentSlot = true;
             if (pressedLeft != InputHandler.pressedLeft)
             {
@@ -112,12 +108,12 @@ namespace SeeloewenCraft.game.ui
             {
                 if (notPressedOnCurrentSlot)
                 {
-                    currentSlot.pressed = true;
+                    slotScreens[currentSlotIndex].pressed = true;
                 }
             }
             if(unpressedNewLeft)
             {
-                if(currentSlotIndex == -1) currentSlot.pressed = false;
+                //if(currentSlotIndex == -1) slotScreens[currentSlotIndex].pressed = false; why tf doesnt this work??
             }
 
         }
@@ -149,7 +145,7 @@ namespace SeeloewenCraft.game.ui
                 InvSizes.mx + InvSizes.slotSize * 4 + InvSizes.slotSize / 2 + 5 * InvSizes.edgeSize,
                 InvSizes.my - InvSizes.yOffset + InvSizes.slotSize * 4 + InvSizes.edgeSize * 5);
 
-            PrimitiveRenderer.DrawRectangle(background, new ColorI(0.3f, 0.3f, 0.3f));
+            PrimitiveRenderer.DrawRectangle(background, new Color(0.3f, 0.3f, 0.3f));
 
             for (int i = 0; i < 4 * 9; i++)
             {

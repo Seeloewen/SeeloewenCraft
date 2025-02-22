@@ -5,7 +5,7 @@ using SeeloewenCraft.game.ui;
 namespace SeeloewenCraft.game.ui
 {
     
-    struct Rectangle
+    public struct Rectangle
     {
         public float x1;
         public float y1;
@@ -26,20 +26,28 @@ namespace SeeloewenCraft.game.ui
             this.y2 = y2;
         }
 
+        public bool isInBounds(int xPixel, int yPixel)
+        {
+            (float x, float y) = Resolution.PixelToScreen(xPixel, yPixel);
+            return x >= x1 && x < x2 
+                && ((y >= y1 && y < y2)
+                || (y >= y2 && y < y1));
+        }
+
     }
 
-    struct ColorI
+    public struct Color
     {
         public float r, g, b, a;
 
-        public ColorI(float r, float g, float b)
+        public Color(float r, float g, float b)
         {
             this.r = r;
             this.g = g;
             this.b = b;
             this.a = 1.0f;
         }
-        public ColorI(float r, float g, float b, float a)
+        public Color(float r, float g, float b, float a)
         {
             this.r = r;
             this.g = g;

@@ -41,7 +41,7 @@ namespace SeeloewenCraft.game.ui
             {
                 for (int y = 0; y < height; y++)
                 {
-                    Color c = bitmap.GetPixel(x, y);
+                    System.Drawing.Color c = bitmap.GetPixel(x, y);
                     int index = (x + y * width) * 4;
                     rawData[index] = c.R;
                     rawData[index + 1] = c.G;

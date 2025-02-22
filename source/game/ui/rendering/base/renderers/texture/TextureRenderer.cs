@@ -90,6 +90,7 @@ namespace SeeloewenCraft.game.ui
 
         internal static void Begin()
         {
+            Debug.Assert(!drawing);
             drawing = true;
             vertices = new float[1024];
             index = 0;
@@ -97,6 +98,7 @@ namespace SeeloewenCraft.game.ui
 
         internal static void End()
         {
+            Debug.Assert(drawing);
             drawing = false;
             buffer.SetVertices(vertices);
             buffer.Bind();

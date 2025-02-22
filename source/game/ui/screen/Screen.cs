@@ -1,5 +1,8 @@
 ﻿
 
+using SeeloewenCraft.game.ui.ui_lib;
+using Windows.Devices.PointOfService.Provider;
+
 namespace SeeloewenCraft.game.ui
 {
     internal static class Screen
@@ -16,7 +19,7 @@ namespace SeeloewenCraft.game.ui
         public static bool allowIngameInputs { get => !(showEscapeMenu || showIngameMenu || showInventory); }
 
 
-
+        static UIRoot escapeMenuUIRoot;
 
 
 
@@ -24,6 +27,7 @@ namespace SeeloewenCraft.game.ui
         {
             EscapeMenuScreen.Init();
             InventoryScreen.Init();
+            escapeMenuUIRoot = new UIRoot(() => new EscapeMenu());
         }
 
 
@@ -38,7 +42,7 @@ namespace SeeloewenCraft.game.ui
             }
             if (showEscapeMenu)
             {
-                EscapeMenuScreen.Update();
+                escapeMenuUIRoot.Update();
             }
             if (showInventory)
             {
@@ -51,6 +55,13 @@ namespace SeeloewenCraft.game.ui
             if (KeyBinds.checkPressedFirst(KeyBinds.OPEN_MENU))
             {
                 showEscapeMenu = !showEscapeMenu;
+                if(showEscapeMenu)
+                {
+                    escapeMenuUIRoot.Show();
+                } else
+                {
+                    escapeMenuUIRoot.Hide();
+                }
             }
             else if (KeyBinds.checkPressedFirst(KeyBinds.TOGGLE_DEBUG))
             {
@@ -81,7 +92,8 @@ namespace SeeloewenCraft.game.ui
             }
             if (showEscapeMenu)
             {
-                EscapeMenuScreen.Render();
+                //EscapeMenuScreen.Render();
+                escapeMenuUIRoot.Render();
             }
         }
 

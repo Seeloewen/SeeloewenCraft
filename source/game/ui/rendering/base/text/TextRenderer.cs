@@ -118,6 +118,7 @@ namespace SeeloewenCraft.game.ui
 
         static internal void Begin()
         {
+            Debug.Assert(!drawing);
             drawing = true;
             index = 0;
             vertices = new float[1024];
@@ -125,6 +126,7 @@ namespace SeeloewenCraft.game.ui
 
         static internal void End()
         {
+            Debug.Assert(drawing);
             drawing = false;
             vertexBuffer.SetVertices(vertices);
             vertexBuffer.Bind();

@@ -44,11 +44,11 @@ namespace SeeloewenCraft.game.ui
         internal void RenderBack()
         {
 
-            ColorI color = pressed 
-                ? new ColorI(0.9f, 0.9f, 0.9f)
+            Color color = pressed 
+                ? new Color(0.9f, 0.9f, 0.9f)
                 : hovered
-                ? new ColorI(0.8f, 0.8f, 0.8f)
-                : new ColorI(0.7f, 0.7f, 0.7f);
+                ? new Color(0.8f, 0.8f, 0.8f)
+                : new Color(0.7f, 0.7f, 0.7f);
 
             PrimitiveRenderer.DrawRectangle(
                 new Rectangle(xPixel, yPixel, xPixel+InvSizes.slotSize, yPixel+InvSizes.slotSize),
