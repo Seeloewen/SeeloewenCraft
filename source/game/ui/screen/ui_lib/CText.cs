@@ -24,8 +24,8 @@ namespace SeeloewenCraft.game.ui.ui_lib
             int width = TextRenderer.GetWidth(text, size);
             int height = size * 7;
 
-            (int x1, int y1) = Resolution.ScreenToPixel(bounds.x1, bounds.y1);
-            (int x2, int y2) = Resolution.ScreenToPixel(bounds.x2, bounds.y2);
+            (int x1, int y1) = Resolution.ScreenToPixel(bounds.x1S, bounds.y1S);
+            (int x2, int y2) = Resolution.ScreenToPixel(bounds.x2S, bounds.y2S);
 
             int centerX = (x1 + x2) / 2;
             int centerY = (y1 + y2) / 2;

@@ -25,8 +25,23 @@ namespace SeeloewenCraft.game.ui
 
         static internal void SetTexture(TextureMap textureMap)
         {
-            Debug.Assert(!drawing);
-            TextureRenderer.textureMap = textureMap;
+            //Debug.Assert(!drawing);
+            if (drawing && TextureRenderer.textureMap != textureMap) //TODO possible optimization: override equals to section id
+            {
+                End();
+                TextureRenderer.textureMap = textureMap;
+                Begin();
+            }
+            else
+            {
+                TextureRenderer.textureMap = textureMap;
+            }
+        }
+
+
+        static internal void Draw(string id, Rectangle bounds)
+        {
+            Draw(id, bounds.x1S, bounds.y1S, bounds.x2S, bounds.y2S);
         }
 
         static internal void Draw(string id, float x1, float y1, float x2, float y2, float g)

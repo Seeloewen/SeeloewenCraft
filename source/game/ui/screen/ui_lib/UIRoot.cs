@@ -62,7 +62,7 @@ namespace SeeloewenCraft.game.ui.ui_lib
         public void Update()
         {
             updateInput();
-
+            component.Update();
         }
 
 

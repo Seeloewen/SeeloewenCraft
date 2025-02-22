@@ -25,8 +25,8 @@ namespace SeeloewenCraft.game.ui.ui_lib
 
         protected override void OnRender()
         {
-            (int x1, int y1) = Resolution.ScreenToPixel(bounds.x1, bounds.y1);
-            (int x2, int y2) = Resolution.ScreenToPixel(bounds.x2, bounds.y2);
+            (int x1, int y1) = Resolution.ScreenToPixel(bounds.x1S, bounds.y1S);
+            (int x2, int y2) = Resolution.ScreenToPixel(bounds.x2S, bounds.y2S);
             Rectangle left = new Rectangle(x1, y1, x1 + size, y2);
             Rectangle right = new Rectangle(x2, y1, x2 - size, y2);
             Rectangle top = new Rectangle(x1, y1, x2, y1 + size);

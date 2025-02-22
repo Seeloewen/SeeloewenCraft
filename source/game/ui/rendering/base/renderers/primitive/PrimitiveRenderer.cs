@@ -26,10 +26,10 @@ namespace SeeloewenCraft.game.ui
 
         internal static void DrawRectangle(Rectangle rectangle, Color color)
         {
-            float x1 = rectangle.x1;
-            float y1 = rectangle.y1;
-            float x2 = rectangle.x2;
-            float y2 = rectangle.y2;
+            float x1 = rectangle.x1S;
+            float y1 = rectangle.y1S;
+            float x2 = rectangle.x2S;
+            float y2 = rectangle.y2S;
             float r = color.r;
             float g = color.g;
             float b = color.b;

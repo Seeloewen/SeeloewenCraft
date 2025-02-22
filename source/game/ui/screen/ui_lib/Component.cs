@@ -19,10 +19,17 @@ namespace SeeloewenCraft.game.ui.ui_lib
             children = new List<Component>();
         }
 
-        public void onUpdate()
+        public void Update()
         {
-
+            OnUpdate();
+            foreach (var c in children)
+            {
+                c.OnUpdate();
+            }
         }
+
+        protected virtual void OnUpdate() { }
+
 
 
         #region children/parent
@@ -72,10 +79,10 @@ namespace SeeloewenCraft.game.ui.ui_lib
 
         internal void cascadeInputEvent(InputEvent inputEvent)
         {
-            foreach(Component c in children)
+            foreach (Component c in children)
             {
                 c.cascadeInputEvent(inputEvent);
-                if(inputEvent.consumed)
+                if (inputEvent.consumed)
                 {
                     return;
                 }
@@ -105,7 +112,7 @@ namespace SeeloewenCraft.game.ui.ui_lib
             }
             else if (inputEvent is ClickEvent clickEvent)
             {
-                if(hovered) OnClickEvent(clickEvent);
+                if (hovered) OnClickEvent(clickEvent);
             }
 
 
@@ -143,7 +150,7 @@ namespace SeeloewenCraft.game.ui.ui_lib
 
         public Rectangle getBounds()
         {
-            return new Rectangle(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
+            return new Rectangle(bounds.x1S, bounds.y1S, bounds.x2S, bounds.y2S);
         }
 
         #endregion

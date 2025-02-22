@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace SeeloewenCraft.game.ui
 {
-    internal static class InvSizes
+    internal static class IS //TODO: rename to InvSizes after finished coding inventory ui
     {
 
         internal static int mx { get => Resolution.WIDTH / 2; }

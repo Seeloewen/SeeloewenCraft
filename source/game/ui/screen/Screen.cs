@@ -19,14 +19,15 @@ namespace SeeloewenCraft.game.ui
         public static bool allowIngameInputs { get => !(showEscapeMenu || showIngameMenu || showInventory); }
 
 
+        static UIRoot invUIRoot;
         static UIRoot escapeMenuUIRoot;
 
 
 
         public static void Init()
         {
-            EscapeMenuScreen.Init();
             InventoryScreen.Init();
+            invUIRoot = new UIRoot(() => new InvUI());
             escapeMenuUIRoot = new UIRoot(() => new EscapeMenu());
         }
 
@@ -46,7 +47,7 @@ namespace SeeloewenCraft.game.ui
             }
             if (showInventory)
             {
-                InventoryScreen.Update();
+                invUIRoot.Update();
             }
         }
 
@@ -55,10 +56,11 @@ namespace SeeloewenCraft.game.ui
             if (KeyBinds.checkPressedFirst(KeyBinds.OPEN_MENU))
             {
                 showEscapeMenu = !showEscapeMenu;
-                if(showEscapeMenu)
+                if (showEscapeMenu)
                 {
                     escapeMenuUIRoot.Show();
-                } else
+                }
+                else
                 {
                     escapeMenuUIRoot.Hide();
                 }
@@ -70,6 +72,14 @@ namespace SeeloewenCraft.game.ui
             else if (KeyBinds.checkPressedFirst(KeyBinds.SHOW_INV))
             {
                 showInventory = !showInventory;
+                if (showInventory)
+                {
+                    invUIRoot.Show();
+                }
+                else
+                {
+                    invUIRoot.Hide();
+                }
             }
         }
 
@@ -88,7 +98,7 @@ namespace SeeloewenCraft.game.ui
             }
             if (showInventory)
             {
-                InventoryScreen.Render();
+                invUIRoot.Render();
             }
             if (showEscapeMenu)
             {

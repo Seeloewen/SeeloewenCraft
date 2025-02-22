@@ -29,15 +29,15 @@ namespace SeeloewenCraft.game.ui
             this.xIndex = x;
             this.yIndex = y;
 
-            xPixel = InvSizes.mx - (InvSizes.slotSize * 4 + InvSizes.slotSize / 2 + 4 * InvSizes.edgeSize) + xIndex * (InvSizes.slotSize + InvSizes.edgeSize);
-            yPixel = InvSizes.my - (InvSizes.yOffset) + yIndex * (InvSizes.slotSize + InvSizes.edgeSize);
-            if (yIndex == 3) yPixel += InvSizes.edgeSize;
+            xPixel = IS.mx - (IS.slotSize * 4 + IS.slotSize / 2 + 4 * IS.edgeSize) + xIndex * (IS.slotSize + IS.edgeSize);
+            yPixel = IS.my - (IS.yOffset) + yIndex * (IS.slotSize + IS.edgeSize);
+            if (yIndex == 3) yPixel += IS.edgeSize;
         }
 
 
         internal bool IsInBounds(int x, int y)
         {
-            return x >= xPixel && y >= yPixel && x < xPixel + InvSizes.slotSize && y < yPixel + InvSizes.slotSize;
+            return x >= xPixel && y >= yPixel && x < xPixel + IS.slotSize && y < yPixel + IS.slotSize;
         }
 
 
@@ -51,7 +51,7 @@ namespace SeeloewenCraft.game.ui
                 : new Color(0.7f, 0.7f, 0.7f);
 
             PrimitiveRenderer.DrawRectangle(
-                new Rectangle(xPixel, yPixel, xPixel+InvSizes.slotSize, yPixel+InvSizes.slotSize),
+                new Rectangle(xPixel, yPixel, xPixel+IS.slotSize, yPixel+IS.slotSize),
                 color);
         }
 
@@ -62,10 +62,10 @@ namespace SeeloewenCraft.game.ui
             int amount = slot.Amount;
 
             if(itemID != null) ItemRenderer.Draw(itemID,
-                xPixel+InvSizes.edgeSize, 
-                yPixel + InvSizes.edgeSize, 
-                xPixel + InvSizes.slotSize - InvSizes.edgeSize,
-                yPixel + InvSizes.slotSize - InvSizes.edgeSize);
+                xPixel+IS.edgeSize, 
+                yPixel + IS.edgeSize, 
+                xPixel + IS.slotSize - IS.edgeSize,
+                yPixel + IS.slotSize - IS.edgeSize);
         }
 
     }

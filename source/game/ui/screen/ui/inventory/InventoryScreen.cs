@@ -140,10 +140,10 @@ namespace SeeloewenCraft.game.ui
 
             //int sizeX = 600, sizeY = 400;
 
-            var background = new Rectangle(InvSizes.mx - InvSizes.slotSize * 4 - InvSizes.slotSize / 2 - 5 * InvSizes.edgeSize,
-                InvSizes.my - InvSizes.yOffset - InvSizes.edgeSize,
-                InvSizes.mx + InvSizes.slotSize * 4 + InvSizes.slotSize / 2 + 5 * InvSizes.edgeSize,
-                InvSizes.my - InvSizes.yOffset + InvSizes.slotSize * 4 + InvSizes.edgeSize * 5);
+            var background = new Rectangle(IS.mx - IS.slotSize * 4 - IS.slotSize / 2 - 5 * IS.edgeSize,
+                IS.my - IS.yOffset - IS.edgeSize,
+                IS.mx + IS.slotSize * 4 + IS.slotSize / 2 + 5 * IS.edgeSize,
+                IS.my - IS.yOffset + IS.slotSize * 4 + IS.edgeSize * 5);
 
             PrimitiveRenderer.DrawRectangle(background, new Color(0.3f, 0.3f, 0.3f));
 

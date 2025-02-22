@@ -25,7 +25,6 @@ namespace SeeloewenCraft.gl_rendering
 
         public static void Init()
         {
-            EscapeMenuScreen.Init();
         }
 
 
@@ -36,10 +35,6 @@ namespace SeeloewenCraft.gl_rendering
             if (showGameOverlay)
             {
                 GameScreen.Update();
-            }
-            if(showEscapeMenu)
-            {
-                EscapeMenuScreen.Update();
             }
         }
 
@@ -72,10 +67,6 @@ namespace SeeloewenCraft.gl_rendering
 
                 primitiveRenderer.End();
                 textRenderer.End();
-            }
-            if (showEscapeMenu)
-            {
-                EscapeMenuScreen.Render();
             }
         }
 

@@ -30,7 +30,10 @@ namespace SeeloewenCraft.game.ui
             TextureRenderer.Draw(itemID, s1, t1, s2, t2, 1f);
         }
 
-
+        static internal TextureMap getTextureMap()
+        {
+            return textureMap;
+        }
 
     }
 }
