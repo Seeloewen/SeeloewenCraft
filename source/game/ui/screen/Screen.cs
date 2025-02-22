@@ -72,6 +72,7 @@ namespace SeeloewenCraft.game.ui
             else if (KeyBinds.checkPressedFirst(KeyBinds.SHOW_INV))
             {
                 showInventory = !showInventory;
+                showGameOverlay = !showInventory;
                 if (showInventory)
                 {
                     invUIRoot.Show();

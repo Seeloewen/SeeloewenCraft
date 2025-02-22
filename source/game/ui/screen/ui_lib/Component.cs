@@ -95,7 +95,7 @@ namespace SeeloewenCraft.game.ui.ui_lib
         {
             if (inputEvent is MouseMoveEvent mouseMoveEvent)
             {
-                if (hovered != bounds.isInBounds(mouseMoveEvent.x, mouseMoveEvent.y))
+                if (hovered != bounds.IsInBounds(mouseMoveEvent.x, mouseMoveEvent.y))
                 {
                     hovered = !hovered;
                     if (hovered)

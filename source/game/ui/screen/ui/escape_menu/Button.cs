@@ -28,7 +28,9 @@ namespace SeeloewenCraft.game.ui
             this.pressedColor = pressedColor;
 
             AddChild(new CBorder(3, new Color(0f, 0f, 0f)));
-            AddChild(new CText(text, 3));
+            (int centerX, int centerY) = bounds.GetCenter();
+            TextLayout layout = new TextLayout(centerX, TextHAlignment.CENTER, centerY, TextVAlignment.CENTER);
+            AddChild(new CText(text, 3, layout));
         }
 
 

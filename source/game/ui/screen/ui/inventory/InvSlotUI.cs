@@ -15,7 +15,7 @@ namespace SeeloewenCraft.game.ui
 
 
         CTexture cTexture;
-
+        CText cAmountLabel;
 
         int x;
         int y;
@@ -34,6 +34,10 @@ namespace SeeloewenCraft.game.ui
             cTexture = new CTexture(map, itemID, texBounds);
             AddChild(cTexture);
 
+            TextLayout layout = new TextLayout(bounds.x2P - 8, TextHAlignment.RIGHT, bounds.y2P - 8, TextVAlignment.BOTTOM);
+            cAmountLabel = new CText("69", 2, layout);
+            AddChild(cAmountLabel);
+
         }
 
         protected override void OnUpdate()
@@ -41,7 +45,7 @@ namespace SeeloewenCraft.game.ui
             itemID = Game.world.player.inventory.GetSlot(x, y).itemId;
             amount = Game.world.player.inventory.GetSlot(x, y).Amount;
             cTexture.setID(itemID);
-
+            cAmountLabel.setText(amount == 0 ? "" : $"{amount}");
 
         }
 

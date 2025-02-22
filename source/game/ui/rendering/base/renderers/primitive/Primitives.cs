@@ -61,12 +61,17 @@ namespace SeeloewenCraft.game.ui
             this.y2S = y2;
         }
 
-        public bool isInBounds(int xPixel, int yPixel)
+        public bool IsInBounds(int xPixel, int yPixel)
         {
             (float x, float y) = Resolution.PixelToScreen(xPixel, yPixel);
             return x >= x1S && x < x2S
                 && ((y >= y1S && y < y2S)
                 || (y >= y2S && y < y1S));
+        }
+
+        public (int x, int y) GetCenter()
+        {
+            return ((x1P + x2P) / 2, (y1P + y2P) / 2);
         }
 
     }
@@ -89,6 +94,9 @@ namespace SeeloewenCraft.game.ui
             this.b = b;
             this.a = a;
         }
+
+        public Color(float g) : this(g, g, g) { }
+
     }
 
 }
