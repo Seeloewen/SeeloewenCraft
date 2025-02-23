@@ -1,7 +1,9 @@
 ﻿
-
 namespace SeeloewenCraft.game.ui.ui_lib
 {
+    /// <summary>
+    /// Abstract base class for all input events that can be consumed
+    /// </summary>
     public abstract class InputEvent
     {
 

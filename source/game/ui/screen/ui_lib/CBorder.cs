@@ -1,7 +1,9 @@
 ﻿
-
 namespace SeeloewenCraft.game.ui.ui_lib
 {
+    /// <summary>
+    /// Line Border Component with a specified width and color
+    /// </summary>
     public class CBorder : Component
     {
 
@@ -9,8 +11,12 @@ namespace SeeloewenCraft.game.ui.ui_lib
         Color color;
 
 
-
-        internal CBorder(int size, Color color) : base()
+        /// <summary>
+        /// Creates a line border component
+        /// </summary>
+        /// <param name="size">Width of the border in pixels</param>
+        /// <param name="color">Color of the border</param>
+        public CBorder(int size, Color color) : base()
         {
             this.size = size;
             this.color = color;

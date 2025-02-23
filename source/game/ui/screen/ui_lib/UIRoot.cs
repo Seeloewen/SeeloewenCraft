@@ -1,9 +1,14 @@
 ﻿
 using System;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace SeeloewenCraft.game.ui.ui_lib
 {
+
+    /// <summary>
+    /// Each ui menu has a instance of the class UIRoot as its root element. It should be managed in Screen.cs. This class detects all input events and sends them to the root component
+    /// </summary>
     public class UIRoot
     {
 
@@ -11,6 +16,10 @@ namespace SeeloewenCraft.game.ui.ui_lib
 
         Component component;
 
+        /// <summary>
+        /// Creates the ui root
+        /// </summary>
+        /// <param name="create">Method that returns the root component. This method is called each time the ui menu is beeing created</param>
         public UIRoot(Func<Component> create)
         {
             this.create = create;
@@ -58,14 +67,18 @@ namespace SeeloewenCraft.game.ui.ui_lib
 
         #endregion
 
-
+        /// <summary>
+        /// Checks for and sends input events and calls OnUpdate() on every child component
+        /// </summary>
         public void Update()
         {
             updateInput();
             component.Update();
         }
 
-
+        /// <summary>
+        /// Calls OnRender() on root and all child components
+        /// </summary>
         public void Render()
         {
             TextureRenderer.Begin();
@@ -79,12 +92,17 @@ namespace SeeloewenCraft.game.ui.ui_lib
             TextRenderer.End();
         }
 
-
+        /// <summary>
+        /// Creates and shows the component returned by onCreate
+        /// </summary>
         public void Show()
         {
             component = create();
         }
 
+        /// <summary>
+        /// Hides and destroys the component returned by onCreate
+        /// </summary>
         public void Hide()
         {
             component = null;

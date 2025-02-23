@@ -3,11 +3,19 @@
 
 namespace SeeloewenCraft.game.ui.ui_lib
 {
-
+    /// <summary>
+    /// Represents the horizontal alignment of text in a CText component
+    /// </summary>
     public enum TextHAlignment { LEFT, CENTER, RIGHT }
+
+    /// <summary>
+    /// Represents the vertical alignment of text in a CText component
+    /// </summary>
     public enum TextVAlignment { TOP, CENTER, BOTTOM }
 
-
+    /// <summary>
+    /// Manages the position of text in a CText component. The CText component grows according to set alignment rules
+    /// </summary>
     public class TextLayout
     {
 
@@ -16,6 +24,13 @@ namespace SeeloewenCraft.game.ui.ui_lib
         int yAnchor;
         TextVAlignment textVAlignment;
 
+        /// <summary>
+        /// Creates a TextLayout. The text position will be set so the specified edge of the text(LEFT, TOP, CENTER, ...) will be on the according anchor position
+        /// </summary>
+        /// <param name="xAnchor">horizontal anchor position</param>
+        /// <param name="textHAlignment">horizontal alignment edge</param>
+        /// <param name="yAnchor">vertical anchor position</param>
+        /// <param name="textVAlignment">vertical alignment edge</param>
         public TextLayout(int xAnchor, TextHAlignment textHAlignment, int yAnchor, TextVAlignment textVAlignment)
         {
             this.xAnchor = xAnchor;
@@ -68,7 +83,9 @@ namespace SeeloewenCraft.game.ui.ui_lib
 
     }
 
-
+    /// <summary>
+    /// Basic text component that draws one line string
+    /// </summary>
     public class CText : Component
     {
 
@@ -77,6 +94,12 @@ namespace SeeloewenCraft.game.ui.ui_lib
 
         TextLayout layout;
 
+        /// <summary>
+        /// Creates a basic text component
+        /// </summary>
+        /// <param name="text">Text to be drawn</param>
+        /// <param name="size">Size of drawn text</param>
+        /// <param name="layout">TextLayout of the text</param>
         public CText(string text, int size, TextLayout layout) : base(layout.CalcBounds(text, size))
         {
             this.text = text;
@@ -84,6 +107,10 @@ namespace SeeloewenCraft.game.ui.ui_lib
             this.layout = layout;
         }
 
+        /// <summary>
+        /// Changes the drawn text
+        /// </summary>
+        /// <param name="text">New text to be drawn</param>
         public void setText(string text)
         {
             this.text = text;
@@ -91,7 +118,9 @@ namespace SeeloewenCraft.game.ui.ui_lib
         }
 
 
-
+        /// <summary>
+        /// Renders the text
+        /// </summary>
         protected override void OnRender()
         {
             int width = TextRenderer.GetWidth(text, size);

@@ -17,8 +17,10 @@
     <SupportedOSPlatformVersion>10.0.20348.0</SupportedOSPlatformVersion>
     <StartupObject>SeeloewenCraft.App</StartupObject>
     <ApplicationIcon>SeeloewenCraft.ico</ApplicationIcon>
-    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>docs\gen_docs.xml</DocumentationFile>
+    <ErrorReport>send</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>False</Optimize>
