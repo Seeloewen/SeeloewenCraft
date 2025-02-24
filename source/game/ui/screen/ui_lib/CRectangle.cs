@@ -1,14 +1,12 @@
-﻿
-
-namespace SeeloewenCraft.game.ui.ui_lib
+﻿namespace SeeloewenCraft.game.ui.ui_lib
 {
+
     /// <summary>
     /// Basic rectangle component
     /// </summary>
     public class CRectangle : Component
     {
-
-        Color color;
+        private Color color;
 
         /// <summary>
         /// Creates a rectangle with one color
@@ -21,17 +19,28 @@ namespace SeeloewenCraft.game.ui.ui_lib
         }
 
         /// <summary>
-        /// Eenders the rectangle
+        /// Sets the color
+        /// </summary>
+        /// <param name="color">New color of the rectangle</param>
+        public void SetColor(Color color)
+        {
+            this.color = color;
+        }
+
+        /// <summary>
+        /// Returns the color
+        /// </summary>
+        public Color GetColor()
+        {
+            return color;
+        }
+
+        /// <summary>
+        /// Renders the rectangle
         /// </summary>
         protected override void OnRender()
         {
             PrimitiveRenderer.DrawRectangle(bounds, color);
         }
-
-
-
-
-
-
     }
 }
