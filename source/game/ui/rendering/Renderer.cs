@@ -18,7 +18,7 @@ namespace SeeloewenCraft.game.ui
             WorldRenderer.Init();
             ItemRenderer.Init();
             PlayerRenderer.Init();
-
+            GeneralTextureMap.Init();
         }
 
         public static void Render()

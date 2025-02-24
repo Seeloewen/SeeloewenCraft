@@ -1,6 +1,4 @@
-﻿
-
-namespace SeeloewenCraft.game.ui
+﻿namespace SeeloewenCraft.game.ui
 {
     internal class ItemRenderer
     {

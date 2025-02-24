@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
@@ -15,6 +16,7 @@ namespace SeeloewenCraft
         public static World world;
         public static Client client;
         public static Server server;
+        public static wndMenu wndMenu;
 
         //Constants
         public const int WORLD_VERSION = 6; //Up to date as of Alpha 1.2.1 (Recent changes: Seeding)
@@ -58,9 +60,9 @@ namespace SeeloewenCraft
             shouldClose = true;
         }
 
-        public unsafe static void Create(string worldName, int seed, bool isNew, int worldVersion, string gameVersion, MultiplayerType multiplayerType)
+        public unsafe static void Create(string worldName, int seed, bool isNew, int worldVersion, string gameVersion, MultiplayerType multiplayerType, wndMenu wndMenu)
         {
-
+            Game.wndMenu = wndMenu;
 
             Window* window = InitWindow();
 

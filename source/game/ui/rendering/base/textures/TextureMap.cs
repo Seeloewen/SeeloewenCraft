@@ -12,7 +12,7 @@ namespace SeeloewenCraft.game.ui
         Texture texture;
 
         internal TextureMap(string section)
-        {        
+        {
             var textureIDs = TextureManager.GetMappings(section);
 
             mappings = new Dictionary<string, (float s1, float t1, float s2, float t2)>();
@@ -59,10 +59,11 @@ namespace SeeloewenCraft.game.ui
 
         internal (float s1, float t1, float s2, float t2) GetMapping(string id)
         {
-            if(mappings.TryGetValue(id, out var v))
+            if (mappings.TryGetValue(id, out var v))
             {
                 return v;
-            } else
+            }
+            else
             {
                 return (0f, 0f, 1f, 1f);
             }
