@@ -1,53 +1,77 @@
-﻿
-
-using SeeloewenCraft.game.ui.ui_lib;
+﻿using SeeloewenCraft.game.ui.ui_lib;
 using System;
 
 namespace SeeloewenCraft.game.ui
 {
     internal class Button : CRectangle
     {
-
         Action onPress;
 
-        Color color;
-        Color hoverColor;
-        Color pressedColor;
-
+        Color colorNormal;
+        Color colorHovered;
+        Color colorPressed;
         bool hovered;
         bool pressed;
 
+        CTexture cTexture;
+        string texId;
 
+        CText cText; 
+        string text;
 
-
-        internal Button(Action onPress, string text, Color color, Color hoverColor, Color pressedColor, Rectangle bounds) : base(color, bounds)
+        internal Button(Action onPress, string text, string texId, TextureMap texMap, Rectangle bounds) : base(new Color(0, 0, 0), bounds)
         {
             this.onPress = onPress;
-            this.color = color;
-            this.hoverColor = hoverColor;
-            this.pressedColor = pressedColor;
+            this.texId = texId;
+            this.text = text;
 
-            AddChild(new CBorder(3, new Color(0f, 0f, 0f)));
-            (int centerX, int centerY) = bounds.GetCenter();
-            TextLayout layout = new TextLayout(centerX, TextHAlignment.CENTER, centerY, TextVAlignment.CENTER);
-            AddChild(new CText(text, 3, layout));
+            cTexture = new CTexture(texMap, texId, bounds);
+            AddChild(cTexture);
+
+            Init();
         }
 
+        internal Button(Action onPress, string text, Color colorNormal, Color colorHovered, Color colorPressed, Rectangle bounds) : base(new Color(0, 0, 0), bounds)
+        {
+            this.onPress = onPress;
+            this.text = text;
+            this.colorNormal = colorNormal;
+            this.colorHovered = colorHovered;
+            this.colorPressed = colorPressed;
+
+            Init();
+        }
+
+        public void Init()
+        {
+            AddChild(new CBorder(3, new Color(0.2f)));
+            (int centerX, int centerY) = bounds.GetCenter();
+            TextLayout layout = new TextLayout(centerX, TextHAlignment.CENTER, centerY, TextVAlignment.CENTER);
+            cText = new CText(text, 3, layout);
+            AddChild(cText);
+        }
 
         protected override void OnRender()
         {
+            Color currentColor = colorNormal;
+
             if (pressed)
             {
-                PrimitiveRenderer.DrawRectangle(bounds, pressedColor);
+                if(cTexture != null) cTexture.SetBrightness(0.65f);
+                currentColor = colorPressed;
             }
             else if (hovered)
             {
-                PrimitiveRenderer.DrawRectangle(bounds, hoverColor);
-            } else
+                if (cTexture != null) cTexture.SetBrightness(0.99f);
+                currentColor = colorHovered;
+            }
+            else
             {
-                PrimitiveRenderer.DrawRectangle(bounds, color);
+                if (cTexture != null) cTexture.SetBrightness(0.85f);
             }
 
+            if (cTexture != null) cTexture.SetId(texId);
+            PrimitiveRenderer.DrawRectangle(bounds, currentColor);
         }
 
 
