@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using SeeloewenCraft.game.ui;
-using SeeloewenCraft.util;
-using Windows.Gaming.Input.Preview;
 using Renderer = SeeloewenCraft.game.ui.Renderer;
 using TextureManager = SeeloewenCraft.game.ui.TextureManager;
 
@@ -32,7 +29,7 @@ namespace SeeloewenCraft
         public static int playerId;
         public static bool generated;
 
-
+        #region GLFW
 
         static unsafe void GameLoop(Window* window)
         {
@@ -45,19 +42,23 @@ namespace SeeloewenCraft
 
                 world.doGameTick(dt * 0.7, blockUpdate);
 
-
-                //gl_rendering.Renderer.Render();
                 Renderer.Render();
 
                 GLFW.SwapBuffers(window);
                 GLFW.PollEvents();
 
+                if (shouldClose) break;
             }
         }
 
+        public static bool shouldClose = false;
 
+        public static void Close()
+        {
+            shouldClose = true;
+        }
 
-        public unsafe static void CreateGame(string worldName, int seed, bool isNew, int worldVersion, string gameVersion, MultiplayerType multiplayerType)
+        public unsafe static void Create(string worldName, int seed, bool isNew, int worldVersion, string gameVersion, MultiplayerType multiplayerType)
         {
 
 
@@ -68,7 +69,6 @@ namespace SeeloewenCraft
             Screen.Init();
 
             TextureManager.Init();
-
 
             world = new World(null, worldName, seed, isNew, worldVersion, gameVersion, multiplayerType);
 
@@ -83,10 +83,6 @@ namespace SeeloewenCraft
 
         }
 
-
-
-
-        #region GLFW
 
         static unsafe Window* InitWindow()
         {
@@ -130,9 +126,6 @@ namespace SeeloewenCraft
             return window;
         }
 
-
-        #endregion
-
         static bool IsExtensionSupported(string extensionName)
         {
             int numExtensions = GL.GetInteger(GetPName.NumExtensions);
@@ -144,6 +137,7 @@ namespace SeeloewenCraft
             return false;
         }
 
+        #endregion
 
         #region general
 
