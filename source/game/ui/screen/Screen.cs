@@ -1,34 +1,34 @@
-﻿
-
-using SeeloewenCraft.game.ui.ui_lib;
-using Windows.Devices.PointOfService.Provider;
+﻿using SeeloewenCraft.game.ui.ui_lib;
 
 namespace SeeloewenCraft.game.ui
 {
     internal static class Screen
     {
-
-
         public static bool showGame = true;
         public static bool showGameOverlay = true;
         public static bool showDebugMenu = false;
         public static bool showInventory = false;
         public static bool showIngameMenu = false;
         public static bool showEscapeMenu = false;
+        public static bool showHotbar = true;
 
         public static bool allowIngameInputs { get => !(showEscapeMenu || showIngameMenu || showInventory); }
 
 
         static UIRoot invUIRoot;
         static UIRoot escapeMenuUIRoot;
-
-
+        static UIRoot hotbarUIRoot;
+        static UIRoot gameOverlayUIRoot;
 
         public static void Init()
         {
             InventoryScreen.Init();
             invUIRoot = new UIRoot(() => new InvUI());
             escapeMenuUIRoot = new UIRoot(() => new EscapeMenu());
+            gameOverlayUIRoot = new UIRoot(() => new GameOverlay());
+            hotbarUIRoot = new UIRoot(() => new Hotbar());
+            gameOverlayUIRoot.Show();
+            hotbarUIRoot.Show();
         }
 
 
@@ -38,6 +38,8 @@ namespace SeeloewenCraft.game.ui
 
             if (showGameOverlay)
             {
+                gameOverlayUIRoot.Update();
+                hotbarUIRoot.Update();
                 GameScreen.Update();
                 HotbarScreen.Update();
             }
@@ -86,27 +88,12 @@ namespace SeeloewenCraft.game.ui
 
         internal static void Render()
         {
-            if (showGameOverlay)
-            {
-                if (allowIngameInputs) GameScreen.Render();
-                HotbarScreen.Render();
-            }
-            if (showDebugMenu)
-            {
-
-                DebugMenu.Render();
-
-            }
-            if (showInventory)
-            {
-                invUIRoot.Render();
-            }
-            if (showEscapeMenu)
-            {
-                //EscapeMenuScreen.Render();
-                escapeMenuUIRoot.Render();
-            }
+            if (showGame && allowIngameInputs) GameScreen.Render();
+            if (showHotbar) hotbarUIRoot.Render();
+            if (showDebugMenu) DebugMenu.Render();
+            if (showInventory) invUIRoot.Render();
+            if (showEscapeMenu) escapeMenuUIRoot.Render();
+            if (showGameOverlay) gameOverlayUIRoot.Render();
         }
-
     }
 }

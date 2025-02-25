@@ -68,13 +68,13 @@ namespace SeeloewenCraft
 
             InputHandler.Init(window);
 
-            Screen.Init();
-
             TextureManager.Init();
 
             world = new World(null, worldName, seed, isNew, worldVersion, gameVersion, multiplayerType);
 
             Renderer.Init();
+
+            Screen.Init();
 
             GameLoop(window);
 

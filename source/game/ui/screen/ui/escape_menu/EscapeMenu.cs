@@ -35,7 +35,7 @@ namespace SeeloewenCraft.game.ui
             backplate.AddChild(new CBorder(3, new Color(0.2f)));
             AddChild(backplate);
 
-            TextLayout tLayout = new TextLayout(getBounds().GetCenter().x, TextHAlignment.CENTER, top - 70, TextVAlignment.CENTER);
+            TextLayout tLayout = new TextLayout(GetBounds().GetCenter().x, TextHAlignment.CENTER, top - 70, TextVAlignment.CENTER);
             AddChild(new CText("Game Menu", 4, tLayout));
 
             for (int i = 0; i < 5; i++)

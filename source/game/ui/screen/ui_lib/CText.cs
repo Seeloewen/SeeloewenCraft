@@ -111,7 +111,7 @@ namespace SeeloewenCraft.game.ui.ui_lib
         /// Changes the drawn text
         /// </summary>
         /// <param name="text">New text to be drawn</param>
-        public void setText(string text)
+        public void SetText(string text)
         {
             this.text = text;
             bounds = layout.CalcBounds(text, size);

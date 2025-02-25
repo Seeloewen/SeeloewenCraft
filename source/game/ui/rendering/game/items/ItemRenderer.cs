@@ -28,7 +28,7 @@
             TextureRenderer.Draw(itemID, s1, t1, s2, t2, 1f);
         }
 
-        static internal TextureMap getTextureMap()
+        static internal TextureMap GetTextureMap()
         {
             return textureMap;
         }

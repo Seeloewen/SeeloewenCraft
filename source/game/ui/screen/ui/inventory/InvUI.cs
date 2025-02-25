@@ -21,7 +21,7 @@ namespace SeeloewenCraft.game.ui
             {
                 for (int x = 0; x < 9; x++)
                 {
-                    AddChild(new InvSlotUI(x, y, ItemRenderer.getTextureMap()));
+                    AddChild(new InvSlotUI(x, y, ItemRenderer.GetTextureMap()));
                 }
             }
 

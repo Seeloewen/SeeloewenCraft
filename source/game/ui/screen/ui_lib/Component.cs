@@ -175,11 +175,18 @@ namespace SeeloewenCraft.game.ui.ui_lib
         /// Gets the bounding box of this component
         /// </summary>
         /// <returns>Copy of the bounding box</returns>
-        public Rectangle getBounds()
+        public Rectangle GetBounds()
         {
             return new Rectangle(bounds.x1S, bounds.y1S, bounds.x2S, bounds.y2S);
         }
 
+        /// <summary>
+        /// Sets the bounding box of this component
+        /// </summary>
+        internal void SetBounds(Rectangle bounds) //Once again, I'm sorry CDLemmi for tampering with your lib but I needed this feature :) 25.02.2025
+        {
+            this.bounds = bounds;
+        }
         #endregion
 
     }

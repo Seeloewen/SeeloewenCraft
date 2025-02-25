@@ -25,7 +25,7 @@ namespace SeeloewenCraft.game.ui.ui_lib
 
         protected override void OnAdd(Component parent)
         {
-            bounds = parent.getBounds();
+            bounds = parent.GetBounds();
         }
 
 

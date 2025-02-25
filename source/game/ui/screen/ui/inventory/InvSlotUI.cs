@@ -45,7 +45,7 @@ namespace SeeloewenCraft.game.ui
             itemID = Game.world.player.inventory.GetSlot(x, y).itemId;
             amount = Game.world.player.inventory.GetSlot(x, y).Amount;
             cTexture.SetId(itemID);
-            cAmountLabel.setText(amount == 0 ? "" : $"{amount}");
+            cAmountLabel.SetText(amount == 0 ? "" : $"{amount}");
 
         }
 
