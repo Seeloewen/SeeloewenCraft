@@ -1,9 +1,5 @@
 ﻿using SeeloewenCraft.game.ui.ui_lib;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeeloewenCraft.game.ui
 {
@@ -11,20 +7,35 @@ namespace SeeloewenCraft.game.ui
     {
         CText cText;
         CTexture cTexture;
+        CRectangle cDurability;
+        CRectangle cDurabilityBack;
 
-        public CSlot(Rectangle bounds) : base(new Color(0.8f, 0.8f, 0.8f), bounds)
+        private Color durBack = new Color(0.6f);
+
+        public CSlot(Rectangle bounds) : base(new Color(0.8f), bounds)
         {
+            (int x1, int y1) = (bounds.x1P + 10, bounds.y1P + 10);
+            (int x2, int y2) = (bounds.x2P - 10, bounds.y2P - 10);
+
             //Item Texture
-            cTexture = new CTexture(ItemRenderer.GetTextureMap(), null, new Rectangle(bounds.x1P + 5, bounds.y1P + 5, bounds.x2P - 5, bounds.y2P - 5));
+            cTexture = new CTexture(ItemRenderer.GetTextureMap(), null, new Rectangle(x1, y1, x2, y2));
             AddChild(cTexture);
 
             //Item 
-            cText = new CText("", 2, new TextLayout(bounds.x2P - 2, TextHAlignment.RIGHT, bounds.y2P - 10, TextVAlignment.CENTER)); 
+            cText = new CText("", 2, new TextLayout(bounds.x2P - 5, TextHAlignment.RIGHT, bounds.y2P - 5, TextVAlignment.BOTTOM));
             AddChild(cText);
+
+            //Durability
+            (x1, y1) = (bounds.x1P + 5, bounds.y2P - 12);
+            (x2, y2) = (bounds.x2P - 5, bounds.y2P - 5);
+            cDurabilityBack = new CRectangle(durBack, new Rectangle(x1, y1, x2, y2));
+            AddChild(cDurabilityBack);
+            cDurability = new CRectangle(new Color(0f), new Rectangle(x1, y1, x2, y2));
+            AddChild(cDurability);
         }
 
         public void SetAmount(int amount)
-        {            
+        {
             cText.SetText(amount > 1 ? amount.ToString() : "");
         }
 
@@ -33,9 +44,24 @@ namespace SeeloewenCraft.game.ui
             cTexture.SetId(id);
         }
 
-        public void SetDurability()
+        public void SetDurability(float durability)
         {
-            throw new NotImplementedException();
+            if (durability == 0)
+            {
+                cDurability.SetColor(new Color(0f, 0f, 0f, 0f));
+                cDurabilityBack.SetColor(new Color(0f, 0f, 0f, 0f));
+                return;
+            }
+
+            cDurabilityBack.SetColor(durBack);
+
+            float g = Math.Min(1f, 2 * durability);
+            float r = Math.Min(1f, 2 - 2 * durability);
+            int x2 = (int)(bounds.x1P + 5 + ((bounds.x2P - 5) - (bounds.x1P + 5)) * durability);
+
+            Rectangle oldBounds = cDurability.GetBounds();
+            cDurability.SetBounds(new Rectangle(oldBounds.x1P, oldBounds.y1P, x2, oldBounds.y2P));
+            cDurability.SetColor(new Color(r, g, 0f));
         }
     }
 }

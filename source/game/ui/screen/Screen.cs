@@ -41,7 +41,6 @@ namespace SeeloewenCraft.game.ui
                 gameOverlayUIRoot.Update();
                 hotbarUIRoot.Update();
                 GameScreen.Update();
-                HotbarScreen.Update();
             }
             if (showEscapeMenu)
             {
