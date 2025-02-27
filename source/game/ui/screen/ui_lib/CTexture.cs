@@ -13,8 +13,6 @@ namespace SeeloewenCraft.game.ui.ui_lib
         private float brightness = 1f;
         private TextureMap map;
 
-        private CRectangle rectBrightness;
-
 
         /// <summary>
         /// Creates a basic image component
@@ -27,9 +25,21 @@ namespace SeeloewenCraft.game.ui.ui_lib
             this.map = map;
             this.id = id;
 
-            rectBrightness = new CRectangle(new Color(0f, 0f, 0f, 0f), bounds);
-            AddChild(rectBrightness);
         }
+
+
+        /// <summary>
+        /// Renders the texture if an id is set
+        /// </summary>
+        protected override void OnRender()
+        {
+            if (id != null)
+            {
+                TextureRenderer.SetTexture(map);
+                TextureRenderer.Draw(id, bounds, brightness);
+            }
+        }
+
 
         /// <summary>
         /// Changes the drawn texture
@@ -46,22 +56,7 @@ namespace SeeloewenCraft.game.ui.ui_lib
         /// <param name="brightness">New brightness of the texture</param>
         public void SetBrightness(float brightness) //Only temporary solution, please replace with proper OpenGL stuff
         {
-            this.brightness = Math.Abs(1 - brightness);
-
-            Color oldColor = rectBrightness.GetColor();
-            rectBrightness.SetColor(new Color(oldColor.r, oldColor.g, oldColor.b, this.brightness));
-        }
-
-        /// <summary>
-        /// Renders the texture if an id is set
-        /// </summary>
-        protected override void OnRender()
-        {
-            if (id != null)
-            {
-                TextureRenderer.SetTexture(map);
-                TextureRenderer.Draw(id, bounds);
-            }
+            this.brightness = brightness;
         }
     }
 }

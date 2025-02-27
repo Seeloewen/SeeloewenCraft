@@ -31,12 +31,12 @@ namespace SeeloewenCraft
         public static int playerId;
         public static bool generated;
 
-        #region GLFW
+
 
         static unsafe void GameLoop(Window* window)
         {
             DeltaTimer.Start();
-            while (!GLFW.WindowShouldClose(window))
+            while (!shouldClose && !GLFW.WindowShouldClose(window))
             {
                 double dt = DeltaTimer.Tick(out bool blockUpdate);
                 
@@ -49,9 +49,11 @@ namespace SeeloewenCraft
                 GLFW.SwapBuffers(window);
                 GLFW.PollEvents();
 
-                if (shouldClose) break;
             }
         }
+        
+        
+        #region GLFW
 
         public static bool shouldClose = false;
 
@@ -79,10 +81,8 @@ namespace SeeloewenCraft
             GameLoop(window);
 
 
-
             GLFW.DestroyWindow(window);
             GLFW.Terminate();
-
         }
 
 
@@ -172,6 +172,7 @@ namespace SeeloewenCraft
 
     }
 
+    // i hope i never have to understand this 💀
     public class GLFWBindingsContext : IBindingsContext
     {
         public IntPtr GetProcAddress(string procName)

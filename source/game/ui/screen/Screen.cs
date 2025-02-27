@@ -25,7 +25,7 @@ namespace SeeloewenCraft.game.ui
             InventoryScreen.Init();
             invUIRoot = new UIRoot(() => new InvUI());
             escapeMenuUIRoot = new UIRoot(() => new EscapeMenu());
-            gameOverlayUIRoot = new UIRoot(() => new GameOverlay());
+            gameOverlayUIRoot = new UIRoot(() => new GameOverlay()); //least useless code
             hotbarUIRoot = new UIRoot(() => new Hotbar());
             gameOverlayUIRoot.Show();
             hotbarUIRoot.Show();

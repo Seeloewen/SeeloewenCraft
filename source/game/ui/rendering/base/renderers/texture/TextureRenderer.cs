@@ -44,6 +44,11 @@ namespace SeeloewenCraft.game.ui
             Draw(id, bounds.x1S, bounds.y1S, bounds.x2S, bounds.y2S);
         }
 
+        static internal void Draw(string id, Rectangle bounds, float g)
+        {
+            Draw(id, bounds.x1S, bounds.y1S, bounds.x2S, bounds.y2S, g);
+        }
+
         static internal void Draw(string id, float x1, float y1, float x2, float y2, float g)
         {
             (float s1, float t1, float s2, float t2) = textureMap.GetMapping(id);
