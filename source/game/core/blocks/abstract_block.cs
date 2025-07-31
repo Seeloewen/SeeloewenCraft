@@ -89,6 +89,38 @@ namespace SeeloewenCraft
 
         }
 
+        #region lighting
+
+        double lightTopRight = 1.0;
+        double lightTopLeft = 1.0;
+        double lightBotLeft = 1.0;
+        double lightBotRight = 1.0;
+
+        double lightFactor = 0.3;
+
+        void ResetLight()
+        {
+            lightBotLeft = 0f;
+            lightBotRight = 0f;
+            lightTopLeft = 0f;
+            lightTopRight = 0f;
+        }
+
+
+        void SetLightTopRight(double light)
+        {
+            double sqrt2 = Math.Sqrt(2.0);
+
+
+
+        }
+
+
+        #endregion
+
+
+
+
         //-- Custom Methods --//
 
         public void DoUpdate()
