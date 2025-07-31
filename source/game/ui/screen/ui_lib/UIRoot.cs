@@ -16,6 +16,11 @@ namespace SeeloewenCraft.game.ui.ui_lib
 
         Component component;
 
+        public bool visible
+        {
+            get => component != null;
+        }
+
         /// <summary>
         /// Creates the ui root
         /// </summary>

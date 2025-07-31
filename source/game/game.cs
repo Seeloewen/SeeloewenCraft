@@ -70,6 +70,8 @@ namespace SeeloewenCraft
 
             InputHandler.Init(window);
 
+            Resolution.Init(window);
+
             TextureManager.Init();
 
             world = new World(null, worldName, seed, isNew, worldVersion, gameVersion, multiplayerType);
@@ -96,9 +98,9 @@ namespace SeeloewenCraft
             GLFW.WindowHint(WindowHintInt.ContextVersionMajor, 3);
             GLFW.WindowHint(WindowHintInt.ContextVersionMinor, 3);
             GLFW.WindowHint(WindowHintOpenGlProfile.OpenGlProfile, OpenGlProfile.Core);
-            GLFW.WindowHint(WindowHintBool.Resizable, false);
+            GLFW.WindowHint(WindowHintBool.Resizable, true);
 
-            Window* window = GLFW.CreateWindow(1280, 720, "Game Window (ohio)", null, null);
+            Window* window = GLFW.CreateWindow(Resolution.WIDTH, Resolution.HEIGHT, "Game Window (ohio)", null, null);
             if (window == null)
             {
                 FatalError("Failed to create window");

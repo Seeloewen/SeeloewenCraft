@@ -31,7 +31,30 @@ namespace SeeloewenCraft.game.ui
             hotbarUIRoot.Show();
         }
 
-
+        public static void OnResize()
+        {
+            if (invUIRoot.visible)
+            {
+                invUIRoot.Hide();
+                invUIRoot.Show();
+            }
+            if (escapeMenuUIRoot.visible)
+            {
+                escapeMenuUIRoot.Hide();
+                escapeMenuUIRoot.Show();
+            }
+            if (hotbarUIRoot.visible)
+            {
+                hotbarUIRoot.Hide();
+                hotbarUIRoot.Show();
+            }
+            if (gameOverlayUIRoot.visible)
+            {
+                gameOverlayUIRoot.Hide();
+                gameOverlayUIRoot.Show();
+            }
+        }
+        
         public static void Update()
         {
             HandleInputs();
