@@ -20,7 +20,7 @@ namespace SeeloewenCraft.game.ui
 
         public static void Init()
         {
-            shader = new Shader("shader/primitive");
+            shader = new Shader("shader.primitive");
             buffer = new VertexBuffer(new VBLayout().AddAttribute(2).AddAttribute(4), 1024);
         }
 

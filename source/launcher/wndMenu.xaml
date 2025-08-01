@@ -8,7 +8,7 @@
         Title="SeeloewenCraft" Height="452" Width="770" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Closing="wndMenu1_Closing">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/Resources/Textures/Gui/Background.png" TileMode="Tile" Stretch="None"/>
+            <ImageBrush ImageSource="/Resources/launcher/Background.png" TileMode="Tile" Stretch="None"/>
         </Grid.Background>
         <TextBlock x:Name="tblHeader" HorizontalAlignment="Center" Margin="0,14,0,0" TextWrapping="Wrap" Text="SeeloewenCraft" VerticalAlignment="Top" FontSize="60" FontWeight="DemiBold" Foreground="White"/>
         <Button x:Name="btnSingleplayer" Content="Singleplayer" HorizontalAlignment="Center" Margin="0,139,0,0" VerticalAlignment="Top" Height="40" Width="206" Click="btnPlay_Click" FontSize="20"/>

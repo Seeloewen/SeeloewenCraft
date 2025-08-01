@@ -31,7 +31,8 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <Resource Include="Resources\**\*.*" />
+    <EmbeddedResource Include="Resources\**\*.*" />
+    <Resource Include="Resources\launcher\Background.png" />
     
 	<PackageReference Include="OpenTK" Version="4.8.2" />
 	<PackageReference Include="OpenTK.GLWpfControl" Version="4.3.2" />
@@ -63,4 +64,5 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  
 </Project>

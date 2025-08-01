@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Resources;
 
@@ -14,8 +15,8 @@ namespace SeeloewenCraft.game.ui
 
         internal Shader(string path) { 
             programID = GL.CreateProgram();
-            int vert = CreateShader(ShaderType.VertexShader, $"{path}/vert.glsl");
-            int frag = CreateShader(ShaderType.FragmentShader, $"{path}/frag.glsl");
+            int vert = CreateShader(ShaderType.VertexShader, $"{path}.vert.glsl");
+            int frag = CreateShader(ShaderType.FragmentShader, $"{path}.frag.glsl");
             GL.AttachShader(programID, vert);
             GL.AttachShader(programID, frag);
             GL.LinkProgram(programID);
@@ -65,10 +66,8 @@ namespace SeeloewenCraft.game.ui
 
         private static string ReadResourceToString(string path)
         {
-            Uri uri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/{path}", UriKind.Absolute);
-            StreamResourceInfo info = Application.GetResourceStream(uri);
-            string text;
-            using (StreamReader reader = new(info.Stream))
+            using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"SeeloewenCraft.Resources.{path}");
+            using (StreamReader reader = new(stream))
             {
                 return reader.ReadToEnd();
             }

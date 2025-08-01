@@ -19,7 +19,7 @@ namespace SeeloewenCraft.game.ui
         {
             (textureMap, widthMappings) = FontTextureMap.ParseFontMap();
             
-            shader = new Shader("shader/texture");
+            shader = new Shader("shader.texture");
             vertexBuffer = new VertexBuffer(new VBLayout().AddAttribute(2).AddAttribute(2).AddAttribute(1), 1024);
         }
 
