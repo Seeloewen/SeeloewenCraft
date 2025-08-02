@@ -669,7 +669,6 @@ namespace SeeloewenCraft
         public void doGameTick(double dt, bool blockUpdate)
         {
 
-            Screen.Update();
 
             if(blockUpdate)
             {

@@ -45,7 +45,7 @@ namespace SeeloewenCraft.game.ui
         protected override void OnUpdate()
         {
             //Calculate which hotbar slot is currently selected
-            int scrollOffset = -InputHandler.HandleScrollOffset();
+            int scrollOffset = -InputHandler.scrollAmount;
             int currentIndex = Game.world.player.inventory.GetSelectedHotbarIndex();
             int newIndex = (((currentIndex + scrollOffset) % slotAmount) + slotAmount) % slotAmount;
 

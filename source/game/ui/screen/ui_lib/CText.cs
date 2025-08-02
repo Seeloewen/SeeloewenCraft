@@ -156,10 +156,8 @@ namespace SeeloewenCraft.game.ui.ui_lib
             Rectangle newBounds = layout.CalcBounds(text, size);
             SetBounds(newBounds);
 
-            foreach (Component child in children)
-            {
-                child.MoveBy(stepX, stepY);
-            }
+            ForEachChildren(c => c.MoveBy(stepX, stepY));
+            
         }
 
         /// <summary>
@@ -176,10 +174,8 @@ namespace SeeloewenCraft.game.ui.ui_lib
             Rectangle newBounds = layout.CalcBounds(text, size);
             SetBounds(newBounds);
 
-            foreach (Component child in children)
-            {
-                child.MoveBy(x, y);
-            }
+            ForEachChildren(c => c.MoveBy(x, y));
+            
         }
 
 
