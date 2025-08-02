@@ -58,7 +58,7 @@ namespace SeeloewenCraft.gl_rendering
             textRenderer.Begin();
             foreach (HotbarSlot slot in slots)
             {
-                int amount = slot.slot.Amount;
+                int amount = slot.slot.amount;
 
                 int i = slot.xPos;
 

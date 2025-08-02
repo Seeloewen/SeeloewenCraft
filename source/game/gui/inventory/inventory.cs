@@ -1,84 +1,39 @@
-﻿using System.Collections.Generic;
-using System.Windows.Controls;
-using System.Windows;
-using System.Windows.Media;
+﻿using SeeloewenCraft.entity;
+using SeeloewenCraft.game.ui;
 using System;
-
-using SeeloewenCraft.entity;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace SeeloewenCraft
 {
-    public class Inventory
+    public class Inventory : IGuiData
     {
-        //References
+        public string guiId { get; set; } = "inventory";
+
         public InventoryGui inventoryGui;
         public List<InventorySlot> slotList = new List<InventorySlot>();
         public List<HotbarSlot> hotbarSlotList = new List<HotbarSlot>();
-        public Grid grdInventory = new Grid();
-        public Grid grdHotbar = new Grid();
-        public Canvas cvsItemName = new Canvas();
-        public TextBlock tblItemName = new TextBlock();
         public Block block;
 
-        //Variables
         public bool hasHotbar = false;
         private int slotsX;
         private int slotsY;
         public bool isPlayer;
 
-        //-- Constructor --//
-
         public Inventory(int slotsX, int slotsY, bool isPlayer)
         {
-            //Set the attributes
             this.slotsX = slotsX;
             this.slotsY = slotsY;
             this.isPlayer = isPlayer;
 
-            inventoryGui = new InventoryGui(80 * slotsY + 30, 695, 175, 290, "sc:inventory", this);
-
-            //Create the inventory grid
-            grdInventory.Width = 72 * slotsX;
-            grdInventory.Height = 72 * slotsY;
-            Canvas.SetLeft(grdInventory, 22);
-            Canvas.SetTop(grdInventory, 40);
-            inventoryGui.cvsGui.Children.Add(grdInventory);
-
-            //Create the item name display
-            cvsItemName.Width = 132;
-            cvsItemName.Height = 25;
-            cvsItemName.Background = new SolidColorBrush(Colors.Black);
-            cvsItemName.Opacity = 0.8;
-            cvsItemName.Visibility = Visibility.Hidden;
-            tblItemName.Text = "NO_ITEM_SELECTED";
-            tblItemName.FontSize = 18;
-            Canvas.SetLeft(tblItemName, 7);
-            tblItemName.Foreground = new SolidColorBrush(Colors.White);
-            cvsItemName.Children.Add(tblItemName);
-            inventoryGui.cvsGui.Children.Add(cvsItemName);
-
-            //Add colums and rows to the grid
-            for (int i = 0; i < slotsX; i++)
-            {
-                grdInventory.ColumnDefinitions.Add(new ColumnDefinition());
-            }
-            for (int i = 0; i < slotsY; i++)
-            {
-                grdInventory.RowDefinitions.Add(new RowDefinition());
-            }
-
             //Create inventory slots
-            for (int y = slotsY - 1; y >= 0; y--)
+            for (int y = slotsY - 1; y >= 0; y--) //Start at the end to make sure items are being added to the hotbar first afterwards
             {
                 for (int x = 0; x < slotsX; x++)
                 {
-                    InventorySlot slot = new InventorySlot(this, x, y);
-
-                    //Add the slot to the grid and slotlist
-                    grdInventory.Children.Add(slot.bdrSlot);
-                    Grid.SetRow(slot.bdrSlot, slot.yPos);
-                    Grid.SetColumn(slot.bdrSlot, slot.xPos);
-                    slotList.Add(slot);
+                    slotList.Add(new InventorySlot(this, x, y));
                 }
             }
         }
@@ -89,24 +44,6 @@ namespace SeeloewenCraft
         {
             hasHotbar = true;
 
-            //Create the hotbar grid
-            grdHotbar.Width = 75 * slotsX;
-            grdHotbar.Height = 75;
-            grdHotbar.Visibility = Visibility.Visible;
-            grdHotbar.Background = new SolidColorBrush(Colors.Gray);
-            Canvas.SetLeft(grdHotbar, 10);
-            Canvas.SetTop(grdHotbar, 10);
-            Panel.SetZIndex(grdHotbar, 4);
-            //TODO: render add hotbar
-            
-
-            //Create the hotbar rows and colums
-            for (int i = 0; i < slotsX; i++)
-            {
-                grdHotbar.ColumnDefinitions.Add(new ColumnDefinition());
-            }
-            grdHotbar.RowDefinitions.Add(new RowDefinition());
-
             //Create the hotbar slots
             for (int x = 0; x < slotsX; x++)
             {
@@ -114,37 +51,11 @@ namespace SeeloewenCraft
                 {
                     if (slot.yPos == 3 && slot.xPos == x)
                     {
-                        HotbarSlot hSlot = new HotbarSlot(x, slot);
-
-                        //Add the hotbar slot to the grid and slotlist
-                        grdHotbar.Children.Add(hSlot.bdrSlot);
-                        Grid.SetRow(hSlot.bdrSlot, 0);
-                        Grid.SetColumn(hSlot.bdrSlot, hSlot.xPos);
-                        hotbarSlotList.Add(hSlot);
+                        hotbarSlotList.Add(new HotbarSlot(x, slot));
                     }
                 }
 
             }
-        }
-
-        public void ShowItemName(InventorySlot slot)
-        {
-            if (slot.Amount <= 0)
-            {
-                return;
-            }
-
-            //Display the item name and adjust the length of the tooltip accordingly
-            tblItemName.Text = ItemRegister.GenerateItem(slot.itemId).name;
-            cvsItemName.Width = slot.itemId.Length * 6.5;
-            cvsItemName.Visibility = Visibility.Visible;
-            Canvas.SetLeft(cvsItemName, Canvas.GetLeft(slot.inventory.grdInventory) + slot.xPos * 70 + 15 - cvsItemName.Width * 0.25);
-            Canvas.SetTop(cvsItemName, Canvas.GetTop(slot.inventory.grdInventory) + slot.yPos * 72 + 75);
-        }
-
-        public void HideItemName()
-        {
-            cvsItemName.Visibility = Visibility.Hidden;
         }
 
 
@@ -209,7 +120,7 @@ namespace SeeloewenCraft
                 //Sums up all the amounts of the different slots
                 if (slot.itemId == id)
                 {
-                    amount += slot.Amount;
+                    amount += slot.amount;
                 }
             }
 
@@ -254,6 +165,20 @@ namespace SeeloewenCraft
             return null;
         }
 
+        public HotbarSlot GetHotbarSlot(int x)
+        {
+            //Go through all slots and check if the x and y pos matches
+            foreach (HotbarSlot slot in hotbarSlotList)
+            {
+                if (slot.xPos == x)
+                {
+                    return slot;
+                }
+            }
+
+            return null;
+        }
+
         public void AddItem(string id, int amount, string tag, out int remainingAmount)
         {
             //Add the item by first checking if a slot already has the item, otherwise add it to a new slot. Also update the hotbar.
@@ -263,8 +188,6 @@ namespace SeeloewenCraft
                 AddToExistingSlot(id, ref amount, tag);
             }
             AddToNewSlot(id, ref amount, tag);
-
-            UpdateHotbar();
 
             //Output the remaining amount of items that couldn't be added
             remainingAmount = amount;
@@ -279,7 +202,6 @@ namespace SeeloewenCraft
                 AddToExistingSlot(id, ref amount, tag);
             }
             AddToNewSlot(id, ref amount, tag);
-            UpdateHotbar();
         }
 
         private void AddToExistingSlot(string id, ref int amount, string tag)
@@ -298,14 +220,14 @@ namespace SeeloewenCraft
                     //Check if the slot has enough space available
                     if (slot.GetAvailableSpace() >= amount)
                     {
-                        slot.Add(id, amount, tag, out bool success);
+                        slot.Add(id, amount, tag);
                         amount = 0;
                     }
                     else
                     {
                         //If not, only add the amount of possible space to the slot and edit amount to continue afterwards
                         amount -= slot.GetAvailableSpace();
-                        slot.Add(id, slot.GetAvailableSpace(), tag, out bool success);
+                        slot.Add(id, slot.GetAvailableSpace(), tag);
                     }
 
                 }
@@ -318,18 +240,14 @@ namespace SeeloewenCraft
             foreach (InventorySlot slot in slotList)
             {
                 //If amount is 0, all items have been added and the process is done
-                if (amount == 0)
-                {
-                    UpdateHotbar();
-                    break;
-                }
+                if (amount == 0) return;
 
                 if (slot.IsEmpty())
                 {
                     //If it's unstackable, only add one
                     if (Game.unstackableItems.Contains(id))
                     {
-                        slot.Add(id, 1, tag, out bool success);
+                        slot.Add(id, 1, tag);
                         amount--;
                     }
                     else //If it's stackable, add as many as possible
@@ -337,14 +255,14 @@ namespace SeeloewenCraft
                         //Check if the slot has enough space available
                         if (slot.GetAvailableSpace() >= amount)
                         {
-                            slot.Add(id, amount, tag, out bool success);
+                            slot.Add(id, amount, tag);
                             amount = 0;
                         }
                         else
                         {
                             //If not, only add the amount of possible space to the slot and edit amount to continue afterwards
                             amount -= slot.GetAvailableSpace();
-                            slot.Add(id, slot.GetAvailableSpace(), tag, out bool success);
+                            slot.Add(id, slot.GetAvailableSpace(), tag);
                         }
                     }
                 }
@@ -366,7 +284,7 @@ namespace SeeloewenCraft
                 if (slot.itemId == id)
                 {
                     //If the amount in the slot is bigger than the amount that should be removed, simply remove it
-                    if (slot.Amount >= amount)
+                    if (slot.amount >= amount)
                     {
                         slot.Remove(amount);
                         amount = 0;
@@ -374,14 +292,12 @@ namespace SeeloewenCraft
                     else
                     {
                         //If not, only remove the possible amount from the slot and subtract amount so the process can continue
-                        slot.Remove(slot.Amount);
-                        amount -= slot.Amount;
+                        slot.Remove(slot.amount);
+                        amount -= slot.amount;
                     }
 
                 }
             }
-
-            UpdateHotbar();
         }
 
         public bool HasItem(string id)
@@ -410,60 +326,6 @@ namespace SeeloewenCraft
             return false;
         }
 
-        public void Show()
-        {
-            //TODO: render Show the inventory and hide the hotbar
-        }
-
-        public void Hide()
-        {
-            //Hide the inventoy, update and show the hotbar
-            inventoryGui.Hide();
-            UpdateHotbar();
-            ShowHotbar();
-        }
-
-        public void ShowHotbar()
-        {
-            if (hasHotbar)
-            {
-                //Show the hotbar
-                grdHotbar.Visibility = Visibility.Visible;
-            }
-        }
-
-        public void HideHotbar()
-        {
-            if (hasHotbar)
-            {
-                //Hide the hotbar
-                grdHotbar.Visibility = Visibility.Hidden;
-            }
-        }
-        public void UpdateHotbar()
-        {
-            //Check if the inventory has a hotbar in the first place
-            if (hasHotbar)
-            {
-                //Go through each hotbar slot
-                foreach (HotbarSlot hotbarSlot in hotbarSlotList)
-                {
-                    if (!string.IsNullOrEmpty(hotbarSlot.slot.itemId))
-                    {
-                        //If there's an item in the inventory slot bound to the hotbar slot, show it in the hotbar
-                        hotbarSlot.cvsSlot.Background = hotbarSlot.slot.cvsItem.Background;
-                        hotbarSlot.tblItemAmount.Text = hotbarSlot.slot.Amount.ToString();
-                    }
-                    else
-                    {
-                        //If not, just clear the hotbar slot
-                        hotbarSlot.cvsSlot.Background = null;
-                        hotbarSlot.tblItemAmount.Text = "";
-                    }
-                }
-            }
-        }
-
         public void Drop(int x, int y)
         {
             //Get the selected slot and selected item
@@ -472,7 +334,7 @@ namespace SeeloewenCraft
                 Item item = null;
                 if (!slot.IsEmpty())
                 {
-                    for (int i = 0; i < slot.Amount; i++)
+                    for (int i = 0; i < slot.amount; i++)
                     {
                         item = ItemRegister.GenerateItem(slot.itemId);
 
@@ -483,8 +345,6 @@ namespace SeeloewenCraft
                                 x + 500 - ItemEntity.itemSizeX / 2, //posX
                                 y + 500 - ItemEntity.itemSizeY / 2, //posY
                                 Game.rnd.Next(-6000, 6000), Game.rnd.Next(-15000, -10000))); //velX and velY 
-
-                            slot.inventory.UpdateHotbar();
                         }
                     }
                 }
@@ -519,7 +379,7 @@ namespace SeeloewenCraft
                 writer.WriteValue(slot.itemId);
 
                 writer.WritePropertyName("amount");
-                writer.WriteValue(slot.Amount);
+                writer.WriteValue(slot.amount);
 
                 writer.WritePropertyName("tag");
                 writer.WriteValue(slot.itemTag);
@@ -561,7 +421,7 @@ namespace SeeloewenCraft
 
                 if (!string.IsNullOrEmpty(id))
                 {
-                    slot.Add(id, amount, tag, out bool success);
+                    slot.Add(id, amount, tag);
                 }
 
                 slotNum++;

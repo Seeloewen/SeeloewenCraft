@@ -19,9 +19,9 @@ namespace SeeloewenCraft.game.ui.ui_lib
     public class TextLayout
     {
 
-        int xAnchor;
+        internal int xAnchor;
         TextHAlignment textHAlignment;
-        int yAnchor;
+        internal int yAnchor;
         TextVAlignment textVAlignment;
 
         /// <summary>
@@ -139,7 +139,48 @@ namespace SeeloewenCraft.game.ui.ui_lib
 
         }
 
+        /// <summary>
+        /// Moves the upper left corner of the bounding box of this component to the specified coordinates
+        /// Also moves the children of this component by the necessary amount
+        /// </summary>
+        /// <param name="x">X coordinate of new upper left corner</param>
+        /// <param name="y">Y coordinate of new upper left corner</param>
+        internal override void MoveTo(int x, int y)
+        {
+            int stepX = x - bounds.x1P;
+            int stepY = y - bounds.y1P;
 
+            layout.xAnchor = x; 
+            layout.yAnchor = y;
+
+            Rectangle newBounds = layout.CalcBounds(text, size);
+            SetBounds(newBounds);
+
+            foreach (Component child in children)
+            {
+                child.MoveBy(stepX, stepY);
+            }
+        }
+
+        /// <summary>
+        /// Moves the upper left corner of the bounding box of this component by the specified amount
+        /// Also moves the children of this component by the specified amount
+        /// </summary>
+        /// <param name="x">Amount of steps on positive x-axis</param>
+        /// <param name="y">Amount of steps on positive y-axis</param>
+        internal override void MoveBy(int x, int y)
+        {
+            layout.xAnchor = layout.xAnchor + x;
+            layout.yAnchor = layout.yAnchor + y;
+
+            Rectangle newBounds = layout.CalcBounds(text, size);
+            SetBounds(newBounds);
+
+            foreach (Component child in children)
+            {
+                child.MoveBy(x, y);
+            }
+        }
 
 
     }

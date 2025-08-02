@@ -219,11 +219,11 @@ namespace SeeloewenCraft.entity
                 //Drop all items and clear the inventory
                 foreach (InventorySlot slot in inventory.slotList)
                 {
-                    for (int i = 0; i < slot.Amount; i++)
+                    for (int i = 0; i < slot.amount; i++)
                     {
                         Drop(slot.itemId);
                     }
-                    slot.Remove(slot.Amount);
+                    slot.Remove(slot.amount);
                 }
 
                 //Move the player to the spawn

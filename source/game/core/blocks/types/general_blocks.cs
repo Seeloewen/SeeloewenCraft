@@ -163,9 +163,7 @@ namespace SeeloewenCraft
             {
                 blockInventory.inventoryGui.SetTop(355);
                 blockInventory.inventoryGui.tblHeader.Text = "Chest";
-                blockInventory.Show();
                 Game.world.player.inventory.inventoryGui.SetTop(20);
-                Game.world.player.inventory.Show();
             }
         }
     }
@@ -309,7 +307,6 @@ namespace SeeloewenCraft
             if (IsInRange())
             {
                 Game.world.player.inventory.inventoryGui.SetTop(25);
-                Game.world.player.inventory.Show();
                 gui.Show();
             }
         }
@@ -745,9 +742,7 @@ namespace SeeloewenCraft
             {
                 blockInventory.inventoryGui.SetTop(355);
                 blockInventory.inventoryGui.tblHeader.Text = "Barrel";
-                blockInventory.Show();
                 Game.world.player.inventory.inventoryGui.SetTop(20);
-                Game.world.player.inventory.Show();
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Media.Media3D;
 
 namespace SeeloewenCraft.game.ui.ui_lib
 {
@@ -13,6 +14,18 @@ namespace SeeloewenCraft.game.ui.ui_lib
         /// Rectangular bounding box of the component
         /// </summary>
         protected Rectangle bounds { get; set; }
+
+        /// <summary>
+        /// Height of the component in pixels
+        /// </summary>
+        public int height { get => bounds.y1P - bounds.y2P; }
+
+        /// <summary>
+        /// Width of the component in pixels
+        /// </summary>
+        public int width { get => bounds.x2P - bounds.x1P; }
+
+        public bool visible = true;
 
         /// <summary>
         /// Creates a component with specified bounds
@@ -48,7 +61,7 @@ namespace SeeloewenCraft.game.ui.ui_lib
 
 
         #region children/parent
-        List<Component> children;
+        protected List<Component> children;
         /// <summary>
         /// Reference to parent component
         /// </summary>
@@ -66,6 +79,23 @@ namespace SeeloewenCraft.game.ui.ui_lib
         }
 
         /// <summary>
+        /// Remove a component from the children
+        /// </summary>
+        /// <param name="component">Component to be removed</param>
+        public void RemoveChild(Component component)
+        {
+            children.Remove(component);
+        }
+
+        /// <summary>
+        /// Remove all children components
+        /// </summary>
+        public void ClearChildren()
+        {
+            children.Clear();
+        }
+
+        /// <summary>
         /// This method is executed when this component is added to a parent component
         /// </summary>
         /// <param name="parent">New parent component</param>
@@ -78,6 +108,11 @@ namespace SeeloewenCraft.game.ui.ui_lib
         //renders this and every child component. expects that all renderers are begun, and will be ended
         internal void Render()
         {
+            if (!visible)
+            {
+                return;
+            }
+
             OnRender();
             foreach (Component child in children)
             {
@@ -183,9 +218,48 @@ namespace SeeloewenCraft.game.ui.ui_lib
         /// <summary>
         /// Sets the bounding box of this component
         /// </summary>
+        /// <param name="bounds">New bounding box of component</param>
+
         internal void SetBounds(Rectangle bounds) //Once again, I'm sorry CDLemmi for tampering with your lib but I needed this feature :) 25.02.2025
         {
             this.bounds = bounds;
+        }
+
+        /// <summary>
+        /// Moves the upper left corner of the bounding box of this component to the specified coordinates
+        /// Also moves the children of this component by the necessary amount
+        /// </summary>
+        /// <param name="x">X coordinate of new upper left corner</param>
+        /// <param name="y">Y coordinate of new upper left corner</param>
+        internal virtual void MoveTo(int x, int y)
+        {
+            int stepX = x - bounds.x1P;
+            int stepY = y - bounds.y1P;
+
+            Rectangle newBounds = new Rectangle(x, y, x + width, y + height);
+            SetBounds(newBounds);
+
+            foreach(Component child in children)
+            {
+                child.MoveBy(stepX, stepY);
+            }
+        }
+
+        /// <summary>
+        /// Moves the upper left corner of the bounding box of this component by the specified amount
+        /// Also moves the children of this component by the specified amount
+        /// </summary>
+        /// <param name="x">Amount of steps on positive x-axis</param>
+        /// <param name="y">Amount of steps on positive y-axis</param>
+        internal virtual void MoveBy(int x, int y)
+        {
+            Rectangle newBounds = new Rectangle(bounds.x1P + x, bounds.y1P + y, bounds.x2P + x, bounds.y2P + y);
+            SetBounds(newBounds);
+
+            foreach (Component child in children)
+            {
+                child.MoveBy(x, y);
+            }
         }
         #endregion
 

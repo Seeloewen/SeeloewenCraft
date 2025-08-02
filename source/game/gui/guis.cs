@@ -39,7 +39,7 @@ namespace SeeloewenCraft
         {
             //Show the hand crafting gui and hide the inventory
             handCraftingGui.Show();
-            inventory.ShowHotbar();
+            //inventory.ShowHotbar();
             Hide();
         }
     }
@@ -308,7 +308,7 @@ namespace SeeloewenCraft
 
                 if (item is ChiseledItem chisItem && chisItem.isChiseled)
                 {
-                    for (int i = 0; i < inventory.slotList[0].Amount; i++)
+                    for (int i = 0; i < inventory.slotList[0].amount; i++)
                     {
                         //Add the output to the inventory
                         foreach (Item outItem in chisItem.Unchisel())
@@ -334,7 +334,7 @@ namespace SeeloewenCraft
                 }
 
                 //If an item was unchiseled, clear the slot
-                if (unchiselSuccess) inventory.slotList[0].Remove(inventory.slotList[0].Amount);
+                if (unchiselSuccess) inventory.slotList[0].Remove(inventory.slotList[0].amount);
 
             }
             else
