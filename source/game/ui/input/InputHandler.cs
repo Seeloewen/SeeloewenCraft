@@ -78,11 +78,9 @@ namespace SeeloewenCraft.game.ui
 
         }
 
-        public static int HandleScrollOffset()
+        static public void Reset()
         {
-            int s = scrollAmount;
             scrollAmount = 0;
-            return s;
         }
 
         /*public static void HandleMouseMove(Point p)

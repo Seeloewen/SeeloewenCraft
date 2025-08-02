@@ -67,6 +67,11 @@ namespace SeeloewenCraft.game.ui.ui_lib
                 mouseRightDown = InputHandler.pressedRight;
             }
 
+            if (InputHandler.scrollAmount != 0)
+            {
+                component.cascadeInputEvent(new ScrollEvent(InputHandler.scrollAmount));
+            }
+
 
         }
 

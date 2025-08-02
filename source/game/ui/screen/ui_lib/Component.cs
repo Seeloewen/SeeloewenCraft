@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SeeloewenCraft.game.ui.ui_lib
 {
@@ -63,8 +64,21 @@ namespace SeeloewenCraft.game.ui.ui_lib
             children.Add(component);
             component.parent = this;
             component.OnAdd(this);
+            OnChildAdded(component);
         }
 
+        protected void ForEachChildren(Action<Component> action)
+        {
+            children.ForEach(action);
+        }
+        
+
+        /// <summary>
+        /// This method is executed when a component is added as a child
+        /// </summary>
+        /// <param name="parent">New child component</param>
+        protected virtual void OnChildAdded(Component component) { }
+        
         /// <summary>
         /// This method is executed when this component is added to a parent component
         /// </summary>
@@ -90,6 +104,7 @@ namespace SeeloewenCraft.game.ui.ui_lib
 
                 child.Render();
             }
+            OnRenderEnd();
         }
 
         /// <summary>
@@ -97,12 +112,17 @@ namespace SeeloewenCraft.game.ui.ui_lib
         /// </summary>
         protected virtual void OnRender() { }
 
+        /// <summary>
+        /// This method is called after all child components are rendered.
+        /// </summary>
+        protected virtual void OnRenderEnd() { }
+        
         #endregion
 
 
         #region input handling
 
-        bool hovered;
+        public bool hovered { get; private set; }
 
         internal void cascadeInputEvent(InputEvent inputEvent)
         {
@@ -140,6 +160,10 @@ namespace SeeloewenCraft.game.ui.ui_lib
             {
                 if (hovered) OnClickEvent(clickEvent);
             }
+            else if (inputEvent is ScrollEvent scrollEvent)
+            {
+                if(hovered) OnScrollEvent(scrollEvent);
+            }
         }
 
 
@@ -165,6 +189,11 @@ namespace SeeloewenCraft.game.ui.ui_lib
         /// <param name="mouseMoveEvent">MouseMoveEvent associated with this method call</param>
         protected virtual void OnClickEvent(ClickEvent mouseClickEvent) { }
 
+        /// <summary>
+        /// Is called when the current mouse scroll amount is not equal to 0
+        /// </summary>
+        /// <param name="mouseMoveEvent">ScrollEvent associated with this method call</param>
+        protected virtual void OnScrollEvent(ScrollEvent scrollEvent) { }
 
         #endregion
 
@@ -187,6 +216,13 @@ namespace SeeloewenCraft.game.ui.ui_lib
         {
             this.bounds = bounds;
         }
+
+        public void MoveBy(int dx, int dy)
+        {
+            children.ForEach(c => c.MoveBy(dx, dy));
+            SetBounds(new Rectangle(bounds.x1P + dx, bounds.y1P + dy, bounds.x2P + dx, bounds.y2P + dy));
+        }
+        
         #endregion
 
     }

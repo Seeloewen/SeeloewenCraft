@@ -39,6 +39,7 @@ namespace SeeloewenCraft
             while (!shouldClose && !GLFW.WindowShouldClose(window))
             {
                 double dt = DeltaTimer.Tick(out bool blockUpdate);
+
                 
                 Screen.Update();
 
@@ -47,6 +48,8 @@ namespace SeeloewenCraft
                 Renderer.Render();
 
                 GLFW.SwapBuffers(window);
+                
+                InputHandler.Reset();
                 GLFW.PollEvents();
 
             }
