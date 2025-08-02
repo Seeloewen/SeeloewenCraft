@@ -34,10 +34,10 @@ namespace SeeloewenCraft.game.ui
 
         public static void OnResize()
         {
-            if (invUIRoot.visible)
+            if (guiRoot.visible)
             {
-                invUIRoot.Hide();
-                invUIRoot.Show();
+                guiRoot.Hide();
+                guiRoot.Show();
             }
             if (escapeMenuUIRoot.visible)
             {
