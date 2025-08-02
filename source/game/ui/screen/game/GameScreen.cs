@@ -16,7 +16,7 @@ namespace SeeloewenCraft.game.ui
             float mouseY = InputHandler.mouseYScreen;
 
             int newBlockX = (int)Math.Floor((mouseX - GameCamera.blockXAnchor) / GameCamera.blockLength);
-            int newBlockY = (int)-((mouseY - GameCamera.blockYAnchor) / (GameCamera.blockLength * 16 / 9.0f));
+            int newBlockY = (int)-((mouseY - GameCamera.blockYAnchor) / (GameCamera.blockLength * Resolution.RATIO));
 
             var block = Game.world.GetBlock(newBlockX, newBlockY);
             if (targetedBlock != block)

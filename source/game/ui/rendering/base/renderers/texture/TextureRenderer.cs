@@ -19,7 +19,7 @@ namespace SeeloewenCraft.game.ui
 
         public static void Init()
         {
-            shader = new Shader("shader/texture");
+            shader = new Shader("shader.texture");
             buffer = new VertexBuffer(new VBLayout().AddAttribute(2).AddAttribute(2).AddAttribute(1), 1024);
         }
 
@@ -42,6 +42,11 @@ namespace SeeloewenCraft.game.ui
         static internal void Draw(string id, Rectangle bounds)
         {
             Draw(id, bounds.x1S, bounds.y1S, bounds.x2S, bounds.y2S);
+        }
+
+        static internal void Draw(string id, Rectangle bounds, float g)
+        {
+            Draw(id, bounds.x1S, bounds.y1S, bounds.x2S, bounds.y2S, g);
         }
 
         static internal void Draw(string id, float x1, float y1, float x2, float y2, float g)

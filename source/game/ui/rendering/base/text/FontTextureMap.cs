@@ -1,6 +1,8 @@
 ﻿
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.Reflection;
 
 namespace SeeloewenCraft.game.ui
 {
@@ -20,11 +22,11 @@ namespace SeeloewenCraft.game.ui
 
             textureMap.mappings = new Dictionary<char, (float, float, float, float)>();
 
-            JsonToken token = JsonUtil.ReadFile(TextureManager.fontMappings).GetToken("/characters");
+            JsonToken token = JsonUtil.ReadResource(TextureManager.fontMappings).GetToken("/characters");
 
 
-
-            Bitmap bitmap = new Bitmap(TextureManager.fontMap);
+            using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(TextureManager.fontMap);
+            Bitmap bitmap = new Bitmap(stream);
             TextureImage texImage = new TextureImage(bitmap);
 
             float width = texImage.width;

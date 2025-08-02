@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Connect to Server..." Height="222" Width="477" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <Window.Background>
-        <ImageBrush ImageSource="/Resources/Textures/Gui/Background.png" Stretch="None"/>
+        <ImageBrush ImageSource="/Resources/launcher/Gui/Background.png" Stretch="None"/>
     </Window.Background>
     <Grid>
         <TextBox x:Name="tbIp" HorizontalAlignment="Left" Margin="17,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="297" FontSize="16"/>

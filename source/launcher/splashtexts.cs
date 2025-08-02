@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Resources;
 
@@ -15,9 +16,12 @@ namespace SeeloewenCraft
             this.wndMenu = wndMenu;
 
             //Read all texts from file
-            Uri uri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/splash_texts.txt", UriKind.Absolute);
-            StreamResourceInfo info = Application.GetResourceStream(uri);
-            using StreamReader reader = new(info.Stream);
+
+            string resourceName = "YourNamespace.Images.MyBitmap.bmp";
+
+            using Stream stream = Assembly.GetExecutingAssembly()
+                .GetManifestResourceStream("SeeloewenCraft.Resources.splash_texts.txt");
+            using StreamReader reader = new(stream);
             string text = reader.ReadToEnd();
             texts = text.Split(';');
         }

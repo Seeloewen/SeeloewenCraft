@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows.Resources;
 using System.Windows;
@@ -75,10 +76,8 @@ namespace SeeloewenCraft
         {
             try
             {
-                //Read all texts from file
-                Uri uri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/{name}", UriKind.Absolute);
-                StreamResourceInfo info = Application.GetResourceStream(uri);
-                using StreamReader reader = new(info.Stream);
+                using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"SeeloewenCraft.Resources.{name}");
+                using StreamReader reader = new(stream);
                 return new JsonToken(JToken.Parse(reader.ReadToEnd()));
             }
             catch (Exception ex)

@@ -31,12 +31,12 @@ namespace SeeloewenCraft
         public static int playerId;
         public static bool generated;
 
-        #region GLFW
+
 
         static unsafe void GameLoop(Window* window)
         {
             DeltaTimer.Start();
-            while (!GLFW.WindowShouldClose(window))
+            while (!shouldClose && !GLFW.WindowShouldClose(window))
             {
                 double dt = DeltaTimer.Tick(out bool blockUpdate);
                 
@@ -49,9 +49,11 @@ namespace SeeloewenCraft
                 GLFW.SwapBuffers(window);
                 GLFW.PollEvents();
 
-                if (shouldClose) break;
             }
         }
+        
+        
+        #region GLFW
 
         public static bool shouldClose = false;
 
@@ -68,6 +70,8 @@ namespace SeeloewenCraft
 
             InputHandler.Init(window);
 
+            Resolution.Init(window);
+
             TextureManager.Init();
 
             world = new World(null, worldName, seed, isNew, worldVersion, gameVersion, multiplayerType);
@@ -79,10 +83,8 @@ namespace SeeloewenCraft
             GameLoop(window);
 
 
-
             GLFW.DestroyWindow(window);
             GLFW.Terminate();
-
         }
 
 
@@ -96,9 +98,9 @@ namespace SeeloewenCraft
             GLFW.WindowHint(WindowHintInt.ContextVersionMajor, 3);
             GLFW.WindowHint(WindowHintInt.ContextVersionMinor, 3);
             GLFW.WindowHint(WindowHintOpenGlProfile.OpenGlProfile, OpenGlProfile.Core);
-            GLFW.WindowHint(WindowHintBool.Resizable, false);
+            GLFW.WindowHint(WindowHintBool.Resizable, true);
 
-            Window* window = GLFW.CreateWindow(1280, 720, "Game Window (ohio)", null, null);
+            Window* window = GLFW.CreateWindow(Resolution.WIDTH, Resolution.HEIGHT, "Game Window (ohio)", null, null);
             if (window == null)
             {
                 FatalError("Failed to create window");
@@ -172,6 +174,7 @@ namespace SeeloewenCraft
 
     }
 
+    // i hope i never have to understand this 💀
     public class GLFWBindingsContext : IBindingsContext
     {
         public IntPtr GetProcAddress(string procName)

@@ -8,7 +8,7 @@
         Title="Multiplayer" Height="480" Width="720" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/Resources/Textures/Gui/Background.png" TileMode="Tile" Stretch="None"/>
+            <ImageBrush ImageSource="/Resources/launcher/Gui/Background.png" TileMode="Tile" Stretch="None"/>
         </Grid.Background>
         <TextBlock x:Name="tblMultiplayer" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="26" FontWeight="DemiBold" Margin="11,11,0,0" Foreground="White"><Run Language="de-de" Text="Multiplayer"/></TextBlock>
         <TextBlock x:Name="tblWarning" HorizontalAlignment="Left" Margin="11,51,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FFFFEC17" FontSize="18" Width="669"><Run Text="Warning: Multiplayer is in a very early alpha state and very unstable. Desync issues, data loss and connection problems can occur and the network security is basically non-existant. There are currently no safety mechanism"/><Run Language="de-de" Text="s"/><Run Text=" and your computer is pretty much vulnerable while opening a server/connecting to one."/><Run Text=" The creators are not liable for any problems occuring. Use at your own risk!"/></TextBlock>

@@ -19,7 +19,7 @@ namespace SeeloewenCraft.game.ui
         {
             (textureMap, widthMappings) = FontTextureMap.ParseFontMap();
             
-            shader = new Shader("shader/texture");
+            shader = new Shader("shader.texture");
             vertexBuffer = new VertexBuffer(new VBLayout().AddAttribute(2).AddAttribute(2).AddAttribute(1), 1024);
         }
 
@@ -66,7 +66,7 @@ namespace SeeloewenCraft.game.ui
 
         static private void Draw(string s, float x, float y, float h)
         {
-            float w = (h / 8) * (9 / 16f);
+            float w = (h / 8) * (1 / Resolution.RATIO);
 
             foreach (char c in s)
             {
@@ -85,7 +85,7 @@ namespace SeeloewenCraft.game.ui
             {
                 charWidth = 5;
             }
-            float w = charWidth * (h / 8) * 9/16f;
+            float w = charWidth * (h / 8) / Resolution.RATIO;
             Draw(x, y, x + w, y + h, s1, t2, s2, t1);
 
             return w;

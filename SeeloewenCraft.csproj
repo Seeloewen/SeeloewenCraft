@@ -10,8 +10,9 @@
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    <Configurations>Debug;Release;MAX OPTIMIZATIONS</Configurations>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
+  
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <SupportedOSPlatformVersion>10.0.20348.0</SupportedOSPlatformVersion>
@@ -20,31 +21,21 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>docs\gen_docs.xml</DocumentationFile>
-    <ErrorReport>send</ErrorReport>
   </PropertyGroup>
+  
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>False</Optimize>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MAX OPTIMIZATIONS|AnyCPU'">
-    <Optimize>False</Optimize>
-    <NoWarn>1701;1702;1591</NoWarn>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <Optimize>False</Optimize>
-    <NoWarn>1701;1702;1591</NoWarn>
+    <Optimize>True</Optimize>
+	<NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
+  
   <ItemGroup>
-    <Resource Include="Resources\**\*.*" />
-    <Resource Remove="Resources\Cactus_Left.png" />
-    <Resource Remove="Resources\Cactus_Right.png" />
-    <Resource Remove="Resources\Glass.png" />
-	<None Remove="resources\shader\frag.glsl" />
-	<None Remove="Resources\shader\player\frag.glsl" />
-	<None Remove="Resources\shader\player\vert.glsl" />
-	<None Remove="resources\shader\primitive\frag.glsl" />
-	<None Remove="resources\shader\primitive\vert.glsl" />
-	<None Remove="resources\shader\vert.glsl" />
+    <EmbeddedResource Include="Resources\**\*.*" />
+    <Resource Include="Resources\launcher\Background.png" />
+    
 	<PackageReference Include="OpenTK" Version="4.8.2" />
 	<PackageReference Include="OpenTK.GLWpfControl" Version="4.3.2" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
@@ -53,11 +44,9 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Collections.Immutable" Version="9.0.0" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
-  </ItemGroup>
-  <ItemGroup>
+    
     <Content Include="SeeloewenCraft.ico" />
-  </ItemGroup>
-  <ItemGroup>
+    
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -68,20 +57,14 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="source\game\gl_rendering\abstractions\" />
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Folder Include="Resources\shader\blockworld\" />
-    <Folder Include="Resources\shader\primitive\" />
   </ItemGroup>
+  
 </Project>
