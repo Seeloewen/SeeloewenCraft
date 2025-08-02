@@ -9,7 +9,6 @@
             //Heal the player and remove the item
             Game.world.player.Heal(healAmount);
             invSlot.Remove(1);
-            invSlot.inventory.UpdateHotbar();
         }
 
     }

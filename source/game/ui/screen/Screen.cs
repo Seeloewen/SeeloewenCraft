@@ -14,19 +14,20 @@ namespace SeeloewenCraft.game.ui
 
         public static bool allowIngameInputs { get => !(showEscapeMenu || showIngameMenu || showInventory); }
 
+        public static GuiScreen guiScreen;
 
-        static UIRoot invUIRoot;
-        static UIRoot escapeMenuUIRoot;
-        static UIRoot hotbarUIRoot;
-        static UIRoot gameOverlayUIRoot;
+        public static UIRoot guiRoot;
+        internal static UIRoot escapeMenuUIRoot;
+        internal static UIRoot hotbarUIRoot;
+        internal static UIRoot gameOverlayUIRoot;
 
         public static void Init()
         {
-            InventoryScreen.Init();
-            invUIRoot = new UIRoot(() => new InvUI());
+            guiScreen = new GuiScreen();
+            guiRoot = new UIRoot(() => guiScreen);
             escapeMenuUIRoot = new UIRoot(() => new EscapeMenu());
-            gameOverlayUIRoot = new UIRoot(() => new GameOverlay()); //least useless code
-            hotbarUIRoot = new UIRoot(() => new Hotbar());
+            gameOverlayUIRoot = new UIRoot(() => new GameOverlay());
+            hotbarUIRoot = new UIRoot(() => new CHotbar(Game.world.player.inventory));
             gameOverlayUIRoot.Show();
             hotbarUIRoot.Show();
         }
@@ -71,7 +72,7 @@ namespace SeeloewenCraft.game.ui
             }
             if (showInventory)
             {
-                invUIRoot.Update();
+                guiRoot.Update();
             }
         }
 
@@ -95,15 +96,24 @@ namespace SeeloewenCraft.game.ui
             }
             else if (KeyBinds.checkPressedFirst(KeyBinds.SHOW_INV))
             {
+                if (showInventory)
+                {
+                    ((IGuiData)Game.world.player.inventory).Hide();
+                }
+                else
+                {
+                    ((IGuiData)Game.world.player.inventory).Show();
+                }
+
                 showInventory = !showInventory;
                 showGameOverlay = !showInventory;
                 if (showInventory)
                 {
-                    invUIRoot.Show();
+                    guiRoot.Show();
                 }
                 else
                 {
-                    invUIRoot.Hide();
+                    guiRoot.Hide();
                 }
             }
         }
@@ -113,7 +123,7 @@ namespace SeeloewenCraft.game.ui
             if (showGame && allowIngameInputs) GameScreen.Render();
             if (showHotbar) hotbarUIRoot.Render();
             if (showDebugMenu) DebugMenu.Render();
-            if (showInventory) invUIRoot.Render();
+            if (showInventory) guiRoot.Render();
             if (showEscapeMenu) escapeMenuUIRoot.Render();
             if (showGameOverlay) gameOverlayUIRoot.Render();
         }

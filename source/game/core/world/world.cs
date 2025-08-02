@@ -17,6 +17,7 @@ namespace SeeloewenCraft
 {
     public class World
     {
+
         //References
         public wndMenu wndMenu;
         public System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
@@ -26,6 +27,7 @@ namespace SeeloewenCraft
         public List<Gui> guiList = new List<Gui>();
         public List<CraftingRecipe> craftingRecipeList = new List<CraftingRecipe>();
         public Player player { get => entityManager.player; }
+        public List<IGuiData> guiDatas = new List<IGuiData>();
         public WaterHandler waterHandler;
         public ClickHandler clickHandler;
         public DebugMenu_old debugMenu;
@@ -444,7 +446,6 @@ namespace SeeloewenCraft
                 player.inventory.AddItem("sc:dirt_item", 64, "");
             }
 
-            player.inventory.UpdateHotbar();
             inventoryList.Add(player.inventory);
             player.inventory.hotbarSlotList[0].Select();
         }

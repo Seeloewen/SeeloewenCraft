@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Input;
 using SeeloewenCraft.game.ui;
 
@@ -9,117 +7,44 @@ namespace SeeloewenCraft
 {
     public class InventorySlot
     {
-        //References
         public Inventory inventory;
-        public Border bdrSlot = new Border();
-        public Canvas cvsItem = new Canvas();
-        public TextBlock tblItemAmount = new TextBlock();
-        public ProgressBar pbDurability = new ProgressBar();
         public HotbarSlot hotbarSlot;
 
-        //Variables
         public string itemId;
         public int xPos;
         public int yPos;
         public string itemTag;
         public bool isSelected;
-        private int amount;
-
-        public int Amount
-        {
-            set
-            {
-                //When setting the amount, also update the item amount textblock
-                amount = value;
-                tblItemAmount.Text = value.ToString();
-
-                //If the amount is bigger than 0, show the textblock - if not, hide it
-                if (amount > 0)
-                {
-                    tblItemAmount.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    tblItemAmount.Visibility = Visibility.Hidden;
-                }
-            }
-            get
-            {
-                return amount;
-            }
-        }
-
-        //-- Constructor --//
+        public int amount;
 
         public InventorySlot(Inventory inventory, int xPos, int yPos)
         {
-            //Set the attributes
             this.inventory = inventory;
             this.xPos = xPos;
             this.yPos = yPos;
-
-            //Setup the slot border
-            bdrSlot.Width = 74;
-            bdrSlot.Height = 74;
-            bdrSlot.BorderThickness = new Thickness(3, 3, 3, 3);
-            bdrSlot.Background = new SolidColorBrush(Colors.DarkGray);
-            bdrSlot.MouseLeftButtonDown += bdrSlot_LeftMouseButtonDown;
-            bdrSlot.MouseRightButtonDown += bdrSlot_RightMouseButtonDown;
-            bdrSlot.MouseEnter += BdrSlot_MouseEnter;
-            bdrSlot.MouseLeave += BdrSlot_MouseLeave;
-            bdrSlot.Child = cvsItem;
-
-            //Setup the slot textblock
-            tblItemAmount.FontSize = 18;
-            Canvas.SetLeft(tblItemAmount, 38);
-            Canvas.SetTop(tblItemAmount, 34);
-
-            //Setup progressbar
-            pbDurability.Width = 36;
-            pbDurability.Height = 7;
-            Canvas.SetTop(pbDurability, 45);
-            Canvas.SetLeft(pbDurability, -3);
-            pbDurability.Visibility = Visibility.Hidden;
-
-            //Setup canvas
-            cvsItem.Width = 50;
-            cvsItem.Height = 50;
-            cvsItem.Children.Add(tblItemAmount);
-            cvsItem.Children.Add(pbDurability);
-            cvsItem.Margin = new Thickness(3, 3, 2.5, 2.5);
         }
 
-        //-- Custom Methods --//
-
-        public void Add(string id, int amount, string tag, out bool success)
+        public bool Add(string id, int amount, string tag) //Returns whether the items were successfully added
         {
-            success = true;
-
             //Check if the slot already has the specified id or is empty
             if (itemId == id || IsEmpty())
             {
                 //If the slot is not empty and the item is not stackable
-                if (Game.unstackableItems.Contains(id) && !IsEmpty())
-                {
-                    success = false;
-                    return;
-                }
+                if (Game.unstackableItems.Contains(id) && !IsEmpty()) return false;
 
-                //Check if total amount would be above 64, which shouldn't be possible
-                if (Amount + amount <= 64)
+                if (this.amount + amount <= 64)
                 {
                     //Update the slot
                     itemId = id;
-                    Amount += amount;
+                    this.amount += amount;
                     itemTag = tag;
-                    cvsItem.Background = ItemRegister.GenerateItem(id).image;
 
                     if (inventory.block != null && inventory.block.chunk != null)
                     {
                         NetworkHandler.SendData(MultiplayerPacketType.ADD_TO_INV, inventory.block.xPos.ToString(), inventory.block.yPos.ToString(), inventory.block.chunk.index.ToString(), id, amount.ToString(), xPos.ToString(), yPos.ToString(), tag ??= "");
                     }
 
-                    ToggleDurabilityDisplay();
+                    return true;
                 }
                 else
                 {
@@ -136,52 +61,23 @@ namespace SeeloewenCraft
         {
             //Update the slot
             itemId = id;
-            Amount += amount;
+            this.amount += amount;
             itemTag = tag;
-            cvsItem.Background = ItemRegister.GenerateItem(id).image;
-            ToggleDurabilityDisplay();
-        }
-
-        public void ToggleDurabilityDisplay()
-        {
-            if (GetDurability() != 0)
-            {
-                //Setup progressbar in slot
-                ToolItem item = ItemRegister.GenerateItem(itemId) as ToolItem;
-                pbDurability.Visibility = Visibility.Visible;
-                pbDurability.Maximum = item.maxDurability;
-                pbDurability.Value = GetDurability();
-
-                //Setup progressbar in hotbar slot
-                if (hotbarSlot != null)
-                {
-                    hotbarSlot.pbDurability.Visibility = Visibility.Visible;
-                    hotbarSlot.pbDurability.Maximum = item.maxDurability;
-                    hotbarSlot.pbDurability.Value = GetDurability();
-                }
-            }
-            else
-            {
-                pbDurability.Visibility = Visibility.Hidden;
-            }
         }
 
         public void Remove(int amount)
         {
             //Check if the total amount would be below 0, which shouldn't be possible
-            if (Amount - amount >= 0)
+            if (this.amount - amount >= 0)
             {
-                //Update the slot and clear it if the amount is 0
-                Amount -= amount;
+                this.amount -= amount;
 
-                if (Amount == 0)
+                if (this.amount == 0)
                 {
-                    cvsItem.Background = new SolidColorBrush(Colors.Transparent);
+                    //Clear the slot
                     itemId = null;
                     itemTag = null;
-                    pbDurability.Visibility = Visibility.Hidden;
                     if (hotbarSlot != null) hotbarSlot.pbDurability.Visibility = Visibility.Hidden;
-                    inventory.UpdateHotbar();
                 }
 
                 if (inventory.block != null && inventory.block.chunk != null)
@@ -198,38 +94,30 @@ namespace SeeloewenCraft
         public void Remove_Multiplayer(int amount)
         {
             //Update the slot and clear it if the amount is 0
-            Amount -= amount;
+            this.amount -= amount;
 
-            if (Amount == 0)
+            if (this.amount == 0)
             {
-                cvsItem.Background = new SolidColorBrush(Colors.Transparent);
                 itemId = "";
             }
         }
 
-        public int GetAvailableSpace()
-        {
-            //Return the available space, obviously
-            return 64 - Amount;
-        }
+        public int GetAvailableSpace() => 64 - amount;
 
         public void Select()
         {
-            //Select the slot and make it follow the mouse by selecting it in the game window
-            //Game.world.wndGame.ShowInvItem(this);
-            cvsItem.Visibility = Visibility.Hidden;
+            //Select the slot and unselect all other slots
+            foreach (InventorySlot slot in inventory.slotList)
+            {
+                slot.Unselect();
+            }
+
             isSelected = true;
         }
 
-        public void Unselect()
-        {
-            //Unselect the slot and make it no longer follow the mouse in the game window
-            ////Game.world.wndGame.HideInvItem();
-            cvsItem.Visibility = Visibility.Visible;
-            isSelected = false;
-        }
+        public void Unselect() => isSelected = false;
 
-        public void MoveItem(InventorySlot newSlot, int amount) //Move item from this slot to another one
+        public void MoveItemTo(InventorySlot newSlot, int amount) //Move item from this slot to another one
         {
             //Check if enough space is in the new slot available, if not, only add the amount of possible space
             if (newSlot.GetAvailableSpace() < amount)
@@ -237,26 +125,20 @@ namespace SeeloewenCraft
                 amount = newSlot.GetAvailableSpace();
             }
 
-            //Add to the new slot and remove from the old one
-            newSlot.Add(itemId, amount, itemTag, out bool success);
-            if (success)
+            //Add to the new slot and remove from the old one        
+            if (newSlot.Add(itemId, amount, itemTag))
             {
                 Remove(amount);
             }
         }
 
-        public bool IsEmpty()
-        {
-            //Check if no string is given and the amount is 0
-            return string.IsNullOrEmpty(itemId) && Amount == 0;
-        }
+        public bool IsEmpty() => string.IsNullOrEmpty(itemId) && this.amount == 0;
 
         public Inventory GetOtherInventory()
         {
             //Get the first other inventory that's in the list and is currently open. Since there should in most cases only be
-            //One other inventory besides the main one, this works. It might cause issues with multiple issues, would need some
+            //One other inventory besides the main one, this works. It might cause issues with multiple inventories, would need some
             //Improvements then to search for specific inventories.
-
             foreach (Inventory inventory in Game.world.inventoryList)
             {
                 if (inventory != this.inventory && inventory.inventoryGui.isOpen)
@@ -271,21 +153,16 @@ namespace SeeloewenCraft
         {
             if (ItemRegister.GenerateItem(itemId) is ToolItem && Game.world.gamemode == Gamemode.Survival)
             {
+                //Update durability of the held tool item
                 int durability = GetDurability();
                 itemTag = itemTag.Replace(durability.ToString(), (durability - 1).ToString());
-                pbDurability.Value--;
-                if (hotbarSlot != null) hotbarSlot.pbDurability.Value--;
 
-                if (durability - 1 <= 0)
-                {
-                    Remove(1);
-                }
+                if (durability - 1 <= 0) Remove(1); //Remove the item if it "breaks"
             }
         }
 
-        public int GetDurability()
+        public int GetDurability() //TODO: Rework with new tag system
         {
-            //Only do on tools
             if (ItemRegister.GenerateItem(itemId) is ToolItem)
             {
                 //Split the tags and the durability tag to the durability
@@ -300,17 +177,7 @@ namespace SeeloewenCraft
 
         //-- Event Handlers --//
 
-        private void BdrSlot_MouseLeave(object sender, MouseEventArgs e)
-        {
-            inventory.HideItemName();
-        }
-
-        private void BdrSlot_MouseEnter(object sender, MouseEventArgs e)
-        {
-                inventory.ShowItemName(this);
-        }
-
-        private void bdrSlot_LeftMouseButtonDown(object sender, EventArgs e)
+        public void OnLeftClick()
         {
             InventorySlot selectedSlot = Game.world.GetSelectedInvSlot();
 
@@ -327,16 +194,15 @@ namespace SeeloewenCraft
                     if (otherInv != null)
                     {
                         otherInv.AddItem(itemId, amount, itemTag, out int remainingAmount);
-                        Remove(Amount - remainingAmount);
+                        Remove(amount - remainingAmount);
                         Unselect();
                     }
                 }
             }
 
-            //If this slot is already selected and clicked again, simply unselect it to paste the items back in it
             else if (selectedSlot == this)
             {
-                Unselect();
+                Unselect(); //Unselect and paste the items back here
             }
             //If a different slot from this one is selected
             else if (selectedSlot != null && selectedSlot != this)
@@ -344,8 +210,7 @@ namespace SeeloewenCraft
                 //Check if it's empty or contains the same item - May need a check for space
                 if (itemId == selectedSlot.itemId || IsEmpty())
                 {
-                    //Try to move the items there
-                    selectedSlot.MoveItem(this, selectedSlot.amount);
+                    selectedSlot.MoveItemTo(this, selectedSlot.amount);
                     selectedSlot.Unselect();
                 }
                 else //Switch two slots
@@ -355,31 +220,28 @@ namespace SeeloewenCraft
                     itemId = "";
                     amount = 0;
 
-                    //Try to move the items here
-                    selectedSlot.MoveItem(this, selectedSlot.amount);
+                    selectedSlot.MoveItemTo(this, selectedSlot.amount); //Move content from other slot here
                     selectedSlot.Unselect();
-
-                    //Move the items from this slot to the other one
-                    selectedSlot.Add(oldId, oldAmount, oldTag, out bool success);
+   
+                    selectedSlot.Add(oldId, oldAmount, oldTag); //Move the saved content from this slot to the other one
                     selectedSlot.Select();
                 }
             }
         }
 
-        private void bdrSlot_RightMouseButtonDown(object sender, EventArgs e)
+        public void OnRightClick()
         {
             InventorySlot selectedSlot = Game.world.GetSelectedInvSlot();
 
             if (selectedSlot != null)
             {
                 //If a slot is selected and the slot has more than 1 item, move one singular item to that slot
-                if ((itemId == selectedSlot.itemId || IsEmpty()) && selectedSlot.Amount > 1)
+                if ((itemId == selectedSlot.itemId || IsEmpty()) && selectedSlot.amount > 1)
                 {
-                    selectedSlot.MoveItem(this, 1);
-                    //Game.world.wndGame.tblInvItem.Text = selectedSlot.Amount.ToString();
+                    selectedSlot.MoveItemTo(this, 1);
                 }
             }
-            else if (selectedSlot == null && Amount > 1)
+            else if (selectedSlot == null && amount > 1)
             {
                 //If no slot is selected and this slot has more than one item
                 foreach (InventorySlot slot in inventory.slotList)
@@ -388,13 +250,30 @@ namespace SeeloewenCraft
                     //This will look like you halfed the stack at hand
                     if (slot.IsEmpty())
                     {
-                        MoveItem(slot, Amount / 2);
+                        MoveItemTo(slot, amount / 2);
                         slot.Select();
                         break;
                     }
                 }
             }
+        }
 
+        public float GetRelativeDurability()
+        {
+            if (itemTag != null && itemTag.Contains("durability="))
+            {
+                //Get current durability relative to max durability of the tool
+                ToolItem item = (ToolItem)ItemRegister.GenerateItem(itemId);
+                float d2 = item.maxDurability;
+                float d1 = GetDurability();
+
+                float d = d1 / d2;
+                d = Math.Min(1f, d);
+
+                return d;
+            }
+
+            return 0;
         }
     }
 }

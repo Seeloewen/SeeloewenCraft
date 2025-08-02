@@ -1,10 +1,7 @@
-﻿
-
-namespace SeeloewenCraft.game.ui
+﻿namespace SeeloewenCraft.game.ui
 {
-    internal static class IS //TODO: rename to InvSizes after finished coding inventory ui
+    internal static class InvSizes
     {
-
         internal static int mx { get => Resolution.WIDTH / 2; }
         internal static int my { get => Resolution.HEIGHT / 2; }
 

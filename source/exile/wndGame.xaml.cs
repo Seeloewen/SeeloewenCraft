@@ -146,6 +146,8 @@ namespace SeeloewenCraft
                 //Check how many guis are open
                 int openGuis = 0;
 
+                openGuis++;
+
                 foreach (Gui gui in world.guiList)
                 {
                     if (gui.isOpen == true)
@@ -157,6 +159,8 @@ namespace SeeloewenCraft
                 //Toggle gui visibility
                 if (openGuis >= 1)
                 {
+                    ((IGuiData)Game.world.player.inventory).Hide();
+
                     //Create a list of all the guis that need to be closed
                     List<Gui> removeGuiList = [.. world.guiList];
 
@@ -164,7 +168,7 @@ namespace SeeloewenCraft
                     {
                         if (gui.id == "sc:inventory")
                         {
-                            gui.inventory.Hide();
+                           // gui.inventory.Hide();
                         }
                         else
                         {
@@ -176,7 +180,7 @@ namespace SeeloewenCraft
                 {
                     Canvas.SetTop(world.player.inventory.inventoryGui.cvsGui, 175);
                     Canvas.SetLeft(world.player.inventory.inventoryGui.cvsGui, 290);
-                    world.player.inventory.Show();
+                    ((IGuiData)Game.world.player.inventory).Show();
                 }
             }
             if (pressedKeys.Contains(Key.D1)) //Num Key 1 (Not numpad)
@@ -250,7 +254,7 @@ namespace SeeloewenCraft
                     {
                         if (gui.id == "sc:inventory")
                         {
-                            gui.inventory.Hide();
+                            //gui.inventory.Hide();
                         }
                         else
                         {
@@ -464,20 +468,6 @@ namespace SeeloewenCraft
             //Apply scaling
             ScaleTransform scaleTransform = new ScaleTransform(scaleX, scaleY);
             cvsGame.LayoutTransform = scaleTransform;
-        }
-
-        public void ShowInvItem(InventorySlot slot)
-        {
-            cvsInvItem.Visibility = Visibility.Visible;
-            cvsInvItem.Background = slot.cvsItem.Background;
-            Canvas.SetLeft(cvsInvItem, mousePosition.X + 5);
-            Canvas.SetTop(cvsInvItem, mousePosition.Y + 5);
-            tblInvItem.Text = slot.Amount.ToString();
-        }
-
-        public void HideInvItem()
-        {
-            cvsInvItem.Visibility = Visibility.Hidden;
         }
 
         //-- Event Handlers --//

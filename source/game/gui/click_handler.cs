@@ -65,7 +65,6 @@
 
                                 //Remove the item from the inventory
                                 selectedSlot.slot.Remove(1);
-                                selectedSlot.slot.inventory.UpdateHotbar();
                             }
                             else if (!newBlock.isBase)
                             {
@@ -73,7 +72,6 @@
 
                                 //Remove the item from the inventory
                                 selectedSlot.slot.Remove(1);
-                                selectedSlot.slot.inventory.UpdateHotbar();
                             }
 
                             return;
@@ -92,7 +90,6 @@
 
                                 //Remove the item from the inventory
                                 selectedSlot.slot.Remove(1);
-                                selectedSlot.slot.inventory.UpdateHotbar();
                             }
                             else if (!newBlock.isBase)
                             {
@@ -100,7 +97,6 @@
 
                                 //Remove the item from the inventory
                                 selectedSlot.slot.Remove(1);
-                                selectedSlot.slot.inventory.UpdateHotbar();
                             }
 
                             newBlock.tags.Add("placedManually");

@@ -3,12 +3,14 @@ using System;
 
 namespace SeeloewenCraft.game.ui
 {
-    class CSlot : CRectangle
+    internal abstract class CSlot : CRectangle
     {
-        CText cText;
-        CTexture cTexture;
-        CRectangle cDurability;
-        CRectangle cDurabilityBack;
+        internal bool isSelected;
+
+        protected CText cAmount;
+        protected CTexture cTexture;
+        protected CRectangle cDurability;
+        protected CRectangle cDurabilityBack;
 
         private Color durBack = new Color(0.6f);
 
@@ -22,8 +24,8 @@ namespace SeeloewenCraft.game.ui
             AddChild(cTexture);
 
             //Item 
-            cText = new CText("", 2, new TextLayout(bounds.x2P - 5, TextHAlignment.RIGHT, bounds.y2P - 5, TextVAlignment.BOTTOM));
-            AddChild(cText);
+            cAmount = new CText("", 2, new TextLayout(bounds.x2P - 5, TextHAlignment.RIGHT, bounds.y2P - 5, TextVAlignment.BOTTOM));
+            AddChild(cAmount);
 
             //Durability
             (x1, y1) = (bounds.x1P + 5, bounds.y2P - 12);
@@ -34,26 +36,30 @@ namespace SeeloewenCraft.game.ui
             AddChild(cDurability);
         }
 
-        public void SetAmount(int amount)
+        public void Update(string id, int amount, float durability, bool isSelected = false)
         {
-            cText.SetText(amount > 1 ? amount.ToString() : "");
-        }
+            this.isSelected = isSelected;
 
-        public void SetItem(string id)
-        {
+            cTexture.visible = !isSelected;
+            cAmount.visible = !isSelected;
+           
+            cDurability.visible = true;
+            cDurabilityBack.visible = true;
+
+            cAmount.SetText(amount > 1 ? amount.ToString() : "");
             cTexture.SetId(id);
-        }
 
-        public void SetDurability(float durability)
-        {
-            if (durability == 0)
+            //Hide durablity display if there is no durability
+            if (durability == 0 || isSelected)
             {
-                cDurability.SetColor(new Color(0f, 0f, 0f, 0f));
-                cDurabilityBack.SetColor(new Color(0f, 0f, 0f, 0f));
+                cDurability.visible = false;
+                cDurabilityBack.visible = false;
                 return;
             }
 
-            cDurabilityBack.SetColor(durBack);
+            //Update durablity display
+            cDurabilityBack.visible = true;
+            cDurability.visible = true;
 
             float g = Math.Min(1f, 2 * durability);
             float r = Math.Min(1f, 2 - 2 * durability);

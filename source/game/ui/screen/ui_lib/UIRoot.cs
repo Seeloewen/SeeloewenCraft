@@ -14,7 +14,7 @@ namespace SeeloewenCraft.game.ui.ui_lib
 
         Func<Component> create;
 
-        Component component;
+        public Component component;
 
         public bool visible
         {

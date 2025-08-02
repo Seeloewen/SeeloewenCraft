@@ -267,7 +267,6 @@ namespace SeeloewenCraft
                 //If client receives the packet, load the inventory
                 JsonToken invToken = JsonUtil.ReadString(packet.content[0]);
                 world.player.inventory = Inventory.LoadFromJson(invToken, true);
-                world.player.inventory.UpdateHotbar();
                 world.inventoryList.Add(world.player.inventory);
                 world.player.inventory.hotbarSlotList[0].Select();
             }
