@@ -1,0 +1,1519 @@
+{
+	"font": {
+		"font_map":"font.block font - final3.png",
+		"mappings":"font.font-map.json"
+	},
+	"sections": [
+		{
+			"section_name": "skin",
+			"textures": [
+				{
+					"id": "head",
+					"file": "Player.Player_Head.png"
+				},
+				{
+					"id": "body",
+					"file": "Player.Player_Body.png"
+				},
+				{
+					"id": "arm_right",
+					"file": "Player.Player_Arm_Right.png"
+				},
+				{
+					"id": "arm_left",
+					"file": "Player.Player_Arm_Left.png"
+				},
+				{
+					"id": "leg_left",
+					"file": "Player.Player_Leg_Left.png"
+				},
+				{
+					"id": "leg_right",
+					"file": "Player.Player_Leg_Right.png"
+				}
+			]
+		},
+		{
+			"section_name": "items",
+			"textures": [
+				{
+					"id": "sc:grass_block_item",
+					"file": "Blocks.Grass_Block.png"
+				},
+				{
+					"id": "sc:stone_block_item",
+					"file": "Blocks.Stone_Block.png"
+				},
+				{
+					"id": "sc:dirt_item",
+					"file": "Blocks.Dirt.png"
+				},
+				{
+					"id": "sc:coal_ore_item",
+					"file": "Blocks.Coal_Ore.png"
+				},
+				{
+					"id": "sc:diamond_ore_item",
+					"file": "Blocks.Diamond_Ore.png"
+				},
+				{
+					"id": "sc:iron_ore_item",
+					"file": "Blocks.Iron_Ore.png"
+				},
+				{
+					"id": "sc:oak_log_item",
+					"file": "Blocks.Oak_Log.png"
+				},
+				{
+					"id": "sc:oak_leaves_item",
+					"file": "Blocks.Oak_Leaves.png"
+				},
+				{
+					"id": "sc:spruce_log_item",
+					"file": "Blocks.Spruce_Log.png"
+				},
+				{
+					"id": "sc:spruce_leaves_item",
+					"file": "Blocks.Spruce_Leaves.png"
+				},
+				{
+					"id": "sc:bedrock_item",
+					"file": "Blocks.Bedrock.png"
+				},
+				{
+					"id": "sc:air_item",
+					"file": "Blocks.Air.png"
+				},
+				{
+					"id": "sc:chest_item",
+					"file": "Blocks.Chest.png"
+				},
+				{
+					"id": "sc:magma_block_item",
+					"file": "Blocks.Magma_Block.png"
+				},
+				{
+					"id": "sc:torch_item",
+					"file": "Blocks.Torch.png"
+				},
+				{
+					"id": "sc:water_item",
+					"file": "Blocks.Water_6.png"
+				},
+				{
+					"id": "sc:crafting_table_item",
+					"file": "Blocks.Crafting_Table.png"
+				},
+				{
+					"id": "sc:cobblestone_item",
+					"file": "Blocks.Cobblestone.png"
+				},
+				{
+					"id": "sc:chiseler_item",
+					"file": "Blocks.Chiseler.png"
+				},
+				{
+					"id": "sc:unchiseler_item",
+					"file": "Blocks.Unchiseler.png"
+				},
+				{
+					"id": "sc:oak_planks_item",
+					"file": "Blocks.Oak_Planks.png"
+				},
+				{
+					"id": "sc:spruce_planks_item",
+					"file": "Blocks.Spruce_Planks.png"
+				},
+				{
+					"id": "sc:sand_stone_item",
+					"file": "Blocks.Sand_Stone.png"
+				},
+				{
+					"id": "sc:cactus_left_item",
+					"file": "Blocks.Connected.Cactus_Left.png"
+				},
+				{
+					"id": "sc:cactus_right_item",
+					"file": "Blocks.Connected.Cactus_Right.png"
+				},
+				{
+					"id": "sc:cactus_bottom_left_item",
+					"file": "Blocks.Connected.Cactus_BottomLeft.png"
+				},
+				{
+					"id": "sc:cactus_bottom_right_item",
+					"file": "Blocks.Connected.Cactus_BottomRight.png"
+				},
+				{
+					"id": "sc:cactus_top_right_item",
+					"file": "Blocks.Connected.Cactus_TopRight.png"
+				},
+				{
+					"id": "sc:cactus_top_left_item",
+					"file": "Blocks.Connected.Cactus_TopLeft.png"
+				},
+				{
+					"id": "sc:cactus_cross_item",
+					"file": "Blocks.Connected.Cactus_Cross.png"
+				},
+				{
+					"id": "sc:cactus_horizontal_item",
+					"file": "Blocks.Connected.Cactus_Horizontal.png"
+				},
+				{
+					"id": "sc:cactus_vertical_item",
+					"file": "Blocks.Connected.Cactus_Vertical.png"
+				},
+				{
+					"id": "sc:cactus_top_item",
+					"file": "Blocks.Connected.Cactus_Top.png"
+				},
+				{
+					"id": "sc:cactus_top_fruit_item",
+					"file": "Blocks.Connected.Cactus_TopFruit.png"
+				},
+				{
+					"id": "sc:furnace_item",
+					"file": "Blocks.States.Furnace_Idle.png"
+				},
+				{
+					"id": "sc:amethyst_ore_item",
+					"file": "Blocks.Amethyst_Ore.png"
+				},
+				{
+					"id": "sc:anvil_item",
+					"file": "Blocks.Anvil.png"
+				},
+				{
+					"id": "sc:barrel_item",
+					"file": "Blocks.Barrel.png"
+				},
+				{
+					"id": "sc:blue_flower_item",
+					"file": "Blocks.Blue_Flower.png"
+				},
+				{
+					"id": "sc:bone_block_item",
+					"file": "Blocks.Bone_Block.png"
+				},
+				{
+					"id": "sc:cactus_fruit_item",
+					"file": "Blocks.Cactus_Fruit.png"
+				},
+				{
+					"id": "sc:candle_item",
+					"file": "Blocks.Candle.png"
+				},
+				{
+					"id": "sc:copper_ore_item",
+					"file": "Blocks.Copper_Ore.png"
+				},
+				{
+					"id": "sc:dead_bush_item",
+					"file": "Blocks.Dead_Bush.png"
+				},
+				{
+					"id": "sc:emerald_ore_item",
+					"file": "Blocks.Emerald_Ore.png"
+				},
+				{
+					"id": "sc:tungsten_ore_item",
+					"file": "Blocks.Tungsten_Ore.png"
+				},
+				{
+					"id": "sc:flower_pot_item",
+					"file": "Blocks.Flower_Pot.png"
+				},
+				{
+					"id": "sc:gold_ore_item",
+					"file": "Blocks.Gold_Ore.png"
+				},
+				{
+					"id": "sc:tin_ore_item",
+					"file": "Blocks.Tin_Ore.png"
+				},
+				{
+					"id": "sc:grass_item",
+					"file": "Blocks.Grass.png"
+				},
+				{
+					"id": "sc:iron_gates_item",
+					"file": "Blocks.Iron_Gates.png"
+				},
+				{
+					"id": "sc:ladder_item",
+					"file": "Blocks.Ladder.png"
+				},
+				{
+					"id": "sc:mossy_cobblestone_item",
+					"file": "Blocks.Mossy_Cobblestone.png"
+				},
+				{
+					"id": "sc:oak_sapling_item",
+					"file": "Blocks.Oak_Sapling.png"
+				},
+				{
+					"id": "sc:spruce_sapling_item",
+					"file": "Blocks.Spruce_Sapling.png"
+				},
+				{
+					"id": "sc:oak_table_item",
+					"file": "Blocks.Oak_Table.png"
+				},
+				{
+					"id": "sc:spruce_table_item",
+					"file": "Blocks.Spruce_Table.png"
+				},
+				{
+					"id": "sc:sand_item",
+					"file": "Blocks.Sand_Item.png"
+				},
+				{
+					"id": "sc:sand_stone_bricks_item",
+					"file": "Blocks.Sand_Stone_Bricks.png"
+				},
+				{
+					"id": "sc:stone_bricks_item",
+					"file": "Blocks.Stone_Bricks.png"
+				},
+				{
+					"id": "sc:yellow_flower_item",
+					"file": "Blocks.Yellow_Flower.png"
+				},
+				{
+					"id": "sc:glass_item",
+					"file": "Blocks.Glass.png"
+				},
+				{
+					"id": "sc:farmland_item",
+					"file": "Blocks.Farmland.png"
+				},
+				{
+					"id": "sc:pumpkin_item",
+					"file": "Blocks.Pumpkin.png"
+				},
+				{
+					"id": "sc:wool_item",
+					"file": "Blocks.Wool.png"
+				},
+				{
+					"id": "sc:lantern_item",
+					"file": "Blocks.Lantern.png"
+				},
+				{
+					"id": "sc:tomato_item",
+					"file": "Items.Tomato.png"
+				},
+				{
+					"id": "sc:pumpkin_seeds_item",
+					"file": "Items.Pumpkin_Seeds.png"
+				},
+				{
+					"id": "sc:seehundium_item",
+					"file": "Items.Seehundium.png"
+				},
+				{
+					"id": "sc:salad_item",
+					"file": "Items.Salad.png"
+				},
+				{
+					"id": "sc:potato_item",
+					"file": "Items.Potato.png"
+				},
+				{
+					"id": "sc:cucumber_item",
+					"file": "Items.Cucumber.png"
+				},
+				{
+					"id": "sc:bucket_rice_item",
+					"file": "Items.Bucket_Rice.png"
+				},
+				{
+					"id": "sc:cabbage_item",
+					"file": "Items.Cabbage.png"
+				},
+				{
+					"id": "sc:cabbage_seeds_item",
+					"file": "Items.Cabbage_Seeds.png"
+				},
+				{
+					"id": "sc:spruce_trapdoor_item",
+					"file": "Items.Spruce_Trapdoor_Item.png"
+				},
+				{
+					"id": "sc:oak_trapdoor_item",
+					"file": "Items.Oak_Trapdoor_Item.png"
+				},
+				{
+					"id": "sc:spruce_chair_item",
+					"file": "Items.Spruce_Chair.png"
+				},
+				{
+					"id": "sc:potted_cactus_item",
+					"file": "Items.Potted_Cactus.png"
+				},
+				{
+					"id": "sc:bone_item",
+					"file": "Items.Bone.png"
+				},
+				{
+					"id": "sc:arrow_item",
+					"file": "Items.Arrow.png"
+				},
+				{
+					"id": "sc:snowball_item",
+					"file": "Items.Snowball.png"
+				},
+				{
+					"id": "sc:spruce_door_item",
+					"file": "Items.Spruce_Door_Item.png"
+				},
+				{
+					"id": "sc:amethyst_item",
+					"file": "Items.Amethyst.png"
+				},
+				{
+					"id": "sc:apple_item",
+					"file": "Items.Apple.png"
+				},
+				{
+					"id": "sc:archeology_pot_item",
+					"file": "Items.Archeology_Pot.png"
+				},
+				{
+					"id": "sc:bread_item",
+					"file": "Items.Bread.png"
+				},
+				{
+					"id": "sc:bucket_empty_item",
+					"file": "Items.Bucket_Empty.png"
+				},
+				{
+					"id": "sc:bucket_water_item",
+					"file": "Items.Bucket_Water.png"
+				},
+				{
+					"id": "sc:coal_item",
+					"file": "Items.Coal.png"
+				},
+				{
+					"id": "sc:copper_bar_item",
+					"file": "Items.Copper_Bar.png"
+				},
+				{
+					"id": "sc:croissant_item",
+					"file": "Items.Croissant.png"
+				},
+				{
+					"id": "sc:diamond_item",
+					"file": "Items.Diamond.png"
+				},
+				{
+					"id": "sc:emerald_item",
+					"file": "Items.Emerald.png"
+				},
+				{
+					"id": "sc:fossil_fragment_item",
+					"file": "Items.Fossil_Fragment.png"
+				},
+				{
+					"id": "sc:gold_bar_item",
+					"file": "Items.Gold_Bar.png"
+				},
+				{
+					"id": "sc:iron_bar_item",
+					"file": "Items.Iron_Bar.png"
+				},
+				{
+					"id": "sc:iron_rod_item",
+					"file": "Items.Iron_Rod.png"
+				},
+				{
+					"id": "sc:oak_chair_item",
+					"file": "Items.Oak_Chair.png"
+				},
+				{
+					"id": "sc:oak_door_item",
+					"file": "Items.Oak_Door_Item.png"
+				},
+				{
+					"id": "sc:paper_item",
+					"file": "Items.Paper.png"
+				},
+				{
+					"id": "sc:pot_shard_item",
+					"file": "Items.Pot_Shard.png"
+				},
+				{
+					"id": "sc:rock_item",
+					"file": "Items.Rock.png"
+				},
+				{
+					"id": "sc:stick_item",
+					"file": "Items.Stick.png"
+				},
+				{
+					"id": "sc:tin_bar_item",
+					"file": "Items.Tin_Bar.png"
+				},
+				{
+					"id": "sc:tungsten_bar_item",
+					"file": "Items.Tungsten_Bar.png"
+				},
+				{
+					"id": "sc:wax_item",
+					"file": "Items.Wax.png"
+				},
+				{
+					"id": "sc:wheat_item",
+					"file": "Items.Wheat.png"
+				},
+				{
+					"id": "sc:carrot_item",
+					"file": "Items.Carrot.png"
+				},
+				{
+					"id": "sc:seeds_item",
+					"file": "Items.Seeds.png"
+				},
+				{
+					"id": "sc:cotton_item",
+					"file": "Items.Cotton.png"
+				},
+				{
+					"id": "sc:berry_item",
+					"file": "Items.Berry.png"
+				},
+				{
+					"id": "sc:sugar_cane_item",
+					"file": "Items.Sugar_Cane_Item.png"
+				},
+				{
+					"id": "sc:stone_hammer_item",
+					"file": "Items.Tools.Stone_Hammer.png"
+				},
+				{
+					"id": "sc:diamond_axe_item",
+					"file": "Items.Tools.Diamond_Axe.png"
+				},
+				{
+					"id": "sc:diamond_hammer_item",
+					"file": "Items.Tools.Diamond_Hammer.png"
+				},
+				{
+					"id": "sc:diamond_pickaxe_item",
+					"file": "Items.Tools.Diamond_Pickaxe.png"
+				},
+				{
+					"id": "sc:diamond_scythe_item",
+					"file": "Items.Tools.Diamond_Scythe.png"
+				},
+				{
+					"id": "sc:diamond_shovel_item",
+					"file": "Items.Tools.Diamond_Shovel.png"
+				},
+				{
+					"id": "sc:diamond_sword_item",
+					"file": "Items.Tools.Diamond_Sword.png"
+				},
+				{
+					"id": "sc:iron_axe_item",
+					"file": "Items.Tools.Iron_Axe.png"
+				},
+				{
+					"id": "sc:iron_hammer_item",
+					"file": "Items.Tools.Iron_Hammer.png"
+				},
+				{
+					"id": "sc:iron_pickaxe_item",
+					"file": "Items.Tools.Iron_Pickaxe.png"
+				},
+				{
+					"id": "sc:iron_scythe_item",
+					"file": "Items.Tools.Iron_Scythe.png"
+				},
+				{
+					"id": "sc:iron_shovel_item",
+					"file": "Items.Tools.Iron_Shovel.png"
+				},
+				{
+					"id": "sc:iron_sword_item",
+					"file": "Items.Tools.Iron_Sword.png"
+				},
+				{
+					"id": "sc:stone_axe_item",
+					"file": "Items.Tools.Stone_Axe.png"
+				},
+				{
+					"id": "sc:stone_pickaxe_item",
+					"file": "Items.Tools.Stone_Pickaxe.png"
+				},
+				{
+					"id": "sc:stone_scythe_item",
+					"file": "Items.Tools.Stone_Scythe.png"
+				},
+				{
+					"id": "sc:stone_shovel_item",
+					"file": "Items.Tools.Stone_Shovel.png"
+				},
+				{
+					"id": "sc:stone_sword_item",
+					"file": "Items.Tools.Stone_Sword.png"
+				},
+				{
+					"id": "sc:tin_axe_item",
+					"file": "Items.Tools.Tin_Axe.png"
+				},
+				{
+					"id": "sc:tin_hammer_item",
+					"file": "Items.Tools.Tin_Hammer.png"
+				},
+				{
+					"id": "sc:tin_pickaxe_item",
+					"file": "Items.Tools.Tin_Pickaxe.png"
+				},
+				{
+					"id": "sc:tin_scythe_item",
+					"file": "Items.Tools.Tin_Scythe.png"
+				},
+				{
+					"id": "sc:tin_shovel_item",
+					"file": "Items.Tools.Tin_Shovel.png"
+				},
+				{
+					"id": "sc:tin_sword_item",
+					"file": "Items.Tools.Tin_Sword.png"
+				},
+				{
+					"id": "sc:wood_axe_item",
+					"file": "Items.Tools.Wood_Axe.png"
+				},
+				{
+					"id": "sc:wood_hammer_item",
+					"file": "Items.Tools.Wood_Hammer.png"
+				},
+				{
+					"id": "sc:wood_pickaxe_item",
+					"file": "Items.Tools.Wood_Pickaxe.png"
+				},
+				{
+					"id": "sc:wood_scythe_item",
+					"file": "Items.Tools.Wood_Scythe.png"
+				},
+				{
+					"id": "sc:wood_shovel_item",
+					"file": "Items.Tools.Wood_Shovel.png"
+				},
+				{
+					"id": "sc:wood_sword_item",
+					"file": "Items.Tools.Wood_Sword.png"
+				}
+			]
+		},
+		{
+			"section_name": "blocks",
+			"textures": [
+				{
+					"id": "sc:hammer_animation_1",
+					"file": "Hammer_1.png"
+				},
+				{
+					"id": "sc:hammer_animation_2",
+					"file": "Hammer_2.png"
+				},
+				{
+					"id": "sc:hammer_animation_3",
+					"file": "Hammer_3.png"
+				},
+				{
+					"id": "sc:hammer_animation_4",
+					"file": "Hammer_4.png"
+				},
+				{
+					"id": "sc:hammer_animation_5",
+					"file": "Hammer_5.png"
+				},
+				{
+					"id": "sc:break_animation_1",
+					"file": "Break_1.png"
+				},
+				{
+					"id": "sc:break_animation_2",
+					"file": "Break_2.png"
+				},
+				{
+					"id": "sc:break_animation_3",
+					"file": "Break_3.png"
+				},
+				{
+					"id": "sc:break_animation_4",
+					"file": "Break_4.png"
+				},
+				{
+					"id": "sc:break_animation_5",
+					"file": "Break_5.png"
+				},
+				{
+					"id": "sc:rice_top_stage1",
+					"file": "Blocks.Connected.Rice_Top_Stage_1.png"
+				},
+				{
+					"id": "sc:rice_top_stage2",
+					"file": "Blocks.Connected.Rice_Top_Stage_2.png"
+				},
+				{
+					"id": "sc:rice_top_stage3",
+					"file": "Blocks.Connected.Rice_Top_Stage_3.png"
+				},
+				{
+					"id": "sc:rice_top_stage4",
+					"file": "Blocks.Connected.Rice_Top_Stage_4.png"
+				},
+				{
+					"id": "sc:rice_base",
+					"file": "Blocks.Connected.Rice_Base.png"
+				},
+				{
+					"id": "sc:cabbage_stage1",
+					"file": "Blocks.States.Cabbage_Stage_1.png"
+				},
+				{
+					"id": "sc:cabbage_stage2",
+					"file": "Blocks.States.Cabbage_Stage_2.png"
+				},
+				{
+					"id": "sc:cabbage_stage3",
+					"file": "Blocks.States.Cabbage_Stage_3.png"
+				},
+				{
+					"id": "sc:cabbage_stage4",
+					"file": "Blocks.States.Cabbage_Stage_4.png"
+				},
+				{
+					"id": "sc:potato_stage1",
+					"file": "Blocks.States.Potato_Stage_1.png"
+				},
+				{
+					"id": "sc:potato_stage2",
+					"file": "Blocks.States.Potato_Stage_2.png"
+				},
+				{
+					"id": "sc:potato_stage3",
+					"file": "Blocks.States.Potato_Stage_3.png"
+				},
+				{
+					"id": "sc:potato_stage4",
+					"file": "Blocks.States.Potato_Stage_4.png"
+				},
+				{
+					"id": "sc:pumpkin_stage1",
+					"file": "Blocks.States.Pumpkin_Stage_1.png"
+				},
+				{
+					"id": "sc:pumpkin_stage2",
+					"file": "Blocks.States.Pumpkin_Stage_2.png"
+				},
+				{
+					"id": "sc:pumpkin_stage3",
+					"file": "Blocks.States.Pumpkin_Stage_3.png"
+				},
+				{
+					"id": "sc:pumpkin_stage4",
+					"file": "Blocks.States.Pumpkin_Stage_4.png"
+				},
+				{
+					"id": "sc:tomato_stage1",
+					"file": "Blocks.States.Tomato_Stage_1.png"
+				},
+				{
+					"id": "sc:tomato_stage2",
+					"file": "Blocks.States.Tomato_Stage_1.png"
+				},
+				{
+					"id": "sc:cucumber_stage1",
+					"file": "Blocks.States.Cucumber_Stage_1.png"
+				},
+				{
+					"id": "sc:cucumber_stage2",
+					"file": "Blocks.States.Cucumber_Stage_2.png"
+				},
+				{
+					"id": "sc:wool_block",
+					"file": "Blocks.Wool.png"
+				},
+				{
+					"id": "sc:lantern_block",
+					"file": "Blocks.Lantern.png"
+				},
+				{
+					"id": "sc:pumpkin_block",
+					"file": "Blocks.Pumpkin.png"
+				},
+				{
+					"id": "sc:copper_ore_block",
+					"file": "Blocks.Copper_Ore.png"
+				},
+				{
+					"id": "sc:candle_block",
+					"file": "Blocks.Candle.png"
+				},
+				{
+					"id": "sc:blue_flower_block",
+					"file": "Blocks.Blue_Flower.png"
+				},
+				{
+					"id": "sc:barrel_block",
+					"file": "Blocks.Barrel_Block.png"
+				},
+				{
+					"id": "sc:amethyst_ore_block",
+					"file": "Blocks.Amethyst_Ore.png"
+				},
+				{
+					"id": "sc:dirt_block",
+					"file": "Blocks.Dirt.png"
+				},
+				{
+					"id": "sc:grass_block",
+					"file": "Blocks.Grass_Block.png"
+				},
+				{
+					"id": "sc:stone_block",
+					"file": "Blocks.Stone_Block.png"
+				},
+				{
+					"id": "sc:air_block",
+					"file": "Blocks.Air.png"
+				},
+				{
+					"id": "sc:bedrock_block",
+					"file": "Blocks.Bedrock.png"
+				},
+				{
+					"id": "sc:coal_ore_block",
+					"file": "Blocks.Coal_Ore.png"
+				},
+				{
+					"id": "sc:diamond_ore_block",
+					"file": "Blocks.Diamond_Ore.png"
+				},
+				{
+					"id": "sc:iron_ore_block",
+					"file": "Blocks.Iron_Ore.png"
+				},
+				{
+					"id": "sc:oak_log_block",
+					"file": "Blocks.Oak_Log.png"
+				},
+				{
+					"id": "sc:oak_leaves_block",
+					"file": "Blocks.Oak_Leaves.png"
+				},
+				{
+					"id": "sc:chest_block",
+					"file": "Blocks.Chest.png"
+				},
+				{
+					"id": "sc:magma_block",
+					"file": "Blocks.Magma_Block.png"
+				},
+				{
+					"id": "sc:spruce_log_block",
+					"file": "Blocks.Spruce_Log.png"
+				},
+				{
+					"id": "sc:spruce_leaves_block",
+					"file": "Blocks.Spruce_Leaves.png"
+				},
+				{
+					"id": "sc:torch_block",
+					"file": "Blocks.Torch.png"
+				},
+				{
+					"id": "sc:water_1_right_block",
+					"file": "Blocks.Water_1_Right.png"
+				},
+				{
+					"id": "sc:water_1_left_block",
+					"file": "Blocks.Water_1_Left.png"
+				},
+				{
+					"id": "sc:water_2_right_block",
+					"file": "Blocks.Water_2_Right.png"
+				},
+				{
+					"id": "sc:water_2_left_block",
+					"file": "Blocks.Water_2_Left.png"
+				},
+				{
+					"id": "sc:water_3_right_block",
+					"file": "Blocks.Water_3_Right.png"
+				},
+				{
+					"id": "sc:water_3_left_block",
+					"file": "Blocks.Water_3_Left.png"
+				},
+				{
+					"id": "sc:water_4_right_block",
+					"file": "Blocks.Water_4_Right.png"
+				},
+				{
+					"id": "sc:water_4_left_block",
+					"file": "Blocks.Water_4_Left.png"
+				},
+				{
+					"id": "sc:water_5_right_block",
+					"file": "Blocks.Water_5_Right.png"
+				},
+				{
+					"id": "sc:water_5_left_block",
+					"file": "Blocks.Water_5_Left.png"
+				},
+				{
+					"id": "sc:water_6_block",
+					"file": "Blocks.Water_6.png"
+				},
+				{
+					"id": "sc:crafting_table_block",
+					"file": "Blocks.Crafting_Table.png"
+				},
+				{
+					"id": "sc:cobblestone_block",
+					"file": "Blocks.Cobblestone.png"
+				},
+				{
+					"id": "sc:chiseler_block",
+					"file": "Blocks.Chiseler.png"
+				},
+				{
+					"id": "sc:unchiseler_block",
+					"file": "Blocks.Unchiseler.png"
+				},
+				{
+					"id": "sc:anvil_block",
+					"file": "Blocks.Anvil.png"
+				},
+				{
+					"id": "sc:bone_block",
+					"file": "Blocks.Bone_Block.png"
+				},
+				{
+					"id": "sc:dead_bush_block",
+					"file": "Blocks.Dead_Bush.png"
+				},
+				{
+					"id": "sc:emerald_ore_block",
+					"file": "Blocks.Emerald_Ore.png"
+				},
+				{
+					"id": "sc:flower_pot_block",
+					"file": "Blocks.Flower_Pot.png"
+				},
+				{
+					"id": "sc:gold_ore_block",
+					"file": "Blocks.Gold_Ore.png"
+				},
+				{
+					"id": "sc:grass",
+					"file": "Blocks.Grass.png"
+				},
+				{
+					"id": "sc:iron_gates_block",
+					"file": "Blocks.Iron_Gates.png"
+				},
+				{
+					"id": "sc:ladder_block",
+					"file": "Blocks.Ladder.png"
+				},
+				{
+					"id": "sc:mossy_cobblestone_block",
+					"file": "Blocks.Mossy_Cobblestone.png"
+				},
+				{
+					"id": "sc:oak_planks_block",
+					"file": "Blocks.Oak_Planks.png"
+				},
+				{
+					"id": "sc:oak_sapling_block",
+					"file": "Blocks.Oak_Sapling.png"
+				},
+				{
+					"id": "sc:oak_table_block",
+					"file": "Blocks.Oak_Table.png"
+				},
+				{
+					"id": "sc:sand_block",
+					"file": "Blocks.Sand.png"
+				},
+				{
+					"id": "sc:sand_stone_block",
+					"file": "Blocks.Sand_Stone.png"
+				},
+				{
+					"id": "sc:sand_stone_bricks_block",
+					"file": "Blocks.Sand_Stone_Bricks.png"
+				},
+				{
+					"id": "sc:spruce_sapling_block",
+					"file": "Blocks.Spruce_Sapling.png"
+				},
+				{
+					"id": "sc:spruce_table_block",
+					"file": "Blocks.Spruce_Table.png"
+				},
+				{
+					"id": "sc:spruce_planks_block",
+					"file": "Blocks.Spruce_Planks.png"
+				},
+				{
+					"id": "sc:stone_bricks_block",
+					"file": "Blocks.Stone_Bricks.png"
+				},
+				{
+					"id": "sc:tin_ore_block",
+					"file": "Blocks.Tin_Ore.png"
+				},
+				{
+					"id": "sc:tungsten_ore_block",
+					"file": "Blocks.Tungsten_Ore.png"
+				},
+				{
+					"id": "sc:yellow_flower_block",
+					"file": "Blocks.Yellow_Flower.png"
+				},
+				{
+					"id": "sc:glass_block",
+					"file": "Blocks.Glass.png"
+				},
+				{
+					"id": "sc:sugar_cane_block",
+					"file": "Blocks.Sugar_Cane.png"
+				},
+				{
+					"id": "sc:farmland_block",
+					"file": "Blocks.Farmland.png"
+				},
+				{
+					"id": "sc:cobblestone_bottomright",
+					"file": "Blocks.Chiseled.Cobblestone_BottomRight.png"
+				},
+				{
+					"id": "sc:cobblestone_bottomleft",
+					"file": "Blocks.Chiseled.Cobblestone_BottomLeft.png"
+				},
+				{
+					"id": "sc:cobblestone_topright",
+					"file": "Blocks.Chiseled.Cobblestone_TopRight.png"
+				},
+				{
+					"id": "sc:cobblestone_topleft",
+					"file": "Blocks.Chiseled.Cobblestone_TopLeft.png"
+				},
+				{
+					"id": "sc:cobblestone_slabbottom",
+					"file": "Blocks.Chiseled.Cobblestone_SlabBottom.png"
+				},
+				{
+					"id": "sc:cobblestone_slabtop",
+					"file": "Blocks.Chiseled.Cobblestone_SlabTop.png"
+				},
+				{
+					"id": "sc:cobblestone_slableft",
+					"file": "Blocks.Chiseled.Cobblestone_SlabLeft.png"
+				},
+				{
+					"id": "sc:cobblestone_slabright",
+					"file": "Blocks.Chiseled.Cobblestone_SlabRight.png"
+				},
+				{
+					"id": "sc:cobblestone_stairbottomright",
+					"file": "Blocks.Chiseled.Cobblestone_StairBottomRight.png"
+				},
+				{
+					"id": "sc:cobblestone_stairbottomleft",
+					"file": "Blocks.Chiseled.Cobblestone_StairBottomLeft.png"
+				},
+				{
+					"id": "sc:cobblestone_stairtopright",
+					"file": "Blocks.Chiseled.Cobblestone_StairTopRight.png"
+				},
+				{
+					"id": "sc:cobblestone_stairtopleft",
+					"file": "Blocks.Chiseled.Cobblestone_StairTopLeft.png"
+				},
+				{
+					"id": "sc:cobblestone_center",
+					"file": "Blocks.Chiseled.Cobblestone_Center.png"
+				},
+				{
+					"id": "sc:sand_stone_bottomleft",
+					"file": "Blocks.Chiseled.Sand_Stone_BottomLeft.png"
+				},
+				{
+					"id": "sc:sand_stone_bottomright",
+					"file": "Blocks.Chiseled.Sand_Stone_BottomRight.png"
+				},
+				{
+					"id": "sc:sand_stone_center",
+					"file": "Blocks.Chiseled.Sand_Stone_Center.png"
+				},
+				{
+					"id": "sc:sand_stone_slabbottom",
+					"file": "Blocks.Chiseled.Sand_Stone_SlabBottom.png"
+				},
+				{
+					"id": "sc:sand_stone_slableft",
+					"file": "Blocks.Chiseled.Sand_Stone_SlabLeft.png"
+				},
+				{
+					"id": "sc:sand_stone_slabright",
+					"file": "Blocks.Chiseled.Sand_Stone_SlabRight.png"
+				},
+				{
+					"id": "sc:sand_stone_slabtop",
+					"file": "Blocks.Chiseled.Sand_Stone_SlabTop.png"
+				},
+				{
+					"id": "sc:sand_stone_stairbottomleft",
+					"file": "Blocks.Chiseled.Sand_Stone_StairBottomLeft.png"
+				},
+				{
+					"id": "sc:sand_stone_stairbottomright",
+					"file": "Blocks.Chiseled.Sand_Stone_StairBottomRight.png"
+				},
+				{
+					"id": "sc:sand_stone_stairtopleft",
+					"file": "Blocks.Chiseled.Sand_Stone_StairTopLeft.png"
+				},
+				{
+					"id": "sc:sand_stone_stairtopright",
+					"file": "Blocks.Chiseled.Sand_Stone_StairTopRight.png"
+				},
+				{
+					"id": "sc:sand_stone_topleft",
+					"file": "Blocks.Chiseled.Sand_Stone_TopLeft.png"
+				},
+				{
+					"id": "sc:sand_stone_topright",
+					"file": "Blocks.Chiseled.Sand_Stone_TopRight.png"
+				},
+				{
+					"id": "sc:oak_planks_stairbottomleft",
+					"file": "Blocks.Chiseled.Oak_Planks_StairBottomLeft.png"
+				},
+				{
+					"id": "sc:oak_planks_stairbottomright",
+					"file": "Blocks.Chiseled.Oak_Planks_StairBottomRight.png"
+				},
+				{
+					"id": "sc:oak_planks_stairtopleft",
+					"file": "Blocks.Chiseled.Oak_Planks_StairTopLeft.png"
+				},
+				{
+					"id": "sc:oak_planks_stairtopright",
+					"file": "Blocks.Chiseled.Oak_Planks_StairTopRight.png"
+				},
+				{
+					"id": "sc:oak_planks_bottomleft",
+					"file": "Blocks.Chiseled.Oak_Plank_BottomLeft.png"
+				},
+				{
+					"id": "sc:oak_planks_bottomright",
+					"file": "Blocks.Chiseled.Oak_Plank_BottomRight.png"
+				},
+				{
+					"id": "sc:oak_planks_center",
+					"file": "Blocks.Chiseled.Oak_Plank_Center.png"
+				},
+				{
+					"id": "sc:oak_planks_slabbottom",
+					"file": "Blocks.Chiseled.Oak_Plank_SlabBottom.png"
+				},
+				{
+					"id": "sc:oak_planks_slableft",
+					"file": "Blocks.Chiseled.Oak_Plank_SlabLeft.png"
+				},
+				{
+					"id": "sc:oak_planks_slabright",
+					"file": "Blocks.Chiseled.Oak_Plank_SlabRight.png"
+				},
+				{
+					"id": "sc:oak_planks_slabtop",
+					"file": "Blocks.Chiseled.Oak_Plank_SlabTop.png"
+				},
+				{
+					"id": "sc:oak_planks_topleft",
+					"file": "Blocks.Chiseled.Oak_Plank_TopLeft.png"
+				},
+				{
+					"id": "sc:oak_planks_topright",
+					"file": "Blocks.Chiseled.Oak_Plank_TopRight.png"
+				},
+				{
+					"id": "sc:spruce_planks_bottomleft",
+					"file": "Blocks.Chiseled.Spruce_Plank_BottomLeft.png"
+				},
+				{
+					"id": "sc:spruce_planks_bottomright",
+					"file": "Blocks.Chiseled.Spruce_Plank_BottomRight.png"
+				},
+				{
+					"id": "sc:spruce_planks_center",
+					"file": "Blocks.Chiseled.Spruce_Plank_Center.png"
+				},
+				{
+					"id": "sc:spruce_planks_slabbottom",
+					"file": "Blocks.Chiseled.Spruce_Plank_SlabBottom.png"
+				},
+				{
+					"id": "sc:spruce_planks_slableft",
+					"file": "Blocks.Chiseled.Spruce_Plank_SlabLeft.png"
+				},
+				{
+					"id": "sc:spruce_planks_slabright",
+					"file": "Blocks.Chiseled.Spruce_Plank_SlabRight.png"
+				},
+				{
+					"id": "sc:spruce_planks_slabtop",
+					"file": "Blocks.Chiseled.Spruce_Plank_SlabTop.png"
+				},
+				{
+					"id": "sc:spruce_planks_stairbottomleft",
+					"file": "Blocks.Chiseled.Spruce_Plank_StairBottomLeft.png"
+				},
+				{
+					"id": "sc:spruce_planks_stairbottomright",
+					"file": "Blocks.Chiseled.Spruce_Plank_StairBottomRight.png"
+				},
+				{
+					"id": "sc:spruce_planks_stairtopleft",
+					"file": "Blocks.Chiseled.Spruce_Plank_StairTopLeft.png"
+				},
+				{
+					"id": "sc:spruce_planks_stairtopright",
+					"file": "Blocks.Chiseled.Spruce_Plank_StairTopRight.png"
+				},
+				{
+					"id": "sc:spruce_planks_topleft",
+					"file": "Blocks.Chiseled.Spruce_Plank_TopLeft.png"
+				},
+				{
+					"id": "sc:spruce_planks_topright",
+					"file": "Blocks.Chiseled.Spruce_Plank_TopRight.png"
+				},
+				{
+					"id": "sc:potted_cactus_base",
+					"file": "Blocks.Connected.Potted_Cactus_Base.png"
+				},
+				{
+					"id": "sc:potted_cactus_top",
+					"file": "Blocks.Connected.Potted_Cactus_Top.png"
+				},
+				{
+					"id": "sc:cactus_bottom_left",
+					"file": "Blocks.Connected.Cactus_BottomLeft.png"
+				},
+				{
+					"id": "sc:cactus_bottom_right",
+					"file": "Blocks.Connected.Cactus_BottomRight.png"
+				},
+				{
+					"id": "sc:cactus_cross",
+					"file": "Blocks.Connected.Cactus_Cross.png"
+				},
+				{
+					"id": "sc:cactus_horizontal",
+					"file": "Blocks.Connected.Cactus_Horizontal.png"
+				},
+				{
+					"id": "sc:cactus_top",
+					"file": "Blocks.Connected.Cactus_Top.png"
+				},
+				{
+					"id": "sc:cactus_top_left",
+					"file": "Blocks.Connected.Cactus_TopLeft.png"
+				},
+				{
+					"id": "sc:cactus_top_right",
+					"file": "Blocks.Connected.Cactus_TopRight.png"
+				},
+				{
+					"id": "sc:cactus_top_fruit",
+					"file": "Blocks.Connected.Cactus_Top_Fruit.png"
+				},
+				{
+					"id": "sc:cactus_vertical",
+					"file": "Blocks.Connected.Cactus_Vertical.png"
+				},
+				{
+					"id": "sc:oak_chair_bottom",
+					"file": "Blocks.Connected.Oak_Chair_Bottom.png"
+				},
+				{
+					"id": "sc:oak_chair_top",
+					"file": "Blocks.Connected.Oak_Chair_Top.png"
+				},
+				{
+					"id": "sc:spruce_chair_bottom",
+					"file": "Blocks.Connected.Spruce_Chair_Bottom.png"
+				},
+				{
+					"id": "sc:spruce_chair_top",
+					"file": "Blocks.Connected.Spruce_Chair_Top.png"
+				},
+				{
+					"id": "sc:cactus_right",
+					"file": "Blocks.Connected.Cactus_Right.png"
+				},
+				{
+					"id": "sc:cactus_left",
+					"file": "Blocks.Connected.Cactus_Left.png"
+				},
+				{
+					"id": "sc:archeology_pot_base",
+					"file": "Blocks.Connected.Archeology_Pot_Base.png"
+				},
+				{
+					"id": "sc:archeology_pot_top",
+					"file": "Blocks.Connected.Archeology_Pot_Top.png"
+				},
+				{
+					"id": "sc:wheat_stage1",
+					"file": "Blocks.States.Wheat_Stage_1.png"
+				},
+				{
+					"id": "sc:wheat_stage2",
+					"file": "Blocks.States.Wheat_Stage_2.png"
+				},
+				{
+					"id": "sc:wheat_stage3",
+					"file": "Blocks.States.Wheat_Stage_3.png"
+				},
+				{
+					"id": "sc:wheat_stage4",
+					"file": "Blocks.States.Wheat_Stage_4.png"
+				},
+				{
+					"id": "sc:carrot_stage1",
+					"file": "Blocks.States.Carrot_Stage_1.png"
+				},
+				{
+					"id": "sc:carrot_stage2",
+					"file": "Blocks.States.Carrot_Stage_2.png"
+				},
+				{
+					"id": "sc:carrot_stage3",
+					"file": "Blocks.States.Carrot_Stage_3.png"
+				},
+				{
+					"id": "sc:carrot_stage4",
+					"file": "Blocks.States.Carrot_Stage_4.png"
+				},
+				{
+					"id": "sc:berry_bush_stage1",
+					"file": "Blocks.States.Berry_Bush_Stage_1.png"
+				},
+				{
+					"id": "sc:berry_bush_stage2",
+					"file": "Blocks.States.Berry_Bush_Stage_2.png"
+				},
+				{
+					"id": "sc:cotton_stage1",
+					"file": "Blocks.States.Cotton_Stage_1.png"
+				},
+				{
+					"id": "sc:cotton_stage2",
+					"file": "Blocks.States.Cotton_Stage_2.png"
+				},
+				{
+					"id": "sc:oak_door_base/closed",
+					"file": "Blocks.States.Oak_Door_Closed_Base.png"
+				},
+				{
+					"id": "sc:oak_door_top/closed",
+					"file": "Blocks.States.Oak_Door_Closed_Top.png"
+				},
+				{
+					"id": "sc:oak_door_base/open",
+					"file": "Blocks.States.Oak_Door_Open_Base.png"
+				},
+				{
+					"id": "sc:oak_door_top/open",
+					"file": "Blocks.States.Oak_Door_Open_Top.png"
+				},
+				{
+					"id": "sc:spruce_door_top/closed",
+					"file": "Blocks/States/Spruce_Door_Closed_Top.png"
+				},
+				{
+					"id": "sc:spruce_door_base/closed",
+					"file": "Blocks.States.Spruce_Door_Closed_Base.png"
+				},
+				{
+					"id": "sc:spruce_door_top/open",
+					"file": "Blocks.States.Spruce_Door_Open_Top.png"
+				},
+				{
+					"id": "sc:spruce_door_base/open",
+					"file": "Blocks.States.Spruce_Door_Open_Base.png"
+				},
+				{
+					"id": "sc:oak_trapdoor/closed",
+					"file": "Blocks.States.Oak_Trapdoor_Closed.png"
+				},
+				{
+					"id": "sc:oak_trapdoor/open",
+					"file": "Blocks.States.Oak_Trapdoor_Open.png"
+				},
+				{
+					"id": "sc:spruce_trapdoor/closed",
+					"file": "Blocks.States.Spruce_Trapdoor_Closed.png"
+				},
+				{
+					"id": "sc:spruce_trapdoor/open",
+					"file": "Blocks.States.Spruce_Trapdoor_Open.png"
+				},
+				{
+					"id": "sc:furnace/idle",
+					"file": "Blocks.States.Furnace_Idle.png"
+				},
+				{
+					"id": "sc:furnace/running",
+					"file": "Blocks.States.Furnace_Running.png"
+				}
+			]
+		},
+		{
+			"section_name": "gui",
+			"textures": [
+				{
+					"id": "sc:background",
+					"file": "Gui.Background.png"
+				},
+				{
+					"id": "sc:gui",
+					"file": "Gui.Gui.png"
+				},
+				{
+					"id": "sc:heart_full",
+					"file": "Gui.Heart_Full.png"
+				},
+				{
+					"id": "sc:heart_half",
+					"file": "Gui.Heart_Half.png"
+				},
+				{
+					"id": "sc:heart_empty",
+					"file": "Gui.Heart_Empty.png"
+				}
+			]
+		},
+		{
+			"section_name": "player",
+			"textures": [
+				{
+					"id": "sc:arm_front",
+					"file": "Entities.Player_Arm_Left.png"
+				},
+				{
+					"id": "sc:arm_back",
+					"file": "Entities.Player_Arm_Right.png"
+				},
+				{
+					"id": "sc:leg_front",
+					"file": "Entities.Player_Leg_Left.png"
+				},
+				{
+					"id": "sc:leg_back",
+					"file": "Entities.Player_Leg_Right.png"
+				},
+				{
+					"id": "sc:body",
+					"file": "Entities.Player_Body.png"
+				},
+				{
+					"id": "sc:head",
+					"file": "Entities.Player_Head.png"
+				}
+			]
+		},
+		{
+			"section_name": "entities",
+			"textures": [
+				{
+					"id": "sc:slime_green",
+					"file": "Entities.Slime_Green.png"
+				},
+				{
+					"id": "sc:slime_blue",
+					"file": "Entities.Slime_Blue.png"
+				},
+				{
+					"id": "sc:slime_red",
+					"file": "Entities.Slime_Red.png"
+				},
+				{
+					"id": "sc:slime_magenta",
+					"file": "Entities.Slime_Magenta.png"
+				},
+				{
+					"id": "sc:slime_yellow",
+					"file": "Entities.Slime_Yellow.png"
+				}
+			]
+		},
+		{
+			"section_name": "general",
+			"textures": [
+				{
+					"id": "sc:missing_texture",
+					"file": "Missing_Texture.png"
+				},
+				{
+					"id": "sc:break_1",
+					"file": "Break_1.png"
+				},
+				{
+					"id": "sc:break_2",
+					"file": "Break_2.png"
+				},
+				{
+					"id": "sc:break_3",
+					"file": "Break_3.png"
+				},
+				{
+					"id": "sc:break_4",
+					"file": "Break_4.png"
+				},
+				{
+					"id": "sc:break_5",
+					"file": "Break_5.png"
+				},
+				{
+					"id": "sc:hammer_1",
+					"file": "Hammer_1.png"
+				},
+				{
+					"id": "sc:hammer_2",
+					"file": "Hammer_2.png"
+				},
+				{
+					"id": "sc:hammer_3",
+					"file": "Hammer_3.png"
+				},
+				{
+					"id": "sc:hammer_4",
+					"file": "Hammer_4.png"
+				},
+				{
+					"id": "sc:hammer_5",
+					"file": "Hammer_5.png"
+				},
+				{
+					"id": "sc:button_1",
+					"file": "Button_1.png"
+				}
+			]
+		}
+	]
+}
