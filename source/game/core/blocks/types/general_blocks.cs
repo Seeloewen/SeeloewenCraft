@@ -161,9 +161,8 @@ namespace SeeloewenCraft
         {
             if (IsInRange() && isSolid && hasInventory)
             {
-                blockInventory.inventoryGui.SetTop(355);
-                blockInventory.inventoryGui.tblHeader.Text = "Chest";
-                Game.world.player.inventory.inventoryGui.SetTop(20);
+                ((IGuiData)Game.world.player.inventory).Show();
+                ((IGuiData)blockInventory).Show();
             }
         }
     }

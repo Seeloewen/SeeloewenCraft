@@ -10,12 +10,12 @@ namespace SeeloewenCraft.game.graphics
         public static bool showGame = true;
         public static bool showGameOverlay = true;
         public static bool showDebugMenu = false;
-        public static bool showInventory = false;
+        public static bool showGui = false;
         public static bool showIngameMenu = false;
         public static bool showEscapeMenu = false;
         public static bool showHotbar = true;
 
-        public static bool allowIngameInputs { get => !(showEscapeMenu || showIngameMenu || showInventory); }
+        public static bool allowIngameInputs { get => !(showEscapeMenu || showIngameMenu || showGui); }
 
         public static List<CGui> guis = new List<CGui>(); //(Currently) supports two guis being open
         public static ObservableCollection<IGuiData> guiData = new ObservableCollection<IGuiData>();
@@ -74,7 +74,7 @@ namespace SeeloewenCraft.game.graphics
             {
                 escapeMenuUIRoot.Update();
             }
-            if (showInventory)
+            if (showGui)
             {
                 guiRoot.Update();
             }
@@ -100,17 +100,18 @@ namespace SeeloewenCraft.game.graphics
             }
             else if (KeyBinds.checkPressedFirst(KeyBinds.SHOW_INV))
             {
-                if (showInventory)
+                showGui = !showGui;
+
+                if (!showGui)
                 {
-                    ((IGuiData)Game.world.player.inventory).Hide();
+                    for (int i = guiData.Count - 1; i >= 0; i--) guiData[i].Hide(); //Hide all guis
                 }
                 else
                 {
                     ((IGuiData)Game.world.player.inventory).Show();
                 }
 
-                showInventory = !showInventory;
-                if (showInventory)
+                if (showGui)
                 {
                     guiRoot.Show();
                 }
@@ -126,7 +127,7 @@ namespace SeeloewenCraft.game.graphics
             if (showGame && allowIngameInputs) GameScreen.Render();
             if (showHotbar) hotbarUIRoot.Render();
             if (showDebugMenu) DebugMenu.Render();
-            if (showInventory) guiRoot.Render();
+            if (showGui) guiRoot.Render();
             if (showEscapeMenu) escapeMenuUIRoot.Render();
             if (showGameOverlay) gameOverlayUIRoot.Render();
         }
