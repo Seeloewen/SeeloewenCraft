@@ -1,11 +1,13 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using System;
 
 namespace SeeloewenCraft.game.graphics
 {
     internal class Resolution
     {
-        
+        static int i;
+
         static public int WIDTH
         {
             get;
@@ -20,13 +22,13 @@ namespace SeeloewenCraft.game.graphics
 
         static public float RATIO
         {
-            get => (float)WIDTH / (float)HEIGHT;
+            get => (float)WIDTH / HEIGHT;
         }
 
 
         static public (int, int) ScreenToPixel(float x, float y)
         {
-            return ((int)(0.5 + (x + 1) * 0.5 * WIDTH), (int)(0.5 - (y - 1) * 0.5 * HEIGHT));
+            return ((int)Math.Round((x + 1f) * 0.5f * WIDTH), (int)Math.Round(-(y - 1f) * 0.5f * HEIGHT));
         }
 
         static public (float x, float y) PixelToScreen(int x, int y)
