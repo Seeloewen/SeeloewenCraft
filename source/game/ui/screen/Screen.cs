@@ -1,4 +1,7 @@
 ﻿using SeeloewenCraft.game.ui.ui_lib;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace SeeloewenCraft.game.ui
 {
@@ -14,7 +17,8 @@ namespace SeeloewenCraft.game.ui
 
         public static bool allowIngameInputs { get => !(showEscapeMenu || showIngameMenu || showInventory); }
 
-        public static GuiScreen guiScreen;
+        public static List<CGui> guis = new List<CGui>(); //(Currently) supports two guis being open
+        public static ObservableCollection<IGuiData> guiData = new ObservableCollection<IGuiData>();
 
         public static UIRoot guiRoot;
         internal static UIRoot escapeMenuUIRoot;
@@ -23,8 +27,9 @@ namespace SeeloewenCraft.game.ui
 
         public static void Init()
         {
-            guiScreen = new GuiScreen();
-            guiRoot = new UIRoot(() => guiScreen);
+            guiData.CollectionChanged += GuiData_CollectionChanged;
+
+            guiRoot = new UIRoot(() => new GuiScreen());
             escapeMenuUIRoot = new UIRoot(() => new EscapeMenu());
             gameOverlayUIRoot = new UIRoot(() => new GameOverlay());
             hotbarUIRoot = new UIRoot(() => new CHotbar(Game.world.player.inventory));
@@ -36,8 +41,7 @@ namespace SeeloewenCraft.game.ui
         {
             if (guiRoot.visible)
             {
-                guiRoot.Hide();
-                guiRoot.Show();
+                ResetGuis();
             }
             if (escapeMenuUIRoot.visible)
             {
@@ -106,7 +110,6 @@ namespace SeeloewenCraft.game.ui
                 }
 
                 showInventory = !showInventory;
-                showGameOverlay = !showInventory;
                 if (showInventory)
                 {
                     guiRoot.Show();
@@ -127,5 +130,31 @@ namespace SeeloewenCraft.game.ui
             if (showEscapeMenu) escapeMenuUIRoot.Render();
             if (showGameOverlay) gameOverlayUIRoot.Render();
         }
+
+        internal static void ResetGuis()
+        {
+            //Update guis when the gui data collection changes
+            guis.Clear();
+
+            foreach (IGuiData data in guiData)
+            {
+                CGui gui = GetGui(data);
+                guis.Add(gui);
+            }
+
+            guiRoot.Hide();
+            guiRoot.Show();
+        }
+
+        private static void GuiData_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            ResetGuis();
+        }
+
+        public static CGui GetGui(IGuiData data) => data.guiId switch
+        {
+            "inventory" => new CInventory(data),
+            _ => null
+        };
     }
 }

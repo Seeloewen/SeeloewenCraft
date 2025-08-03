@@ -55,7 +55,7 @@ namespace SeeloewenCraft.game.ui
             //If a slot is currently selected, it should follow the mouse
             SetMouseFollower(selectedSlot);
 
-            cMouseFollower.MoveTo(InputHandler.mouseXPixel - cMouseFollower.width + 10, InputHandler.mouseYPixel - cMouseFollower.width + 10);
+            if(cMouseFollower.visible) cMouseFollower.MoveTo(InputHandler.mouseXPixel - cMouseFollower.width + 10, InputHandler.mouseYPixel - cMouseFollower.height + 10);
         }
 
         private void SetMouseFollower(InventorySlot slot)

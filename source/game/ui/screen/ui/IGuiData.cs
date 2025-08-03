@@ -12,12 +12,12 @@ namespace SeeloewenCraft.game.ui
 
         public void Show()
         {
-            Screen.guiScreen.datas.Add(this);
+            Screen.guiData.Add(this);
         }
 
         public void Hide() 
         {
-            Screen.guiScreen.datas.Remove(this);
+            Screen.guiData.Remove(this);
         }
     }
 }

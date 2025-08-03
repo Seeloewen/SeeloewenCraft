@@ -31,12 +31,12 @@ namespace SeeloewenCraft.game.ui
 
         static public (float x, float y) PixelToScreen(int x, int y)
         {
-            return ((float)x / (WIDTH / 2) - 1, (float)y / -(HEIGHT / 2) + 1);
+            return (x / (WIDTH / 2f) - 1, y / -(HEIGHT / 2f) + 1);
         }
 
         static public (float x, float y) PixelToScreen(double x, double y)
         {
-            return ((float)x / (WIDTH / 2) - 1, (float)y / -(HEIGHT / 2) + 1);
+            return ((float)x / (WIDTH / 2f) - 1, (float)y / -(HEIGHT / 2f) + 1);
         }
 
         static unsafe public void Init(Window* window)

@@ -18,12 +18,12 @@ namespace SeeloewenCraft.game.ui.ui_lib
         /// <summary>
         /// Height of the component in pixels
         /// </summary>
-        public int height { get => bounds.y1P - bounds.y2P; }
+        public int height { get => Math.Abs(bounds.y2P - bounds.y1P); }
 
         /// <summary>
         /// Width of the component in pixels
         /// </summary>
-        public int width { get => bounds.x2P - bounds.x1P; }
+        public int width { get => Math.Abs(bounds.x2P - bounds.x1P); }
 
         public bool visible = true;
 
@@ -261,6 +261,8 @@ namespace SeeloewenCraft.game.ui.ui_lib
         /// <param name="y">Y coordinate of new upper left corner</param>
         internal virtual void MoveTo(int x, int y)
         {
+            int oldheight = height;
+
             int stepX = x - bounds.x1P;
             int stepY = y - bounds.y1P;
 

@@ -54,7 +54,7 @@ namespace SeeloewenCraft.game.ui
         protected override void OnRender()
         {
             //Set color based on the pressstate (if it isn't following the mouse)
-            if(!isMouseFollower) SetColor(isPressed ? pressedColor : (isHovered ? hoveredColor : color));
+            SetColor(isPressed ? pressedColor : (isHovered ? hoveredColor : color));
 
             base.OnRender();
         }
