@@ -125,8 +125,8 @@ namespace SeeloewenCraft
                 //Evaluate possible candidates
                 foreach (Block candidate in candidates)
                 {
-                    //Confirms that the candidate is actually a dirt block that has either nothing above (top world border), or a non-solid block above
-                    if (candidate != null && candidate is DirtBlock dirt && (candidate.GetBlockAbove == null || !candidate.GetBlockAbove().isSolid))
+                    //Confirms that the candidate is actually a dirt block that has either nothing above (top world border), or a non-solid block above (except water)
+                    if (candidate != null && candidate is DirtBlock dirt && (candidate.GetBlockAbove == null || (!candidate.GetBlockAbove().isSolid) && !candidate.GetBlockAbove().tags.Contains("liquids/water")))
                     {
                         candidate.SetBlock(BlockRegister.GenerateBlock("sc:grass_block"));
                     }
