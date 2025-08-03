@@ -399,22 +399,29 @@ namespace SeeloewenCraft
             AddBlock(new OakLogBlock(true), 2, 2);
 
             //Layer 4
-            AddBlock(new OakLeavesBlock(false), 1, 3);
-            AddBlock(new OakLeavesBlock(false), 2, 3);
-            AddBlock(new OakLeavesBlock(false), 3, 3);
-            AddBlock(new OakLeavesBlock(false), 4, 3);
-            AddBlock(new OakLeavesBlock(false), 0, 3);
+            AddBlock(GetLeaves(), 1, 3);
+            AddBlock(GetLeaves(), 2, 3);
+            AddBlock(GetLeaves(), 3, 3);
+            AddBlock(GetLeaves(), 4, 3);
+            AddBlock(GetLeaves(), 0, 3);
 
             //Layer 5
-            AddBlock(new OakLeavesBlock(false), 1, 4);
-            AddBlock(new OakLeavesBlock(false), 2, 4);
-            AddBlock(new OakLeavesBlock(false), 3, 4);
+            AddBlock(GetLeaves(), 1, 4);
+            AddBlock(GetLeaves(), 2, 4);
+            AddBlock(GetLeaves(), 3, 4);
 
             //Layer 6
-            AddBlock(new OakLeavesBlock(false), 2, 5);
+            AddBlock(GetLeaves(), 2, 5);
 
             //Begin generating the trees
             BeginGeneration(x, y, index, isNew);
+        }
+
+        public Block GetLeaves()
+        {
+            OakLeavesBlock block = new OakLeavesBlock(false);
+            block.tags.Add("structure_leaves");
+            return block;
         }
     }
 
@@ -605,30 +612,37 @@ namespace SeeloewenCraft
             AddBlock(new SpruceLogBlock(true), 2, 2);
 
             //Layer 4
-            AddBlock(new SpruceLeavesBlock(false), 1, 3);
-            AddBlock(new SpruceLeavesBlock(false), 2, 3);
-            AddBlock(new SpruceLeavesBlock(false), 3, 3);
-            AddBlock(new SpruceLeavesBlock(false), 4, 3);
-            AddBlock(new SpruceLeavesBlock(false), 0, 3);
+            AddBlock(GetLeaves(), 1, 3);
+            AddBlock(GetLeaves(), 2, 3);
+            AddBlock(GetLeaves(), 3, 3);
+            AddBlock(GetLeaves(), 4, 3);
+            AddBlock(GetLeaves(), 0, 3);
 
             //Layer 5
-            AddBlock(new SpruceLeavesBlock(false), 1, 4);
-            AddBlock(new SpruceLeavesBlock(false), 2, 4);
-            AddBlock(new SpruceLeavesBlock(false), 3, 4);
+            AddBlock(GetLeaves(), 1, 4);
+            AddBlock(GetLeaves(), 2, 4);
+            AddBlock(GetLeaves(), 3, 4);
 
             //Layer 6
-            AddBlock(new SpruceLeavesBlock(false), 1, 5);
-            AddBlock(new SpruceLeavesBlock(false), 2, 5);
-            AddBlock(new SpruceLeavesBlock(false), 3, 5);
+            AddBlock(GetLeaves(), 1, 5);
+            AddBlock(GetLeaves(), 2, 5);
+            AddBlock(GetLeaves(), 3, 5);
 
             //Layer 7
-            AddBlock(new SpruceLeavesBlock(false), 2, 6);
+            AddBlock(GetLeaves(), 2, 6);
 
             //Layer 8
-            AddBlock(new SpruceLeavesBlock(false), 2, 7);
+            AddBlock(GetLeaves(), 2, 7);
 
             //Begin generating the trees
             BeginGeneration(x, y, index, isNew);
+        }
+
+        public Block GetLeaves()
+        {
+            SpruceLeavesBlock block = new SpruceLeavesBlock(false);
+            block.tags.Add("structure_leaves");
+            return block;
         }
     }
 
