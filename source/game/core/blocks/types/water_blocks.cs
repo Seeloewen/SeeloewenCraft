@@ -1,6 +1,6 @@
 ﻿
 using SeeloewenCraft.entity;
-using SeeloewenCraft.game.ui;
+using SeeloewenCraft.game.graphics;
 
 namespace SeeloewenCraft
 {

@@ -654,19 +654,19 @@
 					"file": "Break_5.png"
 				},
 				{
-					"id": "sc:rice_top_stage1",
+					"id": "sc:rice_top/1",
 					"file": "Blocks.Connected.Rice_Top_Stage_1.png"
 				},
 				{
-					"id": "sc:rice_top_stage2",
+					"id": "sc:rice_top/2",
 					"file": "Blocks.Connected.Rice_Top_Stage_2.png"
 				},
 				{
-					"id": "sc:rice_top_stage3",
+					"id": "sc:rice_top/3",
 					"file": "Blocks.Connected.Rice_Top_Stage_3.png"
 				},
 				{
-					"id": "sc:rice_top_stage4",
+					"id": "sc:rice_top/4",
 					"file": "Blocks.Connected.Rice_Top_Stage_4.png"
 				},
 				{
@@ -674,67 +674,67 @@
 					"file": "Blocks.Connected.Rice_Base.png"
 				},
 				{
-					"id": "sc:cabbage_stage1",
+					"id": "sc:cabbage_crop_block/1",
 					"file": "Blocks.States.Cabbage_Stage_1.png"
 				},
 				{
-					"id": "sc:cabbage_stage2",
+					"id": "sc:cabbage_crop_block/2",
 					"file": "Blocks.States.Cabbage_Stage_2.png"
 				},
 				{
-					"id": "sc:cabbage_stage3",
+					"id": "sc:cabbage_crop_block/3",
 					"file": "Blocks.States.Cabbage_Stage_3.png"
 				},
 				{
-					"id": "sc:cabbage_stage4",
+					"id": "sc:cabbage_crop_block/4",
 					"file": "Blocks.States.Cabbage_Stage_4.png"
 				},
 				{
-					"id": "sc:potato_stage1",
+					"id": "sc:potato_crop_block/1",
 					"file": "Blocks.States.Potato_Stage_1.png"
 				},
 				{
-					"id": "sc:potato_stage2",
+					"id": "sc:potato_crop_block/2",
 					"file": "Blocks.States.Potato_Stage_2.png"
 				},
 				{
-					"id": "sc:potato_stage3",
+					"id": "sc:potato_crop_block/3",
 					"file": "Blocks.States.Potato_Stage_3.png"
 				},
 				{
-					"id": "sc:potato_stage4",
+					"id": "sc:potato_crop_block/4",
 					"file": "Blocks.States.Potato_Stage_4.png"
 				},
 				{
-					"id": "sc:pumpkin_stage1",
+					"id": "sc:pumpkin_crop_block/1",
 					"file": "Blocks.States.Pumpkin_Stage_1.png"
 				},
 				{
-					"id": "sc:pumpkin_stage2",
+					"id": "sc:pumpkin_crop_block/2",
 					"file": "Blocks.States.Pumpkin_Stage_2.png"
 				},
 				{
-					"id": "sc:pumpkin_stage3",
+					"id": "sc:pumpkin_crop_block/3",
 					"file": "Blocks.States.Pumpkin_Stage_3.png"
 				},
 				{
-					"id": "sc:pumpkin_stage4",
+					"id": "sc:pumpkin_crop_block/4",
 					"file": "Blocks.States.Pumpkin_Stage_4.png"
 				},
 				{
-					"id": "sc:tomato_stage1",
+					"id": "sc:tomato_crop_block/1",
 					"file": "Blocks.States.Tomato_Stage_1.png"
 				},
 				{
-					"id": "sc:tomato_stage2",
+					"id": "sc:tomato_crop_block/2",
 					"file": "Blocks.States.Tomato_Stage_1.png"
 				},
 				{
-					"id": "sc:cucumber_stage1",
+					"id": "sc:cucumber_crop_block/1",
 					"file": "Blocks.States.Cucumber_Stage_1.png"
 				},
 				{
-					"id": "sc:cucumber_stage2",
+					"id": "sc:cucumber_crop_block/2",
 					"file": "Blocks.States.Cucumber_Stage_2.png"
 				},
 				{
@@ -763,7 +763,7 @@
 				},
 				{
 					"id": "sc:barrel_block",
-					"file": "Blocks.Barrel_Block.png"
+					"file": "Blocks.Barrel.png"
 				},
 				{
 					"id": "sc:amethyst_ore_block",
@@ -986,7 +986,7 @@
 					"file": "Blocks.Glass.png"
 				},
 				{
-					"id": "sc:sugar_cane_block",
+					"id": "sc:sugar_cane_block/1",
 					"file": "Blocks.Sugar_Cane.png"
 				},
 				{
@@ -995,55 +995,55 @@
 				},
 				{
 					"id": "sc:cobblestone_bottomright",
-					"file": "Blocks.Chiseled.Cobblestone_BottomRight.png"
+					"file": "Blocks.Chiseled.CobbleStone_BottomRight.png"
 				},
 				{
 					"id": "sc:cobblestone_bottomleft",
-					"file": "Blocks.Chiseled.Cobblestone_BottomLeft.png"
+					"file": "Blocks.Chiseled.CobbleStone_BottomLeft.png"
 				},
 				{
 					"id": "sc:cobblestone_topright",
-					"file": "Blocks.Chiseled.Cobblestone_TopRight.png"
+					"file": "Blocks.Chiseled.CobbleStone_TopRight.png"
 				},
 				{
 					"id": "sc:cobblestone_topleft",
-					"file": "Blocks.Chiseled.Cobblestone_TopLeft.png"
+					"file": "Blocks.Chiseled.CobbleStone_TopLeft.png"
 				},
 				{
 					"id": "sc:cobblestone_slabbottom",
-					"file": "Blocks.Chiseled.Cobblestone_SlabBottom.png"
+					"file": "Blocks.Chiseled.CobbleStone_SlabBottom.png"
 				},
 				{
 					"id": "sc:cobblestone_slabtop",
-					"file": "Blocks.Chiseled.Cobblestone_SlabTop.png"
+					"file": "Blocks.Chiseled.CobbleStone_SlabTop.png"
 				},
 				{
 					"id": "sc:cobblestone_slableft",
-					"file": "Blocks.Chiseled.Cobblestone_SlabLeft.png"
+					"file": "Blocks.Chiseled.CobbleStone_SlabLeft.png"
 				},
 				{
 					"id": "sc:cobblestone_slabright",
-					"file": "Blocks.Chiseled.Cobblestone_SlabRight.png"
+					"file": "Blocks.Chiseled.CobbleStone_SlabRight.png"
 				},
 				{
 					"id": "sc:cobblestone_stairbottomright",
-					"file": "Blocks.Chiseled.Cobblestone_StairBottomRight.png"
+					"file": "Blocks.Chiseled.CobbleStone_StairBottomRight.png"
 				},
 				{
 					"id": "sc:cobblestone_stairbottomleft",
-					"file": "Blocks.Chiseled.Cobblestone_StairBottomLeft.png"
+					"file": "Blocks.Chiseled.CobbleStone_StairBottomLeft.png"
 				},
 				{
 					"id": "sc:cobblestone_stairtopright",
-					"file": "Blocks.Chiseled.Cobblestone_StairTopRight.png"
+					"file": "Blocks.Chiseled.CobbleStone_StairTopRight.png"
 				},
 				{
 					"id": "sc:cobblestone_stairtopleft",
-					"file": "Blocks.Chiseled.Cobblestone_StairTopLeft.png"
+					"file": "Blocks.Chiseled.CobbleStone_StairTopLeft.png"
 				},
 				{
 					"id": "sc:cobblestone_center",
-					"file": "Blocks.Chiseled.Cobblestone_Center.png"
+					"file": "Blocks.Chiseled.CobbleStone_Center.png"
 				},
 				{
 					"id": "sc:sand_stone_bottomleft",
@@ -1278,51 +1278,51 @@
 					"file": "Blocks.Connected.Archeology_Pot_Top.png"
 				},
 				{
-					"id": "sc:wheat_stage1",
+					"id": "sc:wheat_crop_block/1",
 					"file": "Blocks.States.Wheat_Stage_1.png"
 				},
 				{
-					"id": "sc:wheat_stage2",
+					"id": "sc:wheat_crop_block/2",
 					"file": "Blocks.States.Wheat_Stage_2.png"
 				},
 				{
-					"id": "sc:wheat_stage3",
+					"id": "sc:wheat_crop_block/3",
 					"file": "Blocks.States.Wheat_Stage_3.png"
 				},
 				{
-					"id": "sc:wheat_stage4",
+					"id": "sc:wheat_crop_block/4",
 					"file": "Blocks.States.Wheat_Stage_4.png"
 				},
 				{
-					"id": "sc:carrot_stage1",
+					"id": "sc:carrot_crop_block/1",
 					"file": "Blocks.States.Carrot_Stage_1.png"
 				},
 				{
-					"id": "sc:carrot_stage2",
+					"id": "sc:carrot_crop_block/2",
 					"file": "Blocks.States.Carrot_Stage_2.png"
 				},
 				{
-					"id": "sc:carrot_stage3",
+					"id": "sc:carrot_crop_block/3",
 					"file": "Blocks.States.Carrot_Stage_3.png"
 				},
 				{
-					"id": "sc:carrot_stage4",
+					"id": "sc:carrot_crop_block/4",
 					"file": "Blocks.States.Carrot_Stage_4.png"
 				},
 				{
-					"id": "sc:berry_bush_stage1",
+					"id": "sc:berry_bush_crop_block/1",
 					"file": "Blocks.States.Berry_Bush_Stage_1.png"
 				},
 				{
-					"id": "sc:berry_bush_stage2",
+					"id": "sc:berry_bush_crop_block/2",
 					"file": "Blocks.States.Berry_Bush_Stage_2.png"
 				},
 				{
-					"id": "sc:cotton_stage1",
+					"id": "sc:cotton_crop_block/1",
 					"file": "Blocks.States.Cotton_Stage_1.png"
 				},
 				{
-					"id": "sc:cotton_stage2",
+					"id": "sc:cotton_crop_block/2",
 					"file": "Blocks.States.Cotton_Stage_2.png"
 				},
 				{
@@ -1343,7 +1343,7 @@
 				},
 				{
 					"id": "sc:spruce_door_top/closed",
-					"file": "Blocks/States/Spruce_Door_Closed_Top.png"
+					"file": "Blocks.States.Spruce_Door_Closed_Top.png"
 				},
 				{
 					"id": "sc:spruce_door_base/closed",

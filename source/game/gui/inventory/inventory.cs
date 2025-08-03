@@ -1,5 +1,5 @@
 ﻿using SeeloewenCraft.entity;
-using SeeloewenCraft.game.ui;
+using SeeloewenCraft.game.graphics;
 using System;
 using System.Collections.Generic;
 using System.Windows;

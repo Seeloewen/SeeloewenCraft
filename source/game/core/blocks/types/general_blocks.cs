@@ -1,5 +1,5 @@
 ﻿using SeeloewenCraft.entity;
-using SeeloewenCraft.game.ui;
+using SeeloewenCraft.game.graphics;
 
 /* 
  * General overview of block break times:

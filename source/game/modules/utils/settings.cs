@@ -1,4 +1,4 @@
-﻿using SeeloewenCraft.game.ui;
+﻿using SeeloewenCraft.game.graphics;
 using System;
 
 namespace SeeloewenCraft

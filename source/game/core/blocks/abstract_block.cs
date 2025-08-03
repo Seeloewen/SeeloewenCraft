@@ -7,7 +7,7 @@ using System;
 using SeeloewenCraft.entity;
 using System.Text;
 using System.Runtime.CompilerServices;
-using SeeloewenCraft.game.ui;
+using SeeloewenCraft.game.graphics;
 using OpenTK.Graphics.OpenGL4;
 using System.Diagnostics;
 using Windows.Networking.Vpn;

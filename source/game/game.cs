@@ -4,9 +4,9 @@ using System.Runtime.CompilerServices;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using SeeloewenCraft.game.ui;
-using Renderer = SeeloewenCraft.game.ui.Renderer;
-using TextureManager = SeeloewenCraft.game.ui.TextureManager;
+using SeeloewenCraft.game.graphics;
+using Renderer = SeeloewenCraft.game.graphics.Renderer;
+using TextureManager = SeeloewenCraft.game.graphics.TextureManager;
 
 namespace SeeloewenCraft
 {

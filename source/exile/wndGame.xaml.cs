@@ -36,7 +36,7 @@ using System.Windows.Media.Animation;
 using FramebufferTarget = OpenTK.Graphics.OpenGL.FramebufferTarget;
 using FramebufferAttachment = OpenTK.Graphics.OpenGL.FramebufferAttachment;
 using FramebufferAttachmentParameterName = OpenTK.Graphics.OpenGL.FramebufferAttachmentParameterName;
-using SeeloewenCraft.game.ui;
+using SeeloewenCraft.game.graphics;
 
 
 namespace SeeloewenCraft

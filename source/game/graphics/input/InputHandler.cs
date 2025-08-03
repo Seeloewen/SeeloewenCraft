@@ -1,0 +1,119 @@
+﻿using OpenTK.Windowing.GraphicsLibraryFramework;
+using SeeloewenCraft.game.graphics;
+using System;
+using System.Collections.Generic;
+namespace SeeloewenCraft.game.graphics
+{
+    public static class InputHandler
+    {
+
+        static public HashSet<System.Windows.Input.Key> pressedKeys = new HashSet<System.Windows.Input.Key>();
+
+
+
+        public static int mouseXPixel { get; private set; }
+        public static int mouseYPixel { get; private set; }
+
+        public static float mouseXScreen { get => ((float)mouseXPixel) /(Resolution.WIDTH/2) - 1; }
+        public static float mouseYScreen { get => ((float)mouseYPixel) / (-Resolution.HEIGHT / 2) + 1; }
+
+
+        public static int scrollAmount { get; private set; }
+
+        public static bool pressedLeft { get; private set; }
+        public static bool pressedRight { get; private set; }
+
+
+        public unsafe static void Init(Window* window)
+        {
+            GLFW.SetCursorPosCallback(window, (_, x, y) =>
+            {
+                mouseXPixel = (int)x;
+                mouseYPixel = (int)y;
+            });
+
+            GLFW.SetMouseButtonCallback(window, (_, button, action, _) =>
+            {
+                switch (button)
+                {
+                    case MouseButton.Left: 
+                        pressedLeft = action == InputAction.Press; 
+                        break;
+                    case MouseButton.Right: 
+                        pressedRight = action == InputAction.Press; 
+                        break;
+                }
+            });
+
+            GLFW.SetScrollCallback(window, (_, _, y) =>
+            {
+                scrollAmount += Convert.ToInt32(y);
+            });
+
+            GLFW.SetWindowCloseCallback(window, (window) =>
+            {
+                GLFW.SetWindowShouldClose(window, true);
+            });
+
+            GLFW.SetKeyCallback(window, (_, k, _, a, _) =>
+            {
+                if(KeyBinds.bindings.TryGetValue(k, out var v)) {
+                    if (a == InputAction.Press)
+                    {
+                        KeyBinds.pressed[v] = true;
+                        KeyBinds.pressedFirst[v] = true;
+                    }
+                    else if (a == InputAction.Release)
+                    {
+                        KeyBinds.pressed[v] = false;
+                        KeyBinds.pressedFirst[v] = false;
+                    } else
+                    {
+                        return;
+                    }
+                }
+            });
+
+           
+
+        }
+
+        static public void Reset()
+        {
+            scrollAmount = 0;
+        }
+
+        /*public static void HandleMouseMove(Point p)
+        {
+            currentMouseX = (float)p.X / 640 - 1;
+            currentMouseY = (float)p.Y / -360 + 1;
+        }
+
+
+        public static void HandleMouseClick(MouseButton button, MouseButtonState action)
+        {
+
+            Log.Write($"button={button}, action={action}, x={currentMouseX}, y={currentMouseY}", LogType.RENDERING, LogLevel.INFO);
+            if (button == MouseButton.Left)
+            {
+                pressedLeft = action == MouseButtonState.Pressed;
+            }
+            if (button == MouseButton.Right)
+            {
+                pressedRight = action == MouseButtonState.Pressed;
+            }
+
+
+        }*/
+
+
+
+
+
+
+
+
+
+
+    }
+}

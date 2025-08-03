@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Linq;
 using SeeloewenCraft.entity;
 using System.Windows.Documents;
-using SeeloewenCraft.game.ui;
+using SeeloewenCraft.game.graphics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTK.Graphics.OpenGL4;
 

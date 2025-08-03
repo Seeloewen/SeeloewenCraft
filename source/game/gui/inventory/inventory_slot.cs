@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using SeeloewenCraft.game.ui;
+using SeeloewenCraft.game.graphics;
 
 namespace SeeloewenCraft
 {

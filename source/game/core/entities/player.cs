@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using SeeloewenCraft.game.ui;
+using SeeloewenCraft.game.graphics;
 using System;
 using System.Windows.Media;
 

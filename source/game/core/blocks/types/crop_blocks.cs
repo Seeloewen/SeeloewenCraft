@@ -2,8 +2,6 @@
 {
     public class WheatCropBlock : CropBlock
     {
-        int state = 1;
-
         public WheatCropBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Wheat", "sc:wheat_crop_block", 0, "sc:seeds_item", Game.rnd.Next(1200000, 1800000), "sc:seeds_item", "sc:wheat_item", 1, 4, Tool.None);
@@ -16,25 +14,23 @@
         {
             base.UpdateProgress(amount);
 
-            if (progress >= growthTime / 3 && state < 2)
+            if (progress >= growthTime / 3 && growthState < 2)
             {
-                state = 2;
+                growthState = 2;
             }
-            else if (progress >= 2 * (growthTime / 3) && state < 3)
+            else if (progress >= 2 * (growthTime / 3) && growthState < 3)
             {
-                state = 3;
+                growthState = 3;
             }
             else if (IsReady())
             {
-                state = 4;
+                growthState = 4;
             }
         }
     }
 
     public class CarrotCropBlock : CropBlock
     {
-        int state = 1;
-
         public CarrotCropBlock(bool isInBackground) : base(isInBackground)
         {
 
@@ -48,17 +44,17 @@
         {
             base.UpdateProgress(amount);
 
-            if (progress >= growthTime / 3 && state < 2)
+            if (progress >= growthTime / 3 && growthState < 2)
             {
-                state = 2;
+                growthState = 2;
             }
-            else if (progress >= 2 * (growthTime / 3) && state < 3)
+            else if (progress >= 2 * (growthTime / 3) && growthState < 3)
             {
-                state = 3;
+                growthState = 3;
             }
             else if (IsReady())
             {
-                state = 4;
+                growthState = 4;
             }
         }
     }
@@ -79,9 +75,7 @@
         {
             base.UpdateProgress(amount);
 
-            if (IsReady())
-            {
-            }
+            if (IsReady()) growthState = 2;
         }
 
         public override void RightClickAction()
@@ -95,7 +89,6 @@
 
                 drops.Clear();
                 drops.Add(("sc:cotton_item", 1, 1));
-
             }
         }
     }
@@ -115,9 +108,7 @@
         {
             base.UpdateProgress(amount);
 
-            if (IsReady())
-            {
-            }
+            if (IsReady()) growthState = 2;
         }
 
         public override void RightClickAction()
@@ -131,7 +122,6 @@
 
                 drops.Clear();
                 drops.Add(("sc:berry_item", 1, 1));
-
             }
         }
     }
@@ -242,7 +232,7 @@
 
             if (IsReady())
             {
-
+                growthState = 2;
                 if (shouldGrow)
                 {
                     PlaceBlockAbove(yPos, yPos - maxHeight);
@@ -261,7 +251,6 @@
 
                 drops.Clear();
                 drops.Add(("sc:tomato_item", 1, 1));
-
             }
         }
     }
@@ -282,8 +271,6 @@
 
     public class Rice_Top : CropBlock
     {
-        int state = 1;
-
         public Rice_Top(bool isInBackground) : base(isInBackground)
         {
             Init("Rice Top", "sc:rice_top", 0, "sc:bucket_rice_item", Game.rnd.Next(1000000, 2000000), "sc:bucket_rice_item", "sc:bucket_rice_item", 1, 1, Tool.None);
@@ -295,17 +282,17 @@
         {
             base.UpdateProgress(amount);
 
-            if (progress >= growthTime / 3 && state < 2)
+            if (progress >= growthTime / 3 && growthState < 2)
             {
-                state = 2;
+                growthState = 2;
             }
-            else if (progress >= 2 * (growthTime / 3) && state < 3)
+            else if (progress >= 2 * (growthTime / 3) && growthState < 3)
             {
-                state = 3;
+                growthState = 3;
             }
             else if (IsReady())
             {
-                state = 4;
+                growthState = 4;
             }
         }
 
@@ -316,19 +303,16 @@
                 //Drop the item and reset the progress without breaking the block
                 growthTime = Game.rnd.Next(1000000, 2000000);
                 progress = 0;
-                state = 1;
+                growthState = 1;
 
                 Game.world.player.inventory.AddItem("sc:bucket_rice_item", 1, null);
                 Game.world.player.inventory.RemoveItem("sc:bucket_empty_item", 1);
-
             }
         }
     }
 
     public class PumpkinCropBlock : CropBlock
     {
-        int state = 1;
-
         public PumpkinCropBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Pumpkin", "sc:pumpkin_crop_block", 0, "sc:pumpkin_item", Game.rnd.Next(1400000, 2000001), "sc:pumpkin_seeds_item", "sc:pumpkin_item", 1, 1, Tool.None);
@@ -342,17 +326,17 @@
         {
             base.UpdateProgress(amount);
 
-            if (progress >= growthTime / 3 && state < 2)
+            if (progress >= growthTime / 3 && growthState < 2)
             {
-                state = 2;
+                growthState = 2;
             }
-            else if (progress >= 2 * (growthTime / 3) && state < 3)
+            else if (progress >= 2 * (growthTime / 3) && growthState < 3)
             {
-                state = 3;
+                growthState = 3;
             }
             else if (IsReady())
             {
-                state = 4;
+                growthState = 4;
             }
         }
 
@@ -366,7 +350,6 @@
                 Drop();
                 growthTime = Game.rnd.Next(1400000, 2000001);
                 progress = 0;
-                state = 1;
 
                 drops.Clear();
                 drops.Add(("sc:pumpkin_seeds_item", 1, 1));
@@ -377,8 +360,6 @@
 
     public class CabbageCropBlock : CropBlock
     {
-        int state = 1;
-
         public CabbageCropBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Cabbage", "sc:cabbage_crop_block", 0, "sc:cabbage_seeds_item", Game.rnd.Next(1200000, 1800001), "sc:cabbage_seeds_item", "sc:cabbage_item", 1, 1, Tool.None);
@@ -391,25 +372,23 @@
         {
             base.UpdateProgress(amount);
 
-            if (progress >= growthTime / 3 && state < 2)
+            if (progress >= growthTime / 3 && growthState < 2)
             {
-                state = 2;
+                growthState = 2;
             }
-            else if (progress >= 2 * (growthTime / 3) && state < 3)
+            else if (progress >= 2 * (growthTime / 3) && growthState < 3)
             {
-                state = 3;
+                growthState = 3;
             }
             else if (IsReady())
             {
-                state = 4;
+                growthState = 4;
             }
         }
     }
 
     public class PotatoCropBlock : CropBlock
     {
-        int state = 1;
-
         public PotatoCropBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Potato", "sc:potato_crop_block", 0, "sc:potato_item", Game.rnd.Next(1400000, 2000001), "sc:potato_item", "sc:potato_item", 1, 3, Tool.None);
@@ -422,17 +401,17 @@
         {
             base.UpdateProgress(amount);
 
-            if (progress >= growthTime / 3 && state < 2)
+            if (progress >= growthTime / 3 && growthState < 2)
             {
-                state = 2;
+                growthState = 2;
             }
-            else if (progress >= 2 * (growthTime / 3) && state < 3)
+            else if (progress >= 2 * (growthTime / 3) && growthState < 3)
             {
-                state = 3;
+                growthState = 3;
             }
             else if (IsReady())
             {
-                state = 4;
+                growthState = 4;
             }
         }
     }
@@ -455,6 +434,7 @@
 
             if (IsReady())
             {
+                growthState = 2;
             }
         }
 
@@ -469,7 +449,6 @@
 
                 drops.Clear();
                 drops.Add(("sc:cucumber _item", 1, 1));
-
             }
         }
     }
