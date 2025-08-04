@@ -30,7 +30,7 @@ namespace SeeloewenCraft
                 btnHandCrafting.Click += btnHandCrafting_Click;
 
                 //Setup crafting gui
-                craftingHandler = new CraftingHandler(null);
+                craftingHandler = new CraftingHandler(null, "Hand_Crafting");
                 handCraftingGui = new HandCraftingGui(535, 720, 120, 285, "sc:hand_crafting", null, craftingHandler);
             }
         }

@@ -362,7 +362,7 @@ namespace SeeloewenCraft
 
                 if (recipeRunning)
                 {
-                    CraftingRecipe recipe = block.craftingHandler.GetRecipe(blockToken.GetString("/recipe_id"));
+                    CraftingRecipe recipe = CraftingHandler.GetRecipe(blockToken.GetString("/recipe_id"));
                     int progress = blockToken.GetInt("/recipe_progress");
                     int amount = blockToken.GetInt("/recipe_amount");
                     block.craftingHandler.selectedRecipe = recipe;

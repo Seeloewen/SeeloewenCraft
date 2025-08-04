@@ -10,7 +10,7 @@ namespace SeeloewenCraft.game.graphics
     {
         List<CGui> guis { get => Screen.guis; }
 
-        internal GuiScreen() : base(new Color(0f, 0f, 0f, 0.5f), new Rectangle(-1f, -1f, 1f, 1f)) //Goes over the entire screen as an invisible background to catch click events
+        internal GuiScreen() : base(new Color(0f, 0f, 0f, 0.3f), new Rectangle(-1f, -1f, 1f, 1f)) //Goes over the entire screen as an invisible background to catch click events
         {
             if (guis.Count == 0) return;
 

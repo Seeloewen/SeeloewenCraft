@@ -17,10 +17,10 @@ namespace SeeloewenCraft.game.graphics
         {
             this.invData = (Inventory)invData;
 
-            int width = 9 * InvSizes.slotSize + 12 * InvSizes.edgeSize;
-            int height = 4 * InvSizes.slotSize + 8 * InvSizes.edgeSize;
+            int width = 9 * GuiSizes.slotSize + 12 * GuiSizes.edgeSize;
+            int height = 4 * GuiSizes.slotSize + 8 * GuiSizes.edgeSize;
 
-            SetBounds(new Rectangle(InvSizes.mx - width / 2, InvSizes.my - height / 2, InvSizes.mx + width / 2, InvSizes.my + height / 2));
+            SetBounds(new Rectangle(GuiSizes.mx - width / 2, GuiSizes.my - height / 2, GuiSizes.mx + width / 2, GuiSizes.my + height / 2));
             AddChild(new CBorder(3, new Color(.0f)));
 
             for (int y = invHeight - 1; y >= 0; y--)

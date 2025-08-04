@@ -155,6 +155,7 @@ namespace SeeloewenCraft.game.graphics
         public static CGui GetGui(IGuiData data) => data.guiId switch
         {
             "inventory" => new CInventory(data),
+            "crafting_handler" => new CCrafting(data),
             _ => null
         };
     }

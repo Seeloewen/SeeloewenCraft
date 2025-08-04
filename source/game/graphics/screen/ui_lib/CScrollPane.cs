@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using OpenTK.Graphics.OpenGL4;
 
 namespace SeeloewenCraft.game.graphics.ui_lib;
@@ -8,11 +7,11 @@ namespace SeeloewenCraft.game.graphics.ui_lib;
 public class CScrollPane : CRectangle
 {
 
-    const int SCROLL_SENSITIVITY = 3;
+    const int SCROLL_SENSITIVITY = 15;
 
     private int i;
 
-    private readonly int maxI;
+    internal int maxI;
 
     private List<Component> scrollableChildren;
     
@@ -30,11 +29,11 @@ public class CScrollPane : CRectangle
     
     protected override void OnScrollEvent(ScrollEvent scrollEvent)
     {
-        int dy = SCROLL_SENSITIVITY * scrollEvent.offset;
+        int dy = -SCROLL_SENSITIVITY * scrollEvent.offset;
         dy = Math.Max(-i, dy);
         dy = Math.Min(maxI - i, dy);
         i += dy;
-        scrollableChildren.ForEach(c => c.MoveBy(0, dy));
+        scrollableChildren.ForEach(c => c.MoveBy(0, -dy));
     }
 
     protected override void OnRender()

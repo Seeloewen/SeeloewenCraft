@@ -224,7 +224,7 @@ namespace SeeloewenCraft
             tags.Add("workstation");
             hasRightClickAction = true;
 
-            craftingHandler = new CraftingHandler(this);
+            craftingHandler = new CraftingHandler(this, "Crafting_Table");
             gui = new CraftingTableGui(535, 720, 120, 285, "sc:crafting_table", null, this);
         }
 
@@ -232,7 +232,7 @@ namespace SeeloewenCraft
         {
             if (IsInRange())
             {
-                gui.Show();
+                ((IGuiData)craftingHandler).Show();
             }
         }
 
@@ -260,7 +260,7 @@ namespace SeeloewenCraft
             tags.Add("workstation");
             hasRightClickAction = true;
 
-            craftingHandler = new CraftingHandler(this);
+            craftingHandler = new CraftingHandler(this, "Chiseler");
             gui = new ChiselerGui(535, 720, 120, 285, "sc:chiseler", null, this);
         }
 
@@ -298,7 +298,7 @@ namespace SeeloewenCraft
             blockInventory = gui.inventory;
             blockInventory.block = this;
             hasInventory = true;
-            craftingHandler = new CraftingHandler(this);
+            craftingHandler = new CraftingHandler(this, "Unchiseler");
         }
 
         public override void RightClickAction()
@@ -583,7 +583,7 @@ namespace SeeloewenCraft
             hasRightClickAction = true;
             dropsOnWrongTool = false;
 
-            craftingHandler = new CraftingHandler(this);
+            craftingHandler = new CraftingHandler(this, "Furnace");
             gui = new FurnaceGui(535, 720, 120, 285, "sc:furnace", null, this);
         }
 
@@ -696,7 +696,7 @@ namespace SeeloewenCraft
             dropsOnWrongTool = false;
             willFall = true;
 
-            craftingHandler = new CraftingHandler(this);
+            craftingHandler = new CraftingHandler(this, "Anvil");
             gui = new AnvilGui(535, 720, 120, 285, "sc:anvil", null, this);
             collision = new RectangleCollision(0, 1000, 190, 1000);
         }

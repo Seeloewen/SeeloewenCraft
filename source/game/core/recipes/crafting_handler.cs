@@ -1,14 +1,17 @@
-﻿using System;
+﻿using SeeloewenCraft.game.graphics;
+using System;
+using System.Configuration;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Windows.UI.Core;
 
 namespace SeeloewenCraft
 {
-    public class CraftingHandler
+    public class CraftingHandler : IGuiData
     {
+        public string guiId { get; set; } = "crafting_handler";
+
         //References
         public HighPrecisionTimer.MultimediaTimer tmrCrafting = new HighPrecisionTimer.MultimediaTimer();
         public ProgressBar pbCraftingBlock = new ProgressBar() { Height = 12, Width = 40 };
@@ -46,8 +49,9 @@ namespace SeeloewenCraft
 
         //-- Constructor --//
 
-        public CraftingHandler(Block block)
+        public CraftingHandler(Block block, string workstation)
         {
+            this.workstation = workstation;
             this.block = block;
 
             //Setup some components
@@ -60,7 +64,7 @@ namespace SeeloewenCraft
 
         //-- Custom Methods --//
 
-        public CraftingRecipe GetRecipe(string id)
+        public static CraftingRecipe GetRecipe(string id)
         {
             //Go through the recipe list and find the recipe with the specified id
             foreach (CraftingRecipe recipe in Game.world.craftingRecipeList)
@@ -78,7 +82,7 @@ namespace SeeloewenCraft
             if (!recipeRunning && !recipeClaimable)
             {
                 //Set references to gui
-                this.workstation = workstation;
+                //this.workstation = workstation;
                 this.cvsRecipes = cvsRecipes;
                 this.cvsIngredients = cvsIngredients;
                 this.btnCraft = btnCraft;

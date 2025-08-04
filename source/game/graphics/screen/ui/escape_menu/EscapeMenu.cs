@@ -51,7 +51,7 @@ namespace SeeloewenCraft.game.graphics
 
                 Action onPress = actions[i];
 
-                AddChild(new Button(onPress, texts[i],
+                AddChild(new CButton(onPress, texts[i],
                 "sc:button_1",
                 GeneralTextureMap.Get(),
                 bounds)

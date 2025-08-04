@@ -49,7 +49,7 @@ namespace SeeloewenCraft.game.graphics.ui_lib
             OnUpdate();
             foreach (var c in children)
             {
-                c.OnUpdate();
+                c.Update();
             }
         }
 
@@ -65,7 +65,7 @@ namespace SeeloewenCraft.game.graphics.ui_lib
         /// <summary>
         /// Reference to parent component
         /// </summary>
-        protected Component parent { get; private set; }
+        internal Component parent { get; private set; }
 
         /// <summary>
         /// Adds a component and calls the OnAdd() method on it
@@ -121,23 +121,26 @@ namespace SeeloewenCraft.game.graphics.ui_lib
         //renders this and every child component. expects that all renderers are begun, and will be ended
         internal void Render()
         {
+            TextureRenderer.Begin();
+            PrimitiveRenderer.Begin();
+            TextRenderer.Begin();
+
             if (!visible)
             {
                 return;
             }
 
             OnRender();
+
+            PrimitiveRenderer.End();
+            TextRenderer.End();
+            TextureRenderer.End();
+
             foreach (Component child in children)
             {
-                PrimitiveRenderer.End();
-                PrimitiveRenderer.Begin();
-                TextRenderer.End();
-                TextRenderer.Begin();
-                TextureRenderer.End();
-                TextureRenderer.Begin();
-
                 child.Render();
             }
+
             OnRenderEnd();
         }
 

@@ -444,6 +444,9 @@ namespace SeeloewenCraft
                 player.inventory.AddItem("sc:diamond_scythe_item", 1, "durability=507");
                 player.inventory.AddItem("sc:diamond_hammer_item", 1, "durability=507");
                 player.inventory.AddItem("sc:chest_item", 64, "");
+                player.inventory.AddItem("sc:dirt_item", 64, "");
+                player.inventory.AddItem("sc:crafting_table_item", 64, "");
+
             }
 
             inventoryList.Add(player.inventory);

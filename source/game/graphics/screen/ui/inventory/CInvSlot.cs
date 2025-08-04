@@ -61,14 +61,14 @@ namespace SeeloewenCraft.game.graphics
 
         private static Rectangle CalcBounds(int x, int y)
         {
-            int startX = InvSizes.mx - (9 * InvSizes.slotSize + 8 * InvSizes.edgeSize) / 2;
-            int startY = InvSizes.my - (4 * InvSizes.slotSize + 4 * InvSizes.edgeSize) / 2;
+            int startX = GuiSizes.mx - (9 * GuiSizes.slotSize + 8 * GuiSizes.edgeSize) / 2;
+            int startY = GuiSizes.my - (4 * GuiSizes.slotSize + 4 * GuiSizes.edgeSize) / 2;
 
-            int x1 = startX + (InvSizes.edgeSize + InvSizes.slotSize) * x;
-            int y1 = startY + (InvSizes.edgeSize + InvSizes.slotSize) * y;
-            if (y == 3) y1 += InvSizes.edgeSize; //Move last row down a little further to highlight hotbar
-            int x2 = x1 + InvSizes.slotSize;
-            int y2 = y1 + InvSizes.slotSize;
+            int x1 = startX + (GuiSizes.edgeSize + GuiSizes.slotSize) * x;
+            int y1 = startY + (GuiSizes.edgeSize + GuiSizes.slotSize) * y;
+            if (y == 3) y1 += GuiSizes.edgeSize; //Move last row down a little further to highlight hotbar
+            int x2 = x1 + GuiSizes.slotSize;
+            int y2 = y1 + GuiSizes.slotSize;
 
             return new Rectangle(x1, y1, x2, y2);
         }
