@@ -266,7 +266,7 @@
 				},
 				{
 					"id": "sc:sand_item",
-					"file": "Blocks.Sand_Item.png"
+					"file": "Blocks.Sand.png"
 				},
 				{
 					"id": "sc:sand_stone_bricks_item",

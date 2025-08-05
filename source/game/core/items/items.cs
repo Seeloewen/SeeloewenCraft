@@ -940,7 +940,7 @@
     {
         public CabbageSeedsItem() : base()
         {
-            Init("Cabbage Seeds", "sc:cabbage_item", "sc:cabbage_crop_block", true);
+            Init("Cabbage Seeds", "sc:cabbage_seeds_item", "sc:cabbage_crop_block", true);
         }
     }
 }
