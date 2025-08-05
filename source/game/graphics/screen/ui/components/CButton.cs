@@ -93,6 +93,8 @@ namespace SeeloewenCraft.game.graphics
 
         protected override void OnClickEvent(ClickEvent e)
         {
+            if (!visible) return;
+
             if (e.button == ButtonType.LEFT)
             {
                 if (e.pressed)

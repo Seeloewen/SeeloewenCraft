@@ -142,12 +142,6 @@ namespace SeeloewenCraft
         public CraftingGui(int height, int width, int top, int left, string id, Inventory inventory, Block block) : base(height, width, top, left, id)
         {
             Init(inventory, block);
-
-            //Render the recipes
-            if (craftingHandler != null)
-            {
-                craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, workstationType);
-            }
         }
 
         public virtual void Init(Inventory inventory, Block block)
@@ -202,8 +196,6 @@ namespace SeeloewenCraft
             Canvas.SetTop(tbAmount, 475);
             cvsGui.Children.Add(tbAmount);
 
-            btnCraft.Click += craftingHandler.btnCraft_Click;
-            btnClaim.Click += craftingHandler.btnClaim_Click;
             tbAmount.TextChanged += tbAmount_TextChanged;
             tbAmount.PreviewTextInput += tbAmount_PreviewTextInput;
         }
@@ -213,27 +205,22 @@ namespace SeeloewenCraft
             cvsGui.Visibility = Visibility.Visible;
             isOpen = true;
             Game.world.guiList.Add(this);
-
-            //Render the recipes
-            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, workstationType);
         }
 
         protected void tbAmount_TextChanged(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(tbAmount.Text))
             {
-                craftingHandler.amount = Convert.ToInt32(tbAmount.Text);
-                if (craftingHandler.amount > 64)
+                craftingHandler.recipeAmount = Convert.ToInt32(tbAmount.Text);
+                if (craftingHandler.recipeAmount > 64)
                 {
-                    craftingHandler.amount = 64;
+                    craftingHandler.recipeAmount = 64;
                     tbAmount.Text = "64";
                 }
-                craftingHandler.RenderCraftingDetails(cvsRecipeDetails, craftingHandler.selectedRecipe);
             }
             else
             {
-                craftingHandler.amount = 1;
-                craftingHandler.RenderCraftingDetails(cvsRecipeDetails, craftingHandler.selectedRecipe);
+                craftingHandler.recipeAmount = 1;
             }
         }
 
@@ -354,22 +341,6 @@ namespace SeeloewenCraft
             btnCraft.Content = "Smelt Item";
             tblHeader.Text = "Furnace";
             this.block = block;
-
-            //Remove the default event handlers and add custom ones
-            btnCraft.Click -= craftingHandler.btnCraft_Click;
-            btnClaim.Click -= craftingHandler.btnClaim_Click;
-            btnCraft.Click += btnCraft_Click;
-            btnClaim.Click += btnClaim_Click;
-        }
-
-        private void btnCraft_Click(object sender, RoutedEventArgs e)
-        {
-            craftingHandler.btnCraft_Click(sender, e);
-        }
-
-        private void btnClaim_Click(object sender, RoutedEventArgs e)
-        {
-            craftingHandler.btnClaim_Click(sender, e);
         }
     }
 
@@ -391,9 +362,6 @@ namespace SeeloewenCraft
         public HandCraftingGui(int height, int width, int top, int left, string id, Inventory inventory, CraftingHandler craftingHandler) : base(height, width, top, left, id, inventory, null)
         {
             this.craftingHandler = craftingHandler;
-
-            //Render the recipes
-            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, "Hand_Crafting");
         }
 
         public override void Init(Inventory inventory, Block block)
@@ -444,8 +412,6 @@ namespace SeeloewenCraft
             Canvas.SetTop(tbAmount, 475);
             cvsGui.Children.Add(tbAmount);
 
-            btnCraft.Click += btnCraft_Click;
-            btnClaim.Click += btnClaim_Click;
             tbAmount.TextChanged += base.tbAmount_TextChanged;
             tbAmount.PreviewTextInput += base.tbAmount_PreviewTextInput;
         }
@@ -455,19 +421,6 @@ namespace SeeloewenCraft
             cvsGui.Visibility = Visibility.Visible;
             isOpen = true;
             Game.world.guiList.Add(this);
-
-            //Render the recipes
-            craftingHandler.RenderCraftingRecipes(cvsRecipes, cvsRecipeDetails, btnCraft, btnClaim, pbCrafting, tbAmount, svRecipes, "Hand_Crafting");
-        }
-
-        private void btnCraft_Click(object sender, RoutedEventArgs e)
-        {
-            craftingHandler.btnCraft_Click(sender, e);
-        }
-
-        private void btnClaim_Click(object sender, RoutedEventArgs e)
-        {
-            craftingHandler.btnClaim_Click(sender, e);
         }
     }
 }

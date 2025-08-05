@@ -446,6 +446,8 @@ namespace SeeloewenCraft
                 player.inventory.AddItem("sc:chest_item", 64, "");
                 player.inventory.AddItem("sc:dirt_item", 64, "");
                 player.inventory.AddItem("sc:crafting_table_item", 64, "");
+                player.inventory.AddItem("sc:rock_item", 64, "");
+                player.inventory.AddItem("sc:stick_item", 64, "");
 
             }
 

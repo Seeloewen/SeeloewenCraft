@@ -245,9 +245,9 @@ namespace SeeloewenCraft
 
             if (craftingHandler.recipeRunning)
             {
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"selectedRecipe={craftingHandler.selectedRecipe}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"selectedRecipe={craftingHandler.currentRecipe}");
                 DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeProgress={craftingHandler.recipeProgress}");
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"amount={craftingHandler.amount}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"amount={craftingHandler.recipeAmount}");
             }
         }
     }
@@ -280,9 +280,9 @@ namespace SeeloewenCraft
 
             if (craftingHandler.recipeRunning)
             {
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"selectedRecipe={craftingHandler.selectedRecipe}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"selectedRecipe={craftingHandler.currentRecipe}");
                 DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeProgress={craftingHandler.recipeProgress}");
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"amount={craftingHandler.amount}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"amount={craftingHandler.recipeAmount}");
             }
         }
     }
@@ -603,9 +603,9 @@ namespace SeeloewenCraft
 
             if (craftingHandler.recipeRunning)
             {
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"selectedRecipe={craftingHandler.selectedRecipe}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"selectedRecipe={craftingHandler.currentRecipe}");
                 DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeProgress={craftingHandler.recipeProgress}");
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"amount={craftingHandler.amount}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"amount={craftingHandler.recipeAmount}");
             }
         }
     }
@@ -717,9 +717,9 @@ namespace SeeloewenCraft
 
             if (craftingHandler.recipeRunning)
             {
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"selectedRecipe={craftingHandler.selectedRecipe}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"selectedRecipe={craftingHandler.currentRecipe}");
                 DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeProgress={craftingHandler.recipeProgress}");
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"amount={craftingHandler.amount}");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"amount={craftingHandler.recipeAmount}");
             }
         }
     }

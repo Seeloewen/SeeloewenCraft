@@ -23,12 +23,13 @@ namespace SeeloewenCraft.game.graphics
         {
             Item item = ItemRegister.GenerateItem(id);
 
-            cText = new CText(item.name, 2, new TextLayout(x + 30, TextHAlignment.LEFT, y + 5, TextVAlignment.TOP));
+            cText = new CText(item.name, 2, new TextLayout(x + 30, TextHAlignment.LEFT, y + 7, TextVAlignment.TOP));
             cTexture = new CTexture(ItemRenderer.GetTextureMap(), id, new Rectangle(x + 5, y + 5, x + 25, y + 25));
 
             AddChild(cText);
             AddChild(cTexture);
 
+            this.id = id;
             name = item.name;
             this.amount = amount;
         }
