@@ -36,16 +36,17 @@
     <EmbeddedResource Include="Resources\**\*.*" />
     <Resource Include="Resources\launcher\Background.png" />
     
-	<PackageReference Include="OpenTK" Version="4.8.2" />
-	<PackageReference Include="OpenTK.GLWpfControl" Version="4.3.2" />
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+	<PackageReference Include="OpenTK" Version="4.9.4" />
+	<PackageReference Include="OpenTK.GLWpfControl" Version="4.3.3" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.6.0-preview3.19128.7" />
 	<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Json.Pointer" Version="2.3.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.Collections.Immutable" Version="9.0.0" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
-    
-    <Content Include="SeeloewenCraft.ico" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4-beta1" />
+    <PackageReference Include="System.Collections.Immutable" Version="10.0.0-preview.6.25358.103" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+	<PackageReference Include="Microsoft.NET.ILLink.Tasks" Version="10.0.0-preview.6.25358.103" />
+
+	  <Content Include="SeeloewenCraft.ico" />
     
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
