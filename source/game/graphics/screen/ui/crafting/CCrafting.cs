@@ -30,7 +30,7 @@ namespace SeeloewenCraft.game.graphics
             handler = (CraftingHandler)data;
 
             cBorder = new CBorder(5, new Color(0.5f));
-            cHeader = new CText(handler.workstation, 2, new TextLayout(bounds.x1P + 20, TextHAlignment.LEFT, bounds.y1P + 15, TextVAlignment.TOP));
+            cHeader = new CText(data.GetTag<string>("header"), 2, new TextLayout(bounds.x1P + 20, TextHAlignment.LEFT, bounds.y1P + 15, TextVAlignment.TOP));
 
             cRecipeHeader = new CText("Recipes", 2, new TextLayout(bounds.x1P + 20, TextHAlignment.LEFT, bounds.y1P + 40, TextVAlignment.TOP));
             cIngredientsHeader = new CText("Ingredients", 2, new TextLayout(bounds.x1P + 255, TextHAlignment.LEFT, bounds.y1P + 40, TextVAlignment.TOP));
@@ -108,7 +108,7 @@ namespace SeeloewenCraft.game.graphics
 
             foreach (CraftingRecipe recipe in Game.world.craftingRecipeList)
             {
-                if (recipe.workstation == handler.workstation) 
+                if (recipe.workstationId == handler.workstationId) 
                 {
                     //Render all recipes that belong to this workstation
                     CRecipe cRecipe = new CRecipe(cRecipePane.GetBounds().x1P, cRecipePane.GetBounds().y1P + i * CRecipe.HEIGHT, recipe.outgredients[0].item.id, recipe.id, this );

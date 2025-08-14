@@ -11,22 +11,28 @@ namespace SeeloewenCraft
     public class CraftingHandler : IGuiData
     {
         public string guiId { get; set; } = "crafting_handler";
+        public string tags { get; set; }
 
         public MultimediaTimer tmrCrafting = new MultimediaTimer() { Interval = 25 }; //TODO: Replace with gameloop
 
         public CraftingRecipe currentRecipe;
         private readonly Block block;
-        public readonly string workstation;
+
+        public readonly string workstationId;
+        public readonly string workstationName;
 
         public int recipeProgress;
         public bool recipeRunning;
         public bool recipeClaimable;
         public int recipeAmount = 1;
 
-        public CraftingHandler(Block block, string workstation)
+        public CraftingHandler(Block block, string workstationId, string workstationName)
         {
-            this.workstation = workstation;
+            this.workstationId = workstationId;
+            this.workstationName = workstationName;
             this.block = block;
+
+            ((IGuiData)this).AddTag("header", workstationName);
 
             tmrCrafting.Elapsed += tmrCrafting_Tick;
         }
@@ -118,7 +124,7 @@ namespace SeeloewenCraft
                 tmrCrafting.Stop();
 
                 NotificationHandler.ShowNotification($"Crafting for x{recipeAmount} {currentRecipe.displayName} completed!", 3000);
-                if (block != null) Log.Write($"Completed crafting for {recipeAmount}x {currentRecipe.id} at workstation {workstation} (x{block.xPos} y{block.yPos}, Chunk {block.chunk.index})", LogType.GENERAL, LogLevel.INFO);
+                if (block != null) Log.Write($"Completed crafting for {recipeAmount}x {currentRecipe.id} at workstation {workstationId} (x{block.xPos} y{block.yPos}, Chunk {block.chunk.index})", LogType.GENERAL, LogLevel.INFO);
             }
         }
 

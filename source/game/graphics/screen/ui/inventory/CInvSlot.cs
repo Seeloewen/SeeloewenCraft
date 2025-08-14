@@ -17,10 +17,16 @@ namespace SeeloewenCraft.game.graphics
         public int x;
         public int y;
 
-        internal CInvSlot(int x, int y, bool hasHotbar = false) : base(CalcBounds(x, y, hasHotbar))
+        internal CInvSlot(int x, int y, int slotsX, int slotsY, bool hasHotbar = false) : base(CalcBounds(x, y, slotsX, slotsY, hasHotbar))
         {
             this.x = x;
             this.y = y;
+        }
+
+        internal CInvSlot() : base(CalcBounds(0,0,0,0,false))
+        {
+            x = 0;
+            y = 0;
         }
 
         protected override void OnMouseEnter()
@@ -59,10 +65,10 @@ namespace SeeloewenCraft.game.graphics
             base.OnRender();
         }
 
-        private static Rectangle CalcBounds(int x, int y, bool hasHotbar)
+        private static Rectangle CalcBounds(int x, int y, int slotsX, int slotsY, bool hasHotbar)
         {
-            int startX = GuiSizes.mx - (9 * GuiSizes.slotSize + 8 * GuiSizes.edgeSize) / 2;
-            int startY = GuiSizes.my - (4 * GuiSizes.slotSize + 4 * GuiSizes.edgeSize) / 2 + 15;
+            int startX = GuiSizes.mx - (slotsX * GuiSizes.slotSize + 8 * GuiSizes.edgeSize) / 2;
+            int startY = GuiSizes.my - (slotsY * GuiSizes.slotSize + 4 * GuiSizes.edgeSize) / 2 + 15;
 
             int x1 = startX + (GuiSizes.edgeSize + GuiSizes.slotSize) * x;
             int y1 = startY + (GuiSizes.edgeSize + GuiSizes.slotSize) * y;

@@ -151,7 +151,7 @@ namespace SeeloewenCraft
         {
             Init("Chest", "sc:chest_block", 500, "sc:chest_item", Tool.Axe);
             hasInventory = true;
-            blockInventory = new Inventory(9, 4, false);
+            blockInventory = new Inventory(9, 4, false, "Chest");
             blockInventory.block = this;
             Game.world.inventoryList.Add(blockInventory);
             hasRightClickAction = true;
@@ -224,7 +224,7 @@ namespace SeeloewenCraft
             tags.Add("workstation");
             hasRightClickAction = true;
 
-            craftingHandler = new CraftingHandler(this, "Crafting_Table");
+            craftingHandler = new CraftingHandler(this, "Crafting_Table", "Crafting Table");
             gui = new CraftingTableGui(535, 720, 120, 285, "sc:crafting_table", null, this);
         }
 
@@ -260,7 +260,7 @@ namespace SeeloewenCraft
             tags.Add("workstation");
             hasRightClickAction = true;
 
-            craftingHandler = new CraftingHandler(this, "Chiseler");
+            craftingHandler = new CraftingHandler(this, "Chiseler", "Chiseler");
             gui = new ChiselerGui(535, 720, 120, 285, "sc:chiseler", null, this);
         }
 
@@ -298,7 +298,7 @@ namespace SeeloewenCraft
             blockInventory = gui.inventory;
             blockInventory.block = this;
             hasInventory = true;
-            craftingHandler = new CraftingHandler(this, "Unchiseler");
+            craftingHandler = new CraftingHandler(this, "Unchiseler", "Unchiseler");
         }
 
         public override void RightClickAction()
@@ -583,7 +583,7 @@ namespace SeeloewenCraft
             hasRightClickAction = true;
             dropsOnWrongTool = false;
 
-            craftingHandler = new CraftingHandler(this, "Furnace");
+            craftingHandler = new CraftingHandler(this, "Furnace", "Furnace");
             gui = new FurnaceGui(535, 720, 120, 285, "sc:furnace", null, this);
         }
 
@@ -696,7 +696,7 @@ namespace SeeloewenCraft
             dropsOnWrongTool = false;
             willFall = true;
 
-            craftingHandler = new CraftingHandler(this, "Anvil");
+            craftingHandler = new CraftingHandler(this, "Anvil", "Anvil");
             gui = new AnvilGui(535, 720, 120, 285, "sc:anvil", null, this);
             collision = new RectangleCollision(0, 1000, 190, 1000);
         }

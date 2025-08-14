@@ -12,7 +12,7 @@ namespace SeeloewenCraft
         public List<CraftingIngredient> ingredients = new List<CraftingIngredient>();
 
         //Constants
-        public string workstation;
+        public string workstationId;
         public string id;
         public string displayName;
         public int requiredTime;
@@ -22,7 +22,7 @@ namespace SeeloewenCraft
         public CraftingRecipe( string workstation, string id, string displayName, ImageBrush displayImage, int requiredTime)
         {
             //Set all constants
-            this.workstation = workstation;
+            this.workstationId = workstation;
             this.id = id;
             this.displayName = displayName;
             this.displayImage = displayImage;
@@ -36,7 +36,7 @@ namespace SeeloewenCraft
         {
             //Get general constants
             id = token.GetString("/id");
-            workstation = token.GetString("/workstation");
+            workstationId = token.GetString("/workstation");
             displayName = token.GetString("/display_name");
             requiredTime = token.GetInt("/required_time");
 

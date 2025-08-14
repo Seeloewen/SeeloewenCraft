@@ -11,6 +11,7 @@ namespace SeeloewenCraft
     public class Inventory : IGuiData
     {
         public string guiId { get; set; } = "inventory";
+        public string tags { get; set; }
 
         public InventoryGui inventoryGui;
         public List<InventorySlot> slotList = new List<InventorySlot>();
@@ -22,11 +23,15 @@ namespace SeeloewenCraft
         private int slotsY;
         public bool isPlayer;
 
-        public Inventory(int slotsX, int slotsY, bool isPlayer)
+        public Inventory(int slotsX, int slotsY, bool isPlayer, string name = "Inventory")
         {
             this.slotsX = slotsX;
             this.slotsY = slotsY;
             this.isPlayer = isPlayer;
+
+            ((IGuiData)this).AddTag("header", name);
+            ((IGuiData)this).AddTag("slotsX", slotsX);
+            ((IGuiData)this).AddTag("slotsY", slotsY);
 
             //Create inventory slots
             for (int y = slotsY - 1; y >= 0; y--) //Start at the end to make sure items are being added to the hotbar first afterwards
