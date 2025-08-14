@@ -178,9 +178,7 @@ namespace SeeloewenCraft
                 }
                 else
                 {
-                    Canvas.SetTop(world.player.inventory.inventoryGui.cvsGui, 175);
-                    Canvas.SetLeft(world.player.inventory.inventoryGui.cvsGui, 290);
-                    ((IGuiData)Game.world.player.inventory).Show();
+
                 }
             }
             if (pressedKeys.Contains(Key.D1)) //Num Key 1 (Not numpad)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Xml.Linq;
 
 namespace SeeloewenCraft
 {
@@ -13,7 +14,6 @@ namespace SeeloewenCraft
         public string guiId { get; set; } = "inventory";
         public string tags { get; set; }
 
-        public InventoryGui inventoryGui;
         public List<InventorySlot> slotList = new List<InventorySlot>();
         public List<HotbarSlot> hotbarSlotList = new List<HotbarSlot>();
         public Block block;
@@ -22,6 +22,7 @@ namespace SeeloewenCraft
         private int slotsX;
         private int slotsY;
         public bool isPlayer;
+        public bool isOpen;
 
         public Inventory(int slotsX, int slotsY, bool isPlayer, string name = "Inventory")
         {
@@ -41,6 +42,18 @@ namespace SeeloewenCraft
                     slotList.Add(new InventorySlot(this, x, y));
                 }
             }
+        }
+
+        public void ShowGui()
+        {
+            ((IGuiData)this).Show();
+            isOpen = true;
+        }
+
+        public void HideGui()
+        {
+            ((IGuiData)this).Show();
+            isOpen = false;
         }
 
         //-- Custom Methods --//

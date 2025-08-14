@@ -108,7 +108,7 @@ namespace SeeloewenCraft.game.graphics
                 }
                 else
                 {
-                    ((IGuiData)Game.world.player.inventory).Show();
+                   Game.world.player.inventory.ShowGui();
                 }
 
                 if (showGui)

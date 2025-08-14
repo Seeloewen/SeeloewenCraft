@@ -161,8 +161,8 @@ namespace SeeloewenCraft
         {
             if (IsInRange() && isSolid && hasInventory)
             {
-                ((IGuiData)Game.world.player.inventory).Show();
-                ((IGuiData)blockInventory).Show();
+                Game.world.player.inventory.ShowGui();
+                blockInventory.ShowGui();
             }
         }
     }
@@ -225,7 +225,6 @@ namespace SeeloewenCraft
             hasRightClickAction = true;
 
             craftingHandler = new CraftingHandler(this, "Crafting_Table", "Crafting Table");
-            gui = new CraftingTableGui(535, 720, 120, 285, "sc:crafting_table", null, this);
         }
 
         public override void RightClickAction()
@@ -261,14 +260,13 @@ namespace SeeloewenCraft
             hasRightClickAction = true;
 
             craftingHandler = new CraftingHandler(this, "Chiseler", "Chiseler");
-            gui = new ChiselerGui(535, 720, 120, 285, "sc:chiseler", null, this);
         }
 
         public override void RightClickAction()
         {
             if (IsInRange())
             {
-                gui.Show();
+                ((IGuiData)craftingHandler).Show();
             }
         }
 
@@ -305,8 +303,7 @@ namespace SeeloewenCraft
         {
             if (IsInRange())
             {
-                Game.world.player.inventory.inventoryGui.SetTop(25);
-                gui.Show();
+                gui.Show(); //TODO: Rework using new gui system
             }
         }
     }
@@ -584,14 +581,13 @@ namespace SeeloewenCraft
             dropsOnWrongTool = false;
 
             craftingHandler = new CraftingHandler(this, "Furnace", "Furnace");
-            gui = new FurnaceGui(535, 720, 120, 285, "sc:furnace", null, this);
         }
 
         public override void RightClickAction()
         {
             if (IsInRange())
             {
-                gui.Show();
+                ((IGuiData)craftingHandler).Show();
             }
         }
 
@@ -697,7 +693,6 @@ namespace SeeloewenCraft
             willFall = true;
 
             craftingHandler = new CraftingHandler(this, "Anvil", "Anvil");
-            gui = new AnvilGui(535, 720, 120, 285, "sc:anvil", null, this);
             collision = new RectangleCollision(0, 1000, 190, 1000);
         }
 
@@ -705,7 +700,7 @@ namespace SeeloewenCraft
         {
             if (IsInRange())
             {
-                gui.Show();
+                ((IGuiData)craftingHandler).Show();
             }
         }
 
@@ -730,7 +725,7 @@ namespace SeeloewenCraft
         {
             Init("Barrel", "sc:barrel_block", 500, "sc:barrel_item", Tool.Axe);
             hasInventory = true;
-            blockInventory = new Inventory(9, 2, false);
+            blockInventory = new Inventory(7, 2, false, "Barrel");
             Game.world.inventoryList.Add(blockInventory);
             hasRightClickAction = true;
         }
@@ -739,9 +734,8 @@ namespace SeeloewenCraft
         {
             if (IsInRange() && isSolid && hasInventory)
             {
-                blockInventory.inventoryGui.SetTop(355);
-                blockInventory.inventoryGui.tblHeader.Text = "Barrel";
-                Game.world.player.inventory.inventoryGui.SetTop(20);
+                Game.world.player.inventory.ShowGui();
+                blockInventory.ShowGui();
             }
         }
     }

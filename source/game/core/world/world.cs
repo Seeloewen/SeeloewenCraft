@@ -448,7 +448,10 @@ namespace SeeloewenCraft
                 player.inventory.AddItem("sc:crafting_table_item", 64, "");
                 player.inventory.AddItem("sc:rock_item", 64, "");
                 player.inventory.AddItem("sc:stick_item", 64, "");
-
+                player.inventory.AddItem("sc:chiseler_item", 64, "");
+                player.inventory.AddItem("sc:anvil_item", 64, "");
+                player.inventory.AddItem("sc:furnace_item", 64, "");
+                player.inventory.AddItem("sc:barrel_item", 64, "");
             }
 
             inventoryList.Add(player.inventory);

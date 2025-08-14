@@ -141,7 +141,7 @@ namespace SeeloewenCraft
             //Improvements then to search for specific inventories.
             foreach (Inventory inventory in Game.world.inventoryList)
             {
-                if (inventory != this.inventory && inventory.inventoryGui.isOpen)
+                if (inventory != this.inventory && inventory.isOpen)
                 {
                     return inventory;
                 }
