@@ -36,14 +36,16 @@ namespace SeeloewenCraft.game.graphics
                 guis[1].MoveTo(x2, y2);
             }
 
+            //Add all guis
             for (int i = 0; i < guis.Count; i++)
             {
                 CGui gui = guis[i];
-
                 AddChild(gui);
 
                 if (i >= 1) break;
             }
+
+            guis.ForEach(gui => gui.PostInit());
         }
 
         protected override void OnUpdate()

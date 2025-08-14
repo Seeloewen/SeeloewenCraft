@@ -10,5 +10,7 @@ namespace SeeloewenCraft.game.graphics
         {
             data = d;
         }
+
+        internal virtual void PostInit() { }
     }
 }
