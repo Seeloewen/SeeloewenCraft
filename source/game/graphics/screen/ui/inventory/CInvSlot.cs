@@ -1,21 +1,7 @@
-﻿using SeeloewenCraft.game.graphics.ui_lib;
-using System.Windows.Forms.Design;
-
-namespace SeeloewenCraft.game.graphics
+﻿namespace SeeloewenCraft.game.graphics
 {
     internal class CInvSlot : CSlot
     {
-        public bool isMouseFollower = false;
-
-        private bool isHovered;
-        private bool isPressed;
-
-        private static readonly Color color = new Color(0.66f);
-        private static readonly Color hoveredColor = new Color(0.71f);
-        private static readonly Color pressedColor = new Color(0.6f);
-
-        public int x;
-        public int y;
 
         internal CInvSlot(int x, int y, int slotsX, int slotsY, bool hasHotbar = false) : base(CalcBounds(x, y, slotsX, slotsY, hasHotbar))
         {
@@ -23,46 +9,10 @@ namespace SeeloewenCraft.game.graphics
             this.y = y;
         }
 
-        internal CInvSlot() : base(CalcBounds(0,0,0,0,false))
+        internal CInvSlot() : base(CalcBounds(0, 0, 0, 0, false))
         {
             x = 0;
             y = 0;
-        }
-
-        protected override void OnMouseEnter()
-        {
-            isHovered = true;
-            isPressed = false;
-        }
-
-        protected override void OnMouseLeave()
-        {
-            isHovered = false;
-            isPressed = false;
-        }
-
-        protected override void OnClickEvent(ClickEvent mouseClickEvent)
-        {
-            if (isMouseFollower) return;
-
-            isPressed = mouseClickEvent.pressed;
-
-            if (mouseClickEvent.button == ButtonType.LEFT)
-            {
-                if(isPressed) ((CInventory)parent).invData.GetSlot(x, y).OnLeftClick();
-            }
-            else if (mouseClickEvent.button == ButtonType.RIGHT)
-            {
-                if (isPressed) ((CInventory)parent).invData.GetSlot(x, y).OnRightClick();
-            }
-        }
-
-        protected override void OnRender()
-        {
-            //Set color based on the pressstate (if it isn't following the mouse)
-            if(!isMouseFollower) SetColor(isPressed ? pressedColor : (isHovered ? hoveredColor : color));
-
-            base.OnRender();
         }
 
         private static Rectangle CalcBounds(int x, int y, int slotsX, int slotsY, bool hasHotbar)

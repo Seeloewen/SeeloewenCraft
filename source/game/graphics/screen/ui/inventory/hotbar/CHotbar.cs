@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SeeloewenCraft.game.graphics.ui_lib;
 
 namespace SeeloewenCraft.game.graphics

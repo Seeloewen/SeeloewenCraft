@@ -1,14 +1,12 @@
 ﻿using SeeloewenCraft.game.graphics.ui_lib;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 
 namespace SeeloewenCraft.game.graphics
 {
     internal class GuiScreen : CRectangle
     {
-        List<CGui> guis { get => Screen.guis; }
+        List<CGui> guis { get => Screen.guiHandler.guis; }
+        internal CMouseFollower mouseFollowerSlot = new CMouseFollower();
 
         internal GuiScreen() : base(new Color(0f, 0f, 0f, 0.3f), new Rectangle(-1f, -1f, 1f, 1f)) //Goes over the entire screen as an invisible background to catch click events
         {
@@ -45,17 +43,26 @@ namespace SeeloewenCraft.game.graphics
                 if (i >= 1) break;
             }
 
+            AddChild(mouseFollowerSlot);
+
             guis.ForEach(gui => gui.PostInit());
         }
 
         protected override void OnUpdate()
         {
+            mouseFollowerSlot.Reset();
+
             foreach (CGui gui in guis)
             {
                 if (gui == null) return;
 
                 gui.Update();
             }
+        }
+
+        protected override void OnRender()
+        {
+            base.OnRender();
         }
     }
 }

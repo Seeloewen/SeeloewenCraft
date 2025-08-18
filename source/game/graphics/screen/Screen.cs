@@ -1,7 +1,4 @@
 ﻿using SeeloewenCraft.game.graphics.ui_lib;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -17,8 +14,7 @@ namespace SeeloewenCraft.game.graphics
 
         public static bool allowIngameInputs { get => !(showEscapeMenu || showIngameMenu || showGui); }
 
-        public static List<CGui> guis = new List<CGui>(); //(Currently) supports two guis being open
-        public static ObservableCollection<IGuiData> guiData = new ObservableCollection<IGuiData>();
+        internal static GuiHandler guiHandler = new GuiHandler();
 
         public static UIRoot guiRoot;
         internal static UIRoot escapeMenuUIRoot;
@@ -27,8 +23,6 @@ namespace SeeloewenCraft.game.graphics
 
         public static void Init()
         {
-            guiData.CollectionChanged += GuiData_CollectionChanged;
-
             guiRoot = new UIRoot(() => new GuiScreen());
             escapeMenuUIRoot = new UIRoot(() => new EscapeMenu());
             gameOverlayUIRoot = new UIRoot(() => new GameOverlay());
@@ -41,7 +35,7 @@ namespace SeeloewenCraft.game.graphics
         {
             if (guiRoot.visible)
             {
-                ResetGuis();
+                guiHandler.ResetGuis();
             }
             if (escapeMenuUIRoot.visible)
             {
@@ -59,7 +53,7 @@ namespace SeeloewenCraft.game.graphics
                 gameOverlayUIRoot.Show();
             }
         }
-        
+
         public static void Update()
         {
             HandleInputs();
@@ -104,11 +98,11 @@ namespace SeeloewenCraft.game.graphics
 
                 if (!showGui)
                 {
-                    for (int i = guiData.Count - 1; i >= 0; i--) guiData[i].Hide(); //Hide all guis
+                    for (int i = guiHandler.guiData.Count - 1; i >= 0; i--) guiHandler.guiData[i].Hide(); //Hide all guis
                 }
                 else
                 {
-                   Game.world.player.inventory.ShowGui();
+                    Game.world.player.inventory.ShowGui();
                 }
 
                 if (showGui)
@@ -131,32 +125,5 @@ namespace SeeloewenCraft.game.graphics
             if (showEscapeMenu) escapeMenuUIRoot.Render();
             if (showGameOverlay) gameOverlayUIRoot.Render();
         }
-
-        internal static void ResetGuis()
-        {
-            //Update guis when the gui data collection changes
-            guis.Clear();
-
-            foreach (IGuiData data in guiData)
-            {
-                CGui gui = GetGui(data);
-                guis.Add(gui);
-            }
-
-            guiRoot.Hide();
-            guiRoot.Show();
-        }
-
-        private static void GuiData_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            ResetGuis();
-        }
-
-        public static CGui GetGui(IGuiData data) => data.guiId switch
-        {
-            "inventory" => new CInventory(data),
-            "crafting_handler" => new CCrafting(data),
-            _ => null
-        };
     }
 }
