@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.entity;
+using SeeloewenCraft.game.core;
 using SeeloewenCraft.game.graphics;
 
 /* 
@@ -287,23 +288,22 @@ namespace SeeloewenCraft
 
     public class UnchiselerBlock : Block
     {
+        private UnchiselHandler unchiselHandler;
+
         public UnchiselerBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Unchiseler", "sc:unchiseler_block", 500, "sc:unchiseler_item", Tool.Axe);
             hasRightClickAction = true;
             collision = new RectangleCollision(0, 1000, 565, 1000);
-            gui = new UnchiselerGui(225, 225, 420, 530, "sc:unchiseler");
-            blockInventory = gui.inventory;
-            blockInventory.block = this;
-            hasInventory = true;
-            craftingHandler = new CraftingHandler(this, "Unchiseler", "Unchiseler");
+            unchiselHandler = new UnchiselHandler();
         }
 
         public override void RightClickAction()
         {
             if (IsInRange())
             {
-                gui.Show(); //TODO: Rework using new gui system
+                Game.world.player.inventory.ShowGui();
+                ((IGuiData)unchiselHandler).Show();
             }
         }
     }

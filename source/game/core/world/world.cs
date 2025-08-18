@@ -23,7 +23,7 @@ namespace SeeloewenCraft
         public System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
         public List<Chunk> loadedChunkList = new List<Chunk>();
         public List<Chunk> totalChunkList = new List<Chunk>();
-        public List<Inventory> inventoryList = new List<Inventory>();
+        public HashSet<Inventory> inventoryList = new HashSet<Inventory>();
         public List<Gui> guiList = new List<Gui>();
         public List<CraftingRecipe> craftingRecipeList = new List<CraftingRecipe>();
         public Player player { get => entityManager.player; }
@@ -445,13 +445,9 @@ namespace SeeloewenCraft
                 player.inventory.AddItem("sc:diamond_hammer_item", 1, "durability=507");
                 player.inventory.AddItem("sc:chest_item", 64, "");
                 player.inventory.AddItem("sc:dirt_item", 64, "");
-                player.inventory.AddItem("sc:crafting_table_item", 64, "");
-                player.inventory.AddItem("sc:rock_item", 64, "");
-                player.inventory.AddItem("sc:stick_item", 64, "");
+                player.inventory.AddItem("sc:unchiseler_item", 64, "");
                 player.inventory.AddItem("sc:chiseler_item", 64, "");
-                player.inventory.AddItem("sc:anvil_item", 64, "");
-                player.inventory.AddItem("sc:furnace_item", 64, "");
-                player.inventory.AddItem("sc:barrel_item", 64, "");
+                player.inventory.AddItem("sc:oak_planks_stairbottomleft_item", 64, "");
             }
 
             inventoryList.Add(player.inventory);

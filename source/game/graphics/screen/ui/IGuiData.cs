@@ -10,13 +10,13 @@ namespace SeeloewenCraft.game.graphics
 
         public void Show()
         {
-            Screen.guiData.Add(this);
+            Screen.guiHandler.guiData.Add(this);
             Screen.showGui = true;
         }
 
         public void Hide() 
         {
-            Screen.guiData.Remove(this);
+            Screen.guiHandler.guiData.Remove(this);
             Screen.showGui = false;
         }
 

@@ -42,6 +42,8 @@ namespace SeeloewenCraft
                     slotList.Add(new InventorySlot(this, x, y));
                 }
             }
+
+            Game.world.inventoryList.Add(this);
         }
 
         public void ShowGui()
