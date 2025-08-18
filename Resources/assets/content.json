@@ -607,6 +607,214 @@
 				{
 					"id": "sc:wood_sword_item",
 					"file": "Items.Tools.Wood_Sword.png"
+				},
+				{
+					"id": "sc:cobblestone_bottomright_item",
+					"file": "Blocks.Chiseled.CobbleStone_BottomRight.png"
+				},
+				{
+					"id": "sc:cobblestone_bottomleft_item",
+					"file": "Blocks.Chiseled.CobbleStone_BottomLeft.png"
+				},
+				{
+					"id": "sc:cobblestone_topright_item",
+					"file": "Blocks.Chiseled.Cobblestone_TopRight.png"
+				},
+				{
+					"id": "sc:cobblestone_topleft_item",
+					"file": "Blocks.Chiseled.Cobblestone_TopLeft.png"
+				},
+				{
+					"id": "sc:cobblestone_slabbottom_item",
+					"file": "Blocks.Chiseled.CobbleStone_SlabBottom.png"
+				},
+				{
+					"id": "sc:cobblestone_slabtop_item",
+					"file": "Blocks.Chiseled.CobbleStone_SlabTop.png"
+				},
+				{
+					"id": "sc:cobblestone_slableft_item",
+					"file": "Blocks.Chiseled.CobbleStone_SlabLeft.png"
+				},
+				{
+					"id": "sc:cobblestone_slabright_item",
+					"file": "Blocks.Chiseled.CobbleStone_SlabRight.png"
+				},
+				{
+					"id": "sc:cobblestone_stairbottomright_item",
+					"file": "Blocks.Chiseled.CobbleStone_StairBottomRight.png"
+				},
+				{
+					"id": "sc:cobblestone_stairbottomleft_item",
+					"file": "Blocks.Chiseled.CobbleStone_StairBottomLeft.png"
+				},
+				{
+					"id": "sc:cobblestone_stairtopright_item",
+					"file": "Blocks.Chiseled.CobbleStone_StairTopRight.png"
+				},
+				{
+					"id": "sc:cobblestone_stairtopleft_item",
+					"file": "Blocks.Chiseled.CobbleStone_StairTopLeft.png"
+				},
+				{
+					"id": "sc:cobblestone_center_item",
+					"file": "Blocks.Chiseled.CobbleStone_Center.png"
+				},
+				{
+					"id": "sc:sand_stone_bottomleft_item",
+					"file": "Blocks.Chiseled.Sand_Stone_BottomLeft.png"
+				},
+				{
+					"id": "sc:sand_stone_bottomright_item",
+					"file": "Blocks.Chiseled.Sand_Stone_BottomRight.png"
+				},
+				{
+					"id": "sc:sand_stone_center_item",
+					"file": "Blocks.Chiseled.Sand_Stone_Center.png"
+				},
+				{
+					"id": "sc:sand_stone_slabbottom_item",
+					"file": "Blocks.Chiseled.Sand_Stone_SlabBottom.png"
+				},
+				{
+					"id": "sc:sand_stone_slableft_item",
+					"file": "Blocks.Chiseled.Sand_Stone_SlabLeft.png"
+				},
+				{
+					"id": "sc:sand_stone_slabright_item",
+					"file": "Blocks.Chiseled.Sand_Stone_SlabRight.png"
+				},
+				{
+					"id": "sc:sand_stone_slabtop_item",
+					"file": "Blocks.Chiseled.Sand_Stone_SlabTop.png"
+				},
+				{
+					"id": "sc:sand_stone_stairbottomleft_item",
+					"file": "Blocks.Chiseled.Sand_Stone_StairBottomLeft.png"
+				},
+				{
+					"id": "sc:sand_stone_stairbottomright_item",
+					"file": "Blocks.Chiseled.Sand_Stone_StairBottomRight.png"
+				},
+				{
+					"id": "sc:sand_stone_stairtopleft_item",
+					"file": "Blocks.Chiseled.Sand_Stone_StairTopLeft.png"
+				},
+				{
+					"id": "sc:sand_stone_stairtopright_item",
+					"file": "Blocks.Chiseled.Sand_Stone_StairTopRight.png"
+				},
+				{
+					"id": "sc:sand_stone_topleft_item",
+					"file": "Blocks.Chiseled.Sand_Stone_TopLeft.png"
+				},
+				{
+					"id": "sc:sand_stone_topright_item",
+					"file": "Blocks.Chiseled.Sand_Stone_TopRight.png"
+				},
+				{
+					"id": "sc:oak_planks_stairbottomleft_item",
+					"file": "Blocks.Chiseled.Oak_Planks_StairBottomLeft.png"
+				},
+				{
+					"id": "sc:oak_planks_stairbottomright_item",
+					"file": "Blocks.Chiseled.Oak_Planks_StairBottomRight.png"
+				},
+				{
+					"id": "sc:oak_planks_stairtopleft_item",
+					"file": "Blocks.Chiseled.Oak_Planks_StairTopLeft.png"
+				},
+				{
+					"id": "sc:oak_planks_stairtopright_item",
+					"file": "Blocks.Chiseled.Oak_Planks_StairTopRight.png"
+				},
+				{
+					"id": "sc:oak_planks_bottomleft_item",
+					"file": "Blocks.Chiseled.Oak_Plank_BottomLeft.png"
+				},
+				{
+					"id": "sc:oak_planks_bottomright_item",
+					"file": "Blocks.Chiseled.Oak_Plank_BottomRight.png"
+				},
+				{
+					"id": "sc:oak_planks_center_item",
+					"file": "Blocks.Chiseled.Oak_Plank_Center.png"
+				},
+				{
+					"id": "sc:oak_planks_slabbottom_item",
+					"file": "Blocks.Chiseled.Oak_Plank_SlabBottom.png"
+				},
+				{
+					"id": "sc:oak_planks_slableft_item",
+					"file": "Blocks.Chiseled.Oak_Plank_SlabLeft.png"
+				},
+				{
+					"id": "sc:oak_planks_slabright_item",
+					"file": "Blocks.Chiseled.Oak_Plank_SlabRight.png"
+				},
+				{
+					"id": "sc:oak_planks_slabtop_item",
+					"file": "Blocks.Chiseled.Oak_Plank_SlabTop.png"
+				},
+				{
+					"id": "sc:oak_planks_topleft_item",
+					"file": "Blocks.Chiseled.Oak_Plank_TopLeft.png"
+				},
+				{
+					"id": "sc:oak_planks_topright_item",
+					"file": "Blocks.Chiseled.Oak_Plank_TopRight.png"
+				},
+				{
+					"id": "sc:spruce_planks_bottomleft_item",
+					"file": "Blocks.Chiseled.Spruce_Plank_BottomLeft.png"
+				},
+				{
+					"id": "sc:spruce_planks_bottomright_item",
+					"file": "Blocks.Chiseled.Spruce_Plank_BottomRight.png"
+				},
+				{
+					"id": "sc:spruce_planks_center_item",
+					"file": "Blocks.Chiseled.Spruce_Plank_Center.png"
+				},
+				{
+					"id": "sc:spruce_planks_slabbottom_item",
+					"file": "Blocks.Chiseled.Spruce_Plank_SlabBottom.png"
+				},
+				{
+					"id": "sc:spruce_planks_slableft_item",
+					"file": "Blocks.Chiseled.Spruce_Plank_SlabLeft.png"
+				},
+				{
+					"id": "sc:spruce_planks_slabright_item",
+					"file": "Blocks.Chiseled.Spruce_Plank_SlabRight.png"
+				},
+				{
+					"id": "sc:spruce_planks_slabtop_item",
+					"file": "Blocks.Chiseled.Spruce_Plank_SlabTop.png"
+				},
+				{
+					"id": "sc:spruce_planks_stairbottomleft_item",
+					"file": "Blocks.Chiseled.Spruce_Plank_StairBottomLeft.png"
+				},
+				{
+					"id": "sc:spruce_planks_stairbottomright_item",
+					"file": "Blocks.Chiseled.Spruce_Plank_StairBottomRight.png"
+				},
+				{
+					"id": "sc:spruce_planks_stairtopleft_item",
+					"file": "Blocks.Chiseled.Spruce_Plank_StairTopLeft.png"
+				},
+				{
+					"id": "sc:spruce_planks_stairtopright_item",
+					"file": "Blocks.Chiseled.Spruce_Plank_StairTopRight.png"
+				},
+				{
+					"id": "sc:spruce_planks_topleft_item",
+					"file": "Blocks.Chiseled.Spruce_Plank_TopLeft.png"
+				},
+				{
+					"id": "sc:spruce_planks_topright_item",
+					"file": "Blocks.Chiseled.Spruce_Plank_TopRight.png"
 				}
 			]
 		},
