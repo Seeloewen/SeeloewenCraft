@@ -28,17 +28,6 @@ namespace SeeloewenCraft.game.graphics
         static int index;
         static bool drawing;
 
-
-        static internal void Test()
-        {
-            Begin();
-            
-
-            Draw("Hallo meine Kameraden geil man jawollja komm in die Gruppe", 1, 1, 2);
-
-            End();
-        }
-
         internal static void Draw(string s, int x, int y, int size)
         {
 

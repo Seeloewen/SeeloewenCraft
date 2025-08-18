@@ -10,8 +10,8 @@
             if (info.hasForegroundBlock) DrawBlock(info.GetForegroundTextureID(), info.x, info.y, false);
             if(info.breakAnimation > 0)
             {
-                string type = info.hammering ? "hammer" : "break";
-                string id = $"sc:{type}_animation_{info.breakAnimation}";
+                string type = info.hammering ? "hammering" : "breaking";
+                string id = $"sc:{type}_{info.breakAnimation}";
                 DrawBlock(id, info.x, info.y, false);
             }
 

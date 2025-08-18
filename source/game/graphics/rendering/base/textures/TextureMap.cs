@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 
 namespace SeeloewenCraft.game.graphics
@@ -59,6 +60,11 @@ namespace SeeloewenCraft.game.graphics
 
         internal (float s1, float t1, float s2, float t2) GetMapping(string id)
         {
+            if(id.Contains("break"))
+            {
+                Console.Write("");
+            }
+
             if (mappings.TryGetValue(id, out var v))
             {
                 return v;
