@@ -28,6 +28,18 @@ namespace SeeloewenCraft.game.graphics
                 }
             }
             TextureRenderer.End();
+
+            //Lighting - This is only a sucffed fix because rendering has no z-index. TODO: Add z-index and remove this crap
+            PrimitiveRenderer.Begin();
+            foreach (var chunk in chunks)
+            {
+                var blockList = chunk.blockList.blocks;
+                foreach (Block block in blockList)
+                {
+                    BlockRenderer.RenderLighting(block.GetBlockRenderInfo());
+                }
+            }
+            PrimitiveRenderer.End();
         }
     }
 }

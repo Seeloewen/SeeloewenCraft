@@ -78,7 +78,7 @@
                         }
                     }
                     //Check if the block isn't in background and can be replaced
-                    else if (block.IsInRange() && block.isReplacable && !block.IsCollidingWithPlayer() && !block.isBackground)
+                    else if (block.IsInRange() && block.isReplacable && !block.IsCollidingWithPlayer(block.xPos, block.yPos) && !block.isBackground)
                     {
                         if (newBlock != null)
                         {

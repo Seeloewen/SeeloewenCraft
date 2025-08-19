@@ -17,15 +17,13 @@ namespace SeeloewenCraft
     public abstract partial class Block : IDebugMenuTargetable
     {
         //references
-        public List<string> tags = new List<string>();
-        public ImageBrush image = new ImageBrush();
+        public List<string> tags = new List<string>(); //TODO: Rework using json
         public Chunk chunk;
-        public Inventory blockInventory;
+        public Inventory inventory;
         private Block foregroundBlock;
         public List<(int xOffset, int yOffset, string blockId)> connectedBlocks = new List<(int, int, string)>();
         public (int? xOffset, int? yOffset) baseBlock;
         public (LootTable lootTable, int minRolls, int maxRolls) lootTable;
-        public Gui gui;
         public CraftingHandler craftingHandler;
 
         //block type info
@@ -40,9 +38,9 @@ namespace SeeloewenCraft
         public bool isBase = false;
         public bool hasRightClickAction = false;
         public bool dropsOnWrongTool = true;
-        public int breakTime = 150;
+        public int breakTime = 150; //Milliseconds
         public int breakTimeTicks { get => breakTime * 12 / 100; }
-        public List<(string id, int min, int max)> drops = new List<(string, int, int)>(); //Can be empty, means that item id will drop
+        public List<(string id, int min, int max)> drops = new List<(string, int, int)>(); //Can be empty, means that item id will drop x1
         public Collision collision;
         public Tool effectiveTool;
         public Material? effectiveMaterial;
@@ -55,7 +53,7 @@ namespace SeeloewenCraft
         public int yPos;
         public bool isSolid = true;
         public bool isBackground = false;
-        public double lightLevel;
+        public int lightLevel;
         public bool isForeground = false;
         public int rangeToNearestLightSource = int.MaxValue;
         public bool hasAirLightSource;
@@ -78,18 +76,14 @@ namespace SeeloewenCraft
         //Temporary, only important during generation
         public bool isSurface = false;
 
-        //-- Constructor --//
-
         public Block(bool isBackground)
         {
             collision = new EntireBlockCollision();
 
-            //Set the attributes
             this.isBackground = isBackground;
-
         }
 
-        #region lighting
+        #region lighting (dev)
 
         double lightTopRight = 1.0;
         double lightTopLeft = 1.0;
@@ -135,12 +129,14 @@ namespace SeeloewenCraft
                 breaking = false;
                 UpdateHammering();
             }
+
+            UpdateLighting();
         }
 
         public BlockRenderInfo GetBlockRenderInfo()
         {
             int breakAnimation = (int)(breaking || hammering ? (6 * breakProgress) / breakTimeTicks : 0);
-            var info = new BlockRenderInfo(xPos + chunk.index * 8, yPos, id, state, isBackground, breakAnimation, hammering);
+            var info = new BlockRenderInfo(xPos + chunk.index * 8, yPos, id, state, isBackground, breakAnimation, hammering, lightLevel);
             if (foregroundBlock != null) info.AddForegroundBlock(foregroundBlock.id, foregroundBlock.state);
             return info;
         }
@@ -209,7 +205,7 @@ namespace SeeloewenCraft
             if (hasInventory)
             {
                 writer.WritePropertyName("inventory");
-                blockInventory.SaveToJson(writer);
+                inventory.SaveToJson(writer);
             }
 
             if (foregroundBlock != null)
@@ -338,13 +334,13 @@ namespace SeeloewenCraft
                 JsonToken invToken = blockToken.GetToken("/inventory");
                 Inventory inventory = Inventory.LoadFromJson(invToken, false);
 
-                block.blockInventory = inventory;
-                Game.world.inventoryList.Add(block.blockInventory);
-                if (block.gui != null && block.gui.inventory != null)
+                block.inventory = inventory;
+                Game.world.inventoryList.Add(block.inventory);
+                /*if (block.gui != null && block.gui.inventory != null) //TODO: Rework how block inventories are saved
                 {
-                    block.gui.inventory = block.blockInventory;
-                    block.blockInventory.block = block;
-                }
+                    block.gui.inventory = block.inventory;
+                    block.inventory.block = block;
+                }*/
             }
 
             if (block.tags.Contains("liquids/water"))
@@ -431,7 +427,7 @@ namespace SeeloewenCraft
 
 
 
-        public bool IsCollidingWithPlayer()
+        public bool IsCollidingWithPlayer(int x, int y) //TODO: Make work again
         {
             /*if (element is Canvas)
             {
@@ -456,7 +452,6 @@ namespace SeeloewenCraft
         {
             isBackground = true;
 
-
             Block blockAbove = GetBlockFromOffset(0, -1);
             if (blockAbove != null && blockAbove.willFall)
             {
@@ -468,7 +463,6 @@ namespace SeeloewenCraft
         public void MoveToNormal()
         {
             isBackground = false;
-
         }
 
         public bool IsInRange()
@@ -625,11 +619,7 @@ namespace SeeloewenCraft
         protected virtual void Drop()
         {
             //Get the block that should drop
-
-            if (doesntDrop)
-            {
-                return;
-            }
+            if (doesntDrop) return;
 
             if ((Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == effectiveTool && ToolIsCorrectMaterial(tool.material) && !dropsOnWrongTool) || dropsOnWrongTool)
             {
@@ -698,7 +688,7 @@ namespace SeeloewenCraft
 
                             if (foregroundBlock.hasInventory)
                             {
-                                foregroundBlock.blockInventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
+                                foregroundBlock.inventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
                             }
                         }
 
@@ -725,7 +715,7 @@ namespace SeeloewenCraft
 
                         if (hasInventory)
                         {
-                            blockInventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
+                            inventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
                         }
                     }
 
@@ -823,7 +813,7 @@ namespace SeeloewenCraft
             //Put the loot into the inventory
             foreach (Item item in loot)
             {
-                blockInventory.AddItem(item.id, 1, item.tag);
+                inventory.AddItem(item.id, 1, item.tag);
             }
         }
 
@@ -839,7 +829,7 @@ namespace SeeloewenCraft
             //Put the loot into the inventory
             foreach (Item item in loot)
             {
-                blockInventory.AddItem(item.id, 1, item.tag);
+                inventory.AddItem(item.id, 1, item.tag);
             }
         }
 
@@ -877,7 +867,7 @@ namespace SeeloewenCraft
             }
         }
 
-        public void SetCoords(int xPos, int yPos, Chunk chunk)
+        public void SetCoords(int xPos, int yPos, Chunk chunk) //TODO: This seems sketchy, rework it
         {
             //Warning: Only sets coords inside blocks, not inside chunk/blocklist
             this.chunk = chunk;

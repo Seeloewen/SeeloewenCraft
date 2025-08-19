@@ -12,6 +12,8 @@ namespace SeeloewenCraft.game.graphics
 
         internal bool isBackground;
 
+        internal float lighting;
+
         internal int breakAnimation;
         internal bool hammering;
 
@@ -42,7 +44,17 @@ namespace SeeloewenCraft.game.graphics
             }
         }
 
-        public BlockRenderInfo(int x, int y, string id, string state, bool isBackground, int breakAnimation, bool hammering)
+        private float ParseLightLevel(int level) => level switch
+        {
+            4 => 0.25f,
+            3 => 0.5f,
+            2 => 0.75f,
+            1 => 0.9f,
+            0 => 1f,
+            _ => 0f,
+        };
+
+        public BlockRenderInfo(int x, int y, string id, string state, bool isBackground, int breakAnimation, bool hammering, int lightLevel)
         {
             this.x = x;
             this.y = y;
@@ -51,13 +63,14 @@ namespace SeeloewenCraft.game.graphics
             this.isBackground = isBackground;
             this.breakAnimation = breakAnimation;
             this.hammering = hammering;
+            lighting = ParseLightLevel(lightLevel);
         }
 
         public void AddForegroundBlock(string id, string state)
         {
             hasForegroundBlock = true;
-            this.foregroundID = id;
-            this.foregroundState = state;
+            foregroundID = id;
+            foregroundState = state;
         }
 
 

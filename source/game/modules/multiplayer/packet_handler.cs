@@ -22,10 +22,10 @@ namespace SeeloewenCraft
 
             //Get the block which has the inventory and try to add the item to the slot
             Block invBlock = world.GetChunk(blockChunk).GetBlock(blockX, blockY);
-            if (invBlock != null && invBlock.blockInventory != null)
+            if (invBlock != null && invBlock.inventory != null)
             {
-                invBlock.blockInventory.GetSlot(slotX, slotY).Add_Multiplayer(itemId, tag, amount);
-                invBlock.blockInventory.GetSlot(slotX, slotY).Unselect();
+                invBlock.inventory.GetSlot(slotX, slotY).Add_Multiplayer(itemId, tag, amount);
+                invBlock.inventory.GetSlot(slotX, slotY).Unselect();
             }
 
             //If the server receives the packet, send it to all other clients to make sure the inventory gets updated on all of them
@@ -47,10 +47,10 @@ namespace SeeloewenCraft
 
             //Get the block which has the inventory and try to add the item to the slot
             Block invBlock = world.GetChunk(blockChunk).GetBlock(blockX, blockY);
-            if (invBlock != null && invBlock.blockInventory != null)
+            if (invBlock != null && invBlock.inventory != null)
             {
-                invBlock.blockInventory.GetSlot(slotX, slotY).Remove_Multiplayer(amount);
-                invBlock.blockInventory.GetSlot(slotX, slotY).Unselect();
+                invBlock.inventory.GetSlot(slotX, slotY).Remove_Multiplayer(amount);
+                invBlock.inventory.GetSlot(slotX, slotY).Unselect();
             }
 
             //If the server receives the packet, send it to all other clients to make sure the inventory gets updated on all of them

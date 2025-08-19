@@ -32,14 +32,14 @@ namespace SeeloewenCraft.entity
         }
 
         public FallingBlockEntity(int blockX, int blockY, string blockType)
-            : base(1000, 1000, blockX * 1000, blockY * 1000, 0, 0, BlockRegister.GenerateBlock(blockType).image)
+            : base(1000, 1000, blockX * 1000, blockY * 1000, 0, 0, null)
         {
             type = "FallingBlockEntity";
             this.blockType = blockType;
         }
 
         public FallingBlockEntity(JsonToken token) 
-            : base(token, 1000, 1000, BlockRegister.GenerateBlock(token.GetString("/block_type")).image)
+            : base(token, 1000, 1000, null)
         {
             blockType = token.GetString("/block_type");
         }

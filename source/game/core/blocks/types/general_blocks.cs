@@ -152,9 +152,9 @@ namespace SeeloewenCraft
         {
             Init("Chest", "sc:chest_block", 500, "sc:chest_item", Tool.Axe);
             hasInventory = true;
-            blockInventory = new Inventory(9, 4, false, "Chest");
-            blockInventory.block = this;
-            Game.world.inventoryList.Add(blockInventory);
+            inventory = new Inventory(9, 4, false, "Chest");
+            inventory.block = this;
+            Game.world.inventoryList.Add(inventory);
             hasRightClickAction = true;
         }
 
@@ -163,7 +163,7 @@ namespace SeeloewenCraft
             if (IsInRange() && isSolid && hasInventory)
             {
                 Game.world.player.inventory.ShowGui();
-                blockInventory.ShowGui();
+                inventory.ShowGui();
             }
         }
     }
@@ -655,7 +655,7 @@ namespace SeeloewenCraft
             Init("Archeology Pot Base", "sc:archeology_pot_base", 100, "sc:archeology_pot_item", Tool.Pickaxe);
             isBase = true;
             isSolid = false;
-            blockInventory = new Inventory(1, 1, false);
+            inventory = new Inventory(1, 1, false);
             hasInventory = true;
 
             connectedBlocks.Add((0, -1, "sc:archeology_pot_top"));
@@ -725,8 +725,8 @@ namespace SeeloewenCraft
         {
             Init("Barrel", "sc:barrel_block", 500, "sc:barrel_item", Tool.Axe);
             hasInventory = true;
-            blockInventory = new Inventory(7, 2, false, "Barrel");
-            Game.world.inventoryList.Add(blockInventory);
+            inventory = new Inventory(7, 2, false, "Barrel");
+            Game.world.inventoryList.Add(inventory);
             hasRightClickAction = true;
         }
 
@@ -735,7 +735,7 @@ namespace SeeloewenCraft
             if (IsInRange() && isSolid && hasInventory)
             {
                 Game.world.player.inventory.ShowGui();
-                blockInventory.ShowGui();
+                inventory.ShowGui();
             }
         }
     }

@@ -8,6 +8,13 @@ namespace SeeloewenCraft
 {
     public abstract partial class Block
     {
+        private void UpdateLighting()
+        {
+            //Set light level based on range and it being a light source
+            int rangeToLightSource = RangeToLightSource();
+            lightLevel = Math.Abs(Math.Max(0, Math.Min(Game.world.lightRange, rangeToLightSource)) - Game.world.lightRange);
+        }
+
         public bool IsLightSource(bool ignoreAir)
         {
             //Check if the block is a light source
@@ -45,8 +52,7 @@ namespace SeeloewenCraft
                         {
                             //If the range is smaller, update the block
                             block.rangeToNearestLightSource = range;
-                            block.SetLightLevel(range);
-
+                            //block.SetLightLevel(range);
                         }
                     }
                     //If it's not a lightsource
@@ -59,11 +65,12 @@ namespace SeeloewenCraft
 
         public int RangeToLightSource()
         {
-            List<Block> blocksInRange = GetBlocksInRange(Game.world.lightRange);
+            if (isLightSource || (foregroundBlock != null && foregroundBlock.isLightSource)) return 0;
 
+            List<Block> blocksInRange = GetBlocksInRange(Game.world.lightRange);
             int minRange = Game.world.lightRange + 1;
 
-            //For all blocks in range
+            //Go through all blocks in range and check them and their foreground block
             foreach (Block block in blocksInRange)
             {
                 if (block != null)
@@ -73,7 +80,7 @@ namespace SeeloewenCraft
                     {
                         //Get the range to that block and set it as nearest lightsource
                         int range = GetRangeToBlock(block);
-                        SetAsNearestLightSource(range);
+                        //SetAsNearestLightSource(range);
 
                         //Check if it's actually the smallest range
                         minRange = Math.Min(minRange, range);
@@ -83,28 +90,6 @@ namespace SeeloewenCraft
 
             //Return the range to the smallest light source
             return minRange;
-        }
-
-        public void SetLightLevel(int range)
-        {
-            //Set light level based on range and it being a light source
-            int rangeToLightSource = range;
-            if (isLightSource || (foregroundBlock != null && foregroundBlock.isLightSource) || rangeToLightSource == 1 || rangeToLightSource == 2)
-            {
-                lightLevel = 0;
-            }
-            else if (rangeToLightSource < Game.world.lightRange)
-            {
-                lightLevel = 1.0 / (Game.world.lightRange - 3) * rangeToLightSource - 0.75;
-            }
-            else if (rangeToLightSource == Game.world.lightRange)
-            {
-                lightLevel = 0.9;
-            }
-            else
-            {
-                lightLevel = 1;
-            }
         }
 
         private void SetAsNearestLightSource(int range)
@@ -127,7 +112,7 @@ namespace SeeloewenCraft
         private Block GetBlockFromOffset(int xOffset, int yOffset)
         {
             //Get the new block based from the offset from this block
-            
+
             //If total y is above 74 or below 0, there isn't any available block
             if (yOffset + yPos < 0 || yOffset + yPos > 74)
             {
@@ -175,7 +160,7 @@ namespace SeeloewenCraft
             for (int y = yPos + 1; y < 76; y++)
             {
                 //Go through each block below the currently placed one
-                if (chunk.GetBlock(xPos,y) != null && chunk.GetBlock(xPos, y).id == "sc:air_block")
+                if (chunk.GetBlock(xPos, y) != null && chunk.GetBlock(xPos, y).id == "sc:air_block")
                 {
                     //If the block at that position is air, update it accordingly
                     AirBlock newBlock = new AirBlock(false);

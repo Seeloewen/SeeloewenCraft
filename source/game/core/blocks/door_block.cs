@@ -44,7 +44,6 @@ namespace SeeloewenCraft
         {
             //Open the current door block
             isOpen = true;
-            image = imgOpen;
             isSolid = false;
             state = "open";
 
@@ -62,7 +61,6 @@ namespace SeeloewenCraft
         {
             //Open the current door block
             isOpen = true;
-            image = imgOpen;
             isSolid = false;
             state = "open";
 
@@ -80,7 +78,6 @@ namespace SeeloewenCraft
         {
             //Close the current door block
             isOpen = false;
-            image = imgClose;
             isSolid = true;
             state = "closed";
 
@@ -99,7 +96,6 @@ namespace SeeloewenCraft
         {
             //Close the current door block
             isOpen = false;
-            image = imgClose;
             isSolid = true;
             state = "closed";
 
