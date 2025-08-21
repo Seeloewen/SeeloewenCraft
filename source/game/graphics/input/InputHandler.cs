@@ -5,22 +5,44 @@ namespace SeeloewenCraft.game.graphics
 {
     public static class InputHandler
     {
-
         static public HashSet<System.Windows.Input.Key> pressedKeys = new HashSet<System.Windows.Input.Key>();
-
 
 
         public static int mouseXPixel { get; private set; }
         public static int mouseYPixel { get; private set; }
 
-        public static float mouseXScreen { get => ((float)mouseXPixel) / (Resolution.WIDTH / 2) - 1; }
-        public static float mouseYScreen { get => ((float)mouseYPixel) / (-Resolution.HEIGHT / 2) + 1; }
+        public static float mouseXScreen
+        {
+            get => ((float)mouseXPixel) / (Resolution.WIDTH / 2) - 1;
+        }
+
+        public static float mouseYScreen
+        {
+            get => ((float)mouseYPixel) / (-Resolution.HEIGHT / 2) + 1;
+        }
 
 
         public static int scrollAmount { get; private set; }
 
         public static bool pressedLeft { get; private set; }
         public static bool pressedRight { get; private set; }
+
+
+        private static bool textMode = false;
+        private static TextReceiver textReceiver;
+
+
+        public static void EnterTextMode(TextReceiver textReceiver)
+        {
+            InputHandler.textReceiver = textReceiver;
+            textMode = true;
+        }
+
+        public static void ExitTextMode()
+        {
+            textMode = false;
+            InputHandler.textReceiver = null;
+        }
 
 
         public unsafe static void Init(Window* window)
@@ -44,39 +66,55 @@ namespace SeeloewenCraft.game.graphics
                 }
             });
 
-            GLFW.SetScrollCallback(window, (_, _, y) =>
-            {
-                scrollAmount += Convert.ToInt32(y);
-            });
+            GLFW.SetScrollCallback(window, (_, _, y) => { scrollAmount += Convert.ToInt32(y); });
 
-            GLFW.SetWindowCloseCallback(window, (window) =>
-            {
-                GLFW.SetWindowShouldClose(window, true);
-            });
+            GLFW.SetWindowCloseCallback(window, (window) => { GLFW.SetWindowShouldClose(window, true); });
 
+            GLFW.SetCharCallback(window, (_, ch) =>
+            {
+                if (textMode)
+                {
+                    textReceiver.HandleChar(Char.ConvertFromUtf32((int)ch));
+                }
+            });
+            
             GLFW.SetKeyCallback(window, (_, k, _, a, _) =>
             {
-                if (KeyBinds.bindings.TryGetValue(k, out var v))
+                if (textMode)
                 {
                     if (a == InputAction.Press)
                     {
-                        KeyBinds.pressed[v] = true;
-                        KeyBinds.pressedFirst[v] = true;
+                        switch (k)
+                        {
+                            case Keys.Escape:
+                                textReceiver.HandleEscape();
+                                break;
+                            case Keys.Enter: 
+                                textReceiver.HandleEnter();
+                                break;
+                            case Keys.Backspace: 
+                                textReceiver.HandleBackspace();
+                                break;
+                        }
                     }
-                    else if (a == InputAction.Release)
+                }
+                else
+                {
+                    if (KeyBinds.bindings.TryGetValue(k, out var v))
                     {
-                        KeyBinds.pressed[v] = false;
-                        KeyBinds.pressedFirst[v] = false;
-                    }
-                    else
-                    {
-                        return;
+                        if (a == InputAction.Press)
+                        {
+                            KeyBinds.pressed[v] = true;
+                            KeyBinds.pressedFirst[v] = true;
+                        }
+                        else if (a == InputAction.Release)
+                        {
+                            KeyBinds.pressed[v] = false;
+                            KeyBinds.pressedFirst[v] = false;
+                        }
                     }
                 }
             });
-
-
-
         }
 
         static public void Reset()
@@ -106,15 +144,5 @@ namespace SeeloewenCraft.game.graphics
 
 
         }*/
-
-
-
-
-
-
-
-
-
-
     }
 }
