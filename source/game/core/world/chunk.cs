@@ -158,14 +158,6 @@ namespace SeeloewenCraft.game.core.world
 
             try
             {
-                foreach (Block block in blockList.blocks)
-                {
-                    if (block.id == "sc:air_block")
-                    {
-                        block.isAirLightSource = LightHandler.IsAirLightSource(block);
-                    }
-                }
-
                 Log.Write($"Successfully initialized chunk {index}", LogType.WORLD_GENERATION, LogLevel.INFO);
             }
             catch (Exception ex)

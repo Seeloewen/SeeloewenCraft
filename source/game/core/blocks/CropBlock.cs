@@ -26,7 +26,7 @@ namespace SeeloewenCraft.game.core.blocks
             this.growthTime = growthTime;
             this.productMin = productMin;
             this.productMax = productMax;
-            canBeMovedToBackground = false;
+            WriteTag(BlockTags.CANT_BE_BACKGROUND);
         }
 
         public override void AddDebugMenu()

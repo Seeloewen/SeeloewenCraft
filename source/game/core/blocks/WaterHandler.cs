@@ -34,7 +34,7 @@ namespace SeeloewenCraft.game.core.blocks
                             }
                         }
                     }
-                    else if (block.GetForegroundBlock() != null && block.GetForegroundBlock().tags.Contains("liquids/water"))
+                    else if (block.GetForegroundBlock() != null && block.GetForegroundBlock().HasTag(BlockTags.LIQUIDS_WATER))
                     {
                         //For each water block, check first if it can expand
                         ExpandWater(chunk, block.GetForegroundBlock(), newBlocks);
@@ -106,7 +106,7 @@ namespace SeeloewenCraft.game.core.blocks
             {
                 Block blockBelow = chunk.GetBlock(block.xPos, block.yPos + 1);
 
-                if (blockBelow != null && (blockBelow.isReplacable && (!blockBelow.tags.Contains("liquids/water") || blockBelow.waterLevel < 6)) || (blockBelow.isBackground && (blockBelow.GetForegroundBlock() == null || (block.GetForegroundBlock() != null && block.GetForegroundBlock().waterLevel < 6))))
+                if (blockBelow != null && (blockBelow.HasTag(BlockTags.REPLACEABLE) && (!blockBelow.HasTag(BlockTags.LIQUIDS_WATER) || blockBelow.waterLevel < 6)) || (blockBelow.isBackground && (blockBelow.GetForegroundBlock() == null || (block.GetForegroundBlock() != null && block.GetForegroundBlock().waterLevel < 6))))
                 {
                     Block newWater = new WaterBlock_6(false);
                     newWater.SetCoords(block.xPos, block.yPos + 1, block.chunk);
@@ -124,7 +124,7 @@ namespace SeeloewenCraft.game.core.blocks
 
                         if (blockRight != null && blockLeft != null)
                         {
-                            if ((blockRight.isReplacable && (!blockRight.tags.Contains("liquids/water") || blockRight.waterLevel < block.waterLevel - 1)) || (blockRight.isBackground && blockRight.GetForegroundBlock() == null))
+                            if ((blockRight.HasTag(BlockTags.REPLACEABLE) && (!blockRight.HasTag(BlockTags.LIQUIDS_WATER) || blockRight.waterLevel < block.waterLevel - 1)) || (blockRight.isBackground && blockRight.GetForegroundBlock() == null))
                             {
                                 //Expand to the right
                                 Block newWater = CreateWaterBlock(block.waterLevel - 1, "right");
@@ -132,7 +132,7 @@ namespace SeeloewenCraft.game.core.blocks
                                 SetSourceBlock(block, newWater);
                                 newBlocks.Add(newWater);
                             }
-                            if ((blockLeft.isReplacable && (!blockLeft.tags.Contains("liquids/water") || blockLeft.waterLevel < block.waterLevel - 1)) || (blockLeft.isBackground && blockLeft.GetForegroundBlock() == null))
+                            if ((blockLeft.HasTag(BlockTags.REPLACEABLE) && (!blockLeft.HasTag(BlockTags.LIQUIDS_WATER) || blockLeft.waterLevel < block.waterLevel - 1)) || (blockLeft.isBackground && blockLeft.GetForegroundBlock() == null))
                             {
                                 //Expand to the left
                                 Block newWater = CreateWaterBlock(block.waterLevel - 1, "left");
@@ -152,14 +152,14 @@ namespace SeeloewenCraft.game.core.blocks
             {
                 if (!blockBelow.isBackground)
                 {
-                    if (!blockBelow.isReplacable && !blockBelow.tags.Contains("liquids/water"))
+                    if (!blockBelow.HasTag(BlockTags.REPLACEABLE) && !blockBelow.HasTag(BlockTags.LIQUIDS_WATER))
                     {
                         return true;
                     }
                 }
                 else
                 {
-                    if (blockBelow.GetForegroundBlock() != null && !blockBelow.GetForegroundBlock().tags.Contains("liquids/water"))
+                    if (blockBelow.GetForegroundBlock() != null && !blockBelow.GetForegroundBlock().HasTag(BlockTags.LIQUIDS_WATER))
                     {
                         return true;
                     }
@@ -175,7 +175,7 @@ namespace SeeloewenCraft.game.core.blocks
                 if (block != null && block.chunk != null && block.yPos > 0 && block.yPos < 76)
                 {
                     //Check if a new water blocks needs to be placed or a block needs to be removed
-                    if (block.tags.Contains("liquids/water"))
+                    if (block.HasTag(BlockTags.LIQUIDS_WATER))
                     {
                         if (block.chunk.GetBlock(block.xPos, block.yPos).isBackground && block.chunk.GetBlock(block.xPos, block.yPos).GetForegroundBlock() == null)
                         {

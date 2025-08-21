@@ -27,19 +27,19 @@ namespace SeeloewenCraft.game.core.legacy
             if (block != null)
             {
                 //Check if the block has a foreground block that has an action
-                if (block.GetForegroundBlock() != null && block.GetForegroundBlock().hasRightClickAction)
+                if (block.GetForegroundBlock() != null && block.GetForegroundBlock().HasTag(BlockTags.RIGHTCLICKABLE))
                 {
                     block.GetForegroundBlock().RightClickAction();
                 }
 
                 //Check if the block has an action
-                else if (block.hasRightClickAction)
+                else if (block.HasTag(BlockTags.RIGHTCLICKABLE))
                 {
                     block.RightClickAction();
                 }
 
                 //Place the block
-                else if (!block.hasRightClickAction && selectedItem != null)
+                else if (!block.HasTag(BlockTags.RIGHTCLICKABLE) && selectedItem != null)
                 {
                     Block newBlock = selectedItem.GetBlock();
                     Block blockBelow = block.GetBlockBelow();
@@ -82,7 +82,7 @@ namespace SeeloewenCraft.game.core.legacy
                         }
                     }
                     //Check if the block isn't in background and can be replaced
-                    else if (block.IsInRange() && block.isReplacable && !block.IsCollidingWithPlayer(block.xPos, block.yPos) && !block.isBackground)
+                    else if (block.IsInRange() && block.HasTag(BlockTags.REPLACEABLE) && !block.IsCollidingWithPlayer(block.xPos, block.yPos) && !block.isBackground)
                     {
                         if (newBlock != null)
                         {
@@ -103,7 +103,7 @@ namespace SeeloewenCraft.game.core.legacy
                                 selectedSlot.slot.Remove(1);
                             }
 
-                            newBlock.tags.Add("placedManually");
+                            newBlock.WriteTag(BlockTags.PLACED_MANUALLY);
 
                             return;
                         }

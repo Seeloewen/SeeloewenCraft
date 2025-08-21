@@ -11,10 +11,10 @@ namespace SeeloewenCraft.game.core.blocks
         public WaterBlock(bool isInBackground) : base(isInBackground)
         {
             isSolid = false;
-            isReplacable = true;
-            isBreakable = false;
-            canBeMovedToBackground = false;
-            tags.Add("liquids/water");
+            WriteTag(BlockTags.REPLACEABLE);
+            WriteTag(BlockTags.UNBREAKABLE);
+            WriteTag(BlockTags.CANT_BE_BACKGROUND);
+            WriteTag(BlockTags.LIQUIDS_WATER);
         }
 
         public override bool[] CheckTouch(int startX, int startY, int endX, int endY)

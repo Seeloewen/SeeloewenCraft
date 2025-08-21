@@ -86,7 +86,7 @@ namespace SeeloewenCraft.game.core.legacy
                     }
 
                     //Update leaves that might need to decay
-                    if (block.tags.Contains("type/leaf") && !block.tags.Contains("placedManually"))
+                    if (block.HasTag(BlockTags.TYPES_LEAF) && !block.HasTag(BlockTags.PLACED_MANUALLY))
                     {
                         leaves.Add(block);
                     }
@@ -125,7 +125,7 @@ namespace SeeloewenCraft.game.core.legacy
                 foreach (Block candidate in candidates)
                 {
                     //Confirms that the candidate is actually a dirt block that has either nothing above (top world border), or a non-solid block above (except water)
-                    if (candidate != null && candidate is DirtBlock dirt && (candidate.GetBlockAbove == null || (!candidate.GetBlockAbove().isSolid) && !candidate.GetBlockAbove().tags.Contains("liquids/water")))
+                    if (candidate != null && candidate is DirtBlock dirt && (candidate.GetBlockAbove == null || (!candidate.GetBlockAbove().isSolid) && !candidate.GetBlockAbove().HasTag(BlockTags.LIQUIDS_WATER)))
                     {
                         candidate.SetBlock(BlockRegister.GenerateBlock("sc:grass_block"));
                     }
@@ -191,14 +191,14 @@ namespace SeeloewenCraft.game.core.legacy
             {
                 if (!HasAdjacentLog(block, new List<Block>()))
                 {
-                    if (!block.tags.Contains("structure_leaves"))
+                    if (!block.HasTag(BlockTags.STRUCTURE_LEAF))
                     {
                         decayingLeaves.Add(block);
                     }
                 }
-                else if (block.tags.Contains("structure_leaves"))
+                else if (block.HasTag(BlockTags.STRUCTURE_LEAF))
                 {
-                    block.tags.Remove("structure_leaves");
+                    block.RemoveTag(BlockTags.STRUCTURE_LEAF);
                 }
             }
 
@@ -223,13 +223,13 @@ namespace SeeloewenCraft.game.core.legacy
             visitedBlocks.Add(block);
 
             //If it's a log, stop the search
-            if (block.tags.Contains("type/log"))
+            if (block.HasTag(BlockTags.TYPES_LOG))
             {
                 return true;
             }
 
             //If it's not a leaf, stop searching on this branch
-            if (!block.tags.Contains("type/leaf"))
+            if (!block.HasTag(BlockTags.TYPES_LEAF))
             {
                 return false;
             }
@@ -252,8 +252,8 @@ namespace SeeloewenCraft.game.core.legacy
                 Block blockRight = block.chunk.GetBlock(block.xPos + i, block.yPos);
                 Block blockLeft = block.chunk.GetBlock(block.xPos - i, block.yPos);
 
-                if (blockRight != null && blockRight.tags.Contains("liquids/water") //Blocks to the right
-                    || blockLeft != null && blockLeft.tags.Contains("liquids/water")) //Blocks to the left
+                if (blockRight != null && blockRight.HasTag(BlockTags.LIQUIDS_WATER) //Blocks to the right
+                    || blockLeft != null && blockLeft.HasTag(BlockTags.LIQUIDS_WATER)) //Blocks to the left
                 {
                     return true;
                 }

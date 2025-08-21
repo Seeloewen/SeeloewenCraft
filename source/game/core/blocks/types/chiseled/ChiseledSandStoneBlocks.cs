@@ -6,7 +6,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_bottomleft", 1250, "sc:sand_stone_bottomleft_item", Tool.Pickaxe);
             collision = new RectangleCollision(0, 500, 500, 1000);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -16,7 +16,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_bottomright", 1250, "sc:sand_stone_bottomright_item", Tool.Pickaxe);
             collision = new RectangleCollision(500, 1000, 500, 1000);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -26,7 +26,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_topleft", 1250, "sc:sand_stone_topleft_item", Tool.Pickaxe);
             collision = new RectangleCollision(0, 500, 0, 500);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -36,7 +36,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_topright", 1250, "sc:sand_stone_topright_item", Tool.Pickaxe);
             collision = new RectangleCollision(500, 1000, 0, 500);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -46,7 +46,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_slabright", 1250, "sc:sand_stone_slabright_item", Tool.Pickaxe);
             collision = new RectangleCollision(500, 1000, 0, 1000);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -56,7 +56,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_slableft", 1250, "sc:sand_stone_slableft_item", Tool.Pickaxe);
             collision = new RectangleCollision(0, 500, 0, 1000);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -66,7 +66,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_slabtop", 1250, "sc:sand_stone_slabtop_item", Tool.Pickaxe);
             collision = new RectangleCollision(0, 1000, 0, 500);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -76,7 +76,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_slabbottom", 1250, "sc:sand_stone_slabbottom_item", Tool.Pickaxe);
             collision = new RectangleCollision(0, 1000, 500, 1000);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -86,7 +86,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_stairtopright", 1250, "sc:sand_stone_stairtopright_item", Tool.Pickaxe);
             collision = new MultipleRectangleCollision([0, 500], [1000, 1000], [0, 500], [500, 1000]);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -96,7 +96,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_stairtopleft", 1250, "sc:sand_stone_stairtopleft_item", Tool.Pickaxe);
             collision = new MultipleRectangleCollision([0, 500], [500, 1000], [0, 0], [1000, 500]);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -106,7 +106,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_stairbottomright", 1250, "sc:sand_stone_stairbottomright_item", Tool.Pickaxe);
             collision = new MultipleRectangleCollision([500, 0], [1000, 1000], [0, 500], [500, 1000]);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -116,7 +116,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_stairbottomleft", 1250, "sc:sand_stone_stairbottomleft_item", Tool.Pickaxe);
             collision = new MultipleRectangleCollision([0, 500], [500, 1000], [0, 500], [1000, 1000]);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -126,7 +126,7 @@
         {
             Init("Chiseled Sand Stone", "sc:sand_stone_center", 1250, "sc:sand_stone_center_item", Tool.Pickaxe);
             collision = new RectangleCollision(333, 666, 333, 666);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 }

@@ -134,7 +134,7 @@ namespace SeeloewenCraft.game.core.world
                 {
                     Block block = blockList.Get(x, i);
 
-                    if (block.tags.Contains("canBeFloor"))
+                    if (block.HasTag(BlockTags.CAN_BE_FLOOR_SPAWNING))
                     {
                         y = i;
                         break;

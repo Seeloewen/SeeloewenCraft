@@ -11,6 +11,8 @@ namespace SeeloewenCraft.game.core.blocks
             //Set light level based on range and it being a light source
             int rangeTS = GetRangeToLS(block);
             block.lightLevel = Math.Abs(Math.Max(0, Math.Min(Game.world.lightRange, rangeTS)) - Game.world.lightRange);
+
+            if(block.HasTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE)) block.isAirLightSource = IsAirLightSource(block);
         }
 
         private static int GetRangeToLS(Block block)
@@ -35,54 +37,17 @@ namespace SeeloewenCraft.game.core.blocks
             return minRange;
         }
 
-
-        /*public static void UpdateAirLightsources(Block block)
+        //Check block above - if there is no block above it is the top block, meaning it should be air light source
+        //Similarly, if there is an air lightsource above, this one is also air lightsource
+        public static bool IsAirLightSource(Block block)
         {
-            //Update Air Lightsources
-            for (int y = block.yPos + 1; y < 76; y++)
-            {
-                //Go through each block below the currently placed one
-                if (block.chunk.GetBlock(xPos, y) != null && chunk.GetBlock(xPos, y).id == "sc:air_block")
-                {
-                    //If the block at that position is air, update it accordingly
-                    AirBlock newBlock = new AirBlock(false);
-                    newBlock.rangeToNearestLightSource = chunk.GetBlock(xPos, y).rangeToNearestLightSource;
+            Block blockAbove = block.GetBlockAbove();
 
-                    //If the placed block is air, the blocks below should be a lightsource, if not, then no light source
-                    if (block.id == "sc:air_block" && block.isLightSource)
-                    {
-                        newBlock.isLightSource = true;
-                    }
-                    else
-                    {
-                        newBlock.isLightSource = false;
-                    }
+            if (blockAbove == null) return true;
 
-                    chunk.SetBlock(newBlock, xPos, y);
-                }
-                else
-                {
-                    //If it's not air, the other blocks below don't matter since that block blocks it.
-                    break;
-                }
-            }
-        }*/
+            if(blockAbove != null && blockAbove.isAirLightSource) return true;
 
-        public static bool IsAirLightSource(Block block) //This check may later also include transparent blocks like glass
-        {
-            //Go through every block above this block
-            for (int y = block.yPos - 1; y >= 0; y--)
-            {
-                //If a block above that is found that is not air (some other solid block), it is not an air light source 
-                if (block.chunk.GetBlock(block.xPos, y).id != "sc:air_block")
-                {
-                    block.isAirLightSource = false;
-                    return false;
-                }
-            }
-
-            //If all blocks above the specified block are air blocks, it is an air lightsource
-            return true;
+            return false;
         }
     }
 }

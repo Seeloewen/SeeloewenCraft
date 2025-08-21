@@ -15,7 +15,7 @@ namespace SeeloewenCraft.game.core.blocks
     public abstract partial class Block : IDebugMenuTargetable
     {
         //references
-        public List<string> tags = new List<string>(); //TODO: Rework using json
+        private List<string> tags = new List<string>();
         public Chunk chunk;
         public Inventory inventory;
         private Block foregroundBlock;
@@ -28,36 +28,24 @@ namespace SeeloewenCraft.game.core.blocks
         public string name;
         public string id;
         public string itemId;
-        public bool canBeMovedToBackground = true;
-        public bool isReplacable = false;
-        public bool isBreakable = true;
-        public bool hasInventory = false;
-        protected bool isLightSource { private get; set; } = false;
-        public bool isBase = false;
-        public bool hasRightClickAction = false;
-        public bool dropsOnWrongTool = true;
         public int breakTime = 150; //Milliseconds
-        public int breakTimeTicks { get => breakTime * 12 / 100; }
+        public int breakTimeTicks { get => breakTime * 12 / 100; } //TODO: 12 is legacy code from old timer, might need adaption
         public List<(string id, int min, int max)> drops = new List<(string, int, int)>(); //Can be empty, means that item id will drop x1
         public Collision collision;
         public Tool effectiveTool;
         public Material? effectiveMaterial;
         public (bool doesNeed, string tag) needsGround = (false, "");
-        public bool willFall = false;
-        public bool doesntDrop = false;
 
         //variables
         public int xPos;
         public int yPos;
+        public bool isBase = false;
         public bool isSolid = true;
         public bool isBackground = false;
         public int lightLevel = 7;
         public bool isAirLightSource;
         public bool isForeground = false;
-        public int rangeToNearestLightSource = int.MaxValue;
-        public bool hasAirLightSource;
-        public int xOffset;
-        public int yOffset;
+        public (int x, int y) baseBlockOffset;
         public string state = "";
         public bool breaking;
         public double breakProgress;
@@ -111,8 +99,26 @@ namespace SeeloewenCraft.game.core.blocks
 
         #endregion
 
+        #region tags
 
-        public bool IsLightSource() => isLightSource || isAirLightSource;
+        public void WriteTag(string tag)
+        { 
+            if(!HasTag(tag)) tags.Add(tag);
+        }
+
+        public bool HasTag(string tag)
+        {
+            return tags.Contains(tag);
+        }
+
+        public void RemoveTag(string tag)
+        {
+            tags.Remove(tag);
+        }
+
+        #endregion
+
+        public bool IsLightSource() => HasTag(BlockTags.LIGHTSOURCE) || isAirLightSource;
 
         public void DoUpdate() //Gets run every tick
         {
@@ -199,7 +205,7 @@ namespace SeeloewenCraft.game.core.blocks
             writer.WritePropertyName("is_in_background");
             writer.WriteValue(isBackground);
 
-            if (hasInventory)
+            if (HasTag(BlockTags.HAS_INVENTORY))
             {
                 writer.WritePropertyName("inventory");
                 inventory.SaveToJson(writer);
@@ -326,18 +332,14 @@ namespace SeeloewenCraft.game.core.blocks
                 block.isBackground = isInBackground;
             }
 
-            if (block.hasInventory)
+            if (block.HasTag(BlockTags.HAS_INVENTORY))
             {
                 JsonToken invToken = blockToken.GetToken("/inventory");
                 Inventory inventory = Inventory.LoadFromJson(invToken, false);
 
+                inventory.block = block;
                 block.inventory = inventory;
                 Game.world.inventoryList.Add(block.inventory);
-                /*if (block.gui != null && block.gui.inventory != null) //TODO: Rework how block inventories are saved
-                {
-                    block.gui.inventory = block.inventory;
-                    block.inventory.block = block;
-                }*/
             }
 
             if (block.tags.Contains("liquids/water"))
@@ -450,7 +452,7 @@ namespace SeeloewenCraft.game.core.blocks
             isBackground = true;
 
             Block blockAbove = GetBlockAbove();
-            if (blockAbove != null && blockAbove.willFall)
+            if (blockAbove != null && blockAbove.HasTag(BlockTags.CAN_FALL))
             {
                 blockAbove.BreakBlock(true, true, false);
                 Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos - 1, blockAbove.id));
@@ -533,12 +535,9 @@ namespace SeeloewenCraft.game.core.blocks
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, "isSolid");
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, "isBackground");
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"lightLevel");
-            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"isLightSource", $"{isLightSource}");
-            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"rangeToNearestLightSource");
-            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"hasRightClickAction", $"{hasRightClickAction}");
-            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"hasInventory", $"{hasInventory}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"isLightSource");
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"isBase", $"{isBase}");
-            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"isSurface", $"{isSurface}");
+            //DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"isSurface", $"{isSurface}");
             if (foregroundBlock != null)
             {
                 DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"foregroundBlock", $"{foregroundBlock.id}");
@@ -550,10 +549,10 @@ namespace SeeloewenCraft.game.core.blocks
 
             if (tags.Count > 0)
             {
-                string s = tags.Count != 0 ? tags[0] : "";
+                string s = tags.Count != 0 ? $"{tags[0]}" : "None";
                 for (int i = 1; i < tags.Count; i++)
                 {
-                    s += "; " + tags[i];
+                    s += ";" + tags[i];
                 }
                 DebugMenu.AddLine(DebugMenu.Section.TARGETED, "Tags", s);
 
@@ -566,7 +565,7 @@ namespace SeeloewenCraft.game.core.blocks
             DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, "isSolid", $"{isSolid} ");
             DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, "isBackground", $"{isBackground} ");
             DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, "lightLevel", $"{lightLevel} ");
-            DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, "rangeToNearestLightSource", $"{rangeToNearestLightSource} ");
+            DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, $"isLightSource", $"{IsLightSource()}");
         }
 
 
@@ -661,9 +660,9 @@ namespace SeeloewenCraft.game.core.blocks
         protected virtual void Drop()
         {
             //Get the block that should drop
-            if (doesntDrop) return;
+            if (HasTag(BlockTags.DOESNT_DROP)) return;
 
-            if ((Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == effectiveTool && ToolIsCorrectMaterial(tool.material) && !dropsOnWrongTool) || dropsOnWrongTool)
+            if ((Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == effectiveTool && ToolIsCorrectMaterial(tool.material) && HasTag(BlockTags.TOOL_SPECIFIC) || !HasTag(BlockTags.TOOL_SPECIFIC)))
             {
                 //If the block has a loot table, roll an entry and give the items to player
                 if (lootTable.lootTable != null)
@@ -722,13 +721,13 @@ namespace SeeloewenCraft.game.core.blocks
                 //If it has a foreground block, check if that one is breakable
                 if (foregroundBlock != null)
                 {
-                    if (foregroundBlock.isBreakable || skipBreakableCheck)
+                    if (!foregroundBlock.HasTag(BlockTags.UNBREAKABLE) || skipBreakableCheck)
                     {
                         if (dropItems)
                         {
                             foregroundBlock.Drop();
 
-                            if (foregroundBlock.hasInventory)
+                            if (foregroundBlock.HasTag(BlockTags.HAS_INVENTORY))
                             {
                                 foregroundBlock.inventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
                             }
@@ -737,7 +736,7 @@ namespace SeeloewenCraft.game.core.blocks
                         RemoveForegroundBlock();
 
                         Block blockAbove = GetBlockAbove();
-                        if (blockAbove.willFall)
+                        if (blockAbove.HasTag(BlockTags.CAN_FALL))
                         {
                             blockAbove.BreakBlock(true, true, false);
                             Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos, id));
@@ -745,7 +744,7 @@ namespace SeeloewenCraft.game.core.blocks
                     }
                 }
                 //If it has no foreground block, check if the normal block is breakable
-                else if (isBreakable || skipBreakableCheck)
+                else if (!HasTag(BlockTags.UNBREAKABLE) || skipBreakableCheck)
                 {
                     //Remove the block from the chunks blocklist and add an airblock
                     Block block = new AirBlock(false);
@@ -755,14 +754,14 @@ namespace SeeloewenCraft.game.core.blocks
                     {
                         Drop();
 
-                        if (hasInventory)
+                        if (HasTag(BlockTags.HAS_INVENTORY))
                         {
                             inventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
                         }
                     }
 
                     Block blockAbove = GetBlockAbove();
-                    if (blockAbove.willFall)
+                    if (blockAbove.HasTag(BlockTags.CAN_FALL))
                     {
                         blockAbove.BreakBlock(true, true, false);
                         Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos - 1, blockAbove.id));
@@ -773,16 +772,8 @@ namespace SeeloewenCraft.game.core.blocks
 
         public void SetBlock(Block block)
         {
-            //If it's air, check if it should be a light source  
-            if (block.id == "sc:air_block")
-            {
-                block.isLightSource = LightHandler.IsAirLightSource(block);
-            }
-
             //Add the block to the chunk
-            block.rangeToNearestLightSource = rangeToNearestLightSource;
             chunk.SetBlock(block, xPos, yPos);
-            //LightHandler.UpdateAirLightsources(block);
 
             if (block.isBackground)
             {
@@ -794,7 +785,7 @@ namespace SeeloewenCraft.game.core.blocks
             }
 
             Block blockBelow = GetBlockBelow();
-            if (block.willFall
+            if (block.HasTag(BlockTags.CAN_FALL)
                 && (blockBelow is AirBlock || blockBelow is WaterBlock || blockBelow.isBackground))
             {
                 block.BreakBlock(true, true, false);
@@ -1091,7 +1082,7 @@ namespace SeeloewenCraft.game.core.blocks
 
         private void UpdateBreaking()
         {
-            if (!IsInRange() || !isBreakable) return;
+            if (!IsInRange() || HasTag(BlockTags.UNBREAKABLE)) return;
 
             Block effectiveBlock = foregroundBlock ?? this; //The block which the break get's performed on
 
@@ -1120,7 +1111,7 @@ namespace SeeloewenCraft.game.core.blocks
             if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == Tool.Hammer)
             {
                 //If the player holds a hammer, is in gamemode survival, the block is in range and doesn't have a foreground block
-                if (IsInRange() && foregroundBlock == null && canBeMovedToBackground)
+                if (IsInRange() && foregroundBlock == null && !HasTag(BlockTags.CANT_BE_BACKGROUND))
                 {
                     //Get the break power from the selected tool
                     double breakPower = tool.breakPower == 0 ? 1 : tool.breakPower;

@@ -111,7 +111,7 @@ namespace SeeloewenCraft.game.core.world.generation
         public void AddBlock(Block block, int xOffset, int yOffset, LootTable lootTable, int insertAmount)
         {
             //Insert the loot table in the block
-            if (block.hasInventory)
+            if (block.HasTag(BlockTags.HAS_INVENTORY))
             {
                 block.InsertLootTable(lootTable, insertAmount, structRnd);
             }
@@ -136,11 +136,11 @@ namespace SeeloewenCraft.game.core.world.generation
         public void AddBackgroundBlock(Block block, int xOffset, int yOffset, Block foregroundBlock, LootTable lootTable, int insertAmount)
         {
             //Either add the loot table to the foreground block or the background block
-            if (foregroundBlock != null && foregroundBlock.hasInventory)
+            if (foregroundBlock != null && foregroundBlock.HasTag(BlockTags.HAS_INVENTORY))
             {
                 foregroundBlock.InsertLootTable(lootTable, insertAmount, structRnd);
             }
-            else if (block.hasInventory)
+            else if (block.HasTag(BlockTags.HAS_INVENTORY))
             {
                 block.InsertLootTable(lootTable, insertAmount, structRnd);
             }
@@ -174,7 +174,7 @@ namespace SeeloewenCraft.game.core.world.generation
                     }
                     else
                     {
-                        if (chunk.blockList.Get(block.xPos, block.yPos).isBreakable)
+                        if (!chunk.blockList.Get(block.xPos, block.yPos).HasTag(BlockTags.UNBREAKABLE))
                         {
                             chunk.SetBlock(block, block.xPos, block.yPos);
 
