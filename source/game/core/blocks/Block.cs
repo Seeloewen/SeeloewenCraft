@@ -51,7 +51,7 @@ namespace SeeloewenCraft.game.core.blocks
         public int yPos;
         public bool isSolid = true;
         public bool isBackground = false;
-        public int lightLevel;
+        public int lightLevel = 7;
         public bool isAirLightSource;
         public bool isForeground = false;
         public int rangeToNearestLightSource = int.MaxValue;
