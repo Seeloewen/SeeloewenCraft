@@ -89,7 +89,7 @@ namespace SeeloewenCraft.game.graphics.ui_lib
     public class CText : Component
     {
 
-        string text;
+        protected string text;
         int size;
 
         TextLayout layout;
