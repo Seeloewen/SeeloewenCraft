@@ -1,5 +1,7 @@
 ﻿
-namespace SeeloewenCraft.entity
+using SeeloewenCraft.game.networking;
+
+namespace SeeloewenCraft.game.core.entities
 {
     public record PressedChangeEvent(
         int id,

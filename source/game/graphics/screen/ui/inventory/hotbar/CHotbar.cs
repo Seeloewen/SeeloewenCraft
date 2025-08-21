@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.graphics.ui_lib;
+using System.Collections.Generic;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -30,7 +31,7 @@ namespace SeeloewenCraft.game.graphics
             AddChild(slotBorder);
 
             //Slots
-            for(int i = 0; i< slotAmount; i++)
+            for (int i = 0; i < slotAmount; i++)
             {
                 (x1, y1) = (startPos + edgeSize + (slotSize + edgeSize) * i, startPos + edgeSize);
                 (x2, y2) = (startPos + edgeSize + (slotSize + edgeSize) * i + slotSize, startPos + edgeSize + slotSize);

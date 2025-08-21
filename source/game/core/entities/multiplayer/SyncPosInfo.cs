@@ -2,7 +2,7 @@
 using System;
 using System.Windows;
 
-namespace SeeloewenCraft.entity
+namespace SeeloewenCraft.game.core.entities
 {
     public record SyncPosInfo(
         int id,
@@ -21,7 +21,8 @@ namespace SeeloewenCraft.entity
                     int.Parse(args[2]),
                     int.Parse(args[3]),
                     int.Parse(args[4]));
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }

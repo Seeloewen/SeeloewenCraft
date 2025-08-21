@@ -13,7 +13,7 @@ namespace SeeloewenCraft.game.graphics
             get;
             private set;
         } = 1280;
-        
+
         static public int HEIGHT
         {
             get;
@@ -47,11 +47,11 @@ namespace SeeloewenCraft.game.graphics
             {
                 WIDTH = width;
                 HEIGHT = height;
-                
+
                 GL.Viewport(0, 0, WIDTH, HEIGHT);
                 Screen.OnResize();
             });
-            
+
         }
     }
 }

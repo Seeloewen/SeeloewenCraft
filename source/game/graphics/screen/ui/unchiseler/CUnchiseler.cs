@@ -1,10 +1,6 @@
-﻿using SeeloewenCraft.game.core;
+﻿using SeeloewenCraft.game.core.crafting;
+using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.graphics.ui_lib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeeloewenCraft.game.graphics
 {

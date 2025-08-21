@@ -16,7 +16,7 @@ namespace SeeloewenCraft.game.graphics
         CTexture cTexture;
         string texId;
 
-        CText cText; 
+        CText cText;
         string text;
 
         internal CButton(Action onPress, string text, string texId, TextureMap texMap, Rectangle bounds) : base(new Color(0, 0, 0), bounds)
@@ -62,7 +62,7 @@ namespace SeeloewenCraft.game.graphics
 
             if (pressed)
             {
-                if(cTexture != null) cTexture.SetBrightness(0.65f);
+                if (cTexture != null) cTexture.SetBrightness(0.65f);
                 currentColor = colorPressed;
             }
             else if (hovered)

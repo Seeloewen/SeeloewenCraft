@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
-using Renderer = SeeloewenCraft.game.graphics.Renderer;
-using TextureManager = SeeloewenCraft.game.graphics.TextureManager;
+using SeeloewenCraft.game.networking;
+using SeeloewenCraft.game.util;
+using SeeloewenCraft.game.util.logging;
+using SeeloewenCraft.launcher;
+using System;
+using System.Collections.Generic;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.game
 {
     public static class Game
     {
         //References
         public static World world;
-        public static Client client;
-        public static Server server;
         public static wndMenu wndMenu;
 
         //Constants
         public const int WORLD_VERSION = 6; //Up to date as of Alpha 1.2.1 (Recent changes: Seeding)
         public const string GAME_VERSION = "Beta 1.0.0-dev";
-        public const string VERSION_DATE = "19.08.2025";
+        public const string VERSION_DATE = "21.08.2025";
         public const int TEXTUREPACK_VERSION = 2;
 
         //Variables
@@ -40,7 +40,7 @@ namespace SeeloewenCraft
             {
                 double dt = DeltaTimer.Tick(out bool blockUpdate);
 
-                
+
                 Screen.Update();
 
                 world.doGameTick(dt * 0.7, blockUpdate);
@@ -48,14 +48,14 @@ namespace SeeloewenCraft
                 Renderer.Render();
 
                 GLFW.SwapBuffers(window);
-                
+
                 InputHandler.Reset();
                 GLFW.PollEvents();
 
             }
         }
-        
-        
+
+
         #region GLFW
 
         public static bool shouldClose = false;
@@ -123,7 +123,7 @@ namespace SeeloewenCraft
 
             GL.Viewport(0, 0, 1280, 720);
 
-            GL.ClearColor(188f/255, 244f/255, 247f/255, 1f);
+            GL.ClearColor(188f / 255, 244f / 255, 247f / 255, 1f);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
@@ -149,20 +149,6 @@ namespace SeeloewenCraft
         #region general
 
         //Methods
-        public static bool IsMultiplayer()
-        {
-            return IsServer() || IsClient();
-        }
-
-        public static bool IsServer()
-        {
-            return server != null;
-        }
-
-        public static bool IsClient()
-        {
-            return client != null && client.isConnected;
-        }
 
         public static void FatalError(string message)
         {

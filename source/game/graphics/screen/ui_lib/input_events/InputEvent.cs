@@ -9,7 +9,8 @@ namespace SeeloewenCraft.game.graphics.ui_lib
 
         public bool consumed { get; private set; }
 
-        protected InputEvent() { 
+        protected InputEvent()
+        {
             consumed = false;
         }
 

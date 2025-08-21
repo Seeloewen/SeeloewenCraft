@@ -1,4 +1,4 @@
-﻿namespace SeeloewenCraft.entity
+﻿namespace SeeloewenCraft.game.core.entities
 {
     public static class EntityRegister
     {

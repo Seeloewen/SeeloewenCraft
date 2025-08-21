@@ -1,10 +1,16 @@
 ﻿using Newtonsoft.Json;
+using SeeloewenCraft.game.core.blocks;
+using SeeloewenCraft.game.core.world.generation;
+using SeeloewenCraft.game.util;
+using SeeloewenCraft.game.util.logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Controls;
+using JsonToken = SeeloewenCraft.game.util.JsonToken;
+using JsonWriter = SeeloewenCraft.game.util.JsonWriter;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.game.core.world
 {
     public partial class Chunk
     {
@@ -156,7 +162,7 @@ namespace SeeloewenCraft
                 {
                     if (block.id == "sc:air_block")
                     {
-                        block.isLightSource = block.IsAirLightSource(block);
+                        block.isAirLightSource = LightHandler.IsAirLightSource(block);
                     }
                 }
 

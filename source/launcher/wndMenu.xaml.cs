@@ -1,7 +1,12 @@
-﻿using System;
+﻿using SeeloewenCraft.game;
+using SeeloewenCraft.game.core.settings;
+using SeeloewenCraft.game.networking;
+using SeeloewenCraft.game.util;
+using SeeloewenCraft.game.util.logging;
+using System;
 using System.Windows;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.launcher
 {
     public partial class wndMenu : Window
     {

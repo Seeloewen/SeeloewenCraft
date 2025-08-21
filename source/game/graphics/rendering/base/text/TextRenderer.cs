@@ -1,6 +1,5 @@
 ﻿
 using OpenTK.Graphics.OpenGL4;
-using SeeloewenCraft.entity;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -18,7 +17,7 @@ namespace SeeloewenCraft.game.graphics
         internal static void Init()
         {
             (textureMap, widthMappings) = FontTextureMap.ParseFontMap();
-            
+
             shader = new Shader("shader.texture");
             vertexBuffer = new VertexBuffer(new VBLayout().AddAttribute(2).AddAttribute(2).AddAttribute(1), 1024);
         }
@@ -40,16 +39,17 @@ namespace SeeloewenCraft.game.graphics
         public static int GetWidth(string s, int size)
         {
             int width = 0;
-            foreach(char c in s) {
+            foreach (char c in s)
+            {
                 int charWidth;
                 if (!widthMappings.TryGetValue(c, out charWidth))
                 {
                     charWidth = 5;
-                } 
+                }
                 width += charWidth;
                 width += 1;
             }
-            if(width!=0) width--;
+            if (width != 0) width--;
             return width * size;
         }
 

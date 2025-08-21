@@ -1,10 +1,9 @@
-﻿using System;
+﻿using SeeloewenCraft.game;
+using SeeloewenCraft.game.util.logging;
 using System.IO;
 using System.Reflection;
-using System.Windows;
-using System.Windows.Resources;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.launcher
 {
     internal class SplashTextHandler
     {

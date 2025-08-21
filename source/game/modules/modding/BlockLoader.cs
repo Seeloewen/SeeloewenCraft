@@ -1,9 +1,11 @@
-﻿using System;
+﻿using SeeloewenCraft.game.core.blocks;
+using SeeloewenCraft.game.util;
+using System;
 using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.game.core.legacy
 {
     //Warning: Currently not maintained and most likely not compatible/working
 

@@ -1,5 +1,7 @@
-﻿
-namespace SeeloewenCraft.entity
+﻿using SeeloewenCraft.game.core.blocks;
+using SeeloewenCraft.game.util;
+
+namespace SeeloewenCraft.game.core.entities
 {
     class FallingBlockEntity : Entity
     {
@@ -17,7 +19,8 @@ namespace SeeloewenCraft.entity
                 if (Game.world.GetBlock(blockX, blockY) is AirBlock || Game.world.GetBlock(blockX, blockY) is WaterBlock)
                 {
                     Game.world.SetBlock(block, blockX, blockY);
-                } else
+                }
+                else
                 {
                     Game.world.AddEntity(new ItemEntity(block.GetItem(), block.GetItem().tag, //item type
                             posX, posY, Game.rnd.Next(-6000, 6000), Game.rnd.Next(-15000, -10000))); //pos and vel
@@ -38,7 +41,7 @@ namespace SeeloewenCraft.entity
             this.blockType = blockType;
         }
 
-        public FallingBlockEntity(JsonToken token) 
+        public FallingBlockEntity(JsonToken token)
             : base(token, 1000, 1000, null)
         {
             blockType = token.GetString("/block_type");

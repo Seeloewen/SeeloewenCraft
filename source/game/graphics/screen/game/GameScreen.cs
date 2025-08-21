@@ -1,11 +1,10 @@
-﻿using System;
+﻿using SeeloewenCraft.game.core.blocks;
+using System;
 
 namespace SeeloewenCraft.game.graphics
 {
     public static class GameScreen
     {
-
-
         static bool pressedLeft, pressedRight;
 
         public static Block targetedBlock = null;

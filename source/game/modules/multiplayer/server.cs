@@ -1,15 +1,13 @@
-﻿using System;
+﻿using SeeloewenCraft.game.util.logging;
+using System;
 using System.Collections.Generic;
-using System.Net.Sockets;
+using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using static SeeloewenCraft.NetworkHandler;
-using System.Linq;
-using SeeloewenCraft.entity;
-using System.IO;
 
-namespace SeeloewenCraft;
+namespace SeeloewenCraft.game.networking;
 
 public class Server
 {
@@ -64,14 +62,14 @@ public class Server
             try
             {
                 //Get the length of the following packet
-                byte[] lengthPacket = await ReceivePacket(sizeof(int), client.GetStream());
+                byte[] lengthPacket = await NetworkHandler.ReceivePacket(sizeof(int), client.GetStream());
 
                 if (lengthPacket.Length >= 4) //The packet is invalid if the length is below 4 bytes
                 {
                     int dataLength = BitConverter.ToInt32(lengthPacket);
 
                     //Read data into the buffer and copy data from buffer to receivedData
-                    byte[] receivedData = await ReceivePacket(dataLength, client.GetStream());
+                    byte[] receivedData = await NetworkHandler.ReceivePacket(dataLength, client.GetStream());
 
                     if (receivedData.Length >= dataLength && receivedData.Length >= 4) //If the data wasn't read correctly and isn't long enough, the packet is invalid
                     {
@@ -105,10 +103,10 @@ public class Server
                             string[] content = contentList.ToArray();
 
                             //Create the packet from previously determined information
-                            NetworkPacket packet = CreatePacket(type, content);
+                            NetworkPacket packet = NetworkHandler.CreatePacket(type, content);
 
                             //Handle the data
-                            await HandleData(client, packet);
+                            await NetworkHandler.HandleData(client, packet);
 
                             //Log.Write($"Received data from client #{client.id}: {$"{type} ({content.ToString()})"}.", "Info");
                         }

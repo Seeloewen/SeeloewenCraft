@@ -1,8 +1,9 @@
-﻿
+﻿using SeeloewenCraft.game.networking;
+using SeeloewenCraft.game.util;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
-namespace SeeloewenCraft.entity {
+namespace SeeloewenCraft.game.core.entities
+{
     //this class stores all entities that exist
     //responsible for:
     // - adding and removing entities
@@ -57,7 +58,7 @@ namespace SeeloewenCraft.entity {
             allowModify = true;
 
             //do all buffered remove and add calls
-            foreach(int id in removeBuffer)
+            foreach (int id in removeBuffer)
             {
                 Remove(id);
             }
@@ -70,7 +71,7 @@ namespace SeeloewenCraft.entity {
         }
 
 
-        
+
         public void ReceivePressedChange(string[] eventArgs)
         {
             PressedChangeEvent e = PressedChangeEvent.Create(eventArgs);
@@ -82,7 +83,7 @@ namespace SeeloewenCraft.entity {
             foreach (var info in syncEvent.infos)
             {
                 Entity en = GetEntity(info.id);
-                if(en != null)
+                if (en != null)
                 {
                     en.posX = info.posX;
                     en.posY = info.posY;
@@ -95,9 +96,9 @@ namespace SeeloewenCraft.entity {
 
         public Entity GetEntity(int id)
         {
-            foreach(Entity entity in entities)
+            foreach (Entity entity in entities)
             {
-                if(entity.id == id)
+                if (entity.id == id)
                 {
                     return entity;
                 }
@@ -121,10 +122,10 @@ namespace SeeloewenCraft.entity {
         public EntityManager(JsonToken token) : this()
         {
             JsonToken list = token.GetToken("/entities");
-            for(int i = 0; i < list.GetArrayLength(); i++)
+            for (int i = 0; i < list.GetArrayLength(); i++)
             {
                 var entity = Entity.LoadFromJson(list.GetToken($"/{i}"));
-                if(entity is not Player)
+                if (entity is not Player)
                 {
                     Add(entity);
                 }
@@ -187,7 +188,7 @@ namespace SeeloewenCraft.entity {
                 using (JsonWriter writer = JsonWriter.Create())
                 {
                     entity.SaveToJson(writer);
-                    Game.server.SendDataSingleClient(NetworkHandler.CreatePacket(MultiplayerPacketType.CREATE_ENTITY, writer.ToString()), clientID);
+                    NetworkHandler.server.SendDataSingleClient(NetworkHandler.CreatePacket(MultiplayerPacketType.CREATE_ENTITY, writer.ToString()), clientID);
                 }
             }
         }

@@ -1,10 +1,5 @@
-﻿using SeeloewenCraft.game.graphics;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -36,7 +31,7 @@ namespace SeeloewenCraft.game.graphics
             foreach (var line in linesWorld)
             {
                 int w = TextRenderer.GetWidth($"{line.Key}={line.Value}", 2);
-                PrimitiveRenderer.DrawRectangle(5-2, y-2, 5+w+2, y+18, 0.8f, 0.8f, 0.8f, 0.5f);
+                PrimitiveRenderer.DrawRectangle(5 - 2, y - 2, 5 + w + 2, y + 18, 0.8f, 0.8f, 0.8f, 0.5f);
                 y += 20;
             }
 

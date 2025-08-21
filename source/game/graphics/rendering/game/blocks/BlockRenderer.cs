@@ -1,4 +1,4 @@
-﻿using System.Drawing.Drawing2D;
+﻿using SeeloewenCraft.game.core.blocks;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -10,7 +10,7 @@ namespace SeeloewenCraft.game.graphics
 
             DrawBlock(info.GetTextureID(), info.x, info.y, info.isBackground, info.lighting); //Normal block
             if (info.hasForegroundBlock) DrawBlock(info.GetForegroundTextureID(), info.x, info.y, false, info.lighting); //Foreground block
-            if(info.breakAnimation > 0) //Breaking/Hammering animation
+            if (info.breakAnimation > 0) //Breaking/Hammering animation
             {
                 string type = info.hammering ? "hammering" : "breaking";
                 string id = $"sc:{type}_{info.breakAnimation}";

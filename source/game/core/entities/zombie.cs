@@ -1,7 +1,8 @@
-﻿using System;
+﻿using SeeloewenCraft.game.util;
+using System;
 using System.Windows.Media;
 
-namespace SeeloewenCraft.entity
+namespace SeeloewenCraft.game.core.entities
 {
     class Zombie : MovingEntity
     {
@@ -27,7 +28,7 @@ namespace SeeloewenCraft.entity
             ACC_WALKING = 20000;
             ACC_SPRINTING = 35000;
         }
-        
+
         public override void Die()
         {
             Drop("sc:dirt_item");

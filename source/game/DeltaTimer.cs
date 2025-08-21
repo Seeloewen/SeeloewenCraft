@@ -5,7 +5,7 @@ using SeeloewenCraft.game.graphics;
 using System;
 using System.Collections.Generic;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.game.util
 {
     class DeltaTimer
     {
@@ -21,7 +21,7 @@ namespace SeeloewenCraft
         public static double Tick(out bool blockUpdate)
         {
             double dt = 0, t = 0;
-            
+
 
             while (dt < 0.0001)
             {
@@ -33,7 +33,8 @@ namespace SeeloewenCraft
             {
                 blockUpdate = true;
                 lastBlockUpdate += 1 / 20d; //TODO think this through(ithink this isnt correct)
-            } else
+            }
+            else
             {
                 blockUpdate = false;
             }

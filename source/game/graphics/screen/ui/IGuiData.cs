@@ -14,7 +14,7 @@ namespace SeeloewenCraft.game.graphics
             Screen.showGui = true;
         }
 
-        public void Hide() 
+        public void Hide()
         {
             Screen.guiHandler.guiData.Remove(this);
             Screen.showGui = false;

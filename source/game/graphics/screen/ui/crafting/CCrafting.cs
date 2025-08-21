@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.graphics.ui_lib;
+﻿using SeeloewenCraft.game.core.crafting;
+using SeeloewenCraft.game.graphics.ui_lib;
 using System;
 using System.Collections.Generic;
 
@@ -34,7 +35,7 @@ namespace SeeloewenCraft.game.graphics
             cRecipeHeader = new CText("Recipes", 2, new TextLayout(bounds.x1P + 20, TextHAlignment.LEFT, bounds.y1P + 40, TextVAlignment.TOP));
             cIngredientsHeader = new CText("Ingredients", 2, new TextLayout(bounds.x1P + 255, TextHAlignment.LEFT, bounds.y1P + 40, TextVAlignment.TOP));
 
-            cRecipePane = new CScrollPane(new Color(0.88f), new Rectangle(bounds.x1P + 20, bounds.y1P + 60, bounds.x1P + 240, bounds.y2P -80), 0);
+            cRecipePane = new CScrollPane(new Color(0.88f), new Rectangle(bounds.x1P + 20, bounds.y1P + 60, bounds.x1P + 240, bounds.y2P - 80), 0);
             cIngredients = new CRectangle(new Color(0.88f), new Rectangle(bounds.x1P + 255, bounds.y1P + 60, bounds.x2P - 20, bounds.y2P - 80));
 
             cCraftButton = new CButton(CCraftButton_Click, "Craft", "sc:button_1", GeneralTextureMap.Get(), new Rectangle(GuiSizes.mx - 50, bounds.y2P - 65, GuiSizes.mx + 50, bounds.y2P - 20));
@@ -59,7 +60,7 @@ namespace SeeloewenCraft.game.graphics
 
         protected override void OnUpdate()
         {
-            if(handler.recipeRunning)
+            if (handler.recipeRunning)
             {
                 //When a recipe is running, show the progressbar and update it
                 cCraftingProgress.visible = true;
@@ -92,7 +93,7 @@ namespace SeeloewenCraft.game.graphics
 
         private void CClaimButton_Click()
         {
-            if (handler.Claim()) 
+            if (handler.Claim())
             {
                 //If the items were successfully claimed, reset the view
                 cClaimButton.visible = false;
@@ -107,10 +108,10 @@ namespace SeeloewenCraft.game.graphics
 
             foreach (CraftingRecipe recipe in Game.world.craftingRecipeList)
             {
-                if (recipe.workstationId == handler.workstationId) 
+                if (recipe.workstationId == handler.workstationId)
                 {
                     //Render all recipes that belong to this workstation
-                    CRecipe cRecipe = new CRecipe(cRecipePane.GetBounds().x1P, cRecipePane.GetBounds().y1P + i * CRecipe.HEIGHT, recipe.outgredients[0].item.id, recipe.id, this );
+                    CRecipe cRecipe = new CRecipe(cRecipePane.GetBounds().x1P, cRecipePane.GetBounds().y1P + i * CRecipe.HEIGHT, recipe.outgredients[0].item.id, recipe.id, this);
 
                     recipes.Add(cRecipe);
                     cRecipePane.AddScrollable(cRecipe);
@@ -133,7 +134,7 @@ namespace SeeloewenCraft.game.graphics
             {
                 //Display all ingredients
                 CIngredient cIngredient = new CIngredient(cIngredients.GetBounds().x1P + 5, 5 + cIngredients.GetBounds().y1P + i * CIngredient.HEIGHT, ingredient.item.id, ingredient.amount);
-                    
+
                 ingredients.Add(cIngredient);
                 cIngredients.AddChild(cIngredient);
                 i++;

@@ -1,6 +1,6 @@
 ﻿
 
-namespace SeeloewenCraft.source.entities.brain
+namespace SeeloewenCraft.game.core.entities
 {
     class Brain
     {

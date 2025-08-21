@@ -1,0 +1,82 @@
+﻿using SeeloewenCraft.game.graphics;
+
+namespace SeeloewenCraft.game.core.blocks
+{
+    public class CropBlock : Block
+    {
+        protected int growthState { get => int.Parse(state); set => state = $"{value}"; }
+
+        public int growthTime;
+        public int progress;
+        public string seedId;
+        public string productId;
+        public int productMin;
+        public int productMax;
+
+        public CropBlock(bool isBackground) : base(isBackground)
+        {
+            growthState = 1;
+        }
+
+        public void Init(string name, string id, int breakTime, string? itemId, int growthTime, string seedId, string productId, int productMin, int productMax, Tool effectiveTool)
+        {
+            base.Init(name, id, breakTime, itemId, effectiveTool);
+            this.seedId = seedId;
+            this.productId = productId;
+            this.growthTime = growthTime;
+            this.productMin = productMin;
+            this.productMax = productMax;
+            canBeMovedToBackground = false;
+        }
+
+        public override void AddDebugMenu()
+        {
+            base.AddDebugMenu();
+
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, "growthTime", $"{growthTime}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"progress");
+        }
+
+        public virtual void UpdateProgress(int amount)
+        {
+            progress += amount;
+        }
+
+        public bool IsReady()
+        {
+            return progress >= growthTime;
+        }
+
+        public bool HasSpaceAbove(int xOffset, int yOffset, int width, int height)
+        {
+            //Checks the space above in a rectangular shape, starting from a specific offset from the current block
+            for (int i = xOffset; i < width + xOffset; i++)
+            {
+                for (int j = yOffset; j < height + yOffset; j++)
+                {
+                    Block block = chunk.GetBlock(xPos + i, yPos - 1 - j);
+
+                    if (block != null && block.isSolid)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        //Hahn war hier
+        protected override void Drop()
+        {
+            //If the item is ready, also add the product as a drop
+            if (IsReady())
+            {
+                drops.Add((productId, productMin, productMax));
+                growthState = 1;
+            }
+
+            base.Drop();
+        }
+    }
+}

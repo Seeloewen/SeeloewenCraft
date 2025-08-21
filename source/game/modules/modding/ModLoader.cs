@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using static System.Environment;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.game.core.legacy
 {
     class ModLoader
     {

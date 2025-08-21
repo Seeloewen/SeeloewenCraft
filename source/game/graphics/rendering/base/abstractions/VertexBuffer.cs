@@ -56,7 +56,7 @@ namespace SeeloewenCraft.game.graphics
 
             int stride = layout.GetStride();
             int offset = 0;
-            for(int i = 0; i < layout.attributes.Count; i++)
+            for (int i = 0; i < layout.attributes.Count; i++)
             {
                 int count = layout.attributes[i].count;
                 GL.EnableVertexArrayAttrib(vao, i);
@@ -65,7 +65,7 @@ namespace SeeloewenCraft.game.graphics
             }
         }
 
-       
+
 
         internal void SetVertices(float[] vertices)
         {

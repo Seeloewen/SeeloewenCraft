@@ -1,5 +1,3 @@
-using System.Windows.Controls.Primitives;
-
 namespace SeeloewenCraft.game.graphics.ui_lib;
 
 public class ScrollEvent : InputEvent
@@ -10,5 +8,5 @@ public class ScrollEvent : InputEvent
     {
         this.offset = offset;
     }
-    
+
 }

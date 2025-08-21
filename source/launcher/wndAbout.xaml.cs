@@ -1,9 +1,10 @@
-﻿using System;
+﻿using SeeloewenCraft.game;
+using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Resources;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.launcher
 {
     public partial class wndAbout : Window
     {

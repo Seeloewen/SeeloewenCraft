@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using OpenTK.Graphics.OpenGL4;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenTK.Graphics.OpenGL4;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -94,7 +89,7 @@ namespace SeeloewenCraft.game.graphics
             vertices[index++] = a;
         }
 
-        internal static  void Begin()
+        internal static void Begin()
         {
             Debug.Assert(!drawing);
             drawing = true;

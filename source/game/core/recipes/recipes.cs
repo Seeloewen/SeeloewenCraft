@@ -1,5 +1,7 @@
 ﻿
-namespace SeeloewenCraft
+using SeeloewenCraft.game.util;
+
+namespace SeeloewenCraft.game.core.crafting
 {
     public class RecipeCreator
     {

@@ -1,5 +1,4 @@
 ﻿using OpenTK.Windowing.GraphicsLibraryFramework;
-using SeeloewenCraft.game.graphics;
 using System;
 using System.Collections.Generic;
 namespace SeeloewenCraft.game.graphics
@@ -14,7 +13,7 @@ namespace SeeloewenCraft.game.graphics
         public static int mouseXPixel { get; private set; }
         public static int mouseYPixel { get; private set; }
 
-        public static float mouseXScreen { get => ((float)mouseXPixel) /(Resolution.WIDTH/2) - 1; }
+        public static float mouseXScreen { get => ((float)mouseXPixel) / (Resolution.WIDTH / 2) - 1; }
         public static float mouseYScreen { get => ((float)mouseYPixel) / (-Resolution.HEIGHT / 2) + 1; }
 
 
@@ -36,11 +35,11 @@ namespace SeeloewenCraft.game.graphics
             {
                 switch (button)
                 {
-                    case MouseButton.Left: 
-                        pressedLeft = action == InputAction.Press; 
+                    case MouseButton.Left:
+                        pressedLeft = action == InputAction.Press;
                         break;
-                    case MouseButton.Right: 
-                        pressedRight = action == InputAction.Press; 
+                    case MouseButton.Right:
+                        pressedRight = action == InputAction.Press;
                         break;
                 }
             });
@@ -57,7 +56,8 @@ namespace SeeloewenCraft.game.graphics
 
             GLFW.SetKeyCallback(window, (_, k, _, a, _) =>
             {
-                if(KeyBinds.bindings.TryGetValue(k, out var v)) {
+                if (KeyBinds.bindings.TryGetValue(k, out var v))
+                {
                     if (a == InputAction.Press)
                     {
                         KeyBinds.pressed[v] = true;
@@ -67,14 +67,15 @@ namespace SeeloewenCraft.game.graphics
                     {
                         KeyBinds.pressed[v] = false;
                         KeyBinds.pressedFirst[v] = false;
-                    } else
+                    }
+                    else
                     {
                         return;
                     }
                 }
             });
 
-           
+
 
         }
 

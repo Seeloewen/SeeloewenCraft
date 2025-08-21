@@ -1,10 +1,7 @@
-﻿using System;
+﻿using OpenTK.Graphics.OpenGL4;
 using System.IO;
 using System.Reflection;
 using System.Windows;
-using System.Windows.Resources;
-
-using OpenTK.Graphics.OpenGL4;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -13,7 +10,8 @@ namespace SeeloewenCraft.game.graphics
 
         private int programID;
 
-        internal Shader(string path) { 
+        internal Shader(string path)
+        {
             programID = GL.CreateProgram();
             int vert = CreateShader(ShaderType.VertexShader, $"{path}.vert.glsl");
             int frag = CreateShader(ShaderType.FragmentShader, $"{path}.frag.glsl");
@@ -50,7 +48,8 @@ namespace SeeloewenCraft.game.graphics
             GL.UseProgram(programID);
         }
 
-        private int CreateShader(ShaderType type, string path) {
+        private int CreateShader(ShaderType type, string path)
+        {
             int shaderID = GL.CreateShader(type);
             string source = ReadResourceToString(path);
             GL.ShaderSource(shaderID, source);

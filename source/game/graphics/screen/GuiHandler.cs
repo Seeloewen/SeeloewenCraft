@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SeeloewenCraft.game.core.entities.inventory;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 

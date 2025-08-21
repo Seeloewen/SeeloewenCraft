@@ -1,4 +1,5 @@
 ﻿
+using SeeloewenCraft.game.util;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -15,7 +16,7 @@ namespace SeeloewenCraft.game.graphics
 
         Dictionary<char, (float s1, float t1, float s2, float t2)> mappings;
 
-        internal static (FontTextureMap, Dictionary<char, int>) ParseFontMap() 
+        internal static (FontTextureMap, Dictionary<char, int>) ParseFontMap()
         {
             FontTextureMap textureMap = new();
             var widthMappings = new Dictionary<char, int>();
@@ -58,7 +59,7 @@ namespace SeeloewenCraft.game.graphics
             return (textureMap, widthMappings);
         }
 
-        internal (float s1, float t1,float s2,float t2) GetMapping(char c)
+        internal (float s1, float t1, float s2, float t2) GetMapping(char c)
         {
             (float s1, float t1, float s2, float t2) a;
             if (!mappings.TryGetValue(c, out a))

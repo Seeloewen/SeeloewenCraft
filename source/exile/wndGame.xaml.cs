@@ -1,45 +1,29 @@
-﻿
+﻿using Newtonsoft.Json;
+using SeeloewenCraft.game.core.settings;
+using SeeloewenCraft.game.core.world;
+using SeeloewenCraft.game.graphics;
+using SeeloewenCraft.game.networking;
+using SeeloewenCraft.game.util;
+using SeeloewenCraft.game.util.logging;
+using SeeloewenCraft.launcher;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.TextFormatting;
-using System.Windows.Resources;
-using Newtonsoft.Json;
-using OpenTK.Graphics.GL;
-using OpenTK.Graphics.OpenGL4;
-using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
-using BufferTarget = OpenTK.Graphics.OpenGL.BufferTarget;
-using BufferUsageHint = OpenTK.Graphics.OpenGL.BufferUsageHint;
-using ClearBufferMask = OpenTK.Graphics.OpenGL.ClearBufferMask;
+using BlendingFactor = OpenTK.Graphics.OpenGL.BlendingFactor;
 using DebugProc = OpenTK.Graphics.OpenGL4.DebugProc;
 using DebugSeverity = OpenTK.Graphics.OpenGL4.DebugSeverity;
 using DebugSource = OpenTK.Graphics.OpenGL4.DebugSource;
 using DebugType = OpenTK.Graphics.OpenGL4.DebugType;
 using EnableCap = OpenTK.Graphics.OpenGL4.EnableCap;
-using GetProgramParameterName = OpenTK.Graphics.OpenGL.GetProgramParameterName;
 using GL = OpenTK.Graphics.OpenGL.GL;
-using PrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType;
-using ShaderParameter = OpenTK.Graphics.OpenGL.ShaderParameter;
-using ShaderType = OpenTK.Graphics.OpenGL.ShaderType;
-using VertexAttribPointerType = OpenTK.Graphics.OpenGL.VertexAttribPointerType;
-
-using BlendingFactor = OpenTK.Graphics.OpenGL.BlendingFactor;
-using System.Windows.Media.Animation;
-using FramebufferTarget = OpenTK.Graphics.OpenGL.FramebufferTarget;
-using FramebufferAttachment = OpenTK.Graphics.OpenGL.FramebufferAttachment;
-using FramebufferAttachmentParameterName = OpenTK.Graphics.OpenGL.FramebufferAttachmentParameterName;
-using SeeloewenCraft.game.graphics;
+using JsonWriter = SeeloewenCraft.game.util.JsonWriter;
 
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.game.core.legacy
 {
     public partial class wndGame : Window
     {
@@ -168,7 +152,7 @@ namespace SeeloewenCraft
                     {
                         if (gui.id == "sc:inventory")
                         {
-                           // gui.inventory.Hide();
+                            // gui.inventory.Hide();
                         }
                         else
                         {
@@ -515,11 +499,11 @@ namespace SeeloewenCraft
                 world.gameLoop.tmrGameLoop.Stop();
             }
 
-            if (Game.IsClient())
+            if (NetworkHandler.IsClient())
             {
-                Game.client.SendPlayerInformation();
+                NetworkHandler.client.SendPlayerInformation();
                 NetworkHandler.SendData(MultiplayerPacketType.DISCONNECT, "");
-                Game.client.Disconnect();
+                NetworkHandler.client.Disconnect();
             }
             else
             {
@@ -634,6 +618,6 @@ namespace SeeloewenCraft
             cvsWorld.Visibility = cvsWorld.Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
         }
 
-        
+
     }
 }

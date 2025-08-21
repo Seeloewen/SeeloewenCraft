@@ -1,9 +1,9 @@
-﻿<Window x:Name="wndMenu1" x:Class="SeeloewenCraft.wndMenu"
+﻿<Window x:Name="wndMenu1" x:Class="SeeloewenCraft.launcher.wndMenu"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SeeloewenCraft"
+        xmlns:local="clr-namespace:SeeloewenCraft.launcher"
         mc:Ignorable="d"
         Title="SeeloewenCraft" Height="452" Width="770" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Closing="wndMenu1_Closing">
     <Grid>

@@ -1,11 +1,17 @@
 ﻿using Newtonsoft.Json;
+using SeeloewenCraft.game;
+using SeeloewenCraft.game.core.settings;
+using SeeloewenCraft.game.util;
+using SeeloewenCraft.game.util.logging;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
+using JsonToken = SeeloewenCraft.game.util.JsonToken;
+using JsonWriter = SeeloewenCraft.game.util.JsonWriter;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.launcher
 {
     public partial class wndSettings : Window
     {
@@ -132,10 +138,10 @@ namespace SeeloewenCraft
 
             if (Game.world != null) //Game.world.wndGame.ApplyVideoSettings();
 
-            if (!suppressConfirmation)
-            {
-                MessageBox.Show("The settings have been saved successfully!", "Saved settings", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+                if (!suppressConfirmation)
+                {
+                    MessageBox.Show("The settings have been saved successfully!", "Saved settings", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
         }
 
         private void LoadSettings(JsonToken fileToken, bool overwriteResolution)
@@ -316,7 +322,7 @@ namespace SeeloewenCraft
             string keyText = e.Key.ToString();
             if (keyText.Equals("LeftCtrl")) keyText = "LeftControl";
             tbMoveRight.Text = e.Key.ToString();
-            
+
         }
 
         private void tbMoveLeft_PreviewKeyDown(object sender, KeyEventArgs e)

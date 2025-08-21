@@ -1,6 +1,6 @@
+using OpenTK.Graphics.OpenGL4;
 using System;
 using System.Collections.Generic;
-using OpenTK.Graphics.OpenGL4;
 
 namespace SeeloewenCraft.game.graphics.ui_lib;
 
@@ -14,9 +14,10 @@ public class CScrollPane : CRectangle
     internal int maxI;
 
     private List<Component> scrollableChildren;
-    
-    
-    public CScrollPane(Color color, Rectangle bounds, int maxI) : base(color, bounds) {
+
+
+    public CScrollPane(Color color, Rectangle bounds, int maxI) : base(color, bounds)
+    {
         this.maxI = maxI;
         scrollableChildren = new List<Component>();
     }
@@ -26,7 +27,7 @@ public class CScrollPane : CRectangle
         AddChild(component);
         scrollableChildren.Add(component);
     }
-    
+
     protected override void OnScrollEvent(ScrollEvent scrollEvent)
     {
         int dy = -SCROLL_SENSITIVITY * scrollEvent.offset;

@@ -1,6 +1,4 @@
-﻿
-using SeeloewenCraft.entity;
-using SeeloewenCraft.game.graphics;
+﻿using SeeloewenCraft.game.core.entities;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -15,7 +13,7 @@ namespace SeeloewenCraft.game.graphics
             var entities = Game.world.entityManager.entities;
             foreach (var entity in entities)
             {
-                if(entity is ItemEntity itemEntity)
+                if (entity is ItemEntity itemEntity)
                 {
                     Draw(itemEntity);
                 }

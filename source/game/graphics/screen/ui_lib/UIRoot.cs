@@ -1,7 +1,6 @@
 ﻿
 using System;
 using System.Diagnostics;
-using System.Drawing;
 
 namespace SeeloewenCraft.game.graphics.ui_lib
 {

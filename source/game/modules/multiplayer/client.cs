@@ -1,12 +1,14 @@
-﻿using System;
+﻿using SeeloewenCraft.game.core.settings;
+using SeeloewenCraft.game.util;
+using SeeloewenCraft.game.util.logging;
+using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using static SeeloewenCraft.NetworkHandler;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.game.networking
 {
     public class IdTcpClient : TcpClient
     {
@@ -50,14 +52,14 @@ namespace SeeloewenCraft
         public async void Initialize()
         {
             //Send a request to the server to do an initial load and send the necessary information, which gets all blocks in all chunks and their content
-            await Game.client.SendData(CreatePacket(MultiplayerPacketType.PLAYER_INFORMATION, Game.playerId.ToString(), Settings.nickname, ""));
-            await Game.client.SendData(CreatePacket(MultiplayerPacketType.INITIAL_LOAD, ""));
+            await SendData(NetworkHandler.CreatePacket(MultiplayerPacketType.PLAYER_INFORMATION, Game.playerId.ToString(), Settings.nickname, ""));
+            await SendData(NetworkHandler.CreatePacket(MultiplayerPacketType.INITIAL_LOAD, ""));
 
             //Send this clients player to the server
             using (JsonWriter writer = JsonWriter.Create())
             {
                 Game.world.player.SaveToJson(writer);
-                await SendData(CreatePacket(MultiplayerPacketType.CREATE_ENTITY, writer.ToString()));
+                await SendData(NetworkHandler.CreatePacket(MultiplayerPacketType.CREATE_ENTITY, writer.ToString()));
             }
 
             //Start receiving data from the server
@@ -96,14 +98,14 @@ namespace SeeloewenCraft
                 try
                 {
                     //Get the length of the following packet
-                    byte[] lengthPacket = await ReceivePacket(sizeof(int), stream);
+                    byte[] lengthPacket = await NetworkHandler.ReceivePacket(sizeof(int), stream);
 
                     if (lengthPacket.Length >= 4) //The packet is invalid if the length is below 4 bytes
                     {
                         int dataLength = BitConverter.ToInt32(lengthPacket);
 
                         //Read data into the buffer and copy data from buffer to receivedData
-                        byte[] receivedData = await ReceivePacket(dataLength, stream);
+                        byte[] receivedData = await NetworkHandler.ReceivePacket(dataLength, stream);
 
                         if (receivedData.Length >= dataLength && receivedData.Length >= 4) //If the data wasn't read correctly and isn't long enough, the packet is invalid
                         {
@@ -137,10 +139,10 @@ namespace SeeloewenCraft
                                 string[] content = contentList.ToArray();
 
                                 //Create the packet from previously determined information
-                                NetworkPacket packet = CreatePacket(type, content);
+                                NetworkPacket packet = NetworkHandler.CreatePacket(type, content);
 
                                 //Handle the data
-                                await HandleData(client, packet);
+                                await NetworkHandler.HandleData(client, packet);
 
                                 //Log.Write($"Received data from server: {BitConverter.ToString(receivedData).Replace("-", " ")}.", "Info");
                             }

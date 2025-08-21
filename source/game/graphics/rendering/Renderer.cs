@@ -19,13 +19,13 @@ namespace SeeloewenCraft.game.graphics
             ItemRenderer.Init();
             PlayerRenderer.Init();
             GeneralTextureMap.Init();
-            
+
             GL.Enable(EnableCap.StencilTest);
         }
 
         public static void Render()
         {
-            GL.Clear(ClearBufferMask.ColorBufferBit |  ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
 
             /*
             Rectangle r = new Rectangle(100, 200, 500, 400);
@@ -42,7 +42,7 @@ namespace SeeloewenCraft.game.graphics
 
             Screen.Render();
 
-        } 
+        }
 
 
     }

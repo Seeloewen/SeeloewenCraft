@@ -150,14 +150,14 @@ namespace SeeloewenCraft.game.graphics.ui_lib
             int stepX = x - bounds.x1P;
             int stepY = y - bounds.y1P;
 
-            layout.xAnchor = x; 
+            layout.xAnchor = x;
             layout.yAnchor = y;
 
             Rectangle newBounds = layout.CalcBounds(text, size);
             SetBounds(newBounds);
 
             ForEachChildren(c => c.MoveBy(stepX, stepY));
-            
+
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace SeeloewenCraft.game.graphics.ui_lib
             SetBounds(newBounds);
 
             ForEachChildren(c => c.MoveBy(x, y));
-            
+
         }
 
 

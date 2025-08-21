@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.graphics.ui_lib;
+﻿using SeeloewenCraft.game.core.entities.inventory;
+using SeeloewenCraft.game.graphics.ui_lib;
 
 namespace SeeloewenCraft.game.graphics
 {

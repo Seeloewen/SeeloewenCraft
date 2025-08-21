@@ -1,9 +1,14 @@
-﻿using System;
+﻿using SeeloewenCraft.game;
+using SeeloewenCraft.game.core.world;
+using SeeloewenCraft.game.networking;
+using SeeloewenCraft.game.util;
+using SeeloewenCraft.game.util.logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.launcher
 {
     public partial class wndLoadWorld : Window
     {
@@ -46,7 +51,7 @@ namespace SeeloewenCraft
         {
             if (string.IsNullOrEmpty(cbxWorld.Text) == false)
             {
-                World world = new World(wndMenu, cbxWorld.Text, 0, false, Game.WORLD_VERSION, Game.GAME_VERSION, multiplayerType); 
+                World world = new World(wndMenu, cbxWorld.Text, 0, false, Game.WORLD_VERSION, Game.GAME_VERSION, multiplayerType);
                 wndMenu.Hide();
                 Close();
             }

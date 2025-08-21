@@ -1,7 +1,8 @@
-﻿using System;
+﻿using SeeloewenCraft.game.util;
+using System;
 using System.Windows.Media;
 
-namespace SeeloewenCraft.entity
+namespace SeeloewenCraft.game.core.entities
 {
     public class Slime : MovingEntity
     {
@@ -10,7 +11,7 @@ namespace SeeloewenCraft.entity
         public const int animalSizeY = 1300;
 
         private int timeSinceJump;
-        
+
 
         public Slime(int posX, int posY, int velX, int velY) : base(animalSizeX, animalSizeY, posX, posY, velX, velY)
         {
@@ -23,7 +24,7 @@ namespace SeeloewenCraft.entity
         public Slime(JsonToken token) : base(token, animalSizeX, animalSizeY)
         {
             type = "Slime";
-            
+
             frictionAir = 1;
             ACC_WALKING = 0;
             ACC_SPRINTING = 0;
@@ -45,7 +46,7 @@ namespace SeeloewenCraft.entity
             base.OnUpdateStart(tps);
 
             //ai
-            if(timeSinceJump > 2000 && onGround)
+            if (timeSinceJump > 2000 && onGround)
             {
                 int dir = Game.rnd.Next(-3, 4);
                 velY = -20000;
@@ -53,7 +54,7 @@ namespace SeeloewenCraft.entity
 
                 timeSinceJump = 0;
             }
-            timeSinceJump += 1000/tps;
+            timeSinceJump += 1000 / tps;
         }
 
 

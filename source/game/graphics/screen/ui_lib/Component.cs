@@ -100,14 +100,14 @@ namespace SeeloewenCraft.game.graphics.ui_lib
         {
             children.ForEach(action);
         }
-        
+
 
         /// <summary>
         /// This method is executed when a component is added as a child
         /// </summary>
         /// <param name="parent">New child component</param>
         protected virtual void OnChildAdded(Component component) { }
-        
+
         /// <summary>
         /// This method is executed when this component is added to a parent component
         /// </summary>
@@ -153,7 +153,7 @@ namespace SeeloewenCraft.game.graphics.ui_lib
         /// This method is called after all child components are rendered.
         /// </summary>
         protected virtual void OnRenderEnd() { }
-        
+
         #endregion
 
 
@@ -199,7 +199,7 @@ namespace SeeloewenCraft.game.graphics.ui_lib
             }
             else if (inputEvent is ScrollEvent scrollEvent)
             {
-                if(hovered) OnScrollEvent(scrollEvent);
+                if (hovered) OnScrollEvent(scrollEvent);
             }
         }
 
@@ -272,7 +272,7 @@ namespace SeeloewenCraft.game.graphics.ui_lib
             Rectangle newBounds = new Rectangle(x, y, x + width, y + height);
             SetBounds(newBounds);
 
-            foreach(Component child in children)
+            foreach (Component child in children)
             {
                 child.MoveBy(stepX, stepY);
             }

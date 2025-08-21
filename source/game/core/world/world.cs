@@ -1,23 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using static System.Environment;
-using System.Windows;
-using System.IO;
-using Newtonsoft.Json;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Linq;
-using SeeloewenCraft.entity;
-using System.Windows.Documents;
-using SeeloewenCraft.game.graphics;
-using OpenTK.Windowing.GraphicsLibraryFramework;
+﻿using Newtonsoft.Json;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+using SeeloewenCraft.game.core.blocks;
+using SeeloewenCraft.game.core.crafting;
+using SeeloewenCraft.game.core.entities;
+using SeeloewenCraft.game.core.entities.inventory;
+using SeeloewenCraft.game.core.legacy;
+using SeeloewenCraft.game.core.settings;
+using SeeloewenCraft.game.core.world.generation;
+using SeeloewenCraft.game.graphics;
+using SeeloewenCraft.game.networking;
+using SeeloewenCraft.game.util;
+using SeeloewenCraft.game.util.logging;
+using SeeloewenCraft.launcher;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Windows;
+using static System.Environment;
+using JsonToken = SeeloewenCraft.game.util.JsonToken;
+using JsonWriter = SeeloewenCraft.game.util.JsonWriter;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.game.core.world
 {
     public class World
     {
-
         //References
         public wndMenu wndMenu;
         public System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
@@ -227,7 +235,7 @@ namespace SeeloewenCraft
 
         public void Save()
         {
-            if (!Game.IsClient())
+            if (!NetworkHandler.IsClient())
             {
                 //Save all chunks and the inventory of the player
                 foreach (Chunk chunk in Game.world.totalChunkList)
@@ -244,7 +252,7 @@ namespace SeeloewenCraft
                     chunk.Save();
                 }
 
-                if (Game.IsServer())
+                if (NetworkHandler.IsServer())
                 {
                     NetworkHandler.SendData(MultiplayerPacketType.REQUEST, "player_information", "");
                 }
@@ -552,7 +560,7 @@ namespace SeeloewenCraft
                 NetworkHandler.SendData(MultiplayerPacketType.CREATE_CHUNK, $"{newChunk.index}");
 
                 //If it's a server, additionally send the chunk to all clients
-                if (Game.IsServer())
+                if (NetworkHandler.IsServer())
                 {
                     foreach (Block block in newChunk.blockList.blocks)
                     {
@@ -575,7 +583,7 @@ namespace SeeloewenCraft
                 NetworkHandler.SendData(MultiplayerPacketType.CREATE_CHUNK, $"{newChunk.index}");
 
                 //If it's a server, additionally send the chunk to all clients
-                if (Game.IsServer())
+                if (NetworkHandler.IsServer())
                 {
                     foreach (Block block in newChunk.blockList.blocks)
                     {
@@ -674,7 +682,7 @@ namespace SeeloewenCraft
         {
 
 
-            if(blockUpdate)
+            if (blockUpdate)
             {
                 foreach (Chunk chunk in loadedChunkList)
                 {

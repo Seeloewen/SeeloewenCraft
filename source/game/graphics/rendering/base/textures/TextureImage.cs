@@ -1,8 +1,5 @@
-﻿
-using System.Configuration;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Runtime.CompilerServices;
-using Windows.ApplicationModel.Activation;
 
 namespace SeeloewenCraft.game.graphics
 {

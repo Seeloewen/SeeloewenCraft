@@ -1,14 +1,14 @@
-﻿<Window x:Name="wndLoadWorld1" x:Class="SeeloewenCraft.wndLoadWorld"
+﻿<Window x:Name="wndLoadWorld1" x:Class="SeeloewenCraft.launcher.wndLoadWorld"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SeeloewenCraft"
+        xmlns:local="clr-namespace:SeeloewenCraft.launcher"
         mc:Ignorable="d"
         Title="Load World" Height="218" Width="418" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/Resources/launcher/Gui/Background.png" Stretch="None" TileMode="Tile"/>
+            <ImageBrush ImageSource="/Resources/launcher/Background.png" Stretch="None" TileMode="Tile"/>
         </Grid.Background>
         <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="20,18,0,0" TextWrapping="Wrap" Text="Load World" VerticalAlignment="Top" FontSize="28" FontWeight="DemiBold" Foreground="White"/>
         <Button x:Name="btnLoad" Content="Load" HorizontalAlignment="Left" Margin="194,121,0,0" VerticalAlignment="Top" Width="170" FontSize="16" Height="28" Click="btnLoad_Click"/>

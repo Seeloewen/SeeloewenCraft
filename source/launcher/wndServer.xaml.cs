@@ -1,9 +1,11 @@
-﻿using System;
-using System.ComponentModel;
+﻿using SeeloewenCraft.game;
+using SeeloewenCraft.game.core.world;
+using SeeloewenCraft.game.networking;
+using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.launcher
 {
 
     public partial class wndServer : Window
@@ -31,20 +33,20 @@ namespace SeeloewenCraft
             btnConnect.IsEnabled = false;
 
             //Try to connect with the server
-            Game.client = new Client();
-            await Game.client.Connect(tbIp.Text, Convert.ToInt32(tbPort.Text));
+            NetworkHandler.client = new Client();
+            await NetworkHandler.client.Connect(tbIp.Text, Convert.ToInt32(tbPort.Text));
 
-            if (Game.client.isConnected)
+            if (NetworkHandler.client.isConnected)
             {
                 //If the connection was successful, initialize the world
                 Game.world = new World(wndMenu, DateTime.Now.Microsecond.ToString(), 0, true, 0, "", MultiplayerType.CLIENT);
-                Game.client.Initialize();
+                NetworkHandler.client.Initialize();
                 wndMenu.Hide();
                 Close();
             }
             else
             {
-                MessageBox.Show($"Failed to connect to the server: {Game.client.connectionException.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Failed to connect to the server: {NetworkHandler.client.connectionException.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             btnConnect.Content = "Connect";

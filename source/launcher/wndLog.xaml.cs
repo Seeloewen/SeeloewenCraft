@@ -1,6 +1,7 @@
-﻿using System.Windows;
+﻿using SeeloewenCraft.game.util.logging;
+using System.Windows;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.launcher
 {
 
     public partial class wndLog : Window

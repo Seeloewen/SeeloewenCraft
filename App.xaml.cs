@@ -1,4 +1,13 @@
-﻿using System;
+﻿using SeeloewenCraft.game;
+using SeeloewenCraft.game.core.legacy;
+using SeeloewenCraft.game.core.settings;
+using SeeloewenCraft.game.networking;
+using SeeloewenCraft.game.util;
+using SeeloewenCraft.game.util.logging;
+using SeeloewenCraft.launcher;
+
+
+using System;
 using System.IO;
 using System.Windows;
 
@@ -52,7 +61,7 @@ namespace SeeloewenCraft
 
                 //create new world with name "debug"
                 //World world = new World(wndMenu, "Debug", StartOptions.seed, true, Game.WORLD_VERSION, Game.GAME_VERSION, MultiplayerType.OFFLINE);
-                Game.Create("Debug", StartOptions.seed, true, Game.WORLD_VERSION, Game.GAME_VERSION, MultiplayerType.OFFLINE, wndMenu);            
+                Game.Create("Debug", StartOptions.seed, true, Game.WORLD_VERSION, Game.GAME_VERSION, MultiplayerType.OFFLINE, wndMenu);
             }
 
             //show start log on start of program if enabled through start options
@@ -80,9 +89,9 @@ namespace SeeloewenCraft
         {
             int playerId;
 
-            if(StartOptions.playerId != 0)
+            if (StartOptions.playerId != 0)
             {
-               playerId = StartOptions.playerId;
+                playerId = StartOptions.playerId;
 
                 Log.Write($"Used player id from start options: {playerId}", LogType.GENERAL, LogLevel.INFO);
             }

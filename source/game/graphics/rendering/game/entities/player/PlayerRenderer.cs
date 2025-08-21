@@ -1,9 +1,4 @@
-﻿using SeeloewenCraft.game.graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SeeloewenCraft.game.util;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -41,7 +36,7 @@ namespace SeeloewenCraft.game.graphics
             DrawLegFront(info);
             DrawBody(info);
             DrawArmFront(info);
-            
+
             TextureRenderer.End();
 
         }

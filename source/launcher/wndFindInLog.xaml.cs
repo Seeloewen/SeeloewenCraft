@@ -1,9 +1,10 @@
-﻿using System.Windows;
+﻿using SeeloewenCraft.game.util.logging;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.launcher
 {
     public partial class wndFindInLog : Window
     {

@@ -1,5 +1,7 @@
 ﻿
 
+using SeeloewenCraft.game.core.blocks;
+
 namespace SeeloewenCraft.game.graphics
 {
     internal static class WorldRenderer

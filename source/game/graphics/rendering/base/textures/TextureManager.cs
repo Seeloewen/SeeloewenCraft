@@ -1,11 +1,10 @@
-﻿using SeeloewenCraft.util;
+﻿using SeeloewenCraft.game.util;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using static System.Environment;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -14,7 +13,7 @@ namespace SeeloewenCraft.game.graphics
 
 
         static string texturePackPath = "SeeloewenCraft.Resources.assets.";
-        
+
         static Dictionary<string, Dictionary<string, string>> mappings;
 
 
@@ -40,7 +39,7 @@ namespace SeeloewenCraft.game.graphics
 
             JsonToken token = fileToken.GetToken("/sections");
 
-            for (int i = 0; i < token.GetArrayLength();i++)
+            for (int i = 0; i < token.GetArrayLength(); i++)
             {
                 var sectionToken = token.GetToken($"/{i}");
 
@@ -48,12 +47,12 @@ namespace SeeloewenCraft.game.graphics
                 mappings[sectionName] = new Dictionary<string, string>();
 
                 var textureArrayToken = sectionToken.GetToken("/textures");
-                for(int j = 0; j < textureArrayToken.GetArrayLength(); j++)
+                for (int j = 0; j < textureArrayToken.GetArrayLength(); j++)
                 {
                     JsonToken textureToken = textureArrayToken.GetToken($"/{j}");
                     string id = textureToken.GetString("/id");
                     string file = textureToken.GetString("/file");
-                    mappings[sectionName][id] = $"{texturePackPath}{file}"; 
+                    mappings[sectionName][id] = $"{texturePackPath}{file}";
                 }
 
             }
@@ -84,13 +83,15 @@ namespace SeeloewenCraft.game.graphics
         }
 
         //TODO problem: font map is handled seperatly
-        static TextureImage LoadTexture(string file) {
+        static TextureImage LoadTexture(string file)
+        {
             Bitmap bitmap;
             try
             {
                 using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{file}");
                 bitmap = new Bitmap(stream);
-            } catch
+            }
+            catch
             {
                 using Stream stream = Assembly.GetExecutingAssembly()
                     .GetManifestResourceStream($"SeeloewenCraft.Resources.assets.Missing_Texture.png");

@@ -1,10 +1,12 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using SeeloewenCraft.game.core.blocks;
+using SeeloewenCraft.game.core.legacy;
+using SeeloewenCraft.game.util;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace SeeloewenCraft.entity
+namespace SeeloewenCraft.game.core.entities
 {
     //base class for all entities
     public abstract class Entity
@@ -93,7 +95,7 @@ namespace SeeloewenCraft.entity
                     else if (velX < 0)
                     {
                         int v_reduction = -frictionGround * velX / tps;
-                        velX += Math.Max(Math.Min(slowestGroundSpeed /tps, -velX), v_reduction);
+                        velX += Math.Max(Math.Min(slowestGroundSpeed / tps, -velX), v_reduction);
                     }
                 }
                 else

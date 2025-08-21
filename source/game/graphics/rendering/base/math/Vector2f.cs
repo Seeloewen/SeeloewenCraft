@@ -16,7 +16,7 @@ namespace SeeloewenCraft.game.graphics
 
         public Vector2f Scale(float sX, float sY)
         {
-            return new Vector2f(x*sX, y*sY);
+            return new Vector2f(x * sX, y * sY);
         }
 
         public Vector2f Scale(float s)

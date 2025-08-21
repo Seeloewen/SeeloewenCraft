@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SeeloewenCraft.game.graphics.ui_lib
+﻿namespace SeeloewenCraft.game.graphics.ui_lib
 {
 
     /// <summary>

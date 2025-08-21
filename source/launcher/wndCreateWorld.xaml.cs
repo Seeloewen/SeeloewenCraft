@@ -1,9 +1,10 @@
-﻿using System.IO;
+﻿using SeeloewenCraft.game.networking;
+using SeeloewenCraft.game.util;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
-using Windows.Media.Playback;
 
-namespace SeeloewenCraft
+namespace SeeloewenCraft.launcher
 {
     public partial class wndCreateWorld : Window
     {
@@ -20,7 +21,7 @@ namespace SeeloewenCraft
             this.wndMenu = wndMenu;
             this.multiplayerType = multiplayerType;
 
-            if(StartOptions.seed != 0)
+            if (StartOptions.seed != 0)
             {
                 cbSeed.IsChecked = true;
                 tbSeed.Text = StartOptions.seed.ToString();
@@ -33,14 +34,14 @@ namespace SeeloewenCraft
         private void btnCreateWorld_Click(object sender, RoutedEventArgs e)
         {
             //Check if the world name isn't blank
-            if(!string.IsNullOrEmpty(tbWorldName.Text))
+            if (!string.IsNullOrEmpty(tbWorldName.Text))
             {
                 //Check if the world already exists
-                if(!Directory.Exists($"{FolderUtil.worldsFolder}/{tbWorldName.Text}"))
+                if (!Directory.Exists($"{FolderUtil.worldsFolder}/{tbWorldName.Text}"))
                 {
                     //Create a new world
                     //World world = new World(wndMenu, tbWorldName.Text, cbSeed.IsChecked == true ? int.Parse(tbSeed.Text) : 0, true, Game.WORLD_VERSION, Game.GAME_VERSION, multiplayerType);
-                    
+
                     wndMenu.Hide();
                     Close();
                     //Game.CreateGame();

@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.graphics.ui_lib;
+﻿using SeeloewenCraft.game.core.entities.inventory;
+using SeeloewenCraft.game.graphics.ui_lib;
 using System.Collections.Generic;
 
 namespace SeeloewenCraft.game.graphics
@@ -28,10 +29,10 @@ namespace SeeloewenCraft.game.graphics
 
             //Setup gui
             SetBounds(new Rectangle(GuiSizes.mx - width / 2, GuiSizes.my - height / 2, GuiSizes.mx + width / 2, GuiSizes.my + height / 2));
-            
+
             cHeader = new CText(data.GetTag<string>("header"), 2, new TextLayout(bounds.x1P + 20, TextHAlignment.LEFT, bounds.y1P + 15, TextVAlignment.TOP));
             AddChild(cHeader);
-            
+
             cBorder = new CBorder(5, new Color(0.5f));
             AddChild(cBorder);
 
@@ -57,7 +58,7 @@ namespace SeeloewenCraft.game.graphics
                 {
                     Screen.guiHandler.SetMouseFollower(slot); //If a slot is currently selected, it should follow the mouse
                 }
-                    cSlot.Update(slot.itemId, slot.amount, slot.GetRelativeDurability(), slot.isSelected);
+                cSlot.Update(slot.itemId, slot.amount, slot.GetRelativeDurability(), slot.isSelected);
             }
 
         }

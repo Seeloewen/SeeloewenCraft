@@ -1,9 +1,5 @@
-﻿using SeeloewenCraft.game.graphics.ui_lib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SeeloewenCraft.game.core.items;
+using SeeloewenCraft.game.graphics.ui_lib;
 
 namespace SeeloewenCraft.game.graphics
 {

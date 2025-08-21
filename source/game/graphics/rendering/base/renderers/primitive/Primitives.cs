@@ -1,8 +1,4 @@
-﻿
-
-using SeeloewenCraft.game.graphics;
-
-namespace SeeloewenCraft.game.graphics
+﻿namespace SeeloewenCraft.game.graphics
 {
 
     public struct Rectangle

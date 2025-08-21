@@ -1,9 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using SeeloewenCraft.game.core.entities.inventory;
+using SeeloewenCraft.game.core.items;
+using SeeloewenCraft.game.core.legacy;
+using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
+using SeeloewenCraft.game.networking;
+using SeeloewenCraft.game.util;
+using SeeloewenCraft.game.util.logging;
 using System;
 using System.Windows.Media;
+using JsonWriter = SeeloewenCraft.game.util.JsonWriter;
 
-namespace SeeloewenCraft.entity
+namespace SeeloewenCraft.game.core.entities
 {
     public partial class Player : MovingEntity
     {
@@ -98,7 +105,7 @@ namespace SeeloewenCraft.entity
         public void HandleInputs()
         {
             if (this != Game.world.player) return;
-            
+
             bool changed = false;
 
             changed = changed || pressedLeft != KeyBinds.pressed[KeyBinds.MOVE_LEFT] && Screen.allowIngameInputs;
@@ -268,7 +275,7 @@ namespace SeeloewenCraft.entity
 
             using (JsonWriter writer = JsonWriter.Create())
             {
-                writer.Formatting = Formatting.Indented;
+                writer.Formatting = Newtonsoft.Json.Formatting.Indented;
                 writer.WriteStartObject();
 
                 writer.WritePropertyName("pos_x");
@@ -287,7 +294,7 @@ namespace SeeloewenCraft.entity
         {
             using (JsonWriter writer = JsonWriter.Create())
             {
-                writer.Formatting = Formatting.Indented;
+                writer.Formatting = Newtonsoft.Json.Formatting.Indented;
                 inventory.SaveToJson(writer);
                 writer.WriteToFile($"{path}/player_inventory.json");
             }
@@ -295,16 +302,16 @@ namespace SeeloewenCraft.entity
 
         public void DisplayDebugInformation()
         {
-                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "health", $"health={healthBar.value}");
-                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "posX", $"posX={posX}");
-                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "posY", $"posY={posY}");
-                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "velX", $"velX={velX}");
-                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "velY", $"velY={velY}");
-                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "blockPosX", $"blockPosX={(posX / 1000) % 8}");
-                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "blockPosY", $"blockPosY={posY / 1000}");
-                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "touchingWater", $"touchingWater={touchingStatus[TOUCHING_WATER]}");
-                DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "breathing", $"breathing={breathing}");
-            
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "health", $"health={healthBar.value}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "posX", $"posX={posX}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "posY", $"posY={posY}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "velX", $"velX={velX}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "velY", $"velY={velY}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "blockPosX", $"blockPosX={(posX / 1000) % 8}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "blockPosY", $"blockPosY={posY / 1000}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "touchingWater", $"touchingWater={touchingStatus[TOUCHING_WATER]}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "breathing", $"breathing={breathing}");
+
         }
     }
 }
