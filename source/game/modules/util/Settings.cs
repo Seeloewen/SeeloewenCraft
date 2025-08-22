@@ -78,8 +78,6 @@ namespace SeeloewenCraft.game.core.settings
 
             writer.WriteEndObject();
 
-            writer.WritePropertyName("keybinds");
-
             //Save all the keybinds
             KeyBinds.Save(writer);
 

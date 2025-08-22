@@ -1,6 +1,8 @@
-﻿using OpenTK;
+﻿using Newtonsoft.Json;
+using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.networking;
@@ -9,6 +11,7 @@ using SeeloewenCraft.game.util.logging;
 using SeeloewenCraft.launcher;
 using System;
 using System.Collections.Generic;
+using JsonWriter = SeeloewenCraft.game.util.JsonWriter;
 
 namespace SeeloewenCraft.game
 {
@@ -46,6 +49,8 @@ namespace SeeloewenCraft.game
                 GLFW.PollEvents();
             }
 
+            EndGame();
+
             wndMenu.Show();
         }
 
@@ -54,9 +59,27 @@ namespace SeeloewenCraft.game
 
         public static bool shouldClose = false;
 
-        public static void Close()
+        private static void EndGame()
         {
-            shouldClose = true;
+            if (NetworkHandler.IsClient())
+            {
+                NetworkHandler.client.SendPlayerInformation();
+                NetworkHandler.SendData(MultiplayerPacketType.DISCONNECT, "");
+                NetworkHandler.client.Disconnect();
+            }
+            else
+            {
+                //If the setting to save worlds on closing is enabled
+                if (world.finishedLoading && Settings.saveWorldOnClose) world.Save();
+
+                //Save the user settings
+                using (JsonWriter writer = JsonWriter.Create())
+                {
+                    writer.Formatting = Formatting.Indented;
+                    Settings.Save(writer);
+                    writer.WriteToFile($"{FolderUtil.gameFolder}\\clientSettings.json");
+                }
+            }
         }
 
         public unsafe static void Create(string worldName, int seed, bool isNew, MultiplayerType multiplayerType, wndMenu wndMenu)
