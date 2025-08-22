@@ -39,7 +39,7 @@ namespace SeeloewenCraft.game
 
                 Screen.Update();
 
-                world.doGameTick(dt * 0.7, blockUpdate);
+                world.Tick(dt * 0.7, blockUpdate);
 
                 Renderer.Render();
 
@@ -191,4 +191,9 @@ namespace SeeloewenCraft.game
         }
     }
 
+    public enum Gamemode
+    {
+        Survival,
+        Creative
+    }
 }

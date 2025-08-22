@@ -1,12 +1,13 @@
 ﻿
 
 using OpenTK.Graphics.OpenGL4;
+using SeeloewenCraft.game.core.world;
 
 namespace SeeloewenCraft.game.graphics
 {
     public static class Renderer
     {
-
+        public static Color skyColor;
 
         public static void Init()
         {
@@ -19,17 +20,15 @@ namespace SeeloewenCraft.game.graphics
             PlayerRenderer.Init();
             GeneralTextureMap.Init();
 
+            skyColor = SkyColors.DAY_COLOR;
+
             GL.Enable(EnableCap.StencilTest);
-        }
-
-        public static void InitGameRenderer()
-        {
-
         }
 
 
         public static void Render()
         {
+            GL.ClearColor(skyColor.r, skyColor.g, skyColor.b, skyColor.a);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
 
             /*

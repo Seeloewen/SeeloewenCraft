@@ -288,7 +288,7 @@ namespace SeeloewenCraft.launcher
             //Apply some settings instantly
             if (Game.world != null)
             {
-                Game.world.gameLoop.autoSaveEvent.UpdateMaxTick();
+               // Game.world.gameLoop.autoSaveEvent.UpdateMaxTick(); //TODO: Events
             }
 
             ApplyTexturepack();
