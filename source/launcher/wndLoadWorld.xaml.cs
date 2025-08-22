@@ -51,7 +51,7 @@ namespace SeeloewenCraft.launcher
         {
             if (string.IsNullOrEmpty(cbxWorld.Text) == false)
             {
-                World world = new World(wndMenu, cbxWorld.Text, 0, false, Game.WORLD_VERSION, Game.GAME_VERSION, multiplayerType);
+                Game.Create(cbxWorld.Text, 0, false, MultiplayerType.OFFLINE, wndMenu);
                 wndMenu.Hide();
                 Close();
             }

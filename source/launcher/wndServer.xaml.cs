@@ -39,9 +39,10 @@ namespace SeeloewenCraft.launcher
             if (NetworkHandler.client.isConnected)
             {
                 //If the connection was successful, initialize the world
-                Game.world = new World(wndMenu, DateTime.Now.Microsecond.ToString(), 0, true, 0, "", MultiplayerType.CLIENT);
-                NetworkHandler.client.Initialize();
                 wndMenu.Hide();
+                MessageBox.Show("This feature is temporarily unavailable.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                //Game.Create(DateTime.Now.Microsecond.ToString(), 0, true, MultiplayerType.CLIENT, wndMenu);
+                //NetworkHandler.client.Initialize();
                 Close();
             }
             else

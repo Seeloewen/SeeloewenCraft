@@ -14,24 +14,18 @@ namespace SeeloewenCraft.game
 {
     public static class Game
     {
-        //References
         public static World world;
         public static wndMenu wndMenu;
 
-        //Constants
         public const int WORLD_VERSION = 6; //Up to date as of Alpha 1.2.1 (Recent changes: Seeding)
         public const string GAME_VERSION = "Beta 1.0.0-dev";
         public const string VERSION_DATE = "21.08.2025";
-        public const int TEXTUREPACK_VERSION = 2;
+        public const int TEXTUREPACK_VERSION = 3; //Up to date as of Beta 1.0.0 (Recent changes: Rendering Rewrite)
 
-        //Variables
-        public static List<string> unstackableItems = new List<string>();
-        public static string selectedTexturepack;
+        public static List<string> unstackableItems = new List<string>(); //TODO: Move this to items
+        public static string selectedTexturepack; //Subject to rewrite
         public static Random rnd = new Random(DateTime.Now.Millisecond * DateTime.Now.Microsecond);
         public static int playerId;
-        public static bool generated;
-
-
 
         static unsafe void GameLoop(Window* window)
         {
@@ -39,7 +33,6 @@ namespace SeeloewenCraft.game
             while (!shouldClose && !GLFW.WindowShouldClose(window))
             {
                 double dt = DeltaTimer.Tick(out bool blockUpdate);
-
 
                 Screen.Update();
 
@@ -51,8 +44,9 @@ namespace SeeloewenCraft.game
 
                 InputHandler.Reset();
                 GLFW.PollEvents();
-
             }
+
+            wndMenu.Show();
         }
 
 
@@ -65,7 +59,7 @@ namespace SeeloewenCraft.game
             shouldClose = true;
         }
 
-        public unsafe static void Create(string worldName, int seed, bool isNew, int worldVersion, string gameVersion, MultiplayerType multiplayerType, wndMenu wndMenu)
+        public unsafe static void Create(string worldName, int seed, bool isNew, MultiplayerType multiplayerType, wndMenu wndMenu)
         {
             Game.wndMenu = wndMenu;
 
@@ -77,7 +71,7 @@ namespace SeeloewenCraft.game
 
             TextureManager.Init();
 
-            world = new World(null, worldName, seed, isNew, worldVersion, gameVersion, multiplayerType);
+            world = new World(null, worldName, seed, isNew, multiplayerType);
 
             Renderer.Init();
 
@@ -85,13 +79,11 @@ namespace SeeloewenCraft.game
 
             GameLoop(window);
 
-
             GLFW.DestroyWindow(window);
             GLFW.Terminate();
         }
 
-
-        static unsafe Window* InitWindow()
+        private static unsafe Window* InitWindow()
         {
             if (!GLFW.Init())
             {
@@ -115,9 +107,6 @@ namespace SeeloewenCraft.game
             });
 
             GLFW.MakeContextCurrent(window);
-
-
-
 
             GL.LoadBindings(new GLFWBindingsContext());
 

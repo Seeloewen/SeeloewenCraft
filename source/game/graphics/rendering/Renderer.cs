@@ -14,7 +14,6 @@ namespace SeeloewenCraft.game.graphics
             TextureRenderer.Init();
             TextRenderer.Init();
 
-
             WorldRenderer.Init();
             ItemRenderer.Init();
             PlayerRenderer.Init();
@@ -22,6 +21,12 @@ namespace SeeloewenCraft.game.graphics
 
             GL.Enable(EnableCap.StencilTest);
         }
+
+        public static void InitGameRenderer()
+        {
+
+        }
+
 
         public static void Render()
         {

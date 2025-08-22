@@ -67,19 +67,14 @@ namespace SeeloewenCraft.game.core.world
 
         //-- Constructor --//
 
-        public World(wndMenu wndMenu, string worldName, int seed, bool isNew, int worldVersion, string gameVersion, MultiplayerType multiplayerType)
+        public World(wndMenu wndMenu, string worldName, int seed, bool isNew, MultiplayerType multiplayerType)
         {
-
-
-            int i = GL.GenTexture();
-
             //Set world name and create game and links
             this.worldName = worldName;
-            this.worldVersion = worldVersion;
-            this.gameVersion = gameVersion;
             this.wndMenu = wndMenu;
             this.seed = seed;
             this.multiplayerType = multiplayerType;
+            worldVersion = Game.WORLD_VERSION;
 
             if (seed == 0)
             {
@@ -96,8 +91,6 @@ namespace SeeloewenCraft.game.core.world
             gameLoop = new GameLoop(25);
             recipeCreator = new RecipeCreator();
 
-            Renderer.Init();
-
             //Actually initialize the game
             InitGame(worldName, isNew, worldVersion);
 
@@ -113,11 +106,6 @@ namespace SeeloewenCraft.game.core.world
             {
                 NetworkHandler.StartServer(5000);
             }
-
-            //Game.world.wndGame.Show();
-
-            GLFW.Init();
-
         }
 
         //-- Custom Methods --//
