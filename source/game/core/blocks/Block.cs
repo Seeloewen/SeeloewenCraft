@@ -6,6 +6,7 @@ using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.util;
+using SeeloewenCraft.game.util.logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -52,13 +53,7 @@ namespace SeeloewenCraft.game.core.blocks
         public bool hammering;
         public int hammerProgress;
 
-        //Water
-        public int waterLevel = 0; //constant depending on block type
-        public bool isWaterSource = false; //variables
-        public int waterSourceXPos = 0;
-        public int waterSourceYPos = 0;
-        public int waterSourceChunkIndex = 0;
-        public bool hasWaterSource = false;
+        protected double sinceLastSpecificUpdate = 0;
 
         //Temporary, only important during generation
         public bool isSurface = false;
@@ -120,8 +115,10 @@ namespace SeeloewenCraft.game.core.blocks
 
         public bool IsLightSource() => HasTag(BlockTags.LIGHTSOURCE) || isAirLightSource;
 
-        public void DoUpdate() //Gets run every tick
-        {
+        public void DoUpdate(double dt) //Gets run every tick
+        {            
+            sinceLastSpecificUpdate += dt;
+
             if (breaking)
             {
                 hammering = false;
@@ -134,7 +131,15 @@ namespace SeeloewenCraft.game.core.blocks
             }
 
             LightHandler.UpdateLighting(this);
+
+            DoSpecificUpdate(); //TODO: Should be in the if case, however the timing is completely off
+            if (sinceLastSpecificUpdate >= 1)
+            {
+                sinceLastSpecificUpdate = 0;
+            }
         }
+
+        protected virtual void DoSpecificUpdate() { } //Can be overriden in blocks, for block-specific updates - run every 1s
 
         public BlockRenderInfo GetBlockRenderInfo()
         {
@@ -245,7 +250,7 @@ namespace SeeloewenCraft.game.core.blocks
                 writer.WriteValue(baseBlock.yOffset);
             }
 
-            if (tags.Contains("liquids/water"))
+            /*if (tags.Contains("liquids/water"))
             {
                 writer.WritePropertyName("water_is_source");
                 writer.WriteValue(isWaterSource);
@@ -256,8 +261,8 @@ namespace SeeloewenCraft.game.core.blocks
                 writer.WritePropertyName("water_source_chunk_index");
                 writer.WriteValue(waterSourceChunkIndex);
                 writer.WritePropertyName("water_has_source");
-                writer.WriteValue(hasWaterSource);
-            }
+                writer.WriteValue(hasWaterSource); //TODO: Water Rework
+            }*/
             if (tags.Contains("workstation"))
             {
                 writer.WritePropertyName("recipe_running");
@@ -344,11 +349,11 @@ namespace SeeloewenCraft.game.core.blocks
 
             if (block.tags.Contains("liquids/water"))
             {
-                block.waterSourceXPos = blockToken.GetInt("/water_source_pos_x");
+                /*block.waterSourceXPos = blockToken.GetInt("/water_source_pos_x");
                 block.waterSourceYPos = blockToken.GetInt("/water_source_pos_y");
                 block.isWaterSource = blockToken.GetBool("/water_is_source");
                 block.waterSourceChunkIndex = blockToken.GetInt("/water_source_chunk_index");
-                block.hasWaterSource = blockToken.GetBool("/water_has_source");
+                block.hasWaterSource = blockToken.GetBool("/water_has_source");*/ //TODO: Water Rework
             }
 
             if (block.tags.Contains("workstation"))
@@ -424,7 +429,10 @@ namespace SeeloewenCraft.game.core.blocks
             return block;
         }
 
-
+        public void Replace(Block newBlock)
+        {
+            chunk.SetBlock(newBlock, xPos, yPos);
+        }
 
         public bool IsCollidingWithPlayer(int x, int y) //TODO: Make work again
         {

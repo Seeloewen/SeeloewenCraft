@@ -63,8 +63,6 @@ namespace SeeloewenCraft.game.core.legacy
 
         public override void DoEvent()
         {
-            Game.world.waterHandler.DoUpdate();
-
             List<Block> leaves = new List<Block>();
 
             //Go through all blocks and update them accordingly

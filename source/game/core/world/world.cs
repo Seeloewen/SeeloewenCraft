@@ -37,7 +37,6 @@ namespace SeeloewenCraft.game.core.world
         public List<CraftingRecipe> craftingRecipeList = new List<CraftingRecipe>();
         public Player player { get => entityManager.player; }
         public List<IGuiData> guiDatas = new List<IGuiData>();
-        public WaterHandler waterHandler;
         public ClickHandler clickHandler;
         public DebugMenu_old debugMenu;
         public RecipeCreator recipeCreator;
@@ -87,7 +86,6 @@ namespace SeeloewenCraft.game.core.world
 
 
             //Create objects
-            waterHandler = new WaterHandler();
             clickHandler = new ClickHandler();
             debugMenu = new DebugMenu_old();
             gameEventHandler = new GameEventHandler();
@@ -292,6 +290,11 @@ namespace SeeloewenCraft.game.core.world
             GetBlock(posX, posY).SetBlock(block);
         }
 
+        public void SetBlock(Block block, int posX, int posY, int cIndex)
+        {
+            GetBlock(posX + 8 * cIndex, posY).SetBlock(block);
+        }
+
         public void SetBlock_Multiplayer(Block block, int cIndex, int x, int y)
         {
             //Check if the chunk exists before placing a block there, if not, create it
@@ -360,7 +363,13 @@ namespace SeeloewenCraft.game.core.world
             return b;
         }
 
+        public Block GetBlock(int posX, int posY, int cIndex)
+        {
+            Chunk c = GetChunk(cIndex);
+            Block b = c.GetBlock(posX, posY);
 
+            return b;
+        }
 
         private void SaveWorldSettings()
         {
@@ -435,6 +444,7 @@ namespace SeeloewenCraft.game.core.world
                 player.inventory.AddItem("sc:unchiseler_item", 64, "");
                 player.inventory.AddItem("sc:chiseler_item", 64, "");
                 player.inventory.AddItem("sc:oak_planks_stairbottomleft_item", 64, "");
+                player.inventory.AddItem("sc:torch_item", 64, "");
             }
 
             inventoryList.Add(player.inventory);
@@ -657,7 +667,7 @@ namespace SeeloewenCraft.game.core.world
                 {
                     foreach (Block block in c.blockList.blocks)
                     {
-                        block.DoUpdate();
+                        block.DoUpdate(dt);
                     }
                 }
             }
