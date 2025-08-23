@@ -12,7 +12,6 @@ namespace SeeloewenCraft.game.core.legacy
         public int tickrate;
 
         //Gameloops
-        private BlockUpdateEvent waterUpdateEvent;
         private DayNightCycle dayNightCycle;
         public AutoSaveEvent autoSaveEvent;
         private CropTimerEvent cropTimerEvent;
@@ -33,7 +32,6 @@ namespace SeeloewenCraft.game.core.legacy
             tmrGameLoop.Elapsed += tmrGameLoop_Tick;
 
             //Setup all game loops
-            waterUpdateEvent = new BlockUpdateEvent(this);
             dayNightCycle = new DayNightCycle(this);
             cropTimerEvent = new CropTimerEvent(this);
             autoSaveEvent = new AutoSaveEvent(this);

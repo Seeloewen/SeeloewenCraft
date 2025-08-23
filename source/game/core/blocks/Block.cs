@@ -10,6 +10,7 @@ using SeeloewenCraft.game.util.logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Documents;
 
 namespace SeeloewenCraft.game.core.blocks
 {
@@ -97,8 +98,8 @@ namespace SeeloewenCraft.game.core.blocks
         #region tags
 
         public void WriteTag(string tag)
-        { 
-            if(!HasTag(tag)) tags.Add(tag);
+        {
+            if (!HasTag(tag)) tags.Add(tag);
         }
 
         public bool HasTag(string tag)
@@ -115,26 +116,25 @@ namespace SeeloewenCraft.game.core.blocks
 
         public bool IsLightSource() => HasTag(BlockTags.LIGHTSOURCE) || isAirLightSource;
 
-        public void DoUpdate(double dt) //Gets run every tick
-        {            
+        public void DoUpdate(double dt) //Gets run every tick (or so I hope)
+        {
             sinceLastSpecificUpdate += dt;
 
-            if (breaking)
-            {
-                hammering = false;
-                UpdateBreaking();
-            }
-            else if (hammering)
-            {
-                breaking = false;
-                UpdateHammering();
-            }
+            if (breaking) UpdateBreaking();
+            if (hammering) UpdateHammering();
 
             LightHandler.UpdateLighting(this);
 
-            DoSpecificUpdate(); //TODO: Should be in the if case, however the timing is completely off
-            if (sinceLastSpecificUpdate >= 1)
+            //Check if the block is floating even though it's not allowed to
+            if (needsGround.doesNeed && !ValidBlockBelow(this, GetBlockBelow()))
             {
+                BreakBlock(true, false, true);
+            }
+
+            //Call block specific updates         
+            if (sinceLastSpecificUpdate >= 0.03) //TODO: Should be 1, however the timing is completely off
+            {
+                DoSpecificUpdate();
                 sinceLastSpecificUpdate = 0;
             }
         }
@@ -485,19 +485,13 @@ namespace SeeloewenCraft.game.core.blocks
             }
         }
 
-        public bool CanStayOnBlockBelow(Block block, Block blockBelow)
+        public static bool ValidBlockBelow(Block block, Block blockBelow)
         {
-            if (block != null && blockBelow != null && block.needsGround.doesNeed)
-            {
-                //If the block doesn't need a specific ground block (besides being solid) or the ground block has the needed tag, the block can stay
-                if ((block.needsGround.tag == "" && blockBelow.isSolid)
-                 || blockBelow.tags.Contains(block.needsGround.tag))
-                {
-                    return true;
-                }
-            }
+            if (block == null && blockBelow == null) return false;
 
-            return false;
+            //If the block doesn't need a specific ground block (besides being solid) or the ground block has the needed tag, the block can stay
+            return (string.IsNullOrEmpty(block.needsGround.tag) && blockBelow.isSolid)
+                    || blockBelow.HasTag(block.needsGround.tag);
         }
 
 
@@ -778,7 +772,7 @@ namespace SeeloewenCraft.game.core.blocks
             }
         }
 
-        public void SetBlock(Block block)
+        public void SetBlock(Block block) //TODO: Port over to Replace()
         {
             //Add the block to the chunk
             chunk.SetBlock(block, xPos, yPos);
@@ -1090,6 +1084,8 @@ namespace SeeloewenCraft.game.core.blocks
 
         private void UpdateBreaking()
         {
+            hammering = false;
+
             if (!IsInRange() || HasTag(BlockTags.UNBREAKABLE)) return;
 
             Block effectiveBlock = foregroundBlock ?? this; //The block which the break get's performed on
@@ -1116,6 +1112,8 @@ namespace SeeloewenCraft.game.core.blocks
 
         public void UpdateHammering()
         {
+            breaking = false;
+
             if (Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == Tool.Hammer)
             {
                 //If the player holds a hammer, is in gamemode survival, the block is in range and doesn't have a foreground block

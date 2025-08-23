@@ -13,7 +13,7 @@ namespace SeeloewenCraft.game.core.blocks
         public int productMin;
         public int productMax;
 
-        public CropBlock(bool isBackground) : base(isBackground)
+        public CropBlock(bool isBackground = false) : base(isBackground)
         {
             growthState = 1;
         }

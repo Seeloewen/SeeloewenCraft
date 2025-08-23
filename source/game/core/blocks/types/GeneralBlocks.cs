@@ -5,6 +5,9 @@ using SeeloewenCraft.game.core.items;
 using SeeloewenCraft.game.core.world.generation;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.util;
+using System;
+using System.Collections.Generic;
+using System.Windows;
 
 /* 
  * General overview of block break times:
@@ -32,6 +35,55 @@ namespace SeeloewenCraft.game.core.blocks
             WriteTag(BlockTags.CAN_BE_FLOOR_SPAWNING);
             WriteTag(BlockTags.GROUNDS_DIRT);
             WriteTag(BlockTags.SCYTHEABLE);
+        }
+
+        protected override void DoSpecificUpdate()
+        {
+            //Roll whether to grow grass to adjacent dirt
+            if (Game.rnd.Next(0, 40) == 0)
+            {
+                Block blockRight = GetBlockRight();
+                Block blockLeft = GetBlockLeft();
+
+                if (blockRight == null || blockLeft == null) return; //Skip check for blocks at chunk borders, would only cause issues
+
+                List<Block> candidates = new List<Block> { blockRight, blockLeft, blockRight.GetBlockAbove(), blockRight.GetBlockBelow(), blockLeft.GetBlockAbove(), blockLeft.GetBlockBelow() };
+                foreach (Block candidate in candidates)
+                {
+                    //Confirms that the candidate is actually a dirt block that has either nothing above (top world border), or a non-solid block above (except water)
+                    if (candidate != null && candidate is DirtBlock dirt && (candidate.GetBlockAbove == null || (!candidate.GetBlockAbove().isSolid) && !candidate.GetBlockAbove().HasTag(BlockTags.LIQUIDS_WATER)))
+                    {
+                        candidate.SetBlock(BlockRegister.GenerateBlock("sc:grass_block"));
+                    }
+                }
+            }
+
+
+            //Roll whether to grow a random plant
+            if (Game.rnd.Next(0, 1000) == 0)
+            {
+                Block blockAbove = GetBlockAbove();
+
+                if (blockAbove != null && blockAbove.id == "sc:air_block")
+                {
+                    string cropId = Game.rnd.Next(0, 9) switch
+                    {
+                        0 => "sc:potato_crop_block",
+                        1 => "sc:berry_bush_crop_block",
+                        2 => "sc:carrot_crop_block",
+                        3 => "sc:pumpkin_crop_block",
+                        4 => "sc:cotton_crop_block",
+                        5 => "sc:cucumber_crop_block",
+                        6 => "sc:yellow_flower_block",
+                        7 => "sc:blue_flower_block",
+                        _ => "sc:grass"
+                    };
+
+                    Block newBlock = BlockRegister.GenerateBlock(cropId);
+                    newBlock.needsGround = (true, BlockTags.GROUNDS_DIRT);
+                    blockAbove.SetBlock(newBlock);
+                }
+            }
         }
     }
 
@@ -120,13 +172,12 @@ namespace SeeloewenCraft.game.core.blocks
         }
     }
 
-    public class OakLeavesBlock : Block
+    public class OakLeavesBlock : LeavesBlock
     {
         public OakLeavesBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Oak Leaves", "sc:oak_leaves_block", 125, "sc:oak_leaves_item", Tool.None);
             lootTable = (LootTables.oakTreeLootTable, 1, 1);
-            WriteTag(BlockTags.TYPES_LEAF);
         }
     }
 
@@ -139,13 +190,12 @@ namespace SeeloewenCraft.game.core.blocks
         }
     }
 
-    public class SpruceLeavesBlock : Block
+    public class SpruceLeavesBlock : LeavesBlock
     {
         public SpruceLeavesBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Spruce Leaves", "sc:spruce_leaves_block", 125, "sc:spruce_leaves_item", Tool.None);
             lootTable = (LootTables.spruceTreeLootTable, 1, 1);
-            WriteTag(BlockTags.TYPES_LEAF);
         }
     }
 
@@ -1089,6 +1139,35 @@ namespace SeeloewenCraft.game.core.blocks
             WriteTag(BlockTags.GROUNDS_DIRT);
             WriteTag(BlockTags.GROUNDS_FARMLAND);
             WriteTag(BlockTags.CANT_BE_BACKGROUND);
+        }
+
+        protected override void DoSpecificUpdate()
+        {
+            if (!HasWaterNearby() || lightLevel == 0) //Farmland needs either water or light nearby
+            {
+                if (Game.rnd.Next(0, 9) == 0)
+                {
+                    Replace(BlockRegister.GenerateBlock("sc:dirt_block"));
+                }
+            }
+        }
+
+        public bool HasWaterNearby()
+        {
+            //Checks 4 blocks to the left and right on the same y level whether they are a water block
+            for (int i = 1; i < 5; i++)
+            {
+                Block blockRight = chunk.GetBlock(xPos + i, yPos);
+                Block blockLeft = chunk.GetBlock(xPos - i, yPos);
+
+                if (blockRight != null && blockRight.HasTag(BlockTags.LIQUIDS_WATER) //Blocks to the right
+                    || blockLeft != null && blockLeft.HasTag(BlockTags.LIQUIDS_WATER)) //Blocks to the left
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 

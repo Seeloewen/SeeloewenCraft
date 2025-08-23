@@ -45,7 +45,7 @@ namespace SeeloewenCraft.game.core.legacy
                     Block blockBelow = block.GetBlockBelow();
 
                     //Don't place the block if it needs a ground but there is none
-                    if (newBlock != null && newBlock.needsGround.doesNeed && !block.CanStayOnBlockBelow(newBlock, blockBelow))
+                    if (newBlock != null && newBlock.needsGround.doesNeed && !Block.ValidBlockBelow(newBlock, blockBelow))
                     {
                         if (selectedItem is FoodItem food)
                         {
