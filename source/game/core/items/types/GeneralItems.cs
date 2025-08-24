@@ -635,7 +635,7 @@ namespace SeeloewenCraft.game.core.items
 
         public override void RightClickAction(Block block, InventorySlot invSlot)
         {
-            if (block.isReplacable)
+            if (block.HasTag(BlockTags.REPLACEABLE))
             {
                 invSlot.inventory.RemoveItem(id, 1);
                 invSlot.inventory.AddItem("sc:bucket_empty_item", 1, null);

@@ -8,7 +8,7 @@ namespace SeeloewenCraft.game.core.blocks
         public ImageBrush imgClose;
         public bool isOpen;
 
-        public DoorBlock(bool isInBackground) : base(isInBackground)
+        public DoorBlock(bool isInBackground = false) : base(isInBackground)
         {
             state = "closed";
         }

@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.networking;
+﻿using SeeloewenCraft.game;
+using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.util;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -40,11 +41,12 @@ namespace SeeloewenCraft.launcher
                 if (!Directory.Exists($"{FolderUtil.worldsFolder}/{tbWorldName.Text}"))
                 {
                     //Create a new world
-                    //World world = new World(wndMenu, tbWorldName.Text, cbSeed.IsChecked == true ? int.Parse(tbSeed.Text) : 0, true, Game.WORLD_VERSION, Game.GAME_VERSION, multiplayerType);
-
                     wndMenu.Hide();
                     Close();
-                    //Game.CreateGame();
+
+                    string worldName = tbWorldName.Text;
+                    int seed = cbSeed.IsChecked == true ? int.Parse(tbSeed.Text) : 0;
+                    Game.Create(worldName, seed, true, multiplayerType, wndMenu);
                 }
                 else
                 {

@@ -22,11 +22,11 @@ namespace SeeloewenCraft.game.core.items
 
         public void HammerRightClickAction(Block block)
         {
-            if (block.isBackground && block.canBeMovedToBackground && block.IsInRange() && block.GetForegroundBlock() == null)
+            if (block.isBackground && !block.HasTag(BlockTags.CANT_BE_BACKGROUND) && block.IsInRange() && block.GetForegroundBlock() == null)
             {
                 block.MoveToNormal();
             }
-            else if (!block.isBackground && block.IsInRange() && block.canBeMovedToBackground)
+            else if (!block.isBackground && block.IsInRange() && !block.HasTag(BlockTags.CANT_BE_BACKGROUND))
             {
                 block.MoveToBackground();
             }

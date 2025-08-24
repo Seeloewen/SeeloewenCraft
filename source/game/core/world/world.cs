@@ -5,6 +5,7 @@ using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.crafting;
 using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
+using SeeloewenCraft.game.core.events;
 using SeeloewenCraft.game.core.legacy;
 using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.core.world.generation;
@@ -36,12 +37,11 @@ namespace SeeloewenCraft.game.core.world
         public List<CraftingRecipe> craftingRecipeList = new List<CraftingRecipe>();
         public Player player { get => entityManager.player; }
         public List<IGuiData> guiDatas = new List<IGuiData>();
-        public WaterHandler waterHandler;
         public ClickHandler clickHandler;
         public DebugMenu_old debugMenu;
-        public GameLoop gameLoop;
         public RecipeCreator recipeCreator;
         public EntityManager entityManager;
+        public GameEventHandler gameEventHandler;
 
 
         //Constants
@@ -63,23 +63,19 @@ namespace SeeloewenCraft.game.core.world
         public int nightState = 0;
         public Gamemode gamemode = Gamemode.Survival;
         public MultiplayerType multiplayerType;
+        public DayTime dayTime;
         public int currentChunk; //idk if this works in mp
 
         //-- Constructor --//
 
-        public World(wndMenu wndMenu, string worldName, int seed, bool isNew, int worldVersion, string gameVersion, MultiplayerType multiplayerType)
+        public World(wndMenu wndMenu, string worldName, int seed, bool isNew, MultiplayerType multiplayerType)
         {
-
-
-            int i = GL.GenTexture();
-
             //Set world name and create game and links
             this.worldName = worldName;
-            this.worldVersion = worldVersion;
-            this.gameVersion = gameVersion;
             this.wndMenu = wndMenu;
             this.seed = seed;
             this.multiplayerType = multiplayerType;
+            worldVersion = Game.WORLD_VERSION;
 
             if (seed == 0)
             {
@@ -90,13 +86,10 @@ namespace SeeloewenCraft.game.core.world
 
 
             //Create objects
-            waterHandler = new WaterHandler();
             clickHandler = new ClickHandler();
             debugMenu = new DebugMenu_old();
-            gameLoop = new GameLoop(25);
+            gameEventHandler = new GameEventHandler();
             recipeCreator = new RecipeCreator();
-
-            Renderer.Init();
 
             //Actually initialize the game
             InitGame(worldName, isNew, worldVersion);
@@ -113,11 +106,6 @@ namespace SeeloewenCraft.game.core.world
             {
                 NetworkHandler.StartServer(5000);
             }
-
-            //Game.world.wndGame.Show();
-
-            GLFW.Init();
-
         }
 
         //-- Custom Methods --//
@@ -199,20 +187,9 @@ namespace SeeloewenCraft.game.core.world
             //Load the player inventory if the world is not new
             InitPlayerInventory(!isNew);
 
-
-
-
+            gameEventHandler.Register(new DayNightCycleEvent());
 
             Log.Write($"Successfully initialized game for world {worldName}!", LogType.GENERAL, LogLevel.INFO);
-
-
-
-
-            //Start the main timer
-
-            //Start the game loop timer
-            gameLoop.Start();
-
             finishedLoading = true;
         }
 
@@ -313,6 +290,11 @@ namespace SeeloewenCraft.game.core.world
             GetBlock(posX, posY).SetBlock(block);
         }
 
+        public void SetBlock(Block block, int posX, int posY, int cIndex)
+        {
+            GetBlock(posX + 8 * cIndex, posY).SetBlock(block);
+        }
+
         public void SetBlock_Multiplayer(Block block, int cIndex, int x, int y)
         {
             //Check if the chunk exists before placing a block there, if not, create it
@@ -381,7 +363,13 @@ namespace SeeloewenCraft.game.core.world
             return b;
         }
 
+        public Block GetBlock(int posX, int posY, int cIndex)
+        {
+            Chunk c = GetChunk(cIndex);
+            Block b = c.GetBlock(posX, posY);
 
+            return b;
+        }
 
         private void SaveWorldSettings()
         {
@@ -456,6 +444,7 @@ namespace SeeloewenCraft.game.core.world
                 player.inventory.AddItem("sc:unchiseler_item", 64, "");
                 player.inventory.AddItem("sc:chiseler_item", 64, "");
                 player.inventory.AddItem("sc:oak_planks_stairbottomleft_item", 64, "");
+                player.inventory.AddItem("sc:torch_item", 64, "");
             }
 
             inventoryList.Add(player.inventory);
@@ -630,34 +619,24 @@ namespace SeeloewenCraft.game.core.world
 
         }
 
-        public void SetNight(int nightState)
+        public void SetDayTime(DayTime dayTime)
         {
-            this.nightState = nightState;
+            this.dayTime = dayTime;
 
-            //TODO change light levels
-
-            //Set background color of world canvas based on night state
-            switch (nightState)
+            //Change skycolor of the renderer based on the current day time
+            Renderer.skyColor = dayTime switch
             {
-                case 0:
-                    //Game.world.wndGame.cvsGame.Background = new SolidColorBrush(Color.FromArgb(255, 188, 244, 247));
-                    break;
-                case 1:
-                    //Game.world.wndGame.cvsGame.Background = new SolidColorBrush(Color.FromArgb(255, 150, 195, 198));
-                    break;
-                case 2:
-                    //Game.world.wndGame.cvsGame.Background = new SolidColorBrush(Color.FromArgb(255, 113, 146, 148));
-                    break;
-                case 3:
-                    //Game.world.wndGame.cvsGame.Background = new SolidColorBrush(Color.FromArgb(255, 75, 98, 99));
-                    break;
-                case 4:
-                    //Game.world.wndGame.cvsGame.Background = new SolidColorBrush(Color.FromArgb(255, 38, 49, 49));
-                    break;
-                case 5:
-                    //Game.world.wndGame.cvsGame.Background = new SolidColorBrush(Color.FromArgb(255, 10, 12, 13));
-                    break;
-            }
+                DayTime.SUNRISE1 => SkyColors.SUNRISE1_SUNSET4_COLOR,
+                DayTime.SUNRISE2 => SkyColors.SUNRISE2_SUNSET3_COLOR,
+                DayTime.SUNRISE3 => SkyColors.SUNRISE3_SUNSET2_COLOR,
+                DayTime.SUNRISE4 => SkyColors.SUNRISE4_SUNSET1_COLOR,
+                DayTime.SUNSET1 => SkyColors.SUNRISE4_SUNSET1_COLOR,
+                DayTime.SUNSET2 => SkyColors.SUNRISE3_SUNSET2_COLOR,
+                DayTime.SUNSET3 => SkyColors.SUNRISE2_SUNSET3_COLOR,
+                DayTime.SUNSET4 => SkyColors.SUNRISE1_SUNSET4_COLOR,
+                DayTime.NIGHT => SkyColors.NIGHT_COLOR,
+                _ => SkyColors.DAY_COLOR
+            };
         }
 
         public InventorySlot GetSelectedInvSlot()
@@ -678,17 +657,17 @@ namespace SeeloewenCraft.game.core.world
 
         //-- Event Handlers --//
 
-        public void doGameTick(double dt, bool blockUpdate)
+        public void Tick(double dt, bool blockUpdate)
         {
-
+            gameEventHandler.Tick(dt);
 
             if (blockUpdate)
             {
-                foreach (Chunk chunk in loadedChunkList)
+                foreach (Chunk c in loadedChunkList)
                 {
-                    foreach (Block block in chunk.blockList.blocks)
+                    foreach (Block block in c.blockList.blocks)
                     {
-                        block.DoUpdate();
+                        block.DoUpdate(dt);
                     }
                 }
             }
@@ -698,30 +677,22 @@ namespace SeeloewenCraft.game.core.world
 
             GameCamera.SetCamCenterPhysicsCoord(player.posX + 237, player.posY + 950);
 
+            int chunk = player.GetChunkIndex();
+            if (chunk != currentChunk)
             {
-                int chunk = player.GetChunkIndex();
-                if (chunk != currentChunk)
+                if (chunk > currentChunk)
                 {
-                    if (chunk > currentChunk)
-                    {
-                        MoveLoadedChunks(Direction.RIGHT);
-                        Log.Write($"move chunks right {chunk} {currentChunk}", LogType.GENERAL, LogLevel.WARNING);
-                    }
-                    else
-                    {
-                        MoveLoadedChunks(Direction.LEFT);
-                        Log.Write($"move chunks left {chunk} {currentChunk}", LogType.GENERAL, LogLevel.WARNING);
-                    }
+                    MoveLoadedChunks(Direction.RIGHT);
+                    Log.Write($"move chunks right {chunk} {currentChunk}", LogType.GENERAL, LogLevel.WARNING);
+                }
+                else
+                {
+                    MoveLoadedChunks(Direction.LEFT);
+                    Log.Write($"move chunks left {chunk} {currentChunk}", LogType.GENERAL, LogLevel.WARNING);
                 }
             }
-
         }
-
     }
 
-    public enum Gamemode
-    {
-        Survival,
-        Creative
-    }
+
 }

@@ -5,6 +5,9 @@ using SeeloewenCraft.game.core.items;
 using SeeloewenCraft.game.core.world.generation;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.util;
+using System;
+using System.Collections.Generic;
+using System.Windows;
 
 /* 
  * General overview of block break times:
@@ -29,9 +32,58 @@ namespace SeeloewenCraft.game.core.blocks
             Init("Grass Block", "sc:grass_block", 150, "sc:grass_block_item", Tool.Shovel);
             drops.Add(("sc:dirt_item", 1, 1));
 
-            tags.Add("canBeFloor");
-            tags.Add("ground/plant");
-            tags.Add("scytheable");
+            WriteTag(BlockTags.CAN_BE_FLOOR_SPAWNING);
+            WriteTag(BlockTags.GROUNDS_DIRT);
+            WriteTag(BlockTags.SCYTHEABLE);
+        }
+
+        protected override void DoSpecificUpdate()
+        {
+            //Roll whether to grow grass to adjacent dirt
+            if (Game.rnd.Next(0, 40) == 0)
+            {
+                Block blockRight = GetBlockRight();
+                Block blockLeft = GetBlockLeft();
+
+                if (blockRight == null || blockLeft == null) return; //Skip check for blocks at chunk borders, would only cause issues
+
+                List<Block> candidates = new List<Block> { blockRight, blockLeft, blockRight.GetBlockAbove(), blockRight.GetBlockBelow(), blockLeft.GetBlockAbove(), blockLeft.GetBlockBelow() };
+                foreach (Block candidate in candidates)
+                {
+                    //Confirms that the candidate is actually a dirt block that has either nothing above (top world border), or a non-solid block above (except water)
+                    if (candidate != null && candidate is DirtBlock dirt && (candidate.GetBlockAbove == null || (!candidate.GetBlockAbove().isSolid) && !candidate.GetBlockAbove().HasTag(BlockTags.LIQUIDS_WATER)))
+                    {
+                        candidate.SetBlock(BlockRegister.GenerateBlock("sc:grass_block"));
+                    }
+                }
+            }
+
+
+            //Roll whether to grow a random plant
+            if (Game.rnd.Next(0, 1000) == 0)
+            {
+                Block blockAbove = GetBlockAbove();
+
+                if (blockAbove != null && blockAbove.id == "sc:air_block")
+                {
+                    string cropId = Game.rnd.Next(0, 9) switch
+                    {
+                        0 => "sc:potato_crop_block",
+                        1 => "sc:berry_bush_crop_block",
+                        2 => "sc:carrot_crop_block",
+                        3 => "sc:pumpkin_crop_block",
+                        4 => "sc:cotton_crop_block",
+                        5 => "sc:cucumber_crop_block",
+                        6 => "sc:yellow_flower_block",
+                        7 => "sc:blue_flower_block",
+                        _ => "sc:grass"
+                    };
+
+                    Block newBlock = BlockRegister.GenerateBlock(cropId);
+                    newBlock.needsGround = (true, BlockTags.GROUNDS_DIRT);
+                    blockAbove.SetBlock(newBlock);
+                }
+            }
         }
     }
 
@@ -39,11 +91,10 @@ namespace SeeloewenCraft.game.core.blocks
     {
         public StoneBlock(bool isInBackground) : base(isInBackground)
         {
-            //lootTable = Game.world.lootTables.stoneLootTable;
             Init("Stone Block", "sc:stone_block", 1250, "sc:stone_block_item", Tool.Pickaxe);
             drops.Add(("sc:rock_item", 1, 4));
 
-            tags.Add("canBeFloor");
+            WriteTag(BlockTags.CAN_BE_FLOOR_SPAWNING);
         }
     }
 
@@ -52,9 +103,9 @@ namespace SeeloewenCraft.game.core.blocks
         public DirtBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Dirt", "sc:dirt_block", 150, "sc:dirt_item", Tool.Shovel);
-            tags.Add("canBeFloor");
-            tags.Add("ground/plant");
-            tags.Add("scytheable");
+            WriteTag(BlockTags.CAN_BE_FLOOR_SPAWNING);
+            WriteTag(BlockTags.GROUNDS_DIRT);
+            WriteTag(BlockTags.SCYTHEABLE);
         }
     }
 
@@ -63,11 +114,11 @@ namespace SeeloewenCraft.game.core.blocks
         public AirBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Air", "sc:air_block", 150, "sc:air_item", Tool.None);
-            isBreakable = false;
+            WriteTag(BlockTags.UNBREAKABLE);
+            WriteTag(BlockTags.REPLACEABLE);
+            WriteTag(BlockTags.CANT_BE_BACKGROUND);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
             isSolid = false;
-            isReplacable = true;
-            canBeMovedToBackground = false;
-            isLightSource = true;
         }
     }
 
@@ -76,8 +127,8 @@ namespace SeeloewenCraft.game.core.blocks
         public BedrockBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Bedrock", "sc:bedrock_block", 150, "sc:bedrock_item", Tool.None);
-            isBreakable = false;
-            canBeMovedToBackground = false;
+            WriteTag(BlockTags.UNBREAKABLE);
+            WriteTag(BlockTags.CANT_BE_BACKGROUND);
         }
     }
 
@@ -87,7 +138,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Coal Ore", "sc:coal_ore_block", 1750, "sc:coal_ore_item", Tool.Pickaxe);
             drops.Add(("sc:coal_item", 1, 3));
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -98,7 +149,7 @@ namespace SeeloewenCraft.game.core.blocks
             Init("Diamond Ore", "sc:diamond_ore_block", 1750, "sc:diamond_ore_item", Tool.Pickaxe);
             drops.Add(("sc:diamond_item", 1, 1));
             effectiveMaterial = Material.Iron;
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -108,7 +159,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Iron Ore", "sc:iron_ore_block", 1750, "sc:iron_ore_item", Tool.Pickaxe);
             effectiveMaterial = Material.Stone;
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -117,17 +168,16 @@ namespace SeeloewenCraft.game.core.blocks
         public OakLogBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Oak Log", "sc:oak_log_block", 350, "sc:oak_log_item", Tool.Axe);
-            tags.Add("type/log");
+            WriteTag(BlockTags.TYPES_LOG);
         }
     }
 
-    public class OakLeavesBlock : Block
+    public class OakLeavesBlock : LeavesBlock
     {
         public OakLeavesBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Oak Leaves", "sc:oak_leaves_block", 125, "sc:oak_leaves_item", Tool.None);
             lootTable = (LootTables.oakTreeLootTable, 1, 1);
-            tags.Add("type/leaf");
         }
     }
 
@@ -136,17 +186,16 @@ namespace SeeloewenCraft.game.core.blocks
         public SpruceLogBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Spruce Log", "sc:spruce_log_block", 350, "sc:spruce_log_item", Tool.Axe);
-            tags.Add("type/log");
+            WriteTag(BlockTags.TYPES_LOG);
         }
     }
 
-    public class SpruceLeavesBlock : Block
+    public class SpruceLeavesBlock : LeavesBlock
     {
         public SpruceLeavesBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Spruce Leaves", "sc:spruce_leaves_block", 125, "sc:spruce_leaves_item", Tool.None);
             lootTable = (LootTables.spruceTreeLootTable, 1, 1);
-            tags.Add("type/leaf");
         }
     }
 
@@ -155,16 +204,16 @@ namespace SeeloewenCraft.game.core.blocks
         public ChestBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Chest", "sc:chest_block", 500, "sc:chest_item", Tool.Axe);
-            hasInventory = true;
+            WriteTag(BlockTags.HAS_INVENTORY);
             inventory = new Inventory(9, 4, false, "Chest");
             inventory.block = this;
             Game.world.inventoryList.Add(inventory);
-            hasRightClickAction = true;
+            WriteTag(BlockTags.RIGHTCLICKABLE);
         }
 
         public override void RightClickAction()
         {
-            if (IsInRange() && isSolid && hasInventory)
+            if (IsInRange() && isSolid)
             {
                 Game.world.player.inventory.ShowGui();
                 inventory.ShowGui();
@@ -178,6 +227,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Magma Block", "sc:magma_block", 750, "sc:magma_block_item", Tool.Pickaxe);
             collision = new RectangleCollision(0, 1000, 1, 1000);
+            WriteTag(BlockTags.LIGHTSOURCE);
         }
 
         public override bool[] CheckTouch(int startX, int startY, int endX, int endY)
@@ -195,8 +245,9 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Torch", "sc:torch_block", 0, "sc:torch_item", Tool.None);
             isSolid = false;
-            canBeMovedToBackground = false;
-            isLightSource = true;
+            WriteTag(BlockTags.CANT_BE_BACKGROUND);
+            WriteTag(BlockTags.LIGHTSOURCE);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
     }
 
@@ -209,6 +260,7 @@ namespace SeeloewenCraft.game.core.blocks
             connectedBlocks.Add((0, -1, "sc:potted_cactus_top"));
             collision = new MultipleRectangleCollision([125, 251], [875, 749], [375, 1], [1000, 375]);
             needsGround = (true, "");
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
     }
 
@@ -218,6 +270,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Potted Cactus Top", "sc:potted_cactus_top", 0, null, Tool.None);
             collision = new RectangleCollision(251, 749, 188, 999);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
     }
 
@@ -226,8 +279,8 @@ namespace SeeloewenCraft.game.core.blocks
         public CraftingTableBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Crafting Table", "sc:crafting_table_block", 500, "sc:crafting_table_item", Tool.Axe);
-            tags.Add("workstation");
-            hasRightClickAction = true;
+            WriteTag(BlockTags.WORKSTATION);
+            WriteTag(BlockTags.RIGHTCLICKABLE);
 
             craftingHandler = new CraftingHandler(this, "Crafting_Table", "Crafting Table");
         }
@@ -261,8 +314,8 @@ namespace SeeloewenCraft.game.core.blocks
         public ChiselerBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Chiseler", "sc:chiseler_block", 500, "sc:chiseler_item", Tool.Axe);
-            tags.Add("workstation");
-            hasRightClickAction = true;
+            WriteTag(BlockTags.WORKSTATION);
+            WriteTag(BlockTags.RIGHTCLICKABLE);
 
             craftingHandler = new CraftingHandler(this, "Chiseler", "Chiseler");
         }
@@ -297,7 +350,11 @@ namespace SeeloewenCraft.game.core.blocks
         public UnchiselerBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Unchiseler", "sc:unchiseler_block", 500, "sc:unchiseler_item", Tool.Axe);
-            hasRightClickAction = true;
+            WriteTag(BlockTags.WORKSTATION);
+            WriteTag(BlockTags.RIGHTCLICKABLE);
+            WriteTag(BlockTags.HAS_INVENTORY);
+            inventory = unchiselHandler.inv;
+            unchiselHandler.inv.block = this;
             collision = new RectangleCollision(0, 1000, 565, 1000);
             unchiselHandler = new UnchiselHandler();
         }
@@ -317,7 +374,7 @@ namespace SeeloewenCraft.game.core.blocks
         public CobblestoneBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Cobblestone", "sc:cobblestone_block", 1250, "sc:cobblestone_item", Tool.Pickaxe);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -327,7 +384,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Spruce Door Base", "sc:spruce_door_base", 500, "sc:spruce_door_item", Tool.Axe);
             isBase = true;
-            hasRightClickAction = true;
+            WriteTag(BlockTags.RIGHTCLICKABLE);
             needsGround = (true, "");
             collision = new RectangleCollision(720, 1000, 0, 1000);
 
@@ -340,7 +397,7 @@ namespace SeeloewenCraft.game.core.blocks
         public SpruceDoor_Top(bool isInBackground) : base(isInBackground)
         {
             Init("Spruce Door Top", "sc:spruce_door_top", 500, null, Tool.Axe);
-            hasRightClickAction = true;
+            WriteTag(BlockTags.RIGHTCLICKABLE);
             collision = new RectangleCollision(720, 1000, 0, 1000);
         }
 
@@ -368,7 +425,7 @@ namespace SeeloewenCraft.game.core.blocks
         public SandStoneBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Sand Stone", "sc:sand_stone_block", 1250, "sc:sand_stone_item", Tool.Pickaxe);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -401,7 +458,10 @@ namespace SeeloewenCraft.game.core.blocks
             return touchingStatus;
         }
 
-        protected CactusBlock(bool isInBackground) : base(isInBackground) { }
+        protected CactusBlock(bool isInBackground) : base(isInBackground)
+        {
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
+        }
     }
 
     public class Cactus_TopFruit : CactusBlock
@@ -521,7 +581,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Oak Door Base", "sc:oak_door_base", 500, "sc:oak_door_item", Tool.Axe);
             isBase = true;
-            hasRightClickAction = true;
+            WriteTag(BlockTags.RIGHTCLICKABLE);
             collision = new RectangleCollision(720, 1000, 0, 1000);
 
             connectedBlocks.Add((0, -1, "sc:oak_door_top"));
@@ -533,7 +593,7 @@ namespace SeeloewenCraft.game.core.blocks
         public OakDoor_Top(bool isInBackground) : base(isInBackground)
         {
             Init("Oak Door Top", "sc:oak_door_top", 500, null, Tool.Axe);
-            hasRightClickAction = true;
+            WriteTag(BlockTags.RIGHTCLICKABLE);
             collision = new RectangleCollision(720, 1000, 0, 1000);
         }
 
@@ -561,7 +621,7 @@ namespace SeeloewenCraft.game.core.blocks
         public OakTrapDoor(bool isInBackground) : base(isInBackground)
         {
             Init("Oak Trapdoor Base", "sc:oak_trapdoor", 500, "sc:oak_trapdoor_item", Tool.Axe);
-            hasRightClickAction = true;
+            WriteTag(BlockTags.RIGHTCLICKABLE);
             collision = new RectangleCollision(0, 1000, 0, 150);
         }
     }
@@ -571,7 +631,7 @@ namespace SeeloewenCraft.game.core.blocks
         public SpruceTrapDoor(bool isInBackground) : base(isInBackground)
         {
             Init("Spruce Trapdoor Base", "sc:spruce_trapdoor", 500, "sc:spruce_trapdoor_item", Tool.Axe);
-            hasRightClickAction = true;
+            WriteTag(BlockTags.RIGHTCLICKABLE);
             collision = new RectangleCollision(0, 1000, 0, 150);
         }
     }
@@ -580,9 +640,9 @@ namespace SeeloewenCraft.game.core.blocks
         public FurnaceBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Furnace", "sc:furnace_block", 500, "sc:furnace_item", Tool.Pickaxe);
-            tags.Add("workstation");
-            hasRightClickAction = true;
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.WORKSTATION);
+            WriteTag(BlockTags.RIGHTCLICKABLE);
+            WriteTag(BlockTags.TOOL_SPECIFIC);
 
             craftingHandler = new CraftingHandler(this, "Furnace", "Furnace");
         }
@@ -617,6 +677,7 @@ namespace SeeloewenCraft.game.core.blocks
             Init("Oak Chair Base", "sc:oak_chair_base", 0, "sc:oak_chair_item", Tool.Axe);
             isBase = true;
             isSolid = false;
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
 
             connectedBlocks.Add((0, -1, "sc:oak_chair_top"));
         }
@@ -628,6 +689,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Oak Chair Top", "sc:oak_chair_top", 0, null, Tool.Axe);
             isSolid = false;
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
     }
 
@@ -638,6 +700,7 @@ namespace SeeloewenCraft.game.core.blocks
             Init("Spruce Chair Base", "sc:spruce_chair_base", 0, "sc:spruce_chair_item", Tool.Axe);
             isBase = true;
             isSolid = false;
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
 
             connectedBlocks.Add((0, -1, "sc:spruce_chair_top"));
         }
@@ -649,6 +712,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Spruce Chair Top", "sc:spruce_chair_top", 0, null, Tool.Axe);
             isSolid = false;
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
     }
 
@@ -660,7 +724,8 @@ namespace SeeloewenCraft.game.core.blocks
             isBase = true;
             isSolid = false;
             inventory = new Inventory(1, 1, false);
-            hasInventory = true;
+            WriteTag(BlockTags.HAS_INVENTORY);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
 
             connectedBlocks.Add((0, -1, "sc:archeology_pot_top"));
         }
@@ -672,6 +737,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Archeology Pot Top", "sc:archeology_pot_top", 100, null, Tool.Pickaxe);
             isSolid = false;
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
     }
 
@@ -682,7 +748,7 @@ namespace SeeloewenCraft.game.core.blocks
             Init("Amethyst Ore", "sc:amethyst_ore_block", 1750, "sc:amethyst_ore_item", Tool.Pickaxe);
             drops.Add(("sc:amethyst_item", 1, 1));
             effectiveMaterial = Material.Diamond;
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -691,10 +757,10 @@ namespace SeeloewenCraft.game.core.blocks
         public AnvilBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Anvil", "sc:anvil_block", 2000, "sc:anvil_item", Tool.Pickaxe);
-            tags.Add("workstation");
-            hasRightClickAction = true;
-            dropsOnWrongTool = false;
-            willFall = true;
+            WriteTag(BlockTags.WORKSTATION);
+            WriteTag(BlockTags.RIGHTCLICKABLE);
+            WriteTag(BlockTags.TOOL_SPECIFIC);
+            WriteTag(BlockTags.CAN_FALL);
 
             craftingHandler = new CraftingHandler(this, "Anvil", "Anvil");
             collision = new RectangleCollision(0, 1000, 190, 1000);
@@ -728,15 +794,15 @@ namespace SeeloewenCraft.game.core.blocks
         public BarrelBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Barrel", "sc:barrel_block", 500, "sc:barrel_item", Tool.Axe);
-            hasInventory = true;
+            WriteTag(BlockTags.HAS_INVENTORY);
             inventory = new Inventory(7, 2, false, "Barrel");
             Game.world.inventoryList.Add(inventory);
-            hasRightClickAction = true;
+            WriteTag(BlockTags.RIGHTCLICKABLE);
         }
 
         public override void RightClickAction()
         {
-            if (IsInRange() && isSolid && hasInventory)
+            if (IsInRange() && isSolid)
             {
                 Game.world.player.inventory.ShowGui();
                 inventory.ShowGui();
@@ -750,7 +816,8 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Blue Flower", "sc:blue_flower_block", 0, "sc:blue_flower_item", Tool.None);
             isSolid = false;
-            needsGround = (true, "ground/plant");
+            needsGround = (true, BlockTags.GROUNDS_DIRT);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
     }
 
@@ -768,7 +835,8 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Cactus Fruit", "sc:cactus_fruit_block", 0, "sc:cactus_fruit_item", Game.rnd.Next(180000, 480001), "sc:cactus_fruit_item", "sc:cactus_fruit_item", 0, 0, Tool.None);
             isSolid = false;
-            needsGround = (true, "ground/sand");
+            needsGround = (true, BlockTags.GROUNDS_SAND);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
 
         public override void UpdateProgress(int amount)
@@ -798,8 +866,10 @@ namespace SeeloewenCraft.game.core.blocks
         public CandleBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Candle", "sc:candle_block", 0, "sc:candle_item", Tool.None);
+            WriteTag(BlockTags.LIGHTSOURCE);
             isSolid = false;
             needsGround = (true, "");
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
     }
 
@@ -809,7 +879,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Copper Ore", "sc:copper_ore_block", 1750, "sc:copper_ore_block", Tool.Pickaxe);
             effectiveMaterial = Material.Tin;
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -819,7 +889,8 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Dead Bush", "sc:dead_bush_block", 0, "sc:dead_bush_item", Tool.None);
             isSolid = false;
-            needsGround = (true, "ground/sand");
+            needsGround = (true, BlockTags.GROUNDS_SAND);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
     }
 
@@ -830,7 +901,7 @@ namespace SeeloewenCraft.game.core.blocks
             Init("Emerald Ore", "sc:emerald_ore_block", 1750, "sc:emerald_ore_item", Tool.Pickaxe);
             drops.Add(("sc:emerald_item", 1, 1));
             effectiveMaterial = Material.Diamond;
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -840,6 +911,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Flower Pot", "sc:flower_pot_block", 200, "sc:flower_pot_item", Tool.Pickaxe);
             isSolid = false;
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
     }
 
@@ -849,7 +921,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Gold Ore", "sc:gold_ore_block", 1750, "sc:gold_ore_item", Tool.Pickaxe);
             effectiveMaterial = Material.Tin;
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -860,7 +932,8 @@ namespace SeeloewenCraft.game.core.blocks
             Init("Grass", "sc:grass", 0, "sc:grass_item", Tool.None);
             lootTable = (LootTables.grassLootTable, 1, 1);
             isSolid = false;
-            needsGround = (true, "ground/plant");
+            needsGround = (true, BlockTags.GROUNDS_DIRT);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
     }
 
@@ -870,7 +943,8 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Iron Gates", "sc:iron_gates_block", 2000, "sc:iron_gates_item", Tool.Pickaxe);
             effectiveMaterial = Material.Stone;
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
     }
 
@@ -880,6 +954,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Ladder", "sc:ladder_block", 250, "sc:ladder_item", Tool.Axe);
             isSolid = false;
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
 
         public override bool[] CheckTouch(int startX, int startY, int endX, int endY)
@@ -895,7 +970,7 @@ namespace SeeloewenCraft.game.core.blocks
         public MossyCobblestoneBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Mossy Cobblestone", "sc:mossy_cobblestone_block", 1250, "sc:mossy_cobblestone_item", Tool.Pickaxe);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -905,7 +980,8 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Oak Sapling", "sc:oak_sapling_block", 0, "sc:oak_sapling_item", Game.rnd.Next(600000, 1200001), "sc:oak_sapling_item", "sc:oak_sapling_item", 0, 0, Tool.None);
             isSolid = false;
-            needsGround = (true, "ground/plant");
+            needsGround = (true, BlockTags.GROUNDS_DIRT);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
 
         public override void UpdateProgress(int amount)
@@ -938,6 +1014,7 @@ namespace SeeloewenCraft.game.core.blocks
             Init("Spruce Sapling", "sc:spruce_sapling_block", 0, "sc:spruce_sapling_item", Game.rnd.Next(600000, 1200001), "sc:tree_sapling_item", "sc:tree_sapling_item", 0, 0, Tool.None);
             isSolid = false;
             needsGround = (true, "ground/plant");
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
 
         public override void UpdateProgress(int amount)
@@ -970,6 +1047,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Oak Table", "sc:oak_table_block", 350, "sc:oak_table_item", Tool.Axe);
             isSolid = false;
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
 
     }
@@ -980,6 +1058,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Spruce Table", "sc:spruce_table_block", 350, "sc:spruce_table_item", Tool.Axe);
             isSolid = false;
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
     }
 
@@ -988,9 +1067,9 @@ namespace SeeloewenCraft.game.core.blocks
         public SandBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Sand", "sc:sand_block", 150, "sc:sand_item", Tool.Shovel);
-            tags.Add("canBeFloor");
-            tags.Add("ground/sand");
-            willFall = true;
+            WriteTag(BlockTags.CAN_BE_FLOOR_SPAWNING);
+            WriteTag(BlockTags.GROUNDS_SAND);
+            WriteTag(BlockTags.CAN_FALL);
         }
     }
 
@@ -999,7 +1078,7 @@ namespace SeeloewenCraft.game.core.blocks
         public SandStoneBricksBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Sand Stone Bricks", "sc:sand_stone_bricks_block", 1250, "sc:sand_stone_bricks_item", Tool.Pickaxe);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -1008,7 +1087,7 @@ namespace SeeloewenCraft.game.core.blocks
         public StoneBricksBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Stone Bricks", "sc:stone_bricks_block", 1250, "sc:stone_bricks_item", Tool.Pickaxe);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -1017,7 +1096,7 @@ namespace SeeloewenCraft.game.core.blocks
         public TinOreBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Tin Ore", "sc:tin_ore_block", 1750, "sc:tin_ore_item", Tool.Pickaxe);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -1026,7 +1105,7 @@ namespace SeeloewenCraft.game.core.blocks
         public TungstenOreBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Tungsten Ore", "sc:tungsten_ore_block", 1750, "sc:tungsten_ore_item", Tool.Pickaxe);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -1036,7 +1115,8 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Yellow Flower", "sc:yellow_flower_block", 0, "sc:yellow_flower_item", Tool.None);
             isSolid = false;
-            needsGround = (true, "ground/plant");
+            needsGround = (true, BlockTags.GROUNDS_DIRT);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
     }
 
@@ -1045,7 +1125,8 @@ namespace SeeloewenCraft.game.core.blocks
         public GlassBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Glass", "sc:glass_block", 250, "sc:glass_item", Tool.None);
-            dropsOnWrongTool = false;
+            WriteTag(BlockTags.TOOL_SPECIFIC);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
     }
 
@@ -1055,9 +1136,38 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Init("Farmland", "sc:farmland_block", 150, "sc:farmland_item", Tool.Shovel);
             drops.Add(("sc:dirt_item", 1, 1));
-            tags.Add("ground/plant");
-            tags.Add("ground/farmland");
-            canBeMovedToBackground = false;
+            WriteTag(BlockTags.GROUNDS_DIRT);
+            WriteTag(BlockTags.GROUNDS_FARMLAND);
+            WriteTag(BlockTags.CANT_BE_BACKGROUND);
+        }
+
+        protected override void DoSpecificUpdate()
+        {
+            if (!HasWaterNearby() || lightLevel == 0) //Farmland needs either water or light nearby
+            {
+                if (Game.rnd.Next(0, 9) == 0)
+                {
+                    Replace(BlockRegister.GenerateBlock("sc:dirt_block"));
+                }
+            }
+        }
+
+        public bool HasWaterNearby()
+        {
+            //Checks 4 blocks to the left and right on the same y level whether they are a water block
+            for (int i = 1; i < 5; i++)
+            {
+                Block blockRight = chunk.GetBlock(xPos + i, yPos);
+                Block blockLeft = chunk.GetBlock(xPos - i, yPos);
+
+                if (blockRight != null && blockRight.HasTag(BlockTags.LIQUIDS_WATER) //Blocks to the right
+                    || blockLeft != null && blockLeft.HasTag(BlockTags.LIQUIDS_WATER)) //Blocks to the left
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 
@@ -1083,7 +1193,8 @@ namespace SeeloewenCraft.game.core.blocks
         public LanternBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Lantern", "sc:lantern_block", 500, "sc:lantern_item", Tool.Pickaxe);
-            isLightSource = true;
+            WriteTag(BlockTags.LIGHTSOURCE);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
             isSolid = false;
         }
     }

@@ -422,7 +422,7 @@ namespace SeeloewenCraft.game.core.world.generation
         public Block GetLeaves()
         {
             OakLeavesBlock block = new OakLeavesBlock(false);
-            block.tags.Add("structure_leaves");
+            block.WriteTag(BlockTags.STRUCTURE_LEAF);
             return block;
         }
     }
@@ -643,7 +643,7 @@ namespace SeeloewenCraft.game.core.world.generation
         public Block GetLeaves()
         {
             SpruceLeavesBlock block = new SpruceLeavesBlock(false);
-            block.tags.Add("structure_leaves");
+            block.WriteTag(BlockTags.STRUCTURE_LEAF);
             return block;
         }
     }

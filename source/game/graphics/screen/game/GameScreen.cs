@@ -70,7 +70,7 @@ namespace SeeloewenCraft.game.graphics
                 float y1 = GameCamera.blockYAnchor - GameCamera.blockLength * targetedBlock.yPos * Resolution.RATIO;
                 float x2 = x1 + GameCamera.blockLength;
                 float y2 = y1 - GameCamera.blockLength * Resolution.RATIO;
-                float lx = GameCamera.blockLength / 15;
+                float lx = GameCamera.blockLength / 18;
                 float ly = lx * Resolution.RATIO;
 
                 PrimitiveRenderer.DrawRectangle(x1, y1, x2, y1 - ly, 0.0f, 0.0f, 0.0f);

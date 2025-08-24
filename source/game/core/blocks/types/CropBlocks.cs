@@ -7,7 +7,9 @@
             Init("Wheat", "sc:wheat_crop_block", 0, "sc:seeds_item", Game.rnd.Next(1200000, 1800000), "sc:seeds_item", "sc:wheat_item", 1, 4, Tool.None);
             drops.Add(("sc:seeds_item", 1, 1));
             isSolid = false;
-            needsGround = (true, "ground/farmland");
+            needsGround = (true, BlockTags.GROUNDS_FARMLAND);
+
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
 
         public override void UpdateProgress(int amount)
@@ -37,7 +39,9 @@
             Init("Carrot", "sc:carrot_crop_block", 0, "sc:carrot_item", Game.rnd.Next(1200000, 1800000), "sc:carrot_item", "sc:carrot_item", 1, 3, Tool.None);
             drops.Add(("sc:carrot_item", 1, 1));
             isSolid = false;
-            needsGround = (true, "ground/farmland");
+            needsGround = (true, BlockTags.GROUNDS_FARMLAND);
+
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
 
         public override void UpdateProgress(int amount)
@@ -67,8 +71,10 @@
             Init("Cotton", "sc:cotton_crop_block", 0, "sc:cotton_item", Game.rnd.Next(800000, 1200000), "sc:cotton_item", "sc:cotton_item", 1, 2, Tool.None);
             drops.Add(("sc:cotton_item", 1, 1));
             isSolid = false;
-            hasRightClickAction = true;
-            needsGround = (true, "ground/farmland");
+            WriteTag(BlockTags.RIGHTCLICKABLE);
+            needsGround = (true, BlockTags.GROUNDS_FARMLAND);
+
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
 
         public override void UpdateProgress(int amount)
@@ -100,8 +106,10 @@
             Init("Berry Bush", "sc:berry_bush_crop_block", 0, "sc:berry_item", Game.rnd.Next(800000, 1500000), "sc:berry_item", "sc:berry_item", 1, 3, Tool.None);
             drops.Add(("sc:berry_item", 1, 1));
             isSolid = false;
-            hasRightClickAction = true;
-            needsGround = (true, "");
+            WriteTag(BlockTags.RIGHTCLICKABLE);
+            needsGround = (true, BlockTags.GROUNDS_DIRT);
+
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
 
         public override void UpdateProgress(int amount)
@@ -128,33 +136,35 @@
 
     public class SugarCaneBlock : CropBlock
     {
-        protected bool shouldGrow = true;
+        protected bool canGrow = true;
         private int maxHeight = 3;
 
         public SugarCaneBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Sugar Cane", "sc:sugar_cane_block", 0, "sc:sugar_cane_item", Game.rnd.Next(1400000, 2000001), "sc:sugar_cane_item", "sc:sugar_cane_item", 0, 0, Tool.None);
             drops.Add(("sc:sugar_cane_item", 1, 1));
-            tags.Add("Crops/SugarCane");
             isSolid = false;
-            hasRightClickAction = true;
-            needsGround = (true, "");
+            WriteTag(BlockTags.RIGHTCLICKABLE);
+            needsGround = (true, BlockTags.GROUNDS_DIRT);
+
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
+            WriteTag(BlockTags.CROPS_SUGAR_CANE);
 
             //Implement additional check for nearby water (maybe)
         }
 
         public void PlaceBlockAbove(int currentY, int maxY)
         {
-            Block blockAbove = chunk.GetBlock(xPos, currentY - 1);
+            Block blockAbove = GetBlockAbove();
 
             //Stop if new block would be above max height or block above is null
             if (currentY - 1 < maxY) return;
             if (blockAbove == null) return;
 
-            if (blockAbove.isReplacable)
+            if (blockAbove.HasTag(BlockTags.REPLACEABLE))
             {
                 //Place the new block
-                Block newBlockAbove = new SugarCaneBlock(false) { needsGround = (true, "Crops/SugarCane"), shouldGrow = false };
+                Block newBlockAbove = new SugarCaneBlock(false) { needsGround = (true, BlockTags.CROPS_SUGAR_CANE), canGrow = false };
                 blockAbove.SetBlock(newBlockAbove);
             }
             else if (blockAbove.id == "sc:sugar_cane_block")
@@ -169,7 +179,7 @@
         {
             base.UpdateProgress(amount);
 
-            if (IsReady() && shouldGrow)
+            if (IsReady() && canGrow)
             {
                 PlaceBlockAbove(yPos, yPos - maxHeight);
                 progress = 0;
@@ -180,18 +190,20 @@
 
     public class TomatoCropBlock : CropBlock
     {
-        protected bool shouldGrow = true;
+        protected bool canGrow = true;
         private int maxHeight = 2;
 
         public TomatoCropBlock(bool isInBackground) : base(isInBackground)
         {
             Init("Tomato", "sc:tomato_crop_block", 0, "sc:tomato_item", Game.rnd.Next(1200000, 1600000), "sc:tomato_item", "sc:tomato_item", 1, 3, Tool.None);
             drops.Add(("sc:tomato_item", 1, 1));
-            tags.Add("Crops/Tomato");
             isSolid = false;
             isBase = true;
-            hasRightClickAction = true;
-            needsGround = (true, "ground/farmland");
+            WriteTag(BlockTags.RIGHTCLICKABLE);
+            needsGround = (true, BlockTags.GROUNDS_FARMLAND);
+
+            WriteTag(BlockTags.CROPS_TOMATO);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
 
         public void PlaceBlockAbove(int currentY, int maxY)
@@ -204,16 +216,16 @@
             if (blockAbove.isBackground && blockAbove.GetForegroundBlock() == null)
             {
                 //Place the new block in foreground
-                Block newBlockAbove = new TomatoCropBlock(false) { needsGround = (true, "Crops/Tomato"), shouldGrow = false };
+                Block newBlockAbove = new TomatoCropBlock(false) { needsGround = (true, BlockTags.CROPS_TOMATO), canGrow = false };
                 blockAbove.SetForegroundBlock(newBlockAbove);
 
                 growthTime = Game.rnd.Next(1200000, 1600000);
                 progress = 0;
             }
-            else if (blockAbove.isReplacable)
+            else if (blockAbove.HasTag(BlockTags.REPLACEABLE))
             {
                 //Place the new block
-                Block newBlockAbove = new TomatoCropBlock(false) { needsGround = (true, "Crops/Tomato"), shouldGrow = false };
+                Block newBlockAbove = new TomatoCropBlock(false) { needsGround = (true, BlockTags.CROPS_TOMATO), canGrow = false };
                 blockAbove.SetBlock(newBlockAbove);
 
                 growthTime = Game.rnd.Next(1200000, 1600000);
@@ -233,7 +245,7 @@
             if (IsReady())
             {
                 growthState = 2;
-                if (shouldGrow)
+                if (canGrow)
                 {
                     PlaceBlockAbove(yPos, yPos - maxHeight);
                 }
@@ -261,11 +273,12 @@
         {
             Init("Rice Base", "sc:rice_base", 500, "sc:rice_item", Tool.Axe);
             isBase = true;
-            needsGround = (true, "ground/plant");
+            needsGround = (true, BlockTags.GROUNDS_DIRT);
             isSolid = false;
-            doesntDrop = true;
+            WriteTag(BlockTags.DOESNT_DROP);
 
             connectedBlocks.Add((0, -1, "sc:rice_top"));
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
     }
 
@@ -275,7 +288,9 @@
         {
             Init("Rice Top", "sc:rice_top", 0, "sc:bucket_rice_item", Game.rnd.Next(1000000, 2000000), "sc:bucket_rice_item", "sc:bucket_rice_item", 1, 1, Tool.None);
             isSolid = false;
-            doesntDrop = true;
+            WriteTag(BlockTags.DOESNT_DROP);
+
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
 
         public override void UpdateProgress(int amount)
@@ -318,8 +333,9 @@
             Init("Pumpkin", "sc:pumpkin_crop_block", 0, "sc:pumpkin_item", Game.rnd.Next(1400000, 2000001), "sc:pumpkin_seeds_item", "sc:pumpkin_item", 1, 1, Tool.None);
             drops.Add(("sc:pumpkin_seeds_item", 1, 1));
             isSolid = false;
-            hasRightClickAction = true;
-            needsGround = (true, "ground/farmland");
+            WriteTag(BlockTags.RIGHTCLICKABLE);
+            needsGround = (true, BlockTags.GROUNDS_FARMLAND);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
 
         public override void UpdateProgress(int amount)
@@ -365,7 +381,8 @@
             Init("Cabbage", "sc:cabbage_crop_block", 0, "sc:cabbage_seeds_item", Game.rnd.Next(1200000, 1800001), "sc:cabbage_seeds_item", "sc:cabbage_item", 1, 1, Tool.None);
             drops.Add(("sc:cabbage_seeds_item", 1, 1));
             isSolid = false;
-            needsGround = (true, "ground/farmland");
+            needsGround = (true, BlockTags.GROUNDS_FARMLAND);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
 
         public override void UpdateProgress(int amount)
@@ -394,7 +411,8 @@
             Init("Potato", "sc:potato_crop_block", 0, "sc:potato_item", Game.rnd.Next(1400000, 2000001), "sc:potato_item", "sc:potato_item", 1, 3, Tool.None);
             drops.Add(("sc:potato_item", 1, 1));
             isSolid = false;
-            needsGround = (true, "ground/farmland");
+            needsGround = (true, BlockTags.GROUNDS_FARMLAND);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
 
         public override void UpdateProgress(int amount)
@@ -424,8 +442,9 @@
             Init("Cucumber", "sc:cucumber_crop_block", 0, "sc:cucumber_item", Game.rnd.Next(1200000, 1500000), "sc:cucumber_item", "sc:cucumber_item", 1, 2, Tool.None);
             drops.Add(("sc:cucumber_item", 1, 1));
             isSolid = false;
-            hasRightClickAction = true;
-            needsGround = (true, "ground/farmland");
+            WriteTag(BlockTags.RIGHTCLICKABLE);
+            needsGround = (true, BlockTags.GROUNDS_FARMLAND);
+            WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
 
         public override void UpdateProgress(int amount)

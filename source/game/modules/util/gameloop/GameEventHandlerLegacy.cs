@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace SeeloewenCraft.game.core.legacy
 {
-    public class GameLoop
+    public class GameEventHandlerLegacy
     {
         //References
         public HighPrecisionTimer.MultimediaTimer tmrGameLoop = new HighPrecisionTimer.MultimediaTimer();
@@ -12,7 +12,6 @@ namespace SeeloewenCraft.game.core.legacy
         public int tickrate;
 
         //Gameloops
-        private BlockUpdateEvent waterUpdateEvent;
         private DayNightCycle dayNightCycle;
         public AutoSaveEvent autoSaveEvent;
         private CropTimerEvent cropTimerEvent;
@@ -22,7 +21,7 @@ namespace SeeloewenCraft.game.core.legacy
 
         //-- Constructor --//
 
-        public GameLoop(int tickrate)
+        public GameEventHandlerLegacy(int tickrate)
         {
             //Setup references
             this.tickrate = tickrate;
@@ -33,7 +32,6 @@ namespace SeeloewenCraft.game.core.legacy
             tmrGameLoop.Elapsed += tmrGameLoop_Tick;
 
             //Setup all game loops
-            waterUpdateEvent = new BlockUpdateEvent(this);
             dayNightCycle = new DayNightCycle(this);
             cropTimerEvent = new CropTimerEvent(this);
             autoSaveEvent = new AutoSaveEvent(this);
@@ -96,7 +94,7 @@ namespace SeeloewenCraft.game.core.legacy
 
         //-- Constructor --//
 
-        public GameLoopEvent(GameLoop gameLoop)
+        public GameLoopEvent(GameEventHandlerLegacy gameLoop)
         {
             //Add the event to the loop events list so it can be accessed
             gameLoop.loopEvents.Add(this);

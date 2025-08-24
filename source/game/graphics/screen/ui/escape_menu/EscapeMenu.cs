@@ -17,7 +17,7 @@ namespace SeeloewenCraft.game.graphics
             "Return to game",
             "Notifications",
             "Settings",
-            "Debug-Log",
+            "Save Game",
             "Exit World"
         };
 
@@ -73,11 +73,11 @@ namespace SeeloewenCraft.game.graphics
                     Game.wndMenu.wndSettings = new wndSettings(Game.wndMenu, false);
                     Game.wndMenu.wndSettings.ShowDialog();
                   },
-                        () => {
+            () => {
                     Screen.showEscapeMenu = false;
-                    Log.Show();
+                    Game.world.Save();
                   },
-            () => Game.Close()
+            () => Game.shouldClose = true,
 
         };
     }

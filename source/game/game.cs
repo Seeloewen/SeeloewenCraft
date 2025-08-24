@@ -1,6 +1,8 @@
-﻿using OpenTK;
+﻿using Newtonsoft.Json;
+using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.networking;
@@ -9,29 +11,24 @@ using SeeloewenCraft.game.util.logging;
 using SeeloewenCraft.launcher;
 using System;
 using System.Collections.Generic;
+using JsonWriter = SeeloewenCraft.game.util.JsonWriter;
 
 namespace SeeloewenCraft.game
 {
     public static class Game
     {
-        //References
         public static World world;
         public static wndMenu wndMenu;
 
-        //Constants
         public const int WORLD_VERSION = 6; //Up to date as of Alpha 1.2.1 (Recent changes: Seeding)
         public const string GAME_VERSION = "Beta 1.0.0-dev";
         public const string VERSION_DATE = "21.08.2025";
-        public const int TEXTUREPACK_VERSION = 2;
+        public const int TEXTUREPACK_VERSION = 3; //Up to date as of Beta 1.0.0 (Recent changes: Rendering Rewrite)
 
-        //Variables
-        public static List<string> unstackableItems = new List<string>();
-        public static string selectedTexturepack;
+        public static List<string> unstackableItems = new List<string>(); //TODO: Move this to items
+        public static string selectedTexturepack; //Subject to rewrite
         public static Random rnd = new Random(DateTime.Now.Millisecond * DateTime.Now.Microsecond);
         public static int playerId;
-        public static bool generated;
-
-
 
         static unsafe void GameLoop(Window* window)
         {
@@ -40,10 +37,9 @@ namespace SeeloewenCraft.game
             {
                 double dt = DeltaTimer.Tick(out bool blockUpdate);
 
-
                 Screen.Update();
 
-                world.doGameTick(dt * 0.7, blockUpdate);
+                world.Tick(dt * 0.7, blockUpdate);
 
                 Renderer.Render();
 
@@ -51,8 +47,11 @@ namespace SeeloewenCraft.game
 
                 InputHandler.Reset();
                 GLFW.PollEvents();
-
             }
+
+            EndGame();
+
+            wndMenu.Show();
         }
 
 
@@ -60,12 +59,30 @@ namespace SeeloewenCraft.game
 
         public static bool shouldClose = false;
 
-        public static void Close()
+        private static void EndGame()
         {
-            shouldClose = true;
+            if (NetworkHandler.IsClient())
+            {
+                NetworkHandler.client.SendPlayerInformation();
+                NetworkHandler.SendData(MultiplayerPacketType.DISCONNECT, "");
+                NetworkHandler.client.Disconnect();
+            }
+            else
+            {
+                //If the setting to save worlds on closing is enabled
+                if (world.finishedLoading && Settings.saveWorldOnClose) world.Save();
+
+                //Save the user settings
+                using (JsonWriter writer = JsonWriter.Create())
+                {
+                    writer.Formatting = Formatting.Indented;
+                    Settings.Save(writer);
+                    writer.WriteToFile($"{FolderUtil.gameFolder}\\clientSettings.json");
+                }
+            }
         }
 
-        public unsafe static void Create(string worldName, int seed, bool isNew, int worldVersion, string gameVersion, MultiplayerType multiplayerType, wndMenu wndMenu)
+        public unsafe static void Create(string worldName, int seed, bool isNew, MultiplayerType multiplayerType, wndMenu wndMenu)
         {
             Game.wndMenu = wndMenu;
 
@@ -77,7 +94,7 @@ namespace SeeloewenCraft.game
 
             TextureManager.Init();
 
-            world = new World(null, worldName, seed, isNew, worldVersion, gameVersion, multiplayerType);
+            world = new World(null, worldName, seed, isNew, multiplayerType);
 
             Renderer.Init();
 
@@ -85,13 +102,11 @@ namespace SeeloewenCraft.game
 
             GameLoop(window);
 
-
             GLFW.DestroyWindow(window);
             GLFW.Terminate();
         }
 
-
-        static unsafe Window* InitWindow()
+        private static unsafe Window* InitWindow()
         {
             if (!GLFW.Init())
             {
@@ -115,9 +130,6 @@ namespace SeeloewenCraft.game
             });
 
             GLFW.MakeContextCurrent(window);
-
-
-
 
             GL.LoadBindings(new GLFWBindingsContext());
 
@@ -179,4 +191,9 @@ namespace SeeloewenCraft.game
         }
     }
 
+    public enum Gamemode
+    {
+        Survival,
+        Creative
+    }
 }
