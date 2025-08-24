@@ -667,7 +667,7 @@ namespace SeeloewenCraft.game.core.world
                 {
                     foreach (Block block in c.blockList.blocks)
                     {
-                        block.DoUpdate(dt);
+                        block.DoUpdate(1 / 20d);
                     }
                 }
             }

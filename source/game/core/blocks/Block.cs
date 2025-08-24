@@ -132,7 +132,7 @@ namespace SeeloewenCraft.game.core.blocks
             }
 
             //Call block specific updates         
-            if (sinceLastSpecificUpdate >= 0.03) //TODO: Should be 1, however the timing is completely off
+            if (sinceLastSpecificUpdate >= 1)
             {
                 DoSpecificUpdate();
                 sinceLastSpecificUpdate = 0;
