@@ -1,22 +1,48 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using System;
+using OpenTK.Graphics.OpenGL4;
 using System.Diagnostics;
 
 namespace SeeloewenCraft.game.graphics
 {
+    struct PrimitiveVertex : IBatch
+    {
+        private float x, y;
+        private float r, g, b, a;
+
+        internal PrimitiveVertex(float x, float y, float r, float g, float b, float a)
+        {
+            this.x = x;
+            this.y = y;
+            this.r = r;
+            this.g = g;
+            this.b = b;
+            this.a = a;
+        }
+
+        public void Fill(float[] vertices, int startIndex)
+        {
+            vertices[startIndex++] = x;   
+            vertices[startIndex++] = y;   
+            vertices[startIndex++] = r;   
+            vertices[startIndex++] = g;   
+            vertices[startIndex++] = b;  
+            vertices[startIndex++] = a; 
+        }
+
+        public static int GetSize() => 6;
+
+        public static VBLayout GetVBLayout() => new VBLayout().AddAttribute(2).AddAttribute(4);
+
+    }
+
     class PrimitiveRenderer
     {
 
-        private static Shader shader;
-        private static VertexBuffer buffer;
-
-        static float[] vertices;
-        static int index;
-        static bool drawing;
+        static BatchRenderer<PrimitiveVertex> renderer;
 
         public static void Init()
         {
-            shader = new Shader("shader.primitive");
-            buffer = new VertexBuffer(new VBLayout().AddAttribute(2).AddAttribute(4), 1024);
+            renderer = new BatchRenderer<PrimitiveVertex>(new Shader("shader.primitive"));
         }
 
         internal static void DrawRectangle(Rectangle rectangle, Color color)
@@ -34,17 +60,11 @@ namespace SeeloewenCraft.game.graphics
 
         internal static void DrawRectangle(float x1, float y1, float x2, float y2, float r, float g, float b, float a)
         {
-            if (index + 6 * 6 >= 1024)
-            {
-                End();
-                Begin();
-            }
-            Put(x1, y1, r, g, b, a);
-            Put(x1, y2, r, g, b, a);
-            Put(x2, y1, r, g, b, a);
-            Put(x1, y2, r, g, b, a);
-            Put(x2, y1, r, g, b, a);
-            Put(x2, y2, r, g, b, a);
+            PrimitiveVertex v0 = new PrimitiveVertex(x1, y1, r, g, b, a);
+            PrimitiveVertex v1 = new PrimitiveVertex(x1, y2, r, g, b, a);
+            PrimitiveVertex v2 = new PrimitiveVertex(x2, y2, r, g, b, a);
+            PrimitiveVertex v3 = new PrimitiveVertex(x2, y1, r, g, b, a);
+            renderer.DrawRect(v0, v1, v2, v3);
         }
 
         internal static void DrawRectangle(float x1, float y1, float x2, float y2, float r, float g, float b)
@@ -66,64 +86,22 @@ namespace SeeloewenCraft.game.graphics
             DrawRectangle(s1, t1, s2, t2, r, g, b, a);
         }
 
-        internal static void DrawTriangle(Vector2f v1, Vector2f v2, Vector2f v3, float r, float g, float b)
-        {
-            if (index + 3 * 6 >= 1024)
-            {
-                End();
-                Begin();
-            }
-            Put(v1.x, v1.y, r, g, b, 1.0f);
-            Put(v2.x, v2.y, r, g, b, 1.0f);
-            Put(v3.x, v3.y, r, g, b, 1.0f);
-        }
-
-        static void Put(float x, float y, float r, float g, float b, float a)
-        {
-            Debug.Assert(drawing && index + 6 < 1024);
-            vertices[index++] = x;
-            vertices[index++] = y;
-            vertices[index++] = r;
-            vertices[index++] = g;
-            vertices[index++] = b;
-            vertices[index++] = a;
-        }
 
         internal static void Begin()
         {
-            Debug.Assert(!drawing);
-            drawing = true;
-            vertices = new float[1024];
-            index = 0;
+            renderer.Begin();
         }
 
         internal static void End()
         {
-            Debug.Assert(drawing);
-            drawing = false;
-            buffer.SetVertices(vertices);
-            buffer.Bind();
-            shader.Use();
-            GL.DrawArrays(PrimitiveType.Triangles, 0, index);
+            renderer.End();
         }
 
-
-        internal void Test()
+        internal static void Flush()
         {
-            Begin();
-
-            End();
-
-            Rectangle r = new Rectangle(20, 10, 30, 40);
-
+            renderer.Flush();
         }
-
-
-
-
-
-
-
 
     }
+
 }

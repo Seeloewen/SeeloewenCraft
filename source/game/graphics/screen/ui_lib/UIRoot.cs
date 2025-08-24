@@ -90,15 +90,15 @@ namespace SeeloewenCraft.game.graphics.ui_lib
         /// </summary>
         public void Render()
         {
-            /*TextureRenderer.Begin();
+            TextureRenderer.Begin();
             PrimitiveRenderer.Begin();
-            TextRenderer.Begin();*/
+            TextRenderer.Begin();
 
             component.Render();
 
-            /*TextureRenderer.End();
+            TextureRenderer.End();
             PrimitiveRenderer.End();
-            TextRenderer.End();*/
+            TextRenderer.End();
         }
 
         /// <summary>

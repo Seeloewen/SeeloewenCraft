@@ -7,15 +7,14 @@ using System.Reflection;
 
 namespace SeeloewenCraft.game.graphics
 {
-    internal class FontTextureMap
+    internal class FontTextureMap : TextureMap
     {
 
         const int WIDTH = 1024, HEIGHT = 1024;
 
-        Texture texture;
 
         Dictionary<char, (float s1, float t1, float s2, float t2)> mappings;
-
+        
         internal static (FontTextureMap, Dictionary<char, int>) ParseFontMap()
         {
             FontTextureMap textureMap = new();
@@ -68,12 +67,5 @@ namespace SeeloewenCraft.game.graphics
             }
             return a;
         }
-
-
-        internal void Bind()
-        {
-            texture.Bind();
-        }
-
     }
 }

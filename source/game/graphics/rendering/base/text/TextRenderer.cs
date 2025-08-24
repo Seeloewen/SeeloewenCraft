@@ -5,35 +5,72 @@ using System.Diagnostics;
 
 namespace SeeloewenCraft.game.graphics
 {
+    
+    
+    struct TextVertex : IBatch
+    {
+        private float x, y, z;
+        private float s, t;
+        private float r, g, b;
+
+        internal TextVertex(float x, float y, float z, float s, float t, float r, float g, float b)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.s = s;
+            this.t = t;
+            this.r = r;
+            this.g = g;
+            this.b = b;
+        }
+
+        public void Fill(float[] vertices, int i)
+        {
+            vertices[i++] = this.x;
+            vertices[i++] = this.y;
+            vertices[i++] = this.z;
+            vertices[i++] = this.s;
+            vertices[i++] = this.t;
+            vertices[i++] = this.r;
+            vertices[i++] = this.g;
+            vertices[i++] = this.b;
+        }
+        
+
+        public static int GetSize() => 8;
+
+        public static VBLayout GetVBLayout() => new VBLayout().AddAttribute(3).AddAttribute(2).AddAttribute(3);
+        
+    }    
     internal static class TextRenderer
     {
 
         static FontTextureMap textureMap;
-        static Shader shader;
-        static VertexBuffer vertexBuffer;
-
         static Dictionary<char, int> widthMappings;
 
+        private static BatchRenderer<TextVertex> renderer;
+        
         internal static void Init()
         {
             (textureMap, widthMappings) = FontTextureMap.ParseFontMap();
 
-            shader = new Shader("shader.texture");
-            vertexBuffer = new VertexBuffer(new VBLayout().AddAttribute(2).AddAttribute(2).AddAttribute(1), 1024);
+            renderer = new BatchRenderer<TextVertex>(new Shader("shader.text"));
+            renderer.SetTexture(textureMap);
         }
 
-
-        static float[] vertices;
-        static int index;
-        static bool drawing;
-
         internal static void Draw(string s, int x, int y, int size)
+        {
+            Draw(s, x, y, size, new Color(0f));
+        }
+        
+        internal static void Draw(string s, int x, int y, int size, Color color)
         {
 
             (float x1, float y1) = Resolution.PixelToScreen(x, y);
             float sizeY = 2f / Resolution.HEIGHT;
 
-            Draw(s, x1, y1 - size * 8 * sizeY, size * 8 * sizeY);
+            Draw(s, x1, y1 - size * 8 * sizeY, size * 8 * sizeY, color);
         }
 
         public static int GetWidth(string s, int size)
@@ -53,19 +90,20 @@ namespace SeeloewenCraft.game.graphics
             return width * size;
         }
 
-        static private void Draw(string s, float x, float y, float h)
+        
+        static private void Draw(string s, float x, float y, float h, Color color)
         {
             float w = (h / 8) * (1 / Resolution.RATIO);
 
             foreach (char c in s)
             {
-                x += Draw(c, x, y, h);
+                x += Draw(c, x, y, h, color);
                 x += w;
             }
         }
 
         //returns width
-        static private float Draw(char c, float x, float y, float h)
+        static private float Draw(char c, float x, float y, float h, Color color)
         {
             (float s1, float t1, float s2, float t2) = textureMap.GetMapping(c);
 
@@ -75,54 +113,33 @@ namespace SeeloewenCraft.game.graphics
                 charWidth = 5;
             }
             float w = charWidth * (h / 8) / Resolution.RATIO;
-            Draw(x, y, x + w, y + h, s1, t2, s2, t1);
+            Draw(x, y, x + w, y + h, s1, t2, s2, t1, color);
 
             return w;
         }
 
-        static private void Draw(float x1, float y1, float x2, float y2, float s1, float t1, float s2, float t2)
+        static private void Draw(float x1, float y1, float x2, float y2, float s1, float t1, float s2, float t2, Color color, float z = 0f)
         {
-            Debug.Assert(drawing);
-            if (index + 4 * 6 >= 1024)
-            {
-                End();
-                Begin();
-            }
-            Put(x1, y1, s1, t1, 1.0f);
-            Put(x1, y2, s1, t2, 1.0f);
-            Put(x2, y1, s2, t1, 1.0f);
-            Put(x1, y2, s1, t2, 1.0f);
-            Put(x2, y1, s2, t1, 1.0f);
-            Put(x2, y2, s2, t2, 1.0f);
+            TextVertex v0 = new TextVertex(x1, y1, z, s1, t1, color.r, color.g, color.b);
+            TextVertex v1 = new TextVertex(x1, y2, z, s1, t2, color.r, color.g, color.b);
+            TextVertex v2 = new TextVertex(x2, y2, z, s2, t2, color.r, color.g, color.b);
+            TextVertex v3 = new TextVertex(x2, y1, z, s2, t1, color.r, color.g, color.b);
+            
+            renderer.DrawRect(v0, v1, v2, v3);
         }
-
-        static private void Put(float x, float y, float s, float t, float g)
-        {
-            vertices[index++] = x;
-            vertices[index++] = y;
-            vertices[index++] = s;
-            vertices[index++] = t;
-            vertices[index++] = g;
-        }
-
         static internal void Begin()
         {
-            Debug.Assert(!drawing);
-            drawing = true;
-            index = 0;
-            vertices = new float[1024];
+            renderer.Begin();
         }
 
         static internal void End()
         {
-            Debug.Assert(drawing);
-            drawing = false;
-            vertexBuffer.SetVertices(vertices);
-            vertexBuffer.Bind();
-            shader.Use();
-            textureMap.Bind();
-
-            GL.DrawArrays(PrimitiveType.Triangles, 0, index);
+            renderer.End();
+        }
+        
+        internal static void Flush()
+        {
+            renderer.Flush();
         }
 
 
