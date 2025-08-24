@@ -9,8 +9,13 @@ namespace SeeloewenCraft.game.graphics
 
         Dictionary<string, (float s1, float t1, float s2, float t2)> mappings;
 
-        Texture texture;
+        protected Texture texture;
 
+        protected TextureMap()
+        {
+            
+        }
+        
         internal TextureMap(string section)
         {
             var textureIDs = TextureManager.GetMappings(section);
