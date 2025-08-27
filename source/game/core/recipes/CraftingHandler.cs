@@ -92,8 +92,10 @@ namespace SeeloewenCraft.game.core.crafting
             return true;
         }
 
-        public void BeginCrafting(CraftingRecipe recipe, bool isNew)
+        public void BeginCrafting(CraftingRecipe recipe, int recipeAmount, bool isNew = true)
         {
+            this.recipeAmount = recipeAmount;
+
             if (isNew) //Only remove items when the recipe is new, not when it's loaded in from save for example
             {
                 //Remove the required materials based on the amount from the players inventory

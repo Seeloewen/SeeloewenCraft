@@ -353,10 +353,10 @@ namespace SeeloewenCraft.game.core.blocks
             WriteTag(BlockTags.WORKSTATION);
             WriteTag(BlockTags.RIGHTCLICKABLE);
             WriteTag(BlockTags.HAS_INVENTORY);
+            unchiselHandler = new UnchiselHandler();
             inventory = unchiselHandler.inv;
             unchiselHandler.inv.block = this;
             collision = new RectangleCollision(0, 1000, 565, 1000);
-            unchiselHandler = new UnchiselHandler();
         }
 
         public override void RightClickAction()

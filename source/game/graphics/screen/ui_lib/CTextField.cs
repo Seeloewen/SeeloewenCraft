@@ -28,7 +28,7 @@ public class CTextField : CText, TextReceiver
 
 
 public CTextField(int fontSize, TextLayout textLayout, int maxSize) :
-base("test", fontSize, textLayout)
+base("", fontSize, textLayout)
 {
     this.maxSize = maxSize;
 }

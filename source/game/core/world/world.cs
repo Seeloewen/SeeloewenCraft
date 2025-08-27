@@ -441,10 +441,12 @@ namespace SeeloewenCraft.game.core.world
                 player.inventory.AddItem("sc:diamond_hammer_item", 1, "durability=507");
                 player.inventory.AddItem("sc:chest_item", 64, "");
                 player.inventory.AddItem("sc:dirt_item", 64, "");
-                player.inventory.AddItem("sc:unchiseler_item", 64, "");
                 player.inventory.AddItem("sc:chiseler_item", 64, "");
-                player.inventory.AddItem("sc:oak_planks_stairbottomleft_item", 64, "");
                 player.inventory.AddItem("sc:torch_item", 64, "");
+                player.inventory.AddItem("sc:crafting_table_item", 64, "");
+                player.inventory.AddItem("sc:rock_item", 512, "");
+                player.inventory.AddItem("sc:stick_item", 128, "");
+
             }
 
             inventoryList.Add(player.inventory);

@@ -117,6 +117,10 @@ namespace SeeloewenCraft.game.graphics.ui_lib
             bounds = layout.CalcBounds(text, size);
         }
 
+        /// <summary>
+        /// Returns the drawn text
+        /// </summary>
+        public string GetText() => text;
 
         /// <summary>
         /// Renders the text

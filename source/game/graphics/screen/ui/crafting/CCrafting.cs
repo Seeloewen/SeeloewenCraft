@@ -2,6 +2,7 @@
 using SeeloewenCraft.game.graphics.ui_lib;
 using System;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -24,6 +25,8 @@ namespace SeeloewenCraft.game.graphics
         CButton cCraftButton;
         CButton cClaimButton;
         CProgressBar cCraftingProgress;
+        CTextBox cAmount;
+        CText cAmountHeader;
 
         internal CCrafting(IGuiData data) : base(data, new Color(0.82f), new Rectangle(GuiSizes.mx - (WIDTH / 2), GuiSizes.my - (HEIGHT / 2), GuiSizes.mx + (WIDTH / 2), GuiSizes.my + (HEIGHT / 2)))
         {
@@ -45,6 +48,10 @@ namespace SeeloewenCraft.game.graphics
             cCraftingProgress = new CProgressBar(new Color(0.7f), new Color(0.3f, 0.58f, 0.82f), new Rectangle(bounds.x1P + 20, bounds.y2P - 55, bounds.x2P - 20, bounds.y2P - 30));
             cCraftingProgress.visible = false;
 
+            cAmountHeader = new CText("Amount:", 2, new TextLayout(bounds.x1P + 22, TextHAlignment.LEFT, 560, TextVAlignment.TOP));
+            cAmount = new CTextBox(bounds.x1P + 110, 546, 75, 40, new Color(0.69f));
+            cAmount.SetText("1");
+
             AddChild(cBorder);
             AddChild(cHeader);
             AddChild(cCraftButton);
@@ -54,6 +61,8 @@ namespace SeeloewenCraft.game.graphics
             AddChild(cIngredientsHeader);
             AddChild(cCraftingProgress);
             AddChild(cClaimButton);
+            AddChild(cAmount);
+            AddChild(cAmountHeader);
 
             InitRecipes();
         }
@@ -65,6 +74,8 @@ namespace SeeloewenCraft.game.graphics
                 //When a recipe is running, show the progressbar and update it
                 cCraftingProgress.visible = true;
                 cCraftButton.visible = false;
+                cAmount.visible = false;
+                cAmountHeader.visible = false;
                 cCraftingProgress.SetProgress(handler.GetCraftingProgress());
 
                 if (handler.recipeClaimable)
@@ -82,10 +93,18 @@ namespace SeeloewenCraft.game.graphics
         private void CCraftButton_Click() //TODO: error when no recipe selected or insufficient resources
         {
             CraftingRecipe recipe = GetSelectedRecipe();
+            int amount = 1;
 
-            if (recipe != null && CraftingHandler.RequiredItemsAvailable(recipe, 1))
+            //Check if the amount is valid before crafting
+            if (!int.TryParse(cAmount.GetText(), out amount))
             {
-                handler.BeginCrafting(recipe, true);
+                MessageBox.Show("Please enter a valid amount for crafting", "Invalid amount", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (recipe != null && CraftingHandler.RequiredItemsAvailable(recipe, amount))
+            {
+                handler.BeginCrafting(recipe, amount);
                 cCraftButton.visible = false;
                 cCraftingProgress.visible = true;
             }
@@ -99,6 +118,8 @@ namespace SeeloewenCraft.game.graphics
                 cClaimButton.visible = false;
                 cCraftButton.visible = true;
                 cCraftingProgress.visible = false;
+                cAmount.visible = true;
+                cAmountHeader.visible = true;
             }
         }
 

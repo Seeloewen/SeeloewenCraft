@@ -367,7 +367,7 @@ namespace SeeloewenCraft.game.core.blocks
                     int amount = blockToken.GetInt("/recipe_amount");
                     block.craftingHandler.currentRecipe = recipe;
                     block.craftingHandler.recipeAmount = amount;
-                    block.craftingHandler.BeginCrafting(recipe, false);
+                    block.craftingHandler.BeginCrafting(recipe, amount, false);
                     block.craftingHandler.recipeProgress = progress;
                 }
 
