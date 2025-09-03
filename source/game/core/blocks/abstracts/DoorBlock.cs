@@ -4,13 +4,11 @@ namespace SeeloewenCraft.game.core.blocks
 {
     public abstract class DoorBlock : Block
     {
-        public ImageBrush imgOpen;
-        public ImageBrush imgClose;
         public bool isOpen;
 
         public DoorBlock(string name, string id, string itemId = null) : base(name, id ,500, itemId, Tool.Axe)
         {
-            state = "closed";
+            blockState = BlockState.DOOR_CLOSED;
             WriteTag(BlockTags.RIGHTCLICKABLE);
         }
 
@@ -46,7 +44,7 @@ namespace SeeloewenCraft.game.core.blocks
             //Open the current door block
             isOpen = true;
             isSolid = false;
-            state = "open";
+            blockState = BlockState.DOOR_OPEN;
 
             //If it's a base block, also open all connected doorblocks
             if (isBase)
@@ -63,7 +61,7 @@ namespace SeeloewenCraft.game.core.blocks
             //Open the current door block
             isOpen = true;
             isSolid = false;
-            state = "open";
+            blockState = BlockState.DOOR_OPEN;
 
             //If it's a base block, also open all connected doorblocks
             if (isBase)
@@ -80,7 +78,7 @@ namespace SeeloewenCraft.game.core.blocks
             //Close the current door block
             isOpen = false;
             isSolid = true;
-            state = "closed";
+            blockState = BlockState.DOOR_CLOSED;
 
             //If it's a base block, also close all connected doorblocks
             if (isBase)
@@ -98,7 +96,7 @@ namespace SeeloewenCraft.game.core.blocks
             //Close the current door block
             isOpen = false;
             isSolid = true;
-            state = "closed";
+            blockState = BlockState.DOOR_CLOSED;
 
             //If it's a base block, also close all connected doorblocks
             if (isBase)

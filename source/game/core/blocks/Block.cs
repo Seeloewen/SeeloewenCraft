@@ -46,7 +46,7 @@ namespace SeeloewenCraft.game.core.blocks
         public bool isAirLightSource;
         public bool isForeground = false;
         public (int x, int y) baseBlockOffset;
-        public string state = "";
+        protected BlockState blockState;
         public bool breaking;
         public double breakProgress;
         public bool hammering;
@@ -114,6 +114,8 @@ namespace SeeloewenCraft.game.core.blocks
 
         #endregion
 
+        public virtual BlockState GetBlockState() => blockState; //Can be overriden when a block uses some other logic to determine blockstate
+
         public bool IsLightSource() => HasTag(BlockTags.LIGHTSOURCE) || isAirLightSource;
 
         public void DoUpdate(double dt) //Gets run every tick (or so I hope)
@@ -144,8 +146,8 @@ namespace SeeloewenCraft.game.core.blocks
         public BlockRenderInfo GetBlockRenderInfo()
         {
             int breakAnimation = (int)(breaking || hammering ? (6 * breakProgress) / breakTimeTicks : 0);
-            var info = new BlockRenderInfo(xPos + chunk.index * 8, yPos, id, state, isBackground, breakAnimation, hammering, lightLevel);
-            if (foregroundBlock != null) info.AddForegroundBlock(foregroundBlock.id, foregroundBlock.state);
+            var info = new BlockRenderInfo(xPos + chunk.index * 8, yPos, id, GetBlockState(), isBackground, breakAnimation, hammering, lightLevel);
+            if (foregroundBlock != null) info.AddForegroundBlock(foregroundBlock.id, foregroundBlock.GetBlockState());
             return info;
         }
 

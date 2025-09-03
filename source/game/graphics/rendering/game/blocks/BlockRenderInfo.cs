@@ -1,4 +1,6 @@
 ﻿
+using SeeloewenCraft.game.core.blocks;
+
 namespace SeeloewenCraft.game.graphics
 {
     public class BlockRenderInfo
@@ -8,7 +10,7 @@ namespace SeeloewenCraft.game.graphics
         internal int y;
 
         string id;
-        string state;
+        string state = "";
 
         internal bool isBackground;
 
@@ -19,7 +21,7 @@ namespace SeeloewenCraft.game.graphics
 
         internal bool hasForegroundBlock;
         string foregroundID;
-        string foregroundState;
+        string foregroundState = "";
 
         internal string GetTextureID()
         {
@@ -54,23 +56,23 @@ namespace SeeloewenCraft.game.graphics
             _ => 0f,
         };
 
-        public BlockRenderInfo(int x, int y, string id, string state, bool isBackground, int breakAnimation, bool hammering, int lightLevel)
+        public BlockRenderInfo(int x, int y, string id, BlockState state, bool isBackground, int breakAnimation, bool hammering, int lightLevel)
         {
             this.x = x;
             this.y = y;
             this.id = id;
-            this.state = state;
+            if(state != BlockState.DEFAULT) this.state = state.ToString();
             this.isBackground = isBackground;
             this.breakAnimation = breakAnimation;
             this.hammering = hammering;
             lighting = ParseLightLevel(lightLevel);
         }
 
-        public void AddForegroundBlock(string id, string state)
+        public void AddForegroundBlock(string id, BlockState state)
         {
             hasForegroundBlock = true;
             foregroundID = id;
-            foregroundState = state;
+            if(state != BlockState.DEFAULT) foregroundState = state.ToString();
         }
 
 

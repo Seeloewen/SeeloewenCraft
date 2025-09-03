@@ -780,7 +780,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class CactusFruitBlock : CropBlock
     {
-        internal CactusFruitBlock() : base("Cactus Fruit", "sc:cactus_fruit_block", 300000, 500000, "sc:cactus_fruit_item" )
+        internal CactusFruitBlock() : base("Cactus Fruit", "sc:cactus_fruit_block", 300000, 500000, 2,"sc:cactus_fruit_item" )
         {
             needsGround = (true, BlockTags.GROUNDS_SAND);
         }
@@ -912,7 +912,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class OakSaplingBlock : CropBlock
     {
-        internal OakSaplingBlock() : base("Oak Sapling", "sc:oak_sapling_block", 600000, 1200000, "sc:oak_sapling_item" )
+        internal OakSaplingBlock() : base("Oak Sapling", "sc:oak_sapling_block", 600000, 1200000, 2, "sc:oak_sapling_item" )
         {
             needsGround = (true, BlockTags.GROUNDS_DIRT);
         }
@@ -942,7 +942,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class SpruceSaplingBlock : CropBlock
     {
-        internal SpruceSaplingBlock() : base("Spruce Sapling", "sc:spruce_sapling_block", 600000, 1200000, "sc:tree_sapling_item" )
+        internal SpruceSaplingBlock() : base("Spruce Sapling", "sc:spruce_sapling_block", 600000, 1200000, 2, "sc:tree_sapling_item" )
         {
             needsGround = (true, "ground/plant");
         }

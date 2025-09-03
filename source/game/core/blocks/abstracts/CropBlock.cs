@@ -1,5 +1,6 @@
 ﻿using SeeloewenCraft.game.graphics;
-using System.CodeDom;
+using System;
+using Windows.Graphics.Display;
 
 namespace SeeloewenCraft.game.core.blocks
 {
@@ -7,26 +8,35 @@ namespace SeeloewenCraft.game.core.blocks
 
     public abstract class CropBlock : Block
     {
-        protected int growthState { get => int.Parse(state); set => state = $"{value}"; }
-
         protected readonly int timeMin;
         protected readonly int timeMax;
+        protected readonly int stageMax;
 
-        public int growthTime;
-        public int progress;
-        private CropProduct product;
+        protected int growthStage;
+        internal int growthTime;
+        internal int progress;
 
-        protected CropBlock(string name, string id, int timeMin, int timeMax, string itemId = null) : base(name, id, 0, itemId, Tool.None)
+        protected CropProduct product;
+
+        protected CropBlock(string name, string id, int timeMin, int timeMax, int stages, string itemId = null) : base(name, id, 0, itemId, Tool.None)
         {
             this.timeMax = timeMax;
             this.timeMin = timeMin;
 
             growthTime = Game.rnd.Next(timeMin, timeMax);
-            growthState = 1;
+            growthStage = 1;
             isSolid = false;
 
             WriteTag(BlockTags.CANT_BE_BACKGROUND);
             WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
+        }
+
+        public override BlockState GetBlockState()
+        {
+            //Convert stage to enum that's used globally
+            Enum.TryParse($"CROP_{growthStage}", out BlockState state);
+            if (state != BlockState.DEFAULT) return state;
+            return BlockState.CROP_1;
         }
 
         public void SetProduct(CropProduct product) => this.product = product;
@@ -39,9 +49,17 @@ namespace SeeloewenCraft.game.core.blocks
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"progress");
         }
 
-        public virtual void UpdateProgress(int amount) => progress += amount;
+        public virtual void UpdateProgress(int amount)
+        {
+            progress += amount;
 
-        public bool IsReady() => progress >= growthTime;
+            //Update stage
+            int n = stageMax - 1;
+            double step = growthTime / n;
+            growthStage = Math.Max(Math.Min((int)Math.Floor(progress / step), n), 1);
+        }
+
+        public bool IsReady() => growthStage >= stageMax;
 
         public bool HasSpaceAbove(int xOffset, int yOffset, int width, int height)
         {
@@ -66,8 +84,8 @@ namespace SeeloewenCraft.game.core.blocks
             //If the item is ready, also add the product as a drop
             if (IsReady())
             {
-                if(product != null) drops.Add((product.id, product.min, product.max));
-                growthState = 1;
+                if (product != null) drops.Add((product.id, product.min, product.max));
+                growthStage = 1;
                 progress = 0;
                 growthTime = Game.rnd.Next(timeMin, timeMax);
             }

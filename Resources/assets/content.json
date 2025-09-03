@@ -882,67 +882,67 @@
 					"file": "Blocks.Connected.Rice_Base.png"
 				},
 				{
-					"id": "sc:cabbage_crop_block/1",
+					"id": "sc:cabbage_crop_block/CROP_1",
 					"file": "Blocks.States.Cabbage_Stage_1.png"
 				},
 				{
-					"id": "sc:cabbage_crop_block/2",
+					"id": "sc:cabbage_crop_block/CROP_2",
 					"file": "Blocks.States.Cabbage_Stage_2.png"
 				},
 				{
-					"id": "sc:cabbage_crop_block/3",
+					"id": "sc:cabbage_crop_block/CROP_3",
 					"file": "Blocks.States.Cabbage_Stage_3.png"
 				},
 				{
-					"id": "sc:cabbage_crop_block/4",
+					"id": "sc:cabbage_crop_block/CROP_4",
 					"file": "Blocks.States.Cabbage_Stage_4.png"
 				},
 				{
-					"id": "sc:potato_crop_block/1",
+					"id": "sc:potato_crop_block/CROP_1",
 					"file": "Blocks.States.Potato_Stage_1.png"
 				},
 				{
-					"id": "sc:potato_crop_block/2",
+					"id": "sc:potato_crop_block/CROP_2",
 					"file": "Blocks.States.Potato_Stage_2.png"
 				},
 				{
-					"id": "sc:potato_crop_block/3",
+					"id": "sc:potato_crop_block/CROP_3",
 					"file": "Blocks.States.Potato_Stage_3.png"
 				},
 				{
-					"id": "sc:potato_crop_block/4",
+					"id": "sc:potato_crop_block/CROP_4",
 					"file": "Blocks.States.Potato_Stage_4.png"
 				},
 				{
-					"id": "sc:pumpkin_crop_block/1",
+					"id": "sc:pumpkin_crop_block/CROP_1",
 					"file": "Blocks.States.Pumpkin_Stage_1.png"
 				},
 				{
-					"id": "sc:pumpkin_crop_block/2",
+					"id": "sc:pumpkin_crop_block/CROP_2",
 					"file": "Blocks.States.Pumpkin_Stage_2.png"
 				},
 				{
-					"id": "sc:pumpkin_crop_block/3",
+					"id": "sc:pumpkin_crop_block/CROP_3",
 					"file": "Blocks.States.Pumpkin_Stage_3.png"
 				},
 				{
-					"id": "sc:pumpkin_crop_block/4",
+					"id": "sc:pumpkin_crop_block/CROP_4",
 					"file": "Blocks.States.Pumpkin_Stage_4.png"
 				},
 				{
-					"id": "sc:tomato_crop_block/1",
+					"id": "sc:tomato_crop_block/CROP_1",
 					"file": "Blocks.States.Tomato_Stage_1.png"
 				},
 				{
-					"id": "sc:tomato_crop_block/2",
+					"id": "sc:tomato_crop_block/CROP_2",
 					"file": "Blocks.States.Tomato_Stage_1.png"
 				},
 				{
-					"id": "sc:cucumber_crop_block/1",
+					"id": "sc:cucumber_crop_block/CROP_1",
 					"file": "Blocks.States.Cucumber_Stage_1.png"
 				},
 				{
-					"id": "sc:cucumber_crop_block/2",
+					"id": "sc:cucumber_crop_block/CROP_2",
 					"file": "Blocks.States.Cucumber_Stage_2.png"
 				},
 				{
@@ -1490,107 +1490,107 @@
 					"file": "Blocks.Connected.Archeology_Pot_Top.png"
 				},
 				{
-					"id": "sc:wheat_crop_block/1",
+					"id": "sc:wheat_crop_block/CROP_1",
 					"file": "Blocks.States.Wheat_Stage_1.png"
 				},
 				{
-					"id": "sc:wheat_crop_block/2",
+					"id": "sc:wheat_crop_block/CROP_2",
 					"file": "Blocks.States.Wheat_Stage_2.png"
 				},
 				{
-					"id": "sc:wheat_crop_block/3",
+					"id": "sc:wheat_crop_block/CROP_3",
 					"file": "Blocks.States.Wheat_Stage_3.png"
 				},
 				{
-					"id": "sc:wheat_crop_block/4",
+					"id": "sc:wheat_crop_block/CROP_4",
 					"file": "Blocks.States.Wheat_Stage_4.png"
 				},
 				{
-					"id": "sc:carrot_crop_block/1",
+					"id": "sc:carrot_crop_block/CROP_1",
 					"file": "Blocks.States.Carrot_Stage_1.png"
 				},
 				{
-					"id": "sc:carrot_crop_block/2",
+					"id": "sc:carrot_crop_block/CROP_2",
 					"file": "Blocks.States.Carrot_Stage_2.png"
 				},
 				{
-					"id": "sc:carrot_crop_block/3",
+					"id": "sc:carrot_crop_block/CROP_3",
 					"file": "Blocks.States.Carrot_Stage_3.png"
 				},
 				{
-					"id": "sc:carrot_crop_block/4",
+					"id": "sc:carrot_crop_block/CROP_4",
 					"file": "Blocks.States.Carrot_Stage_4.png"
 				},
 				{
-					"id": "sc:berry_bush_crop_block/1",
+					"id": "sc:berry_bush_crop_block/CROP_1",
 					"file": "Blocks.States.Berry_Bush_Stage_1.png"
 				},
 				{
-					"id": "sc:berry_bush_crop_block/2",
+					"id": "sc:berry_bush_crop_block/CROP_2",
 					"file": "Blocks.States.Berry_Bush_Stage_2.png"
 				},
 				{
-					"id": "sc:cotton_crop_block/1",
+					"id": "sc:cotton_crop_block/CROP_1",
 					"file": "Blocks.States.Cotton_Stage_1.png"
 				},
 				{
-					"id": "sc:cotton_crop_block/2",
+					"id": "sc:cotton_crop_block/CROP_2",
 					"file": "Blocks.States.Cotton_Stage_2.png"
 				},
 				{
-					"id": "sc:oak_door_base/closed",
+					"id": "sc:oak_door_base/DOOR_CLOSED",
 					"file": "Blocks.States.Oak_Door_Closed_Base.png"
 				},
 				{
-					"id": "sc:oak_door_top/closed",
+					"id": "sc:oak_door_top/DOOR_CLOSED",
 					"file": "Blocks.States.Oak_Door_Closed_Top.png"
 				},
 				{
-					"id": "sc:oak_door_base/open",
+					"id": "sc:oak_door_base/DOOR_OPEN",
 					"file": "Blocks.States.Oak_Door_Open_Base.png"
 				},
 				{
-					"id": "sc:oak_door_top/open",
+					"id": "sc:oak_door_top/DOOR_OPEN",
 					"file": "Blocks.States.Oak_Door_Open_Top.png"
 				},
 				{
-					"id": "sc:spruce_door_top/closed",
+					"id": "sc:spruce_door_top/DOOR_CLOSED",
 					"file": "Blocks.States.Spruce_Door_Closed_Top.png"
 				},
 				{
-					"id": "sc:spruce_door_base/closed",
+					"id": "sc:spruce_door_base/DOOR_CLOSED",
 					"file": "Blocks.States.Spruce_Door_Closed_Base.png"
 				},
 				{
-					"id": "sc:spruce_door_top/open",
+					"id": "sc:spruce_door_top/DOOR_OPEN",
 					"file": "Blocks.States.Spruce_Door_Open_Top.png"
 				},
 				{
-					"id": "sc:spruce_door_base/open",
+					"id": "sc:spruce_door_base/DOOR_OPEN",
 					"file": "Blocks.States.Spruce_Door_Open_Base.png"
 				},
 				{
-					"id": "sc:oak_trapdoor/closed",
+					"id": "sc:oak_trapdoor/DOOR_CLOSED",
 					"file": "Blocks.States.Oak_Trapdoor_Closed.png"
 				},
 				{
-					"id": "sc:oak_trapdoor/open",
+					"id": "sc:oak_trapdoor/DOOR_OPEN",
 					"file": "Blocks.States.Oak_Trapdoor_Open.png"
 				},
 				{
-					"id": "sc:spruce_trapdoor/closed",
+					"id": "sc:spruce_trapdoor/DOOR_CLOSED",
 					"file": "Blocks.States.Spruce_Trapdoor_Closed.png"
 				},
 				{
-					"id": "sc:spruce_trapdoor/open",
+					"id": "sc:spruce_trapdoor/DOOR_OPEN",
 					"file": "Blocks.States.Spruce_Trapdoor_Open.png"
 				},
 				{
-					"id": "sc:furnace/idle",
+					"id": "sc:furnace/FURNACE_IDLE",
 					"file": "Blocks.States.Furnace_Idle.png"
 				},
 				{
-					"id": "sc:furnace/running",
+					"id": "sc:furnace/FURNACE_RUNNING",
 					"file": "Blocks.States.Furnace_Running.png"
 				}
 			]

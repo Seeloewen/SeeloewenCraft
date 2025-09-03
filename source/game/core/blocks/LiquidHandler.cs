@@ -1,5 +1,4 @@
 ﻿using SeeloewenCraft.game.util;
-using SeeloewenCraft.game.util.logging;
 
 namespace SeeloewenCraft.game.core.blocks
 {
@@ -12,8 +11,6 @@ namespace SeeloewenCraft.game.core.blocks
 
         internal static void DoUpdate(LiquidBlock block)
         {
-            Log.WriteD("Tick");
-
             if (block == null) return;
 
             //Try expanding the liquid
