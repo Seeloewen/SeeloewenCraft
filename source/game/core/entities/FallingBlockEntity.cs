@@ -13,7 +13,7 @@ namespace SeeloewenCraft.game.core.entities
             if (onGround)
             {
                 Game.world.RemoveEntity(id);
-                Block block = BlockRegister.GenerateBlock(blockType);
+                Block block = BlockRegister.Get(blockType);
                 int blockX = (posX + 500) / 1000; // +500 is for rounding
                 int blockY = (posY + 500) / 1000;
                 if (Game.world.GetBlock(blockX, blockY) is AirBlock || Game.world.GetBlock(blockX, blockY) is WaterBlock)

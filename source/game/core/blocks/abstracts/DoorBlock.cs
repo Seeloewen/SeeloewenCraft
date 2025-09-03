@@ -2,15 +2,16 @@
 
 namespace SeeloewenCraft.game.core.blocks
 {
-    public class DoorBlock : Block
+    public abstract class DoorBlock : Block
     {
         public ImageBrush imgOpen;
         public ImageBrush imgClose;
         public bool isOpen;
 
-        public DoorBlock(bool isInBackground = false) : base(isInBackground)
+        public DoorBlock(string name, string id, string itemId = null) : base(name, id ,500, itemId, Tool.Axe)
         {
             state = "closed";
+            WriteTag(BlockTags.RIGHTCLICKABLE);
         }
 
         public override void RightClickAction()

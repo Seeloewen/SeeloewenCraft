@@ -52,11 +52,11 @@ namespace SeeloewenCraft.game.core.world.generation
                 case DungeonType.Plains:
                     if (dir == Direction.RIGHT || dir == Direction.LEFT)
                     {
-                        return (new SpruceDoor_Base(false), new SpruceDoor_Top(false));
+                        return (BlockRegister.Get("sc:oak_door_base"), BlockRegister.Get("sc:oak_door_top"));
                     }
                     else
                     {
-                        return (new OakTrapDoor(false), null);
+                        return (BlockRegister.Get("sc:oak_trapdoor"), null);
                     }
                 default:
                     return (null, null);
@@ -70,13 +70,11 @@ namespace SeeloewenCraft.game.core.world.generation
                 case DungeonType.Plains:
                     if (dir == Direction.RIGHT || dir == Direction.LEFT)
                     {
-
-
-                        return (new CobblestoneBlock(false), new CobblestoneBlock(false));
+                        return (BlockRegister.Get("sc:cobblestone_block"), BlockRegister.Get("sc:cobblestone_block"));
                     }
                     else
                     {
-                        return (new CobblestoneBlock(false), null);
+                        return (BlockRegister.Get("sc:cobblestone_block"), null);
                     }
                 default:
                     return (null, null);

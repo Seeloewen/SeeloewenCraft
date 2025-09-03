@@ -11,7 +11,7 @@ namespace SeeloewenCraft.game.core.blocks
         public int liquidSourceY { get; private set; } = 0;
         public int liquidSourceCIndex { get; private set; } = 0;
 
-        protected LiquidBlock(bool isBackground = false) : base(isBackground)
+        protected LiquidBlock(string name, string id) : base(name, id, 0, null, Tool.None)
         {
             isSolid = false;
             WriteTag(BlockTags.REPLACEABLE);

@@ -26,7 +26,7 @@ namespace SeeloewenCraft.game.core.blocks
             //If not, replace it with air
             if (block.liquidLevel < 6 && !SourceExists(block))
             {
-                //block.Replace(BlockRegister.GenerateBlock("sc:air_block"));
+                //block.Replace(BlockRegister.Get("sc:air_block"));
             }
         }
 

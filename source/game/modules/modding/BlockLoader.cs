@@ -47,16 +47,13 @@ namespace SeeloewenCraft.game.core.legacy
 
     }
 
-    class ModdedBlock : Block
+    class ModdedBlock : Block //Warning: Legacy code that has been outdated for ages
     {
-
         string type;
 
-        public ModdedBlock(string type, bool isInBackground) : base(isInBackground)
+        public ModdedBlock() : base("Modded Block", "sc:modded_block", 500, null, Tool.None)
         {
-            this.type = type;
-            name = "Modded Block";
-            id = "sc:modded_block";
+            //this.type = type;
         }
 
         public override void SaveToJson(JsonWriter writer)

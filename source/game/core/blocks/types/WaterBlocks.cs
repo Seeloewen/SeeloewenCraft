@@ -7,7 +7,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public abstract class WaterBlock : LiquidBlock
     {
-        public WaterBlock(bool isInBackground) : base(isInBackground)
+        public WaterBlock(string name, string id) : base(name, id)
         {
             liquidTag = BlockTags.LIQUIDS_WATER;
             WriteTag(liquidTag);
@@ -17,11 +17,11 @@ namespace SeeloewenCraft.game.core.blocks
         {
             //Return block based on level and direction
 
-            if (level == 6) return (LiquidBlock)BlockRegister.GenerateBlock("sc:water_6_block");
+            if (level == 6) return (LiquidBlock)BlockRegister.Get("sc:water_6_block");
 
             string dirS = dir == Direction.RIGHT ? "right" : "left";
 
-            LiquidBlock newBlock = (LiquidBlock)BlockRegister.GenerateBlock(level switch
+            LiquidBlock newBlock = (LiquidBlock)BlockRegister.Get(level switch
             {
                 1 => $"sc:water_1_{dirS}_block",
                 2 => $"sc:water_2_{dirS}_block",
@@ -31,8 +31,8 @@ namespace SeeloewenCraft.game.core.blocks
                 _ => null
             });
 
-            SetSource(newBlock, source);  
-            
+            SetSource(newBlock, source);
+
             return newBlock;
         }
 
@@ -65,9 +65,8 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_1_Right : WaterBlock
     {
-        public WaterBlock_1_Right(bool isInBackground) : base(isInBackground)
+        public WaterBlock_1_Right() : base("Water", "sc:water_1_right_block")
         {
-            Init("Water", "sc:water_1_right_block", 0, null, Tool.None);
             liquidLevel = 1;
         }
 
@@ -79,9 +78,8 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_1_Left : WaterBlock
     {
-        public WaterBlock_1_Left(bool isInBackground) : base(isInBackground)
+        public WaterBlock_1_Left() : base("Water", "sc:water_1_left_block")
         {
-            Init("Water", "sc:water_1_left_block", 0, null, Tool.None);
             liquidLevel = 1;
         }
 
@@ -93,9 +91,8 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_2_Right : WaterBlock
     {
-        public WaterBlock_2_Right(bool isInBackground) : base(isInBackground)
+        public WaterBlock_2_Right() : base("Water", "sc:water_2_right_block")
         {
-            Init("Water", "sc:water_2_right_block", 0, null, Tool.None);
             liquidLevel = 2;
         }
 
@@ -107,9 +104,8 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_2_Left : WaterBlock
     {
-        public WaterBlock_2_Left(bool isInBackground) : base(isInBackground)
+        public WaterBlock_2_Left() : base("Water", "sc:water_2_left_block")
         {
-            Init("Water", "sc:water_2_left_block", 0, null, Tool.None);
             liquidLevel = 2;
         }
 
@@ -121,9 +117,8 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_3_Right : WaterBlock
     {
-        public WaterBlock_3_Right(bool isInBackground) : base(isInBackground)
+        public WaterBlock_3_Right() : base("Water", "sc:water_3_right_block")
         {
-            Init("Water", "sc:water_3_right_block", 0, null, Tool.None);
             liquidLevel = 3;
         }
 
@@ -135,9 +130,8 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_3_Left : WaterBlock
     {
-        public WaterBlock_3_Left(bool isInBackground) : base(isInBackground)
+        public WaterBlock_3_Left() : base("Water", "sc:water_3_left_block")
         {
-            Init("Water", "sc:water_3_left_block", 0, null, Tool.None);
             liquidLevel = 3;
         }
 
@@ -149,9 +143,8 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_4_Right : WaterBlock
     {
-        public WaterBlock_4_Right(bool isInBackground) : base(isInBackground)
+        public WaterBlock_4_Right() : base("Water", "sc:water_4_right_block")
         {
-            Init("Water", "sc:water_4_right_block", 0, null, Tool.None);
             liquidLevel = 4;
         }
 
@@ -163,9 +156,8 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_4_Left : WaterBlock
     {
-        public WaterBlock_4_Left(bool isInBackground) : base(isInBackground)
+        public WaterBlock_4_Left() : base("Water", "sc:water_4_left_block")
         {
-            Init("Water", "sc:water_4_left_block", 0, null, Tool.None);
             liquidLevel = 4;
         }
 
@@ -177,9 +169,8 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_5_Right : WaterBlock
     {
-        public WaterBlock_5_Right(bool isInBackground) : base(isInBackground)
+        public WaterBlock_5_Right() : base("Water", "sc:water_5_right_block")
         {
-            Init("Water", "sc:water_5_right_block", 0, null, Tool.None);
             liquidLevel = 5;
         }
 
@@ -191,9 +182,8 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_5_Left : WaterBlock
     {
-        public WaterBlock_5_Left(bool isInBackground) : base(isInBackground)
+        public WaterBlock_5_Left() : base("Water", "sc:water_5_left_block")
         {
-            Init("Water", "sc:water_5_left_block", 0, null, Tool.None);
             liquidLevel = 5;
         }
 
@@ -205,9 +195,8 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_6 : WaterBlock
     {
-        public WaterBlock_6(bool isInBackground) : base(isInBackground)
+        public WaterBlock_6() : base("Water", "sc:water_6_block")
         {
-            Init("Water", "sc:water_6_block", 0, null, Tool.None);
             liquidLevel = 6;
         }
     }

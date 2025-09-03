@@ -19,7 +19,7 @@ namespace SeeloewenCraft.game.core.commands
                 int posY = int.Parse(args[3]);
                 int chunkID = int.Parse(args[4]);
 
-                Block block = BlockRegister.GenerateBlock(id);
+                Block block = BlockRegister.Get(id);
 
                 if (block == null)
                 {

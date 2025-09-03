@@ -6,11 +6,9 @@ using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.util;
-using SeeloewenCraft.game.util.logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Documents;
 
 namespace SeeloewenCraft.game.core.blocks
 {
@@ -28,12 +26,12 @@ namespace SeeloewenCraft.game.core.blocks
 
         //block type info
         public string name;
-        public string id;
+        public readonly string id;
         public string itemId;
         public int breakTime = 150; //Milliseconds
         public int breakTimeTicks { get => breakTime * 12 / 100; } //TODO: 12 is legacy code from old timer, might need adaption
         public List<(string id, int min, int max)> drops = new List<(string, int, int)>(); //Can be empty, means that item id will drop x1
-        public Collision collision;
+        public Collision collision = new EntireBlockCollision();
         public Tool effectiveTool;
         public Material? effectiveMaterial;
         public (bool doesNeed, string tag) needsGround = (false, "");
@@ -59,11 +57,13 @@ namespace SeeloewenCraft.game.core.blocks
         //Temporary, only important during generation
         public bool isSurface = false;
 
-        public Block(bool isBackground = false)
+        protected Block(string name, string id, int breakTime, string itemId = null, Tool tool = Tool.None)
         {
-            collision = new EntireBlockCollision();
-
-            this.isBackground = isBackground;
+            this.name = name;
+            this.id = id;
+            this.breakTime = breakTime;
+            this.itemId = itemId;
+            effectiveTool = tool;
         }
 
         #region lighting (dev)
@@ -147,15 +147,6 @@ namespace SeeloewenCraft.game.core.blocks
             var info = new BlockRenderInfo(xPos + chunk.index * 8, yPos, id, state, isBackground, breakAnimation, hammering, lightLevel);
             if (foregroundBlock != null) info.AddForegroundBlock(foregroundBlock.id, foregroundBlock.state);
             return info;
-        }
-
-        public virtual void Init(string name, string id, int breakTime, string? itemId, Tool effectiveTool)
-        {
-            this.name = name;
-            this.id = id;
-            this.breakTime = breakTime;
-            this.itemId = itemId;
-            this.effectiveTool = effectiveTool;
         }
 
         public virtual bool[] CheckTouch(int startX, int startY, int endX, int endY)
@@ -326,11 +317,11 @@ namespace SeeloewenCraft.game.core.blocks
             string id = blockToken.GetString("/id");
 
 
-            Block block = BlockRegister.GenerateBlock(id);
+            Block block = BlockRegister.Get(id);
 
             if (block == null)
             {
-                block = new AirBlock(false);
+                block = new AirBlock();
             }
             else
             {
@@ -455,7 +446,7 @@ namespace SeeloewenCraft.game.core.blocks
             return false;
         }
 
-        public void MoveToBackground()
+        public Block MoveToBackground()
         {
             isBackground = true;
 
@@ -465,6 +456,8 @@ namespace SeeloewenCraft.game.core.blocks
                 blockAbove.BreakBlock(true, true, false);
                 Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos - 1, blockAbove.id));
             }
+
+            return this;
         }
 
         public void MoveToNormal()
@@ -749,7 +742,7 @@ namespace SeeloewenCraft.game.core.blocks
                 else if (!HasTag(BlockTags.UNBREAKABLE) || skipBreakableCheck)
                 {
                     //Remove the block from the chunks blocklist and add an airblock
-                    Block block = new AirBlock(false);
+                    Block block = new AirBlock();
                     SetBlock(block);
 
                     if (dropItems)
@@ -952,7 +945,7 @@ namespace SeeloewenCraft.game.core.blocks
             {
                 //Place the connected block
                 Block oldBlock = Game.world.GetBlock(xPos + 8 * chunk.index + conBlock.xOffset, yPos + conBlock.yOffset);
-                Block newBlock = BlockRegister.GenerateBlock(conBlock.blockId);
+                Block newBlock = BlockRegister.Get(conBlock.blockId);
                 newBlock.baseBlock = (-conBlock.xOffset, -conBlock.yOffset);
 
                 oldBlock.SetForegroundBlock(newBlock);
@@ -965,7 +958,7 @@ namespace SeeloewenCraft.game.core.blocks
             {
                 //Place the connected block
                 Block oldBlock = Game.world.GetBlock(xPos + 8 * chunk.index + conBlock.xOffset, yPos + conBlock.yOffset);
-                Block newBlock = BlockRegister.GenerateBlock(conBlock.blockId);
+                Block newBlock = BlockRegister.Get(conBlock.blockId);
                 newBlock.baseBlock = (-conBlock.xOffset, -conBlock.yOffset);
 
                 oldBlock.SetBlock(newBlock);

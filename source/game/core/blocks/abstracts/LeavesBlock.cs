@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SeeloewenCraft.game.core.blocks
 {
-    public class LeavesBlock : Block
+    public abstract class LeavesBlock : Block
     {
-        public LeavesBlock(bool isBackground = false) : base(isBackground)
+        public LeavesBlock(string name, string id, string itemId) : base(name, id, 125, itemId, Tool.None)
         {
             WriteTag(BlockTags.TYPES_LEAF);
         }

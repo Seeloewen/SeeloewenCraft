@@ -35,15 +35,15 @@ namespace SeeloewenCraft.game.core.world.generation
             canReplaceSolidBlocks = true;
 
             //Add all structure components - It's meant to look like a bedrock pyramid
-            AddBlock(new BedrockBlock(false), 0, 0);
-            AddBlock(new BedrockBlock(false), 1, 0);
-            AddBlock(new BedrockBlock(false), 2, 0);
-            AddBlock(new BedrockBlock(false), 3, 0);
-            AddBlock(new BedrockBlock(false), 4, 0);
-            AddBlock(new BedrockBlock(false), 1, 1);
-            AddBlock(new BedrockBlock(false), 2, 1);
-            AddBlock(new BedrockBlock(false), 3, 1);
-            AddBlock(new BedrockBlock(false), 2, 2);
+            AddBlock(BlockRegister.Get("sc:bedrock_block"), 0, 0);
+            AddBlock(BlockRegister.Get("sc:bedrock_block"), 1, 0);
+            AddBlock(BlockRegister.Get("sc:bedrock_block"), 2, 0);
+            AddBlock(BlockRegister.Get("sc:bedrock_block"), 3, 0);
+            AddBlock(BlockRegister.Get("sc:bedrock_block"), 4, 0);
+            AddBlock(BlockRegister.Get("sc:bedrock_block"), 1, 1);
+            AddBlock(BlockRegister.Get("sc:bedrock_block"), 2, 1);
+            AddBlock(BlockRegister.Get("sc:bedrock_block"), 3, 1);
+            AddBlock(BlockRegister.Get("sc:bedrock_block"), 2, 2);
 
             //Begin generating the alpha structure - was only meant for development purposes and is no longer in the game
             BeginGeneration(x, y, index, isNew);
@@ -75,17 +75,17 @@ namespace SeeloewenCraft.game.core.world.generation
             name = "Fossil";
             canReplaceSolidBlocks = true;
 
-            AddBlock(new BoneBlock(false), 0, 0);
-            AddBlock(new BoneBlock(false), 0, 1);
-            AddBlock(new BoneBlock(false), 0, 2);
-            AddBlock(new BoneBlock(false), 1, 3);
-            AddBlock(new BoneBlock(false), 2, 0);
-            AddBlock(new BoneBlock(false), 2, 1);
-            AddBlock(new BoneBlock(false), 2, 2);
-            AddBlock(new BoneBlock(false), 3, 3);
-            AddBlock(new BoneBlock(false), 4, 0);
-            AddBlock(new BoneBlock(false), 4, 1);
-            AddBlock(new BoneBlock(false), 4, 2);
+            AddBlock(BlockRegister.Get("sc:bone_block"), 0, 0);
+            AddBlock(BlockRegister.Get("sc:bone_block"), 0, 1);
+            AddBlock(BlockRegister.Get("sc:bone_block"), 0, 2);
+            AddBlock(BlockRegister.Get("sc:bone_block"), 1, 3);
+            AddBlock(BlockRegister.Get("sc:bone_block"), 2, 0);
+            AddBlock(BlockRegister.Get("sc:bone_block"), 2, 1);
+            AddBlock(BlockRegister.Get("sc:bone_block"), 2, 2);
+            AddBlock(BlockRegister.Get("sc:bone_block"), 3, 3);
+            AddBlock(BlockRegister.Get("sc:bone_block"), 4, 0);
+            AddBlock(BlockRegister.Get("sc:bone_block"), 4, 1);
+            AddBlock(BlockRegister.Get("sc:bone_block"), 4, 2);
 
             //Begin generation
             BeginGeneration(x, y, index, isNew);
@@ -102,32 +102,31 @@ namespace SeeloewenCraft.game.core.world.generation
 
             //Frame
             #region Frame
-            AddBlock(new OakPlanksBlock(false), 2, 0);
-            AddBlock(new OakPlanksBlock(false), 3, 0);
-            AddBlock(new OakPlanksBlock(false), 4, 0);
-            AddBlock(new OakPlanksBlock(false), 5, 0);
-            AddBlock(new OakPlanksBlock(false), 6, 0);
-            AddBlock(new OakPlanksBlock(false), 7, 0);
-            AddBlock(new OakLogBlock(false), 1, 0);
-            AddBlock(new OakLogBlock(false), 7, 0);
-            AddBlock(new OakLogBlock(false), 1, 1);
-            AddBlock(new OakLogBlock(false), 1, 2);
-            AddBlock(new OakLogBlock(false), 1, 3);
-            AddBlock(new OakLogBlock(false), 1, 4);
-            AddBlock(new OakLogBlock(false), 1, 5);
-            AddBlock(new OakLogBlock(false), 7, 3);
-            AddBlock(new OakLogBlock(false), 7, 4);
-            AddBlock(new OakLogBlock(false), 7, 5);
-            AddBlock(new OakLogBlock(false), 2, 5);
-            AddBlock(new OakLogBlock(false), 3, 5);
-            AddBlock(new OakLogBlock(false), 4, 5);
-            AddBlock(new OakLogBlock(false), 5, 5);
-            AddBlock(new OakLogBlock(false), 6, 5);
-            AddBlock(new OakLogBlock(false), 7, 5);
+            AddBlock(BlockRegister.Get("sc:oak_planks_block"), 2, 0);
+            AddBlock(BlockRegister.Get("sc:oak_planks_block"), 3, 0);
+            AddBlock(BlockRegister.Get("sc:oak_planks_block"), 4, 0);
+            AddBlock(BlockRegister.Get("sc:oak_planks_block"), 5, 0);
+            AddBlock(BlockRegister.Get("sc:oak_planks_block"), 6, 0);
+            AddBlock(BlockRegister.Get("sc:oak_planks_block"), 7, 0);
+            AddBlock(BlockRegister.Get("sc:oak_log_block"), 1, 0);
+            AddBlock(BlockRegister.Get("sc:oak_log_block"), 7, 0);
+            AddBlock(BlockRegister.Get("sc:oak_log_block"), 1, 1);
+            AddBlock(BlockRegister.Get("sc:oak_log_block"), 1, 2);
+            AddBlock(BlockRegister.Get("sc:oak_log_block"), 1, 3);
+            AddBlock(BlockRegister.Get("sc:oak_log_block"), 1, 4);
+            AddBlock(BlockRegister.Get("sc:oak_log_block"), 1, 5);
+            AddBlock(BlockRegister.Get("sc:oak_log_block"), 7, 3);
+            AddBlock(BlockRegister.Get("sc:oak_log_block"), 7, 4);
+            AddBlock(BlockRegister.Get("sc:oak_log_block"), 7, 5);
+            AddBlock(BlockRegister.Get("sc:oak_log_block"), 2, 5);
+            AddBlock(BlockRegister.Get("sc:oak_log_block"), 3, 5);
+            AddBlock(BlockRegister.Get("sc:oak_log_block"), 4, 5);
+            AddBlock(BlockRegister.Get("sc:oak_log_block"), 5, 5);
+            AddBlock(BlockRegister.Get("sc:oak_log_block"), 6, 5);
+            AddBlock(BlockRegister.Get("sc:oak_log_block"), 7, 5);
 
-            //OakDoor_Base door = new DoorBlock(false);
-            AddBackgroundBlock(new OakLogBlock(false), 7, 2, new OakDoor_Top(false) { baseBlock = (0, 1) });
-            AddBackgroundBlock(new OakLogBlock(false), 7, 1, new OakDoor_Base(false) { baseBlock = (0, -1) });
+            AddBackgroundBlock(BlockRegister.Get("sc:oak_log_block"), 7, 2, BlockRegister.Get("sc:oak_door_top"));
+            AddBackgroundBlock(BlockRegister.Get("sc:oak_log_block"), 7, 1, BlockRegister.Get("sc:oak_door_base"));
             #endregion
 
             //Background
@@ -136,34 +135,34 @@ namespace SeeloewenCraft.game.core.world.generation
             {
                 for (int j = 1; j < 5; j++)
                 {
-                    if (i == 3 && (j == 2 || j == 3) || i == 5 && (j == 2 || j == 3)) AddBackgroundBlock(new GlassBlock(false), i, j, null); //Windows
-                    else if ((i == 2 || i == 4 || i == 6) && j == 2) AddBackgroundBlock(new OakPlanksBlock(false), i, j, new TorchBlock(false)); //Torch
-                    else if (i == 4 && j == 1) AddBackgroundBlock(new OakPlanksBlock(false), i, j, new CraftingTableBlock(false)); //Crafting Table
-                    else AddBackgroundBlock(new OakPlanksBlock(false), i, j, null); //Wood Background
+                    if (i == 3 && (j == 2 || j == 3) || i == 5 && (j == 2 || j == 3)) AddBackgroundBlock(BlockRegister.Get("sc:glass_block"), i, j, null); //Windows
+                    else if ((i == 2 || i == 4 || i == 6) && j == 2) AddBackgroundBlock(BlockRegister.Get("sc:oak_planks_block"), i, j, BlockRegister.Get("sc:torch_block")); //Torch
+                    else if (i == 4 && j == 1) AddBackgroundBlock(BlockRegister.Get("sc:oak_planks_block"), i, j, BlockRegister.Get("sc:crafting_table_block")); //Crafting Table
+                    else AddBackgroundBlock(BlockRegister.Get("sc:oak_planks_block"), i, j, null); //Wood Background
                 }
             }
             #endregion
 
             //Roof
             #region Roof
-            AddBlock(new CobblestoneBlock_StairBottomRight(false), 0, 5);
-            AddBlock(new CobblestoneBlock_StairBottomRight(false), 1, 6);
-            AddBlock(new CobblestoneBlock_StairBottomRight(false), 2, 7);
-            AddBlock(new CobblestoneBlock_StairBottomRight(false), 3, 8);
-            AddBlock(new CobblestoneBlock_SlabBottom(false), 4, 9);
-            AddBlock(new CobblestoneBlock_StairBottomLeft(false), 5, 8);
-            AddBlock(new CobblestoneBlock_StairBottomLeft(false), 6, 7);
-            AddBlock(new CobblestoneBlock_StairBottomLeft(false), 7, 6);
-            AddBlock(new CobblestoneBlock_StairBottomLeft(false), 8, 5);
-            AddBlock(new CobblestoneBlock(false), 2, 6);
-            AddBlock(new CobblestoneBlock(false), 3, 6);
-            AddBlock(new CobblestoneBlock(false), 3, 7);
-            AddBlock(new CobblestoneBlock(false), 4, 6);
-            AddBlock(new CobblestoneBlock(false), 4, 7);
-            AddBlock(new CobblestoneBlock(false), 4, 8);
-            AddBlock(new CobblestoneBlock(false), 5, 6);
-            AddBlock(new CobblestoneBlock(false), 5, 7);
-            AddBlock(new CobblestoneBlock(false), 6, 6);
+            AddBlock(BlockRegister.Get("sc:cobblestone_stairbottomright"), 0, 5);
+            AddBlock(BlockRegister.Get("sc:cobblestone_stairbottomright"), 1, 6);
+            AddBlock(BlockRegister.Get("sc:cobblestone_stairbottomright"), 2, 7);
+            AddBlock(BlockRegister.Get("sc:cobblestone_stairbottomright"), 3, 8);
+            AddBlock(BlockRegister.Get("sc:cobblestone_slabbottom"), 4, 9);
+            AddBlock(BlockRegister.Get("sc:cobblestone_stairbottomleft"), 5, 8);
+            AddBlock(BlockRegister.Get("sc:cobblestone_stairbottomleft"), 6, 7);
+            AddBlock(BlockRegister.Get("sc:cobblestone_stairbottomleft"), 7, 6);
+            AddBlock(BlockRegister.Get("sc:cobblestone_stairbottomleft"), 8, 5);
+            AddBlock(BlockRegister.Get("sc:cobblestone_block"), 2, 6);
+            AddBlock(BlockRegister.Get("sc:cobblestone_block"), 3, 6);
+            AddBlock(BlockRegister.Get("sc:cobblestone_block"), 3, 7);
+            AddBlock(BlockRegister.Get("sc:cobblestone_block"), 4, 6);
+            AddBlock(BlockRegister.Get("sc:cobblestone_block"), 4, 7);
+            AddBlock(BlockRegister.Get("sc:cobblestone_block"), 4, 8);
+            AddBlock(BlockRegister.Get("sc:cobblestone_block"), 5, 6);
+            AddBlock(BlockRegister.Get("sc:cobblestone_block"), 5, 7);
+            AddBlock(BlockRegister.Get("sc:cobblestone_block"), 6, 6);
             #endregion
 
             //Field
@@ -172,27 +171,27 @@ namespace SeeloewenCraft.game.core.world.generation
             {
                 if (i != 11)
                 {
-                    AddBlock(new DirtBlock(false), i, -1);
-                    AddBlock(new DirtBlock(false), i, -2);
-                    AddBlock(new FarmlandBlock(false), i, 0);
-                    AddBlock(new AirBlock(false), i, 2);
-                    AddBlock(new AirBlock(false), i, 3);
+                    AddBlock(BlockRegister.Get("sc:dirt_block"), i, -1);
+                    AddBlock(BlockRegister.Get("sc:dirt_block"), i, -2);
+                    AddBlock(BlockRegister.Get("sc:farmland_block"), i, 0);
+                    AddBlock(BlockRegister.Get("sc:air_block"), i, 2);
+                    AddBlock(BlockRegister.Get("sc:air_block"), i, 3);
                     AddBlock(GetRandomCrop(), i, 1);
                 }
                 else
                 {
-                    AddBlock(new DirtBlock(false), i, -1);
-                    AddBlock(new DirtBlock(false), i, -2);
-                    AddBlock(new AirBlock(false), i, 1);
-                    AddBlock(new AirBlock(false), i, 2);
-                    AddBlock(new AirBlock(false), i, 3);
-                    AddBlock(new WaterBlock_6(false), i, 0);
+                    AddBlock(BlockRegister.Get("sc:dirt_block"), i, -1);
+                    AddBlock(BlockRegister.Get("sc:dirt_block"), i, -2);
+                    AddBlock(BlockRegister.Get("sc:air_block"), i, 1);
+                    AddBlock(BlockRegister.Get("sc:air_block"), i, 2);
+                    AddBlock(BlockRegister.Get("sc:air_block"), i, 3);
+                    AddBlock(BlockRegister.Get("sc:water_6_block"), i, 0);
                 }
             }
-            AddBlock(new OakLogBlock(false), 15, 0);
-            AddBackgroundBlock(new OakLogBlock(false), 15, 1, null);
-            AddBackgroundBlock(new OakLogBlock(false), 15, 2, null);
-            AddBlock(new LanternBlock(false), 15, 3);
+            AddBlock(BlockRegister.Get("sc:oak_log_block"), 15, 0);
+            AddBackgroundBlock(BlockRegister.Get("sc:oak_log_block"), 15, 1, null);
+            AddBackgroundBlock(BlockRegister.Get("sc:oak_log_block"), 15, 2, null);
+            AddBlock(BlockRegister.Get("sc:lantern_block"), 15, 3);
             #endregion
 
             //Begin generation
@@ -201,17 +200,20 @@ namespace SeeloewenCraft.game.core.world.generation
 
         public Block GetRandomCrop()
         {
-            return structRnd.Next(0, 7) switch
+            CropBlock b = (CropBlock)(structRnd.Next(0, 7) switch
             {
-                0 => new PotatoCropBlock(false) { progress = 10000000 },
-                1 => new CarrotCropBlock(false) { progress = 10000000 },
-                2 => new WheatCropBlock(false) { progress = 10000000 },
-                3 => new PumpkinCropBlock(false) { progress = 10000000 },
-                4 => new CabbageCropBlock(false) { progress = 10000000 },
-                5 => new TomatoCropBlock(false) { progress = 10000000 },
-                6 => new CucumberCropBlock(false) { progress = 10000000 },
-                _ => new Grass(false)
-            };
+                0 => BlockRegister.Get("sc:potato_crop_block"),
+                1 => BlockRegister.Get("sc:carrot_crop_block"),
+                2 => BlockRegister.Get("sc:wheat_crop_block"),
+                3 => BlockRegister.Get("sc:pumpkin_crop_block"),
+                4 => BlockRegister.Get("sc:cabbage_crop_block"),
+                5 => BlockRegister.Get("sc:tomato_crop_block"),
+                6 => BlockRegister.Get("sc:cucumber_crop_block"),
+                _ => BlockRegister.Get("sc:grass_crop_block")
+            });
+
+            b.progress = int.MaxValue;
+            return b;
         }
     }
 
@@ -226,27 +228,22 @@ namespace SeeloewenCraft.game.core.world.generation
             int appends = structRnd.Next(2, 6);
 
             //Starter pillar
-            AddBlock(new SpruceLogBlock(false), 0, -1);
-            AddBlock(new SpruceLogBlock(false), 0, 0);
-            AddBlock(new SpruceLogBlock(true), 0, 1);
-            AddBlock(new SpruceLogBlock(true), 0, 2);
-            AddBlock(new LanternBlock(true), 0, 3);
-
-            //Starter pillar
-            AddBlock(new SpruceLogBlock(false), 0, 0);
-            AddBlock(new SpruceLogBlock(false), 0, 1);
-            AddBlock(new SpruceLogBlock(true), 0, 2);
-            AddBlock(new SpruceLogBlock(true), 0, 3);
-            AddBlock(new LanternBlock(true), 0, 4);
+            AddBlock(BlockRegister.Get("sc:spruce_log_block"), 0, -1);
+            AddBlock(BlockRegister.Get("sc:spruce_log_block"), 0, 0);
+            AddBlock(BlockRegister.Get("sc:spruce_log_block").MoveToBackground(), 0, 1);
+            AddBlock(BlockRegister.Get("sc:spruce_log_block").MoveToBackground(), 0, 2);
+            AddBlock(BlockRegister.Get("sc:lantern_block").MoveToBackground(), 0, 3);
 
             //First field
             for (int i = 0; i < 3; i++)
             {
-                AddBlock(new SpruceLogBlock(false), i + 1, 0);
-                AddBlock(new FarmlandBlock(false), i + 1, 1);
-                AddBlock(new CottonCropBlock(false) { progress = 10000000 }, i + 1, 2);
-                AddBlock(new AirBlock(false), i + 1, 3);
-                AddBlock(new AirBlock(false), i + 1, 4);
+                AddBlock(BlockRegister.Get("sc:spruce_log_block"), i + 1, 0);
+                AddBlock(BlockRegister.Get("sc:farmland_block"), i + 1, 1);
+                CropBlock b = (CropBlock)BlockRegister.Get("sc:cotton_crop_block");
+                b.progress = int.MaxValue;
+                AddBlock(b, i + 1, 2);
+                AddBlock(BlockRegister.Get("sc:air_block"), i + 1, 3);
+                AddBlock(BlockRegister.Get("sc:air_block"), i + 1, 4);
             }
 
             //Appends 
@@ -254,41 +251,43 @@ namespace SeeloewenCraft.game.core.world.generation
             for (int i = 0; i < appends; i++)
             {
                 //Field seperator
-                AddBlock(new SpruceLogBlock(false), offset, 0);
-                AddBlock(new SpruceLogBlock(false), offset + 1, 0);
-                AddBlock(new SpruceLogBlock(false), offset + 2, 0);
-                AddBlock(new SpruceLogBlock(false), offset, 1);
-                AddBlock(new SpruceLogBlock(true), offset, 2);
-                AddBlock(new SpruceLogBlock(true), offset, 3);
-                AddBlock(new LanternBlock(true), offset, 4);
-                AddBlock(new WaterBlock_6(false), offset + 1, 1);
-                AddBlock(new SprucePlanksBlock_SlabBottom(false), offset + 1, 2);
-                AddBlock(new AirBlock(false), offset + 1, 3);
-                AddBlock(new AirBlock(false), offset + 1, 4);
-                AddBlock(new SpruceLogBlock(false), offset + 2, 1);
-                AddBlock(new SpruceLogBlock(true), offset + 2, 2);
-                AddBlock(new SpruceLogBlock(true), offset + 2, 3);
-                AddBlock(new LanternBlock(true), offset + 2, 4);
+                AddBlock(BlockRegister.Get("sc:spruce_log_block"), offset, 0);
+                AddBlock(BlockRegister.Get("sc:spruce_log_block"), offset + 1, 0);
+                AddBlock(BlockRegister.Get("sc:spruce_log_block"), offset + 2, 0);
+                AddBlock(BlockRegister.Get("sc:spruce_log_block"), offset, 1);
+                AddBlock(BlockRegister.Get("sc:spruce_log_block").MoveToBackground(), offset, 2);
+                AddBlock(BlockRegister.Get("sc:spruce_log_block").MoveToBackground(), offset, 3);
+                AddBlock(BlockRegister.Get("sc:lantern_block").MoveToBackground(), offset, 4);
+                AddBlock(BlockRegister.Get("sc:water_6_block"), offset + 1, 1);
+                AddBlock(BlockRegister.Get("sc:spruce_log_block"), offset + 1, 2);
+                AddBlock(BlockRegister.Get("sc:air_block"), offset + 1, 3);
+                AddBlock(BlockRegister.Get("sc:air_block"), offset + 1, 4);
+                AddBlock(BlockRegister.Get("sc:spruce_log_block"), offset + 2, 1);
+                AddBlock(BlockRegister.Get("sc:spruce_log_block").MoveToBackground(), offset + 2, 2);
+                AddBlock(BlockRegister.Get("sc:spruce_log_block").MoveToBackground(), offset + 2, 3);
+                AddBlock(BlockRegister.Get("sc:lantern_block").MoveToBackground(), offset + 2, 4);
 
                 //Field
                 for (int j = 0; j < 4; j++)
                 {
-                    AddBlock(new SpruceLogBlock(false), j + offset + 3, 0);
-                    AddBlock(new FarmlandBlock(false), j + offset + 3, 1);
-                    AddBlock(new CottonCropBlock(false) { progress = 10000000 }, j + offset + 3, 2);
-                    AddBlock(new AirBlock(false), j + offset + 3, 3);
-                    AddBlock(new AirBlock(false), j + offset + 3, 4);
+                    AddBlock(BlockRegister.Get("sc:spruce_log_block"), j + offset + 3, 0);
+                    AddBlock(BlockRegister.Get("sc:farmland_block"), j + offset + 3, 1);
+                    CropBlock b = (CropBlock)BlockRegister.Get("sc:cotton_crop_block");
+                    b.progress = int.MaxValue;
+                    AddBlock(b, j + offset + 3, 2);
+                    AddBlock(BlockRegister.Get("sc:air_block"), j + offset + 3, 3);
+                    AddBlock(BlockRegister.Get("sc:air_block"), j + offset + 3, 4);
                 }
 
                 offset += 7;
             }
 
             //End pillar
-            AddBlock(new SpruceLogBlock(false), offset - 1, 0);
-            AddBlock(new SpruceLogBlock(false), offset - 1, 1);
-            AddBlock(new SpruceLogBlock(true), offset - 1, 2);
-            AddBlock(new SpruceLogBlock(true), offset - 1, 3);
-            AddBlock(new LanternBlock(true), offset - 1, 4);
+            AddBlock(BlockRegister.Get("sc:spruce_log_block"), offset - 1, 0);
+            AddBlock(BlockRegister.Get("sc:spruce_log_block"), offset - 1, 1);
+            AddBlock(BlockRegister.Get("sc:spruce_log_block").MoveToBackground(), offset - 1, 2);
+            AddBlock(BlockRegister.Get("sc:spruce_log_block").MoveToBackground(), offset - 1, 3);
+            AddBlock(BlockRegister.Get("sc:lantern_block").MoveToBackground(), offset - 1, 4);
 
             //Begin generation
             BeginGeneration(x, y, index, isNew);
@@ -318,18 +317,18 @@ namespace SeeloewenCraft.game.core.world.generation
                     //Add dirt when below the currently observed ypos, else add water
                     if (i < yPos && i >= yPos - 2)
                     {
-                        AddBlock(new DirtBlock(false), xPos, i);
+                        AddBlock(BlockRegister.Get("sc:dirt_block"), xPos, i);
                     }
                     else if (i >= yPos)
                     {
-                        AddBlock(new WaterBlock_6(false), xPos, i);
+                        AddBlock(BlockRegister.Get("sc:water_6_block"), xPos, i);
                     }
                 }
 
                 //Generate a mirror of the lake above, but with air to clear potential blocks above
                 for (int i = floorHeight; i <= floorHeight + floorHeight - yPos + 2; i++)
                 {
-                    AddBlock(new AirBlock(false), xPos, i);
+                    AddBlock(BlockRegister.Get("sc:air_block"), xPos, i);
                 }
 
                 //Determine whether to go down or up
@@ -360,20 +359,24 @@ namespace SeeloewenCraft.game.core.world.generation
 
             if (structRnd.Next(0, 4) == 0) //Chance to generate sugar cane
             {
-                if (structRnd.Next(0, 2) == 0) AddBlock(new SugarCaneBlock(false) { progress = 10000 }, 0, floorHeight);
-                else AddBlock(new SugarCaneBlock(false) { progress = 10000 }, xPos, floorHeight);
+                CropBlock sugarCane = (CropBlock)BlockRegister.Get("sc:sugar_cane_crop_block");
+                sugarCane.progress = int.MaxValue;
+                if (structRnd.Next(0, 2) == 0) AddBlock(sugarCane, 0, floorHeight);
+                else AddBlock(sugarCane, xPos, floorHeight);
             }
             else if (structRnd.Next(0, 7) == 0) //Chance to generate rice
             {
+                CropBlock riceTop = (CropBlock)BlockRegister.Get("sc:rice_top_crop_block");
+                riceTop.progress = int.MaxValue;
                 if (structRnd.Next(0, 2) == 0)
                 {
-                    AddBlock(new Rice_Base(false), 0, floorHeight);
-                    AddBlock(new Rice_Top(false) { progress = 10000, baseBlock = (0, 1) }, 0, floorHeight + 1);
+                    AddBlock(BlockRegister.Get("sc:rice_base_crop_block"), 0, floorHeight);
+                    AddBlock(riceTop, 0, floorHeight + 1);
                 }
                 else
                 {
-                    AddBlock(new Rice_Base(false), xPos, floorHeight);
-                    AddBlock(new Rice_Top(false) { progress = 10000, baseBlock = (0, 2) }, xPos, floorHeight + 1);
+                    AddBlock(BlockRegister.Get("sc:rice_base_crop_block"), xPos, floorHeight);
+                    AddBlock(riceTop, xPos, floorHeight + 1);
                 }
             }
 
@@ -392,13 +395,13 @@ namespace SeeloewenCraft.game.core.world.generation
             canReplaceSolidBlocks = true;
 
             //Layer 1
-            AddBlock(new OakLogBlock(true), 2, 0);
+            AddBlock(BlockRegister.Get("sc:oak_log_block").MoveToBackground(), 2, 0);
 
             //Layer 2
-            AddBlock(new OakLogBlock(true), 2, 1);
+            AddBlock(BlockRegister.Get("sc:oak_log_block").MoveToBackground(), 2, 1);
 
             //Layer 3
-            AddBlock(new OakLogBlock(true), 2, 2);
+            AddBlock(BlockRegister.Get("sc:oak_log_block").MoveToBackground(), 2, 2);
 
             //Layer 4
             AddBlock(GetLeaves(), 1, 3);
@@ -421,7 +424,7 @@ namespace SeeloewenCraft.game.core.world.generation
 
         public Block GetLeaves()
         {
-            OakLeavesBlock block = new OakLeavesBlock(false);
+            Block block = BlockRegister.Get("sc:oak_leaves_block");
             block.WriteTag(BlockTags.STRUCTURE_LEAF);
             return block;
         }
@@ -456,7 +459,7 @@ namespace SeeloewenCraft.game.core.world.generation
                             }
                             else
                             {
-                                AddBlock(new Cactus_Vertical(false), 1, i);
+                                AddBlock(BlockRegister.Get("sc:cactus_vertical"), 1, i);
                             }
                             break;
                         case 1:
@@ -469,7 +472,7 @@ namespace SeeloewenCraft.game.core.world.generation
                             }
                             else
                             {
-                                AddBlock(new Cactus_Vertical(false), 1, i);
+                                AddBlock(BlockRegister.Get("sc:cactus_vertical"), 1, i);
                             }
                             break;
                         case 2:
@@ -481,24 +484,24 @@ namespace SeeloewenCraft.game.core.world.generation
                                 //Generate right and left branch
                                 GenerateRightBranch(i);
                                 GenerateLeftBranch(i);
-                                AddBlock(new Cactus_Cross(false), 1, i);
+                                AddBlock(BlockRegister.Get("sc:cactus_cross"), 1, i);
                             }
                             else
                             {
-                                AddBlock(new Cactus_Vertical(false), 1, i);
+                                AddBlock(BlockRegister.Get("sc:cactus_vertical"), 1, i);
                             }
                             break;
                         case > 2:
-                            AddBlock(new Cactus_Vertical(false), 1, i);
+                            AddBlock(BlockRegister.Get("sc:cactus_vertical"), 1, i);
                             break;
                     }
                 }
                 else
                 {
-                    AddBlock(new Cactus_Vertical(false), 1, i);
+                    AddBlock(BlockRegister.Get("sc:cactus_vertical"), 1, i);
                 }
 
-                AddBlock(structRnd.Next(1, 4) == 1 ? new Cactus_TopFruit(false) : new Cactus_Top(false), 1, height);
+                AddBlock(BlockRegister.Get(structRnd.Next(1, 4) == 1 ? "sc:cactus_top_fruit" : "sc:cactus_top"), 1, height);
 
                 //Begin generating
                 BeginGeneration(x, y, index, isNew);
@@ -509,33 +512,33 @@ namespace SeeloewenCraft.game.core.world.generation
         public void GenerateRightBranch(int startHeight)
         {
             //Generate start of branch
-            AddBlock(new Cactus_TopLeft(false), 2, startHeight);
-            AddBlock(new Cactus_Right(false), 1, startHeight);
+            AddBlock(BlockRegister.Get("sc:cactus_top_left"), 2, startHeight);
+            AddBlock(BlockRegister.Get("sc:cactus_right"), 1, startHeight);
 
             //Generate the branch upwards
             int rightHeight = structRnd.Next(1, 4);
             for (int j = startHeight + 1; j < startHeight + rightHeight; j++)
             {
-                AddBlock(new Cactus_Vertical(false), 2, j);
+                AddBlock(BlockRegister.Get("sc:cactus_vertical"), 2, j);
             }
 
-            AddBlock(structRnd.Next(1, 4) == 1 ? new Cactus_TopFruit(false) : new Cactus_Top(false), 2, startHeight + rightHeight);
+            AddBlock(BlockRegister.Get(structRnd.Next(1, 4) == 1 ? "sc:cactus_top_fruit" : "sc:cactus_top"), 2, startHeight + rightHeight);
         }
 
         public void GenerateLeftBranch(int startHeight)
         {
             //Generate start of branch
-            AddBlock(new Cactus_TopRight(false), 0, startHeight);
-            AddBlock(new Cactus_Left(false), 1, startHeight);
+            AddBlock(BlockRegister.Get("sc:cactus_top_right"), 0, startHeight);
+            AddBlock(BlockRegister.Get("sc:cactus_left"), 1, startHeight);
 
             //Generate the branch upwards
             int leftHeight = structRnd.Next(1, 4);
             for (int j = startHeight + 1; j < startHeight + leftHeight; j++)
             {
-                AddBlock(new Cactus_Vertical(false), 0, j);
+                AddBlock(BlockRegister.Get("sc:cactus_vertical"), 0, j);
             }
 
-            AddBlock(structRnd.Next(1, 4) == 1 ? new Cactus_TopFruit(false) : new Cactus_Top(false), 0, startHeight + leftHeight);
+            AddBlock(BlockRegister.Get(structRnd.Next(1, 4) == 1 ? "sc:cactus_top_fruit" : "sc:cactus_top"), 0, startHeight + leftHeight);
         }
     }
 
@@ -554,42 +557,40 @@ namespace SeeloewenCraft.game.core.world.generation
             {
                 for (int j = 0; j < height; j++)
                 {
-                    AddBlock(new SandStoneBricksBlock(false), width + i, j);
-                    AddBlock(new SandStoneBricksBlock(false), width - i, j);
+                    AddBlock(BlockRegister.Get("sc:sand_stone_bricks_block"), width + i, j);
+                    AddBlock(BlockRegister.Get("sc:sand_stone_bricks_block"), width - i, j);
                 }
                 height--;
             }
 
             //Left pot
-            ArcheologyPot_Base potBase = new ArcheologyPot_Base(false);
-            ArcheologyPot_Top potTop = new ArcheologyPot_Top(false);
-            potTop.baseBlock = (0, 1);
-            AddBackgroundBlock(new SandStoneBlock(true), 6, 1, potBase, LootTables.potLootTable, 1);
-            AddBackgroundBlock(new SandStoneBlock(true), 6, 2, potTop);
+            Block potBase = BlockRegister.Get("sc:archeology_pot_base");
+            Block potTop = BlockRegister.Get("sc:archeology_pot_top");
+            AddBackgroundBlock(BlockRegister.Get("sc:sand_stone_block").MoveToBackground(), 6, 1, potBase, LootTables.potLootTable, 1);
+            AddBackgroundBlock(BlockRegister.Get("sc:sand_stone_block").MoveToBackground(), 6, 2, potTop);
 
             //Chest
-            AddBackgroundBlock(new SandStoneBlock(true), 8, 1, new ChestBlock(false), LootTables.pyramidLootTable, 3);
+            AddBackgroundBlock(BlockRegister.Get("sc:sand_stone_block").MoveToBackground(), 8, 1, BlockRegister.Get("sc:chest_block"), LootTables.pyramidLootTable, 3);
 
             //Torch
-            AddBackgroundBlock(new SandStoneBlock(true), 8, 3, new TorchBlock(false));
+            AddBackgroundBlock(BlockRegister.Get("sc:sand_stone_block").MoveToBackground(), 8, 3, BlockRegister.Get("sc:torch_block"));
 
             //Right pot
-            ArcheologyPot_Base potBase2 = new ArcheologyPot_Base(false);
-            ArcheologyPot_Top potTop2 = new ArcheologyPot_Top(false);
-            potTop2.baseBlock = (0, 1);
-            AddBackgroundBlock(new SandStoneBlock(true), 10, 1, potBase2, LootTables.potLootTable, 1);
-            AddBackgroundBlock(new SandStoneBlock(true), 10, 2, potTop2);
+            Block potBase2 = BlockRegister.Get("sc:archeology_pot_base");
+            Block potTop2 = BlockRegister.Get("sc:archeology_pot_top");
+            AddBackgroundBlock(BlockRegister.Get("sc:sand_stone_block").MoveToBackground(), 10, 1, potBase2, LootTables.potLootTable, 1);
+            AddBackgroundBlock(BlockRegister.Get("sc:sand_stone_block").MoveToBackground(), 10, 2, potTop2);
 
             //Other background blocks
-            AddBackgroundBlock(new SandStoneBlock(true), 6, 3, null);
-            AddBackgroundBlock(new SandStoneBlock(true), 7, 1, null);
-            AddBackgroundBlock(new SandStoneBlock(true), 7, 2, null);
-            AddBackgroundBlock(new SandStoneBlock(true), 7, 3, null);
-            AddBackgroundBlock(new SandStoneBlock(true), 8, 2, null);
-            AddBackgroundBlock(new SandStoneBlock(true), 9, 1, null);
-            AddBackgroundBlock(new SandStoneBlock(true), 9, 2, null);
-            AddBackgroundBlock(new SandStoneBlock(true), 9, 3, null);
-            AddBackgroundBlock(new SandStoneBlock(true), 10, 3, null);
+            AddBackgroundBlock(BlockRegister.Get("sc:sand_stone_block").MoveToBackground(), 6, 3, null);
+            AddBackgroundBlock(BlockRegister.Get("sc:sand_stone_block").MoveToBackground(), 7, 1, null);
+            AddBackgroundBlock(BlockRegister.Get("sc:sand_stone_block").MoveToBackground(), 7, 2, null);
+            AddBackgroundBlock(BlockRegister.Get("sc:sand_stone_block").MoveToBackground(), 7, 3, null);
+            AddBackgroundBlock(BlockRegister.Get("sc:sand_stone_block").MoveToBackground(), 8, 2, null);
+            AddBackgroundBlock(BlockRegister.Get("sc:sand_stone_block").MoveToBackground(), 9, 1, null);
+            AddBackgroundBlock(BlockRegister.Get("sc:sand_stone_block").MoveToBackground(), 9, 2, null);
+            AddBackgroundBlock(BlockRegister.Get("sc:sand_stone_block").MoveToBackground(), 9, 3, null);
+            AddBackgroundBlock(BlockRegister.Get("sc:sand_stone_block").MoveToBackground(), 10, 3, null);
 
             //Begin generating
             BeginGeneration(x, y, index, isNew);
@@ -605,13 +606,13 @@ namespace SeeloewenCraft.game.core.world.generation
             canReplaceSolidBlocks = true;
 
             //Layer 1
-            AddBlock(new SpruceLogBlock(true), 2, 0);
+            AddBlock(BlockRegister.Get("sc:spruce_log_block").MoveToBackground(), 2, 0);
 
             //Layer 2
-            AddBlock(new SpruceLogBlock(true), 2, 1);
+            AddBlock(BlockRegister.Get("sc:spruce_log_block").MoveToBackground(), 2, 1);
 
             //Layer 3
-            AddBlock(new SpruceLogBlock(true), 2, 2);
+            AddBlock(BlockRegister.Get("sc:spruce_log_block").MoveToBackground(), 2, 2);
 
             //Layer 4
             AddBlock(GetLeaves(), 1, 3);
@@ -642,7 +643,7 @@ namespace SeeloewenCraft.game.core.world.generation
 
         public Block GetLeaves()
         {
-            SpruceLeavesBlock block = new SpruceLeavesBlock(false);
+            Block block = BlockRegister.Get("sc:spruce_leaves_block");
             block.WriteTag(BlockTags.STRUCTURE_LEAF);
             return block;
         }
@@ -664,7 +665,7 @@ namespace SeeloewenCraft.game.core.world.generation
             {
                 foreach (StructureComponent com in shapeCreator.GetCustomCircle(3, 2))
                 {
-                    com.block = new CoalOreBlock(false);
+                    com.block = BlockRegister.Get("sc:coal_ore_block");
                     structureComponents.Add(com);
                 }
                 if (structRnd.Next(1, 11) > 2)
@@ -674,7 +675,7 @@ namespace SeeloewenCraft.game.core.world.generation
                     {
                         com.xOffset += ranCom.xOffset;
                         com.yOffset += ranCom.yOffset;
-                        com.block = new CoalOreBlock(false);
+                        com.block = BlockRegister.Get("sc:coal_ore_block");
                         structureComponents.Add(com);
                     }
                 }
@@ -683,7 +684,7 @@ namespace SeeloewenCraft.game.core.world.generation
             {
                 foreach (StructureComponent com in shapeCreator.GetCustomCircle(2, 1))
                 {
-                    com.block = new IronOreBlock(false);
+                    com.block = BlockRegister.Get("sc:iron_ore_block");
                     structureComponents.Add(com);
                 }
                 if (structRnd.Next(1, 11) > 4)
@@ -693,7 +694,7 @@ namespace SeeloewenCraft.game.core.world.generation
                     {
                         com.xOffset += ranCom.xOffset;
                         com.yOffset += ranCom.yOffset;
-                        com.block = new IronOreBlock(false);
+                        com.block = BlockRegister.Get("sc:iron_ore_block");
                         structureComponents.Add(com);
                     }
                 }
@@ -702,7 +703,7 @@ namespace SeeloewenCraft.game.core.world.generation
             {
                 foreach (StructureComponent com in shapeCreator.GetCustomCircle(1, 1))
                 {
-                    com.block = new DiamondOreBlock(false);
+                    com.block = BlockRegister.Get("sc:diamond_ore_block");
                     structureComponents.Add(com);
                 }
                 if (structRnd.Next(1, 11) > 9)
@@ -712,7 +713,7 @@ namespace SeeloewenCraft.game.core.world.generation
                     {
                         com.xOffset += ranCom.xOffset;
                         com.yOffset += ranCom.yOffset;
-                        com.block = new DiamondOreBlock(false);
+                        com.block = BlockRegister.Get("sc:diamond_ore_block");
                         structureComponents.Add(com);
                     }
                 }
@@ -735,7 +736,7 @@ namespace SeeloewenCraft.game.core.world.generation
             //Generate the first part of the vein
             foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(3, 2))
             {
-                structComp.block = new CoalOreBlock(false);
+                structComp.block = BlockRegister.Get("sc:coal_ore_block");
                 structureComponents.Add(structComp);
             }
             if (structRnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
@@ -745,7 +746,7 @@ namespace SeeloewenCraft.game.core.world.generation
                 {
                     structComp.xOffset += structRndStructComp.xOffset;
                     structComp.yOffset += structRndStructComp.yOffset;
-                    structComp.block = new CoalOreBlock(false);
+                    structComp.block = BlockRegister.Get("sc:coal_ore_block");
                     structureComponents.Add(structComp);
                 }
             }
@@ -765,7 +766,7 @@ namespace SeeloewenCraft.game.core.world.generation
             //Generate the first part of the vein
             foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
             {
-                structComp.block = new IronOreBlock(false);
+                structComp.block = BlockRegister.Get("sc:iron_ore_block");
                 structureComponents.Add(structComp);
             }
             if (structRnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
@@ -775,7 +776,7 @@ namespace SeeloewenCraft.game.core.world.generation
                 {
                     structComp.xOffset += structRndStructComp.xOffset;
                     structComp.yOffset += structRndStructComp.yOffset;
-                    structComp.block = new IronOreBlock(false);
+                    structComp.block = BlockRegister.Get("sc:iron_ore_block");
                     structureComponents.Add(structComp);
                 }
             }
@@ -795,7 +796,7 @@ namespace SeeloewenCraft.game.core.world.generation
             //Generate the first part of the vein
             foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(1, 1))
             {
-                structComp.block = new DiamondOreBlock(false);
+                structComp.block = BlockRegister.Get("sc:diamond_ore_block");
                 structureComponents.Add(structComp);
             }
             if (structRnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
@@ -805,7 +806,7 @@ namespace SeeloewenCraft.game.core.world.generation
                 {
                     structComp.xOffset += structRndStructComp.xOffset;
                     structComp.yOffset += structRndStructComp.yOffset;
-                    structComp.block = new DiamondOreBlock(false);
+                    structComp.block = BlockRegister.Get("sc:diamond_ore_block" );
                     structureComponents.Add(structComp);
                 }
             }
@@ -825,7 +826,7 @@ namespace SeeloewenCraft.game.core.world.generation
             //Generate the first part of the vein
             foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(1, 1))
             {
-                structComp.block = new AmethystOreBlock(false);
+                structComp.block = BlockRegister.Get("sc:amethyst_ore_block");
                 structureComponents.Add(structComp);
             }
             if (structRnd.Next(1, 11) > 5) //Potentially attach a second part to the vein
@@ -835,7 +836,7 @@ namespace SeeloewenCraft.game.core.world.generation
                 {
                     structComp.xOffset += structRndStructComp.xOffset;
                     structComp.yOffset += structRndStructComp.yOffset;
-                    structComp.block = new AmethystOreBlock(false);
+                    structComp.block = BlockRegister.Get("sc:amethyst_ore_block");
                     structureComponents.Add(structComp);
                 }
             }
@@ -855,7 +856,7 @@ namespace SeeloewenCraft.game.core.world.generation
             //Generate the first part of the vein
             foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
             {
-                structComp.block = new CopperOreBlock(false);
+                structComp.block = BlockRegister.Get("sc:copper_ore_block");
                 structureComponents.Add(structComp);
             }
             if (structRnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
@@ -865,7 +866,7 @@ namespace SeeloewenCraft.game.core.world.generation
                 {
                     structComp.xOffset += structRndStructComp.xOffset;
                     structComp.yOffset += structRndStructComp.yOffset;
-                    structComp.block = new CopperOreBlock(false);
+                    structComp.block = BlockRegister.Get("sc:copper_ore_block");
                     structureComponents.Add(structComp);
                 }
             }
@@ -885,7 +886,7 @@ namespace SeeloewenCraft.game.core.world.generation
             //Generate the first part of the vein
             foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
             {
-                structComp.block = new GoldOreBlock(false);
+                structComp.block = BlockRegister.Get("sc:gold_ore_block");
                 structureComponents.Add(structComp);
             }
             if (structRnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
@@ -895,7 +896,7 @@ namespace SeeloewenCraft.game.core.world.generation
                 {
                     structComp.xOffset += structRndStructComp.xOffset;
                     structComp.yOffset += structRndStructComp.yOffset;
-                    structComp.block = new GoldOreBlock(false);
+                    structComp.block = BlockRegister.Get("sc:gold_ore_block");
                     structureComponents.Add(structComp);
                 }
             }
@@ -915,7 +916,7 @@ namespace SeeloewenCraft.game.core.world.generation
             //Generate the first part of the vein
             foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(1, 2))
             {
-                structComp.block = new EmeraldOreBlock(false);
+                structComp.block = BlockRegister.Get("sc:emerald_ore_block");
                 structureComponents.Add(structComp);
             }
 
@@ -934,7 +935,7 @@ namespace SeeloewenCraft.game.core.world.generation
             //Generate the first part of the vein
             foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
             {
-                structComp.block = new TinOreBlock(false);
+                structComp.block = BlockRegister.Get("sc:tin_ore_block");
                 structureComponents.Add(structComp);
             }
             if (structRnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
@@ -944,7 +945,7 @@ namespace SeeloewenCraft.game.core.world.generation
                 {
                     structComp.xOffset += structRndStructComp.xOffset;
                     structComp.yOffset += structRndStructComp.yOffset;
-                    structComp.block = new TinOreBlock(false);
+                    structComp.block = BlockRegister.Get("sc:tin_ore_block");
                     structureComponents.Add(structComp);
                 }
             }
@@ -964,7 +965,7 @@ namespace SeeloewenCraft.game.core.world.generation
             //Generate the first part of the vein
             foreach (StructureComponent structComp in shapeCreator.GetCustomCircle(2, 1))
             {
-                structComp.block = new TungstenOreBlock(false);
+                structComp.block = BlockRegister.Get("sc:tungsten_ore_block");
                 structureComponents.Add(structComp);
             }
             if (structRnd.Next(1, 11) > 2) //Potentially attach a second part to the vein
@@ -974,7 +975,7 @@ namespace SeeloewenCraft.game.core.world.generation
                 {
                     structComp.xOffset += structRndStructComp.xOffset;
                     structComp.yOffset += structRndStructComp.yOffset;
-                    structComp.block = new TungstenOreBlock(false);
+                    structComp.block = BlockRegister.Get("sc:tungsten_ore_block");
                     structureComponents.Add(structComp);
                 }
             }
@@ -993,7 +994,7 @@ namespace SeeloewenCraft.game.core.world.generation
 
             //Generate first air block (base of cave)
             List<StructureComponent> generatedComponents = new List<StructureComponent>();
-            structureComponents.Add(new StructureComponent(0, 0, new AirBlock(false)));
+            structureComponents.Add(new StructureComponent(0, 0, BlockRegister.Get("sc:air_block")));
 
             //Go through all components
             for (int i = 0; i < 6; i++)
@@ -1006,7 +1007,7 @@ namespace SeeloewenCraft.game.core.world.generation
                     if (structRnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
-                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset, structureComponent.yOffset - 1, new AirBlock(false));
+                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset, structureComponent.yOffset - 1, BlockRegister.Get("sc:air_block"));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
@@ -1017,7 +1018,7 @@ namespace SeeloewenCraft.game.core.world.generation
                     if (structRnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
-                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset + 1, structureComponent.yOffset, new AirBlock(false));
+                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset + 1, structureComponent.yOffset, BlockRegister.Get("sc:air_block"));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
@@ -1028,7 +1029,7 @@ namespace SeeloewenCraft.game.core.world.generation
                     if (structRnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
-                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset, structureComponent.yOffset + 1, new AirBlock(false));
+                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset, structureComponent.yOffset + 1, BlockRegister.Get("sc:air_block"));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);
@@ -1039,7 +1040,7 @@ namespace SeeloewenCraft.game.core.world.generation
                     if (structRnd.Next(1, 3) == 1 && !StructureComponentsListContainsStructureComponent(generatedComponents, structureComponent))
                     {
                         //Generate the new component and check if it's already in some list. If not, add it.
-                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset - 1, structureComponent.yOffset, new AirBlock(false));
+                        StructureComponent newComponent = new StructureComponent(structureComponent.xOffset - 1, structureComponent.yOffset, BlockRegister.Get("sc:air_block"));
                         if (!StructureComponentsListContainsStructureComponent(structureComponents, newComponent) && !StructureComponentsListContainsStructureComponent(temporaryComponentList, newComponent))
                         {
                             temporaryComponentList.Add(newComponent);

@@ -179,7 +179,7 @@ namespace SeeloewenCraft.game.networking
         }
         public async static void HandleSetBlock(IdTcpClient client, NetworkPacket packet) //Handled by both server and clients
         {
-            Block block = BlockRegister.GenerateBlock(packet.content[0]);
+            Block block = BlockRegister.Get(packet.content[0]);
             int cIndex = int.Parse(packet.content[1]);
             int xPos = int.Parse(packet.content[2]);
             int yPos = int.Parse(packet.content[3]);

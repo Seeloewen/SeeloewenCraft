@@ -52,18 +52,18 @@ namespace SeeloewenCraft.game.core.world.generation
             }
 
             //Add all structurecomponents to the list
-            structureComponents.Add(new StructureComponent(this.xOffset, this.yOffset + 1, new CobblestoneBlock(true)));
-            structureComponents.Add(new StructureComponent(this.xOffset, this.yOffset + 2, new CobblestoneBlock(true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 1, new CobblestoneBlock(true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset, new CobblestoneBlock(true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 2, new CobblestoneBlock(true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 3, new CobblestoneBlock(true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset, new CobblestoneBlock(true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 1, new CobblestoneBlock(true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 2, new CobblestoneBlock(true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 3, new CobblestoneBlock(true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 3, this.yOffset + 1, new CobblestoneBlock(true)));
-            structureComponents.Add(new StructureComponent(this.xOffset + 3, this.yOffset + 2, new CobblestoneBlock(true)));
+            structureComponents.Add(new StructureComponent(this.xOffset, this.yOffset + 1, BlockRegister.Get("sc:cobblestone_block").MoveToBackground()));
+            structureComponents.Add(new StructureComponent(this.xOffset, this.yOffset + 2, BlockRegister.Get("sc:cobblestone_block").MoveToBackground()));
+            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 1, BlockRegister.Get("sc:cobblestone_block").MoveToBackground()));
+            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset, BlockRegister.Get("sc:cobblestone_block").MoveToBackground()));
+            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 2, BlockRegister.Get("sc:cobblestone_block").MoveToBackground()));
+            structureComponents.Add(new StructureComponent(this.xOffset + 1, this.yOffset + 3, BlockRegister.Get("sc:cobblestone_block").MoveToBackground()));
+            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset, BlockRegister.Get("sc:cobblestone_block").MoveToBackground()));
+            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 1, BlockRegister.Get("sc:cobblestone_block").MoveToBackground()));
+            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 2, BlockRegister.Get("sc:cobblestone_block").MoveToBackground()));
+            structureComponents.Add(new StructureComponent(this.xOffset + 2, this.yOffset + 3, BlockRegister.Get("sc:cobblestone_block").MoveToBackground()));
+            structureComponents.Add(new StructureComponent(this.xOffset + 3, this.yOffset + 1, BlockRegister.Get("sc:cobblestone_block").MoveToBackground()));
+            structureComponents.Add(new StructureComponent(this.xOffset + 3, this.yOffset + 2, BlockRegister.Get("sc:cobblestone_block").MoveToBackground()));
 
             //Add the bordercomponents to the list
             borderComponents.Add(new BorderComponent(Direction.LEFT, this.xOffset, this.yOffset + 1));

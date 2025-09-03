@@ -27,6 +27,9 @@ namespace SeeloewenCraft.game.core.world
 {
     public class World
     {
+        Block b;
+        Block c;
+
         //References
         public wndMenu wndMenu;
         public System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
@@ -84,6 +87,7 @@ namespace SeeloewenCraft.game.core.world
 
             Game.world = this;
 
+            BlockRegister.Init();
 
             //Create objects
             clickHandler = new ClickHandler();
@@ -446,7 +450,6 @@ namespace SeeloewenCraft.game.core.world
                 player.inventory.AddItem("sc:crafting_table_item", 64, "");
                 player.inventory.AddItem("sc:rock_item", 512, "");
                 player.inventory.AddItem("sc:stick_item", 128, "");
-
             }
 
             inventoryList.Add(player.inventory);

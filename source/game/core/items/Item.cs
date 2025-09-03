@@ -42,7 +42,7 @@ namespace SeeloewenCraft.game.core.items
             //If the item has a block id, generate the associated block
             if (!string.IsNullOrEmpty(blockId))
             {
-                return BlockRegister.GenerateBlock(blockId);
+                return BlockRegister.Get(blockId);
             }
 
             return null;

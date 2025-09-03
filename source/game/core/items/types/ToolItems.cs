@@ -23,12 +23,14 @@ namespace SeeloewenCraft.game.core.items
 
             if (block.isBackground && foregroundBlock != null && foregroundBlock.HasTag(BlockTags.SCYTHEABLE))  //Foreground block
             {
-                block.SetForegroundBlock(new FarmlandBlock(block.isBackground));
+                block.SetForegroundBlock(BlockRegister.Get("sc:farmland_block"));
                 invSlot.RemoveDurablity();
             }
             else if (block.HasTag(BlockTags.SCYTHEABLE)) //Background or normal block
             {
-                block.SetBlock(new FarmlandBlock(block.isBackground));
+                Block newBlock = BlockRegister.Get("sc:farmland_block");
+                if (block.isBackground) newBlock.MoveToBackground();
+                block.Replace(newBlock);
                 invSlot.RemoveDurablity();
             }
         }

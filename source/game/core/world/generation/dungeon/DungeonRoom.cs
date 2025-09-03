@@ -115,7 +115,7 @@ namespace SeeloewenCraft.game.core.world.generation
                 for (int y = 0; y < height; y++)
                 {
                     //Place the background block
-                    Block backBlock = BlockRegister.GenerateBlock(blockBackgroundId);
+                    Block backBlock = BlockRegister.Get(blockBackgroundId);
                     backBlock.MoveToBackground();
                     blocks.Add(new DungeonBlock(x, y) { block = backBlock, isOccupied = true });
 
@@ -124,11 +124,11 @@ namespace SeeloewenCraft.game.core.world.generation
                     {
                         if (rnd.Next(0, 3) > 0)
                         {
-                            GetBlock(x, y).block.SetForegroundBlock(BlockRegister.GenerateBlock(blockFrameId));
+                            GetBlock(x, y).block.SetForegroundBlock(BlockRegister.Get(blockFrameId));
                         }
                         else
                         {
-                            GetBlock(x, y).block.SetForegroundBlock(BlockRegister.GenerateBlock(altBlockFrameId));
+                            GetBlock(x, y).block.SetForegroundBlock(BlockRegister.Get(altBlockFrameId));
                         }
                     }
                 }

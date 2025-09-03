@@ -330,7 +330,7 @@ namespace SeeloewenCraft.game.core.items
     {
         public OakChairItem() : base()
         {
-            Init("Oak Chair", "sc:oak_chair_item", "sc:oak_chair_base", true);
+            Init("Oak Chair", "sc:oak_chair_item", "sc:oak_chair_block", true);
         }
     }
 
@@ -338,7 +338,7 @@ namespace SeeloewenCraft.game.core.items
     {
         public SpruceChairItem() : base()
         {
-            Init("Spruce Chair", "sc:spruce_chair_item", "sc:spruce_chair_base", true);
+            Init("Spruce Chair", "sc:spruce_chair_item", "sc:spruce_chair_block", true);
         }
     }
 
@@ -616,7 +616,7 @@ namespace SeeloewenCraft.game.core.items
             {
                 invSlot.inventory.RemoveItem(id, 1);
                 invSlot.inventory.AddItem("sc:bucket_water_item", 1, "");
-                block.SetBlock(new AirBlock(false));
+                block.Replace(BlockRegister.Get("sc:air_block"));
             }
             else if (block is Rice_Top rice && rice.IsReady())
             {
@@ -639,7 +639,7 @@ namespace SeeloewenCraft.game.core.items
             {
                 invSlot.inventory.RemoveItem(id, 1);
                 invSlot.inventory.AddItem("sc:bucket_empty_item", 1, null);
-                block.SetBlock(new WaterBlock_6(false));
+                block.SetBlock(BlockRegister.Get("sc:water_6_block"));
             }
         }
     }

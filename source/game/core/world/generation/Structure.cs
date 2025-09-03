@@ -196,8 +196,8 @@ namespace SeeloewenCraft.game.core.world.generation
             if (chunk.GetBlock(block.xPos, block.yPos + 1).isSolid == false && block.isSolid == true)
             {
                 //Create a new block of the same type and place it below the original block
-                Type blockType = block.GetType();
-                Block newBlock = (Block)Activator.CreateInstance(blockType, args: block.isBackground);
+                Block newBlock = BlockRegister.Get(block.id);
+                newBlock.isBackground = block.isBackground;
                 chunk.SetBlock(newBlock, block.xPos, block.yPos + 1);
                 //Repeat until floor is reached
                 MakeBaseSolid(chunk.GetBlock(block.xPos, block.yPos + 1));

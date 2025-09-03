@@ -15,17 +15,17 @@ namespace SeeloewenCraft.game.core.world.generation
 
             CreateBasicShape(5, 9, "sc:stone_bricks_block", "sc:cobblestone_block", "sc:mossy_cobblestone_block");
 
-            GetBlock(1, 3).block.SetForegroundBlock(new CobblestoneBlock_StairTopLeft(false));
-            GetBlock(3, 5).block.SetForegroundBlock(new CobblestoneBlock_StairTopRight(false));
-            GetBlock(3, 4).block.SetForegroundBlock(new TorchBlock(false));
-            GetBlock(2, 1).block.SetForegroundBlock(new LadderBlock(false));
-            GetBlock(2, 2).block.SetForegroundBlock(new LadderBlock(false));
-            GetBlock(2, 3).block.SetForegroundBlock(new LadderBlock(false));
-            GetBlock(2, 4).block.SetForegroundBlock(new LadderBlock(false));
-            GetBlock(2, 5).block.SetForegroundBlock(new LadderBlock(false));
-            GetBlock(2, 6).block.SetForegroundBlock(new LadderBlock(false));
-            GetBlock(2, 7).block.SetForegroundBlock(new LadderBlock(false));
-            GetBlock(2, 8).block.SetForegroundBlock(new LadderBlock(false));
+            GetBlock(1, 3).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopleft"));
+            GetBlock(3, 5).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopright"));
+            GetBlock(3, 4).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
+            GetBlock(2, 1).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
+            GetBlock(2, 2).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
+            GetBlock(2, 3).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
+            GetBlock(2, 4).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
+            GetBlock(2, 5).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
+            GetBlock(2, 6).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
+            GetBlock(2, 7).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
+            GetBlock(2, 8).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
 
             SetDoor(2, 0, Direction.DOWN);
             SetDoor(2, 8, Direction.UP);
@@ -44,12 +44,12 @@ namespace SeeloewenCraft.game.core.world.generation
 
             CreateBasicShape(7, 8, "sc:stone_bricks_block", "sc:cobblestone_block", "sc:mossy_cobblestone_block");
 
-            GetBlock(3, 4).block.SetForegroundBlock(new TorchBlock(false));
-            GetBlock(1, 1).block.SetForegroundBlock(new WaterBlock_6(false));
-            GetBlock(2, 1).block.SetForegroundBlock(new WaterBlock_6(false));
-            GetBlock(3, 1).block.SetForegroundBlock(new WaterBlock_6(false));
-            GetBlock(4, 1).block.SetForegroundBlock(new WaterBlock_6(false));
-            GetBlock(5, 1).block.SetForegroundBlock(new WaterBlock_6(false));
+            GetBlock(3, 4).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
+            GetBlock(1, 1).block.SetForegroundBlock(BlockRegister.Get("sc:water_6_block"));
+            GetBlock(2, 1).block.SetForegroundBlock(BlockRegister.Get("sc:water_6_block"));
+            GetBlock(3, 1).block.SetForegroundBlock(BlockRegister.Get("sc:water_6_block"));
+            GetBlock(4, 1).block.SetForegroundBlock(BlockRegister.Get("sc:water_6_block"));
+            GetBlock(5, 1).block.SetForegroundBlock(BlockRegister.Get("sc:water_6_block"));
 
             SetDoor(6, 5, Direction.RIGHT);
             SetDoor(0, 5, Direction.LEFT);
@@ -66,59 +66,59 @@ namespace SeeloewenCraft.game.core.world.generation
 
             CreateBasicShape(12, 12, "sc:stone_bricks_block", "sc:cobblestone_block", "sc:mossy_cobblestone_block");
 
-            GetBlock(1, 3).block.SetForegroundBlock(new CobblestoneBlock_StairTopLeft(false));
-            GetBlock(1, 4).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(1, 5).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(1, 6).block.SetForegroundBlock(new CobblestoneBlock(false));
+            GetBlock(1, 3).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopleft"));
+            GetBlock(1, 4).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(1, 5).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(1, 6).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
 
-            GetBlock(2, 4).block.SetForegroundBlock(new CobblestoneBlock_StairTopLeft(false));
-            GetBlock(2, 5).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(2, 6).block.SetForegroundBlock(new CobblestoneBlock(false));
+            GetBlock(2, 4).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopleft"));
+            GetBlock(2, 5).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(2, 6).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
 
-            GetBlock(3, 5).block.SetForegroundBlock(new CobblestoneBlock_StairTopLeft(false));
-            GetBlock(3, 6).block.SetForegroundBlock(new CobblestoneBlock(false));
+            GetBlock(3, 5).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopleft"));
+            GetBlock(3, 6).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
 
-            GetBlock(3, 0).block.SetForegroundBlock(new LadderBlock(false));
-            GetBlock(3, 1).block.SetForegroundBlock(new LadderBlock(false));
-            GetBlock(3, 2).block.SetForegroundBlock(new LadderBlock(false));
+            GetBlock(3, 0).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
+            GetBlock(3, 1).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
+            GetBlock(3, 2).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
 
-            GetBlock(6, 6).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(5, 6).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(7, 6).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(8, 6).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(9, 6).block.SetForegroundBlock(new CobblestoneBlock(false));
+            GetBlock(6, 6).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(5, 6).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(7, 6).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(8, 6).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(9, 6).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
 
-            GetBlock(6, 9).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(6, 10).block.SetForegroundBlock(new CobblestoneBlock(false));
+            GetBlock(6, 9).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(6, 10).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
 
-            BarrelBlock barrel = new BarrelBlock(false);
+            BarrelBlock barrel = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
             barrel.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(6, 1).block.SetForegroundBlock(barrel);
 
-            BarrelBlock barrel2 = new BarrelBlock(false);
+            BarrelBlock barrel2 = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
             barrel2.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(7, 1).block.SetForegroundBlock(barrel2);
 
-            BarrelBlock barrel3 = new BarrelBlock(false);
+            BarrelBlock barrel3 = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
             barrel3.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(7, 2).block.SetForegroundBlock(barrel3);
 
-            BarrelBlock barrel4 = new BarrelBlock(false);
+            BarrelBlock barrel4 = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
             barrel4.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(8, 1).block.SetForegroundBlock(barrel4);
 
-            ChestBlock chest = new ChestBlock(false);
+            ChestBlock chest = (ChestBlock)BlockRegister.Get("sc:chest_block");
             chest.InsertLootTable(LootTables.plainsDungeonChest, 6, rnd);
             GetBlock(2, 7).block.SetForegroundBlock(chest);
 
-            GetBlock(10, 3).block.SetForegroundBlock(new CobblestoneBlock_StairTopRight(false));
-            GetBlock(10, 4).block.SetForegroundBlock(new LadderBlock(false));
-            GetBlock(10, 5).block.SetForegroundBlock(new LadderBlock(false));
-            GetBlock(10, 6).block.SetForegroundBlock(new LadderBlock(false));
+            GetBlock(10, 3).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopright"));
+            GetBlock(10, 4).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
+            GetBlock(10, 5).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
+            GetBlock(10, 6).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
 
-            GetBlock(4, 6).block.SetForegroundBlock(new OakTrapDoor(false));
-            GetBlock(3, 9).block.SetForegroundBlock(new TorchBlock(false));
-            GetBlock(7, 4).block.SetForegroundBlock(new TorchBlock(false));
+            GetBlock(4, 6).block.SetForegroundBlock(BlockRegister.Get("sc:oak_trapdoor"));
+            GetBlock(3, 9).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
+            GetBlock(7, 4).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
 
             SetDoor(0, 7, Direction.LEFT);
             SetDoor(11, 1, Direction.RIGHT);
@@ -135,19 +135,19 @@ namespace SeeloewenCraft.game.core.world.generation
 
             CreateBasicShape(11, 9, "sc:stone_bricks_block", "sc:cobblestone_block", "sc:mossy_cobblestone_block");
 
-            GetBlock(3, 1).block.SetForegroundBlock(new CobblestoneBlock_StairTopRight(false));
-            GetBlock(7, 1).block.SetForegroundBlock(new CobblestoneBlock_StairTopLeft(false));
-            GetBlock(5, 1).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(5, 2).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(5, 3).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(5, 4).block.SetForegroundBlock(new WaterBlock_6(false));
-            GetBlock(1, 5).block.SetForegroundBlock(new CobblestoneBlock_StairTopLeft(false));
-            GetBlock(2, 5).block.SetForegroundBlock(new CobblestoneBlock_SlabTop(false));
+            GetBlock(3, 1).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopright"));
+            GetBlock(7, 1).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopleft"));
+            GetBlock(5, 1).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(5, 2).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(5, 3).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(5, 4).block.SetForegroundBlock(BlockRegister.Get("sc:water_6_block"));
+            GetBlock(1, 5).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopleft"));
+            GetBlock(2, 5).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_slabtop"));
 
-            GetBlock(3, 6).block.SetForegroundBlock(new TorchBlock(false));
-            GetBlock(7, 6).block.SetForegroundBlock(new TorchBlock(false));
+            GetBlock(3, 6).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
+            GetBlock(7, 6).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
 
-            ChestBlock chest = new ChestBlock(false);
+            ChestBlock chest = (ChestBlock)BlockRegister.Get("sc:chest_block");
             chest.InsertLootTable(LootTables.plainsDungeonChest, 6, rnd);
             GetBlock(1, 6).block.SetForegroundBlock(chest);
 
@@ -164,13 +164,13 @@ namespace SeeloewenCraft.game.core.world.generation
 
             CreateBasicShape(5, 5, "sc:stone_bricks_block", "sc:cobblestone_block", "sc:mossy_cobblestone_block");
 
-            GetBlock(2, 1).block.SetForegroundBlock(new LadderBlock(false));
-            GetBlock(2, 2).block.SetForegroundBlock(new LadderBlock(false));
-            GetBlock(2, 3).block.SetForegroundBlock(new LadderBlock(false));
-            GetBlock(2, 4).block.SetForegroundBlock(new LadderBlock(false));
+            GetBlock(2, 1).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
+            GetBlock(2, 2).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
+            GetBlock(2, 3).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
+            GetBlock(2, 4).block.SetForegroundBlock(BlockRegister.Get("sc:ladder_block"));
 
-            GetBlock(1, 2).block.SetForegroundBlock(new TorchBlock(false));
-            GetBlock(3, 2).block.SetForegroundBlock(new TorchBlock(false));
+            GetBlock(1, 2).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
+            GetBlock(3, 2).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
 
             SetDoor(0, 1, Direction.LEFT);
             SetDoor(4, 1, Direction.RIGHT);
@@ -187,23 +187,23 @@ namespace SeeloewenCraft.game.core.world.generation
 
             CreateBasicShape(7, 9, "sc:stone_bricks_block", "sc:cobblestone_block", "sc:mossy_cobblestone_block");
 
-            GetBlock(1, 1).block.SetForegroundBlock(new WaterBlock_6(false));
-            GetBlock(2, 1).block.SetForegroundBlock(new WaterBlock_6(false));
-            GetBlock(3, 1).block.SetForegroundBlock(new WaterBlock_6(false));
-            GetBlock(4, 1).block.SetForegroundBlock(new WaterBlock_6(false));
-            GetBlock(5, 1).block.SetForegroundBlock(new WaterBlock_6(false));
-            GetBlock(1, 2).block.SetForegroundBlock(new WaterBlock_6(false));
-            GetBlock(5, 2).block.SetForegroundBlock(new WaterBlock_6(false));
+            GetBlock(1, 1).block.SetForegroundBlock(BlockRegister.Get("sc:water_6_block"));
+            GetBlock(2, 1).block.SetForegroundBlock(BlockRegister.Get("sc:water_6_block"));
+            GetBlock(3, 1).block.SetForegroundBlock(BlockRegister.Get("sc:water_6_block"));
+            GetBlock(4, 1).block.SetForegroundBlock(BlockRegister.Get("sc:water_6_block"));
+            GetBlock(5, 1).block.SetForegroundBlock(BlockRegister.Get("sc:water_6_block"));
+            GetBlock(1, 2).block.SetForegroundBlock(BlockRegister.Get("sc:water_6_block"));
+            GetBlock(5, 2).block.SetForegroundBlock(BlockRegister.Get("sc:water_6_block"));
 
-            GetBlock(2, 2).block.SetForegroundBlock(new SpruceLogBlock(false));
-            GetBlock(3, 2).block.SetForegroundBlock(new SpruceLogBlock(false));
-            GetBlock(4, 2).block.SetForegroundBlock(new SpruceLogBlock(false));
+            GetBlock(2, 2).block.SetForegroundBlock(BlockRegister.Get("sc:spruce_log_block"));
+            GetBlock(3, 2).block.SetForegroundBlock(BlockRegister.Get("sc:spruce_log_block"));
+            GetBlock(4, 2).block.SetForegroundBlock(BlockRegister.Get("sc:spruce_log_block"));
 
-            ChestBlock chest = new ChestBlock(false);
+            ChestBlock chest = (ChestBlock)BlockRegister.Get("sc:chest_block");
             chest.InsertLootTable(LootTables.plainsDungeonChest, 6, rnd);
             GetBlock(3, 3).block.SetForegroundBlock(chest);
 
-            GetBlock(3, 5).block.SetForegroundBlock(new TorchBlock(false));
+            GetBlock(3, 5).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
 
             SetDoor(0, 3, Direction.LEFT);
             SetDoor(6, 3, Direction.RIGHT);
@@ -219,18 +219,18 @@ namespace SeeloewenCraft.game.core.world.generation
 
             CreateBasicShape(11, 5, "sc:stone_bricks_block", "sc:cobblestone_block", "sc:mossy_cobblestone_block");
 
-            GetBlock(3, 2).block.SetForegroundBlock(new TorchBlock(false));
-            GetBlock(7, 2).block.SetForegroundBlock(new TorchBlock(false));
+            GetBlock(3, 2).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
+            GetBlock(7, 2).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
 
-            BarrelBlock barrel = new BarrelBlock(true);
+            BarrelBlock barrel = (BarrelBlock)BlockRegister.Get("sc:barrel_block").MoveToBackground();
             barrel.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(2, 1).block = barrel;
 
-            BarrelBlock barrel2 = new BarrelBlock(true);
+            BarrelBlock barrel2 = (BarrelBlock)BlockRegister.Get("sc:barrel_block").MoveToBackground();
             barrel2.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(2, 2).block = barrel2;
 
-            BarrelBlock barrel3 = new BarrelBlock(true);
+            BarrelBlock barrel3 = (BarrelBlock)BlockRegister.Get("sc:barrel_block").MoveToBackground();
             barrel3.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(3, 1).block = barrel3;
 
@@ -249,28 +249,28 @@ namespace SeeloewenCraft.game.core.world.generation
 
             CreateBasicShape(8, 7, "sc:stone_bricks_block", "sc:cobblestone_block", "sc:mossy_cobblestone_block");
 
-            GetBlock(1, 4).block.SetForegroundBlock(new CobblestoneBlock_StairTopLeft(false));
-            GetBlock(1, 5).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(2, 5).block.SetForegroundBlock(new CobblestoneBlock_StairTopLeft(false));
+            GetBlock(1, 4).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopleft"));
+            GetBlock(1, 5).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(2, 5).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopleft"));
 
-            GetBlock(3, 1).block.SetForegroundBlock(new CobblestoneBlock_StairBottomRight(false));
-            GetBlock(4, 1).block.SetForegroundBlock(new CobblestoneBlock_StairTopLeft(false));
-            GetBlock(4, 2).block.SetForegroundBlock(new CobblestoneBlock_StairBottomRight(false));
-            GetBlock(5, 2).block.SetForegroundBlock(new CobblestoneBlock_StairTopLeft(false));
-            GetBlock(5, 3).block.SetForegroundBlock(new CobblestoneBlock_StairBottomRight(false));
-            GetBlock(6, 3).block.SetForegroundBlock(new CobblestoneBlock(false));
+            GetBlock(3, 1).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairbottomright"));
+            GetBlock(4, 1).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopleft"));
+            GetBlock(4, 2).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairbottomright"));
+            GetBlock(5, 2).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopleft"));
+            GetBlock(5, 3).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairbottomright"));
+            GetBlock(6, 3).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
 
-            GetBlock(2, 4).block.SetForegroundBlock(new TorchBlock(false));
+            GetBlock(2, 4).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
 
-            BarrelBlock barrel = new BarrelBlock(false);
+            BarrelBlock barrel = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
             barrel.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(5, 1).block.SetForegroundBlock(barrel);
 
-            BarrelBlock barrel2 = new BarrelBlock(false);
+            BarrelBlock barrel2 = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
             barrel2.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(6, 1).block.SetForegroundBlock(barrel2);
 
-            BarrelBlock barrel3 = new BarrelBlock(false);
+            BarrelBlock barrel3 = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
             barrel3.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(6, 2).block.SetForegroundBlock(barrel3);
 
@@ -288,40 +288,40 @@ namespace SeeloewenCraft.game.core.world.generation
 
             CreateBasicShape(11, 7, "sc:stone_bricks_block", "sc:cobblestone_block", "sc:mossy_cobblestone_block");
 
-            GetBlock(1, 3).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(1, 4).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(1, 5).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(2, 3).block.SetForegroundBlock(new CobblestoneBlock_StairTopLeft(false));
-            GetBlock(2, 4).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(2, 5).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(3, 4).block.SetForegroundBlock(new CobblestoneBlock_StairTopLeft(false));
-            GetBlock(3, 5).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(4, 5).block.SetForegroundBlock(new CobblestoneBlock_StairTopLeft(false));
-            GetBlock(6, 5).block.SetForegroundBlock(new CobblestoneBlock_StairTopRight(false));
-            GetBlock(7, 5).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(7, 4).block.SetForegroundBlock(new CobblestoneBlock_StairTopRight(false));
-            GetBlock(8, 5).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(8, 4).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(8, 3).block.SetForegroundBlock(new CobblestoneBlock_StairTopRight(false));
-            GetBlock(9, 3).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(9, 4).block.SetForegroundBlock(new CobblestoneBlock(false));
-            GetBlock(9, 5).block.SetForegroundBlock(new CobblestoneBlock(false));
+            GetBlock(1, 3).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(1, 4).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(1, 5).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(2, 3).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopleft"));
+            GetBlock(2, 4).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(2, 5).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(3, 4).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopleft"));
+            GetBlock(3, 5).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(4, 5).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopleft"));
+            GetBlock(6, 5).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopright"));
+            GetBlock(7, 5).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(7, 4).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopright"));
+            GetBlock(8, 5).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(8, 4).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(8, 3).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopright"));
+            GetBlock(9, 3).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(9, 4).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
+            GetBlock(9, 5).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
 
-            GetBlock(5, 5).block.SetForegroundBlock(new TorchBlock(false));
+            GetBlock(5, 5).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
 
-            BarrelBlock barrel = new BarrelBlock(false);
+            BarrelBlock barrel = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
             barrel.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(5, 1).block.SetForegroundBlock(barrel);
 
-            BarrelBlock barrel2 = new BarrelBlock(false);
+            BarrelBlock barrel2 = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
             barrel2.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(5, 2).block.SetForegroundBlock(barrel2);
 
-            BarrelBlock barrel3 = new BarrelBlock(false);
+            BarrelBlock barrel3 = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
             barrel3.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(4, 1).block.SetForegroundBlock(barrel3);
 
-            BarrelBlock barrel4 = new BarrelBlock(false);
+            BarrelBlock barrel4 = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
             barrel4.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
             GetBlock(6, 1).block.SetForegroundBlock(barrel4);
 
@@ -339,19 +339,19 @@ namespace SeeloewenCraft.game.core.world.generation
 
             CreateBasicShape(9, 7, "sc:stone_bricks_block", "sc:cobblestone_block", "sc:mossy_cobblestone_block");
 
-            GetBlock(4, 0).block.SetForegroundBlock(new DirtBlock(false));
-            GetBlock(4, 1).block.SetForegroundBlock(new OakLogBlock(false));
-            GetBlock(4, 2).block.SetForegroundBlock(new OakLogBlock(false));
-            GetBlock(4, 3).block.SetForegroundBlock(new OakLeavesBlock(false));
-            GetBlock(4, 4).block.SetForegroundBlock(new OakLeavesBlock(false));
-            GetBlock(4, 5).block.SetForegroundBlock(new OakLeavesBlock(false));
-            GetBlock(5, 3).block.SetForegroundBlock(new OakLeavesBlock(false));
-            GetBlock(5, 4).block.SetForegroundBlock(new OakLeavesBlock(false));
-            GetBlock(3, 3).block.SetForegroundBlock(new OakLeavesBlock(false));
-            GetBlock(3, 4).block.SetForegroundBlock(new OakLeavesBlock(false));
-            GetBlock(6, 3).block.SetForegroundBlock(new OakLeavesBlock(false));
-            GetBlock(2, 3).block.SetForegroundBlock(new OakLeavesBlock(false));
-            GetBlock(4, 6).block.SetForegroundBlock(new TorchBlock(false));
+            GetBlock(4, 0).block.SetForegroundBlock(BlockRegister.Get("sc:dirt_block"));
+            GetBlock(4, 1).block.SetForegroundBlock(BlockRegister.Get("sc:oak_log_block"));
+            GetBlock(4, 2).block.SetForegroundBlock(BlockRegister.Get("sc:oak_log_block"));
+            GetBlock(4, 3).block.SetForegroundBlock(BlockRegister.Get("sc:oak_leaves_block"));
+            GetBlock(4, 4).block.SetForegroundBlock(BlockRegister.Get("sc:oak_leaves_block"));
+            GetBlock(4, 5).block.SetForegroundBlock(BlockRegister.Get("sc:oak_leaves_block"));
+            GetBlock(5, 3).block.SetForegroundBlock(BlockRegister.Get("sc:oak_leaves_block"));
+            GetBlock(5, 4).block.SetForegroundBlock(BlockRegister.Get("sc:oak_leaves_block"));
+            GetBlock(3, 3).block.SetForegroundBlock(BlockRegister.Get("sc:oak_leaves_block"));
+            GetBlock(3, 4).block.SetForegroundBlock(BlockRegister.Get("sc:oak_leaves_block"));
+            GetBlock(6, 3).block.SetForegroundBlock(BlockRegister.Get("sc:oak_leaves_block"));
+            GetBlock(2, 3).block.SetForegroundBlock(BlockRegister.Get("sc:oak_leaves_block"));
+            GetBlock(4, 6).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
 
             SetDoor(0, 1, Direction.LEFT);
         }
