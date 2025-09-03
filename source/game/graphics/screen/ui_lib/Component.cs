@@ -214,6 +214,11 @@ namespace SeeloewenCraft.game.graphics.ui_lib
             }
         }
 
+        //fatal name; rechecks hovered status of children
+        protected void UpdateChildrenHovered()
+        {
+            cascadeInputEvent(new MouseMoveEvent(InputHandler.mouseXPixel, InputHandler.mouseYPixel));
+        }
 
         /// <summary>
         /// Is called when the mouse enters the bounding box of the component
