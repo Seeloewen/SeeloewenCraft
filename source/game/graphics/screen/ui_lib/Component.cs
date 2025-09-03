@@ -96,7 +96,7 @@ namespace SeeloewenCraft.game.graphics.ui_lib
             children.Clear();
         }
 
-        protected void ForEachChildren(Action<Component> action)
+        protected void ForEachChild(Action<Component> action)
         {
             children.ForEach(action);
         }
@@ -160,6 +160,22 @@ namespace SeeloewenCraft.game.graphics.ui_lib
 
         internal void cascadeInputEvent(InputEvent inputEvent)
         {
+            if (inputEvent is MouseMoveEvent e && hovered != bounds.IsInBounds(e.x, e.y))
+            {
+                if (!hovered)
+                {
+                    hovered = true;
+                    OnMouseEnter();
+                }
+                else
+                {
+                    Unhover();
+                    return;
+                }
+            }
+
+            if (!hovered) return;
+            
             foreach (Component c in children)
             {
                 c.cascadeInputEvent(inputEvent);
@@ -172,23 +188,21 @@ namespace SeeloewenCraft.game.graphics.ui_lib
             handleInputEvent(inputEvent);
         }
 
+        private void Unhover()
+        {
+            if (hovered)
+            {
+                hovered = false;
+                OnMouseLeave();
+                ForEachChild(c => c.Unhover());
+            }
+        }
+        
         private void handleInputEvent(InputEvent inputEvent)
         {
             if (inputEvent is MouseMoveEvent mouseMoveEvent)
             {
-                if (hovered != bounds.IsInBounds(mouseMoveEvent.x, mouseMoveEvent.y))
-                {
-                    hovered = !hovered;
-                    if (hovered)
-                    {
-                        OnMouseEnter();
-                    }
-                    else
-                    {
-                        OnMouseLeave();
-                    }
-                }
-                OnMouseMoveEvent(mouseMoveEvent);
+                if (hovered) OnMouseMoveEvent(mouseMoveEvent);
             }
             else if (inputEvent is ClickEvent clickEvent)
             {
