@@ -10,7 +10,6 @@ namespace SeeloewenCraft.game.graphics
         Color colorNormal;
         Color colorHovered;
         Color colorPressed;
-        bool hovered;
         bool pressed;
 
         CTexture cTexture;
@@ -80,15 +79,10 @@ namespace SeeloewenCraft.game.graphics
         }
 
 
-        protected override void OnMouseEnter()
-        {
-            hovered = true;
-        }
 
         protected override void OnMouseLeave()
         {
             pressed = false;
-            hovered = false;
         }
 
         protected override void OnClickEvent(ClickEvent e)
