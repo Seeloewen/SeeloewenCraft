@@ -37,7 +37,7 @@ namespace SeeloewenCraft.game
             {
                 double dt = DeltaTimer.Tick(out bool blockUpdate);
 
-                Screen.Update();
+                Screen.Update(dt);
 
                 world.Tick(dt * 0.7, blockUpdate);
 

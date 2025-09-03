@@ -1,6 +1,8 @@
 ﻿using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Collections.Generic;
+using SeeloewenCraft.source.game.modules.util;
+
 namespace SeeloewenCraft.game.graphics
 {
     public static class InputHandler
@@ -100,6 +102,7 @@ namespace SeeloewenCraft.game.graphics
                 }
                 else
                 {
+                    if (k == Keys.F2 && a == InputAction.Press) BreakPoint.breakNext = true;
                     if (KeyBinds.bindings.TryGetValue(k, out var v))
                     {
                         if (a == InputAction.Press)

@@ -35,6 +35,8 @@ public class CScrollPane : CRectangle
         dy = Math.Min(maxI - i, dy);
         i += dy;
         scrollableChildren.ForEach(c => c.MoveBy(0, -dy));
+        scrollEvent.consume();
+        UpdateChildrenHovered();
     }
 
     protected override void OnRender()

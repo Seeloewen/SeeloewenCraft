@@ -7,10 +7,16 @@ namespace SeeloewenCraft.game.graphics
     {
         static bool pressedLeft, pressedRight;
 
+        private static double leftCD = 0, rightCD = 0;
+        private const double CLICK_COOLDOWN = 1 / 5.0;
+        
         public static Block targetedBlock = null;
 
-        public static void Update() //💀💀💀
+        public static void Update(double dt) //💀💀💀
         {
+            leftCD -= dt;
+            rightCD -= dt;
+            
             float mouseX = InputHandler.mouseXScreen;
             float mouseY = InputHandler.mouseYScreen;
 
@@ -26,12 +32,20 @@ namespace SeeloewenCraft.game.graphics
                 if (pressedLeft)
                 {
                     if (targetedBlock != null) targetedBlock.HandleMouseLeftUp();
-                    if (block != null) block.HandleMouseLeftDown();
+                    if (block != null && leftCD <= 0)
+                    {
+                        leftCD = CLICK_COOLDOWN;
+                        block.HandleMouseLeftDown();
+                    }
                 }
                 else if (pressedRight)
                 {
                     if (targetedBlock != null) targetedBlock.HandleMouseRightUp();
-                    if (block != null) block.HandleMouseRightDown();
+                    if (block != null && rightCD <= 0)
+                    {
+                        rightCD = CLICK_COOLDOWN;
+                        block.HandleMouseRightDown();
+                    }
                 }
                 DebugMenu.NewTargeted(block);
                 targetedBlock = block;
@@ -47,6 +61,7 @@ namespace SeeloewenCraft.game.graphics
             {
                 if (pressedRight) block.HandleMouseRightUp();
                 block.HandleMouseLeftDown();
+                leftCD = CLICK_COOLDOWN;
             }
             pressedLeft = newPressedLeft;
             if (!pressedLeft && pressedRight && !newPressedRight || pressedRight && !Screen.allowIngameInputs)
@@ -56,6 +71,7 @@ namespace SeeloewenCraft.game.graphics
             if (!pressedLeft && !pressedRight && newPressedRight && Screen.allowIngameInputs)
             {
                 block.HandleMouseRightDown();
+                rightCD = CLICK_COOLDOWN;
             }
             pressedRight = newPressedRight;
 

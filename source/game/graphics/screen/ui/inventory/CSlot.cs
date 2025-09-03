@@ -98,7 +98,7 @@ namespace SeeloewenCraft.game.graphics
             SetColor(new Color(0f, 0f, 0f, 0f));
 
             //Set color based on the pressstate (if it isn't following the mouse)
-            if (hasBackground) SetColor(isPressed ? pressedColor : (isHovered ? hoveredColor : color)); //Please forgive me for this line
+            if (hasBackground) SetColor(isPressed ? pressedColor : (isHovered ? hoveredColor : color)); //Please forgive me for this line //no
 
             base.OnRender();
         }
