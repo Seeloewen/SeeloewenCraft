@@ -7,7 +7,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public abstract class WaterBlock : LiquidBlock
     {
-        public WaterBlock(string name, string id) : base(name, id)
+        internal WaterBlock(string name, string id) : base(name, id)
         {
             liquidTag = BlockTags.LIQUIDS_WATER;
             WriteTag(liquidTag);
@@ -55,7 +55,7 @@ namespace SeeloewenCraft.game.core.blocks
             return touchingStatus;
         }
 
-        public virtual (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        internal virtual(bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
             return (true, 0);
         }
@@ -65,12 +65,12 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_1_Right : WaterBlock
     {
-        public WaterBlock_1_Right() : base("Water", "sc:water_1_right_block")
+        internal WaterBlock_1_Right() : base("Water", "sc:water_1_right_block")
         {
             liquidLevel = 1;
         }
 
-        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        internal override(bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
             return endY > startX * (1.0 / 5) + 800 ? (true, 1) : (false, 0);
         }
@@ -78,12 +78,12 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_1_Left : WaterBlock
     {
-        public WaterBlock_1_Left() : base("Water", "sc:water_1_left_block")
+        internal WaterBlock_1_Left() : base("Water", "sc:water_1_left_block")
         {
             liquidLevel = 1;
         }
 
-        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        internal override(bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
             return endY > endX * -(1.0 / 5) + 1000 ? (true, -1) : (false, 0);
         }
@@ -91,12 +91,12 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_2_Right : WaterBlock
     {
-        public WaterBlock_2_Right() : base("Water", "sc:water_2_right_block")
+        internal WaterBlock_2_Right() : base("Water", "sc:water_2_right_block")
         {
             liquidLevel = 2;
         }
 
-        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        internal override(bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
             return endY > startX * (1.0 / 5) + 600 ? (true, 1) : (false, 0);
         }
@@ -104,12 +104,12 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_2_Left : WaterBlock
     {
-        public WaterBlock_2_Left() : base("Water", "sc:water_2_left_block")
+        internal WaterBlock_2_Left() : base("Water", "sc:water_2_left_block")
         {
             liquidLevel = 2;
         }
 
-        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        internal override(bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
             return endY > endX * -(1.0 / 5) + 800 ? (true, -1) : (false, 0);
         }
@@ -117,12 +117,12 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_3_Right : WaterBlock
     {
-        public WaterBlock_3_Right() : base("Water", "sc:water_3_right_block")
+        internal WaterBlock_3_Right() : base("Water", "sc:water_3_right_block")
         {
             liquidLevel = 3;
         }
 
-        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        internal override(bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
             return endY > startX * (1.0 / 5) + 400 ? (true, 1) : (false, 0);
         }
@@ -130,12 +130,12 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_3_Left : WaterBlock
     {
-        public WaterBlock_3_Left() : base("Water", "sc:water_3_left_block")
+        internal WaterBlock_3_Left() : base("Water", "sc:water_3_left_block")
         {
             liquidLevel = 3;
         }
 
-        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        internal override(bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
             return endY > endX * -(1.0 / 5) + 600 ? (true, -1) : (false, 0);
         }
@@ -143,12 +143,12 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_4_Right : WaterBlock
     {
-        public WaterBlock_4_Right() : base("Water", "sc:water_4_right_block")
+        internal WaterBlock_4_Right() : base("Water", "sc:water_4_right_block")
         {
             liquidLevel = 4;
         }
 
-        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        internal override(bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
             return endY > startX * (1.0 / 5) + 200 ? (true, 1) : (false, 0);
         }
@@ -156,12 +156,12 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_4_Left : WaterBlock
     {
-        public WaterBlock_4_Left() : base("Water", "sc:water_4_left_block")
+        internal WaterBlock_4_Left() : base("Water", "sc:water_4_left_block")
         {
             liquidLevel = 4;
         }
 
-        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        internal override(bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
             return endY > endX * -(1.0 / 5) + 400 ? (true, -1) : (false, 0);
         }
@@ -169,12 +169,12 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_5_Right : WaterBlock
     {
-        public WaterBlock_5_Right() : base("Water", "sc:water_5_right_block")
+        internal WaterBlock_5_Right() : base("Water", "sc:water_5_right_block")
         {
             liquidLevel = 5;
         }
 
-        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        internal override(bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
             return endY > startX * (1.0 / 5) ? (true, 1) : (false, 0);
         }
@@ -182,12 +182,12 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_5_Left : WaterBlock
     {
-        public WaterBlock_5_Left() : base("Water", "sc:water_5_left_block")
+        internal WaterBlock_5_Left() : base("Water", "sc:water_5_left_block")
         {
             liquidLevel = 5;
         }
 
-        public override (bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
+        internal override(bool, int) CheckWaterTouch(int startX, int startY, int endX, int endY)
         {
             return endY > endX * -(1.0 / 5) + 200 ? (true, -1) : (false, 0);
         }
@@ -195,7 +195,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WaterBlock_6 : WaterBlock
     {
-        public WaterBlock_6() : base("Water", "sc:water_6_block")
+        internal WaterBlock_6() : base("Water", "sc:water_6_block")
         {
             liquidLevel = 6;
         }

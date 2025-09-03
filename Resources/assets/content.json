@@ -1194,7 +1194,11 @@
 					"file": "Blocks.Glass.png"
 				},
 				{
-					"id": "sc:sugar_cane_block/1",
+					"id": "sc:sugar_cane_crop_block/1",
+					"file": "Blocks.Sugar_Cane.png"
+				},
+				{
+					"id": "sc:sugar_cane_crop_block/2",
 					"file": "Blocks.Sugar_Cane.png"
 				},
 				{

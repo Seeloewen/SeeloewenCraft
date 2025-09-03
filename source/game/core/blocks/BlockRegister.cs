@@ -17,7 +17,7 @@ namespace SeeloewenCraft.game.core.blocks
             //Register all block types
             foreach (var type in blockTypes)
             {
-                Block block = (Block)Activator.CreateInstance(type);
+                Block block = (Block)Activator.CreateInstance(type, nonPublic: true);
                 blockMappings[block.id] = type;
             }
         }
@@ -29,7 +29,7 @@ namespace SeeloewenCraft.game.core.blocks
             
             Type type = blockMappings[id];
 
-            Block block = (Block)Activator.CreateInstance(type);
+            Block block = (Block)Activator.CreateInstance(type, nonPublic: true);
             return block;
         }
     }
