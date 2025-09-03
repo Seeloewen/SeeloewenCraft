@@ -54,7 +54,7 @@ namespace SeeloewenCraft.game.graphics
             }
         }
 
-        public static void Update()
+        public static void Update(double dt)
         {
             HandleInputs();
 
@@ -62,7 +62,7 @@ namespace SeeloewenCraft.game.graphics
             {
                 gameOverlayUIRoot.Update();
                 hotbarUIRoot.Update();
-                GameScreen.Update();
+                GameScreen.Update(dt);
             }
             if (showEscapeMenu)
             {

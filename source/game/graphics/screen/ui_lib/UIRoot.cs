@@ -107,6 +107,8 @@ namespace SeeloewenCraft.game.graphics.ui_lib
         public void Show()
         {
             component = create();
+            mouseLeftDown = InputHandler.pressedLeft;
+            mouseRightDown = InputHandler.pressedRight;
         }
 
         /// <summary>

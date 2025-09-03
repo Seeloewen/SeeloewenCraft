@@ -11,6 +11,7 @@ namespace SeeloewenCraft.game.graphics
         public int y;
 
         internal bool isPressed;
+        internal bool isHovered;
 
         protected CText cAmount;
         protected CTexture cTexture;
@@ -97,18 +98,20 @@ namespace SeeloewenCraft.game.graphics
             SetColor(new Color(0f, 0f, 0f, 0f));
 
             //Set color based on the pressstate (if it isn't following the mouse)
-            if (hasBackground) SetColor(isPressed ? pressedColor : (hovered ? hoveredColor : color)); //Please forgive me for this line
+            if (hasBackground) SetColor(isPressed ? pressedColor : (isHovered ? hoveredColor : color)); //Please forgive me for this line //no
 
             base.OnRender();
         }
 
         protected override void OnMouseEnter()
         {
+            isHovered = true;
             isPressed = false;
         }
 
         protected override void OnMouseLeave()
         {
+            isHovered = false;
             isPressed = false;
         }
     }
