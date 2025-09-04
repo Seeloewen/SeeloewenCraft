@@ -1,6 +1,4 @@
-﻿
-
-using SeeloewenCraft.game.core.blocks;
+﻿using System;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -24,9 +22,13 @@ namespace SeeloewenCraft.game.graphics
             foreach (var chunk in chunks)
             {
                 var blockList = chunk.blockList.blocks;
-                foreach (Block block in blockList)
+
+                int start = Math.Max(0, ((Game.world.player.posY / 1000) - 9) * 8);
+                int end = Math.Min(blockList.Length, ((Game.world.player.posY / 1000) + 9) * 8);
+
+                for(int i = start; i < end; i++)
                 {
-                    BlockRenderer.Render(block);
+                    BlockRenderer.Render(blockList[i]);
                 }
             }
             TextureRenderer.End();
@@ -36,9 +38,13 @@ namespace SeeloewenCraft.game.graphics
             foreach (var chunk in chunks)
             {
                 var blockList = chunk.blockList.blocks;
-                foreach (Block block in blockList)
+
+                int start = Math.Max(0, ((Game.world.player.posY / 1000) - 9) * 8);
+                int end = Math.Min(blockList.Length, ((Game.world.player.posY / 1000) + 9) * 8);
+
+                for (int i = start; i < end; i++)
                 {
-                    BlockRenderer.RenderLighting(block.GetBlockRenderInfo());
+                    BlockRenderer.RenderLighting(blockList[i].GetBlockRenderInfo());
                 }
             }
             PrimitiveRenderer.End();

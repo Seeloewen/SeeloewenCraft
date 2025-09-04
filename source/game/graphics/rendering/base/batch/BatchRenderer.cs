@@ -52,7 +52,6 @@ internal class BatchRenderer<V> where V : struct, IBatch
     
     internal void Begin()
     {
-        floats = new float[floats.Length];
         count = 0;
     }
 
