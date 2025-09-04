@@ -28,7 +28,7 @@ namespace SeeloewenCraft.game.graphics
 
             float g = isBackground ? 0.69f : 1.0f;
 
-            TextureRenderer.Draw(blockID, x1, y1, x2, y2, g);
+            if(lighting != 1f) TextureRenderer.Draw(blockID, x1, y1, x2, y2, g);
         }
 
         internal static void RenderLighting(BlockRenderInfo block)
@@ -38,7 +38,7 @@ namespace SeeloewenCraft.game.graphics
             float x2 = x1 + GameCamera.blockLength;
             float y2 = y1 - GameCamera.blockLength * Resolution.RATIO;
 
-            PrimitiveRenderer.DrawRectangle(new Rectangle(x1, y1, x2, y2), new Color(0f, 0f, 0f, block.lighting));
+            if(block.lighting != 0f) PrimitiveRenderer.DrawRectangle(new Rectangle(x1, y1, x2, y2), new Color(0f, 0f, 0f, block.lighting));
         }
     }
 }
