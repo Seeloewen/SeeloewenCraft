@@ -82,17 +82,22 @@ namespace SeeloewenCraft.game.core.entities
                     if (item != null)
                     {
                         //TODO calculate direction with mouseoffset
-                        /*double xOffset = mousePosX - posX - 450;
+            
+                        float mouseX = InputHandler.mouseXScreen;
+                        float mouseY = InputHandler.mouseYScreen;
+                        
+                        float mousePosX = 1000 * (mouseX - GameCamera.blockXAnchor) / GameCamera.blockLength;
+                        float mousePosY = 1000 * -(mouseY - GameCamera.blockYAnchor) / (GameCamera.blockLength * Resolution.RATIO);
+                        double xOffset = mousePosX - posX - sizeX/2;
                         double yOffset = mousePosY - posY;
                         double n = Math.Sqrt(xOffset * xOffset + yOffset * yOffset);
                         double xDir = xOffset / n;
                         double yDir = yOffset / n;
 
-                        ItemEntity itemEntity = new ItemEntity(item, item.tag, posX + 500 - ItemEntity.itemSizeX / 2, posY, (int)(15000 * xDir) + velX, (int)(20000 * yDir) + velY);
+                        ItemEntity itemEntity = new ItemEntity(item, item.tag, posX + sizeX/2 - ItemEntity.itemSizeX / 2, posY, (int)(15000 * xDir) + velX, (int)(20000 * yDir) + velY);
                         Game.world.AddEntity(itemEntity);
                         thrown = true;
                         selectedSlot.Remove(1);
-                        selectedSlot.inventory.UpdateHotbar();*/
                     }
                 }
             }
