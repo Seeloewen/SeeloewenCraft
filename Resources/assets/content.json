@@ -862,19 +862,19 @@
 					"file": "Breaking_5.png"
 				},
 				{
-					"id": "sc:rice_top/1",
+					"id": "sc:rice_top/CROP_1",
 					"file": "Blocks.Connected.Rice_Top_Stage_1.png"
 				},
 				{
-					"id": "sc:rice_top/2",
+					"id": "sc:rice_top/CROP_2",
 					"file": "Blocks.Connected.Rice_Top_Stage_2.png"
 				},
 				{
-					"id": "sc:rice_top/3",
+					"id": "sc:rice_top/CROP_3",
 					"file": "Blocks.Connected.Rice_Top_Stage_3.png"
 				},
 				{
-					"id": "sc:rice_top/4",
+					"id": "sc:rice_top/CROP_4",
 					"file": "Blocks.Connected.Rice_Top_Stage_4.png"
 				},
 				{
@@ -1194,11 +1194,11 @@
 					"file": "Blocks.Glass.png"
 				},
 				{
-					"id": "sc:sugar_cane_crop_block/1",
+					"id": "sc:sugar_cane_crop_block/CROP_1",
 					"file": "Blocks.Sugar_Cane.png"
 				},
 				{
-					"id": "sc:sugar_cane_crop_block/2",
+					"id": "sc:sugar_cane_crop_block/CROP_2",
 					"file": "Blocks.Sugar_Cane.png"
 				},
 				{
