@@ -307,15 +307,15 @@ namespace SeeloewenCraft.game.core.entities
 
         public void DisplayDebugInformation()
         {
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "health", $"health={healthBar.value}");
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "posX", $"posX={posX}");
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "posY", $"posY={posY}");
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "velX", $"velX={velX}");
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "velY", $"velY={velY}");
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "blockPosX", $"blockPosX={(posX / 1000) % 8}");
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "blockPosY", $"blockPosY={posY / 1000}");
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "touchingWater", $"touchingWater={touchingStatus[TOUCHING_WATER]}");
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "breathing", $"breathing={breathing}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "health", $"{healthBar.value}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "posX", $"{posX}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "posY", $"{posY}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "velX", $"{velX}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "velY", $"{velY}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "blockPosX", $"{(posX / 1000) % 8}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "blockPosY", $"{posY / 1000}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "touchingWater", $"{touchingStatus[TOUCHING_WATER]}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "breathing", $"{breathing}");
 
         }
     }

@@ -21,7 +21,7 @@ namespace SeeloewenCraft.game.graphics
         static Dictionary<string, string> linesPlayer = new Dictionary<string, string>();
         static Dictionary<string, string> linesTargeted = new Dictionary<string, string>();
 
-        private static IDebugMenuTargetable target;
+        public static IDebugMenuTargetable target;
 
         internal static void Render()
         {
