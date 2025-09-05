@@ -9,7 +9,7 @@
 
         private string id;
         private float brightness = 1f;
-        private TextureMap map;
+        private string map;
 
 
         /// <summary>
@@ -18,7 +18,7 @@
         /// <param name="map">TextureMap where the texture is drawn from</param>
         /// <param name="id">Id of the texture </param>
         /// <param name="bounds">Bounding box of the image</param>
-        public CTexture(TextureMap map, string id, Rectangle bounds) : base(bounds)
+        public CTexture(string map, string id, Rectangle bounds) : base(bounds)
         {
             this.map = map;
             this.id = id;
@@ -33,7 +33,7 @@
         {
             if (id != null)
             {
-                TextureRenderer.SetTexture(map);
+                TextureRenderer.SetTexture(TextureManager.textureMaps[map]);
                 TextureRenderer.Draw(id, bounds, brightness);
             }
         }

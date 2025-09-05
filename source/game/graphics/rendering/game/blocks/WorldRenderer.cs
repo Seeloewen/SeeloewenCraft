@@ -5,11 +5,9 @@ namespace SeeloewenCraft.game.graphics
     internal static class WorldRenderer
     {
 
-        static TextureMap textureMap;
 
         internal static void Init()
         {
-            textureMap = new TextureMap("blocks");
         }
 
 
@@ -18,7 +16,7 @@ namespace SeeloewenCraft.game.graphics
             var chunks = Game.world.loadedChunkList;
 
             Renderer.PushDebugGroup("blocks");
-            TextureRenderer.SetTexture(textureMap);
+            TextureRenderer.SetTexture(TextureManager.textureMaps["blocks"]);
             TextureRenderer.Begin();
             foreach (var chunk in chunks)
             {

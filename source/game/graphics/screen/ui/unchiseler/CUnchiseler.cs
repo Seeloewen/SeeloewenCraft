@@ -20,7 +20,7 @@ namespace SeeloewenCraft.game.graphics
             cHeader = new CText("Unchiseler", 2, new TextLayout(bounds.x1P + 20, TextHAlignment.LEFT, bounds.y1P + 15, TextVAlignment.TOP));
             cBorder = new CBorder(5, new Color(0.5f));
             cUnchiselerSlot = new CUnchiselerSlot(bounds.x1P + 65, bounds.y1P + 47);
-            cButton = new CButton(cButton_OnClick, "Break", "sc:button_1", GeneralTextureMap.Get(), new Rectangle(bounds.x1P + 50, bounds.y1P + 135, bounds.x2P - 50, bounds.y1P + 175));
+            cButton = new CButton(cButton_OnClick, "Break", "sc:button_1", "general", new Rectangle(bounds.x1P + 50, bounds.y1P + 135, bounds.x2P - 50, bounds.y1P + 175));
 
             AddChild(cUnchiselerSlot);
             AddChild(cBorder);

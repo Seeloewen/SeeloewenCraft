@@ -18,7 +18,7 @@ namespace SeeloewenCraft.game.graphics
         CText cText;
         string text;
 
-        internal CButton(Action onPress, string text, string texId, TextureMap texMap, Rectangle bounds) : base(new Color(0, 0, 0), bounds)
+        internal CButton(Action onPress, string text, string texId, string texMap, Rectangle bounds) : base(new Color(0, 0, 0), bounds)
         {
             this.onPress = onPress;
             this.texId = texId;

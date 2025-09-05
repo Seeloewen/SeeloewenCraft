@@ -35,6 +35,7 @@ internal class BatchRenderer<V> where V : struct, IBatch
 
     internal void DrawRect(V v0, V v1, V v2, V v3)
     {
+        Debug.Assert(drawing);
         if (count + 2 >= maxCount) Flush();
         int i = count * V.GetSize() * 3;
         v0.Fill(floats, i);

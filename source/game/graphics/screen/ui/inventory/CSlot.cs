@@ -29,7 +29,7 @@ namespace SeeloewenCraft.game.graphics
             (int x2, int y2) = (bounds.x2P - 10, bounds.y2P - 10);
 
             //Item Texture
-            cTexture = new CTexture(ItemRenderer.GetTextureMap(), null, new Rectangle(x1, y1, x2, y2));
+            cTexture = new CTexture("items", null, new Rectangle(x1, y1, x2, y2));
             AddChild(cTexture);
 
             //Item 

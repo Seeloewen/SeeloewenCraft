@@ -16,9 +16,6 @@ namespace SeeloewenCraft.game.graphics
             TextRenderer.Init();
 
             WorldRenderer.Init();
-            ItemRenderer.Init();
-            PlayerRenderer.Init();
-            GeneralTextureMap.Init();
 
             skyColor = SkyColors.DAY_COLOR;
 

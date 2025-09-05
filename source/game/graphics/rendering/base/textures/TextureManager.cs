@@ -8,13 +8,20 @@ using System.Reflection;
 
 namespace SeeloewenCraft.game.graphics
 {
+    internal record TexturePath(bool disk, string path) { }
+    
+    public class TexturePackException : Exception {
+        internal TexturePackException(string msg) : base(msg) { }
+    }
+    
     internal static class TextureManager
     {
+        public static Dictionary<string, TextureMap> textureMaps;
 
+        private static Dictionary<string, Dictionary<string, TexturePath>> texturePaths;
+        
+        static string internalTexturePackPath = "SeeloewenCraft.Resources.assets.";
 
-        static string texturePackPath = "SeeloewenCraft.Resources.assets.";
-
-        static Dictionary<string, Dictionary<string, string>> mappings;
 
 
         public static string fontMap { get; private set; }
@@ -22,29 +29,29 @@ namespace SeeloewenCraft.game.graphics
 
 
 
-
-
-        static public void Init() //TODO add texturepack support
+        static void LoadTexturePaths(string[] texturePackPaths)
         {
+            LoadInternalTexturePaths();
+            foreach (string texturePackPath in texturePackPaths)
+            {
+                LoadExternalTexturePaths(texturePackPath);
+            }
+        }
 
-            mappings = new Dictionary<string, Dictionary<string, string>>();
-
+        static void LoadInternalTexturePaths()
+        {
+            texturePaths = new Dictionary<string, Dictionary<string, TexturePath>>();
+            
             JsonToken fileToken = JsonUtil.ReadResource("assets.content.json");
 
-            JsonToken fontToken = fileToken.GetToken("/font");
+            JsonToken sectionsToken = fileToken.GetToken("/sections");
 
-            fontMap = $"SeeloewenCraft.Resources.assets.{fontToken.GetString("/font_map")}";
-            fontMappings = $"assets.{fontToken.GetString("/mappings")}";
-
-
-            JsonToken token = fileToken.GetToken("/sections");
-
-            for (int i = 0; i < token.GetArrayLength(); i++)
+            for (int i = 0; i < sectionsToken.GetArrayLength(); i++)
             {
-                var sectionToken = token.GetToken($"/{i}");
+                var sectionToken = sectionsToken.GetToken($"/{i}");
 
                 string sectionName = sectionToken.GetString("/section_name");
-                mappings[sectionName] = new Dictionary<string, string>();
+                texturePaths[sectionName] = new Dictionary<string, TexturePath>();
 
                 var textureArrayToken = sectionToken.GetToken("/textures");
                 for (int j = 0; j < textureArrayToken.GetArrayLength(); j++)
@@ -52,55 +59,165 @@ namespace SeeloewenCraft.game.graphics
                     JsonToken textureToken = textureArrayToken.GetToken($"/{j}");
                     string id = textureToken.GetString("/id");
                     string file = textureToken.GetString("/file");
-                    mappings[sectionName][id] = $"{texturePackPath}{file}";
+                    texturePaths[sectionName][id] = new TexturePath(false, $"SeeloewenCraft.Resources.assets.{file}");
+                }
+            }
+        }
+
+        static void LoadExternalTexturePaths(string path)
+        {
+            JsonToken fileToken;
+            try
+            {
+                fileToken = JsonUtil.ReadFile($"{path}\\content.json");
+            }
+            catch (Exception e)
+            {
+                throw new TexturePackException("Error reading content.json in the texture pack folder");
+            }
+
+            JsonToken sectionsToken;
+            try
+            {
+                sectionsToken = fileToken.GetToken("/sections");
+            }
+            catch
+            {
+                throw new TexturePackException("Error finding /sections array in content.json");
+            }
+
+            int sectionsLength;
+            try
+            {
+                sectionsLength = sectionsToken.GetArrayLength();
+            }
+            catch
+            {
+                throw new TexturePackException("Error: /sections must be an array");
+            }
+
+            for (int s = 0; s < sectionsLength; s++)
+            {
+                var sectionToken = sectionsToken.GetToken($"/{s}");
+                Dictionary<string, TexturePath> texturePathsSection;
+                try
+                {
+                    string sectionName = sectionToken.GetString("/section_name");
+                    if (!texturePaths.TryGetValue(sectionName, out texturePathsSection))
+                    {
+                        throw new Exception();
+                    }
+                }
+                catch
+                {
+                    throw new TexturePackException($"Error: invalid /section_name in section ${s}");
+                }
+
+                JsonToken texturesToken;
+                int texturesCount;
+                try
+                {
+                    texturesToken = sectionToken.GetToken("/textures");
+                    texturesCount = texturesToken.GetArrayLength();
+                }
+                catch
+                {
+                    throw new TexturePackException($"Error: /textures in section {sectionToken.GetString("/section_name")} must be an array");
+                }
+
+                for (int t = 0; t < texturesCount; t++)
+                {
+                    string id;
+                    string filePath;
+                    try
+                    {
+                        JsonToken textureToken = texturesToken.GetToken($"/{t}");
+                        id = textureToken.GetString("/id");
+                        filePath = textureToken.GetString("/file");
+                        texturePathsSection[id] = new TexturePath(true, $"{path}\\{filePath}");
+                    }
+                    catch
+                    {
+                        throw new TexturePackException($"Error: invalid texture object {t} in section {sectionToken.GetString("/section_name")}");
+                    }
                 }
 
             }
 
+
+
         }
 
 
-        static internal List<string> GetMappings(string section)
+        static void CreateTextureMaps()
         {
-            if (mappings.TryGetValue(section, out var m))
+            textureMaps = new Dictionary<string, TextureMap>(); 
+            foreach(var section in texturePaths.Keys.ToList())
             {
-                return m.Keys.ToList();
+                textureMaps[section] = new TextureMap(texturePaths[section]);
             }
-            throw new Exception("Textures section not loaded");
         }
 
-        static internal TextureImage LoadTexture(string section, string name)
+         
+        
+        
+        static public void Load()
         {
-            if (!mappings.TryGetValue(section, out var map))
-            {
-                throw new Exception("Textures section not loaded");
-            }
-            if (!map.TryGetValue(name, out string file))
-            {
-                throw new Exception("Texture not loaded");
-            }
-            return LoadTexture(file); //TODO mechanism for loading file from resources when necessary
+
+            LoadTexturePaths(new string[] { });
+
+            CreateTextureMaps();
+            
+            
+            //TODO seperate font stuff
+            JsonToken fileToken = JsonUtil.ReadResource("assets.content.json");
+            JsonToken fontToken = fileToken.GetToken("/font");
+
+            fontMap = $"SeeloewenCraft.Resources.assets.{fontToken.GetString("/font_map")}";
+            fontMappings = $"assets.{fontToken.GetString("/mappings")}";
+
+
+
         }
 
-        //TODO problem: font map is handled seperatly
-        static TextureImage LoadTexture(string file)
+
+
+        static internal TextureImage LoadTexture(TexturePath path)
         {
-            Bitmap bitmap;
+            TextureImage texture;
             try
             {
-                using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{file}");
-                bitmap = new Bitmap(stream);
+                Bitmap bitmap;
+                if (path.disk)
+                {
+                    bitmap = new Bitmap(path.path);
+                }
+                else
+                {
+                    using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path.path);
+                    bitmap = new Bitmap(stream);
+                }
+                texture = new TextureImage(bitmap);
             }
             catch
             {
-                using Stream stream = Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream($"SeeloewenCraft.Resources.assets.Missing_Texture.png");
-                bitmap = new Bitmap(stream); //TODO 💀
+                texture = GetMissingTexture();
             }
 
-            return new TextureImage(bitmap);
+            if (texture.width > 64 || texture.height > 64)
+            {
+                texture = GetMissingTexture();
+            }
+
+            return texture;
         }
 
+        static TextureImage GetMissingTexture()
+        {
+                using Stream stream = Assembly.GetExecutingAssembly()
+                    .GetManifestResourceStream($"SeeloewenCraft.Resources.assets.Missing_Texture.png");
+                return new TextureImage(new Bitmap(stream));
+        }
 
 
 
