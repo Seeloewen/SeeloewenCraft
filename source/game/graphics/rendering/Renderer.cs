@@ -38,16 +38,33 @@ namespace SeeloewenCraft.game.graphics
             PrimitiveRenderer.DrawRectangle(r, c);
             PrimitiveRenderer.End();
             */
-
+;
+            PushDebugGroup("world rendering");
             WorldRenderer.Render();
+            PopDebugGroup();
+            PushDebugGroup("item entity rendering");
             ItemEntityRenderer.Render();
+            PopDebugGroup();
+            PushDebugGroup("player rendering");
             PlayerRenderer.Render();
+            PopDebugGroup();
 
-
+            PushDebugGroup("screen rendering");
             Screen.Render();
+            PopDebugGroup();
 
         }
 
-
+        //TODO maybe remove for performance
+        internal static void PushDebugGroup(string name)
+        {
+            GL.PushDebugGroup(DebugSourceExternal.DebugSourceApplication, 0, name.Length, name);
+        }
+        
+        internal static void PopDebugGroup()
+        {
+            GL.PopDebugGroup();
+        }
+        
     }
 }
