@@ -1,4 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL;
+using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.graphics.ui_lib;
 
 namespace SeeloewenCraft.game.graphics
@@ -79,6 +80,14 @@ namespace SeeloewenCraft.game.graphics
         {
             if (KeyBinds.checkPressedFirst(KeyBinds.OPEN_MENU))
             {
+                //If any guis are visible, hide them
+                if(showGui)
+                {
+                    guiHandler.HideGuis();
+                    return;
+                }
+
+                //If not gui is visible, show the escape menu
                 showEscapeMenu = !showEscapeMenu;
                 if (showEscapeMenu)
                 {
@@ -95,29 +104,26 @@ namespace SeeloewenCraft.game.graphics
             }
             else if(KeyBinds.checkPressedFirst(KeyBinds.CREATIVE_MENU))
             {
-                Game.world.creativeInventory.ShowGui();
-                Game.world.player.inventory.ShowGui();
+                if (showGui)
+                {
+                    guiHandler.HideGuis();
+                }
+                else if(Game.world.gamemode == Gamemode.Creative)
+                {
+                    Game.world.creativeInventory.ShowGui();
+                    Game.world.player.inventory.ShowGui();
+                }
+
             }
             else if (KeyBinds.checkPressedFirst(KeyBinds.SHOW_INV))
             {
-                showGui = !showGui;
-
-                if (!showGui)
+                if(showGui) //If currently visible, hide all guis
                 {
-                    for (int i = guiHandler.guiData.Count - 1; i >= 0; i--) guiHandler.guiData[i].Hide(); //Hide all guis
+                    guiHandler.HideGuis();
                 }
                 else
                 {
                     Game.world.player.inventory.ShowGui();
-                }
-
-                if (showGui)
-                {
-                    guiRoot.Show();
-                }
-                else
-                {
-                    guiRoot.Hide();
                 }
             }
         }

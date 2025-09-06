@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Reflection.Metadata;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -13,6 +14,11 @@ namespace SeeloewenCraft.game.graphics
         internal GuiHandler()
         {
             guiData.CollectionChanged += GuiData_CollectionChanged;
+        }
+
+        internal void HideGuis()
+        {
+            for (int i = guiData.Count - 1; i >= 0; i--) guiData[i].Hide();
         }
 
         internal void ResetGuis()

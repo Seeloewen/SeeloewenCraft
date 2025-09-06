@@ -12,12 +12,14 @@ namespace SeeloewenCraft.game.graphics
         {
             Screen.guiHandler.guiData.Add(this);
             Screen.showGui = true;
+            Screen.guiRoot.Show();
         }
 
         public void Hide()
         {
             Screen.guiHandler.guiData.Remove(this);
             Screen.showGui = false;
+            Screen.guiRoot.Hide();
         }
 
         public void AddTag(string tag, string value)
