@@ -21,10 +21,12 @@ namespace SeeloewenCraft.game.graphics
             }
 
             visible = true;
-            Update(slot.id, slot.amount, 0);
+            Update(slot.id, slot.GetItemName(), slot.amount, 0);
         }
 
         protected override void OnClickEvent(ClickEvent mouseClickEvent) { }
+        protected override void OnMouseEnter() { }
+        protected override void OnMouseLeave() { }
 
         internal void Reset() //Should be called BEFORE updating the guis
         {

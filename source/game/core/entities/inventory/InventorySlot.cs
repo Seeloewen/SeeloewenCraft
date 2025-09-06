@@ -138,6 +138,13 @@ namespace SeeloewenCraft.game.core.entities.inventory
 
         public bool IsEmpty() => string.IsNullOrEmpty(id) && this.amount == 0;
 
+        public string GetItemName()
+        {
+            if (IsEmpty()) return "";
+
+            return ItemRegister.Get(id).name;
+        }
+
         public Inventory GetOtherInventory()
         {
             //Get the first other inventory that's in the list and is currently open. Since there should in most cases only be
