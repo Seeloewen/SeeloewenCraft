@@ -45,15 +45,17 @@ public class CScrollPane : CRectangle
         GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Replace);
         GL.StencilMask(0xff);
         base.OnRender();
-        PrimitiveRenderer.End();
-        PrimitiveRenderer.Begin();
+        PrimitiveRenderer.Flush();
         GL.StencilFunc(StencilFunction.Equal, 1, 0xff);
         GL.StencilMask(0x00);
     }
 
     protected override void OnRenderEnd()
     {
+        GL.StencilMask(0xff);
         GL.StencilFunc(StencilFunction.Always, 1, 0xff);
         GL.Clear(ClearBufferMask.StencilBufferBit);
+        GL.StencilMask(0x00);
     }
+
 }
