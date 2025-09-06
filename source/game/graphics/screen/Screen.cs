@@ -130,12 +130,16 @@ namespace SeeloewenCraft.game.graphics
 
         internal static void Render()
         {
+            Renderer.PushDebugGroup("screen rendering");
+            
             if (showGame && allowIngameInputs) GameScreen.Render();
             if (showHotbar) hotbarUIRoot.Render();
             if (showDebugMenu) DebugMenu.Render();
             if (showGui) guiRoot.Render();
             if (showEscapeMenu) escapeMenuUIRoot.Render();
             if (showGameOverlay) gameOverlayUIRoot.Render();
+            
+            Renderer.PopDebugGroup();
         }
     }
 }

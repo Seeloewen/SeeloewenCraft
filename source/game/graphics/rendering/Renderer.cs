@@ -36,19 +36,13 @@ namespace SeeloewenCraft.game.graphics
             PrimitiveRenderer.End();
             */
 ;
-            PushDebugGroup("world rendering");
             WorldRenderer.Render();
-            PopDebugGroup();
-            PushDebugGroup("item entity rendering");
             ItemEntityRenderer.Render();
-            PopDebugGroup();
-            PushDebugGroup("player rendering");
             PlayerRenderer.Render();
-            PopDebugGroup();
+            
+            WorldRenderer.RenderShadow();
 
-            PushDebugGroup("screen rendering");
             Screen.Render();
-            PopDebugGroup();
 
         }
 
