@@ -1,8 +1,10 @@
 ﻿using SeeloewenCraft.game;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Resources;
+using Windows.Storage;
 
 namespace SeeloewenCraft.launcher
 {
@@ -29,11 +31,12 @@ namespace SeeloewenCraft.launcher
 
         private void LoadChangelog()
         {
-            //Read changelog from file
-            Uri uri = new Uri($"pack://application:,,,/SeeloewenCraft;component/Resources/changelog.txt", UriKind.Absolute);
-            StreamResourceInfo info = Application.GetResourceStream(uri);
-            using StreamReader reader = new(info.Stream);
-            tbChangelog.Text = reader.ReadToEnd();
+            using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"SeeloewenCraft.Resources.changelog.txt");
+            using (StreamReader reader = new(stream))
+            {
+                tbChangelog.Text = reader.ReadToEnd();
+            }
+        
         }
 
         //-- Event Handlers --//

@@ -5,17 +5,12 @@ namespace SeeloewenCraft.game.graphics
     internal static class PlayerRenderer
     {
 
-        static TextureMap textureMap;
 
         static float originX;
         static float originY;
         static float unitSize;
 
 
-        static internal void Init()
-        {
-            textureMap = new TextureMap("player");
-        }
 
         static internal void Render()
         {
@@ -25,7 +20,7 @@ namespace SeeloewenCraft.game.graphics
             originY = GameCamera.blockYAnchor - (info.posY / 1000.0f) * GameCamera.blockLength * Resolution.RATIO;
             unitSize = GameCamera.blockLength * 0.475f * 0.125f;
 
-            TextureRenderer.SetTexture(textureMap);
+            TextureRenderer.SetTexture(TextureManager.textureMaps["player"]);
             TextureRenderer.Begin();
 
             //TextureRenderer.Draw("dsa ", -0.5f, 0.5f, 0.5f, -0.5f, 1f);

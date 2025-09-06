@@ -54,7 +54,7 @@ namespace SeeloewenCraft.game.graphics
 
                 AddChild(new CButton(onPress, texts[i],
                 "sc:button_1",
-                GeneralTextureMap.Get(),
+                "general",
                 bounds)
                 );
 

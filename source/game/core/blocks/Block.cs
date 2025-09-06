@@ -787,7 +787,7 @@ namespace SeeloewenCraft.game.core.blocks
                 Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos, block.id));
             }
 
-            chunk.GetBlock(xPos, yPos).AddDebugMenu();
+            if(this == DebugMenu.target) chunk.GetBlock(xPos, yPos).AddDebugMenu();
 
             //Send the data on the network if it's multiplayer
             NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, block.id, chunk.index.ToString(), block.xPos.ToString(), block.yPos.ToString());

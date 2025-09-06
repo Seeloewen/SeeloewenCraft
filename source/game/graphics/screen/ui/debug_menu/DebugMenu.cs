@@ -21,7 +21,7 @@ namespace SeeloewenCraft.game.graphics
         static Dictionary<string, string> linesPlayer = new Dictionary<string, string>();
         static Dictionary<string, string> linesTargeted = new Dictionary<string, string>();
 
-        private static IDebugMenuTargetable target;
+        public static IDebugMenuTargetable target;
 
         internal static void Render()
         {
@@ -40,7 +40,6 @@ namespace SeeloewenCraft.game.graphics
             {
                 int w = TextRenderer.GetWidth($"{line.Key}={line.Value}", 2);
                 PrimitiveRenderer.DrawRectangle(5 - 2, y - 2, 5 + w + 2, y + 18, 0.8f, 0.8f, 0.8f, 0.5f);
-                TextRenderer.Draw($"{line.Key}={line.Value}", 5, y, 2);
                 y += 20;
             }
 
@@ -50,7 +49,6 @@ namespace SeeloewenCraft.game.graphics
                 string s = $"{line.Key}={line.Value}";
                 int w = TextRenderer.GetWidth(s, 2);
                 PrimitiveRenderer.DrawRectangle(Resolution.WIDTH - 5 - w - 2, y - 2, Resolution.WIDTH - 3, y + 18, 0.8f, 0.8f, 0.8f, 0.5f);
-                TextRenderer.Draw(s, Resolution.WIDTH - 5 - w, y, 2);
                 y += 20;
             }
             PrimitiveRenderer.End();

@@ -82,17 +82,22 @@ namespace SeeloewenCraft.game.core.entities
                     if (item != null)
                     {
                         //TODO calculate direction with mouseoffset
-                        /*double xOffset = mousePosX - posX - 450;
+            
+                        float mouseX = InputHandler.mouseXScreen;
+                        float mouseY = InputHandler.mouseYScreen;
+                        
+                        float mousePosX = 1000 * (mouseX - GameCamera.blockXAnchor) / GameCamera.blockLength;
+                        float mousePosY = 1000 * -(mouseY - GameCamera.blockYAnchor) / (GameCamera.blockLength * Resolution.RATIO);
+                        double xOffset = mousePosX - posX - sizeX/2;
                         double yOffset = mousePosY - posY;
                         double n = Math.Sqrt(xOffset * xOffset + yOffset * yOffset);
                         double xDir = xOffset / n;
                         double yDir = yOffset / n;
 
-                        ItemEntity itemEntity = new ItemEntity(item, item.tag, posX + 500 - ItemEntity.itemSizeX / 2, posY, (int)(15000 * xDir) + velX, (int)(20000 * yDir) + velY);
+                        ItemEntity itemEntity = new ItemEntity(item, item.tag, posX + sizeX/2 - ItemEntity.itemSizeX / 2, posY, (int)(15000 * xDir) + velX, (int)(20000 * yDir) + velY);
                         Game.world.AddEntity(itemEntity);
                         thrown = true;
                         selectedSlot.Remove(1);
-                        selectedSlot.inventory.UpdateHotbar();*/
                     }
                 }
             }
@@ -302,15 +307,15 @@ namespace SeeloewenCraft.game.core.entities
 
         public void DisplayDebugInformation()
         {
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "health", $"health={healthBar.value}");
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "posX", $"posX={posX}");
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "posY", $"posY={posY}");
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "velX", $"velX={velX}");
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "velY", $"velY={velY}");
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "blockPosX", $"blockPosX={(posX / 1000) % 8}");
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "blockPosY", $"blockPosY={posY / 1000}");
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "touchingWater", $"touchingWater={touchingStatus[TOUCHING_WATER]}");
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "breathing", $"breathing={breathing}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "health", $"{healthBar.value}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "posX", $"{posX}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "posY", $"{posY}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "velX", $"{velX}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "velY", $"{velY}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "blockPosX", $"{(posX / 1000) % 8}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "blockPosY", $"{posY / 1000}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "touchingWater", $"{touchingStatus[TOUCHING_WATER]}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "breathing", $"{breathing}");
 
         }
     }

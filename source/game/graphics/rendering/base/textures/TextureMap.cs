@@ -16,17 +16,16 @@ namespace SeeloewenCraft.game.graphics
             
         }
         
-        internal TextureMap(string section)
+        internal TextureMap(Dictionary<string, TexturePath> section)
         {
-            var textureIDs = TextureManager.GetMappings(section);
 
             mappings = new Dictionary<string, (float s1, float t1, float s2, float t2)>();
 
             TextureImage map = new TextureImage(WIDTH, HEIGHT);
             int offsetX = 0, offsetY = 0, maxY = 0;
-            foreach (var id in textureIDs)
+            foreach (var texture in section)
             {
-                TextureImage image = TextureManager.LoadTexture(section, id);
+                TextureImage image = TextureManager.LoadTexture(texture.Value);
 
                 if (image.width + offsetX > WIDTH)
                 {
@@ -54,7 +53,7 @@ namespace SeeloewenCraft.game.graphics
                 float t1 = ((float)offsetY + 0.5f) / HEIGHT;
                 float s2 = s1 + (((float)image.width - 1.0f) / WIDTH);
                 float t2 = t1 + (((float)image.height - 1.0f) / HEIGHT);
-                mappings.Add(id, (s1, t1, s2, t2));
+                mappings.Add(texture.Key, (s1, t1, s2, t2));
 
                 offsetX += image.width;
             }

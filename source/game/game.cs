@@ -91,7 +91,7 @@ namespace SeeloewenCraft.game
 
             Resolution.Init(window);
 
-            TextureManager.Init();
+            TextureManager.Load();
 
             world = new World(null, worldName, seed, isNew, multiplayerType);
 

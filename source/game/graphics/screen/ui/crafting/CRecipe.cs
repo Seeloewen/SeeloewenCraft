@@ -24,7 +24,7 @@ namespace SeeloewenCraft.game.graphics
         {
             Item item = ItemRegister.Get(itemId);
             cItemName = new CText(item.name, 2, new TextLayout(x + 70, TextHAlignment.LEFT, y + 22, TextVAlignment.TOP));
-            cItemTexture = new CTexture(ItemRenderer.GetTextureMap(), itemId, new Rectangle(x + 15, y + 10, x + 55, y + 50));
+            cItemTexture = new CTexture("items", itemId, new Rectangle(x + 15, y + 10, x + 55, y + 50));
 
             AddChild(cItemTexture);
             AddChild(cItemName);

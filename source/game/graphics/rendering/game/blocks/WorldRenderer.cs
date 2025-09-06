@@ -5,11 +5,9 @@ namespace SeeloewenCraft.game.graphics
     internal static class WorldRenderer
     {
 
-        static TextureMap textureMap;
 
         internal static void Init()
         {
-            textureMap = new TextureMap("blocks");
         }
 
 
@@ -17,7 +15,8 @@ namespace SeeloewenCraft.game.graphics
         {
             var chunks = Game.world.loadedChunkList;
 
-            TextureRenderer.SetTexture(textureMap);
+            Renderer.PushDebugGroup("blocks");
+            TextureRenderer.SetTexture(TextureManager.textureMaps["blocks"]);
             TextureRenderer.Begin();
             foreach (var chunk in chunks)
             {
@@ -33,6 +32,9 @@ namespace SeeloewenCraft.game.graphics
             }
             TextureRenderer.End();
 
+            Renderer.PopDebugGroup();
+            Renderer.PushDebugGroup("shadow");
+            
             //Lighting - This is only a sucffed fix because rendering has no z-index. TODO: Add z-index and remove this crap
             PrimitiveRenderer.Begin();
             foreach (var chunk in chunks)
@@ -48,6 +50,8 @@ namespace SeeloewenCraft.game.graphics
                 }
             }
             PrimitiveRenderer.End();
+            
+            Renderer.PopDebugGroup();
         }
     }
 }
