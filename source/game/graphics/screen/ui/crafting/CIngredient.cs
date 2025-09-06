@@ -17,7 +17,7 @@ namespace SeeloewenCraft.game.graphics
 
         internal CIngredient(int x, int y, string id, int amount) : base(new Color(0.88f), new Rectangle(x, y, x + WIDTH, y + HEIGHT))
         {
-            Item item = ItemRegister.GenerateItem(id);
+            Item item = ItemRegister.Get(id);
 
             cText = new CText(item.name, 2, new TextLayout(x + 30, TextHAlignment.LEFT, y + 7, TextVAlignment.TOP));
             cTexture = new CTexture(ItemRenderer.GetTextureMap(), id, new Rectangle(x + 5, y + 5, x + 25, y + 25));

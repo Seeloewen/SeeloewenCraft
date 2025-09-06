@@ -6,6 +6,7 @@ using SeeloewenCraft.game.core.crafting;
 using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.core.events;
+using SeeloewenCraft.game.core.items;
 using SeeloewenCraft.game.core.legacy;
 using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.core.world.generation;
@@ -27,15 +28,11 @@ namespace SeeloewenCraft.game.core.world
 {
     public class World
     {
-        Block b;
-        Block c;
-
         //References
         public wndMenu wndMenu;
         public System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
         public List<Chunk> loadedChunkList = new List<Chunk>();
         public List<Chunk> totalChunkList = new List<Chunk>();
-        public HashSet<Inventory> inventoryList = new HashSet<Inventory>();
         public List<Gui> guiList = new List<Gui>();
         public List<CraftingRecipe> craftingRecipeList = new List<CraftingRecipe>();
         public Player player { get => entityManager.player; }
@@ -45,7 +42,7 @@ namespace SeeloewenCraft.game.core.world
         public RecipeCreator recipeCreator;
         public EntityManager entityManager;
         public GameEventHandler gameEventHandler;
-
+        public CreativeInventory creativeInventory;
 
         //Constants
         private string appData = GetFolderPath(SpecialFolder.ApplicationData);
@@ -88,13 +85,14 @@ namespace SeeloewenCraft.game.core.world
             Game.world = this;
 
             BlockRegister.Init();
+            ItemRegister.Init();
 
             //Create objects
             clickHandler = new ClickHandler();
             debugMenu = new DebugMenu_old();
             gameEventHandler = new GameEventHandler();
             recipeCreator = new RecipeCreator();
-
+            creativeInventory = new CreativeInventory();
             //Actually initialize the game
             InitGame(worldName, isNew, worldVersion);
 
@@ -439,21 +437,18 @@ namespace SeeloewenCraft.game.core.world
             }
             else
             {
-                player.inventory = new Inventory(9, 4, true);
+                player.inventory = new Inventory(9, 4);
                 player.inventory.InitHotbar();
-                player.inventory.AddItem("sc:diamond_scythe_item", 1, "durability=507");
-                player.inventory.AddItem("sc:diamond_hammer_item", 1, "durability=507");
-                player.inventory.AddItem("sc:chest_item", 64, "");
-                player.inventory.AddItem("sc:dirt_item", 64, "");
-                player.inventory.AddItem("sc:chiseler_item", 64, "");
-                player.inventory.AddItem("sc:torch_item", 64, "");
-                player.inventory.AddItem("sc:crafting_table_item", 64, "");
-                player.inventory.AddItem("sc:rock_item", 512, "");
-                player.inventory.AddItem("sc:stick_item", 128, "");
+                player.inventory.Add("sc:diamond_scythe_item", 1, "durability=507");
+                player.inventory.Add("sc:diamond_hammer_item", 1, "durability=507");
+                player.inventory.Add("sc:chest_item", 64, "");
+                player.inventory.Add("sc:dirt_item", 64, "");
+                player.inventory.Add("sc:chiseler_item", 64, "");
+                player.inventory.Add("sc:torch_item", 64, "");
+                player.inventory.Add("sc:crafting_table_item", 64, "");
+                player.inventory.Add("sc:rock_item", 512, "");
+                player.inventory.Add("sc:stick_item", 128, "");
             }
-
-            inventoryList.Add(player.inventory);
-            player.inventory.hotbarSlotList[0].Select();
         }
 
         public bool HasOpenGui(bool ignoreInventory)
@@ -642,22 +637,6 @@ namespace SeeloewenCraft.game.core.world
                 DayTime.NIGHT => SkyColors.NIGHT_COLOR,
                 _ => SkyColors.DAY_COLOR
             };
-        }
-
-        public InventorySlot GetSelectedInvSlot()
-        {
-            InventorySlot selectedSlot;
-
-            foreach (Inventory inventory in inventoryList)
-            {
-                selectedSlot = inventory.GetSelectedInvSlot();
-                if (selectedSlot != null)
-                {
-                    return selectedSlot;
-                }
-            }
-
-            return null;
         }
 
         //-- Event Handlers --//

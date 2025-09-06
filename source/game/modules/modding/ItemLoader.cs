@@ -52,9 +52,9 @@ namespace SeeloewenCraft.game.core.legacy
     {
         public string type;
 
-        public ModdedItem(string type, Block block) : base()
+        public ModdedItem() : base()
         {
-            this.type = type;
+            //this.type = type;
             name = "Modded Item";
             id = "sc:modded_item";
         }

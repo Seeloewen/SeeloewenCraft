@@ -40,6 +40,7 @@ namespace SeeloewenCraft.game.graphics
             "inventory" => new CInventory(data),
             "crafting_handler" => new CCrafting(data),
             "unchisel_handler" => new CUnchiseler(data),
+            "creative_inventory" => new CCreativeInventory(data),
             _ => null
         };
 

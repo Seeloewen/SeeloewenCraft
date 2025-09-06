@@ -1,15 +1,23 @@
-﻿namespace SeeloewenCraft.game.graphics
+﻿using SeeloewenCraft.game.core.entities.inventory;
+
+namespace SeeloewenCraft.game.graphics
 {
     internal class CInvSlot : CSlot
     {
 
-        internal CInvSlot(int x, int y, int slotsX, int slotsY, bool hasHotbar = false) : base(CalcBounds(x, y, slotsX, slotsY, hasHotbar))
+        internal CInvSlot(int x, int y, int slotsX, int slotsY, Inventory inv, bool hasHotbar = false) : base(CalcBounds(x, y, slotsX, slotsY, hasHotbar), inv)
         {
             this.x = x;
             this.y = y;
         }
 
-        internal CInvSlot() : base(CalcBounds(0, 0, 0, 0, false))
+        internal CInvSlot(int x, int y, Inventory inv, Rectangle bounds) : base(bounds, inv)
+        {
+            this.x = x;
+            this.y = y;
+        }
+
+        internal CInvSlot() : base(CalcBounds(0, 0, 0, 0, false), null)
         {
             x = 0;
             y = 0;

@@ -1,6 +1,7 @@
 ﻿using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.entities.inventory;
 using System;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -8,6 +9,8 @@ namespace SeeloewenCraft.game.core.items
 {
     public abstract class Item
     {
+        public static List<string> unstackableItems = new List<string>();
+
         public Canvas cvsItem = new Canvas();
         public ImageBrush image;
         public string name;

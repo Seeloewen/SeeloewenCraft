@@ -5,7 +5,7 @@ namespace SeeloewenCraft.game.graphics
 {
     internal class CMouseFollower : CSlot
     {
-        internal CMouseFollower() : base(new Rectangle(0, 0, GuiSizes.slotSize, GuiSizes.slotSize))
+        internal CMouseFollower() : base(new Rectangle(0, 0, GuiSizes.slotSize, GuiSizes.slotSize), null)
         {
             visible = false;
             hasBackground = false;
@@ -21,7 +21,7 @@ namespace SeeloewenCraft.game.graphics
             }
 
             visible = true;
-            Update(slot.itemId, slot.amount, 0);
+            Update(slot.id, slot.amount, 0);
         }
 
         protected override void OnClickEvent(ClickEvent mouseClickEvent) { }

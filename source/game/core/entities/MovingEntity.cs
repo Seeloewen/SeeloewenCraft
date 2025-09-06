@@ -204,7 +204,7 @@ namespace SeeloewenCraft.game.core.entities
 
         public virtual void Drop(string id)
         {
-            Item item = ItemRegister.GenerateItem(id);
+            Item item = ItemRegister.Get(id);
 
             Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
                 posX + sizeX / 2 - ItemEntity.itemSizeX / 2, //posX

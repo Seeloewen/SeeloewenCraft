@@ -96,7 +96,7 @@ namespace SeeloewenCraft.game.core.legacy
         public UnchiselerGui(int height, int width, int top, int left, string id) : base(height, width, top, left, id)
         {
             //Setup the gui
-            inventory = new Inventory(1, 1, false);
+            inventory = new Inventory(1, 1);
 
             //TODO: render unchiseler gui next to inventory
 
@@ -111,24 +111,24 @@ namespace SeeloewenCraft.game.core.legacy
         private void Unchisel()
         {
             //Check if there's an item in the slot and the item is a chiselitem
-            if (!inventory.slotList[0].IsEmpty())
+            if (!inventory.slots[0].IsEmpty())
             {
-                Item item = ItemRegister.GenerateItem(inventory.slotList[0].itemId);
+                Item item = ItemRegister.Get(inventory.slots[0].id);
                 bool unchiselSuccess = false;
                 int successItems = 0;
 
                 if (item is ChiseledItem chisItem && chisItem.isChiseled)
                 {
-                    for (int i = 0; i < inventory.slotList[0].amount; i++)
+                    for (int i = 0; i < inventory.slots[0].amount; i++)
                     {
                         //Add the output to the inventory
                         foreach (Item outItem in chisItem.Unchisel())
                         {
-                            Game.world.player.inventory.AddItem(outItem.id, 1, outItem.tag, out int remainingItems);
+                            int remaining = Game.world.player.inventory.Add(outItem.id, 1, outItem.tag);
 
-                            if (remainingItems > 0)
+                            if (remaining > 0)
                             {
-                                inventory.slotList[0].Remove(successItems);
+                                inventory.slots[0].Remove(successItems);
                                 MessageBox.Show("This item cannot be unchiseled!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                                 return;
                             }
@@ -145,7 +145,7 @@ namespace SeeloewenCraft.game.core.legacy
                 }
 
                 //If an item was unchiseled, clear the slot
-                if (unchiselSuccess) inventory.slotList[0].Remove(inventory.slotList[0].amount);
+                if (unchiselSuccess) inventory.slots[0].Remove(inventory.slots[0].amount);
 
             }
             else

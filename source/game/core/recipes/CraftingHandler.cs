@@ -52,14 +52,14 @@ namespace SeeloewenCraft.game.core.crafting
 
         public bool Claim() //Returns whether the items were actually added to the inventory and thus successfully claimed
         {
-            if (Game.world.player.inventory.GetAvailableSpace() >= currentRecipe.outgredients.Count && (Game.world.player.inventory.HasEmptySlot() || Game.world.player.inventory.HasItem(currentRecipe.outgredients[0].item.id)))
+            if (Game.world.player.inventory.GetAvailableSpace(currentRecipe.outgredients[0].item.id) >= currentRecipe.outgredients[0].amount)
             {
                 //Add all outcome items to the players inventory
                 for (int i = 0; i < recipeAmount; i++)
                 {
                     foreach (CraftingIngredient craftingIngredient in currentRecipe.outgredients)
                     {
-                        Game.world.player.inventory.AddItem(craftingIngredient.item.id, craftingIngredient.amount, craftingIngredient.item.tag);
+                        Game.world.player.inventory.Add(craftingIngredient.item.id, craftingIngredient.amount, craftingIngredient.item.tag);
                     }
                 }
 
@@ -101,7 +101,7 @@ namespace SeeloewenCraft.game.core.crafting
                 //Remove the required materials based on the amount from the players inventory
                 foreach (CraftingIngredient ingredient in recipe.ingredients)
                 {
-                    Game.world.player.inventory.RemoveItem(ingredient.item.id, ingredient.amount * recipeAmount);
+                    Game.world.player.inventory.Remove(ingredient.item.id, ingredient.amount * recipeAmount);
                 }
             }
 

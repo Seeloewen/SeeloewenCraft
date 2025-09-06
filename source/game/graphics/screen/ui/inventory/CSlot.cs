@@ -1,10 +1,13 @@
-﻿using SeeloewenCraft.game.graphics.ui_lib;
+﻿using SeeloewenCraft.game.core.entities.inventory;
+using SeeloewenCraft.game.graphics.ui_lib;
 using System;
 
 namespace SeeloewenCraft.game.graphics
 {
     internal abstract class CSlot : CRectangle
     {
+        Inventory invData;
+
         internal bool hasBackground = true;
 
         public int x;
@@ -23,8 +26,10 @@ namespace SeeloewenCraft.game.graphics
         protected Color hoveredColor = new Color(0.71f);
         protected Color pressedColor = new Color(0.6f);
 
-        public CSlot(Rectangle bounds) : base(new Color(0f), bounds)
+        public CSlot(Rectangle bounds, Inventory invData) : base(new Color(0f), bounds)
         {
+            this.invData = invData;
+
             (int x1, int y1) = (bounds.x1P + 10, bounds.y1P + 10);
             (int x2, int y2) = (bounds.x2P - 10, bounds.y2P - 10);
 
@@ -56,7 +61,7 @@ namespace SeeloewenCraft.game.graphics
             if (isSelected) return;
 
             cAmount.SetText(amount > 1 ? amount.ToString() : "");
-            cTexture.SetId(id);
+            cTexture.SetId(id == "" ? null : id);
 
             //Hide durablity display if there is no durability
             if (durability == 0)
@@ -85,11 +90,11 @@ namespace SeeloewenCraft.game.graphics
 
             if (mouseClickEvent.button == ButtonType.LEFT)
             {
-                if (isPressed && parent is CInventory cInv) cInv.invData.GetSlot(x, y).OnLeftClick();
+                if (isPressed && invData != null) invData.GetSlot(x, y).OnLeftClick();
             }
             else if (mouseClickEvent.button == ButtonType.RIGHT)
             {
-                if (isPressed && parent is CInventory cInv) cInv.invData.GetSlot(x, y).OnRightClick();
+                if (isPressed && invData != null) invData.GetSlot(x, y).OnRightClick();
             }
         }
 

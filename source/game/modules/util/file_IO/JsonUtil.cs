@@ -17,6 +17,12 @@ namespace SeeloewenCraft.game.util
             Formatting = Newtonsoft.Json.Formatting.Indented;
         }
 
+        public void Write<T>(string key, T value)
+        {
+            WritePropertyName(key);
+            WriteValue(value);
+        }
+
         public string ToString()
         {
             return sb.ToString();

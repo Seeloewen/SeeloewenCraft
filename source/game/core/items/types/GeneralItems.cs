@@ -614,8 +614,8 @@ namespace SeeloewenCraft.game.core.items
         {
             if (block is WaterBlock_6)
             {
-                invSlot.inventory.RemoveItem(id, 1);
-                invSlot.inventory.AddItem("sc:bucket_water_item", 1, "");
+                Game.world.player.inventory.Remove(id, 1);
+                Game.world.player.inventory.Add("sc:bucket_water_item", 1);
                 block.Replace(BlockRegister.Get("sc:air_block"));
             }
             else if (block is Rice_Top rice && rice.IsReady())
@@ -637,8 +637,8 @@ namespace SeeloewenCraft.game.core.items
         {
             if (block.HasTag(BlockTags.REPLACEABLE))
             {
-                invSlot.inventory.RemoveItem(id, 1);
-                invSlot.inventory.AddItem("sc:bucket_empty_item", 1, null);
+                Game.world.player.inventory.Remove(id, 1);
+                Game.world.player.inventory.Add("sc:bucket_empty_item", 1);
                 block.SetBlock(BlockRegister.Get("sc:water_6_block"));
             }
         }
@@ -874,7 +874,7 @@ namespace SeeloewenCraft.game.core.items
         {
             base.RightClickAction(block, invSlot);
 
-            Game.world.player.inventory.AddItem("sc:bucket_empty_item", 1, null);
+            Game.world.player.inventory.    Add("sc:bucket_empty_item", 1);
         }
     }
 

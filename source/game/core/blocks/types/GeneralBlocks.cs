@@ -190,9 +190,7 @@ namespace SeeloewenCraft.game.core.blocks
         internal ChestBlock() : base("Chest", "sc:chest_block", 500, "sc:chest_item", Tool.Axe)
         {
             WriteTag(BlockTags.HAS_INVENTORY);
-            inventory = new Inventory(9, 4, false, "Chest");
-            inventory.block = this;
-            Game.world.inventoryList.Add(inventory);
+            inventory = new Inventory(9, 4, "Chest");
             WriteTag(BlockTags.RIGHTCLICKABLE);
         }
 
@@ -334,7 +332,6 @@ namespace SeeloewenCraft.game.core.blocks
             WriteTag(BlockTags.HAS_INVENTORY);
             unchiselHandler = new UnchiselHandler();
             inventory = unchiselHandler.inv;
-            unchiselHandler.inv.block = this;
             collision = new RectangleCollision(0, 1000, 565, 1000);
         }
 
@@ -677,7 +674,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             isBase = true;
             isSolid = false;
-            inventory = new Inventory(1, 1, false);
+            inventory = new Inventory(1, 1);
             WriteTag(BlockTags.HAS_INVENTORY);
             WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
 
@@ -746,8 +743,7 @@ namespace SeeloewenCraft.game.core.blocks
         internal BarrelBlock() : base("Barrel", "sc:barrel_block", 500, "sc:barrel_item", Tool.Axe)
         {
             WriteTag(BlockTags.HAS_INVENTORY);
-            inventory = new Inventory(7, 2, false, "Barrel");
-            Game.world.inventoryList.Add(inventory);
+            inventory = new Inventory(7, 2, "Barrel");
             WriteTag(BlockTags.RIGHTCLICKABLE);
         }
 

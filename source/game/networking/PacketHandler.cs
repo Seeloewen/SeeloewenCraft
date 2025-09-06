@@ -28,7 +28,7 @@ namespace SeeloewenCraft.game.networking
             Block invBlock = Game.world.GetChunk(blockChunk).GetBlock(blockX, blockY);
             if (invBlock != null && invBlock.inventory != null)
             {
-                invBlock.inventory.GetSlot(slotX, slotY).Add_Multiplayer(itemId, tag, amount);
+                //invBlock.inventory.GetSlot(slotX, slotY).Add_Multiplayer(itemId, tag, amount);
                 invBlock.inventory.GetSlot(slotX, slotY).Unselect();
             }
 
@@ -53,7 +53,7 @@ namespace SeeloewenCraft.game.networking
             Block invBlock = Game.world.GetChunk(blockChunk).GetBlock(blockX, blockY);
             if (invBlock != null && invBlock.inventory != null)
             {
-                invBlock.inventory.GetSlot(slotX, slotY).Remove_Multiplayer(amount);
+                //invBlock.inventory.GetSlot(slotX, slotY).Remove_Multiplayer(amount);
                 invBlock.inventory.GetSlot(slotX, slotY).Unselect();
             }
 
@@ -271,8 +271,6 @@ namespace SeeloewenCraft.game.networking
                 //If client receives the packet, load the inventory
                 JsonToken invToken = JsonUtil.ReadString(packet.content[0]);
                 Game.world.player.inventory = Inventory.LoadFromJson(invToken, true);
-                Game.world.inventoryList.Add(Game.world.player.inventory);
-                Game.world.player.inventory.hotbarSlotList[0].Select();
             }
             else if (IsServer())
             {

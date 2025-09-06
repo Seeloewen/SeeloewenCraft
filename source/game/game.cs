@@ -25,7 +25,6 @@ namespace SeeloewenCraft.game
         public const string VERSION_DATE = "21.08.2025";
         public const int TEXTUREPACK_VERSION = 3; //Up to date as of Beta 1.0.0 (Recent changes: Rendering Rewrite)
 
-        public static List<string> unstackableItems = new List<string>(); //TODO: Move this to items
         public static string selectedTexturepack; //Subject to rewrite
         public static Random rnd = new Random(DateTime.Now.Millisecond * DateTime.Now.Microsecond);
         public static int playerId;

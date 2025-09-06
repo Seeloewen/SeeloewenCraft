@@ -36,7 +36,7 @@ namespace SeeloewenCraft.game.graphics
                 (x1, y1) = (startPos + edgeSize + (slotSize + edgeSize) * i, startPos + edgeSize);
                 (x2, y2) = (startPos + edgeSize + (slotSize + edgeSize) * i + slotSize, startPos + edgeSize + slotSize);
 
-                CHotbarSlot slot = new CHotbarSlot(new Rectangle(x1, y1, x2, y2));
+                CHotbarSlot slot = new CHotbarSlot(new Rectangle(x1, y1, x2, y2), invData);
                 slots.Add(slot);
                 AddChild(slot);
             }
@@ -53,15 +53,15 @@ namespace SeeloewenCraft.game.graphics
 
                 for (int i = 0; i < slotAmount; i++)
                 {
-                    HotbarSlot slot = invData.GetHotbarSlot(i);
+                    InventorySlot slot = invData.GetHotbarSlot(i);
                     CHotbarSlot cHotbarSlot = slots[i];
 
-                    cHotbarSlot.Update(slot.slot.itemId, slot.slot.amount, slot.slot.GetRelativeDurability());
+                    cHotbarSlot.Update(slot.id, slot.amount, slot.GetRelativeDurability());
 
                     //Update the display of the currently selected hotbar slot
                     if (i == newIndex && scrollOffset != 0)
                     {
-                        slot.Select();
+                        slot.SelectInHotbar();
                         (int x1, int y1) = (startPos + edgeSize * slot.xPos + slotSize * slot.xPos, startPos);
                         (int x2, int y2) = (x1 + slotSize + edgeSize * 2, y1 + slotSize + edgeSize * 2);
 

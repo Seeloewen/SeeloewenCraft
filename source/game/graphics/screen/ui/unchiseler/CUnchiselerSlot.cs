@@ -4,7 +4,7 @@ namespace SeeloewenCraft.game.graphics
 {
     internal class CUnchiselerSlot : CSlot
     {
-        internal CUnchiselerSlot(int x, int y) : base(new Rectangle(x, y, x + GuiSizes.slotSize, y + GuiSizes.slotSize)) { }
+        internal CUnchiselerSlot(int x, int y) : base(new Rectangle(x, y, x + GuiSizes.slotSize, y + GuiSizes.slotSize), null) { }
 
         protected override void OnClickEvent(ClickEvent mouseClickEvent)
         {

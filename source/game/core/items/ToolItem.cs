@@ -2,7 +2,7 @@
 
 namespace SeeloewenCraft.game.core.items
 {
-    public class ToolItem : Item
+    public abstract class ToolItem : Item
     {
         public double breakPower;
         public int maxDurability;
@@ -15,7 +15,7 @@ namespace SeeloewenCraft.game.core.items
             this.breakPower = breakPower;
             this.type = type;
             this.material = material;
-            Game.unstackableItems.Add(id);
+            Item.unstackableItems.Add(id);
             maxDurability = durability;
             tag = $"durability={durability}";
         }

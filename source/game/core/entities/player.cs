@@ -72,11 +72,11 @@ namespace SeeloewenCraft.game.core.entities
                 if (!thrown && inventory != null)
                 {
                     //Get the selected slot and selected item
-                    InventorySlot selectedSlot = inventory.GetSelectedHotbarSlot().slot;
+                    InventorySlot selectedSlot = inventory.GetSelectedHotbarSlot();
                     Item item = null;
                     if (!selectedSlot.IsEmpty())
                     {
-                        item = ItemRegister.GenerateItem(selectedSlot.itemId);
+                        item = ItemRegister.Get(selectedSlot.id);
                     }
 
                     if (item != null)
@@ -224,11 +224,11 @@ namespace SeeloewenCraft.game.core.entities
             if (this == Game.world.player)
             {
                 //Drop all items and clear the inventory
-                foreach (InventorySlot slot in inventory.slotList)
+                foreach (InventorySlot slot in inventory.slots)
                 {
                     for (int i = 0; i < slot.amount; i++)
                     {
-                        Drop(slot.itemId);
+                        Drop(slot.id);
                     }
                     slot.Remove(slot.amount);
                 }

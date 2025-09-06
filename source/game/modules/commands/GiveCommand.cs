@@ -27,14 +27,14 @@ namespace SeeloewenCraft.game.core.commands
                 }
             }
 
-            if (ItemRegister.GenerateItem(id) == null)
+            if (ItemRegister.Get(id) == null)
             {
                 NotificationHandler.ShowNotification("Invalid command syntax: item id was not found", 3000);
                 return;
             }
 
-            Game.world.player.inventory.AddItem(id, amount, ItemRegister.GenerateItem(id).tag, out int remainingAmount);
-            if (remainingAmount > 0)
+            int remaining = Game.world.player.inventory.Add(id, amount, ItemRegister.Get(id).tag);
+            if (remaining > 0)
             {
                 NotificationHandler.ShowNotification("Warning: Not all items were added (Full Inventory)", 3000);
             }

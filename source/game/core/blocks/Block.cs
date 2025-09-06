@@ -335,9 +335,7 @@ namespace SeeloewenCraft.game.core.blocks
                 JsonToken invToken = blockToken.GetToken("/inventory");
                 Inventory inventory = Inventory.LoadFromJson(invToken, false);
 
-                inventory.block = block;
                 block.inventory = inventory;
-                Game.world.inventoryList.Add(block.inventory);
             }
 
             if (block.tags.Contains("liquids/water"))
@@ -505,7 +503,7 @@ namespace SeeloewenCraft.game.core.blocks
             //If the item has an id, generate an item and return it
             if (!string.IsNullOrEmpty(itemId))
             {
-                return ItemRegister.GenerateItem(itemId);
+                return ItemRegister.Get(itemId);
             }
 
             return null;
@@ -686,7 +684,7 @@ namespace SeeloewenCraft.game.core.blocks
 
                         for (int j = 0; j < amount; j++)
                         {
-                            SpawnItem(ItemRegister.GenerateItem(entry.id));
+                            SpawnItem(ItemRegister.Get(entry.id));
                         }
                     }
                 }
@@ -726,7 +724,7 @@ namespace SeeloewenCraft.game.core.blocks
 
                             if (foregroundBlock.HasTag(BlockTags.HAS_INVENTORY))
                             {
-                                foregroundBlock.inventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
+                                foregroundBlock.inventory.DropAll((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
                             }
                         }
 
@@ -753,7 +751,7 @@ namespace SeeloewenCraft.game.core.blocks
 
                         if (HasTag(BlockTags.HAS_INVENTORY))
                         {
-                            inventory.Drop((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
+                            inventory.DropAll((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
                         }
                     }
 
@@ -851,7 +849,7 @@ namespace SeeloewenCraft.game.core.blocks
             //Put the loot into the inventory
             foreach (Item item in loot)
             {
-                inventory.AddItem(item.id, 1, item.tag);
+                inventory.Add(item.id, 1, item.tag);
             }
         }
 
@@ -867,7 +865,7 @@ namespace SeeloewenCraft.game.core.blocks
             //Put the loot into the inventory
             foreach (Item item in loot)
             {
-                inventory.AddItem(item.id, 1, item.tag);
+                inventory.Add(item.id, 1, item.tag);
             }
         }
 

@@ -19,7 +19,7 @@ namespace SeeloewenCraft.game.core.crafting
         }
         public CraftingIngredient(JsonToken token)
         {
-            item = ItemRegister.GenerateItem(token.GetString("/item_id"));
+            item = ItemRegister.Get(token.GetString("/item_id"));
 
             amount = token.GetInt("/amount");
         }

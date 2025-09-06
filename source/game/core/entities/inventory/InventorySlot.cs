@@ -1,100 +1,93 @@
 ﻿using SeeloewenCraft.game.core.items;
-using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
-using SeeloewenCraft.game.networking;
 using System;
-using System.Windows;
 using System.Windows.Input;
 
 namespace SeeloewenCraft.game.core.entities.inventory
 {
     public class InventorySlot
     {
-        public Inventory inventory;
-        public HotbarSlot hotbarSlot;
+        internal const int MAX_AMOUNT = 64;
 
-        public string itemId;
-        public int xPos;
-        public int yPos;
-        public string itemTag;
-        public bool isSelected;
+        private Inventory parentInv;
+        public readonly int xPos;
+        public readonly int yPos;
+
+        public string id = "";
+        public string tag = "";
         public int amount;
 
-        public InventorySlot(Inventory inventory, int xPos, int yPos)
+        public bool isSelected { get; private set; }
+
+        internal bool isHotbar;
+        internal bool isHotbarSelected { get; private set; }
+
+        public InventorySlot(Inventory parentInv, int xPos, int yPos)
         {
-            this.inventory = inventory;
+            this.parentInv = parentInv;
             this.xPos = xPos;
             this.yPos = yPos;
         }
 
-        public bool Add(string id, int amount, string tag) //Returns whether the items were successfully added
+        public int Add(string id, int amount, string tag = "") //Returns the amount of items that weren't added
         {
             //Check if the slot already has the specified id or is empty
-            if (itemId == id || IsEmpty())
+            if (this.id == id || IsEmpty())
             {
-                //If the slot is not empty and the item is not stackable
-                if (Game.unstackableItems.Contains(id) && !IsEmpty()) return false;
+                bool isUnstackable = Item.unstackableItems.Contains(id);
+                //If the slot is not empty and the item is not stackable, don't add anything
+                if (isUnstackable && !IsEmpty()) return amount;
 
-                if (this.amount + amount <= 64)
+                this.id = id;
+                this.tag = tag;
+
+                int a = Math.Min(amount, GetAvailableSpace()); //The amount of items to add to this slot
+                if (isUnstackable) a = 1; //Only add one item if the item is unstackable
+                this.amount += a;
+                return amount - a; //Return the remaining item amount
+
+                //TODO: Networking Rework
+                /*if (inventory.block != null && inventory.block.chunk != null)
                 {
-                    //Update the slot
-                    itemId = id;
-                    this.amount += amount;
-                    itemTag = tag;
-
-                    if (inventory.block != null && inventory.block.chunk != null)
-                    {
-                        NetworkHandler.SendData(MultiplayerPacketType.ADD_TO_INV, inventory.block.xPos.ToString(), inventory.block.yPos.ToString(), inventory.block.chunk.index.ToString(), id, amount.ToString(), xPos.ToString(), yPos.ToString(), tag ??= "");
-                    }
-
-                    return true;
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException("Total item amount cannot be above 64");
-                }
+                    NetworkHandler.SendData(MultiplayerPacketType.ADD_TO_INV, inventory.block.xPos.ToString(), inventory.block.yPos.ToString(), inventory.block.chunk.index.ToString(), id, amount.ToString(), xPos.ToString(), yPos.ToString(), tag ??= "");
+                }*/
             }
-            else
-            {
-                throw new InvalidOperationException("Cannot add item of different id to the slot");
-            }
+
+            return amount;
         }
 
-        public void Add_Multiplayer(string id, string tag, int amount)
+        //TODO: Multiplayer rewrite
+        /*public void Add_Multiplayer(string id, string tag, int amount)
         {
             //Update the slot
             itemId = id;
             this.amount += amount;
             itemTag = tag;
-        }
+        }*/
 
-        public void Remove(int amount)
+        public int Remove(int amount)
         {
             //Check if the total amount would be below 0, which shouldn't be possible
-            if (this.amount - amount >= 0)
-            {
-                this.amount -= amount;
+            int r = Math.Min(this.amount, amount); //Remove at most the amount of items that is available
+            this.amount -= r;
 
-                if (this.amount == 0)
-                {
-                    //Clear the slot
-                    itemId = null;
-                    itemTag = null;
-                    if (hotbarSlot != null) hotbarSlot.pbDurability.Visibility = Visibility.Hidden;
-                }
-
-                if (inventory.block != null && inventory.block.chunk != null)
-                {
-                    NetworkHandler.SendData(MultiplayerPacketType.REMOVE_FROM_INV, inventory.block.xPos.ToString(), inventory.block.yPos.ToString(), inventory.block.chunk.index.ToString(), amount.ToString(), xPos.ToString(), yPos.ToString());
-                }
-            }
-            else
+            if (this.amount == 0)
             {
-                throw new ArgumentOutOfRangeException("Total item amount cannot be below 0");
+                tag = "";
+                id = "";
             }
+
+            return amount - r;
+
+            //TODO: Multiplayer rewrite
+            /*if (inventory.block != null && inventory.block.chunk != null)
+            {
+                NetworkHandler.SendData(MultiplayerPacketType.REMOVE_FROM_INV, inventory.block.xPos.ToString(), inventory.block.yPos.ToString(), inventory.block.chunk.index.ToString(), amount.ToString(), xPos.ToString(), yPos.ToString());
+            }*/
         }
 
-        public void Remove_Multiplayer(int amount)
+        //TODO: Multiplayer rewrite
+        /*public void Remove_Multiplayer(int amount)
         {
             //Update the slot and clear it if the amount is 0
             this.amount -= amount;
@@ -103,14 +96,14 @@ namespace SeeloewenCraft.game.core.entities.inventory
             {
                 itemId = "";
             }
-        }
+        }*/
 
-        public int GetAvailableSpace() => 64 - amount;
+        public int GetAvailableSpace() => MAX_AMOUNT - amount;
 
         public void Select()
         {
             //Select the slot and unselect all other slots
-            foreach (InventorySlot slot in inventory.slotList)
+            foreach (InventorySlot slot in parentInv.slots)
             {
                 slot.Unselect();
             }
@@ -118,33 +111,41 @@ namespace SeeloewenCraft.game.core.entities.inventory
             isSelected = true;
         }
 
-        public void Unselect() => isSelected = false;
-
-        public void MoveItemTo(InventorySlot newSlot, int amount) //Move item from this slot to another one
+        public void SelectInHotbar()
         {
-            //Check if enough space is in the new slot available, if not, only add the amount of possible space
-            if (newSlot.GetAvailableSpace() < amount)
+            //Select the slot and unselect all other slots
+            for(int x = 0; x < parentInv.slotsX; x++)
             {
-                amount = newSlot.GetAvailableSpace();
+                parentInv.GetSlot(x, parentInv.slotsY - 1).UnselectInHotbar();
             }
 
-            //Add to the new slot and remove from the old one        
-            if (newSlot.Add(itemId, amount, itemTag))
-            {
-                Remove(amount);
-            }
+            isHotbarSelected = true;
         }
 
-        public bool IsEmpty() => string.IsNullOrEmpty(itemId) && this.amount == 0;
+        public void Unselect() => isSelected = false;
+
+        public void UnselectInHotbar() => isHotbarSelected = false;
+
+        public virtual void MoveItemTo(InventorySlot newSlot, int amount) //Move item from this slot to another one
+        {
+            //Check if enough space is in the new slot available, if not, only add the amount of possible space
+            amount = Math.Min(newSlot.GetAvailableSpace(), amount);
+
+            //Add to the new slot and remove from the old one        
+            newSlot.Add(id, amount, tag);
+            Remove(amount);
+        }
+
+        public bool IsEmpty() => string.IsNullOrEmpty(id) && this.amount == 0;
 
         public Inventory GetOtherInventory()
         {
             //Get the first other inventory that's in the list and is currently open. Since there should in most cases only be
             //One other inventory besides the main one, this works. It might cause issues with multiple inventories, would need some
             //Improvements then to search for specific inventories.
-            foreach (Inventory inventory in Game.world.inventoryList)
+            foreach (Inventory inventory in Inventory.globalInventories)
             {
-                if (inventory != this.inventory && inventory.isOpen)
+                if (inventory != parentInv && inventory.isOpen)
                 {
                     return inventory;
                 }
@@ -154,11 +155,11 @@ namespace SeeloewenCraft.game.core.entities.inventory
 
         public void RemoveDurablity()
         {
-            if (ItemRegister.GenerateItem(itemId) is ToolItem && Game.world.gamemode == Gamemode.Survival)
+            if (ItemRegister.Get(id) is ToolItem && Game.world.gamemode == Gamemode.Survival)
             {
                 //Update durability of the held tool item
                 int durability = GetDurability();
-                itemTag = itemTag.Replace(durability.ToString(), (durability - 1).ToString());
+                tag = tag.Replace(durability.ToString(), (durability - 1).ToString());
 
                 if (durability - 1 <= 0) Remove(1); //Remove the item if it "breaks"
             }
@@ -166,10 +167,10 @@ namespace SeeloewenCraft.game.core.entities.inventory
 
         public int GetDurability() //TODO: Rework with new tag system
         {
-            if (ItemRegister.GenerateItem(itemId) is ToolItem)
+            if (ItemRegister.Get(id) is ToolItem)
             {
                 //Split the tags and the durability tag to the durability
-                string[] tagSplit = itemTag.Split(';');
+                string[] tagSplit = tag.Split(';');
                 string[] durabilitySplit = tagSplit[0].Split('=');
 
                 return Convert.ToInt32(durabilitySplit[1]);
@@ -180,9 +181,9 @@ namespace SeeloewenCraft.game.core.entities.inventory
 
         //-- Event Handlers --//
 
-        public void OnLeftClick()
+        public virtual void OnLeftClick()
         {
-            InventorySlot selectedSlot = Game.world.GetSelectedInvSlot();
+            InventorySlot selectedSlot = Inventory.GetGlobalSelectedInvSlot();
 
             //If no other slot is currently selected, select this slot
             if (selectedSlot == null && !IsEmpty())
@@ -190,14 +191,14 @@ namespace SeeloewenCraft.game.core.entities.inventory
                 Select();
 
                 //If shift is pressed, try to move the items to another inventory 
-                if (InputHandler.pressedKeys.Contains(Key.LeftShift))
+                if (KeyBinds.pressed[KeyBinds.SNEAK])
                 {
                     Inventory otherInv = GetOtherInventory();
 
                     if (otherInv != null)
                     {
-                        otherInv.AddItem(itemId, amount, itemTag, out int remainingAmount);
-                        Remove(amount - remainingAmount);
+                        int remaining = otherInv.Add(id, amount, tag);
+                        Remove(amount - remaining);
                         Unselect();
                     }
                 }
@@ -211,7 +212,7 @@ namespace SeeloewenCraft.game.core.entities.inventory
             else if (selectedSlot != null && selectedSlot != this)
             {
                 //Check if it's empty or contains the same item - May need a check for space
-                if (itemId == selectedSlot.itemId || IsEmpty())
+                if (id == selectedSlot.id || IsEmpty())
                 {
                     selectedSlot.MoveItemTo(this, selectedSlot.amount);
                     selectedSlot.Unselect();
@@ -219,8 +220,8 @@ namespace SeeloewenCraft.game.core.entities.inventory
                 else //Switch two slots
                 {
                     //Save the old slot values and clear the slot
-                    (string oldId, int oldAmount, string oldTag) = (itemId, amount, itemTag); //No idea why I used a tuple here, but it works I guess
-                    itemId = "";
+                    (string oldId, int oldAmount, string oldTag) = (id, amount, tag); //No idea why I used a tuple here, but it works I guess
+                    id = "";
                     amount = 0;
 
                     selectedSlot.MoveItemTo(this, selectedSlot.amount); //Move content from other slot here
@@ -232,14 +233,14 @@ namespace SeeloewenCraft.game.core.entities.inventory
             }
         }
 
-        public void OnRightClick()
+        public virtual void OnRightClick()
         {
-            InventorySlot selectedSlot = Game.world.GetSelectedInvSlot();
+            InventorySlot selectedSlot = Inventory.GetGlobalSelectedInvSlot();
 
             if (selectedSlot != null)
             {
                 //If a slot is selected and the slot has more than 1 item, move one singular item to that slot
-                if ((itemId == selectedSlot.itemId || IsEmpty()) && selectedSlot.amount > 1)
+                if ((id == selectedSlot.id || IsEmpty()) && selectedSlot.amount > 1)
                 {
                     selectedSlot.MoveItemTo(this, 1);
                 }
@@ -247,7 +248,7 @@ namespace SeeloewenCraft.game.core.entities.inventory
             else if (selectedSlot == null && amount > 1)
             {
                 //If no slot is selected and this slot has more than one item
-                foreach (InventorySlot slot in inventory.slotList)
+                foreach (InventorySlot slot in parentInv.slots)
                 {
                     //Search for an empty slot and move half of this slots items there, then select it.
                     //This will look like you halfed the stack at hand
@@ -263,10 +264,10 @@ namespace SeeloewenCraft.game.core.entities.inventory
 
         public float GetRelativeDurability()
         {
-            if (itemTag != null && itemTag.Contains("durability="))
+            if (tag != null && tag.Contains("durability="))
             {
                 //Get current durability relative to max durability of the tool
-                ToolItem item = (ToolItem)ItemRegister.GenerateItem(itemId);
+                ToolItem item = (ToolItem)ItemRegister.Get(id);
                 float d2 = item.maxDurability;
                 float d1 = GetDurability();
 

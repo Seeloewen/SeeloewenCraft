@@ -3,7 +3,7 @@ using SeeloewenCraft.game.core.entities.inventory;
 
 namespace SeeloewenCraft.game.core.items
 {
-    public class FoodItem : Item
+    public abstract class FoodItem : Item
     {
         public double healAmount;
 

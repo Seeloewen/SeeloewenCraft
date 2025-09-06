@@ -29,7 +29,7 @@ namespace SeeloewenCraft.game.core.commands
             }
 
             //Get the image
-            ImageBrush image = ItemRegister.GenerateItem(args[2]).image;
+            ImageBrush image = ItemRegister.Get(args[2]).image;
 
             //Append all parts of the message to the message string
             string message = args[3];

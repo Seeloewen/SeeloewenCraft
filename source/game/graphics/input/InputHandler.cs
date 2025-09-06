@@ -7,9 +7,6 @@ namespace SeeloewenCraft.game.graphics
 {
     public static class InputHandler
     {
-        static public HashSet<System.Windows.Input.Key> pressedKeys = new HashSet<System.Windows.Input.Key>();
-
-
         public static int mouseXPixel { get; private set; }
         public static int mouseYPixel { get; private set; }
 

@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.graphics.ui_lib;
+﻿using OpenTK.Graphics.OpenGL;
+using SeeloewenCraft.game.graphics.ui_lib;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -91,6 +92,11 @@ namespace SeeloewenCraft.game.graphics
             else if (KeyBinds.checkPressedFirst(KeyBinds.TOGGLE_DEBUG))
             {
                 showDebugMenu = !showDebugMenu;
+            }
+            else if(KeyBinds.checkPressedFirst(KeyBinds.CREATIVE_MENU))
+            {
+                Game.world.creativeInventory.ShowGui();
+                Game.world.player.inventory.ShowGui();
             }
             else if (KeyBinds.checkPressedFirst(KeyBinds.SHOW_INV))
             {

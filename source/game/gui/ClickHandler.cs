@@ -10,17 +10,17 @@ namespace SeeloewenCraft.game.core.legacy
         public void DoRightClick(Block block)
         {
             //Check if selected item should do an action
-            HotbarSlot selectedSlot = Game.world.player.inventory.GetSelectedHotbarSlot();
+            InventorySlot selectedSlot = Game.world.player.inventory.GetSelectedHotbarSlot();
             Item selectedItem = null;
 
-            if (selectedSlot != null && !string.IsNullOrEmpty(selectedSlot.slot.itemId))
+            if (selectedSlot != null && !string.IsNullOrEmpty(selectedSlot.id))
             {
-                selectedItem = ItemRegister.GenerateItem(selectedSlot.slot.itemId);
+                selectedItem = ItemRegister.Get(selectedSlot.id);
             }
 
             if (selectedItem != null && selectedItem.hasRightClickAction)
             {
-                selectedItem.RightClickAction(block, selectedSlot.slot);
+                selectedItem.RightClickAction(block, selectedSlot);
                 return;
             }
 
@@ -49,7 +49,7 @@ namespace SeeloewenCraft.game.core.legacy
                     {
                         if (selectedItem is FoodItem food)
                         {
-                            food.RightClickAction(block, selectedSlot.slot);
+                            food.RightClickAction(block, selectedSlot);
                         }
 
                         return;
@@ -68,14 +68,14 @@ namespace SeeloewenCraft.game.core.legacy
                                 block.PlaceConnectedForegroundBlocks(newBlock);
 
                                 //Remove the item from the inventory
-                                selectedSlot.slot.Remove(1);
+                                selectedSlot.Remove(1);
                             }
                             else if (!newBlock.isBase)
                             {
                                 block.SetForegroundBlock(newBlock);
 
                                 //Remove the item from the inventory
-                                selectedSlot.slot.Remove(1);
+                                selectedSlot.Remove(1);
                             }
 
                             return;
@@ -93,14 +93,14 @@ namespace SeeloewenCraft.game.core.legacy
                                 block.PlaceConnectedBlocks(newBlock);
 
                                 //Remove the item from the inventory
-                                selectedSlot.slot.Remove(1);
+                                selectedSlot.Remove(1);
                             }
                             else if (!newBlock.isBase)
                             {
                                 block.SetBlock(newBlock);
 
                                 //Remove the item from the inventory
-                                selectedSlot.slot.Remove(1);
+                                selectedSlot.Remove(1);
                             }
 
                             newBlock.WriteTag(BlockTags.PLACED_MANUALLY);
@@ -112,9 +112,9 @@ namespace SeeloewenCraft.game.core.legacy
             }
 
             block.chunk.GetBlock(block.xPos, block.yPos).AddDebugMenu();
-            if (ItemRegister.GenerateItem(selectedSlot.slot.itemId) is FoodItem foodItem)
+            if (ItemRegister.Get(selectedSlot.id) is FoodItem foodItem)
             {
-                foodItem.RightClickAction(block, selectedSlot.slot);
+                foodItem.RightClickAction(block, selectedSlot);
             }
         }
 
@@ -165,8 +165,8 @@ namespace SeeloewenCraft.game.core.legacy
                     }
                 }
 
-                HotbarSlot selectedSlot = Game.world.player.inventory.GetSelectedHotbarSlot();
-                selectedSlot.slot.RemoveDurablity();
+                InventorySlot selectedSlot = Game.world.player.inventory.GetSelectedHotbarSlot();
+                selectedSlot.RemoveDurablity();
             }
 
 

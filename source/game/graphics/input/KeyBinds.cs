@@ -2,6 +2,7 @@
 using SeeloewenCraft.game.util;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace SeeloewenCraft.game.graphics
@@ -19,7 +20,8 @@ namespace SeeloewenCraft.game.graphics
         public const int SNEAK = 7;
         public const int SPRINT = 8;
         public const int OPEN_MENU = 9;
-        const int KEYBINDS_COUNT = 10;
+        public const int CREATIVE_MENU = 10;
+        const int KEYBINDS_COUNT = 11;
 
 
         public static bool[] pressed = new bool[KEYBINDS_COUNT];
@@ -48,7 +50,8 @@ namespace SeeloewenCraft.game.graphics
             {Keys.Q, THROW_ITEM },
             {Keys.LeftShift, SNEAK },
             {Keys.LeftControl, SPRINT },
-            {Keys.Escape, OPEN_MENU }
+            {Keys.Escape, OPEN_MENU },
+            {Keys.C, CREATIVE_MENU}
         };
 
         public static void Save(JsonWriter writer)
@@ -121,7 +124,7 @@ namespace SeeloewenCraft.game.graphics
             bindings[sneak] = SNEAK;
             bindings[sprint] = SPRINT;
             bindings[Keys.Escape] = OPEN_MENU;
-
+            bindings[Keys.C] = CREATIVE_MENU;
         }
 
 

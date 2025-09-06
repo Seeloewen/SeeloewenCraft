@@ -22,7 +22,7 @@ namespace SeeloewenCraft.game.graphics
 
         internal CRecipe(int x, int y, string itemId, string recipeId, CCrafting handler) : base(new Color(0.88f), new Rectangle(x, y, x + 220, y + 60))
         {
-            Item item = ItemRegister.GenerateItem(itemId);
+            Item item = ItemRegister.Get(itemId);
             cItemName = new CText(item.name, 2, new TextLayout(x + 70, TextHAlignment.LEFT, y + 22, TextVAlignment.TOP));
             cItemTexture = new CTexture(ItemRenderer.GetTextureMap(), itemId, new Rectangle(x + 15, y + 10, x + 55, y + 50));
 

@@ -34,8 +34,8 @@ namespace SeeloewenCraft.game.graphics
         protected override void OnUpdate()
         {
             //Update the slot based on the inventory connected with the block
-            InventorySlot slot = invData.slotList[0];
-            cUnchiselerSlot.Update(slot.itemId, slot.amount, slot.GetRelativeDurability(), slot.isSelected);
+            InventorySlot slot = invData.slots[0];
+            cUnchiselerSlot.Update(slot.id, slot.amount, slot.GetRelativeDurability(), slot.isSelected);
             if (slot.isSelected) Screen.guiHandler.SetMouseFollower(slot);
         }
 
