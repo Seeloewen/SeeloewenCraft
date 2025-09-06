@@ -64,7 +64,7 @@ namespace SeeloewenCraft.game.graphics
                 {
                     Screen.guiHandler.SetMouseFollower(slot); //If a slot is currently selected, it should follow the mouse
                 }
-                cSlot.Update(slot.id, slot.amount, slot.GetRelativeDurability(), slot.isSelected);
+                cSlot.Update(slot.id, slot.GetItemName(), slot.amount, slot.GetRelativeDurability(), slot.isSelected);
             }
 
         }

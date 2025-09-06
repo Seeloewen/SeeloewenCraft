@@ -1,6 +1,8 @@
 ﻿using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.graphics.ui_lib;
 using System;
+using System.Windows.Shapes;
+using static System.Windows.Forms.LinkLabel;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -15,6 +17,9 @@ namespace SeeloewenCraft.game.graphics
 
         internal bool isPressed;
         internal bool isHovered;
+
+        protected CText cName;
+        protected CRectangle cNameBackground;
 
         protected CText cAmount;
         protected CTexture cTexture;
@@ -41,6 +46,12 @@ namespace SeeloewenCraft.game.graphics
             cAmount = new CText("", 2, new TextLayout(bounds.x2P - 5, TextHAlignment.RIGHT, bounds.y2P - 5, TextVAlignment.BOTTOM));
             AddChild(cAmount);
 
+            //Text when hovering
+            cNameBackground = new CRectangle(new Color(0.4f, 0.4f, 0.4f, 0.75f), new Rectangle(0, 0, 0, 0));
+            AddChild(cNameBackground);
+            cName = new CText("", 2, new TextLayout(bounds.x1P + width / 2, TextHAlignment.CENTER, bounds.y1P - 5, TextVAlignment.BOTTOM));
+            AddChild(cName);
+
             //Durability
             (x1, y1) = (bounds.x1P + 5, bounds.y2P - 12);
             (x2, y2) = (bounds.x2P - 5, bounds.y2P - 5);
@@ -50,8 +61,14 @@ namespace SeeloewenCraft.game.graphics
             AddChild(cDurability);
         }
 
-        internal void Update(string id, int amount, float durability, bool isSelected = false)
+        internal void Update(string id, string name, int amount, float durability, bool isSelected = false)
         {
+            cName.visible = isHovered && !isSelected && !string.IsNullOrEmpty(name);
+            cNameBackground.visible = isHovered && !isSelected && !string.IsNullOrEmpty(name);
+            cName.SetText(name);
+            int w = TextRenderer.GetWidth(name, 2);
+            cNameBackground.SetBounds(new Rectangle(GetBounds().x1P + width / 2 - w / 2 - 15, GetBounds().y1P - 25, GetBounds().x1P + width / 2 + w / 2 + 15, GetBounds().y1P + 2));
+
             //If the slot is selected, hide it as it's being displayed by the mouse follower
             cTexture.visible = !isSelected;
             cAmount.visible = !isSelected;

@@ -56,7 +56,7 @@ namespace SeeloewenCraft.game.graphics
                     InventorySlot slot = invData.GetHotbarSlot(i);
                     CHotbarSlot cHotbarSlot = slots[i];
 
-                    cHotbarSlot.Update(slot.id, slot.amount, slot.GetRelativeDurability());
+                    cHotbarSlot.Update(slot.id, slot.GetItemName(), slot.amount, slot.GetRelativeDurability());
 
                     //Update the display of the currently selected hotbar slot
                     if (i == newIndex && scrollOffset != 0)
