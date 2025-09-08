@@ -14,6 +14,7 @@ namespace SeeloewenCraft.game.graphics
 
         static internal void Render()
         {
+            Renderer.PushDebugGroup("player rendering");
             var info = Game.world.player.playerRenderInfo;
 
             originX = GameCamera.blockXAnchor + (info.posX / 1000.0f) * GameCamera.blockLength;
@@ -34,6 +35,7 @@ namespace SeeloewenCraft.game.graphics
 
             TextureRenderer.End();
 
+            Renderer.PopDebugGroup();
         }
 
 

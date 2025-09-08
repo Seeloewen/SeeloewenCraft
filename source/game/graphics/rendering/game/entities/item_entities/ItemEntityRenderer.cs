@@ -8,6 +8,7 @@ namespace SeeloewenCraft.game.graphics
 
         internal static void Render()
         {
+            Renderer.PushDebugGroup("item entity rendering");
             ItemRenderer.SetTexture();
             TextureRenderer.Begin();
             var entities = Game.world.entityManager.entities;
@@ -19,6 +20,7 @@ namespace SeeloewenCraft.game.graphics
                 }
             }
             TextureRenderer.End();
+            Renderer.PopDebugGroup();
         }
 
         internal static void Draw(ItemEntity entity)

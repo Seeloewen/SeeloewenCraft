@@ -20,9 +20,9 @@ namespace SeeloewenCraft.game.graphics.ui_lib
     {
 
         internal int xAnchor;
-        TextHAlignment textHAlignment;
+        internal TextHAlignment textHAlignment;
         internal int yAnchor;
-        TextVAlignment textVAlignment;
+        internal TextVAlignment textVAlignment;
 
         /// <summary>
         /// Creates a TextLayout. The text position will be set so the specified edge of the text(LEFT, TOP, CENTER, ...) will be on the according anchor position
