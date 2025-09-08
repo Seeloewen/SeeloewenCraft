@@ -1,6 +1,5 @@
 ﻿using HighPrecisionTimer;
 using SeeloewenCraft.game.core.blocks;
-using SeeloewenCraft.game.core.legacy;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.notifications;
 using SeeloewenCraft.game.util.logging;

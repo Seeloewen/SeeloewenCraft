@@ -131,11 +131,6 @@ namespace SeeloewenCraft.game.networking
             Entity newEntity = Entity.LoadFromJson(JsonUtil.ReadString(packet.content[0]));
             Game.world.AddEntity_Multiplayer(newEntity);
 
-            if (newEntity.id == client.id)
-            {
-                newEntity.tblId.Text = client.nickname;
-            }
-
             //If the server receives the packet, send it to all clients except the one it came from to ensure the entity gets created on all clients
             if (IsServer())
             {

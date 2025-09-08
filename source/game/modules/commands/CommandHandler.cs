@@ -1,5 +1,4 @@
-﻿using SeeloewenCraft.game.core.legacy;
-using SeeloewenCraft.game.notifications;
+﻿using SeeloewenCraft.game.notifications;
 using SeeloewenCraft.game.util.logging;
 using System.Windows;
 using System.Windows.Input;

@@ -32,12 +32,6 @@ namespace SeeloewenCraft
 
             Game.playerId = GetPlayerId();
 
-            //load mods if enabled
-            if (StartOptions.modded)
-            {
-                ModLoader.LoadMods();
-            }
-
             wndMenu wndMenu = new wndMenu();
 
             // if start option "-skipmenu" is disabled, proceed like normal

@@ -1,6 +1,5 @@
 ﻿using SeeloewenCraft.game.graphics.ui_lib;
 using SeeloewenCraft.game.notifications;
-using System;
 using System.Collections.Generic;
 
 namespace SeeloewenCraft.game.graphics
@@ -8,6 +7,7 @@ namespace SeeloewenCraft.game.graphics
     class GameOverlay : CRectangle
     {
         private readonly CNotification[] cNotifications;
+        private readonly CHealthBar cHealthBar = new CHealthBar();
 
         public GameOverlay() : base(new Color(0f, 0f, 0f, 0f), new Rectangle(-1f, -1f, 1f, 1f))
         {
@@ -19,6 +19,7 @@ namespace SeeloewenCraft.game.graphics
                 AddChild(cNotification);
             }
 
+            AddChild(cHealthBar);
         }
 
         protected override void OnUpdate(double dt)
@@ -39,6 +40,8 @@ namespace SeeloewenCraft.game.graphics
                 cn.SetNotification(n);
                 cn.visible = true;
             }
+
+            cHealthBar.visible = Game.world.gamemode == Gamemode.Survival;
         }
     }
 }

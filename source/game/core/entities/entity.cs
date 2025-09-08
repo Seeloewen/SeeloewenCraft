@@ -12,7 +12,6 @@ namespace SeeloewenCraft.game.core.entities
     public abstract class Entity
     {
         public static Random idGenerator = new Random(DateTime.Now.Millisecond);
-        public TextBlock tblId;
 
         public string type;
 
@@ -135,7 +134,6 @@ namespace SeeloewenCraft.game.core.entities
         public void SetId(int id)
         {
             this.id = id;
-            tblId.SetAlignedText(id.ToString());
         }
 
         public virtual void DoPhysicsStep(int tps)
@@ -428,14 +426,6 @@ namespace SeeloewenCraft.game.core.entities
             id = token.GetInt("/id");
 
             texture.Children.Clear();
-            tblId = new TextBlock() { FontSize = 20, FontWeight = FontWeights.DemiBold };
-            tblId.SetAlignedText(id.ToString());
-
-            if (this is MovingEntity)
-            {
-                texture.Children.Add(tblId);
-                Canvas.SetTop(tblId, -33);
-            }
         }
 
 
@@ -460,13 +450,6 @@ namespace SeeloewenCraft.game.core.entities
             touchingStatus = new bool[TOUCHING_STATUS_COUNT];
 
             texture.Children.Clear();
-            tblId = new TextBlock() { FontSize = 20, FontWeight = FontWeights.DemiBold };
-            tblId.SetAlignedText(id.ToString());
-            if (this is MovingEntity)
-            {
-                texture.Children.Add(tblId);
-                Canvas.SetTop(tblId, -33);
-            }
         }
 
         public static Entity LoadFromJson(JsonToken token)
