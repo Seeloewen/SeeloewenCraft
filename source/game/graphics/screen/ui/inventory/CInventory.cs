@@ -48,7 +48,7 @@ namespace SeeloewenCraft.game.graphics
             }
         }
 
-        protected override void OnUpdate()
+        protected override void OnUpdate(double dt)
         {
             foreach (CInvSlot cSlot in slots)
             {

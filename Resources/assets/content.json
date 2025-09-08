@@ -1,7 +1,7 @@
 {
 	"font": {
-		"font_map":"font.block_font.png",
-		"mappings":"font.font-map.json"
+		"font_map":"Font.block_font.png",
+		"mappings":"Font.font-map.json"
 	},
 	"sections": [
 		{
@@ -1684,6 +1684,22 @@
 				{
 					"id": "sc:button_1",
 					"file": "Button_1.png"
+				},
+				{
+					"id": "sc:x",
+					"file": "X.png"
+				},
+				{
+					"id": "sc:check",
+					"file": "Check.png"
+				},
+				{
+					"id": "sc:info",
+					"file": "Info.png"
+				},
+				{
+					"id": "sc:save",
+					"file": "Save.png"
 				}
 			]
 		}

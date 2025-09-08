@@ -3,6 +3,7 @@ using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.networking;
+using SeeloewenCraft.game.notifications;
 using System.Collections.Generic;
 
 namespace SeeloewenCraft.game.core.legacy
@@ -66,7 +67,7 @@ namespace SeeloewenCraft.game.core.legacy
 
             if (Settings.showAutoSaveNotification)
             {
-                NotificationHandler.ShowNotification("Successfully Auto-Saved the world!", 3000);
+                NotificationHandler.Notify("sc:grass_block_item", "Successfully Auto-Saved the world!");
             }
         }
 

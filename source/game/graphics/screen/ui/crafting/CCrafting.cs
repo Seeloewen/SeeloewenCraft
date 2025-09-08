@@ -67,7 +67,7 @@ namespace SeeloewenCraft.game.graphics
             InitRecipes();
         }
 
-        protected override void OnUpdate()
+        protected override void OnUpdate(double dt)
         {
             if (handler.recipeRunning)
             {
@@ -85,9 +85,6 @@ namespace SeeloewenCraft.game.graphics
                     cCraftingProgress.visible = false;
                 }
             }
-
-
-            base.OnUpdate();
         }
 
         private void CCraftButton_Click() //TODO: error when no recipe selected or insufficient resources

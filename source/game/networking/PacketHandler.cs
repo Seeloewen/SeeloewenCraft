@@ -3,6 +3,7 @@ using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.core.legacy;
 using SeeloewenCraft.game.core.world;
+using SeeloewenCraft.game.notifications;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using System;
@@ -243,7 +244,7 @@ namespace SeeloewenCraft.game.networking
             }
             else
             {
-                NotificationHandler.ShowNotification($"Your ping to the server is {Math.Round(double.Parse(packet.content[0]))}ms.", 5000);
+                NotificationHandler.Notify("sc:snowball_item", $"Your ping to the server is {Math.Round(double.Parse(packet.content[0]))}ms.");
                 Log.Write($"Your ping to the server is {Math.Round(double.Parse(packet.content[0]))}ms.", LogType.NETWORK, LogLevel.INFO);
             }
         }

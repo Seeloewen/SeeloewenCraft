@@ -2,10 +2,12 @@
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using SeeloewenCraft.game.core.legacy;
 using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.networking;
+using SeeloewenCraft.game.notifications;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using SeeloewenCraft.launcher;
@@ -39,6 +41,7 @@ namespace SeeloewenCraft.game
                 Screen.Update(dt);
 
                 world.Tick(dt * 0.7, blockUpdate);
+                NotificationHandler.Update(dt);
 
                 Renderer.Render();
 

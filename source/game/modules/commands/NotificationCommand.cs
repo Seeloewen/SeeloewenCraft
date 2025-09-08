@@ -1,5 +1,6 @@
 ﻿using SeeloewenCraft.game.core.items;
 using SeeloewenCraft.game.core.legacy;
+using SeeloewenCraft.game.notifications;
 using System.Windows.Media;
 
 namespace SeeloewenCraft.game.core.commands
@@ -9,30 +10,17 @@ namespace SeeloewenCraft.game.core.commands
         private static void HandleNotificationCommand(string[] args)
         {
             //Check if the command has enough args
-            if (args.Length < 4)
+            if (args.Length < 3)
             {
-                NotificationHandler.ShowNotification("Invalid command syntax: incorrect number of arguments", 3000);
-                return;
-            }
-
-            //Try to parse the time to an int
-            int time;
-
-            try
-            {
-                time = int.Parse(args[1]);
-            }
-            catch
-            {
-                NotificationHandler.ShowNotification("Invalid command syntax: can't parse amount to int", 3000);
+                NotificationHandler.Notify("sc:bedrock_item", "Invalid command syntax: incorrect number of arguments");
                 return;
             }
 
             //Get the image
-            ImageBrush image = ItemRegister.Get(args[2]).image;
+            string icon = args[1];
 
             //Append all parts of the message to the message string
-            string message = args[3];
+            string message = args[2];
 
             for (int i = 4; i < args.Length; i++)
             {
@@ -40,7 +28,7 @@ namespace SeeloewenCraft.game.core.commands
             }
 
             //Show the notification
-            NotificationHandler.ShowNotification(message, time);
+            NotificationHandler.Notify(icon, message);
         }
     }
 }

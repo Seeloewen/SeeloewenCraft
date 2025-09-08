@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.core.legacy;
+using SeeloewenCraft.game.notifications;
 using SeeloewenCraft.game.util.logging;
 using System.Windows;
 using System.Windows.Input;
@@ -65,7 +66,7 @@ namespace SeeloewenCraft.game.core.commands
                         "\n/ping - Return pong, used as a test command", "/help", MessageBoxButton.OK, MessageBoxImage.Question);
                     break;
                 default:
-                    NotificationHandler.ShowNotification("Unknown command. Type /help for help.", 3000);
+                    NotificationHandler.Notify("sc:bedrock_item", "Unknown command. Type /help for help.");
                     break;
             }
 

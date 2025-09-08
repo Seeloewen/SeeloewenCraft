@@ -33,7 +33,6 @@ namespace SeeloewenCraft.game.core.world
         public System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
         public List<Chunk> loadedChunkList = new List<Chunk>();
         public List<Chunk> totalChunkList = new List<Chunk>();
-        public List<Gui> guiList = new List<Gui>();
         public List<CraftingRecipe> craftingRecipeList = new List<CraftingRecipe>();
         public Player player { get => entityManager.player; }
         public List<IGuiData> guiDatas = new List<IGuiData>();
@@ -95,8 +94,6 @@ namespace SeeloewenCraft.game.core.world
             creativeInventory = new CreativeInventory();
             //Actually initialize the game
             InitGame(worldName, isNew, worldVersion);
-
-            NotificationHandler.Init();
 
             if (StartOptions.startCreative)
             {
@@ -449,28 +446,6 @@ namespace SeeloewenCraft.game.core.world
                 player.inventory.Add("sc:rock_item", 512, "");
                 player.inventory.Add("sc:stick_item", 128, "");
             }
-        }
-
-        public bool HasOpenGui(bool ignoreInventory)
-        {
-            foreach (Gui gui in guiList)
-            {
-                if (gui.isOpen)
-                {
-                    if (gui.id == "sc:inventory")
-                    {
-                        if (!ignoreInventory)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
         }
 
         public void CreatePlayer(int playerPosX, int playerPosY)

@@ -30,11 +30,11 @@ namespace SeeloewenCraft.game.graphics
             this.amount = amount;
         }
 
-        protected override void OnUpdate()
+        protected override void OnUpdate(double dt)
         {
             cText.SetText($"{name} ({Game.world.player.inventory.GetItemAmount(id)}/{amount})");
 
-            base.OnUpdate();
+            base.OnUpdate(dt);
         }
 
     }

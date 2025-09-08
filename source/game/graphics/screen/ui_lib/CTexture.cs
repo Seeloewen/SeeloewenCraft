@@ -49,6 +49,15 @@
         }
 
         /// <summary>
+        /// Changes the texture map used to draw the texture
+        /// </summary>
+        /// <param name="map">Id of new map</param>
+        public void SetMap(string map)
+        {
+            this.map = map;
+        }
+
+        /// <summary>
         /// Changes the brightness of the texture
         /// </summary>
         /// <param name="brightness">New brightness of the texture</param>

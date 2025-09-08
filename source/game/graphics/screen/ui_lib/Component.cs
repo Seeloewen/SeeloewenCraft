@@ -44,19 +44,19 @@ namespace SeeloewenCraft.game.graphics.ui_lib
             children = new List<Component>();
         }
 
-        internal void Update()
+        internal void Update(double dt)
         {
-            OnUpdate();
+            OnUpdate(dt);
             foreach (var c in children)
             {
-                c.Update();
+                c.Update(dt);
             }
         }
 
         /// <summary>
         /// Called each update tick after handling input events and before rendering. After executing this method will be called on all child components
         /// </summary>
-        protected virtual void OnUpdate() { }
+        protected virtual void OnUpdate(double dt) { }
 
 
 

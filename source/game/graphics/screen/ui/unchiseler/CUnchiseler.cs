@@ -31,7 +31,7 @@ namespace SeeloewenCraft.game.graphics
             invData = ((UnchiselHandler)data).inv;
         }
 
-        protected override void OnUpdate()
+        protected override void OnUpdate(double dt)
         {
             //Update the slot based on the inventory connected with the block
             InventorySlot slot = invData.slots[0];

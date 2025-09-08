@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.core.legacy;
+using SeeloewenCraft.game.notifications;
 
 namespace SeeloewenCraft.game.core.commands
 {
@@ -9,18 +10,18 @@ namespace SeeloewenCraft.game.core.commands
             if (args.Length == 1)
             {
                 Game.world.player.flying = !Game.world.player.flying;
-                NotificationHandler.ShowNotification($"Flying status has been set to {Game.world.player.flying}", 3000);
+                NotificationHandler.Notify("sc:glass_item", $"Flying status has been set to {Game.world.player.flying}");
             }
             else
             {
                 try
                 {
                     Game.world.player.flying = bool.Parse(args[1]);
-                    NotificationHandler.ShowNotification($"Flying status has been set to {Game.world.player.flying}", 3000);
+                    NotificationHandler.Notify("sc:glass_item", $"Flying status has been set to {Game.world.player.flying}");
                 }
                 catch
                 {
-                    NotificationHandler.ShowNotification($"Invalid command syntax: Couldn't parse flying status to bool", 3000);
+                    NotificationHandler.Notify("sc:bedrock_item", $"Invalid command syntax: Couldn't parse flying status to bool");
                 }
             }
         }

@@ -5,6 +5,7 @@ using SeeloewenCraft.game.core.items;
 using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.networking;
+using SeeloewenCraft.game.notifications;
 using SeeloewenCraft.game.util;
 using System;
 using System.Collections.Generic;

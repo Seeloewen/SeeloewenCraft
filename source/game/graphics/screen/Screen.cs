@@ -62,17 +62,17 @@ namespace SeeloewenCraft.game.graphics
 
             if (showGameOverlay)
             {
-                gameOverlayUIRoot.Update();
-                hotbarUIRoot.Update();
+                gameOverlayUIRoot.Update(dt);
+                hotbarUIRoot.Update(dt);
                 GameScreen.Update(dt);
             }
             if (showEscapeMenu)
             {
-                escapeMenuUIRoot.Update();
+                escapeMenuUIRoot.Update(dt);
             }
             if (showGui)
             {
-                guiRoot.Update();
+                guiRoot.Update(dt);
             }
         }
 

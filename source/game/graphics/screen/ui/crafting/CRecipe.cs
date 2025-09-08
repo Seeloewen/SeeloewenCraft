@@ -33,11 +33,11 @@ namespace SeeloewenCraft.game.graphics
             this.recipeId = recipeId;
         }
 
-        protected override void OnUpdate()
+        protected override void OnUpdate(double dt)
         {
             SetColor(isSelected ? colorPressed : (hovered ? colorHovered : color)); //Holy code
 
-            base.OnUpdate();
+            base.OnUpdate(dt);
         }
 
         protected override void OnClickEvent(ClickEvent e)

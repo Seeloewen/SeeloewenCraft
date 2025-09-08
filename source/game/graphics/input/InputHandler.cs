@@ -1,7 +1,6 @@
 ﻿using OpenTK.Windowing.GraphicsLibraryFramework;
+using SeeloewenCraft.game.util;
 using System;
-using System.Collections.Generic;
-using SeeloewenCraft.source.game.modules.util;
 
 namespace SeeloewenCraft.game.graphics
 {

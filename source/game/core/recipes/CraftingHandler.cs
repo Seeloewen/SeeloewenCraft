@@ -2,6 +2,7 @@
 using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.legacy;
 using SeeloewenCraft.game.graphics;
+using SeeloewenCraft.game.notifications;
 using SeeloewenCraft.game.util.logging;
 using System;
 using System.Windows;
@@ -125,7 +126,7 @@ namespace SeeloewenCraft.game.core.crafting
                 FinishCrafting();
                 tmrCrafting.Stop();
 
-                NotificationHandler.ShowNotification($"Crafting for x{recipeAmount} {currentRecipe.displayName} completed!", 3000);
+                NotificationHandler.Notify("sc:crafting_table_item", $"Crafting for x{recipeAmount} {currentRecipe.displayName} completed!");
                 if (block != null) Log.Write($"Completed crafting for {recipeAmount}x {currentRecipe.id} at workstation {workstationId} (x{block.xPos} y{block.yPos}, Chunk {block.chunk.index})", LogType.GENERAL, LogLevel.INFO);
             }
         }

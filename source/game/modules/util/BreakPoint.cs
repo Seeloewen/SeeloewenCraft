@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace SeeloewenCraft.source.game.modules.util;
+namespace SeeloewenCraft.game.util;
 
 public class BreakPoint
 {
