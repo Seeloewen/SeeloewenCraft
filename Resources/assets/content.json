@@ -1142,7 +1142,7 @@
 					"file": "Blocks.Oak_Planks.png"
 				},
 				{
-					"id": "sc:oak_sapling_block",
+					"id": "sc:oak_sapling_block/1",
 					"file": "Blocks.Oak_Sapling.png"
 				},
 				{
@@ -1162,7 +1162,7 @@
 					"file": "Blocks.Sand_Stone_Bricks.png"
 				},
 				{
-					"id": "sc:spruce_sapling_block",
+					"id": "sc:spruce_sapling_block/1",
 					"file": "Blocks.Spruce_Sapling.png"
 				},
 				{
@@ -1592,6 +1592,14 @@
 				{
 					"id": "sc:furnace/FURNACE_RUNNING",
 					"file": "Blocks.States.Furnace_Running.png"
+				},
+				{
+					"id": "sc:furnace/FURNACE_RUNNING",
+					"file": "Blocks.States.Furnace_Running.png"
+				},
+				{
+					"id": "sc:cactus_fruit_block",
+					"file": "Blocks.Cactus_Fruit.png"
 				}
 			]
 		},

@@ -28,16 +28,16 @@ namespace SeeloewenCraft.game.core.events
 
         protected override bool IsReady()
         {
-            return ticks >= 480000/20 && timesStacked == 0 //Sunset 1
-                || ticks >= 510000 / 20 && timesStacked == 1 //Sunset 2
-                || ticks >= 540000 / 20 && timesStacked == 2 //Sunset 3
-                || ticks >= 570000 / 20 && timesStacked == 3 //Sunset 4
-                || ticks >= 600000 / 20 && timesStacked == 4 //Night
-                || ticks >= 1080000 / 20 && timesStacked == 5 //Sunrise 1
-                || ticks >= 1110000 / 20 && timesStacked == 6 //Sunrise 2
-                || ticks >= 1140000 / 20 && timesStacked == 7 //Sunrise 3
-                || ticks >= 1170000 / 20 && timesStacked == 8 //Sunrise 4
-                || ticks >= 1200000 / 20 && timesStacked == 9; //Day
+            return ticks >= 480000 && timesStacked == 0 //Sunset 1
+                || ticks >= 510000 && timesStacked == 1 //Sunset 2
+                || ticks >= 540000 && timesStacked == 2 //Sunset 3
+                || ticks >= 570000 && timesStacked == 3 //Sunset 4
+                || ticks >= 600000 && timesStacked == 4 //Night
+                || ticks >= 1080000 && timesStacked == 5 //Sunrise 1
+                || ticks >= 1110000 && timesStacked == 6 //Sunrise 2
+                || ticks >= 1140000 && timesStacked == 7 //Sunrise 3
+                || ticks >= 1170000 && timesStacked == 8 //Sunrise 4
+                || ticks >= 1200000 && timesStacked == 9; //Day
         }
     }
 }

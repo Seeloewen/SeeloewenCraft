@@ -29,14 +29,14 @@
                 needsGround = (true, BlockTags.GROUNDS_FARMLAND);
             }
 
-            public override void UpdateProgress(int amount)
-            {
-                base.UpdateProgress(amount);
+        protected override void DoSpecificUpdate(double dt)
+        {
+            base.DoSpecificUpdate(dt);
 
-                if (IsReady()) growthStage = 2;
-            }
+            if (IsReady()) growthStage = 2;
+        }
 
-            public override void RightClickAction()
+        public override void RightClickAction()
             {
                 if (IsReady())
                 {
@@ -59,12 +59,12 @@
                 needsGround = (true, BlockTags.GROUNDS_DIRT);
             }
 
-            public override void UpdateProgress(int amount)
-            {
-                base.UpdateProgress(amount);
+        protected override void DoSpecificUpdate(double dt)
+        {
+            base.DoSpecificUpdate(dt);
 
-                if (IsReady()) growthStage = 2;
-            }
+            if (IsReady()) growthStage = 2;
+        }
 
             public override void RightClickAction()
             {
@@ -117,15 +117,15 @@
             }
 
 
-            public override void UpdateProgress(int amount)
+            protected override void DoSpecificUpdate(double dt)
             {
-                base.UpdateProgress(amount);
+                base.DoSpecificUpdate(dt);
 
                 if (IsReady() && canGrow)
                 {
                     PlaceBlockAbove(yPos, yPos - maxHeight);
                     progress = 0;
-                    growthTime = Game.rnd.Next(timeMin, timeMax);
+                    growthTime = Game.rnd.Next(timeMin, timeMax) / 1000;
                 }
             }
         }
@@ -167,14 +167,14 @@
                 }
             }
 
-            public override void UpdateProgress(int amount)
+            protected override void DoSpecificUpdate(double dt)
             {
-                base.UpdateProgress(amount);
+                base.DoSpecificUpdate(dt);
 
                 if (IsReady() && canGrow)
                 {
                     PlaceBlockAbove(yPos, yPos - maxHeight);
-                    growthTime = Game.rnd.Next(timeMin, timeMax);
+                    growthTime = Game.rnd.Next(timeMin, timeMax) / 1000;
                     progress = 0;
                 }
             }
@@ -219,7 +219,7 @@
                 if (IsReady() && Game.world.player.inventory.GetSelectedHotbarSlot().id == "sc:bucket_empty_item")
                 {
                     //Drop the item and reset the progress without breaking the block
-                    growthTime = Game.rnd.Next(timeMin, timeMax);
+                    growthTime = Game.rnd.Next(timeMin, timeMax) / 1000;
                     progress = 0;
                     growthStage = 1;
 

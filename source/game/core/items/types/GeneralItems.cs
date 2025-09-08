@@ -834,7 +834,7 @@ namespace SeeloewenCraft.game.core.items
     {
         public SugarCaneItem() : base()
         {
-            Init("Sugar Cane", "sc:sugar_cane_item", "sc:sugar_cane_block", true);
+            Init("Sugar Cane", "sc:sugar_cane_item", "sc:sugar_cane_crop_block", true);
         }
     }
 

@@ -2,12 +2,11 @@
 using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.core.items;
 
-namespace SeeloewenCraft.game.core.legacy
+namespace SeeloewenCraft.game.core
 {
-    public class ClickHandler
+    public static class ClickHandler
     {
-
-        public void DoRightClick(Block block)
+        public static void DoRightClick(Block block)
         {
             //Check if selected item should do an action
             InventorySlot selectedSlot = Game.world.player.inventory.GetSelectedHotbarSlot();
@@ -118,7 +117,7 @@ namespace SeeloewenCraft.game.core.legacy
             }
         }
 
-        public void DoLeftClick(Block block)
+        public static void DoLeftClick(Block block)
         {
             int oldXPos = block.xPos;
             int oldYPos = block.yPos;
@@ -173,7 +172,7 @@ namespace SeeloewenCraft.game.core.legacy
             block.chunk.GetBlock(oldXPos, oldYPos).AddDebugMenu();
         }
 
-        private void BreakConstruct(Block baseBlock)
+        private static void BreakConstruct(Block baseBlock)
         {
             //Remove all connected blocks that are part of the construct
             foreach (Block conBlock in baseBlock.GetConnectedBlocks(false))
@@ -185,7 +184,7 @@ namespace SeeloewenCraft.game.core.legacy
             baseBlock.BreakBlock(true, false, true);
         }
 
-        private void BreakForegroundConstruct(Block baseBlock)
+        private static void BreakForegroundConstruct(Block baseBlock)
         {
             //Remove all connected blocks that are part of the construct (foreground variant)
             foreach (Block conBlock in baseBlock.GetForegroundBlock().GetConnectedBlocks(false))

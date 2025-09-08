@@ -137,12 +137,12 @@ namespace SeeloewenCraft.game.core.blocks
             //Call block specific updates         
             if (sinceLastSpecificUpdate >= 1)
             {
-                DoSpecificUpdate();
+                DoSpecificUpdate(1);
                 sinceLastSpecificUpdate = 0;
             }
         }
 
-        protected virtual void DoSpecificUpdate() { } //Can be overriden in blocks, for block-specific updates - run every 1s
+        protected virtual void DoSpecificUpdate(double dt) { } //Can be overriden in blocks, for block-specific updates - run every 1s
 
         public BlockRenderInfo GetBlockRenderInfo()
         {
@@ -408,8 +408,7 @@ namespace SeeloewenCraft.game.core.blocks
                 if (block is CropBlock cBlock)
                 {
                     cBlock.progress = blockToken.GetInt("/progress");
-                    cBlock.growthTime = blockToken.GetInt("/growth_time");
-                    cBlock.UpdateProgress(0); //Call update to load the correct state of the block, if needed
+                    cBlock.growthTime = blockToken.GetDouble("/growth_time");
                 }
             }
 
@@ -1067,7 +1066,7 @@ namespace SeeloewenCraft.game.core.blocks
             }
             else
             {
-                Game.world.clickHandler.DoRightClick(this);
+                ClickHandler.DoRightClick(this);
             }
         }
 
@@ -1087,7 +1086,7 @@ namespace SeeloewenCraft.game.core.blocks
             if (Game.world.gamemode == Gamemode.Creative || breakTime == 0)
             {
                 //Instantly perform the break when in creative or when time is 0
-                Game.world.clickHandler.DoLeftClick(this);
+                ClickHandler.DoLeftClick(this);
             }
             else
             {
@@ -1100,7 +1099,7 @@ namespace SeeloewenCraft.game.core.blocks
 
                 effectiveBlock.breakProgress += 1 * breakPower;
 
-                if (effectiveBlock.breakProgress >= effectiveBlock.breakTimeTicks) Game.world.clickHandler.DoLeftClick(effectiveBlock);
+                if (effectiveBlock.breakProgress >= effectiveBlock.breakTimeTicks) ClickHandler.DoLeftClick(effectiveBlock);
             }
         }
 
@@ -1119,7 +1118,7 @@ namespace SeeloewenCraft.game.core.blocks
 
                     if (breakProgress >= breakTimeTicks || Game.world.gamemode == Gamemode.Creative)
                     {
-                        Game.world.clickHandler.DoRightClick(this);
+                        ClickHandler.DoRightClick(this);
                         hammering = false;
                     }
                 }

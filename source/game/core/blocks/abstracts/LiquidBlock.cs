@@ -19,7 +19,7 @@ namespace SeeloewenCraft.game.core.blocks
             WriteTag(BlockTags.CANT_BE_BACKGROUND);
         }
 
-        protected override void DoSpecificUpdate()
+        protected override void DoSpecificUpdate(double dt)
         {
             LiquidHandler.DoUpdate(this);
         }

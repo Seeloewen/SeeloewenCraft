@@ -1,13 +1,10 @@
 ﻿using Newtonsoft.Json;
-using OpenTK.Graphics.OpenGL4;
-using OpenTK.Windowing.GraphicsLibraryFramework;
 using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.crafting;
 using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.core.events;
 using SeeloewenCraft.game.core.items;
-using SeeloewenCraft.game.core.legacy;
 using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.core.world.generation;
 using SeeloewenCraft.game.graphics;
@@ -36,8 +33,6 @@ namespace SeeloewenCraft.game.core.world
         public List<CraftingRecipe> craftingRecipeList = new List<CraftingRecipe>();
         public Player player { get => entityManager.player; }
         public List<IGuiData> guiDatas = new List<IGuiData>();
-        public ClickHandler clickHandler;
-        public DebugMenu_old debugMenu;
         public RecipeCreator recipeCreator;
         public EntityManager entityManager;
         public GameEventHandler gameEventHandler;
@@ -87,8 +82,6 @@ namespace SeeloewenCraft.game.core.world
             ItemRegister.Init();
 
             //Create objects
-            clickHandler = new ClickHandler();
-            debugMenu = new DebugMenu_old();
             gameEventHandler = new GameEventHandler();
             recipeCreator = new RecipeCreator();
             creativeInventory = new CreativeInventory();
@@ -100,11 +93,24 @@ namespace SeeloewenCraft.game.core.world
                 SetGamemode(Gamemode.Creative);
             }
 
-            //Only start a server when requested
+            gameEventHandler.Register(new AutoSaveEvent(Settings.autoSaveInterval * 60000));
+
+            if(NetworkHandler.IsMultiplayer()) InitMultiplayer();
+        }
+
+        private void InitMultiplayer()
+        {
             if (multiplayerType == MultiplayerType.SERVER)
             {
                 NetworkHandler.StartServer(5000);
+                gameEventHandler.Register(new ClientConnectedCheckEvent());
             }
+            else if (multiplayerType == MultiplayerType.CLIENT)
+            {
+                gameEventHandler.Register(new SendConnectionStateEvent());
+            }
+
+            gameEventHandler.Register(new EntitySyncEvent());
         }
 
         //-- Custom Methods --//
@@ -452,11 +458,7 @@ namespace SeeloewenCraft.game.core.world
         {
             entityManager.player = new Player(playerPosX, playerPosY);
             entityManager.player.SetId(Game.playerId);
-            entityManager.player.tblId.SetAlignedText(Settings.nickname);
             AddEntity(player);
-
-            //Game.world.wndGame.relativeSvPos = //Game.world.wndGame.svWorld.VerticalOffset;
-            //Game.world.wndGame.defaultSvPos = //Game.world.wndGame.svWorld.VerticalOffset;
 
             Log.Write($"Created player at position x{playerPosX} y{playerPosY}", LogType.GENERAL, LogLevel.INFO);
         }
