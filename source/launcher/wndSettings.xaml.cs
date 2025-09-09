@@ -255,11 +255,6 @@ namespace SeeloewenCraft.launcher
                 }
                 Log.Write($"Successfully applied texturepack ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem})", LogType.GENERAL, LogLevel.INFO);
             }
-
-            if (Game.world != null && Game.world.finishedLoading)
-            {
-                //TODO: Game.world.RefreshTextures();
-            }
         }
 
         //-- Event Handlers --//

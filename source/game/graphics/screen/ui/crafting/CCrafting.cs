@@ -124,7 +124,7 @@ namespace SeeloewenCraft.game.graphics
         {
             int i = 0;
 
-            foreach (CraftingRecipe recipe in Game.world.craftingRecipeList)
+            foreach (CraftingRecipe recipe in CraftingHandler.recipeList)
             {
                 if (recipe.workstationId == handler.workstationId)
                 {

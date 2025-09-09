@@ -1,5 +1,4 @@
 ﻿using SeeloewenCraft.game.core.items;
-using SeeloewenCraft.game.core.legacy;
 using SeeloewenCraft.game.notifications;
 using System.Windows.Media;
 

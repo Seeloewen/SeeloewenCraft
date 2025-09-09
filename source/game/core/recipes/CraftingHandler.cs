@@ -2,8 +2,10 @@
 using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.notifications;
+using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace SeeloewenCraft.game.core.crafting
@@ -12,6 +14,8 @@ namespace SeeloewenCraft.game.core.crafting
     {
         public string guiId { get; set; } = "crafting_handler";
         public string tags { get; set; }
+
+        public static List<CraftingRecipe> recipeList = new List<CraftingRecipe>();
 
         public MultimediaTimer tmrCrafting = new MultimediaTimer() { Interval = 25 }; //TODO: Replace with gameloop
 
@@ -25,6 +29,18 @@ namespace SeeloewenCraft.game.core.crafting
         public bool recipeRunning;
         public bool recipeClaimable;
         public int recipeAmount = 1;
+
+        public static void Init()
+        {
+            //Setup all recipes
+            JsonToken recipeListToken = JsonUtil.ReadResource("recipes.json").GetToken("/recipes");
+
+            for (int i = 0; i < recipeListToken.GetArrayLength(); i++)
+            {
+                JsonToken recipeToken = recipeListToken.GetToken($"/{i}");
+                recipeList.Add(new CraftingRecipe(recipeToken));
+            }
+        }
 
         public CraftingHandler(Block block, string workstationId, string workstationName)
         {
@@ -40,7 +56,7 @@ namespace SeeloewenCraft.game.core.crafting
         public static CraftingRecipe GetRecipe(string id)
         {
             //Go through the recipe list and find the recipe with the specified id
-            foreach (CraftingRecipe recipe in Game.world.craftingRecipeList)
+            foreach (CraftingRecipe recipe in recipeList)
             {
                 if (recipe.id == id)
                 {

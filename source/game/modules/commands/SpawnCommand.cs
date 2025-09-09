@@ -1,5 +1,4 @@
 ﻿using SeeloewenCraft.game.core.entities;
-using SeeloewenCraft.game.core.legacy;
 using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.notifications;
 

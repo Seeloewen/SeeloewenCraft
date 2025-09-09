@@ -2,7 +2,6 @@
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using SeeloewenCraft.game.core.legacy;
 using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
@@ -72,7 +71,7 @@ namespace SeeloewenCraft.game
             else
             {
                 //If the setting to save worlds on closing is enabled
-                if (world.finishedLoading && Settings.saveWorldOnClose) world.Save();
+                if (Settings.saveWorldOnClose) world.Save();
 
                 //Save the user settings
                 using (JsonWriter writer = JsonWriter.Create())
@@ -96,7 +95,7 @@ namespace SeeloewenCraft.game
 
             TextureManager.Load();
 
-            world = new World(null, worldName, seed, isNew, multiplayerType);
+            world = isNew ? World.CreateWorld(worldName, seed, multiplayerType) : World.LoadWorld(worldName, multiplayerType);
 
             Renderer.Init();
 

@@ -161,8 +161,7 @@ namespace SeeloewenCraft.game.networking
                 }
             }
 
-            //Game.world.wndGame.Close();
-            Game.world.wndMenu.Show();
+            Game.wndMenu.Show();
         }
 
         public void Disconnect()

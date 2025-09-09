@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace SeeloewenCraft.game.core.world.generation
 {
     //Library of all available rooms
-    public static class RoomLibrary
+    public static class DungeonRoomRegister
     {
         public static List<DungeonRoom> roomList = new List<DungeonRoom>();
 
@@ -29,7 +29,7 @@ namespace SeeloewenCraft.game.core.world.generation
             return null;
         }
 
-        public static void CreateDungeonRooms()
+        public static void Init()
         {
             //Add all the rooms to the library
             roomList.Add(new PlainsRoomCrossing(new Random()));

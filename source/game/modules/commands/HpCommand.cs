@@ -1,5 +1,4 @@
-﻿using SeeloewenCraft.game.core.legacy;
-using SeeloewenCraft.game.notifications;
+﻿using SeeloewenCraft.game.notifications;
 using System.Globalization;
 
 namespace SeeloewenCraft.game.core.commands

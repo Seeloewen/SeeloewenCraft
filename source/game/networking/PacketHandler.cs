@@ -1,7 +1,6 @@
 ﻿using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
-using SeeloewenCraft.game.core.legacy;
 using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.notifications;
 using SeeloewenCraft.game.util;
@@ -129,7 +128,7 @@ namespace SeeloewenCraft.game.networking
         {
             //Add the entity
             Entity newEntity = Entity.LoadFromJson(JsonUtil.ReadString(packet.content[0]));
-            Game.world.AddEntity_Multiplayer(newEntity);
+            //Game.world.AddEntity_Multiplayer(newEntity);
 
             //If the server receives the packet, send it to all clients except the one it came from to ensure the entity gets created on all clients
             if (IsServer())
@@ -181,7 +180,7 @@ namespace SeeloewenCraft.game.networking
             int yPos = int.Parse(packet.content[3]);
 
             //Set the block using the multiplayer method (more info in method)
-            Game.world.SetBlock_Multiplayer(block, cIndex, xPos, yPos);
+            //Game.world.SetBlock_Multiplayer(block, cIndex, xPos, yPos);
 
             //If the server receives the call, redirect it to the other clients
             if (IsServer())

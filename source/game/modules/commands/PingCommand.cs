@@ -1,5 +1,4 @@
-﻿using SeeloewenCraft.game.core.legacy;
-using SeeloewenCraft.game.networking;
+﻿using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.notifications;
 using System;
 

@@ -30,7 +30,7 @@ namespace SeeloewenCraft.game.core.world.generation
             }
 
             //Needs to be overhauled to get a random starter room based on the type
-            var starterRoom = RoomLibrary.GetRoom("sc:room_plains_crossing", rnd);
+            var starterRoom = DungeonRoomRegister.GetRoom("sc:room_plains_crossing", rnd);
 
             //Create starter room and additional rooms
             PlaceRoom(starterRoom, 0, 0, Direction.RIGHT, 0, 0);
@@ -117,7 +117,7 @@ namespace SeeloewenCraft.game.core.world.generation
             List<(DungeonRoom, int, int)> possibleRooms = new List<(DungeonRoom, int, int)>();
 
             //Go through all available rooms in the library
-            foreach (DungeonRoom room in RoomLibrary.roomList)
+            foreach (DungeonRoom room in DungeonRoomRegister.roomList)
             {
                 if (room.type == type)
                 {
@@ -157,7 +157,7 @@ namespace SeeloewenCraft.game.core.world.generation
                                 && possibleSpace.right >= necessarySpace.right)
                             {
                                 //Mark the door as no longer being a possible door so it doesn't get checked again in the next iteration if this room gets chosen
-                                DungeonRoom newRoom = RoomLibrary.GetRoom(room.id, rnd);
+                                DungeonRoom newRoom = DungeonRoomRegister.GetRoom(room.id, rnd);
                                 newRoom.GetBlock(block.x, block.y).RemoveDoor();
                                 newRoom.GetBlock(block.x, block.y).HideDoor(block.doorDirection, newRoom.GetBlock(block.x, block.y + 1));
 

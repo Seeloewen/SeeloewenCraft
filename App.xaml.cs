@@ -1,5 +1,4 @@
 ﻿using SeeloewenCraft.game;
-using SeeloewenCraft.game.core.legacy;
 using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.util;

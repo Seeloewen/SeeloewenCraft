@@ -30,7 +30,7 @@ namespace SeeloewenCraft.game.core.crafting
             this.requiredTime = requiredTime;
 
             //Add the recipe to the main list so it can be accessed in the future
-            Game.world.craftingRecipeList.Add(this);
+            CraftingHandler.recipeList.Add(this);
         }
 
         public CraftingRecipe(JsonToken token)

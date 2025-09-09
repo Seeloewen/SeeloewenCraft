@@ -110,7 +110,7 @@ namespace SeeloewenCraft.game.graphics
                 }
                 else if(Game.world.gamemode == Gamemode.Creative)
                 {
-                    Game.world.creativeInventory.ShowGui();
+                    Game.world.player.creativeInventory.ShowGui();
                     Game.world.player.inventory.ShowGui();
                 }
 

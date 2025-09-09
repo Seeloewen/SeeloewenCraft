@@ -1,5 +1,4 @@
 ﻿using SeeloewenCraft.game.core.blocks;
-using SeeloewenCraft.game.core.legacy;
 using SeeloewenCraft.game.util;
 using System;
 using System.Windows;

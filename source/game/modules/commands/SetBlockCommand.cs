@@ -1,5 +1,4 @@
 ﻿using SeeloewenCraft.game.core.blocks;
-using SeeloewenCraft.game.core.legacy;
 using SeeloewenCraft.game.notifications;
 
 namespace SeeloewenCraft.game.core.commands

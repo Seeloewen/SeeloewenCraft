@@ -1,7 +1,5 @@
 ﻿using SeeloewenCraft.game.core.items;
-using SeeloewenCraft.game.core.legacy;
 using SeeloewenCraft.game.notifications;
-using Windows.ApplicationModel.UserDataAccounts;
 
 namespace SeeloewenCraft.game.core.commands
 {
