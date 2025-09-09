@@ -30,7 +30,7 @@ namespace SeeloewenCraft.game.core.items
             {
                 Block newBlock = BlockRegister.Get("sc:farmland_block");
                 if (block.isBackground) newBlock.MoveToBackground();
-                block.Replace(newBlock);
+                block.SetBlock(newBlock);
                 invSlot.RemoveDurablity();
             }
         }

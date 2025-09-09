@@ -420,29 +420,19 @@ namespace SeeloewenCraft.game.core.blocks
             return block;
         }
 
-        public void Replace(Block newBlock)
+        public static bool IsCollidingWithPlayer(int x, int y, int c) //TODO: Make work again
         {
-            chunk.SetBlock(newBlock, xPos, yPos);
-        }
+            x += 8 * c;
+            double px = Game.world.player.posX / 1000d;
+            double py = Game.world.player.posY / 1000d;
 
-        public bool IsCollidingWithPlayer(int x, int y) //TODO: Make work again
-        {
-            /*if (element is Canvas)
+            if (x == Math.Floor(px) && (y == Math.Floor(py) || y == Math.Floor(py + 1))) return true; ; 
+
+            if(px % 1 > 0.6) //If the player is slightly to the right side of the block, also check the block to the right
             {
-                //Check for collision
-                if (//Game.world.wndGame.GetRectangle(Game.world.player.texture).IntersectsWith(//Game.world.wndGame.GetRectangle(blockContainer.cvsBlock)))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                if (x == Math.Floor(px + 1) && (y == Math.Floor(py) || y == Math.Floor(py + 1))) return true;
             }
-            else
-            {
-                return false;
-            }*/
+
             return false;
         }
 

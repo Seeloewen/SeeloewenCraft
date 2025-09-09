@@ -1063,7 +1063,7 @@ namespace SeeloewenCraft.game.core.blocks
             {
                 if (Game.rnd.Next(0, 9) == 0)
                 {
-                    Replace(BlockRegister.Get("sc:dirt_block"));
+                    SetBlock(BlockRegister.Get("sc:dirt_block"));
                 }
             }
         }

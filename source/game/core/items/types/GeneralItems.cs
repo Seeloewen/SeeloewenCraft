@@ -616,7 +616,7 @@ namespace SeeloewenCraft.game.core.items
             {
                 Game.world.player.inventory.Remove(id, 1);
                 Game.world.player.inventory.Add("sc:bucket_water_item", 1);
-                block.Replace(BlockRegister.Get("sc:air_block"));
+                block.SetBlock(BlockRegister.Get("sc:air_block"));
             }
             else if (block is Rice_Top rice && rice.IsReady())
             {

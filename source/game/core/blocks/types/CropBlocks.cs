@@ -107,7 +107,7 @@
                     SugarCaneBlock newBlockAbove = (SugarCaneBlock)BlockRegister.Get(id);
                     newBlockAbove.needsGround = (true, BlockTags.CROPS_SUGAR_CANE);
                     newBlockAbove.canGrow = false;
-                    blockAbove.Replace(newBlockAbove);
+                    blockAbove.SetBlock(newBlockAbove);
                 }
                 else if (blockAbove.id == id)
                 {
@@ -158,7 +158,7 @@
                     TomatoCropBlock newBlockAbove = (TomatoCropBlock)BlockRegister.Get(id);
                     newBlockAbove.needsGround = (true, BlockTags.CROPS_TOMATO);
                     newBlockAbove.canGrow = false;
-                    blockAbove.Replace(newBlockAbove);
+                    blockAbove.SetBlock(newBlockAbove);
                 }
                 else if (blockAbove.id == id)
                 {
