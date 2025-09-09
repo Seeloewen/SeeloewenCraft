@@ -1598,7 +1598,7 @@
 					"file": "Blocks.States.Furnace_Running.png"
 				},
 				{
-					"id": "sc:cactus_fruit_block",
+					"id": "sc:cactus_fruit_block/1",
 					"file": "Blocks.Cactus_Fruit.png"
 				}
 			]

@@ -15,7 +15,6 @@ namespace SeeloewenCraft.game.core.blocks
 {
     public abstract partial class Block : IDebugMenuTargetable
     {
-        //references
         private List<string> tags = new List<string>();
         public Chunk chunk;
         public Inventory inventory;
@@ -119,7 +118,7 @@ namespace SeeloewenCraft.game.core.blocks
 
         public bool IsLightSource() => HasTag(BlockTags.LIGHTSOURCE) || isAirLightSource;
 
-        public void DoUpdate(double dt) //Gets run every tick (or so I hope)
+        public void DoUpdate(double dt) //Warning: does NOT run every gameloop tick - dt is correct regardless
         {
             sinceLastSpecificUpdate += dt;
 
@@ -146,8 +145,9 @@ namespace SeeloewenCraft.game.core.blocks
 
         public BlockRenderInfo GetBlockRenderInfo()
         {
-            int breakAnimation = (int)(breaking || hammering ? (6 * breakProgress) / breakTimeTicks : 0);
-            var info = new BlockRenderInfo(xPos + chunk.index * 8, yPos, id, GetBlockState(), isBackground, breakAnimation, hammering, lightLevel);
+            Block b = GetForegroundBlock() ?? this; //Animation is depending on the block that gets 
+            int animation = (int)(b.breaking || b.hammering ? (6 * b.breakProgress) / b.breakTimeTicks : 0);
+            var info = new BlockRenderInfo(xPos + chunk.index * 8, yPos, id, GetBlockState(), isBackground, animation, hammering, lightLevel);
             if (foregroundBlock != null) info.AddForegroundBlock(foregroundBlock.id, foregroundBlock.GetBlockState());
             return info;
         }
@@ -420,17 +420,19 @@ namespace SeeloewenCraft.game.core.blocks
             return block;
         }
 
-        public static bool IsCollidingWithPlayer(int x, int y, int c) //TODO: Make work again
+        public static bool IsCollidingWithPlayer(int x, int y, int c, bool isSolid) //TODO: Make work again
         {
+            if (!isSolid) return false;
+
             x += 8 * c;
             double px = Game.world.player.posX / 1000d;
             double py = Game.world.player.posY / 1000d;
 
-            if (x == Math.Floor(px) && (y == Math.Floor(py) || y == Math.Floor(py + 1))) return true; ; 
+            if (x == Math.Floor(px) && (y == Math.Floor(py) || y == Math.Floor(py + 1) || (py % 1 > 0.1 && y == Math.Floor(py + 2)))) return true; ; 
 
             if(px % 1 > 0.6) //If the player is slightly to the right side of the block, also check the block to the right
             {
-                if (x == Math.Floor(px + 1) && (y == Math.Floor(py) || y == Math.Floor(py + 1))) return true;
+                if (x == Math.Floor(px + 1) && (y == Math.Floor(py) || y == Math.Floor(py + 1) || (py % 1 > 0.1 && y == Math.Floor(py + 2)))) return true;
             }
 
             return false;
