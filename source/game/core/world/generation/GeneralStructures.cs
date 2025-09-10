@@ -228,11 +228,11 @@ namespace SeeloewenCraft.game.core.world.generation
             int appends = structRnd.Next(2, 6);
 
             //Starter pillar
-            AddBlock(BlockRegister.Get("sc:spruce_log_block"), 0, -1);
             AddBlock(BlockRegister.Get("sc:spruce_log_block"), 0, 0);
-            AddBlock(BlockRegister.Get("sc:spruce_log_block").MoveToBackground(), 0, 1);
+            AddBlock(BlockRegister.Get("sc:spruce_log_block"), 0, 1);
             AddBlock(BlockRegister.Get("sc:spruce_log_block").MoveToBackground(), 0, 2);
-            AddBlock(BlockRegister.Get("sc:lantern_block").MoveToBackground(), 0, 3);
+            AddBlock(BlockRegister.Get("sc:spruce_log_block").MoveToBackground(), 0, 3);
+            AddBlock(BlockRegister.Get("sc:lantern_block").MoveToBackground(), 0, 4);
 
             //First field
             for (int i = 0; i < 3; i++)
@@ -259,7 +259,7 @@ namespace SeeloewenCraft.game.core.world.generation
                 AddBlock(BlockRegister.Get("sc:spruce_log_block").MoveToBackground(), offset, 3);
                 AddBlock(BlockRegister.Get("sc:lantern_block").MoveToBackground(), offset, 4);
                 AddBlock(BlockRegister.Get("sc:water_6_block"), offset + 1, 1);
-                AddBlock(BlockRegister.Get("sc:spruce_log_block"), offset + 1, 2);
+                AddBlock(BlockRegister.Get("sc:spruce_planks_slabbottom"), offset + 1, 2);
                 AddBlock(BlockRegister.Get("sc:air_block"), offset + 1, 3);
                 AddBlock(BlockRegister.Get("sc:air_block"), offset + 1, 4);
                 AddBlock(BlockRegister.Get("sc:spruce_log_block"), offset + 2, 1);
