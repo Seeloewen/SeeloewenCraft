@@ -64,6 +64,7 @@ namespace SeeloewenCraft.game.core.blocks
             this.breakTime = breakTime;
             this.itemId = itemId;
             effectiveTool = tool;
+            if (effectiveTool != Tool.None) WriteTag(BlockTags.TOOL_SPECIFIC);
         }
 
         #region lighting (dev)
@@ -649,7 +650,7 @@ namespace SeeloewenCraft.game.core.blocks
             //Get the block that should drop
             if (HasTag(BlockTags.DOESNT_DROP)) return;
 
-            if ((Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == effectiveTool && ToolIsCorrectMaterial(tool.material) && HasTag(BlockTags.TOOL_SPECIFIC) || !HasTag(BlockTags.TOOL_SPECIFIC)))
+            if ((Game.world.player.inventory.GetSelectedItem() is ToolItem tool && tool.type == effectiveTool && ToolIsCorrectMaterial(tool.material) && HasTag(BlockTags.TOOL_SPECIFIC) || !HasTag(BlockTags.TOOL_SPECIFIC) || Game.world.gamemode == Gamemode.Creative))
             {
                 //If the block has a loot table, roll an entry and give the items to player
                 if (lootTable.lootTable != null)
