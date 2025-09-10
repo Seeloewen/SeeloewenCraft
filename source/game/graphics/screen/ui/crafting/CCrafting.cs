@@ -48,8 +48,8 @@ namespace SeeloewenCraft.game.graphics
             cCraftingProgress = new CProgressBar(new Color(0.7f), new Color(0.3f, 0.58f, 0.82f), new Rectangle(bounds.x1P + 20, bounds.y2P - 55, bounds.x2P - 20, bounds.y2P - 30));
             cCraftingProgress.visible = false;
 
-            cAmountHeader = new CText("Amount:", 2, new TextLayout(bounds.x1P + 22, TextHAlignment.LEFT, 560, TextVAlignment.TOP));
-            cAmount = new CTextBox(bounds.x1P + 110, 546, 75, 40, new Color(0.69f));
+            cAmountHeader = new CText("Amount:", 2, new TextLayout(bounds.x1P + 22, TextHAlignment.LEFT, bounds.y2P - 48, TextVAlignment.TOP));
+            cAmount = new CTextBox(bounds.x1P + 110, bounds.y2P - 60, 75, 40, new Color(0.69f));
             cAmount.SetText("1");
 
             AddChild(cBorder);
@@ -104,6 +104,10 @@ namespace SeeloewenCraft.game.graphics
                 handler.BeginCrafting(recipe, amount);
                 cCraftButton.visible = false;
                 cCraftingProgress.visible = true;
+            }
+            else
+            {
+                MessageBox.Show("You do not have enough resources to craft this!", "Not enough resources", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
