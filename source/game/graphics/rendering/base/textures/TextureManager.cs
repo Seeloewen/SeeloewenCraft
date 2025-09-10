@@ -204,11 +204,6 @@ namespace SeeloewenCraft.game.graphics
                 texture = GetMissingTexture();
             }
 
-            if (texture.width > 64 || texture.height > 64)
-            {
-                texture = GetMissingTexture();
-            }
-
             return texture;
         }
 
