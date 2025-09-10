@@ -370,12 +370,12 @@ namespace SeeloewenCraft.game.core.world.generation
                 riceTop.progress = int.MaxValue;
                 if (structRnd.Next(0, 2) == 0)
                 {
-                    AddBlock(BlockRegister.Get("sc:rice_base_crop_block"), 0, floorHeight);
+                    AddBlock(BlockRegister.Get("sc:rice_base_block"), 0, floorHeight);
                     AddBlock(riceTop, 0, floorHeight + 1);
                 }
                 else
                 {
-                    AddBlock(BlockRegister.Get("sc:rice_base_crop_block"), xPos, floorHeight);
+                    AddBlock(BlockRegister.Get("sc:rice_base_block"), xPos, floorHeight);
                     AddBlock(riceTop, xPos, floorHeight + 1);
                 }
             }

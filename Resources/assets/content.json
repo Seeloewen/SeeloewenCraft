@@ -862,23 +862,23 @@
 					"file": "Breaking_5.png"
 				},
 				{
-					"id": "sc:rice_top/CROP_1",
+					"id": "sc:rice_top_crop_block/CROP_1",
 					"file": "Blocks.Connected.Rice_Top_Stage_1.png"
 				},
 				{
-					"id": "sc:rice_top/CROP_2",
+					"id": "sc:rice_top_crop_block/CROP_2",
 					"file": "Blocks.Connected.Rice_Top_Stage_2.png"
 				},
 				{
-					"id": "sc:rice_top/CROP_3",
+					"id": "sc:rice_top_crop_block/CROP_3",
 					"file": "Blocks.Connected.Rice_Top_Stage_3.png"
 				},
 				{
-					"id": "sc:rice_top/CROP_4",
+					"id": "sc:rice_top_crop_block/CROP_4",
 					"file": "Blocks.Connected.Rice_Top_Stage_4.png"
 				},
 				{
-					"id": "sc:rice_base",
+					"id": "sc:rice_base_block",
 					"file": "Blocks.Connected.Rice_Base.png"
 				},
 				{
@@ -1598,7 +1598,7 @@
 					"file": "Blocks.States.Furnace_Running.png"
 				},
 				{
-					"id": "sc:cactus_fruit_block/1",
+					"id": "sc:cactus_fruit_block/CROP_1",
 					"file": "Blocks.Cactus_Fruit.png"
 				}
 			]

@@ -106,7 +106,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class AirBlock : Block
     {
-        internal AirBlock() : base("Air", "sc:air_block", 150, "sc:air_item" )
+        internal AirBlock() : base("Air", "sc:air_block", 150)
         {
             WriteTag(BlockTags.UNBREAKABLE);
             WriteTag(BlockTags.REPLACEABLE);
@@ -764,6 +764,7 @@ namespace SeeloewenCraft.game.core.blocks
             isSolid = false;
             needsGround = (true, BlockTags.GROUNDS_DIRT);
             WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
+            WriteTag(BlockTags.REPLACEABLE);
         }
     }
 
@@ -869,6 +870,7 @@ namespace SeeloewenCraft.game.core.blocks
             isSolid = false;
             needsGround = (true, BlockTags.GROUNDS_DIRT);
             WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
+            WriteTag(BlockTags.REPLACEABLE);
         }
     }
 
@@ -1035,6 +1037,7 @@ namespace SeeloewenCraft.game.core.blocks
             isSolid = false;
             needsGround = (true, BlockTags.GROUNDS_DIRT);
             WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
+            WriteTag(BlockTags.REPLACEABLE);
         }
     }
 

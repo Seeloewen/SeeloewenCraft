@@ -93,14 +93,6 @@ namespace SeeloewenCraft.game.core.items
         }
     }
 
-    public class AirItem : Item
-    {
-        public AirItem() : base()
-        {
-            Init("Air", "sc:air_item", "sc:air_block", true);
-        }
-    }
-
     public class ChestItem : Item
     {
         public ChestItem() : base()

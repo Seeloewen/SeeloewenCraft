@@ -757,8 +757,10 @@ namespace SeeloewenCraft.game.core.blocks
             }
         }
 
-        public void SetBlock(Block block) //TODO: Port over to Replace()
+        public void SetBlock(Block block)
         {
+            if (HasTag(BlockTags.REPLACEABLE)) Drop();
+
             //Add the block to the chunk
             chunk.SetBlock(block, xPos, yPos);
 
@@ -773,7 +775,7 @@ namespace SeeloewenCraft.game.core.blocks
 
             Block blockBelow = GetBlockBelow();
             if (block.HasTag(BlockTags.CAN_FALL)
-                && (blockBelow is AirBlock || blockBelow is WaterBlock || blockBelow.isBackground))
+                && (blockBelow.HasTag(BlockTags.REPLACEABLE) || blockBelow.isBackground))
             {
                 block.BreakBlock(true, true, false);
                 Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos, block.id));
@@ -784,6 +786,8 @@ namespace SeeloewenCraft.game.core.blocks
             //Send the data on the network if it's multiplayer
             NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, block.id, chunk.index.ToString(), block.xPos.ToString(), block.yPos.ToString());
         }
+
+        public virtual void OnSetBlock() { } //Gets called when this block is placed somewhere
 
         public Block GetBlockBelow()
         {

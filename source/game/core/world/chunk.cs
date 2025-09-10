@@ -117,9 +117,9 @@ namespace SeeloewenCraft.game.core.world
                 //Add the block to the block list
                 block.xPos = x;
                 block.yPos = y;
-                block.chunk = this;
+                block.chunk = this;               
                 blockList.Add(block, block.xPos, block.yPos);
-
+                block.OnSetBlock();
             }
         }
 
