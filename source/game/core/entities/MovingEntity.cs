@@ -219,6 +219,8 @@ namespace SeeloewenCraft.game.core.entities
 
         public virtual void SetHP(double hp)
         {
+            hp = Math.Round(hp * 2) / 2;
+
             this.hp = Math.Min(hp, MAX_HP);
             if (hp <= 0)
             {
