@@ -48,6 +48,8 @@ namespace SeeloewenCraft.game.core.blocks
 
         public override void OnSetBlock()
         {
+            base.OnSetBlock();
+
             if(liquidSource.y == -1) //If no source block is set, use this as source
             {
                 liquidSource = new LiquidSource(xPos, yPos, chunk.index);

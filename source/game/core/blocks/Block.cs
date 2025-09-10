@@ -10,6 +10,7 @@ using SeeloewenCraft.game.util;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Windows.Networking.Vpn;
 
 namespace SeeloewenCraft.game.core.blocks
 {
@@ -428,9 +429,9 @@ namespace SeeloewenCraft.game.core.blocks
             double px = Game.world.player.posX / 1000d;
             double py = Game.world.player.posY / 1000d;
 
-            if (x == Math.Floor(px) && (y == Math.Floor(py) || y == Math.Floor(py + 1) || (py % 1 > 0.1 && y == Math.Floor(py + 2)))) return true; ; 
+            if (x == Math.Floor(px) && (y == Math.Floor(py) || y == Math.Floor(py + 1) || (py % 1 > 0.1 && y == Math.Floor(py + 2)))) return true; ;
 
-            if(px % 1 > 0.6) //If the player is slightly to the right side of the block, also check the block to the right
+            if (px % 1 > 0.6) //If the player is slightly to the right side of the block, also check the block to the right
             {
                 if (x == Math.Floor(px + 1) && (y == Math.Floor(py) || y == Math.Floor(py + 1) || (py % 1 > 0.1 && y == Math.Floor(py + 2)))) return true;
             }
@@ -781,13 +782,16 @@ namespace SeeloewenCraft.game.core.blocks
                 Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos, block.id));
             }
 
-            if(this == DebugMenu.target) chunk.GetBlock(xPos, yPos).AddDebugMenu();
+            if (this == DebugMenu.target) chunk.GetBlock(xPos, yPos).AddDebugMenu();
 
             //Send the data on the network if it's multiplayer
             NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, block.id, chunk.index.ToString(), block.xPos.ToString(), block.yPos.ToString());
         }
 
-        public virtual void OnSetBlock() { } //Gets called when this block is placed somewhere
+        public virtual void OnSetBlock() //Gets called when this block is placed somewhere
+        {
+            if (foregroundBlock != null) SetForegroundBlock(foregroundBlock); //Replace the foreground block to update the coords
+        } 
 
         public Block GetBlockBelow()
         {
@@ -829,7 +833,6 @@ namespace SeeloewenCraft.game.core.blocks
             block.xPos = xPos;
             block.yPos = yPos;
             block.chunk = chunk;
-
         }
 
 
