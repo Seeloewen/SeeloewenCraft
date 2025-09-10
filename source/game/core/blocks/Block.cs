@@ -64,7 +64,6 @@ namespace SeeloewenCraft.game.core.blocks
             this.breakTime = breakTime;
             this.itemId = itemId;
             effectiveTool = tool;
-            if (effectiveTool != Tool.None) WriteTag(BlockTags.TOOL_SPECIFIC);
         }
 
         #region lighting (dev)

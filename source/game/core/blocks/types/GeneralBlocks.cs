@@ -91,6 +91,7 @@ namespace SeeloewenCraft.game.core.blocks
             drops.Add(("sc:rock_item", 1, 4));
 
             WriteTag(BlockTags.CAN_BE_FLOOR_SPAWNING);
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
