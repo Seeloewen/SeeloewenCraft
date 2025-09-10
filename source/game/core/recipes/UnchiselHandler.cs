@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.core.entities.inventory;
+﻿using SeeloewenCraft.game.core.entities;
+using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.core.items;
 using SeeloewenCraft.game.graphics;
 using System.Windows;
@@ -33,7 +34,7 @@ namespace SeeloewenCraft.game.core.crafting
                         //Add the output to the inventory
                         foreach (Item outItem in chisItem.Unchisel())
                         {
-                            int remaining = Game.world.player.inventory.Add(outItem.id, 1, outItem.tag);
+                            int remaining = Player.Get().inventory.Add(outItem.id, 1, outItem.tag);
 
                             if (remaining > 0)
                             {
