@@ -1,6 +1,4 @@
-﻿using OpenTK.Graphics.OpenGL;
-using SeeloewenCraft.game.core.entities.inventory;
-using SeeloewenCraft.game.graphics.ui_lib;
+﻿using SeeloewenCraft.game.graphics.ui_lib;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -63,8 +61,11 @@ namespace SeeloewenCraft.game.graphics
             if (showGameOverlay)
             {
                 gameOverlayUIRoot.Update(dt);
-                hotbarUIRoot.Update(dt);
                 GameScreen.Update(dt);
+            }
+            if(showHotbar)
+            {
+                hotbarUIRoot.Update(dt);
             }
             if (showEscapeMenu)
             {

@@ -44,29 +44,26 @@ namespace SeeloewenCraft.game.graphics
 
         protected override void OnUpdate(double dt)
         {
-            if (Screen.allowIngameInputs)
+            //Calculate which hotbar slot is currently selected
+            int scrollOffset = Screen.allowIngameInputs ? -InputHandler.scrollAmount : 0;
+            int currentIndex = Game.world.player.inventory.GetSelectedHotbarIndex();
+            int newIndex = (((currentIndex + scrollOffset) % slotAmount) + slotAmount) % slotAmount;
+
+            for (int i = 0; i < slotAmount; i++)
             {
-                //Calculate which hotbar slot is currently selected
-                int scrollOffset = -InputHandler.scrollAmount;
-                int currentIndex = Game.world.player.inventory.GetSelectedHotbarIndex();
-                int newIndex = (((currentIndex + scrollOffset) % slotAmount) + slotAmount) % slotAmount;
+                InventorySlot slot = invData.GetHotbarSlot(i);
+                CHotbarSlot cHotbarSlot = slots[i];
 
-                for (int i = 0; i < slotAmount; i++)
+                cHotbarSlot.Update(slot.id, slot.GetItemName(), slot.amount, slot.GetRelativeDurability());
+
+                //Update the display of the currently selected hotbar slot
+                if (i == newIndex && scrollOffset != 0)
                 {
-                    InventorySlot slot = invData.GetHotbarSlot(i);
-                    CHotbarSlot cHotbarSlot = slots[i];
+                    slot.SelectInHotbar();
+                    (int x1, int y1) = (startPos + edgeSize * slot.xPos + slotSize * slot.xPos, startPos);
+                    (int x2, int y2) = (x1 + slotSize + edgeSize * 2, y1 + slotSize + edgeSize * 2);
 
-                    cHotbarSlot.Update(slot.id, slot.GetItemName(), slot.amount, slot.GetRelativeDurability());
-
-                    //Update the display of the currently selected hotbar slot
-                    if (i == newIndex && scrollOffset != 0)
-                    {
-                        slot.SelectInHotbar();
-                        (int x1, int y1) = (startPos + edgeSize * slot.xPos + slotSize * slot.xPos, startPos);
-                        (int x2, int y2) = (x1 + slotSize + edgeSize * 2, y1 + slotSize + edgeSize * 2);
-
-                        slotBorder.SetBounds(new Rectangle(x1, y1, x2, y2));
-                    }
+                    slotBorder.SetBounds(new Rectangle(x1, y1, x2, y2));
                 }
             }
         }
