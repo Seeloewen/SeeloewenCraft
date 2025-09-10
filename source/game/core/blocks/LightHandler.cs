@@ -1,17 +1,16 @@
-﻿using SeeloewenCraft.game.core.world;
-using System;
+﻿using System;
 
 namespace SeeloewenCraft.game.core.blocks
 {
     internal class LightHandler
     {
-        internal static readonly int lightRange = 7;
+        internal const int lightRange = 7;
 
         internal static void UpdateLighting(Block block)
         {
             //Set light level based on range and it being a light source
             int rangeTS = GetRangeToLS(block);
-            block.lightLevel = Math.Abs(Math.Max(0, Math.Min(World.lightRange, rangeTS)) - World.lightRange);
+            block.lightLevel = Math.Abs(Math.Max(0, Math.Min(lightRange, rangeTS)) -lightRange);
 
             if(block.HasTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE)) block.isAirLightSource = IsAirLightSource(block);
         }
@@ -20,10 +19,10 @@ namespace SeeloewenCraft.game.core.blocks
         {
             if (block.IsLightSource() || (block.GetForegroundBlock() != null && block.GetForegroundBlock().IsLightSource())) return 0;
 
-            int minRange = World.lightRange + 1; //Start off with a value that is higher than possible
+            int minRange = lightRange + 1; //Start off with a value that is higher than possible
 
             //Go through all blocks in range and check them and their foreground block
-            foreach (Block b in Block.GetBlocksInRange(block, World.lightRange))
+            foreach (Block b in Block.GetBlocksInRange(block, lightRange))
             {
                 if (b == null) continue;
 

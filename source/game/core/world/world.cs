@@ -25,8 +25,6 @@ namespace SeeloewenCraft.game.core.world
 {
     public class World
     {
-        public const int lightRange = 7; //The range that all light sources use
-
         public List<Chunk> loadedChunkList = new List<Chunk>(); //All chunks that are currently loaded and updated
         public List<Chunk> totalChunkList = new List<Chunk>(); //All chunks that were ever loaded
         public List<IGuiData> guiData = new List<IGuiData>(); //Currently displayed guis
@@ -41,7 +39,7 @@ namespace SeeloewenCraft.game.core.world
         public string multiplayerDirectory = "";
         public int worldSpawnX;
         public int worldSpawnY;
-        public readonly int seed;
+        public int seed { private set; get; }
 
         public Gamemode gamemode = Gamemode.Survival;
         public MultiplayerType multiplayerType = MultiplayerType.OFFLINE;
@@ -54,8 +52,7 @@ namespace SeeloewenCraft.game.core.world
             this.multiplayerType = multiplayerType;
 
             //Load the seed
-            int si = int.TryParse(LoadWorldSetting("seed"), out int s) ? s : seed;
-            if (seed == 0) this.seed = new Random(DateTime.Now.Millisecond).Next();
+            this.seed = seed != 0 ? seed : new Random(DateTime.Now.Millisecond).Next();
 
             BlockRegister.Init();
             ItemRegister.Init();
@@ -80,6 +77,7 @@ namespace SeeloewenCraft.game.core.world
             World w = new World(name, 0, multiplayerType);
 
             if (!CheckWorldVersion(w, Game.WORLD_VERSION)) throw new Exception(); //Check if the world version is compatible
+            if(int.TryParse(w.LoadWorldSetting("seed"), out int s)) w.seed = s;
 
             w.Start(true);
             if (NetworkHandler.IsMultiplayer()) w.InitMultiplayer();
