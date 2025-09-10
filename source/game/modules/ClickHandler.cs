@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.core.blocks;
+using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.core.items;
 
@@ -9,7 +10,7 @@ namespace SeeloewenCraft.game.core
         public static void DoRightClick(Block block)
         {
             //Check if selected item should do an action
-            InventorySlot selectedSlot = Game.world.player.inventory.GetSelectedHotbarSlot();
+            InventorySlot selectedSlot = Player.Get().inventory.GetSelectedHotbarSlot();
             Item selectedItem = null;
 
             if (selectedSlot != null && !string.IsNullOrEmpty(selectedSlot.id))
@@ -164,7 +165,7 @@ namespace SeeloewenCraft.game.core
                     }
                 }
 
-                InventorySlot selectedSlot = Game.world.player.inventory.GetSelectedHotbarSlot();
+                InventorySlot selectedSlot = Player.Get().inventory.GetSelectedHotbarSlot();
                 selectedSlot.RemoveDurablity();
             }
 

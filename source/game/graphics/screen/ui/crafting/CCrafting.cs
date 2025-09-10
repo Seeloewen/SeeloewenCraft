@@ -133,7 +133,7 @@ namespace SeeloewenCraft.game.graphics
                 if (recipe.workstationId == handler.workstationId)
                 {
                     //Render all recipes that belong to this workstation
-                    CRecipe cRecipe = new CRecipe(cRecipePane.GetBounds().x1P, cRecipePane.GetBounds().y1P + i * CRecipe.HEIGHT, recipe.outgredients[0].item.id, recipe.id, this);
+                    CRecipe cRecipe = new CRecipe(cRecipePane.GetBounds().x1P, cRecipePane.GetBounds().y1P + i * CRecipe.HEIGHT, recipe.outgredient.item, recipe.id, this);
 
                     recipes.Add(cRecipe);
                     cRecipePane.AddScrollable(cRecipe);
@@ -152,10 +152,10 @@ namespace SeeloewenCraft.game.graphics
             int i = 0;
 
             CraftingRecipe r = CraftingHandler.GetRecipe(id);
-            foreach (CraftingIngredient ingredient in r.ingredients)
+            foreach (RecipePart ingredient in r.ingredients)
             {
                 //Display all ingredients
-                CIngredient cIngredient = new CIngredient(cIngredients.GetBounds().x1P + 5, 5 + cIngredients.GetBounds().y1P + i * CIngredient.HEIGHT, ingredient.item.id, ingredient.amount);
+                CIngredient cIngredient = new CIngredient(cIngredients.GetBounds().x1P + 5, 5 + cIngredients.GetBounds().y1P + i * CIngredient.HEIGHT, ingredient.item, ingredient.amount);
 
                 ingredients.Add(cIngredient);
                 cIngredients.AddChild(cIngredient);

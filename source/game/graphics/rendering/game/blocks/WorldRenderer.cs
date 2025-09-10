@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SeeloewenCraft.game.core.entities;
+using System;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -22,8 +23,8 @@ namespace SeeloewenCraft.game.graphics
             {
                 var blockList = chunk.blockList.blocks;
 
-                int start = Math.Max(0, ((Game.world.player.posY / 1000) - 9) * 8);
-                int end = Math.Min(blockList.Length, ((Game.world.player.posY / 1000) + 9) * 8);
+                int start = Math.Max(0, ((Player.Get().posY / 1000) - 9) * 8);
+                int end = Math.Min(blockList.Length, ((Player.Get().posY / 1000) + 9) * 8);
 
                 for (int i = start; i < end; i++)
                 {
@@ -47,8 +48,8 @@ namespace SeeloewenCraft.game.graphics
             {
                 var blockList = chunk.blockList.blocks;
 
-                int start = Math.Max(0, ((Game.world.player.posY / 1000) - 9) * 8);
-                int end = Math.Min(blockList.Length, ((Game.world.player.posY / 1000) + 9) * 8);
+                int start = Math.Max(0, ((Player.Get().posY / 1000) - 9) * 8);
+                int end = Math.Min(blockList.Length, ((Player.Get().posY / 1000) + 9) * 8);
 
                 for (int i = start; i < end; i++)
                 {

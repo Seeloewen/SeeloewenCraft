@@ -31,7 +31,6 @@ namespace SeeloewenCraft.game.core.world
 
         public Player player { get => entityManager.player; }
         public EntityManager entityManager;
-        public GameEventHandler gameEventHandler;
 
         private readonly string name;
         public string gameVersion;
@@ -54,11 +53,12 @@ namespace SeeloewenCraft.game.core.world
             //Load the seed
             this.seed = seed != 0 ? seed : new Random(DateTime.Now.Millisecond).Next();
 
+            CraftingHandler.Init();
             BlockRegister.Init();
             ItemRegister.Init();
             DungeonRoomRegister.Init();
-            CraftingHandler.Init();
-            gameEventHandler = new GameEventHandler();
+            GameEventHandler.Init();
+            CraftingHandler.LoadRecipes();
 
             InitWorldDirectory();
         }
@@ -105,8 +105,8 @@ namespace SeeloewenCraft.game.core.world
             //Load the player inventory if the world is not new
             InitPlayerInventory(loaded);
 
-            gameEventHandler.Register(new DayNightCycleEvent());
-            gameEventHandler.Register(new AutoSaveEvent(Settings.autoSaveInterval * 60000));
+            GameEventHandler.Register(new DayNightCycleEvent());
+            GameEventHandler.Register(new AutoSaveEvent(Settings.autoSaveInterval * 60000));
 
             //When the world is loaded, display the debug information
             DisplayDebugInformation();
@@ -120,14 +120,14 @@ namespace SeeloewenCraft.game.core.world
             if (multiplayerType == MultiplayerType.SERVER)
             {
                 NetworkHandler.StartServer(5000);
-                gameEventHandler.Register(new ClientConnectedCheckEvent());
+                GameEventHandler.Register(new ClientConnectedCheckEvent());
             }
             else if (multiplayerType == MultiplayerType.CLIENT)
             {
-                gameEventHandler.Register(new SendConnectionStateEvent());
+                GameEventHandler.Register(new SendConnectionStateEvent());
             }
 
-            gameEventHandler.Register(new EntitySyncEvent());
+            GameEventHandler.Register(new EntitySyncEvent());
         }
 
         private static bool CheckWorldVersion(World w, int currentVersion) //return true if proceed
@@ -498,9 +498,10 @@ namespace SeeloewenCraft.game.core.world
             };
         }
 
-        public void Tick(double dt, bool blockUpdate)
+        public void Update(double dt, bool blockUpdate)
         {
-            gameEventHandler.Tick(dt);
+            GameEventHandler.Update(dt);
+            CraftingHandler.Update(dt);
 
             if (blockUpdate)
             {

@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.core.blocks;
+using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
 
 namespace SeeloewenCraft.game.core.items
@@ -10,7 +11,7 @@ namespace SeeloewenCraft.game.core.items
         public override void RightClickAction(Block block, InventorySlot invSlot)
         {
             //Heal the player and remove the item
-            Game.world.player.Heal(healAmount);
+            Player.Get().Heal(healAmount);
             invSlot.Remove(1);
         }
 

@@ -61,6 +61,8 @@ namespace SeeloewenCraft.game.core.entities
             InitPlayer();
         }
 
+        public static Player Get() => Game.world.player;
+
         protected override void InitTexture()
         {
             texture.Background = new SolidColorBrush(Colors.Red);
@@ -110,7 +112,7 @@ namespace SeeloewenCraft.game.core.entities
 
         public void HandleInputs()
         {
-            if (this != Game.world.player) return;
+            if (this != Player.Get()) return;
 
             bool changed = false;
 
@@ -130,7 +132,7 @@ namespace SeeloewenCraft.game.core.entities
 
             if (changed)
             {
-                NetworkHandler.SendData(MultiplayerPacketType.PRESSED_CHANGE, Game.world.player.id.ToString(), pressedLeft.ToString(), pressedRight.ToString(), pressedUp.ToString(), pressedSneak.ToString(), pressedSprint.ToString());
+                NetworkHandler.SendData(MultiplayerPacketType.PRESSED_CHANGE, Player.Get().id.ToString(), pressedLeft.ToString(), pressedRight.ToString(), pressedUp.ToString(), pressedSneak.ToString(), pressedSprint.ToString());
             }
 
             /* Too laggy, needs a rework
@@ -209,7 +211,7 @@ namespace SeeloewenCraft.game.core.entities
 
         public override void Die()
         {
-            if (this == Game.world.player)
+            if (this == Player.Get())
             {
                 //Drop all items and clear the inventory
                 foreach (InventorySlot slot in inventory.slots)

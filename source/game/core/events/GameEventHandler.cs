@@ -2,21 +2,26 @@
 
 namespace SeeloewenCraft.game.core.events
 {
-    public class GameEventHandler
+    public static class GameEventHandler
     {
-        private List<GameEvent> registeredEvents = new List<GameEvent>();
+        private static List<GameEvent> registeredEvents;
 
-        public void Register(GameEvent e)
+        public static void Init()
+        {
+            registeredEvents = new List<GameEvent> ();
+        }
+
+        public static void Register(GameEvent e)
         {
             registeredEvents.Add(e);
         }
 
-        internal void Unregister(GameEvent e)
+        public static void Unregister(GameEvent e)
         {
             registeredEvents.Remove(e);
         }
 
-        public void Tick(double dt)
+        public static void Update(double dt)
         {
             dt = dt * 1000;
 

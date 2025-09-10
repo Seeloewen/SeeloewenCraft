@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.notifications;
+﻿using SeeloewenCraft.game.core.entities;
+using SeeloewenCraft.game.notifications;
 
 namespace SeeloewenCraft.game.core.commands
 {
@@ -8,15 +9,15 @@ namespace SeeloewenCraft.game.core.commands
         {
             if (args.Length == 1)
             {
-                Game.world.player.flying = !Game.world.player.flying;
-                NotificationHandler.Notify("sc:glass_item", $"Flying status has been set to {Game.world.player.flying}");
+                Player.Get().flying = !Player.Get().flying;
+                NotificationHandler.Notify("sc:glass_item", $"Flying status has been set to {Player.Get().flying}");
             }
             else
             {
                 try
                 {
-                    Game.world.player.flying = bool.Parse(args[1]);
-                    NotificationHandler.Notify("sc:glass_item", $"Flying status has been set to {Game.world.player.flying}");
+                    Player.Get().flying = bool.Parse(args[1]);
+                    NotificationHandler.Notify("sc:glass_item", $"Flying status has been set to {Player.Get().flying}");
                 }
                 catch
                 {

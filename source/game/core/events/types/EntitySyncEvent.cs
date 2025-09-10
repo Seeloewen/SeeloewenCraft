@@ -14,7 +14,7 @@ namespace SeeloewenCraft.game.core.events
         protected override void Run()
         {
             //Temporarily reverted to old system
-            Game.world.player.SendSyncData();
+            Player.Get().SendSyncData();
             foreach (Entity entity in Game.world.entityManager.entities)
             {
                 if (entity is MovingEntity movEntity)

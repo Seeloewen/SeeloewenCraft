@@ -20,8 +20,8 @@ namespace SeeloewenCraft.game.graphics
 
         protected override void OnUpdate(double dt)
         {
-            SetProgress((float)(Game.world.player.hp / Player.MAX_HP));
-            cContent.SetText($"{description} ({Game.world.player.hp}/{Player.MAX_HP})");
+            SetProgress((float)(Player.Get().hp / Player.MAX_HP));
+            cContent.SetText($"{description} ({Player.Get().hp}/{Player.MAX_HP})");
         }
     }
 }

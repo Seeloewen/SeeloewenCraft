@@ -70,7 +70,7 @@ namespace SeeloewenCraft.game.networking
             //Synchronize the position of all entities to ensure their position is correct            
             foreach (Entity entity in Game.world.entityManager.entities)
             {
-                if (entity.id == Convert.ToInt32(packet.content[0]) && entity is MovingEntity movEntity && entity != Game.world.player)
+                if (entity.id == Convert.ToInt32(packet.content[0]) && entity is MovingEntity movEntity && entity != Player.Get())
                 {
                     movEntity.HandleSyncData(packet.content);
                 }
@@ -92,7 +92,7 @@ namespace SeeloewenCraft.game.networking
             {
                 foreach (Entity entity in Game.world.entityManager.entities)
                 {
-                    if (entity.id == Convert.ToInt32(packet.content[0]) && entity is MovingEntity movEntity && entity != Game.world.player)
+                    if (entity.id == Convert.ToInt32(packet.content[0]) && entity is MovingEntity movEntity && entity != Player.Get())
                     {
                         movEntity.pressedLeft = Convert.ToBoolean(packet.content[1]);
                         movEntity.pressedRight = Convert.ToBoolean(packet.content[2]);
@@ -265,7 +265,7 @@ namespace SeeloewenCraft.game.networking
             {
                 //If client receives the packet, load the inventory
                 JsonToken invToken = JsonUtil.ReadString(packet.content[0]);
-                Game.world.player.inventory = Inventory.LoadFromJson(invToken, true);
+                Player.Get().inventory = Inventory.LoadFromJson(invToken, true);
             }
             else if (IsServer())
             {

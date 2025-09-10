@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.core.items;
+﻿using SeeloewenCraft.game.core.entities;
+using SeeloewenCraft.game.core.items;
 using SeeloewenCraft.game.notifications;
 
 namespace SeeloewenCraft.game.core.commands
@@ -33,7 +34,7 @@ namespace SeeloewenCraft.game.core.commands
                 return;
             }
 
-            int remaining = Game.world.player.inventory.Add(id, amount, ItemRegister.Get(id).tag);
+            int remaining = Player.Get().inventory.Add(id, amount, ItemRegister.Get(id).tag);
             if (remaining > 0)
             {
                 NotificationHandler.Notify("sc:lantern_item", "Warning: Not all items were added (Full Inventory)");

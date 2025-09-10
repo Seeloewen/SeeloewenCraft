@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.notifications;
+﻿using SeeloewenCraft.game.core.entities;
+using SeeloewenCraft.game.notifications;
 
 namespace SeeloewenCraft.game.core.commands
 {
@@ -11,8 +12,8 @@ namespace SeeloewenCraft.game.core.commands
                 int posX = int.Parse(args[1]);
                 int posY = int.Parse(args[2]);
 
-                Game.world.player.posX = posX;
-                Game.world.player.posY = posY;
+                Player.Get().posX = posX;
+                Player.Get().posY = posY;
                 NotificationHandler.Notify("sc:dirt_item", $"Succesfully teleported player to position x={posX}, y={posY}");
             }
             catch

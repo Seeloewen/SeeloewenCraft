@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.notifications;
+﻿using SeeloewenCraft.game.core.entities;
+using SeeloewenCraft.game.notifications;
 using System.Globalization;
 
 namespace SeeloewenCraft.game.core.commands
@@ -12,8 +13,8 @@ namespace SeeloewenCraft.game.core.commands
             {
                 double amount = double.Parse(args[1], CultureInfo.InvariantCulture);
 
-                Game.world.player.Heal(amount); //TODO: Replace icon
-                NotificationHandler.Notify("sc:bedrock_item", $"Succesfully healed player {amount}hp to {Game.world.player.hp}hp");
+                Player.Get().Heal(amount); //TODO: Replace icon
+                NotificationHandler.Notify("sc:bedrock_item", $"Succesfully healed player {amount}hp to {Player.Get().hp}hp");
             }
             catch
             {
@@ -28,8 +29,8 @@ namespace SeeloewenCraft.game.core.commands
             {
                 double amount = double.Parse(args[1], CultureInfo.InvariantCulture);
 
-                Game.world.player.Damage(amount);
-                NotificationHandler.Notify("sc:bedrock_item", $"Succesfully damaged player {amount}hp to {Game.world.player.hp}hp");
+                Player.Get().Damage(amount);
+                NotificationHandler.Notify("sc:bedrock_item", $"Succesfully damaged player {amount}hp to {Player.Get().hp}hp");
             }
             catch
             {
@@ -40,7 +41,7 @@ namespace SeeloewenCraft.game.core.commands
 
         public static void HandleHPCommand(string[] args)
         {
-            NotificationHandler.Notify("sc:bedrock_item", $"Current hp: {Game.world.player.hp}"); //TODO: Replace icon
+            NotificationHandler.Notify("sc:bedrock_item", $"Current hp: {Player.Get().hp}"); //TODO: Replace icon
         }
     }
 }

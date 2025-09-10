@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.core.entities.inventory;
+﻿using SeeloewenCraft.game.core.entities;
+using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.graphics.ui_lib;
 using System.Collections.Generic;
 
@@ -46,7 +47,7 @@ namespace SeeloewenCraft.game.graphics
         {
             //Calculate which hotbar slot is currently selected
             int scrollOffset = Screen.allowIngameInputs ? -InputHandler.scrollAmount : 0;
-            int currentIndex = Game.world.player.inventory.GetSelectedHotbarIndex();
+            int currentIndex = Player.Get().inventory.GetSelectedHotbarIndex();
             int newIndex = (((currentIndex + scrollOffset) % slotAmount) + slotAmount) % slotAmount;
 
             for (int i = 0; i < slotAmount; i++)

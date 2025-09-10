@@ -46,9 +46,9 @@ namespace SeeloewenCraft.game.core.entities
                 entity.OnUpdate(tps);
 
                 //checks if item entity player intersect and let player pick up the item
-                if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && entity.posX < Game.world.player.posX + Game.world.player.sizeX && entity.posX + entity.sizeX > Game.world.player.posX && entity.posY < Game.world.player.posY + Game.world.player.sizeY && entity.posY + entity.sizeY > Game.world.player.posY)
+                if (entity is ItemEntity itemEntity && entity.lifeTime > 300 && entity.posX < Player.Get().posX + Player.Get().sizeX && entity.posX + entity.sizeX > Player.Get().posX && entity.posY < Player.Get().posY + Player.Get().sizeY && entity.posY + entity.sizeY > Player.Get().posY)
                 {
-                    int remainingItem = Game.world.player.inventory.Add(itemEntity.item.id, 1, itemEntity.item.tag);
+                    int remainingItem = Player.Get().inventory.Add(itemEntity.item.id, 1, itemEntity.item.tag);
                     if (remainingItem == 0)
                     {
                         Remove(itemEntity.id);

@@ -70,7 +70,7 @@ namespace SeeloewenCraft.game.core.settings
 
             writer.WritePropertyName("auto_save_interval");
             writer.WriteValue(autoSaveInterval);
-            Game.world.gameEventHandler.Register(new AutoSaveEvent(autoSaveInterval * 60000));
+            GameEventHandler.Register(new AutoSaveEvent(autoSaveInterval * 60000));
 
             writer.WritePropertyName("texturepack");
             writer.WriteValue(texturepack);

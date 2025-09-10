@@ -1,4 +1,6 @@
-﻿namespace SeeloewenCraft.game.core.blocks
+﻿using SeeloewenCraft.game.core.entities;
+
+namespace SeeloewenCraft.game.core.blocks
 {
     public class WheatCropBlock : CropBlock
     {
@@ -222,15 +224,15 @@
 
         public override void RightClickAction()
         {
-            if (IsReady() && Game.world.player.inventory.GetSelectedHotbarSlot().id == "sc:bucket_empty_item")
+            if (IsReady() && Player.Get().inventory.GetSelectedHotbarSlot().id == "sc:bucket_empty_item")
             {
                 //Drop the item and reset the progress without breaking the block
                 growthTime = Game.rnd.Next(timeMin, timeMax) / 1000;
                 progress = 0;
                 growthStage = 1;
 
-                Game.world.player.inventory.Add("sc:bucket_rice_item", 1);
-                Game.world.player.inventory.Remove("sc:bucket_empty_item", 1);
+                Player.Get().inventory.Add("sc:bucket_rice_item", 1);
+                Player.Get().inventory.Remove("sc:bucket_empty_item", 1);
             }
         }
     }

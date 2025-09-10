@@ -38,7 +38,7 @@
 
                 if (timesRun >= maxRuns && maxRuns != -1) //If the event has reached max runs
                 {
-                    Game.world.gameEventHandler.Unregister(this);
+                    GameEventHandler.Unregister(this);
                 }
             }
         }

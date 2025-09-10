@@ -199,7 +199,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             if (IsInRange() && isSolid)
             {
-                Game.world.player.inventory.ShowGui();
+                Player.Get().inventory.ShowGui();
                 inventory.ShowGui();
             }
         }
@@ -340,7 +340,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             if (IsInRange())
             {
-                Game.world.player.inventory.ShowGui();
+                Player.Get().inventory.ShowGui();
                 ((IGuiData)unchiselHandler).Show();
             }
         }
@@ -752,7 +752,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             if (IsInRange() && isSolid)
             {
-                Game.world.player.inventory.ShowGui();
+                Player.Get().inventory.ShowGui();
                 inventory.ShowGui();
             }
         }

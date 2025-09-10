@@ -1594,10 +1594,6 @@
 					"file": "Blocks.States.Furnace_Running.png"
 				},
 				{
-					"id": "sc:furnace/FURNACE_RUNNING",
-					"file": "Blocks.States.Furnace_Running.png"
-				},
-				{
 					"id": "sc:cactus_fruit_block/CROP_1",
 					"file": "Blocks.Cactus_Fruit.png"
 				}
