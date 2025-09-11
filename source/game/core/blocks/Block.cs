@@ -45,7 +45,7 @@ namespace SeeloewenCraft.game.core.blocks
         public bool isAirLightSource;
         public bool isForeground = false;
         public (int x, int y) baseBlockOffset;
-        protected BlockState blockState;
+        public BlockState blockState { protected get; set; }
         public bool breaking;
         public double breakProgress;
         public bool hammering;
@@ -523,7 +523,7 @@ namespace SeeloewenCraft.game.core.blocks
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"lightLevel");
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"isLightSource");
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"isBase", $"{isBase}");
-            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"blockState", $"{blockState}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"blockState", $"{GetBlockState()}");
             //DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"isSurface", $"{isSurface}");
             if (foregroundBlock != null)
             {
@@ -553,7 +553,7 @@ namespace SeeloewenCraft.game.core.blocks
             DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, "isBackground", $"{isBackground} ");
             DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, "lightLevel", $"{lightLevel} ");
             DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, $"isLightSource", $"{IsLightSource()}");
-            DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, $"blockState", $"{blockState}");
+            DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, $"blockState", $"{GetBlockState()}");
         }
 
 

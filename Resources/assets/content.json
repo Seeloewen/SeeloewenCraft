@@ -1082,7 +1082,11 @@
 					"file": "Blocks.Water_6.png"
 				},
 				{
-					"id": "sc:crafting_table_block",
+					"id": "sc:crafting_table_block/RECIPE_IDLE",
+					"file": "Blocks.Crafting_Table.png"
+				},
+				{
+					"id": "sc:crafting_table_block/RECIPE_RUNNING",
 					"file": "Blocks.Crafting_Table.png"
 				},
 				{
@@ -1090,7 +1094,11 @@
 					"file": "Blocks.Cobblestone.png"
 				},
 				{
-					"id": "sc:chiseler_block",
+					"id": "sc:chiseler_block/RECIPE_IDLE",
+					"file": "Blocks.Chiseler.png"
+				},
+				{
+					"id": "sc:chiseler_block/RECIPE_RUNNING",
 					"file": "Blocks.Chiseler.png"
 				},
 				{
@@ -1098,7 +1106,11 @@
 					"file": "Blocks.Unchiseler.png"
 				},
 				{
-					"id": "sc:anvil_block",
+					"id": "sc:anvil_block/RECIPE_RUNNING",
+					"file": "Blocks.Anvil.png"
+				},
+				{
+					"id": "sc:anvil_block/RECIPE_IDLE",
 					"file": "Blocks.Anvil.png"
 				},
 				{
@@ -1586,11 +1598,11 @@
 					"file": "Blocks.States.Spruce_Trapdoor_Open.png"
 				},
 				{
-					"id": "sc:furnace/FURNACE_IDLE",
+					"id": "sc:furnace_block/RECIPE_IDLE",
 					"file": "Blocks.States.Furnace_Idle.png"
 				},
 				{
-					"id": "sc:furnace/FURNACE_RUNNING",
+					"id": "sc:furnace_block/RECIPE_RUNNING",
 					"file": "Blocks.States.Furnace_Running.png"
 				},
 				{

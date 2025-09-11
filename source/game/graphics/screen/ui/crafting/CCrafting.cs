@@ -92,6 +92,8 @@ namespace SeeloewenCraft.game.graphics
             CraftingRecipe recipe = GetSelectedRecipe();
             int amount = 1;
 
+            cAmount.DisableEditMode();
+
             //Check if the amount is valid before crafting
             if (!int.TryParse(cAmount.GetText(), out amount))
             {

@@ -55,6 +55,7 @@ namespace SeeloewenCraft.game.core.crafting
             this.workstationId = workstationId;
             this.workstationName = workstationName;
             this.block = block;
+            block.blockState = BlockState.RECIPE_IDLE;
 
             ((IGuiData)this).AddTag("header", workstationName);
 
@@ -126,26 +127,29 @@ namespace SeeloewenCraft.game.core.crafting
 
             recipeRunning = true;
             currentRecipe = recipe;
+            if (block != null) block.blockState = BlockState.RECIPE_RUNNING;
         }
 
         private void FinishCrafting()
         {
+            block.blockState = BlockState.RECIPE_IDLE;
             recipeClaimable = true;
+
+            //Get the item that belongs to this workstation to display in the notification
+            Item displayItem = null;
+            if (block != null) displayItem = ItemRegister.Get(block.itemId);
+
+            NotificationHandler.Notify(displayItem != null ? displayItem.id : "sc:crafting_table_item", $"Crafting for {recipeAmount}x {currentRecipe.displayName} completed!");
+            if (block != null) Log.Write($"Completed crafting for {recipeAmount}x {currentRecipe.id} at workstation {workstationId} (x{block.xPos} y{block.yPos}, Chunk {block.chunk.index})", LogType.GENERAL, LogLevel.INFO);
         }
 
         private void OnUpdate(double dt)
         {
             if (recipeRunning == false || recipeClaimable) return;
 
-            recipeProgress += (dt * 1000);
+            recipeProgress += dt * 1000;
 
-            if (recipeProgress >= currentRecipe.requiredTime * recipeAmount)
-            {
-                FinishCrafting();
-
-                NotificationHandler.Notify("sc:crafting_table_item", $"Crafting for x{recipeAmount} {currentRecipe.displayName} completed!");
-                if (block != null) Log.Write($"Completed crafting for {recipeAmount}x {currentRecipe.id} at workstation {workstationId} (x{block.xPos} y{block.yPos}, Chunk {block.chunk.index})", LogType.GENERAL, LogLevel.INFO);
-            }
+            if (recipeProgress >= currentRecipe.requiredTime * recipeAmount) FinishCrafting();
         }
 
         public float GetCraftingProgress() => (float)recipeProgress / (currentRecipe.requiredTime * recipeAmount);
