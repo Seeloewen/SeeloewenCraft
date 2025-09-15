@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.util.logging;
+﻿using SeeloewenCraft.game.core.world;
+using SeeloewenCraft.game.util.logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -230,7 +231,7 @@ public class Server
     public void Disconnect(IdTcpClient client, string message)
     {
         clients.Remove(client);
-        Game.world.entityManager.Remove(client.id);
+        World.Get().entityManager.Remove(client.id);
         Log.Write($"Client #{client.id} ({client.nickname}) disconnected: {message}", LogType.NETWORK, LogLevel.WARNING);
     }
 }

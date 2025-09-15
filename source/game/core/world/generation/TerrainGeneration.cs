@@ -19,13 +19,13 @@ namespace SeeloewenCraft.game.core.world
             switch (index)
             {
                 case < 0: //Right-To-Left chunk
-                    floorHeight = Game.world.GetChunk(index + 1).floorHeightLeft;
+                    floorHeight = World.Get().GetChunk(index + 1).floorHeightLeft;
                     break;
                 case 0: //Initial chunk (Left-To-Right)
                     floorHeight = seededRnd.Next(12, 15);
                     break;
                 case > 0: //Left-To-Right chunk
-                    floorHeight = Game.world.GetChunk(index - 1).floorHeightRight;
+                    floorHeight = World.Get().GetChunk(index - 1).floorHeightRight;
                     break;
             }
 

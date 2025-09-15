@@ -37,12 +37,12 @@ namespace SeeloewenCraft.game.core.world
             this.index = index;
 
             //Seed magic
-            Random rnd = new Random(Game.world.seed);
+            Random rnd = new Random(World.Get().seed);
             chunkSeed = rnd.Next() * index;
             seededRnd = new Random(chunkSeed);
 
             //Begin loading the chunk
-            chunkDirectory = string.Format("{0}/chunk{1}", Game.world.worldDirectory, index);
+            chunkDirectory = string.Format("{0}/chunk{1}", World.Get().worldDirectory, index);
             Init();
         }
 
@@ -62,7 +62,7 @@ namespace SeeloewenCraft.game.core.world
             {
                 writer.Formatting = Formatting.Indented;
                 blockList.SaveToJson(writer);
-                writer.WriteToFile($"{Game.world.worldDirectory}/chunk{index}/blocks.json");
+                writer.WriteToFile($"{World.Get().worldDirectory}/chunk{index}/blocks.json");
             }
 
             //save settings in settings.json
@@ -70,7 +70,7 @@ namespace SeeloewenCraft.game.core.world
             {
                 writer.Formatting = Formatting.Indented;
                 SaveSettingsToJson(writer);
-                writer.WriteToFile($"{Game.world.worldDirectory}/chunk{index}/settings.json");
+                writer.WriteToFile($"{World.Get().worldDirectory}/chunk{index}/settings.json");
             }
 
         }
@@ -96,7 +96,7 @@ namespace SeeloewenCraft.game.core.world
             //Check if the coordinate has a container and place the block into that container if possible
             if (x > 7)
             {
-                Chunk chunk = Game.world.GetLoadedChunk(index + 1);
+                Chunk chunk = World.Get().GetLoadedChunk(index + 1);
 
                 if (chunk != null)
                 {
@@ -105,7 +105,7 @@ namespace SeeloewenCraft.game.core.world
             }
             else if (x < 0)
             {
-                Chunk chunk = Game.world.GetLoadedChunk(index - 1);
+                Chunk chunk = World.Get().GetLoadedChunk(index - 1);
 
                 if (chunk != null)
                 {
@@ -147,7 +147,7 @@ namespace SeeloewenCraft.game.core.world
 
 
             //Check if the chunk doesn't already exist
-            if (Directory.Exists($"{Game.world.worldDirectory}/chunk{index}"))
+            if (Directory.Exists($"{World.Get().worldDirectory}/chunk{index}"))
             {
                 Load();
             }
@@ -171,11 +171,11 @@ namespace SeeloewenCraft.game.core.world
             Log.Write($"Loading chunk {index} from file...", LogType.WORLD_GENERATION, LogLevel.INFO);
 
             //load blocklist
-            JsonToken documentToken = JsonUtil.ReadFile($"{Game.world.worldDirectory}/chunk{index}/blocks.json");
+            JsonToken documentToken = JsonUtil.ReadFile($"{World.Get().worldDirectory}/chunk{index}/blocks.json");
             blockList = BlockList.LoadFromJson(documentToken, this);
 
             //load settings
-            documentToken = JsonUtil.ReadFile($"{Game.world.worldDirectory}/chunk{index}/settings.json");
+            documentToken = JsonUtil.ReadFile($"{World.Get().worldDirectory}/chunk{index}/settings.json");
 
             index = documentToken.GetInt("/index");
             floorHeightLeft = documentToken.GetInt("/floor_height_left");
@@ -211,9 +211,9 @@ namespace SeeloewenCraft.game.core.world
         {
             if (x > 7)
             {
-                if (Game.world.GetLoadedChunk(index + 1) != null)
+                if (World.Get().GetLoadedChunk(index + 1) != null)
                 {
-                    return Game.world.GetLoadedChunk(index + 1).GetBlock(x - 8, y);
+                    return World.Get().GetLoadedChunk(index + 1).GetBlock(x - 8, y);
                 }
                 else
                 {
@@ -222,9 +222,9 @@ namespace SeeloewenCraft.game.core.world
             }
             else if (x < 0)
             {
-                if (Game.world.GetLoadedChunk(index - 1) != null)
+                if (World.Get().GetLoadedChunk(index - 1) != null)
                 {
-                    return Game.world.GetLoadedChunk(index - 1).GetBlock(x + 8, y);
+                    return World.Get().GetLoadedChunk(index - 1).GetBlock(x + 8, y);
                 }
                 else
                 {

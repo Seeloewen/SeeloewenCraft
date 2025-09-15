@@ -1,5 +1,7 @@
 ﻿using SeeloewenCraft.game.util;
+using SeeloewenCraft.game.core;
 using System;
+using SeeloewenCraft.game.core.world;
 
 namespace SeeloewenCraft.game.core.blocks
 {
@@ -25,13 +27,13 @@ namespace SeeloewenCraft.game.core.blocks
             //Try expanding the liquid
             foreach (var n in TryExpand(block))
             {
-                if(n.b != null) Game.world.SetBlock(n.b, n.x, n.y, n.c);
+                if(n.b != null) World.Get().SetBlock(n.b, n.x, n.y, n.c);
             }
         }
 
         private static bool SourceExists(LiquidBlock block)
         {
-            Block source = Game.world.GetBlock(block.liquidSource.x, block.liquidSource.y, block.liquidSource.cIndex);
+            Block source = World.Get().GetBlock(block.liquidSource.x, block.liquidSource.y, block.liquidSource.cIndex);
             Block sourceForeground = source.GetForegroundBlock();
 
             //Check that the block at the specified location is still a liquid of the same type

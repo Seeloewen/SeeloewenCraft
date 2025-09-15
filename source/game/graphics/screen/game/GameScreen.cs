@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.core.blocks;
+using SeeloewenCraft.game.core.world;
 using System;
 
 namespace SeeloewenCraft.game.graphics
@@ -23,7 +24,7 @@ namespace SeeloewenCraft.game.graphics
             int newBlockX = (int)Math.Floor((mouseX - GameCamera.blockXAnchor) / GameCamera.blockLength);
             int newBlockY = (int)-((mouseY - GameCamera.blockYAnchor) / (GameCamera.blockLength * Resolution.RATIO));
 
-            var block = Game.world.GetBlock(newBlockX, newBlockY);
+            var block = World.Get().GetBlock(newBlockX, newBlockY);
             if (targetedBlock != block)
             {
 

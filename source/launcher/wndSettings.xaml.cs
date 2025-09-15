@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SeeloewenCraft.game;
 using SeeloewenCraft.game.core.settings;
+using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using System;
@@ -125,7 +126,7 @@ namespace SeeloewenCraft.launcher
             //Save the settings to file
             Settings.Save(writer);
 
-            if (Game.world != null) //Game.world.wndGame.ApplyVideoSettings();
+            if (World.Get() != null) //World.Get().wndGame.ApplyVideoSettings();
 
                 if (!suppressConfirmation)
                 {
@@ -270,9 +271,9 @@ namespace SeeloewenCraft.launcher
             }
 
             //Apply some settings instantly
-            if (Game.world != null)
+            if (World.Get() != null)
             {
-                // Game.world.gameLoop.autoSaveEvent.UpdateMaxTick(); //TODO: Events
+                // World.Get().gameLoop.autoSaveEvent.UpdateMaxTick(); //TODO: Events
             }
 
             ApplyTexturepack();

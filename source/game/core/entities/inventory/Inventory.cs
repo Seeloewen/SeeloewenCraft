@@ -1,5 +1,6 @@
 ﻿using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.items;
+using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.util;
 using System;
@@ -258,7 +259,7 @@ namespace SeeloewenCraft.game.core.entities.inventory
                     Item item = ItemRegister.Get(slot.id);
                     if (item != null)
                     {
-                        Game.world.AddEntity(new ItemEntity(item, slot.tag, //item type
+                        World.Get().AddEntity(new ItemEntity(item, slot.tag, //item type
                             x + 500 - ItemEntity.itemSizeX / 2, //posX
                             y + 500 - ItemEntity.itemSizeY / 2, //posY
                             Game.rnd.Next(-6000, 6000), Game.rnd.Next(-15000, -10000))); //velX and velY 

@@ -53,7 +53,7 @@ namespace SeeloewenCraft
                 }
 
                 //create new world with name "debug"
-                //World world = new World(wndMenu, "Debug", StartOptions.seed, true, Game.WORLD_VERSION, Game.GAME_VERSION, MultiplayerType.OFFLINE);
+                //World world = new World(wndMenu, "Debug", StartOptions.seed, true, World.Get()_VERSION, Game.GAME_VERSION, MultiplayerType.OFFLINE);
                 Game.Create("Debug", StartOptions.seed, true, MultiplayerType.OFFLINE, wndMenu);
             }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SeeloewenCraft.game.core.world;
+using System;
 
 namespace SeeloewenCraft.game.core.blocks
 {
@@ -41,7 +42,7 @@ namespace SeeloewenCraft.game.core.blocks
         //Similarly, if there is an air lightsource above, this one is also air lightsource
         public static bool IsAirLightSource(Block block)
         {
-            if (Game.world.dayTime == world.DayTime.NIGHT) return false;
+            if (World.Get().dayTime == world.DayTime.NIGHT) return false;
 
             Block blockAbove = block.GetBlockAbove();
 

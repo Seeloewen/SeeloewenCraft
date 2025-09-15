@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.core.entities;
+using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics.ui_lib;
 
 namespace SeeloewenCraft.game.graphics
@@ -110,7 +111,7 @@ namespace SeeloewenCraft.game.graphics
                 {
                     guiHandler.HideGuis();
                 }
-                else if(Game.world.gamemode == Gamemode.Creative)
+                else if(World.Get().gamemode == Gamemode.Creative)
                 {
                     Player.Get().creativeInventory.ShowGui();
                     Player.Get().inventory.ShowGui();

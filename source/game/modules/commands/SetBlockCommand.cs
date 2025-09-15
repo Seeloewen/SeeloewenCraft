@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.core.blocks;
+using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.notifications;
 
 namespace SeeloewenCraft.game.core.commands
@@ -27,7 +28,7 @@ namespace SeeloewenCraft.game.core.commands
                     return;
                 }
 
-                Game.world.SetBlock(block, posX + 8 * chunkID, posY);
+                World.Get().SetBlock(block, posX + 8 * chunkID, posY);
                 NotificationHandler.Notify("sc:stone_block", $"Successfully placed block {id} at x{posX} and y{posY} in chunk {chunkID}");
             }
             catch

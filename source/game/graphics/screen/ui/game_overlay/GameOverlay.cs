@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.graphics.ui_lib;
+﻿using SeeloewenCraft.game.core.world;
+using SeeloewenCraft.game.graphics.ui_lib;
 using SeeloewenCraft.game.notifications;
 using System.Collections.Generic;
 
@@ -41,7 +42,7 @@ namespace SeeloewenCraft.game.graphics
                 cn.visible = true;
             }
 
-            cHealthBar.visible = Game.world.gamemode == Gamemode.Survival;
+            cHealthBar.visible = World.Get().gamemode == Gamemode.Survival;
         }
     }
 }

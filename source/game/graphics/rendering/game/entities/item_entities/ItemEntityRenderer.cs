@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.core.entities;
+using SeeloewenCraft.game.core.world;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -11,7 +12,7 @@ namespace SeeloewenCraft.game.graphics
             Renderer.PushDebugGroup("item entity rendering");
             ItemRenderer.SetTexture();
             TextureRenderer.Begin();
-            var entities = Game.world.entityManager.entities;
+            var entities = World.Get().entityManager.entities;
             foreach (var entity in entities)
             {
                 if (entity is ItemEntity itemEntity)

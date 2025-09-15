@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.core.entities;
+using SeeloewenCraft.game.core.world;
 using System;
 
 namespace SeeloewenCraft.game.graphics
@@ -15,7 +16,7 @@ namespace SeeloewenCraft.game.graphics
         internal static void Render()
         {
             Renderer.PushDebugGroup("world rendering");
-            var chunks = Game.world.loadedChunkList;
+            var chunks = World.Get().loadedChunkList;
 
             TextureRenderer.SetTexture(TextureManager.textureMaps["blocks"]);
             TextureRenderer.Begin();
@@ -38,7 +39,7 @@ namespace SeeloewenCraft.game.graphics
         }
         
         internal static void RenderShadow() {
-            var chunks = Game.world.loadedChunkList;
+            var chunks = World.Get().loadedChunkList;
 
             Renderer.PushDebugGroup("shadow");
             

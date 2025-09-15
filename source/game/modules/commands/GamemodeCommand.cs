@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.notifications;
+﻿using SeeloewenCraft.game.core.world;
+using SeeloewenCraft.game.notifications;
 
 namespace SeeloewenCraft.game.core.commands
 {
@@ -16,12 +17,12 @@ namespace SeeloewenCraft.game.core.commands
             //Set gamemode based on given input
             if (gamemode == "0" || gamemode == "survival")
             {
-                Game.world.SetGamemode(Gamemode.Survival);
+                World.Get().SetGamemode(Gamemode.Survival);
                 NotificationHandler.Notify("sc:grass_item", "Gamemode was changed to survival mode");
             }
             else if (gamemode == "1" || gamemode == "creative")
             {
-                Game.world.SetGamemode(Gamemode.Creative);
+                World.Get().SetGamemode(Gamemode.Creative);
                 NotificationHandler.Notify("sc:diamond_item", "Gamemode was changed to creative mode");
             }
             else

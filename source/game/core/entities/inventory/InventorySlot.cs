@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.core.items;
+using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
 using System;
 using System.Windows.Input;
@@ -162,7 +163,7 @@ namespace SeeloewenCraft.game.core.entities.inventory
 
         public void RemoveDurablity()
         {
-            if (ItemRegister.Get(id) is ToolItem && Game.world.gamemode == Gamemode.Survival)
+            if (ItemRegister.Get(id) is ToolItem && World.Get().gamemode == Gamemode.Survival)
             {
                 //Update durability of the held tool item
                 int durability = GetDurability();

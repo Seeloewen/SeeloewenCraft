@@ -77,7 +77,7 @@ namespace SeeloewenCraft.game.core.world
             World w = new World(name, 0, multiplayerType);
 
             if (!CheckWorldVersion(w, Game.WORLD_VERSION)) throw new Exception(); //Check if the world version is compatible
-            if(int.TryParse(w.LoadWorldSetting("seed"), out int s)) w.seed = s;
+            if (int.TryParse(w.LoadWorldSetting("seed"), out int s)) w.seed = s;
 
             w.Start(true);
             if (NetworkHandler.IsMultiplayer()) w.InitMultiplayer();
@@ -129,6 +129,8 @@ namespace SeeloewenCraft.game.core.world
 
             GameEventHandler.Register(new EntitySyncEvent());
         }
+
+        public static World Get() => Game.world;
 
         private static bool CheckWorldVersion(World w, int currentVersion) //return true if proceed
         {
@@ -230,10 +232,10 @@ namespace SeeloewenCraft.game.core.world
 
         public void RemoveEntity(int id) => entityManager.Remove(id);
 
-        public void SetBlock(Block block, int cPosX, int posY) => GetBlock(cPosX, posY).SetBlock(block);        
+        public void SetBlock(Block block, int cPosX, int posY) => GetBlock(cPosX, posY).SetBlock(block);
 
         public void SetBlock(Block block, int posX, int posY, int cIndex) => GetBlock(posX + 8 * cIndex, posY).SetBlock(block);
-        
+
         public Chunk CreateChunk(int index)
         {
             Chunk newChunk = new Chunk(index);

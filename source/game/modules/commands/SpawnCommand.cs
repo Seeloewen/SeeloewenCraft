@@ -1,5 +1,6 @@
 ﻿using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.settings;
+using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.notifications;
 
 namespace SeeloewenCraft.game.core.commands
@@ -34,7 +35,7 @@ namespace SeeloewenCraft.game.core.commands
                     return;
                 }
 
-                Game.world.AddEntity(entity);
+                World.Get().AddEntity(entity);
                 NotificationHandler.Notify("sc:diamond_sword_item", $"Successfully spawned entity {entity.id} at x{entity.posX} y{entity.posY}");
             }
             else

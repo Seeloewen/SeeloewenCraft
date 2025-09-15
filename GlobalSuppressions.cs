@@ -6,6 +6,6 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Interoperability", "CA1416:Plattformkompatibilität überprüfen", Justification = "<Ausstehend>", Scope = "member", Target = "~F:SeeloewenCraft.wndMenu.tmrSplashText")]
-[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:SeeloewenCraft.Game.world.InitGame(System.String,System.Boolean)")]
-[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~F:SeeloewenCraft.Game.world.tmrWater")]
-[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~F:SeeloewenCraft.Game.world.tmrMovement")]
+[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~M:SeeloewenCraft.World.Get().InitGame(System.String,System.Boolean)")]
+[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~F:SeeloewenCraft.World.Get().tmrWater")]
+[assembly: SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>", Scope = "member", Target = "~F:SeeloewenCraft.World.Get().tmrMovement")]

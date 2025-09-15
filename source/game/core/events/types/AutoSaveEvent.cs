@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.core.settings;
+using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.notifications;
 
 namespace SeeloewenCraft.game.core.events
@@ -9,7 +10,7 @@ namespace SeeloewenCraft.game.core.events
 
         protected override void Run()
         {
-            Game.world.Save();
+            World.Get().Save();
 
             if (Settings.showAutoSaveNotification)
             {

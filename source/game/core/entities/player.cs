@@ -1,5 +1,6 @@
 ﻿using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.core.items;
+using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.notifications;
@@ -61,7 +62,7 @@ namespace SeeloewenCraft.game.core.entities
             InitPlayer();
         }
 
-        public static Player Get() => Game.world.player;
+        public static Player Get() => World.Get().player;
 
         protected override void InitTexture()
         {
@@ -98,7 +99,7 @@ namespace SeeloewenCraft.game.core.entities
                         double yDir = yOffset / n;
 
                         ItemEntity itemEntity = new ItemEntity(item, item.tag, posX + sizeX/2 - ItemEntity.itemSizeX / 2, posY, (int)(15000 * xDir) + velX, (int)(20000 * yDir) + velY);
-                        Game.world.AddEntity(itemEntity);
+                        World.Get().AddEntity(itemEntity);
                         thrown = true;
                         selectedSlot.Remove(1);
                     }
@@ -224,8 +225,8 @@ namespace SeeloewenCraft.game.core.entities
                 }
 
                 //Move the player to the spawn
-                posX = Game.world.worldSpawnX;
-                posY = Game.world.worldSpawnY;
+                posX = World.Get().worldSpawnX;
+                posY = World.Get().worldSpawnY;
 
                 //Set the hp back to 10
                 base.SetHP(10);

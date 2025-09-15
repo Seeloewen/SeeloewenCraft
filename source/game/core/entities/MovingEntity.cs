@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.core.items;
+using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
@@ -206,7 +207,7 @@ namespace SeeloewenCraft.game.core.entities
         {
             Item item = ItemRegister.Get(id);
 
-            Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
+            World.Get().AddEntity(new ItemEntity(item, item.tag, //item type
                 posX + sizeX / 2 - ItemEntity.itemSizeX / 2, //posX
                 posY + sizeY * 2 / 3 - ItemEntity.itemSizeY / 2, //posY
                 Game.rnd.Next(-6000, 6000), Game.rnd.Next(-15000, -10000))); //velX and velY
@@ -214,7 +215,7 @@ namespace SeeloewenCraft.game.core.entities
 
         public virtual void Die()
         {
-            Game.world.RemoveEntity(id);
+            World.Get().RemoveEntity(id);
         }
 
         public virtual void SetHP(double hp)

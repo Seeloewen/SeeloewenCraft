@@ -23,7 +23,7 @@ namespace SeeloewenCraft.game.core.events
                 _ => DayTime.DAY
             };
 
-            Game.world.SetDayTime(time);    
+            World.Get().SetDayTime(time);    
         }
 
         protected override bool IsReady()

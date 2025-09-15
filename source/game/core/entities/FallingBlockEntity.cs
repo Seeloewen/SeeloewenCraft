@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.core.blocks;
+using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.util;
 
 namespace SeeloewenCraft.game.core.entities
@@ -12,17 +13,17 @@ namespace SeeloewenCraft.game.core.entities
             base.OnUpdateStart(tps);
             if (onGround)
             {
-                Game.world.RemoveEntity(id);
+                World.Get().RemoveEntity(id);
                 Block block = BlockRegister.Get(blockType);
                 int blockX = (posX + 500) / 1000; // +500 is for rounding
                 int blockY = (posY + 500) / 1000;
-                if (Game.world.GetBlock(blockX, blockY) is AirBlock || Game.world.GetBlock(blockX, blockY) is WaterBlock)
+                if (World.Get().GetBlock(blockX, blockY) is AirBlock || World.Get().GetBlock(blockX, blockY) is WaterBlock)
                 {
-                    Game.world.SetBlock(block, blockX, blockY);
+                    World.Get().SetBlock(block, blockX, blockY);
                 }
                 else
                 {
-                    Game.world.AddEntity(new ItemEntity(block.GetItem(), block.GetItem().tag, //item type
+                    World.Get().AddEntity(new ItemEntity(block.GetItem(), block.GetItem().tag, //item type
                             posX, posY, Game.rnd.Next(-6000, 6000), Game.rnd.Next(-15000, -10000))); //pos and vel
                 }
             }

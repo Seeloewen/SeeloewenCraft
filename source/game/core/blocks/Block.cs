@@ -445,7 +445,7 @@ namespace SeeloewenCraft.game.core.blocks
             if (blockAbove != null && blockAbove.HasTag(BlockTags.CAN_FALL))
             {
                 blockAbove.BreakBlock(true, true, false);
-                Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos - 1, blockAbove.id));
+                World.Get().AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos - 1, blockAbove.id));
             }
 
             return this;
@@ -458,7 +458,7 @@ namespace SeeloewenCraft.game.core.blocks
 
         public bool IsInRange()
         {
-            Block playerBlock = Game.world.GetBlock(Player.Get().posX / 1000, (Player.Get().posY / 1000) + 1);
+            Block playerBlock = World.Get().GetBlock(Player.Get().posX / 1000, (Player.Get().posY / 1000) + 1);
             if (playerBlock != null)
             {
                 return (GetXRangeToBlock(playerBlock) < 5 && GetYRangeToBlock(playerBlock) < 5);
@@ -595,7 +595,7 @@ namespace SeeloewenCraft.game.core.blocks
             //If total x is below 0, get the chunk to the left
             if (block.xPos + xOffset < 0)
             {
-                Chunk chunk = Game.world.GetLoadedChunk(block.chunk.index - 1);
+                Chunk chunk = World.Get().GetLoadedChunk(block.chunk.index - 1);
 
                 if (chunk != null)
                 {
@@ -609,7 +609,7 @@ namespace SeeloewenCraft.game.core.blocks
             //If total x is above 7, get the chunk to the right
             else if (block.xPos + xOffset > 7)
             {
-                Chunk chunk = Game.world.GetLoadedChunk(block.chunk.index + 1);
+                Chunk chunk = World.Get().GetLoadedChunk(block.chunk.index + 1);
 
                 if (chunk != null)
                 {
@@ -650,7 +650,7 @@ namespace SeeloewenCraft.game.core.blocks
             //Get the block that should drop
             if (HasTag(BlockTags.DOESNT_DROP)) return;
 
-            if ((Player.Get().inventory.GetSelectedItem() is ToolItem tool && tool.type == effectiveTool && ToolIsCorrectMaterial(tool.material) && HasTag(BlockTags.TOOL_SPECIFIC) || !HasTag(BlockTags.TOOL_SPECIFIC) || Game.world.gamemode == Gamemode.Creative))
+            if ((Player.Get().inventory.GetSelectedItem() is ToolItem tool && tool.type == effectiveTool && ToolIsCorrectMaterial(tool.material) && HasTag(BlockTags.TOOL_SPECIFIC) || !HasTag(BlockTags.TOOL_SPECIFIC) || World.Get().gamemode == Gamemode.Creative))
             {
                 //If the block has a loot table, roll an entry and give the items to player
                 if (lootTable.lootTable != null)
@@ -694,7 +694,7 @@ namespace SeeloewenCraft.game.core.blocks
             if (item != null)
             {
                 //Spawn the item entity in the world
-                Game.world.AddEntity(new ItemEntity(item, item.tag, //item type
+                World.Get().AddEntity(new ItemEntity(item, item.tag, //item type
                     (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
                     yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
                 Game.rnd.Next(-6000, 6000), Game.rnd.Next(-15000, -10000))); //velX and velY 
@@ -727,7 +727,7 @@ namespace SeeloewenCraft.game.core.blocks
                 if (blockAbove.HasTag(BlockTags.CAN_FALL))
                 {
                     blockAbove.BreakBlock(true, true, false);
-                    Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos - 1, blockAbove.id));
+                    World.Get().AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos - 1, blockAbove.id));
                 }
             }
         }
@@ -754,7 +754,7 @@ namespace SeeloewenCraft.game.core.blocks
                 && (blockBelow.HasTag(BlockTags.REPLACEABLE) || blockBelow.isBackground))
             {
                 block.BreakBlock(true, true, false);
-                Game.world.AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos, block.id));
+                World.Get().AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos, block.id));
             }
 
             if (this == DebugMenu.target) chunk.GetBlock(xPos, yPos).AddDebugMenu();
@@ -850,7 +850,7 @@ namespace SeeloewenCraft.game.core.blocks
                 foreach (var conBlockInfo in baseBlock.connectedBlocks)
                 {
                     //Goes through all connected blocks and checks whether the block at the location, that they should be placed, at is solid
-                    Block block = Game.world.GetBlock(xPos + 8 * chunk.index + conBlockInfo.xOffset, yPos + conBlockInfo.yOffset);
+                    Block block = World.Get().GetBlock(xPos + 8 * chunk.index + conBlockInfo.xOffset, yPos + conBlockInfo.yOffset);
                     if (block != null && (block.isSolid || block.isBackground))
                     {
                         return false;
@@ -863,7 +863,7 @@ namespace SeeloewenCraft.game.core.blocks
                 foreach (var conBlockInfo in baseBlock.connectedBlocks)
                 {
                     //Goes through all connected blocks and checks whether the block at the location, that they should be placed, has a foreground block
-                    Block block = Game.world.GetBlock(xPos + 8 * chunk.index + conBlockInfo.xOffset, yPos + conBlockInfo.yOffset);
+                    Block block = World.Get().GetBlock(xPos + 8 * chunk.index + conBlockInfo.xOffset, yPos + conBlockInfo.yOffset);
                     if (block != null && (block.foregroundBlock != null || !block.isBackground))
                     {
                         return false;
@@ -893,11 +893,11 @@ namespace SeeloewenCraft.game.core.blocks
             {
                 if (!inForeground)
                 {
-                    connectedBlocks.Add(Game.world.GetBlock(xPos + 8 * chunk.index + entry.xOffset, yPos + entry.yOffset));
+                    connectedBlocks.Add(World.Get().GetBlock(xPos + 8 * chunk.index + entry.xOffset, yPos + entry.yOffset));
                 }
                 else
                 {
-                    connectedBlocks.Add(Game.world.GetBlock(xPos + 8 * chunk.index + entry.xOffset, yPos + entry.yOffset).foregroundBlock);
+                    connectedBlocks.Add(World.Get().GetBlock(xPos + 8 * chunk.index + entry.xOffset, yPos + entry.yOffset).foregroundBlock);
                 }
             }
 
@@ -908,7 +908,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             if (baseBlock.xOffset != null && baseBlock.yOffset != null)
             {
-                return Game.world.GetBlock(xPos + chunk.index * 8 + (int)baseBlock.xOffset, yPos + (int)baseBlock.yOffset);
+                return World.Get().GetBlock(xPos + chunk.index * 8 + (int)baseBlock.xOffset, yPos + (int)baseBlock.yOffset);
             }
             return null;
         }
@@ -918,7 +918,7 @@ namespace SeeloewenCraft.game.core.blocks
             foreach (var conBlock in baseBlock.connectedBlocks)
             {
                 //Place the connected block
-                Block oldBlock = Game.world.GetBlock(xPos + 8 * chunk.index + conBlock.xOffset, yPos + conBlock.yOffset);
+                Block oldBlock = World.Get().GetBlock(xPos + 8 * chunk.index + conBlock.xOffset, yPos + conBlock.yOffset);
                 Block newBlock = BlockRegister.Get(conBlock.blockId);
                 newBlock.baseBlock = (-conBlock.xOffset, -conBlock.yOffset);
 
@@ -931,7 +931,7 @@ namespace SeeloewenCraft.game.core.blocks
             foreach (var conBlock in baseBlock.connectedBlocks)
             {
                 //Place the connected block
-                Block oldBlock = Game.world.GetBlock(xPos + 8 * chunk.index + conBlock.xOffset, yPos + conBlock.yOffset);
+                Block oldBlock = World.Get().GetBlock(xPos + 8 * chunk.index + conBlock.xOffset, yPos + conBlock.yOffset);
                 Block newBlock = BlockRegister.Get(conBlock.blockId);
                 newBlock.baseBlock = (-conBlock.xOffset, -conBlock.yOffset);
 
@@ -1057,7 +1057,7 @@ namespace SeeloewenCraft.game.core.blocks
 
             Block effectiveBlock = foregroundBlock ?? this; //The block which the break get's performed on
 
-            if (Game.world.gamemode == Gamemode.Creative || breakTime == 0)
+            if (World.Get().gamemode == Gamemode.Creative || breakTime == 0)
             {
                 //Instantly perform the break when in creative or when time is 0
                 ClickHandler.DoLeftClick(this);
@@ -1090,7 +1090,7 @@ namespace SeeloewenCraft.game.core.blocks
                     double breakPower = tool.breakPower == 0 ? 1 : tool.breakPower;
                     breakProgress += 1 * breakPower;
 
-                    if (breakProgress >= breakTimeTicks || Game.world.gamemode == Gamemode.Creative)
+                    if (breakProgress >= breakTimeTicks || World.Get().gamemode == Gamemode.Creative)
                     {
                         ClickHandler.DoRightClick(this);
                         hammering = false;

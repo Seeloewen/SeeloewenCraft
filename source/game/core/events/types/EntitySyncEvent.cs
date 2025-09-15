@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.core.entities;
+using SeeloewenCraft.game.core.world;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace SeeloewenCraft.game.core.events
         {
             //Temporarily reverted to old system
             Player.Get().SendSyncData();
-            foreach (Entity entity in Game.world.entityManager.entities)
+            foreach (Entity entity in World.Get().entityManager.entities)
             {
                 if (entity is MovingEntity movEntity)
                 {

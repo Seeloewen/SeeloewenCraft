@@ -9,7 +9,7 @@ namespace SeeloewenCraft.game.core.world
         private void Generate()
         {
             blockList = new BlockList(this);
-            chunkDirectory = string.Format("{0}/chunk{1}", Game.world.worldDirectory, index);
+            chunkDirectory = string.Format("{0}/chunk{1}", World.Get().worldDirectory, index);
 
             //Determine the biome
             switch (index)
@@ -19,10 +19,10 @@ namespace SeeloewenCraft.game.core.world
                     biome = GetNewBiome(Biome.None);
                     break;
                 case > 0:
-                    biome = GetNewBiome(Game.world.GetChunk(index - 1).biome);
+                    biome = GetNewBiome(World.Get().GetChunk(index - 1).biome);
                     break;
                 case < 0:
-                    biome = GetNewBiome(Game.world.GetChunk(index + 1).biome);
+                    biome = GetNewBiome(World.Get().GetChunk(index + 1).biome);
                     break;
             }
 
@@ -415,7 +415,7 @@ namespace SeeloewenCraft.game.core.world
                 //Continue Structure Generation by adding a continuation strucutre, which contains the structure components that were previously cut off
                 if (index != 0)
                 {
-                    foreach (Structure structure in Game.world.GetChunk(index + (index < 0 ? 1 : -1)).structureList)
+                    foreach (Structure structure in World.Get().GetChunk(index + (index < 0 ? 1 : -1)).structureList)
                     {
                         //Check if the structure in the list is actually cut off and matches the id
                         if (structure.isCutOff && structure.name == structureName && !continuedStructureList.Contains(structure))
@@ -428,7 +428,7 @@ namespace SeeloewenCraft.game.core.world
             }
             else //If no id is given, generate all remaining structures in the list
             {
-                foreach (Structure structure in Game.world.GetChunk(index + (index < 0 ? 1 : -1)).structureList)
+                foreach (Structure structure in World.Get().GetChunk(index + (index < 0 ? 1 : -1)).structureList)
                 {
                     //Check if the structure in the list is actually cut off and matches the id
                     if (structure.isCutOff && !continuedStructureList.Contains(structure))
