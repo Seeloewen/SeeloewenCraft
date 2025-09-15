@@ -11,7 +11,7 @@ namespace SeeloewenCraft.game.core.entities
 
 
         public Zombie(int posX, int posY, int velX, int velY)
-            : base(900, 1800, posX, posY, velX, velY)
+            : base(900, 1800, posX, posY, velX, velY, new SeeloewenCraft.game.graphics.Color(0f, 0.7f, 0f, 0.7f))
         {
             idGenerator = new Random(DateTime.Now.Millisecond);
             ACC_WALKING = 20000;

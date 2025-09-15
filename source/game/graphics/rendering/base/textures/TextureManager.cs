@@ -169,7 +169,7 @@ namespace SeeloewenCraft.game.graphics
             CreateTextureMaps();
             
             
-            //TODO seperate font stuff
+            //TODO seperate Font stuff
             JsonToken fileToken = JsonUtil.ReadResource("assets.content.json");
             JsonToken fontToken = fileToken.GetToken("/font");
 
