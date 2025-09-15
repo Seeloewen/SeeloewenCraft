@@ -41,6 +41,15 @@ namespace SeeloewenCraft.game.graphics
             return ((float)x / (WIDTH / 2f) - 1, (float)y / -(HEIGHT / 2f) + 1);
         }
 
+        static public (int, int) PosToPixel(int x, int y)
+        {
+            return ScreenToPixel(
+                    GameCamera.blockXAnchor + GameCamera.blockLength * (x / 1000f),
+                    GameCamera.blockYAnchor - GameCamera.blockLength * (y / 1000f) * Resolution.RATIO
+            );
+        }
+        
+
         static unsafe public void Init(Window* window)
         {
             GLFW.SetWindowSizeCallback(window, (window1, width, height) =>

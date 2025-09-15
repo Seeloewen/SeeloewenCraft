@@ -7,6 +7,7 @@ using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using System;
 using System.Windows.Media;
+using Color = SeeloewenCraft.game.graphics.Color;
 using JsonWriter = SeeloewenCraft.game.util.JsonWriter;
 
 namespace SeeloewenCraft.game.core.entities
@@ -49,7 +50,7 @@ namespace SeeloewenCraft.game.core.entities
                 (float)(a * -0.8 * Math.Sin(t)));
         }
 
-        public Player(int x, int y) : base(PLAYER_WIDTH, PLAYER_HEIGHT, x, y, 0, 0)
+        public Player(int x, int y) : base(PLAYER_WIDTH, PLAYER_HEIGHT, x, y, 0, 0, new Color(0.3f, 0.3f, 0.3f, 0.7f))
         {
             //Generate the player
             type = "Player";

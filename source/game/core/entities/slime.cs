@@ -1,6 +1,6 @@
 ﻿using SeeloewenCraft.game.util;
 using System;
-using System.Windows.Media;
+using SeeloewenCraft.game.graphics;
 
 namespace SeeloewenCraft.game.core.entities
 {
@@ -13,7 +13,7 @@ namespace SeeloewenCraft.game.core.entities
         private int timeSinceJump;
 
 
-        public Slime(int posX, int posY, int velX, int velY) : base(animalSizeX, animalSizeY, posX, posY, velX, velY)
+        public Slime(int posX, int posY, int velX, int velY) : base(animalSizeX, animalSizeY, posX, posY, velX, velY, new Color(0f, 0.4f, 0f, 0.7f))
         {
             type = "Slime";
             frictionAir = 1;
@@ -32,7 +32,6 @@ namespace SeeloewenCraft.game.core.entities
 
         protected override void InitTexture()
         {
-            texture.Background = GetSlimeTexture();
         }
 
         public override void Die()
@@ -58,12 +57,5 @@ namespace SeeloewenCraft.game.core.entities
         }
 
 
-        public static ImageBrush GetSlimeTexture()
-        {
-            Random random = new Random(DateTime.Now.Millisecond);
-
-            //TODO
-            return null;
-        }
     }
 }

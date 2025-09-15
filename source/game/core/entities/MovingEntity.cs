@@ -3,7 +3,7 @@ using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using System;
-using System.Windows.Media;
+using SeeloewenCraft.game.graphics;
 
 namespace SeeloewenCraft.game.core.entities
 {
@@ -38,14 +38,17 @@ namespace SeeloewenCraft.game.core.entities
         public bool flying;
 
         public bool breathing;
+        
+        public Color hitboxColor { private init; get; }
 
 
-        public MovingEntity(int sizeX, int sizeY, int posX, int posY, int velX, int velY)
-            : base(sizeX, sizeY, posX, posY, velX, velY, new SolidColorBrush(Colors.Green))
+        public MovingEntity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, Color hitboxColor)
+            : base(sizeX, sizeY, posX, posY, velX, velY, new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Green))
         {
             type = "MovingEntity";
             hp = MAX_HP;
             currentAcc = ACC_WALKING;
+            this.hitboxColor = hitboxColor;
 
             texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
 
@@ -53,7 +56,7 @@ namespace SeeloewenCraft.game.core.entities
         }
 
         public MovingEntity(JsonToken token, int sizeX, int sizeY)
-            : base(token, sizeX, sizeY, new SolidColorBrush(Colors.Green))
+            : base(token, sizeX, sizeY, new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Green))
         {
             type = "MovingEntity";
             hp = token.GetDouble("/hp");
@@ -102,7 +105,7 @@ namespace SeeloewenCraft.game.core.entities
         }
 
 
-        public MovingEntity(JsonToken token, int sizeX, int sizeY, Brush image)
+        public MovingEntity(JsonToken token, int sizeX, int sizeY, System.Windows.Media.Brush image)
             : base(token, sizeX, sizeY, image)
         {
             type = "MovingEntity";

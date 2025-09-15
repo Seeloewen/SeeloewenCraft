@@ -37,6 +37,9 @@ namespace SeeloewenCraft.game.graphics
             */
 ;
             WorldRenderer.Render();
+
+            HitboxRenderer.Render();
+            
             ItemEntityRenderer.Render();
             PlayerRenderer.Render();
             
