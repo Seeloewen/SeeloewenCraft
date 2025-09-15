@@ -10,6 +10,7 @@
         public const string CROPS_TOMATO = "Crops/Tomato";
 
         public const string LIQUIDS_WATER = "Liquids/Water";
+        public const string LIQUID_SOURCE = "Liquids/Source";
 
         public const string CAN_BE_AIR_LIGHTSOURCE = "CanBeAirLightsource";
         public const string CAN_BE_FLOOR_SPAWNING = "CanBeFloorSpawning"; //TODO: Potential candidate for a rework because it's scuffed

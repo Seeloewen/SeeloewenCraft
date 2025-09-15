@@ -6,12 +6,11 @@ namespace SeeloewenCraft.game.util
 {
     public static class FolderUtil
     {
-        private static string appData;
+        public static string appData;
         public static string gameFolder;
         public static string worldsFolder;
         public static string logsFolder;
         public static string texturepacksFolder;
-        public static string? modFolder;
         public static string playerInfoFile;
 
         public static void InitializeDirectories()

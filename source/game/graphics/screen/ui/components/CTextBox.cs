@@ -17,16 +17,15 @@ namespace SeeloewenCraft.game.graphics
             AddChild(cBorder);
         }
 
-        protected override void OnClickEvent(ClickEvent mouseClickEvent)
-        {
-            cTextField.editMode = true;
-        }
+        protected override void OnClickEvent(ClickEvent mouseClickEvent) => cTextField.editMode = true;
 
-        internal void SetText(string text)
-        {
-            cTextField.SetText(text);
-        }
+        internal void SetText(string text) => cTextField.SetText(text);
 
         internal string GetText() => cTextField.GetText();
+
+        internal void EnableEditMode() => cTextField.editMode = true;
+
+        internal void DisableEditMode() => cTextField.editMode = false;
+
     }
 }

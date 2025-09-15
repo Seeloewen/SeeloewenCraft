@@ -122,17 +122,6 @@ namespace SeeloewenCraft.launcher
             Settings.logWorldGeneration = Convert.ToBoolean(cbLogWorldGeneration.IsChecked);
             Log.Write($"Saved setting logWorldGeneration as {Settings.logWorldGeneration}", LogType.GENERAL, LogLevel.INFO);
 
-            //Save the keybinds locally
-            /*Settings.cMoveRight = KeyConverter.StringToKey(tbMoveRight.Text);
-            Settings.cMoveLeft = KeyConverter.StringToKey(tbMoveLeft.Text);
-            Settings.cJump = KeyConverter.StringToKey(tbJump.Text);
-            Settings.cShowInv = KeyConverter.StringToKey(tbOpenInventory.Text);
-            Settings.cToggleDebug = KeyConverter.StringToKey(tbToggleDebugMenu.Text);
-            Settings.cNotifications = KeyConverter.StringToKey(tbShowNotificationList.Text);
-            Settings.cThrowItem = KeyConverter.StringToKey(tbThrowItem.Text);
-            Settings.cSneak = KeyConverter.StringToKey(tbSneak.Text);
-            Settings.cSprint = KeyConverter.StringToKey(tbSprint.Text);*/
-
             //Save the settings to file
             Settings.Save(writer);
 
@@ -266,11 +255,6 @@ namespace SeeloewenCraft.launcher
                 }
                 Log.Write($"Successfully applied texturepack ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem})", LogType.GENERAL, LogLevel.INFO);
             }
-
-            if (Game.world != null && Game.world.finishedLoading)
-            {
-                //TODO: Game.world.RefreshTextures();
-            }
         }
 
         //-- Event Handlers --//
@@ -288,7 +272,7 @@ namespace SeeloewenCraft.launcher
             //Apply some settings instantly
             if (Game.world != null)
             {
-               // Game.world.gameLoop.autoSaveEvent.UpdateMaxTick(); //TODO: Events
+                // Game.world.gameLoop.autoSaveEvent.UpdateMaxTick(); //TODO: Events
             }
 
             ApplyTexturepack();

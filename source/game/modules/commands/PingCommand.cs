@@ -1,5 +1,5 @@
-﻿using SeeloewenCraft.game.core.legacy;
-using SeeloewenCraft.game.networking;
+﻿using SeeloewenCraft.game.networking;
+using SeeloewenCraft.game.notifications;
 using System;
 
 namespace SeeloewenCraft.game.core.commands
@@ -14,12 +14,12 @@ namespace SeeloewenCraft.game.core.commands
 
                 if (NetworkHandler.IsServer())
                 {
-                    NotificationHandler.ShowNotification("You can see the ping to your clients in the log.", 3000);
+                    NotificationHandler.Notify("sc:snowball_item", "You can see the ping to your clients in the log.");
                 }
             }
             else
             {
-                NotificationHandler.ShowNotification("This command only works in Multiplayer!", 3000);
+                NotificationHandler.Notify("sc:bedrock_item", "This command only works in Multiplayer!");
             }
         }
     }

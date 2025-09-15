@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.core.legacy;
+﻿using SeeloewenCraft.game.core.entities;
+using SeeloewenCraft.game.notifications;
 using System.Globalization;
 
 namespace SeeloewenCraft.game.core.commands
@@ -12,12 +13,12 @@ namespace SeeloewenCraft.game.core.commands
             {
                 double amount = double.Parse(args[1], CultureInfo.InvariantCulture);
 
-                Game.world.player.Heal(amount);
-                NotificationHandler.ShowNotification($"Succesfully healed player {amount}hp to {Game.world.player.hp}hp", 3000);
+                Player.Get().Heal(amount); //TODO: Replace icon
+                NotificationHandler.Notify("sc:bedrock_item", $"Succesfully healed player {amount}hp to {Player.Get().hp}hp");
             }
             catch
             {
-                NotificationHandler.ShowNotification("Invalid command syntax: can't parse healing amount to double", 3000);
+                NotificationHandler.Notify("sc:bedrock_item", "Invalid command syntax: can't parse healing amount to double");
                 return;
             }
 
@@ -28,19 +29,19 @@ namespace SeeloewenCraft.game.core.commands
             {
                 double amount = double.Parse(args[1], CultureInfo.InvariantCulture);
 
-                Game.world.player.Damage(amount);
-                NotificationHandler.ShowNotification($"Succesfully damaged player {amount}hp to {Game.world.player.hp}hp", 3000);
+                Player.Get().Damage(amount);
+                NotificationHandler.Notify("sc:bedrock_item", $"Succesfully damaged player {amount}hp to {Player.Get().hp}hp");
             }
             catch
             {
-                NotificationHandler.ShowNotification("Invalid command syntax: can't parse damage amount to double", 3000);
+                NotificationHandler.Notify("sc:bedrock_item", "Invalid command syntax: can't parse damage amount to double");
                 return;
             }
         }
 
         public static void HandleHPCommand(string[] args)
         {
-            NotificationHandler.ShowNotification($"Current hp: {Game.world.player.hp}", 3000);
+            NotificationHandler.Notify("sc:bedrock_item", $"Current hp: {Player.Get().hp}"); //TODO: Replace icon
         }
     }
 }

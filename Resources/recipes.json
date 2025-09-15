@@ -11,12 +11,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:cobblestone_topleft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:cobblestone_topleft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_cobblestone_topright",
@@ -29,12 +27,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:cobblestone_topright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:cobblestone_topright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_cobblestone_bottomleft",
@@ -47,12 +43,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:cobblestone_bottomleft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:cobblestone_bottomleft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_cobblestone_bottomright",
@@ -65,12 +59,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:cobblestone_bottomright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:cobblestone_bottomright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_cobblestone_stairtopleft",
@@ -83,12 +75,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:cobblestone_stairtopleft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:cobblestone_stairtopleft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_cobblestone_stairtopright",
@@ -101,12 +91,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:cobblestone_stairtopright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:cobblestone_stairtopright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_cobblestone_stairbottomleft",
@@ -119,12 +107,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:cobblestone_stairbottomleft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:cobblestone_stairbottomleft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_cobblestone_stairbottomright",
@@ -137,12 +123,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:cobblestone_stairbottomright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:cobblestone_stairbottomright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_cobblestone_slabbottom",
@@ -155,12 +139,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:cobblestone_slabbottom_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:cobblestone_slabbottom_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_cobblestone_slabtop",
@@ -173,12 +155,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:cobblestone_slabtop_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:cobblestone_slabtop_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_cobblestone_slabright",
@@ -191,12 +171,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:cobblestone_slabright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:cobblestone_slabright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_cobblestone_slableft",
@@ -209,12 +187,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:cobblestone_slableft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:cobblestone_slableft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_cobblestone_center",
@@ -227,12 +203,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:cobblestone_center_item",
-          "amount": 4
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:cobblestone_center_item",
+        "amount": 4
+      }
     },
     {
       "id": "sc:recipe_sand_stone_topleft",
@@ -245,12 +219,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:sand_stone_topleft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:sand_stone_topleft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_sand_stone_topright",
@@ -263,12 +235,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:sand_stone_topright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:sand_stone_topright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_sand_stone_bottomleft",
@@ -281,12 +251,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:sand_stone_bottomleft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:sand_stone_bottomleft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_sand_stone_bottomright",
@@ -299,12 +267,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:sand_stone_bottomright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:sand_stone_bottomright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_sand_stone_stairtopleft",
@@ -317,12 +283,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:sand_stone_stairtopleft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:sand_stone_stairtopleft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_sand_stone_stairtopright",
@@ -335,12 +299,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:sand_stone_stairtopright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:sand_stone_stairtopright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_sand_stone_stairbottomleft",
@@ -353,12 +315,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:sand_stone_stairbottomleft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:sand_stone_stairbottomleft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_sand_stone_stairbottomright",
@@ -371,12 +331,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:sand_stone_stairbottomright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:sand_stone_stairbottomright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_sand_stone_slabbottom",
@@ -389,12 +347,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:sand_stone_slabbottom_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:sand_stone_slabbottom_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_sand_stone_slabtop",
@@ -407,12 +363,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:sand_stone_slabtop_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:sand_stone_slabtop_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_sand_stone_slabright",
@@ -425,12 +379,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:sand_stone_slabright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:sand_stone_slabright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_sand_stone_slableft",
@@ -443,12 +395,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:sand_stone_slableft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:sand_stone_slableft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_sand_stone_center",
@@ -461,12 +411,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:sand_stone_center_item",
-          "amount": 4
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:sand_stone_center_item",
+        "amount": 4
+      }
     },
     {
       "id": "sc:recipe_oak_planks_topleft",
@@ -479,12 +427,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_planks_topleft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_planks_topleft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_oak_planks_topright",
@@ -497,12 +443,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_planks_topright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_planks_topright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_oak_planks_bottomleft",
@@ -515,12 +459,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_planks_bottomleft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_planks_bottomleft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_oak_planks_bottomright",
@@ -533,12 +475,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_planks_bottomright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_planks_bottomright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_oak_planks_stairtopleft",
@@ -551,12 +491,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_planks_stairtopleft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_planks_stairtopleft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_oak_planks_stairtopright",
@@ -569,12 +507,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_planks_stairtopright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_planks_stairtopright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_oak_planks_stairbottomleft",
@@ -587,12 +523,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_planks_stairbottomleft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_planks_stairbottomleft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_oak_planks_stairbottomright",
@@ -605,12 +539,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_planks_stairbottomright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_planks_stairbottomright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_oak_planks_slabbottom",
@@ -623,12 +555,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_planks_slabbottom_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_planks_slabbottom_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_oak_planks_slabtop",
@@ -641,12 +571,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_planks_slabtop_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_planks_slabtop_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_oak_planks_slabright",
@@ -659,12 +587,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_planks_slabright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_planks_slabright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_oak_planks_slableft",
@@ -677,12 +603,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_planks_slableft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_planks_slableft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_oak_planks_center",
@@ -695,12 +619,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_planks_center_item",
-          "amount": 4
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_planks_center_item",
+        "amount": 4
+      }
     },
     {
       "id": "sc:recipe_spruce_planks_topleft",
@@ -713,12 +635,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_planks_topleft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_planks_topleft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_spruce_planks_topright",
@@ -731,12 +651,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_planks_topright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_planks_topright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_spruce_planks_bottomleft",
@@ -749,12 +667,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_planks_bottomleft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_planks_bottomleft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_spruce_planks_bottomright",
@@ -767,12 +683,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_planks_bottomright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_planks_bottomright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_spruce_planks_stairtopleft",
@@ -785,12 +699,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_planks_stairtopleft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_planks_stairtopleft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_spruce_planks_stairtopright",
@@ -803,12 +715,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_planks_stairtopright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_planks_stairtopright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_spruce_planks_stairbottomleft",
@@ -821,12 +731,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_planks_stairbottomleft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_planks_stairbottomleft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_spruce_planks_stairbottomright",
@@ -839,12 +747,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_planks_stairbottomright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_planks_stairbottomright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_spruce_planks_slabbottom",
@@ -857,12 +763,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_planks_slabbottom_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_planks_slabbottom_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_spruce_planks_slabtop",
@@ -875,12 +779,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_planks_slabtop_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_planks_slabtop_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_spruce_planks_slabright",
@@ -893,12 +795,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_planks_slabright_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_planks_slabright_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_spruce_planks_slableft",
@@ -911,12 +811,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_planks_slableft_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_planks_slableft_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_spruce_planks_center",
@@ -929,12 +827,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_planks_center_item",
-          "amount": 4
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_planks_center_item",
+        "amount": 4
+      }
     },
     {
       "id": "sc:recipe_wood_pickaxe",
@@ -951,12 +847,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:wood_pickaxe_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:wood_pickaxe_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_wood_axe",
@@ -973,12 +867,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:wood_axe_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:wood_axe_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_wood_shovel",
@@ -995,12 +887,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:wood_shovel_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:wood_shovel_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_wood_sword",
@@ -1017,12 +907,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:wood_sword_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:wood_sword_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_wood_hammer",
@@ -1039,12 +927,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:wood_hammer_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:wood_hammer_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_wood_scythe",
@@ -1061,12 +947,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:wood_scythe_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:wood_scythe_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_stone_pickaxe",
@@ -1083,12 +967,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:stone_pickaxe_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:stone_pickaxe_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_stone_axe",
@@ -1105,12 +987,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:stone_axe_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:stone_axe_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_stone_shovel",
@@ -1127,12 +1007,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:stone_shovel_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:stone_shovel_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_stone_sword",
@@ -1149,12 +1027,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:stone_sword_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:stone_sword_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_stone_hammer",
@@ -1171,12 +1047,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:stone_hammer_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:stone_hammer_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_stone_scythe",
@@ -1193,12 +1067,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:stone_scythe_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:stone_scythe_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_iron_pickaxe",
@@ -1215,12 +1087,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:iron_pickaxe_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:iron_pickaxe_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_iron_axe",
@@ -1237,12 +1107,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:iron_axe_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:iron_axe_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_iron_shovel",
@@ -1259,12 +1127,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:iron_shovel_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:iron_shovel_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_iron_sword",
@@ -1281,12 +1147,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:iron_sword_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:iron_sword_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_iron_hammer",
@@ -1303,12 +1167,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:iron_hammer_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:iron_hammer_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_iron_scythe",
@@ -1325,12 +1187,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:iron_scythe_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:iron_scythe_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_tin_pickaxe",
@@ -1347,12 +1207,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:tin_pickaxe_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:tin_pickaxe_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_tin_axe",
@@ -1369,12 +1227,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:tin_axe_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:tin_axe_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_tin_shovel",
@@ -1391,12 +1247,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:tin_shovel_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:tin_shovel_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_tin_sword",
@@ -1413,12 +1267,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:tin_sword_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:tin_sword_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_tin_hammer",
@@ -1435,12 +1287,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:tin_hammer_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:tin_hammer_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_tin_scythe",
@@ -1457,12 +1307,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:tin_scythe_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:tin_scythe_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_diamond_pickaxe",
@@ -1479,12 +1327,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:diamond_pickaxe_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:diamond_pickaxe_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_diamond_axe",
@@ -1501,12 +1347,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:diamond_axe_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:diamond_axe_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_diamond_shovel",
@@ -1523,12 +1367,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:diamond_shovel_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:diamond_shovel_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_diamond_sword",
@@ -1545,12 +1387,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:diamond_sword_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:diamond_sword_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_diamond_hammer",
@@ -1571,12 +1411,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:diamond_hammer_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:diamond_hammer_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_diamond_scythe",
@@ -1593,12 +1431,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:diamond_scythe_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:diamond_scythe_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_oak_chair",
@@ -1615,12 +1451,10 @@
           "amount": 4
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_chair_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_chair_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_spruce_chair",
@@ -1637,12 +1471,10 @@
           "amount": 4
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_chair_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_chair_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_potted_cactus",
@@ -1659,12 +1491,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:potted_cactus_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:potted_cactus_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_furnace",
@@ -1681,12 +1511,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:furnace_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:furnace_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_oak_door",
@@ -1707,12 +1535,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_door_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_door_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_spruce_door",
@@ -1733,12 +1559,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_door_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_door_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_oak_trapdoor",
@@ -1755,12 +1579,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_trapdoor_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_trapdoor_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_spruce_trapdoor",
@@ -1777,12 +1599,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_trapdoor_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_trapdoor_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_anvil",
@@ -1795,12 +1615,10 @@
           "amount": 32
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:anvil_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:anvil_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_barrel",
@@ -1817,12 +1635,10 @@
           "amount": 4
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:barrel_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:barrel_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_bone_block",
@@ -1835,12 +1651,10 @@
           "amount": 16
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:bone_block_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:bone_block_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_candle",
@@ -1861,12 +1675,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:candle_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:candle_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_chest",
@@ -1887,12 +1699,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:chest_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:chest_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_chiseler",
@@ -1909,12 +1719,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:chiseler_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:chiseler_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_cobblestone",
@@ -1927,12 +1735,10 @@
           "amount": 4
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:cobblestone_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:cobblestone_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_cobblestone",
@@ -1945,12 +1751,10 @@
           "amount": 4
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:cobblestone_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:cobblestone_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_crafting_table",
@@ -1963,12 +1767,10 @@
           "amount": 4
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:crafting_table_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:crafting_table_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_iron_gates",
@@ -1981,12 +1783,10 @@
           "amount": 4
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:iron_gates_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:iron_gates_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_ladder",
@@ -2003,12 +1803,10 @@
           "amount": 4
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:ladder_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:ladder_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_oak_planks",
@@ -2021,12 +1819,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_planks_item",
-          "amount": 4
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_planks_item",
+        "amount": 4
+      }
     },
     {
       "id": "sc:recipe_spruce_planks",
@@ -2039,12 +1835,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_planks_item",
-          "amount": 4
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_planks_item",
+        "amount": 4
+      }
     },
     {
       "id": "sc:recipe_oak_table",
@@ -2057,12 +1851,10 @@
           "amount": 8
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:oak_table_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:oak_table_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_spruce_table",
@@ -2075,12 +1867,10 @@
           "amount": 8
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:spruce_table_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:spruce_table_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_sand_stone",
@@ -2093,12 +1883,10 @@
           "amount": 4
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:sand_stone_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:sand_stone_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_sand_stone_bricks",
@@ -2111,12 +1899,10 @@
           "amount": 6
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:sand_stone_bricks_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:sand_stone_bricks_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_stone_bricks",
@@ -2129,12 +1915,10 @@
           "amount": 6
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:stone_bricks_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:stone_bricks_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_torch",
@@ -2151,12 +1935,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:torch_item",
-          "amount": 4
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:torch_item",
+        "amount": 4
+      }
     },
     {
       "id": "sc:recipe_unchiseler",
@@ -2173,12 +1955,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:unchiseler_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:unchiseler_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_arrow",
@@ -2195,12 +1975,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:arrow_item",
-          "amount": 2
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:arrow_item",
+        "amount": 2
+      }
     },
     {
       "id": "sc:recipe_bucket",
@@ -2217,12 +1995,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:bucket_empty_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:bucket_empty_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_copper_bar",
@@ -2239,12 +2015,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:copper_bar_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:copper_bar_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_tin_bar",
@@ -2261,12 +2035,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:tin_bar_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:tin_bar_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_gold_bar",
@@ -2283,12 +2055,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:gold_bar_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:gold_bar_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_iron_bar",
@@ -2305,12 +2075,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:iron_bar_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:iron_bar_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_tungsten_bar",
@@ -2327,12 +2095,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:tungsten_bar_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:tungsten_bar_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_flower_pot",
@@ -2353,12 +2119,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:flower_pot_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:flower_pot_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_iron_rod",
@@ -2371,12 +2135,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:iron_rod_item",
-          "amount": 4
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:iron_rod_item",
+        "amount": 4
+      }
     },
     {
       "id": "sc:recipe_stick",
@@ -2389,12 +2151,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:stick_item",
-          "amount": 4
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:stick_item",
+        "amount": 4
+      }
     },
     {
       "id": "sc:recipe_stick",
@@ -2407,12 +2167,10 @@
           "amount": 2
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:stick_item",
-          "amount": 4
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:stick_item",
+        "amount": 4
+      }
     },
     {
       "id": "sc:recipe_stone",
@@ -2429,12 +2187,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:stone_block_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:stone_block_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_archeology_pot",
@@ -2447,12 +2203,10 @@
           "amount": 4
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:archeology_pot_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:archeology_pot_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_seeds",
@@ -2465,12 +2219,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:seeds_item",
-          "amount": 2
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:seeds_item",
+        "amount": 2
+      }
     },
     {
       "id": "sc:recipe_bread",
@@ -2481,22 +2233,12 @@
         {
           "item_id": "sc:wheat_item",
           "amount": 3
-        },
-        {
-          "item_id": "sc:bucket_water_item",
-          "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:bread_item",
-          "amount": 1
-        },
-        {
-          "item_id": "sc:bucket_empty_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:bread_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_croissant",
@@ -2507,22 +2249,12 @@
         {
           "item_id": "sc:wheat_item",
           "amount": 2
-        },
-        {
-          "item_id": "sc:bucket_water_item",
-          "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:croissant_item",
-          "amount": 1
-        },
-        {
-          "item_id": "sc:bucket_empty_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:croissant_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_paper",
@@ -2539,16 +2271,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:paper_item",
-          "amount": 1
-        },
-        {
-          "item_id": "sc:bucket_empty_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:paper_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_salad",
@@ -2573,12 +2299,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:salad_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:salad_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_pumpkin_seeds",
@@ -2591,12 +2315,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:pumpkin_seeds_item",
-          "amount": 2
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:pumpkin_seeds_item",
+        "amount": 2
+      }
     },
     {
       "id": "sc:recipe_wool",
@@ -2609,12 +2331,10 @@
           "amount": 3
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:wool_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:wool_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_lantern",
@@ -2631,12 +2351,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:lantern_item",
-          "amount": 1
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:lantern_item",
+        "amount": 1
+      }
     },
     {
       "id": "sc:recipe_cabbage_seeds",
@@ -2649,12 +2367,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:cabbage_seeds_item",
-          "amount": 2
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:cabbage_seeds_item",
+        "amount": 2
+      }
     },
     {
       "id": "sc:recipe_seeds",
@@ -2667,12 +2383,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:seeds_item",
-          "amount": 2
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:seeds_item",
+        "amount": 2
+      }
     },
     {
       "id": "sc:recipe_cabbage_seeds",
@@ -2685,12 +2399,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:cabbage_seeds_item",
-          "amount": 2
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:cabbage_seeds_item",
+        "amount": 2
+      }
     },
     {
       "id": "sc:recipe_pumpkin_seeds",
@@ -2703,12 +2415,10 @@
           "amount": 1
         }
       ],
-      "outgredients": [
-        {
-          "item_id": "sc:pumpkin_seeds_item",
-          "amount": 2
-        }
-      ]
+      "outgredient": {
+        "item_id": "sc:pumpkin_seeds_item",
+        "amount": 2
+      }
     }
   ]
 }

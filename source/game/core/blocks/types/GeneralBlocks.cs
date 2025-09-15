@@ -34,7 +34,7 @@ namespace SeeloewenCraft.game.core.blocks
             WriteTag(BlockTags.SCYTHEABLE);
         }
 
-        protected override void DoSpecificUpdate()
+        protected override void DoSpecificUpdate(double dt)
         {
             //Roll whether to grow grass to adjacent dirt
             if (Game.rnd.Next(0, 40) == 0)
@@ -91,6 +91,7 @@ namespace SeeloewenCraft.game.core.blocks
             drops.Add(("sc:rock_item", 1, 4));
 
             WriteTag(BlockTags.CAN_BE_FLOOR_SPAWNING);
+            WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
@@ -106,7 +107,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class AirBlock : Block
     {
-        internal AirBlock() : base("Air", "sc:air_block", 150, "sc:air_item" )
+        internal AirBlock() : base("Air", "sc:air_block", 150)
         {
             WriteTag(BlockTags.UNBREAKABLE);
             WriteTag(BlockTags.REPLACEABLE);
@@ -198,7 +199,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             if (IsInRange() && isSolid)
             {
-                Game.world.player.inventory.ShowGui();
+                Player.Get().inventory.ShowGui();
                 inventory.ShowGui();
             }
         }
@@ -339,7 +340,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             if (IsInRange())
             {
-                Game.world.player.inventory.ShowGui();
+                Player.Get().inventory.ShowGui();
                 ((IGuiData)unchiselHandler).Show();
             }
         }
@@ -751,7 +752,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             if (IsInRange() && isSolid)
             {
-                Game.world.player.inventory.ShowGui();
+                Player.Get().inventory.ShowGui();
                 inventory.ShowGui();
             }
         }
@@ -764,6 +765,7 @@ namespace SeeloewenCraft.game.core.blocks
             isSolid = false;
             needsGround = (true, BlockTags.GROUNDS_DIRT);
             WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
+            WriteTag(BlockTags.REPLACEABLE);
         }
     }
 
@@ -781,9 +783,9 @@ namespace SeeloewenCraft.game.core.blocks
             needsGround = (true, BlockTags.GROUNDS_SAND);
         }
 
-        public override void UpdateProgress(int amount)
+        protected override void DoSpecificUpdate(double dt)
         {
-            base.UpdateProgress(amount);
+            base.DoSpecificUpdate(dt);
 
             if (IsReady())
             {
@@ -869,6 +871,7 @@ namespace SeeloewenCraft.game.core.blocks
             isSolid = false;
             needsGround = (true, BlockTags.GROUNDS_DIRT);
             WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
+            WriteTag(BlockTags.REPLACEABLE);
         }
     }
 
@@ -913,15 +916,15 @@ namespace SeeloewenCraft.game.core.blocks
             needsGround = (true, BlockTags.GROUNDS_DIRT);
         }
 
-        public override void UpdateProgress(int amount)
+        protected override void DoSpecificUpdate(double dt)
         {
-            base.UpdateProgress(amount);
+            base.DoSpecificUpdate(dt);
 
             if (IsReady())
             {
                 if (HasSpaceAbove(-2, 0, 5, 5))
                 {
-                    Structure tree = new OakTreeStructure(xPos, yPos, chunk.index, true, null, true);
+                    Structure tree = new OakTreeStructure(xPos, yPos, chunk.index, true, chunk, true);
 
                     foreach (StructureComponent structComp in tree.structureComponents)
                     {
@@ -943,16 +946,16 @@ namespace SeeloewenCraft.game.core.blocks
             needsGround = (true, "ground/plant");
         }
 
-        public override void UpdateProgress(int amount)
+        protected override void DoSpecificUpdate(double dt)
         {
-            base.UpdateProgress(amount);
+            base.DoSpecificUpdate(dt);
 
             if (IsReady())
             {
                 if (HasSpaceAbove(-2, 0, 5, 7))
                 {
 
-                    Structure tree = new SpruceTreeStructure(xPos, yPos, chunk.index, true, null, true);
+                    Structure tree = new SpruceTreeStructure(xPos, yPos, chunk.index, true, chunk, true);
 
                     foreach (StructureComponent structComp in tree.structureComponents)
                     {
@@ -1035,6 +1038,7 @@ namespace SeeloewenCraft.game.core.blocks
             isSolid = false;
             needsGround = (true, BlockTags.GROUNDS_DIRT);
             WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
+            WriteTag(BlockTags.REPLACEABLE);
         }
     }
 
@@ -1057,13 +1061,13 @@ namespace SeeloewenCraft.game.core.blocks
             WriteTag(BlockTags.CANT_BE_BACKGROUND);
         }
 
-        protected override void DoSpecificUpdate()
+        protected override void DoSpecificUpdate(double dt)
         {
             if (!HasWaterNearby() || lightLevel == 0) //Farmland needs either water or light nearby
             {
                 if (Game.rnd.Next(0, 9) == 0)
                 {
-                    Replace(BlockRegister.Get("sc:dirt_block"));
+                    SetBlock(BlockRegister.Get("sc:dirt_block"));
                 }
             }
         }

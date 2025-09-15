@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.core.settings;
+﻿using SeeloewenCraft.game.core.entities;
+using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using System;
@@ -58,7 +59,7 @@ namespace SeeloewenCraft.game.networking
             //Send this clients player to the server
             using (JsonWriter writer = JsonWriter.Create())
             {
-                Game.world.player.SaveToJson(writer);
+                Player.Get().SaveToJson(writer);
                 await SendData(NetworkHandler.CreatePacket(MultiplayerPacketType.CREATE_ENTITY, writer.ToString()));
             }
 
@@ -161,8 +162,7 @@ namespace SeeloewenCraft.game.networking
                 }
             }
 
-            //Game.world.wndGame.Close();
-            Game.world.wndMenu.Show();
+            Game.wndMenu.Show();
         }
 
         public void Disconnect()
@@ -176,7 +176,7 @@ namespace SeeloewenCraft.game.networking
         {
             //Get the inventory and send it to the server to save it
             JsonWriter writer = JsonWriter.Create();
-            Game.world.player.inventory.SaveToJson(writer);
+            Player.Get().inventory.SaveToJson(writer);
             NetworkHandler.SendData(MultiplayerPacketType.PLAYER_INFORMATION, writer.ToString());
         }
     }

@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.util;
+﻿using SeeloewenCraft.game.core.entities;
+using SeeloewenCraft.game.util;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -15,7 +16,7 @@ namespace SeeloewenCraft.game.graphics
         static internal void Render()
         {
             Renderer.PushDebugGroup("player rendering");
-            var info = Game.world.player.playerRenderInfo;
+            var info = Player.Get().playerRenderInfo;
 
             originX = GameCamera.blockXAnchor + (info.posX / 1000.0f) * GameCamera.blockLength;
             originY = GameCamera.blockYAnchor - (info.posY / 1000.0f) * GameCamera.blockLength * Resolution.RATIO;

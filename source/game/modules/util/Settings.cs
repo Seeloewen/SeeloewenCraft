@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.graphics;
+﻿using SeeloewenCraft.game.core.events;
+using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.util;
 using System;
 
@@ -69,6 +70,7 @@ namespace SeeloewenCraft.game.core.settings
 
             writer.WritePropertyName("auto_save_interval");
             writer.WriteValue(autoSaveInterval);
+            GameEventHandler.Register(new AutoSaveEvent(autoSaveInterval * 60000));
 
             writer.WritePropertyName("texturepack");
             writer.WriteValue(texturepack);

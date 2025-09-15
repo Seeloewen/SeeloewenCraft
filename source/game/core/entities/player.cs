@@ -1,9 +1,8 @@
 ﻿using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.core.items;
-using SeeloewenCraft.game.core.legacy;
-using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.networking;
+using SeeloewenCraft.game.notifications;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using System;
@@ -14,10 +13,12 @@ namespace SeeloewenCraft.game.core.entities
 {
     public partial class Player : MovingEntity
     {
+        public CreativeInventory creativeInventory;
         public Inventory inventory;
-        public HealthBar healthBar;
 
         public Gamemode gamemode = Gamemode.Survival;
+
+        public int currentChunk;
 
         public const double HIT_RANGE = 4000.0;
         public const double HIT_DAMAGE = 2.0;
@@ -59,6 +60,8 @@ namespace SeeloewenCraft.game.core.entities
         {
             InitPlayer();
         }
+
+        public static Player Get() => Game.world.player;
 
         protected override void InitTexture()
         {
@@ -109,7 +112,7 @@ namespace SeeloewenCraft.game.core.entities
 
         public void HandleInputs()
         {
-            if (this != Game.world.player) return;
+            if (this != Player.Get()) return;
 
             bool changed = false;
 
@@ -129,7 +132,7 @@ namespace SeeloewenCraft.game.core.entities
 
             if (changed)
             {
-                NetworkHandler.SendData(MultiplayerPacketType.PRESSED_CHANGE, Game.world.player.id.ToString(), pressedLeft.ToString(), pressedRight.ToString(), pressedUp.ToString(), pressedSneak.ToString(), pressedSprint.ToString());
+                NetworkHandler.SendData(MultiplayerPacketType.PRESSED_CHANGE, Player.Get().id.ToString(), pressedLeft.ToString(), pressedRight.ToString(), pressedUp.ToString(), pressedSneak.ToString(), pressedSprint.ToString());
             }
 
             /* Too laggy, needs a rework
@@ -185,20 +188,10 @@ namespace SeeloewenCraft.game.core.entities
         public void SetGamemode(Gamemode gamemode)
         {
             this.gamemode = gamemode;
-            if (gamemode == Gamemode.Creative)
-            {
-                healthBar.Hide();
-            }
-            else if (gamemode == Gamemode.Survival)
-            {
-                healthBar.Show();
-            }
         }
 
         public void InitPlayer()
         {
-            //Setup the character canvas that is shown but does not count in movement checks
-
             Log.Write($"Created player at position x{posX} y{posY}.", LogType.ENTITIES, LogLevel.INFO);
 
             //Add initial debug menu lines
@@ -213,20 +206,12 @@ namespace SeeloewenCraft.game.core.entities
             DebugMenu.AddLine(DebugMenu.Section.PLAYER, "touchingWater");
             DebugMenu.AddLine(DebugMenu.Section.PLAYER, "breathing");
 
-            //Setup health bar
-            healthBar = new HealthBar(10, 740);
-
-            if (Game.world.gamemode == Gamemode.Creative)
-            {
-                healthBar.Hide();
-            }
-
-            texture.Background = new SolidColorBrush(Colors.Transparent);
+            creativeInventory = new CreativeInventory();
         }
 
         public override void Die()
         {
-            if (this == Game.world.player)
+            if (this == Player.Get())
             {
                 //Drop all items and clear the inventory
                 foreach (InventorySlot slot in inventory.slots)
@@ -245,14 +230,8 @@ namespace SeeloewenCraft.game.core.entities
                 //Set the hp back to 10
                 base.SetHP(10);
 
-                NotificationHandler.ShowNotification("You died and were moved back to the world spawn.", 5000);
+                NotificationHandler.Notify("sc:bone_item", "You died and were moved back to the world spawn.");
             }
-        }
-
-        public override void SetHP(double hp)
-        {
-            base.SetHP(hp);
-            healthBar.SetValue((int)(this.hp * 2) * 0.5);
         }
 
         public override void Damage(double damage)
@@ -307,7 +286,7 @@ namespace SeeloewenCraft.game.core.entities
 
         public void DisplayDebugInformation()
         {
-            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "health", $"{healthBar.value}");
+            DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "health", $"{hp}");
             DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "posX", $"{posX}");
             DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "posY", $"{posY}");
             DebugMenu.UpdateLine(DebugMenu.Section.PLAYER, "velX", $"{velX}");

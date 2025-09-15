@@ -1,8 +1,8 @@
 ﻿using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
-using SeeloewenCraft.game.core.legacy;
 using SeeloewenCraft.game.core.world;
+using SeeloewenCraft.game.notifications;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using System;
@@ -70,7 +70,7 @@ namespace SeeloewenCraft.game.networking
             //Synchronize the position of all entities to ensure their position is correct            
             foreach (Entity entity in Game.world.entityManager.entities)
             {
-                if (entity.id == Convert.ToInt32(packet.content[0]) && entity is MovingEntity movEntity && entity != Game.world.player)
+                if (entity.id == Convert.ToInt32(packet.content[0]) && entity is MovingEntity movEntity && entity != Player.Get())
                 {
                     movEntity.HandleSyncData(packet.content);
                 }
@@ -92,7 +92,7 @@ namespace SeeloewenCraft.game.networking
             {
                 foreach (Entity entity in Game.world.entityManager.entities)
                 {
-                    if (entity.id == Convert.ToInt32(packet.content[0]) && entity is MovingEntity movEntity && entity != Game.world.player)
+                    if (entity.id == Convert.ToInt32(packet.content[0]) && entity is MovingEntity movEntity && entity != Player.Get())
                     {
                         movEntity.pressedLeft = Convert.ToBoolean(packet.content[1]);
                         movEntity.pressedRight = Convert.ToBoolean(packet.content[2]);
@@ -128,12 +128,7 @@ namespace SeeloewenCraft.game.networking
         {
             //Add the entity
             Entity newEntity = Entity.LoadFromJson(JsonUtil.ReadString(packet.content[0]));
-            Game.world.AddEntity_Multiplayer(newEntity);
-
-            if (newEntity.id == client.id)
-            {
-                newEntity.tblId.Text = client.nickname;
-            }
+            //Game.world.AddEntity_Multiplayer(newEntity);
 
             //If the server receives the packet, send it to all clients except the one it came from to ensure the entity gets created on all clients
             if (IsServer())
@@ -185,7 +180,7 @@ namespace SeeloewenCraft.game.networking
             int yPos = int.Parse(packet.content[3]);
 
             //Set the block using the multiplayer method (more info in method)
-            Game.world.SetBlock_Multiplayer(block, cIndex, xPos, yPos);
+            //Game.world.SetBlock_Multiplayer(block, cIndex, xPos, yPos);
 
             //If the server receives the call, redirect it to the other clients
             if (IsServer())
@@ -243,7 +238,7 @@ namespace SeeloewenCraft.game.networking
             }
             else
             {
-                NotificationHandler.ShowNotification($"Your ping to the server is {Math.Round(double.Parse(packet.content[0]))}ms.", 5000);
+                NotificationHandler.Notify("sc:snowball_item", $"Your ping to the server is {Math.Round(double.Parse(packet.content[0]))}ms.");
                 Log.Write($"Your ping to the server is {Math.Round(double.Parse(packet.content[0]))}ms.", LogType.NETWORK, LogLevel.INFO);
             }
         }
@@ -270,7 +265,7 @@ namespace SeeloewenCraft.game.networking
             {
                 //If client receives the packet, load the inventory
                 JsonToken invToken = JsonUtil.ReadString(packet.content[0]);
-                Game.world.player.inventory = Inventory.LoadFromJson(invToken, true);
+                Player.Get().inventory = Inventory.LoadFromJson(invToken, true);
             }
             else if (IsServer())
             {

@@ -6,6 +6,7 @@ using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.networking;
+using SeeloewenCraft.game.notifications;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using SeeloewenCraft.launcher;
@@ -38,7 +39,8 @@ namespace SeeloewenCraft.game
 
                 Screen.Update(dt);
 
-                world.Tick(dt * 0.7, blockUpdate);
+                world.Update(dt * 0.7, blockUpdate);
+                NotificationHandler.Update(dt);
 
                 Renderer.Render();
 
@@ -69,7 +71,7 @@ namespace SeeloewenCraft.game
             else
             {
                 //If the setting to save worlds on closing is enabled
-                if (world.finishedLoading && Settings.saveWorldOnClose) world.Save();
+                if (Settings.saveWorldOnClose) world.Save();
 
                 //Save the user settings
                 using (JsonWriter writer = JsonWriter.Create())
@@ -93,7 +95,7 @@ namespace SeeloewenCraft.game
 
             TextureManager.Load();
 
-            world = new World(null, worldName, seed, isNew, multiplayerType);
+            world = isNew ? World.CreateWorld(worldName, seed, multiplayerType) : World.LoadWorld(worldName, multiplayerType);
 
             Renderer.Init();
 

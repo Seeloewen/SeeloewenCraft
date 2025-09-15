@@ -48,7 +48,7 @@ namespace SeeloewenCraft.game.graphics
             guis.ForEach(gui => gui.PostInit());
         }
 
-        protected override void OnUpdate()
+        protected override void OnUpdate(double dt)
         {
             mouseFollowerSlot.Reset();
 
@@ -56,7 +56,7 @@ namespace SeeloewenCraft.game.graphics
             {
                 if (gui == null) return;
 
-                gui.Update();
+                gui.Update(dt);
             }
         }
 

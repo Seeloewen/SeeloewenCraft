@@ -79,10 +79,10 @@ namespace SeeloewenCraft.game.graphics.ui_lib
         /// <summary>
         /// Checks for and sends input events and calls OnUpdate() on every child component
         /// </summary>
-        public void Update()
+        public void Update(double dt)
         {
             updateInput();
-            component.Update();
+            component.Update(dt);
         }
 
         /// <summary>

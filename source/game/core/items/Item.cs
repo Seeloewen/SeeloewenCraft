@@ -56,6 +56,11 @@ namespace SeeloewenCraft.game.core.items
             throw new NotImplementedException();
         }
 
+        public static string GetDefaultTag(string id)
+        {
+            return ItemRegister.Get(id).tag;
+        }
+
         public bool ContainsTag(string tag)
         {
             if (!string.IsNullOrEmpty(this.tag))

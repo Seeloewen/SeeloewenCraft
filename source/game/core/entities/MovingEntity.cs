@@ -74,7 +74,7 @@ namespace SeeloewenCraft.game.core.entities
 
         public void SendSyncData()
         {
-            if (this is Player && this != Game.world.player && !NetworkHandler.IsServer())
+            if (this is Player && this != Player.Get() && !NetworkHandler.IsServer())
             {
                 return;
             }
@@ -170,13 +170,13 @@ namespace SeeloewenCraft.game.core.entities
         {
             if (this is not Player)
             {
-                int playerX = Game.world.player.posX;
-                int playerY = Game.world.player.posY;
+                int playerX = Player.Get().posX;
+                int playerY = Player.Get().posY;
 
                 if (playerX - (posX + sizeX) < Player.HIT_RANGE
                     && playerY - (posY + sizeY) < Player.HIT_RANGE
-                    && (playerX + Game.world.player.sizeX) - posX < Player.HIT_RANGE
-                    && (playerY + Game.world.player.sizeY) - posY < Player.HIT_RANGE)
+                    && (playerX + Player.Get().sizeX) - posX < Player.HIT_RANGE
+                    && (playerY + Player.Get().sizeY) - posY < Player.HIT_RANGE)
                 {
                     Damage(Player.HIT_DAMAGE);
                 }
@@ -219,6 +219,8 @@ namespace SeeloewenCraft.game.core.entities
 
         public virtual void SetHP(double hp)
         {
+            hp = Math.Round(hp * 2) / 2;
+
             this.hp = Math.Min(hp, MAX_HP);
             if (hp <= 0)
             {

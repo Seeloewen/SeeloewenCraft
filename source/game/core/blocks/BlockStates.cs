@@ -9,7 +9,7 @@
         CROP_2,
         CROP_3,
         CROP_4,
-        FURNACE_IDLE,
-        FURNACE_RUNNING
+        RECIPE_IDLE,
+        RECIPE_RUNNING
     }
 }

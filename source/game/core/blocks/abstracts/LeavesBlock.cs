@@ -13,7 +13,7 @@ namespace SeeloewenCraft.game.core.blocks
             WriteTag(BlockTags.TYPES_LEAF);
         }
 
-        protected override void DoSpecificUpdate()
+        protected override void DoSpecificUpdate(double dt)
         {
             //Don't try to despawn the leaves if they were placed manually or by a structure that isn't done generating
             if (HasTag(BlockTags.PLACED_MANUALLY)) return;

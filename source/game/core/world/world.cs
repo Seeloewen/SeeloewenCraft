@@ -1,26 +1,23 @@
 ﻿using Newtonsoft.Json;
-using OpenTK.Graphics.OpenGL4;
-using OpenTK.Windowing.GraphicsLibraryFramework;
 using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.crafting;
 using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.core.events;
 using SeeloewenCraft.game.core.items;
-using SeeloewenCraft.game.core.legacy;
 using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.core.world.generation;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
-using SeeloewenCraft.launcher;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using static System.Environment;
+
 using JsonToken = SeeloewenCraft.game.util.JsonToken;
 using JsonWriter = SeeloewenCraft.game.util.JsonWriter;
 
@@ -28,101 +25,121 @@ namespace SeeloewenCraft.game.core.world
 {
     public class World
     {
-        //References
-        public wndMenu wndMenu;
-        public System.Windows.Forms.Timer tmrMovement = new System.Windows.Forms.Timer();
-        public List<Chunk> loadedChunkList = new List<Chunk>();
-        public List<Chunk> totalChunkList = new List<Chunk>();
-        public List<Gui> guiList = new List<Gui>();
-        public List<CraftingRecipe> craftingRecipeList = new List<CraftingRecipe>();
-        public Player player { get => entityManager.player; }
-        public List<IGuiData> guiDatas = new List<IGuiData>();
-        public ClickHandler clickHandler;
-        public DebugMenu_old debugMenu;
-        public RecipeCreator recipeCreator;
-        public EntityManager entityManager;
-        public GameEventHandler gameEventHandler;
-        public CreativeInventory creativeInventory;
+        public List<Chunk> loadedChunkList = new List<Chunk>(); //All chunks that are currently loaded and updated
+        public List<Chunk> totalChunkList = new List<Chunk>(); //All chunks that were ever loaded
+        public List<IGuiData> guiData = new List<IGuiData>(); //Currently displayed guis
 
-        //Constants
-        private string appData = GetFolderPath(SpecialFolder.ApplicationData);
-        private string worldName;
-        public int worldVersion;
+        public Player player { get => entityManager.player; }
+        public EntityManager entityManager;
+
+        private readonly string name;
         public string gameVersion;
         public string worldDirectory = "";
         public string multiplayerDirectory = "";
-        public int lightRange = 7; //The range that all light sources use
         public int worldSpawnX;
         public int worldSpawnY;
-        public int seed;
+        public int seed { private set; get; }
 
-        //Variables
-        public bool finishedLoading = false;
-        public bool returnToMenu = false;
-        public bool showBlockInfo = false;
-        public int nightState = 0;
         public Gamemode gamemode = Gamemode.Survival;
-        public MultiplayerType multiplayerType;
-        public DayTime dayTime;
-        public int currentChunk; //idk if this works in mp
+        public MultiplayerType multiplayerType = MultiplayerType.OFFLINE;
+        public DayTime dayTime = DayTime.DAY;
 
-        //-- Constructor --//
-
-        public World(wndMenu wndMenu, string worldName, int seed, bool isNew, MultiplayerType multiplayerType)
+        private World(string name, int seed, MultiplayerType multiplayerType)
         {
-            //Set world name and create game and links
-            this.worldName = worldName;
-            this.wndMenu = wndMenu;
-            this.seed = seed;
-            this.multiplayerType = multiplayerType;
-            worldVersion = Game.WORLD_VERSION;
-
-            if (seed == 0)
-            {
-                this.seed = new Random(DateTime.Now.Millisecond).Next();
-            }
-
             Game.world = this;
+            this.name = name;
+            this.multiplayerType = multiplayerType;
 
+            //Load the seed
+            this.seed = seed != 0 ? seed : new Random(DateTime.Now.Millisecond).Next();
+
+            CraftingHandler.Init();
             BlockRegister.Init();
             ItemRegister.Init();
+            DungeonRoomRegister.Init();
+            GameEventHandler.Init();
+            CraftingHandler.LoadRecipes();
 
-            //Create objects
-            clickHandler = new ClickHandler();
-            debugMenu = new DebugMenu_old();
-            gameEventHandler = new GameEventHandler();
-            recipeCreator = new RecipeCreator();
-            creativeInventory = new CreativeInventory();
-            //Actually initialize the game
-            InitGame(worldName, isNew, worldVersion);
+            InitWorldDirectory();
+        }
 
-            NotificationHandler.Init();
+        public static World CreateWorld(string name, int seed, MultiplayerType multiplayerType)
+        {
+            World w = new World(name, seed, multiplayerType);
+            w.Start(false);
+            if (NetworkHandler.IsMultiplayer()) w.InitMultiplayer();
 
-            if (StartOptions.startCreative)
-            {
-                SetGamemode(Gamemode.Creative);
-            }
+            return w;
+        }
 
-            //Only start a server when requested
+        public static World LoadWorld(string name, MultiplayerType multiplayerType)
+        {
+            World w = new World(name, 0, multiplayerType);
+
+            if (!CheckWorldVersion(w, Game.WORLD_VERSION)) throw new Exception(); //Check if the world version is compatible
+            if(int.TryParse(w.LoadWorldSetting("seed"), out int s)) w.seed = s;
+
+            w.Start(true);
+            if (NetworkHandler.IsMultiplayer()) w.InitMultiplayer();
+
+            return w;
+        }
+
+        public void Start(bool loaded)
+        {
+            Log.Write($"Starting game for world {name}...", LogType.WORLD_GENERATION, LogLevel.INFO);
+
+            InitEntityManager(loaded);
+
+            (int x, int y) playerStartPos = FindPlayerStartPos(loaded);
+
+            //this isnt exactly true as posX=-1000 should be chunk -1 but is loaded as chunk 0,
+            //however in first rendering tick it should get fixed automatically
+            LoadStartChunks(playerStartPos.x / 8000);
+
+            CreatePlayer(playerStartPos.x, playerStartPos.y);
+            player.currentChunk = playerStartPos.x / 8000;
+
+            if (StartOptions.startCreative) SetGamemode(Gamemode.Creative);
+
+            //Load the player inventory if the world is not new
+            InitPlayerInventory(loaded);
+
+            GameEventHandler.Register(new DayNightCycleEvent());
+            GameEventHandler.Register(new AutoSaveEvent(Settings.autoSaveInterval * 60000));
+
+            //When the world is loaded, display the debug information
+            DisplayDebugInformation();
+
+            SaveWorldSettings();
+            Log.Write($"Successfully initialized game for world {name}!", LogType.GENERAL, LogLevel.INFO);
+        }
+
+        private void InitMultiplayer()
+        {
             if (multiplayerType == MultiplayerType.SERVER)
             {
                 NetworkHandler.StartServer(5000);
+                GameEventHandler.Register(new ClientConnectedCheckEvent());
             }
+            else if (multiplayerType == MultiplayerType.CLIENT)
+            {
+                GameEventHandler.Register(new SendConnectionStateEvent());
+            }
+
+            GameEventHandler.Register(new EntitySyncEvent());
         }
 
-        //-- Custom Methods --//
-
-        //return true if proceed
-        private bool CheckWorldVersion(int currentWorldVersion)
+        private static bool CheckWorldVersion(World w, int currentVersion) //return true if proceed
         {
+            //Try loading the world version
             int worldVersion;
-            if (File.Exists($"{worldDirectory}/world_settings.json"))
+            if (File.Exists($"{w.worldDirectory}/world_settings.json"))
             {
-                JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/world_settings.json");
-
+                JsonToken documentToken = JsonUtil.ReadFile($"{w.worldDirectory}/world_settings.json");
                 worldVersion = documentToken.GetInt("/world_version");
             }
-            else if (File.Exists($"{worldDirectory}/settings.txt"))
+            else if (File.Exists($"{w.worldDirectory}/settings.txt"))
             {
                 Log.Write("Detected old saving system, can't load the world. Please use an older version of the game", LogType.GENERAL, LogLevel.ERROR);
                 return false;
@@ -133,7 +150,8 @@ namespace SeeloewenCraft.game.core.world
                 return false;
             }
 
-            if (worldVersion < currentWorldVersion)
+            //If the world version is outdated, show are warning as it may cause corruption
+            if (worldVersion < currentVersion)
             {
                 MessageBoxResult result = MessageBox.Show("You are trying to load an outdated world. This may lead to corruption or other issues. You have been warned! Do you wish to continue?", "Load outdated world", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
@@ -143,56 +161,9 @@ namespace SeeloewenCraft.game.core.world
                         Log.Write("You are loading an outdated world, this may cause issues or corruption", LogType.GENERAL, LogLevel.WARNING);
                         return true;
                 }
-                return false;
-            }
-            return true;
-        }
-
-        public void InitGame(string worldName, bool isNew, int worldVersion)
-        {
-            Log.Write($"Initializing game for world {worldName}...", LogType.WORLD_GENERATION, LogLevel.INFO);
-
-            InitWorldDirectory();
-
-            //Try to load the seed if it is not a new world
-            if (!isNew)
-            {
-                string? seedString = LoadWorldSetting("seed");
-
-                seed = seedString != null ? int.Parse(seedString) : new Random(DateTime.Now.Millisecond).Next();
             }
 
-            recipeCreator.CreateRecipes();
-
-            RoomLibrary.CreateDungeonRooms();
-
-            if (!isNew && !CheckWorldVersion(worldVersion))
-            {
-                throw new Exception();
-            }
-
-            SaveWorldSettings();
-
-            InitEntityManager(!isNew);
-
-            (int x, int y) playerStartPos = FindPlayerStartPos(!isNew);
-
-            //this isnt exactly true as posX=-1000 should be chunk -1 but is loaded as chunk 0,
-            //however in first rendering tick it should get fixed automatically
-            LoadStartChunks(playerStartPos.x / 8000);
-
-            CreatePlayer(playerStartPos.x, playerStartPos.y);
-
-            //When the world is loaded, display the debug information
-            DisplayDebugInformation();
-
-            //Load the player inventory if the world is not new
-            InitPlayerInventory(!isNew);
-
-            gameEventHandler.Register(new DayNightCycleEvent());
-
-            Log.Write($"Successfully initialized game for world {worldName}!", LogType.GENERAL, LogLevel.INFO);
-            finishedLoading = true;
+            return false;
         }
 
         public void SetGamemode(Gamemode gamemode)
@@ -216,25 +187,10 @@ namespace SeeloewenCraft.game.core.world
         {
             if (!NetworkHandler.IsClient())
             {
-                //Save all chunks and the inventory of the player
-                foreach (Chunk chunk in Game.world.totalChunkList)
-                {
-                    //Stop all running crafting timers
-                    foreach (Block block in chunk.blockList.blocks)
-                    {
-                        if (block.craftingHandler != null && block.craftingHandler.tmrCrafting.IsRunning)
-                        {
-                            block.craftingHandler.tmrCrafting.Stop();
-                        }
-                    }
+                //Save all chunks and entities
+                totalChunkList.ForEach(c => c.Save());
 
-                    chunk.Save();
-                }
-
-                if (NetworkHandler.IsServer())
-                {
-                    NetworkHandler.SendData(MultiplayerPacketType.REQUEST, "player_information", "");
-                }
+                if (NetworkHandler.IsServer()) NetworkHandler.SendData(MultiplayerPacketType.REQUEST, "player_information", "");
 
                 player.SaveInventory(worldDirectory);
                 player.SavePosition(worldDirectory);
@@ -242,8 +198,9 @@ namespace SeeloewenCraft.game.core.world
             }
         }
 
-        public string? LoadWorldSetting(string settingName)
+        public string LoadWorldSetting(string settingName)
         {
+            //Check if the world settings file exists and retrieve the value
             if (File.Exists($"{worldDirectory}/world_settings.json"))
             {
                 JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/world_settings.json");
@@ -256,59 +213,27 @@ namespace SeeloewenCraft.game.core.world
             return null;
         }
 
-
-        public void AddEntity(Entity entity)
+        public void AddEntity(Entity entity, bool networkCall = false)
         {
-            /*//Game.world.wndGame.cvsWorld.Children.Add(entity.texture);
-            Panel.SetZIndex(entity.texture, 1);
-            worldRenderer.AddEntity(entity);*/
+            if (entity.id == player.id && networkCall) return;
 
+            //Save the entity and send it to others on the network if necessary
+            entityManager.Add(entity);
+
+            if (networkCall) return;
             using (JsonWriter writer = JsonWriter.Create())
             {
                 entity.SaveToJson(writer);
                 NetworkHandler.SendData(MultiplayerPacketType.CREATE_ENTITY, $"{writer.ToString()}");
             }
-
-            entityManager.Add(entity);
         }
 
-        public void AddEntity_Multiplayer(Entity entity)
-        {
-            if (entity.id == player.id)
-            {
-                return;
-            }
+        public void RemoveEntity(int id) => entityManager.Remove(id);
 
-            entityManager.Add(entity);
-        }
+        public void SetBlock(Block block, int cPosX, int posY) => GetBlock(cPosX, posY).SetBlock(block);        
 
-        public void RemoveEntity(int id)
-        {
-            entityManager.Remove(id);
-        }
-
-        public void SetBlock(Block block, int posX, int posY)
-        {
-            GetBlock(posX, posY).SetBlock(block);
-        }
-
-        public void SetBlock(Block block, int posX, int posY, int cIndex)
-        {
-            GetBlock(posX + 8 * cIndex, posY).SetBlock(block);
-        }
-
-        public void SetBlock_Multiplayer(Block block, int cIndex, int x, int y)
-        {
-            //Check if the chunk exists before placing a block there, if not, create it
-            if (GetTotalChunk(cIndex) == null)
-            {
-                CreateChunk(cIndex);
-            }
-
-            //Set the block in the chunk
-            GetTotalChunk(cIndex).SetBlock(block, x, y);
-        }
-
+        public void SetBlock(Block block, int posX, int posY, int cIndex) => GetBlock(posX + 8 * cIndex, posY).SetBlock(block);
+        
         public Chunk CreateChunk(int index)
         {
             Chunk newChunk = new Chunk(index);
@@ -321,23 +246,9 @@ namespace SeeloewenCraft.game.core.world
             loadedChunkList.Remove(chunk);
         }
 
-
         public void LoadChunk(Chunk chunk)
         {
             loadedChunkList.Add(chunk);
-        }
-
-        public Chunk LoadChunk(int index)
-        {
-            foreach (Chunk chunk in totalChunkList)
-            {
-                if (chunk.index == index)
-                {
-                    loadedChunkList.Add(chunk);
-                    return chunk;
-                }
-            }
-            return CreateChunk(index);
         }
 
         public Chunk GetChunk(int index)
@@ -383,7 +294,7 @@ namespace SeeloewenCraft.game.core.world
                 writer.WriteStartObject();
 
                 writer.WritePropertyName("world_version");
-                writer.WriteValue(worldVersion);
+                writer.WriteValue(Game.WORLD_VERSION);
 
                 writer.WritePropertyName("seed");
                 writer.WriteValue(seed);
@@ -399,25 +310,25 @@ namespace SeeloewenCraft.game.core.world
             //Check if the world directory exists and create it otherwise
             if (multiplayerType != MultiplayerType.CLIENT)
             {
-                if (!Directory.Exists($"{FolderUtil.worldsFolder}\\{worldName}"))
+                if (!Directory.Exists($"{FolderUtil.worldsFolder}\\{name}"))
                 {
-                    Directory.CreateDirectory($"{FolderUtil.worldsFolder}\\{worldName}");
-                    Log.Write($"Created directory for world {worldName} ({FolderUtil.worldsFolder}\\{worldName})", LogType.GENERAL, LogLevel.INFO);
+                    Directory.CreateDirectory($"{FolderUtil.worldsFolder}\\{name}");
+                    Log.Write($"Created directory for world {name} ({FolderUtil.worldsFolder}\\{name})", LogType.GENERAL, LogLevel.INFO);
                 }
-                worldDirectory = $"{FolderUtil.worldsFolder}\\{worldName}";
-                Log.Write($"Set directory for world {worldName} to {worldDirectory}", LogType.GENERAL, LogLevel.INFO);
+                worldDirectory = $"{FolderUtil.worldsFolder}\\{name}";
+                Log.Write($"Set directory for world {name} to {worldDirectory}", LogType.GENERAL, LogLevel.INFO);
             }
 
+            //Check if the world's multiplayer directory exists and create it otherwise
             if (multiplayerType == MultiplayerType.SERVER)
             {
-                //Check if the world's multiplayer directory exists and create it otherwise
                 if (!Directory.Exists($"{worldDirectory}\\multiplayer"))
                 {
                     Directory.CreateDirectory($"{worldDirectory}\\multiplayer");
-                    Log.Write($"Created multiplayer directory for world {worldName} ({worldDirectory}\\multiplayer)", LogType.NETWORK, LogLevel.INFO);
+                    Log.Write($"Created multiplayer directory for world {name} ({worldDirectory}\\multiplayer)", LogType.NETWORK, LogLevel.INFO);
                 }
                 multiplayerDirectory = $"{worldDirectory}\\multiplayer";
-                Log.Write($"Set multiplayer directory for world {worldName} to {multiplayerDirectory}", LogType.GENERAL, LogLevel.INFO);
+                Log.Write($"Set multiplayer directory for world {name} to {multiplayerDirectory}", LogType.GENERAL, LogLevel.INFO);
             }
         }
 
@@ -439,56 +350,20 @@ namespace SeeloewenCraft.game.core.world
             {
                 player.inventory = new Inventory(9, 4);
                 player.inventory.InitHotbar();
-                player.inventory.Add("sc:diamond_scythe_item", 1, "durability=507");
-                player.inventory.Add("sc:diamond_hammer_item", 1, "durability=507");
-                player.inventory.Add("sc:chest_item", 64, "");
-                player.inventory.Add("sc:dirt_item", 64, "");
-                player.inventory.Add("sc:chiseler_item", 64, "");
-                player.inventory.Add("sc:torch_item", 64, "");
-                player.inventory.Add("sc:crafting_table_item", 64, "");
-                player.inventory.Add("sc:rock_item", 512, "");
-                player.inventory.Add("sc:stick_item", 128, "");
             }
-        }
-
-        public bool HasOpenGui(bool ignoreInventory)
-        {
-            foreach (Gui gui in guiList)
-            {
-                if (gui.isOpen)
-                {
-                    if (gui.id == "sc:inventory")
-                    {
-                        if (!ignoreInventory)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
         }
 
         public void CreatePlayer(int playerPosX, int playerPosY)
         {
             entityManager.player = new Player(playerPosX, playerPosY);
             entityManager.player.SetId(Game.playerId);
-            entityManager.player.tblId.SetAlignedText(Settings.nickname);
             AddEntity(player);
-
-            //Game.world.wndGame.relativeSvPos = //Game.world.wndGame.svWorld.VerticalOffset;
-            //Game.world.wndGame.defaultSvPos = //Game.world.wndGame.svWorld.VerticalOffset;
 
             Log.Write($"Created player at position x{playerPosX} y{playerPosY}", LogType.GENERAL, LogLevel.INFO);
         }
 
         private (int x, int y) FindPlayerStartPos(bool loaded)
         {
-
             //Load the player position if possible
             if (loaded)
             {
@@ -518,12 +393,10 @@ namespace SeeloewenCraft.game.core.world
                 worldSpawnY = yPos;
                 return (28050, yPos);
             }
-
         }
 
         private void LoadStartChunks(int midChunk)
         {
-            currentChunk = midChunk;
             for (int i = midChunk - 3; i <= midChunk + 3; i++)
             {
                 Chunk c = GetChunk(i);
@@ -531,11 +404,11 @@ namespace SeeloewenCraft.game.core.world
             }
         }
 
-        public async void MoveLoadedChunks(Direction dir)
+        public void MoveLoadedChunks(Direction dir)
         {
             if (dir.IsRight())
             {
-                currentChunk++;
+                player.currentChunk++;
 
                 Chunk chunk = Game.world.GetLoadedChunk(Game.world.loadedChunkList[0].index);
                 Game.world.UnloadChunk(chunk);
@@ -559,7 +432,7 @@ namespace SeeloewenCraft.game.core.world
             }
             else if (dir.IsLeft())
             {
-                currentChunk--;
+                player.currentChunk--;
                 Chunk chunk = Game.world.GetLoadedChunk(Game.world.loadedChunkList[6].index);
                 Game.world.UnloadChunk(chunk);
                 Chunk newChunk = Game.world.GetChunk(Game.world.loadedChunkList[0].index - 1);
@@ -595,28 +468,14 @@ namespace SeeloewenCraft.game.core.world
             return null;
         }
 
-        public Chunk GetTotalChunk(int index)
-        {
-            //Returns a chunk from the list based on the given index
-            foreach (Chunk chunk in totalChunkList)
-            {
-                if (chunk.index == index)
-                {
-                    return chunk;
-                }
-            }
-            return null;
-        }
-
         public void DisplayDebugInformation()
         {
             //Show the debug information for the world in the debug menu
             DebugMenu.AddLine(DebugMenu.Section.WORLD, "Version", $"{Game.GAME_VERSION} ({Game.VERSION_DATE})");
-            DebugMenu.AddLine(DebugMenu.Section.WORLD, "worldName", $"{worldName}");
-            DebugMenu.AddLine(DebugMenu.Section.WORLD, "worldVersion", $"{worldVersion}");
+            DebugMenu.AddLine(DebugMenu.Section.WORLD, "worldName", $"{name}");
+            DebugMenu.AddLine(DebugMenu.Section.WORLD, "worldVersion", $"{Game.WORLD_VERSION}");
             DebugMenu.AddLine(DebugMenu.Section.WORLD, "seed", $"{seed}");
             DebugMenu.AddLine(DebugMenu.Section.WORLD, "fps");
-
         }
 
         public void SetDayTime(DayTime dayTime)
@@ -639,11 +498,10 @@ namespace SeeloewenCraft.game.core.world
             };
         }
 
-        //-- Event Handlers --//
-
-        public void Tick(double dt, bool blockUpdate)
+        public void Update(double dt, bool blockUpdate)
         {
-            gameEventHandler.Tick(dt);
+            GameEventHandler.Update(dt);
+            CraftingHandler.Update(dt);
 
             if (blockUpdate)
             {
@@ -658,25 +516,22 @@ namespace SeeloewenCraft.game.core.world
 
             entityManager.DoStep((int)(1.0 / dt));
 
-
             GameCamera.SetCamCenterPhysicsCoord(player.posX + 237, player.posY + 950);
 
             int chunk = player.GetChunkIndex();
-            if (chunk != currentChunk)
+            if (chunk != player.currentChunk)
             {
-                if (chunk > currentChunk)
+                if (chunk > player.currentChunk)
                 {
                     MoveLoadedChunks(Direction.RIGHT);
-                    Log.Write($"move chunks right {chunk} {currentChunk}", LogType.GENERAL, LogLevel.WARNING);
+                    Log.Write($"move chunks right {chunk} {player.currentChunk}", LogType.GENERAL, LogLevel.WARNING);
                 }
                 else
                 {
                     MoveLoadedChunks(Direction.LEFT);
-                    Log.Write($"move chunks left {chunk} {currentChunk}", LogType.GENERAL, LogLevel.WARNING);
+                    Log.Write($"move chunks left {chunk} {player.currentChunk}", LogType.GENERAL, LogLevel.WARNING);
                 }
             }
         }
     }
-
-
 }

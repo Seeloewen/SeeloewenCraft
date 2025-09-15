@@ -1,7 +1,7 @@
 {
 	"font": {
-		"font_map":"font.block_font.png",
-		"mappings":"font.font-map.json"
+		"font_map":"Font.block_font.png",
+		"mappings":"Font.font-map.json"
 	},
 	"sections": [
 		{
@@ -862,23 +862,23 @@
 					"file": "Breaking_5.png"
 				},
 				{
-					"id": "sc:rice_top/CROP_1",
+					"id": "sc:rice_top_crop_block/CROP_1",
 					"file": "Blocks.Connected.Rice_Top_Stage_1.png"
 				},
 				{
-					"id": "sc:rice_top/CROP_2",
+					"id": "sc:rice_top_crop_block/CROP_2",
 					"file": "Blocks.Connected.Rice_Top_Stage_2.png"
 				},
 				{
-					"id": "sc:rice_top/CROP_3",
+					"id": "sc:rice_top_crop_block/CROP_3",
 					"file": "Blocks.Connected.Rice_Top_Stage_3.png"
 				},
 				{
-					"id": "sc:rice_top/CROP_4",
+					"id": "sc:rice_top_crop_block/CROP_4",
 					"file": "Blocks.Connected.Rice_Top_Stage_4.png"
 				},
 				{
-					"id": "sc:rice_base",
+					"id": "sc:rice_base_block",
 					"file": "Blocks.Connected.Rice_Base.png"
 				},
 				{
@@ -1082,7 +1082,11 @@
 					"file": "Blocks.Water_6.png"
 				},
 				{
-					"id": "sc:crafting_table_block",
+					"id": "sc:crafting_table_block/RECIPE_IDLE",
+					"file": "Blocks.Crafting_Table.png"
+				},
+				{
+					"id": "sc:crafting_table_block/RECIPE_RUNNING",
 					"file": "Blocks.Crafting_Table.png"
 				},
 				{
@@ -1090,7 +1094,11 @@
 					"file": "Blocks.Cobblestone.png"
 				},
 				{
-					"id": "sc:chiseler_block",
+					"id": "sc:chiseler_block/RECIPE_IDLE",
+					"file": "Blocks.Chiseler.png"
+				},
+				{
+					"id": "sc:chiseler_block/RECIPE_RUNNING",
 					"file": "Blocks.Chiseler.png"
 				},
 				{
@@ -1098,7 +1106,11 @@
 					"file": "Blocks.Unchiseler.png"
 				},
 				{
-					"id": "sc:anvil_block",
+					"id": "sc:anvil_block/RECIPE_RUNNING",
+					"file": "Blocks.Anvil.png"
+				},
+				{
+					"id": "sc:anvil_block/RECIPE_IDLE",
 					"file": "Blocks.Anvil.png"
 				},
 				{
@@ -1142,7 +1154,7 @@
 					"file": "Blocks.Oak_Planks.png"
 				},
 				{
-					"id": "sc:oak_sapling_block",
+					"id": "sc:oak_sapling_block/1",
 					"file": "Blocks.Oak_Sapling.png"
 				},
 				{
@@ -1162,7 +1174,7 @@
 					"file": "Blocks.Sand_Stone_Bricks.png"
 				},
 				{
-					"id": "sc:spruce_sapling_block",
+					"id": "sc:spruce_sapling_block/1",
 					"file": "Blocks.Spruce_Sapling.png"
 				},
 				{
@@ -1586,12 +1598,16 @@
 					"file": "Blocks.States.Spruce_Trapdoor_Open.png"
 				},
 				{
-					"id": "sc:furnace/FURNACE_IDLE",
+					"id": "sc:furnace_block/RECIPE_IDLE",
 					"file": "Blocks.States.Furnace_Idle.png"
 				},
 				{
-					"id": "sc:furnace/FURNACE_RUNNING",
+					"id": "sc:furnace_block/RECIPE_RUNNING",
 					"file": "Blocks.States.Furnace_Running.png"
+				},
+				{
+					"id": "sc:cactus_fruit_block/CROP_1",
+					"file": "Blocks.Cactus_Fruit.png"
 				}
 			]
 		},
@@ -1684,6 +1700,22 @@
 				{
 					"id": "sc:button_1",
 					"file": "Button_1.png"
+				},
+				{
+					"id": "sc:x",
+					"file": "X.png"
+				},
+				{
+					"id": "sc:check",
+					"file": "Check.png"
+				},
+				{
+					"id": "sc:info",
+					"file": "Info.png"
+				},
+				{
+					"id": "sc:save",
+					"file": "Save.png"
 				}
 			]
 		}

@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.util;
+using System;
 
 namespace SeeloewenCraft.game.core.blocks
 {
@@ -13,51 +14,54 @@ namespace SeeloewenCraft.game.core.blocks
         {
             if (block == null) return;
 
+            //If it's not a permanent source block, check if it still has its source
+            //If not, replace it with air
+            if (!SourceExists(block))
+            {
+                block.SetBlock(BlockRegister.Get("sc:air_block"));
+                return;
+            }
+
             //Try expanding the liquid
             foreach (var n in TryExpand(block))
             {
                 if(n.b != null) Game.world.SetBlock(n.b, n.x, n.y, n.c);
             }
-
-            //If it's not a permanent source block, check if it still has its source
-            //If not, replace it with air
-            if (block.liquidLevel < 6 && !SourceExists(block))
-            {
-                //block.Replace(BlockRegister.Get("sc:air_block"));
-            }
         }
 
         private static bool SourceExists(LiquidBlock block)
         {
-            Block source = Game.world.GetBlock(block.liquidSourceX, block.liquidSourceY, block.liquidSourceCIndex);
+            Block source = Game.world.GetBlock(block.liquidSource.x, block.liquidSource.y, block.liquidSource.cIndex);
             Block sourceForeground = source.GetForegroundBlock();
 
             //Check that the block at the specified location is still a liquid of the same type
-            return (source != null && source is LiquidBlock l && l.liquidTag == block.liquidTag) //Source Normal
-                || sourceForeground != null && sourceForeground is LiquidBlock lf && lf.liquidTag == block.liquidTag; //Source foreground
+            return (source != null && source is LiquidBlock l && l.liquidTag == block.liquidTag //Source Normal
+                || sourceForeground != null && sourceForeground is LiquidBlock lf && lf.liquidTag == block.liquidTag); //Source foreground
         }
 
         private static (LiquidBlock b, int x, int y, int c)[] TryExpand(LiquidBlock block)
         {
             var newBlocks = new (LiquidBlock b, int x, int y, int c)[2];
 
-            if (CanExpandTowards(block, Direction.DOWN)) //Prioritize downwards flow
+            bool canExpandDown = CanExpandTowards(block, Direction.DOWN);
+
+            if (canExpandDown) //Prioritize downwards flow
             {
-                newBlocks[0] = (block.GetLiquid(6, Direction.DOWN, block), block.xPos, block.yPos + 1, block.chunk.index);
+                newBlocks[0] = (block.GetLiquid(6, Direction.DOWN, new LiquidSource(block.xPos, block.yPos, block.chunk.index)), block.xPos, block.yPos + 1, block.chunk.index);
             }
-            else //If not expansion downwards was possible, try to expand to the sides
+            else if(!canExpandDown && !block.GetBlockBelow().HasTag(block.liquidTag)) //If not expansion downwards was possible, try to expand to the sides
             {
                 if (block.liquidLevel == 1 || block.chunk == null) return newBlocks; //Only expand if the water hasn't reached the end of the stream
 
                 if (CanExpandTowards(block, Direction.RIGHT))
                 {
-                    newBlocks[0] = (block.GetLiquid(block.liquidLevel - 1, Direction.RIGHT, block), block.xPos + 1, block.yPos, block.chunk.index);
+                    newBlocks[0] = (block.GetLiquid(block.liquidLevel - 1, Direction.RIGHT, new LiquidSource(block.xPos, block.yPos, block.chunk.index)), block.xPos + 1, block.yPos, block.chunk.index);
                 }
 
                 if (CanExpandTowards(block, Direction.LEFT))
                 {
                     int i = newBlocks[0].b == null ? 0 : 1; //Index may be different, depending on whether extension to the right worked
-                    newBlocks[i] = (block.GetLiquid(block.liquidLevel - 1, Direction.LEFT, block), block.xPos - 1, block.yPos, block.chunk.index);
+                    newBlocks[i] = (block.GetLiquid(block.liquidLevel - 1, Direction.LEFT, new LiquidSource(block.xPos, block.yPos, block.chunk.index)), block.xPos - 1, block.yPos, block.chunk.index);
                 }
             }
 
@@ -93,7 +97,7 @@ namespace SeeloewenCraft.game.core.blocks
                 replaceable = b.HasTag(BlockTags.REPLACEABLE);
                 sameLiquidButLower = l != null
                     && l.liquidTag == block.liquidTag
-                    && (l.liquidLevel < block.liquidLevel || dir == Direction.DOWN); //The liquid needs to be at least one lower for the expansion to make sense (if expanding to sides)
+                    && ((l.liquidLevel - block.liquidLevel < -1) || (dir == Direction.DOWN && l.liquidLevel != 6)); //The liquid needs to be at least one lower for the expansion to make sense (if expanding to sides)
             }
             else //If the block below is in background, the background block can be ignored and only the foreground block matters
             {
@@ -104,7 +108,7 @@ namespace SeeloewenCraft.game.core.blocks
                     || f.HasTag(BlockTags.REPLACEABLE);
                 sameLiquidButLower = l != null
                     && l.liquidTag == block.liquidTag
-                    && (l.liquidLevel < block.liquidLevel || dir == Direction.DOWN);
+                    && ((l.liquidLevel - block.liquidLevel < -1) || (dir == Direction.DOWN && l.liquidLevel != 6));
             }
 
             return sameLiquidButLower || (l == null && replaceable);

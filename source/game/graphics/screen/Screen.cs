@@ -1,5 +1,4 @@
-﻿using OpenTK.Graphics.OpenGL;
-using SeeloewenCraft.game.core.entities.inventory;
+﻿using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.graphics.ui_lib;
 
 namespace SeeloewenCraft.game.graphics
@@ -28,7 +27,7 @@ namespace SeeloewenCraft.game.graphics
             guiRoot = new UIRoot(() => new GuiScreen());
             escapeMenuUIRoot = new UIRoot(() => new EscapeMenu());
             gameOverlayUIRoot = new UIRoot(() => new GameOverlay());
-            hotbarUIRoot = new UIRoot(() => new CHotbar(Game.world.player.inventory));
+            hotbarUIRoot = new UIRoot(() => new CHotbar(Player.Get().inventory));
             gameOverlayUIRoot.Show();
             hotbarUIRoot.Show();
         }
@@ -62,17 +61,20 @@ namespace SeeloewenCraft.game.graphics
 
             if (showGameOverlay)
             {
-                gameOverlayUIRoot.Update();
-                hotbarUIRoot.Update();
+                gameOverlayUIRoot.Update(dt);
                 GameScreen.Update(dt);
+            }
+            if(showHotbar)
+            {
+                hotbarUIRoot.Update(dt);
             }
             if (showEscapeMenu)
             {
-                escapeMenuUIRoot.Update();
+                escapeMenuUIRoot.Update(dt);
             }
             if (showGui)
             {
-                guiRoot.Update();
+                guiRoot.Update(dt);
             }
         }
 
@@ -110,8 +112,8 @@ namespace SeeloewenCraft.game.graphics
                 }
                 else if(Game.world.gamemode == Gamemode.Creative)
                 {
-                    Game.world.creativeInventory.ShowGui();
-                    Game.world.player.inventory.ShowGui();
+                    Player.Get().creativeInventory.ShowGui();
+                    Player.Get().inventory.ShowGui();
                 }
 
             }
@@ -123,7 +125,7 @@ namespace SeeloewenCraft.game.graphics
                 }
                 else
                 {
-                    Game.world.player.inventory.ShowGui();
+                    Player.Get().inventory.ShowGui();
                 }
             }
         }

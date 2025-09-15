@@ -29,7 +29,7 @@ namespace SeeloewenCraft.game.core.world.generation
             doorDirection = doorDir;
 
             //Get the door blocks and set the block for the dungeonblock
-            (Block bottom, Block top) door = RoomLibrary.GetDoorBlock(type, doorDir);
+            (Block bottom, Block top) door = DungeonRoomRegister.GetDoorBlock(type, doorDir);
 
             block.SetForegroundBlock(door.bottom);
             if (doorDir == Direction.LEFT || doorDir == Direction.RIGHT)
@@ -53,7 +53,7 @@ namespace SeeloewenCraft.game.core.world.generation
         public void CloseDoor(DungeonType type, Direction doorDir, DungeonBlock blockAbove)
         {
             //Get the replacement blocks for covering up the door and set the block for the dungeonblock
-            (Block bottom, Block top) doorReplacement = RoomLibrary.GetDoorReplacementBlock(type, doorDir);
+            (Block bottom, Block top) doorReplacement = DungeonRoomRegister.GetDoorReplacementBlock(type, doorDir);
 
             //Remove the door blocks from the dungeonblocks and paste replacements
             block.SetForegroundBlock(doorReplacement.bottom);

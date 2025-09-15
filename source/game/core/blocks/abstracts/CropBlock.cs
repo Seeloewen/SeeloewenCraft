@@ -1,5 +1,6 @@
 ﻿using SeeloewenCraft.game.graphics;
 using System;
+using System.Windows.Media.Animation;
 using Windows.Graphics.Display;
 
 namespace SeeloewenCraft.game.core.blocks
@@ -8,13 +9,13 @@ namespace SeeloewenCraft.game.core.blocks
 
     public abstract class CropBlock : Block
     {
-        protected readonly int timeMin;
-        protected readonly int timeMax;
+        protected readonly int timeMin; //in ms
+        protected readonly int timeMax; //in ms
         protected readonly int stageMax;
 
         protected int growthStage;
-        internal int growthTime;
-        internal int progress;
+        internal double growthTime; //in s
+        internal double progress = 0;
 
         protected CropProduct product;
 
@@ -22,8 +23,9 @@ namespace SeeloewenCraft.game.core.blocks
         {
             this.timeMax = timeMax;
             this.timeMin = timeMin;
+            stageMax = stages;
 
-            growthTime = Game.rnd.Next(timeMin, timeMax);
+            growthTime = Game.rnd.Next(timeMin, timeMax) / 1000;
             growthStage = 1;
             isSolid = false;
 
@@ -49,17 +51,24 @@ namespace SeeloewenCraft.game.core.blocks
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"progress");
         }
 
-        public virtual void UpdateProgress(int amount)
+        public override void UpdateDebugMenu()
         {
-            progress += amount;
+            DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, "growthTime", $"{growthTime} ");
+            DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, "progress", $"{progress} ");
+            base.UpdateDebugMenu();
+        }
+
+        protected override void DoSpecificUpdate(double dt)
+        {
+            progress += dt;
 
             //Update stage
             int n = stageMax - 1;
             double step = growthTime / n;
-            growthStage = Math.Max(Math.Min((int)Math.Floor(progress / step), n), 1);
+            growthStage = Math.Max(Math.Min((int)Math.Floor((progress / step) + 1.0), n), 1);
         }
 
-        public bool IsReady() => growthStage >= stageMax;
+        public bool IsReady() => progress >= growthTime;
 
         public bool HasSpaceAbove(int xOffset, int yOffset, int width, int height)
         {
@@ -87,7 +96,7 @@ namespace SeeloewenCraft.game.core.blocks
                 if (product != null) drops.Add((product.id, product.min, product.max));
                 growthStage = 1;
                 progress = 0;
-                growthTime = Game.rnd.Next(timeMin, timeMax);
+                growthTime = Game.rnd.Next(timeMin, timeMax) / 1000;
             }
 
             base.Drop();

@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.core.items;
+﻿using SeeloewenCraft.game.core.entities;
+using SeeloewenCraft.game.core.items;
 using SeeloewenCraft.game.graphics.ui_lib;
 
 namespace SeeloewenCraft.game.graphics
@@ -30,11 +31,11 @@ namespace SeeloewenCraft.game.graphics
             this.amount = amount;
         }
 
-        protected override void OnUpdate()
+        protected override void OnUpdate(double dt)
         {
-            cText.SetText($"{name} ({Game.world.player.inventory.GetItemAmount(id)}/{amount})");
+            cText.SetText($"{name} ({Player.Get().inventory.GetItemAmount(id)}/{amount})");
 
-            base.OnUpdate();
+            base.OnUpdate(dt);
         }
 
     }

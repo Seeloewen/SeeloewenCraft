@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.core.blocks;
+using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
 
 namespace SeeloewenCraft.game.core.items
@@ -90,14 +91,6 @@ namespace SeeloewenCraft.game.core.items
         public BedrockItem() : base()
         {
             Init("Bedrock", "sc:bedrock_item", "sc:bedrock_block", true);
-        }
-    }
-
-    public class AirItem : Item
-    {
-        public AirItem() : base()
-        {
-            Init("Air", "sc:air_item", "sc:air_block", true);
         }
     }
 
@@ -614,9 +607,9 @@ namespace SeeloewenCraft.game.core.items
         {
             if (block is WaterBlock_6)
             {
-                Game.world.player.inventory.Remove(id, 1);
-                Game.world.player.inventory.Add("sc:bucket_water_item", 1);
-                block.Replace(BlockRegister.Get("sc:air_block"));
+                Player.Get().inventory.Remove(id, 1);
+                Player.Get().inventory.Add("sc:bucket_water_item", 1);
+                block.SetBlock(BlockRegister.Get("sc:air_block"));
             }
             else if (block is Rice_Top rice && rice.IsReady())
             {
@@ -637,8 +630,8 @@ namespace SeeloewenCraft.game.core.items
         {
             if (block.HasTag(BlockTags.REPLACEABLE))
             {
-                Game.world.player.inventory.Remove(id, 1);
-                Game.world.player.inventory.Add("sc:bucket_empty_item", 1);
+                Player.Get().inventory.Remove(id, 1);
+                Player.Get().inventory.Add("sc:bucket_empty_item", 1);
                 block.SetBlock(BlockRegister.Get("sc:water_6_block"));
             }
         }
@@ -834,7 +827,7 @@ namespace SeeloewenCraft.game.core.items
     {
         public SugarCaneItem() : base()
         {
-            Init("Sugar Cane", "sc:sugar_cane_item", "sc:sugar_cane_block", true);
+            Init("Sugar Cane", "sc:sugar_cane_item", "sc:sugar_cane_crop_block", true);
         }
     }
 
@@ -874,7 +867,7 @@ namespace SeeloewenCraft.game.core.items
         {
             base.RightClickAction(block, invSlot);
 
-            Game.world.player.inventory.    Add("sc:bucket_empty_item", 1);
+            Player.Get().inventory.    Add("sc:bucket_empty_item", 1);
         }
     }
 

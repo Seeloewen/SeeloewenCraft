@@ -13,12 +13,8 @@ namespace SeeloewenCraft.game.core.blocks
             WriteTag(liquidTag);
         }
 
-        public override LiquidBlock GetLiquid(int level, Direction dir, LiquidBlock source)
+        internal override LiquidBlock GetLiquid(int level, Direction dir, LiquidSource source)
         {
-            //Return block based on level and direction
-
-            if (level == 6) return (LiquidBlock)BlockRegister.Get("sc:water_6_block");
-
             string dirS = dir == Direction.RIGHT ? "right" : "left";
 
             LiquidBlock newBlock = (LiquidBlock)BlockRegister.Get(level switch
@@ -28,8 +24,11 @@ namespace SeeloewenCraft.game.core.blocks
                 3 => $"sc:water_3_{dirS}_block",
                 4 => $"sc:water_4_{dirS}_block",
                 5 => $"sc:water_5_{dirS}_block",
+                6 => $"sc:water_6_block",
                 _ => null
             });
+
+            newBlock.RemoveTag(BlockTags.LIQUID_SOURCE);
 
             SetSource(newBlock, source);
 

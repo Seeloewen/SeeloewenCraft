@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.graphics.ui_lib;
+using SeeloewenCraft.game.notifications;
 using SeeloewenCraft.game.util.logging;
 using SeeloewenCraft.launcher;
 using System;
@@ -76,6 +77,7 @@ namespace SeeloewenCraft.game.graphics
             () => {
                     Screen.showEscapeMenu = false;
                     Game.world.Save();
+                    NotificationHandler.Notify("sc:save", "Successfully saved the world!", "general");
                   },
             () => Game.shouldClose = true,
 
