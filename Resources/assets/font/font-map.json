@@ -84,6 +84,6 @@
 		{"character":"_", "offsetX":0, "offsetY":24,"width":5},
 		{"character":"-", "offsetX":5, "offsetY":24,"width":4},
 		{"character":"=", "offsetX":10, "offsetY":24,"width":5},
-		{"character":" ", "offsetX":15, "offsetY":24,"width":3},
+		{"character":" ", "offsetX":15, "offsetY":24,"width":3}
 	]
 }
