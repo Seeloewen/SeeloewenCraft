@@ -3,6 +3,9 @@ using OpenTK.Graphics.OpenGL4;
 using System.Collections.Generic;
 using System.Diagnostics;
 
+using OpenTK.Audio.OpenAL;
+
+
 namespace SeeloewenCraft.game.graphics
 {
     
@@ -40,7 +43,7 @@ namespace SeeloewenCraft.game.graphics
 
         public static int GetSize() => 8;
 
-        public static VBLayout GetVBLayout() => new VBLayout().AddAttribute(3).AddAttribute(2).AddAttribute(3);
+        public static VBLayout GetVBLayout() => new VBLayout(new [] {new VBElement(3), new VBElement(2), new VBElement(3)});
         
     }    
     internal static class TextRenderer

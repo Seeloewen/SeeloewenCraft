@@ -9,7 +9,7 @@ internal class BatchRenderer<V> where V : struct, IBatch
     private int count;
     private readonly int maxCount;
     
-    private VertexBuffer vb;
+    private VertexArray vb;
     private Shader shader;
     private TextureMap textureMap;
 
@@ -21,7 +21,7 @@ internal class BatchRenderer<V> where V : struct, IBatch
         this.maxCount = 100;
         textureMap = null;
         floats = new float[maxCount * V.GetSize() * 3];
-        vb = new VertexBuffer(V.GetVBLayout(), floats);
+        vb = new VertexArray(new VBLayout[] {V.GetVBLayout()});
     }
 
     internal void SetTexture(TextureMap textureMap)
@@ -65,7 +65,7 @@ internal class BatchRenderer<V> where V : struct, IBatch
         drawing = false;
         if (count == 0) return;
         shader.Use();
-        vb.SetVertices(floats);
+        vb.FillData(0, floats);
         vb.Bind();
         if(textureMap != null) textureMap.Bind();
         GL.DrawArrays(PrimitiveType.Triangles, 0, count * 3);

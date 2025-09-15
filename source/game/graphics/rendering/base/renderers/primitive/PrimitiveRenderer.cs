@@ -31,7 +31,7 @@ namespace SeeloewenCraft.game.graphics
 
         public static int GetSize() => 6;
 
-        public static VBLayout GetVBLayout() => new VBLayout().AddAttribute(2).AddAttribute(4);
+        public static VBLayout GetVBLayout() => new VBLayout(new [] {new VBElement(2), new VBElement(4)});
 
     }
 
