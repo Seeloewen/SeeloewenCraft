@@ -11,29 +11,33 @@ namespace SeeloewenCraft.game.graphics
         private float x, y;
         private float s, t;
         private float g;
+        private float z;
 
-        internal TextureVertex(float x, float y, float s, float t, float g)
+        internal TextureVertex(float x, float y, float s, float t, float g, float z)
         {
             this.x = x;
             this.y = y;
             this.s = s;
             this.t = t;
             this.g = g;
+            this.z = z;
         }
 
         public void Fill(float[] vertices, int i)
         {
             vertices[i++] = this.x;
             vertices[i++] = this.y;
+            vertices[i++] = this.z;
             vertices[i++] = this.s;
             vertices[i++] = this.t;
             vertices[i++] = this.g;
         }
         
 
-        public static int GetSize() => 5;
-
-        public static VBLayout GetVBLayout() => new VBLayout().AddAttribute(2).AddAttribute(2).AddAttribute(1);
+        public static int GetSize() => 6;
+        
+        public static VBLayout GetVBLayout() => new VBLayout(new [] {new VBElement(3), new VBElement(2), new VBElement(1)});
+        
         
     }
     
@@ -77,26 +81,26 @@ namespace SeeloewenCraft.game.graphics
             Draw(x1, y1, x2, y2, s1, t1, s2, t2, 1f);
         }
 
-        static internal void Draw(float x1, float y1, float x2, float y2, float s1, float t1, float s2, float t2, float g)
+        static internal void Draw(float x1, float y1, float x2, float y2, float s1, float t1, float s2, float t2, float g, float z = 0)
         {
-            TextureVertex v0 = new TextureVertex(x1, y1, s1, t1, g);
-            TextureVertex v1 = new TextureVertex(x1, y2, s1, t2, g);
-            TextureVertex v2 = new TextureVertex(x2, y2, s2, t2, g);
-            TextureVertex v3 = new TextureVertex(x2, y1, s2, t1, g);
+            TextureVertex v0 = new TextureVertex(x1, y1, s1, t1, g, z);
+            TextureVertex v1 = new TextureVertex(x1, y2, s1, t2, g, z);
+            TextureVertex v2 = new TextureVertex(x2, y2, s2, t2, g, z);
+            TextureVertex v3 = new TextureVertex(x2, y1, s2, t1, g, z);
             
             renderer.DrawRect(v0, v1, v2, v3);
         }
 
 
 
-        internal static void Draw(string id, Vector2f topLeft, Vector2f topRight, Vector2f botLeft, Vector2f botRight, float g = 1f)
+        internal static void Draw(string id, Vector2f topLeft, Vector2f topRight, Vector2f botLeft, Vector2f botRight, float g = 1f, float z = 0)
         {
             (float s1, float t1, float s2, float t2) = textureMap.GetMapping(id);
             
-            TextureVertex v0 = new TextureVertex(topLeft.x, topLeft.y, s1, t1, g);
-            TextureVertex v1 = new TextureVertex(botLeft.x, botLeft.y, s1, t2, g);
-            TextureVertex v2 = new TextureVertex(botRight.x, botRight.y, s2, t2, g);
-            TextureVertex v3 = new TextureVertex(topRight.x, topRight.y, s2, t1, g);
+            TextureVertex v0 = new TextureVertex(topLeft.x, topLeft.y, s1, t1, g, z);
+            TextureVertex v1 = new TextureVertex(botLeft.x, botLeft.y, s1, t2, g, z);
+            TextureVertex v2 = new TextureVertex(botRight.x, botRight.y, s2, t2, g, z);
+            TextureVertex v3 = new TextureVertex(topRight.x, topRight.y, s2, t1, g, z);
             
             renderer.DrawRect(v0, v1, v2, v3);
         }
