@@ -34,7 +34,6 @@ namespace SeeloewenCraft.game.util.logging
         public static wndMenu wndMenu;
         private static Paragraph paragraph;
         public static wndLog wndLog;
-        private static SeeloewenLibTools seeloewenLibTools = new SeeloewenLibTools();
         private static List<(string text, LogLevel level)> messages = new List<(string, LogLevel)>();
         public static bool isOpen;
 

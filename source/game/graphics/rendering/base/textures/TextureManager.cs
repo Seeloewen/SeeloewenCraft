@@ -1,4 +1,6 @@
-﻿using SeeloewenCraft.game.util;
+﻿using SeeloewenCraft.game.core.settings;
+using SeeloewenCraft.game.util;
+using SeeloewenCraft.game.util.logging;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,17 +11,18 @@ using System.Reflection;
 namespace SeeloewenCraft.game.graphics
 {
     internal record TexturePath(bool disk, string path) { }
-    
-    public class TexturePackException : Exception {
+
+    public class TexturePackException : Exception
+    {
         internal TexturePackException(string msg) : base(msg) { }
     }
-    
+
     internal static class TextureManager
     {
         public static Dictionary<string, TextureMap> textureMaps;
 
         private static Dictionary<string, Dictionary<string, TexturePath>> texturePaths;
-        
+
         static string internalTexturePackPath = "SeeloewenCraft.Resources.assets.";
 
 
@@ -32,8 +35,12 @@ namespace SeeloewenCraft.game.graphics
         static void LoadTexturePaths(string[] texturePackPaths)
         {
             LoadInternalTexturePaths();
-            foreach (string texturePackPath in texturePackPaths)
+
+            //Load first item in array last -> prioritized
+            for (int i = texturePackPaths.Length - 1; i >= 0; i--)
             {
+                string texturePackPath = texturePackPaths[i];
+
                 LoadExternalTexturePaths(texturePackPath);
             }
         }
@@ -41,7 +48,7 @@ namespace SeeloewenCraft.game.graphics
         static void LoadInternalTexturePaths()
         {
             texturePaths = new Dictionary<string, Dictionary<string, TexturePath>>();
-            
+
             JsonToken fileToken = JsonUtil.ReadResource("assets.content.json");
 
             JsonToken sectionsToken = fileToken.GetToken("/sections");
@@ -151,24 +158,24 @@ namespace SeeloewenCraft.game.graphics
 
         static void CreateTextureMaps()
         {
-            textureMaps = new Dictionary<string, TextureMap>(); 
-            foreach(var section in texturePaths.Keys.ToList())
+            textureMaps = new Dictionary<string, TextureMap>();
+            foreach (var section in texturePaths.Keys.ToList())
             {
                 textureMaps[section] = new TextureMap(texturePaths[section]);
             }
         }
 
-         
-        
-        
+
+
+
         static public void Load()
         {
 
-            LoadTexturePaths(new string[] { });
+            LoadTexturePaths(Settings.texturepacks.ToArray());
 
             CreateTextureMaps();
-            
-            
+
+
             //TODO seperate Font stuff
             JsonToken fileToken = JsonUtil.ReadResource("assets.content.json");
             JsonToken fontToken = fileToken.GetToken("/font");
@@ -209,9 +216,9 @@ namespace SeeloewenCraft.game.graphics
 
         static TextureImage GetMissingTexture()
         {
-                using Stream stream = Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream($"SeeloewenCraft.Resources.assets.Missing_Texture.png");
-                return new TextureImage(new Bitmap(stream));
+            using Stream stream = Assembly.GetExecutingAssembly()
+                .GetManifestResourceStream($"SeeloewenCraft.Resources.assets.Missing_Texture.png");
+            return new TextureImage(new Bitmap(stream));
         }
 
 

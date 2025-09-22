@@ -31,8 +31,6 @@ namespace SeeloewenCraft.game.core.entities
             this.item.tag = tag;
             frictionAir = 2;
             frictionWater = 15;
-
-            texture.Background = item.image;
         }
 
 
@@ -47,12 +45,12 @@ namespace SeeloewenCraft.game.core.entities
         }
 
         public ItemEntity(Item item, string tag, int posX, int posY, int velX, int velY)
-            : base(itemSizeX, itemSizeY, posX, posY, velX, velY, new SolidColorBrush(Colors.Yellow))
+            : base(itemSizeX, itemSizeY, posX, posY, velX, velY)
         {
             Init(item, tag);
         }
 
-        public ItemEntity(JsonToken token) : base(token, itemSizeX, itemSizeY, new SolidColorBrush(Colors.Yellow))
+        public ItemEntity(JsonToken token) : base(token, itemSizeX, itemSizeY)
         {
             Init(ItemRegister.Get(token.GetString("/item_id")), token.GetString("/item_id"));
         }

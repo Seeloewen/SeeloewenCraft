@@ -1,29 +1,76 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SeeloewenCraft.game;
+using SeeloewenCraft.game.core.events;
 using SeeloewenCraft.game.core.settings;
-using SeeloewenCraft.game.core.world;
+using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using JsonToken = SeeloewenCraft.game.util.JsonToken;
 using JsonWriter = SeeloewenCraft.game.util.JsonWriter;
 
 namespace SeeloewenCraft.launcher
 {
+    internal class TexturepackDisplay : Canvas
+    {
+        internal readonly string id;
+
+        private readonly TextBlock tblName = new TextBlock() { FontSize = 18, FontWeight = FontWeights.DemiBold };
+        private readonly TextBlock tblDescription = new TextBlock() { FontSize = 16 };
+
+        internal TexturepackDisplay(string name, string desc, string id)
+        {
+            this.id = id;
+            Height = 50;
+
+            tblName.Text = name;
+            tblDescription.Text = desc;
+            tblDescription.MaxWidth = 175;
+            tblDescription.MaxHeight = 30;
+
+            SetTop(tblName, 2);
+            SetLeft(tblName, 5);
+
+            SetTop(tblDescription, 25);
+            SetLeft(tblDescription, 5);
+
+            Children.Add(tblDescription);
+            Children.Add(tblName);
+        }
+
+        internal void SetAsOutdated()
+        {
+            tblDescription.Text = "Outdated Texturepack";
+            tblDescription.Foreground = new SolidColorBrush(Colors.Red);
+            Log.Write($"Detected texturepack {id} as outdated! Be careful, loading it may not work as intended", LogType.RENDERING, LogLevel.WARNING);
+        }
+    }
+
     public partial class wndSettings : Window
     {
-        wndMenu wndMenu;
+        private wndMenu wndMenu;
+        private ListBox focusedList;
 
-        //-- Constructor --//
+        private ObservableCollection<TexturepackDisplay> disabledTexturepacks = new();
+        private ObservableCollection<TexturepackDisplay> enabledTexturepacks = new();
+
+        private bool texturepackChanged; //Used to determine whether to reload texture at the end 
 
         public wndSettings(wndMenu wndMenu, bool firstStart)
         {
             this.wndMenu = wndMenu;
             InitializeComponent();
+
+            lbDisabled.ItemsSource = disabledTexturepacks;
+            lbEnabled.ItemsSource = enabledTexturepacks;
 
             //Add items to comboboxes
             cbxMode.Items.Add("Fullscreen");
@@ -64,74 +111,41 @@ namespace SeeloewenCraft.launcher
         //-- Custom Methods --//
         private void SaveSettings(JsonWriter writer, bool suppressConfirmation)
         {
-            //Save the settings locally
+            //Save the normal settings
             Settings.saveLogOnExit = Convert.ToBoolean(cbSaveLogOnExit.IsChecked);
-            Log.Write($"Saved setting saveLogOnExit as {Settings.saveLogOnExit}", LogType.GENERAL, LogLevel.INFO);
-
             Settings.saveWorldOnClose = Convert.ToBoolean(cbSaveWorldWhenClosing.IsChecked);
-            Log.Write($"Saved setting saveWorldOnClose as {Settings.saveWorldOnClose}", LogType.GENERAL, LogLevel.INFO);
-
             Settings.showNotifications = Convert.ToBoolean(cbShowNotifications.IsChecked);
-            Log.Write($"Saved setting showNotifications as {Settings.showNotifications}", LogType.GENERAL, LogLevel.INFO);
-
             Settings.enableMobs = Convert.ToBoolean(cbEnableMobs.IsChecked);
-            Log.Write($"Saved setting enableMobs as {Settings.enableMobs}", LogType.GENERAL, LogLevel.INFO);
-
             Settings.enableAutoSave = Convert.ToBoolean(cbAutoSave.IsChecked);
-            Log.Write($"Saved setting enableAutoSave as {Settings.enableAutoSave}", LogType.GENERAL, LogLevel.INFO);
-
             Settings.showAutoSaveNotification = Convert.ToBoolean(cbAutoSaveNotification.IsChecked);
-            Log.Write($"Saved setting showAutoSaveNotification as {Settings.showAutoSaveNotification}", LogType.GENERAL, LogLevel.INFO);
-
             Settings.resolution = Convert.ToString(cbxResolution.SelectedItem);
-            Log.Write($"Saved setting resolution as {Settings.resolution}", LogType.GENERAL, LogLevel.INFO);
-
             Settings.videoMode = Convert.ToString(cbxMode.SelectedItem);
-            Log.Write($"Saved setting videoMode as {Settings.videoMode}", LogType.GENERAL, LogLevel.INFO);
-
             Settings.customResX = Convert.ToInt32(tbWidth.Text);
-            Log.Write($"Saved setting customResX as {Settings.customResX}", LogType.GENERAL, LogLevel.INFO);
-
             Settings.customResY = Convert.ToInt32(tbHeight.Text);
-            Log.Write($"Saved setting customResY as {Settings.customResY}", LogType.GENERAL, LogLevel.INFO);
-
             Settings.autoSaveInterval = Convert.ToInt32(tbAutosave.Text);
-            Log.Write($"Saved setting autoSaveInterval as {Settings.autoSaveInterval}", LogType.GENERAL, LogLevel.INFO);
-
-            Settings.texturepack = cbxTexturepack.Text;
-            Log.Write($"Saved setting texturepack as {Settings.texturepack}", LogType.GENERAL, LogLevel.INFO);
-
             Settings.nickname = tbNickname.Text;
-            Log.Write($"Saved setting nickname as {Settings.nickname}", LogType.GENERAL, LogLevel.INFO);
 
             //Save the log settings
             Settings.logEntities = Convert.ToBoolean(cbLogEntities.IsChecked);
-            Log.Write($"Saved setting logEntities as {Settings.logEntities}", LogType.GENERAL, LogLevel.INFO);
-
             Settings.logGeneral = Convert.ToBoolean(cbLogGeneral.IsChecked);
-            Log.Write($"Saved setting logGeneral as {Settings.logGeneral}", LogType.GENERAL, LogLevel.INFO);
-
             Settings.logNetwork = Convert.ToBoolean(cbLogNetwork.IsChecked);
-            Log.Write($"Saved setting logNetwork as {Settings.logNetwork}", LogType.GENERAL, LogLevel.INFO);
-
             Settings.logRendering = Convert.ToBoolean(cbLogRendering.IsChecked);
-            Log.Write($"Saved setting logRendering as {Settings.logRendering}", LogType.GENERAL, LogLevel.INFO);
-
             Settings.logStructureGeneration = Convert.ToBoolean(cbLogStructureGeneration.IsChecked);
-            Log.Write($"Saved setting logStructureGeneration as {Settings.logStructureGeneration}", LogType.GENERAL, LogLevel.INFO);
-
             Settings.logWorldGeneration = Convert.ToBoolean(cbLogWorldGeneration.IsChecked);
-            Log.Write($"Saved setting logWorldGeneration as {Settings.logWorldGeneration}", LogType.GENERAL, LogLevel.INFO);
+
+            Log.Write($"Successfully saved settings", LogType.GENERAL, LogLevel.INFO);
 
             //Save the settings to file
             Settings.Save(writer);
 
-            if (World.Get() != null) //World.Get().wndGame.ApplyVideoSettings();
+            //Apply settings
+            if (texturepackChanged) TextureManager.Load();
+            GameEventHandler.Register(new AutoSaveEvent(Settings.autoSaveInterval * 60000));
 
-                if (!suppressConfirmation)
-                {
-                    MessageBox.Show("The settings have been saved successfully!", "Saved settings", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
+            if (!suppressConfirmation)
+            {
+                MessageBox.Show("The settings have been saved successfully!", "Saved settings", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void LoadSettings(JsonToken fileToken, bool overwriteResolution)
@@ -145,7 +159,6 @@ namespace SeeloewenCraft.launcher
             cbAutoSave.IsChecked = Settings.enableAutoSave;
             cbShowNotifications.IsChecked = Settings.showNotifications;
             cbAutoSaveNotification.IsChecked = Settings.showAutoSaveNotification;
-            cbxTexturepack.Text = Settings.texturepack;
             cbxMode.Text = Settings.videoMode;
             cbxResolution.Text = Settings.resolution;
             tbHeight.Text = Settings.customResY.ToString();
@@ -172,93 +185,72 @@ namespace SeeloewenCraft.launcher
             tbSneak.Text = KeyConverter.KeyToString(Settings.cSneak);
             tbSprint.Text = KeyConverter.KeyToString(Settings.cSprint);*/
 
-            //Load the texturepacks
-            GetTexturepacks();
+            //Load and display the texturepacks
+            InitTexturepackDisplays();
+            Settings.texturepacks.ForEach(EnableTexturepack);
+            texturepackChanged = false;
         }
 
-        private void GetTexturepacks()
+        private void InitTexturepackDisplays()
         {
-            cbxTexturepack.Items.Clear();
-
-            //Add entry for default texturepack
-            cbxTexturepack.Items.Add("default");
-
             //Get all texturepacks
             string[] directories = Directory.GetDirectories(FolderUtil.texturepacksFolder);
             foreach (string directory in directories)
             {
-                //Check if the texturepack has a pack file and add it to the list
-                if (File.Exists($"{directory}\\pack.txt"))
+                string packFile = $"{directory}\\pack.json";
+                if (File.Exists(packFile))
                 {
-                    cbxTexturepack.Items.Add(directory.Replace($"{FolderUtil.texturepacksFolder}\\", ""));
-                }
-            }
-
-            //Try to load default texturepack
-            if (cbxTexturepack.Items.Contains(Settings.texturepack))
-            {
-                cbxTexturepack.SelectedItem = Settings.texturepack;
-                ApplyTexturepack();
-            }
-
-        }
-
-        private int GetTexturepackVersion(string texturepack)
-        {
-            //Check if the pack file exists
-            if (File.Exists($"{Game.selectedTexturepack}\\pack.txt"))
-            {
-                string[] fileContent = File.ReadAllLines($"{Game.selectedTexturepack}\\pack.txt");
-
-                if (fileContent.Length > 1)
-                {
-                    //Try to read the texturepack version
+                    //Load the texture pack properties and add it to the list, disabled by default
                     try
                     {
-                        Log.Write($"Detected texturepack version {fileContent[1].Replace("texturepackVersion=", "")}", LogType.GENERAL, LogLevel.INFO);
-                        return Convert.ToInt32(fileContent[1].Replace("texturepackVersion=", ""));
+                        JObject pack = JObject.Parse(File.ReadAllText(packFile));
+                        string name = (pack["name"] ?? "Unknown").ToString();
+                        string description = (pack["description"] ?? "").ToString();
+                        int ver = Convert.ToInt32(pack["version"] ?? 0);
+
+                        TexturepackDisplay display = new TexturepackDisplay(name, description, directory);
+                        if (ver < Game.TEXTUREPACK_VERSION) display.SetAsOutdated();
+                        disabledTexturepacks.Add(display);
                     }
-                    catch (Exception ex)
+                    catch (Exception e)
                     {
-                        Log.Write($"Could not get texturepack version: {ex.Message}\n{ex.StackTrace}", LogType.GENERAL, LogLevel.ERROR);
-                        return 0;
+                        Log.Write($"Could not parse pack.json for datapack {directory}:\n{e.StackTrace}", LogType.RENDERING, LogLevel.ERROR);
                     }
                 }
-                else
-                {
-                    Log.Write($"Could not get texturepack version because the pack.txt file is empty", LogType.GENERAL, LogLevel.ERROR);
-                    return 0;
-                }
-            }
-            else
-            {
-                Log.Write($"Could not get texturepack version because the pack.txt file does not exist", LogType.GENERAL, LogLevel.ERROR);
-                return 0;
             }
         }
 
-        public void ApplyTexturepack()
+        private void EnableTexturepack(string texturepack)
         {
-            //Apply the texturepack
-            if (cbxTexturepack.SelectedItem == null || cbxTexturepack.SelectedItem.ToString() == "default")
+            //Fetch the corresponding display and move it to the enabled box
+            TexturepackDisplay display = disabledTexturepacks.Get<TexturepackDisplay>(e => e.id == texturepack);
+            if (display != null)
             {
-                //Default texturepack
-                Game.selectedTexturepack = "default";
-            }
-            else
-            {
-                Game.selectedTexturepack = $"{FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}";
-                //Check the texturepack version and apply that if possible
-                if (GetTexturepackVersion($"{FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}") < Game.TEXTUREPACK_VERSION)
+                disabledTexturepacks.Remove(display);
+                enabledTexturepacks.Add(display);
+
+                //Also update the settings accordingly
+                if (!Settings.texturepacks.Contains(texturepack))
                 {
-                    Log.Write($"The texture pack you are trying to load ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem}) is outdated", LogType.GENERAL, LogLevel.WARNING);
-                    MessageBox.Show("Warning: The texturepack that you are trying to load is outdated. This may lead to issues.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    Settings.texturepacks.Add(texturepack);
+                    texturepackChanged = true;
                 }
-                Log.Write($"Successfully applied texturepack ({FolderUtil.texturepacksFolder}\\{cbxTexturepack.SelectedItem})", LogType.GENERAL, LogLevel.INFO);
             }
         }
 
-        //-- Event Handlers --//
+        private void DisableTexturepack(string texturepack)
+        {
+            //Fetch the corresponding display and move it to the disabled box
+            TexturepackDisplay display = enabledTexturepacks.Get<TexturepackDisplay>(e => e.id == texturepack);
+            if (display != null)
+            {
+                enabledTexturepacks.Remove(display);
+                disabledTexturepacks.Add(display);
+
+                Settings.texturepacks.Remove(texturepack);
+                texturepackChanged = true;
+            }
+        }
 
         private void btnSaveClose_Click(object sender, RoutedEventArgs e)
         {
@@ -270,21 +262,7 @@ namespace SeeloewenCraft.launcher
                 writer.WriteToFile($"{FolderUtil.gameFolder}\\clientSettings.json");
             }
 
-            //Apply some settings instantly
-            if (World.Get() != null)
-            {
-                // World.Get().gameLoop.autoSaveEvent.UpdateMaxTick(); //TODO: Events
-            }
-
-            ApplyTexturepack();
             Close();
-        }
-
-        private void btnApplyTexturepack_Click(object sender, RoutedEventArgs e)
-        {
-            //Apply the texturepack
-            ApplyTexturepack();
-            MessageBox.Show("The texturepack was applied!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void btnAbout_Click(object sender, RoutedEventArgs e)
@@ -307,7 +285,6 @@ namespace SeeloewenCraft.launcher
             string keyText = e.Key.ToString();
             if (keyText.Equals("LeftCtrl")) keyText = "LeftControl";
             tbMoveRight.Text = e.Key.ToString();
-
         }
 
         private void tbMoveLeft_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -423,7 +400,7 @@ namespace SeeloewenCraft.launcher
             tbAutosave.IsEnabled = (bool)cbAutoSave.IsChecked;
         }
 
-        private void tbAutosave_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void tbAutosave_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (int.TryParse(tbAutosave.Text, out int interval))
             {
@@ -437,5 +414,56 @@ namespace SeeloewenCraft.launcher
                 }
             }
         }
+
+        private void btnEnable_Click(object sender, RoutedEventArgs e)
+        {
+            TexturepackDisplay display = (TexturepackDisplay)lbDisabled.SelectedItem;
+            if (display != null) EnableTexturepack(display.id);
+        }
+
+        private void btnDisable_Click(object sender, RoutedEventArgs e)
+        {
+            TexturepackDisplay display = (TexturepackDisplay)lbEnabled.SelectedItem;
+            if (display != null) DisableTexturepack(display.id);
+        }
+
+        private void btnDown_Click(object sender, RoutedEventArgs e)
+        {
+            //Get the selected item and the one below and swap them
+            if (focusedList != null)
+            {
+                var collection = (ObservableCollection<TexturepackDisplay>)focusedList.ItemsSource;
+                TexturepackDisplay selectedItem = (TexturepackDisplay)focusedList.SelectedItem;
+                int selectedIndex = collection.IndexOf(selectedItem);
+
+                if (selectedIndex == collection.Count - 1) return; //If it's the bottom most one do nothing
+                TexturepackDisplay itemBelow = collection[selectedIndex + 1];
+                texturepackChanged = true;
+
+                if (focusedList.Tag.ToString() == "enabled") Settings.texturepacks.Swap<string>(selectedItem.id, itemBelow.id); //When dealing with the enabled list, also update the actual texturepack list  
+                collection.Swap<TexturepackDisplay>(selectedItem, itemBelow);
+            }
+
+        }
+
+        private void btnUp_Click(object sender, RoutedEventArgs e)
+        {
+            //Get the selected item and the one below and swap them
+            if (focusedList != null)
+            {
+                var collection = (ObservableCollection<TexturepackDisplay>)focusedList.ItemsSource;
+                TexturepackDisplay selectedItem = (TexturepackDisplay)focusedList.SelectedItem;
+                int selectedIndex = collection.IndexOf(selectedItem);
+
+                if (selectedIndex == 0) return; //If it's the bottom most one do nothing
+                TexturepackDisplay itemAbove = collection[selectedIndex - 1];
+                texturepackChanged = true;
+
+                if (focusedList.Tag.ToString() == "enabled") Settings.texturepacks.Swap<string>(selectedItem.id, itemAbove.id); //When dealing with the enabled list, also update the actual texturepack list  
+                collection.Swap<TexturepackDisplay>(selectedItem, itemAbove);
+            }
+        }
+
+        private void lb_GotFocus(object sender, RoutedEventArgs e) => focusedList = sender as ListBox;
     }
 }

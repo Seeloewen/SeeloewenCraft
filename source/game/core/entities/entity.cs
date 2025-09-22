@@ -39,8 +39,6 @@ namespace SeeloewenCraft.game.core.entities
 
         public int id { get; private set; }
 
-        public Canvas texture;
-
         public int sizeX;
         public int sizeY;
 
@@ -414,22 +412,19 @@ namespace SeeloewenCraft.game.core.entities
             return (false, 0);
         }
 
-        public Entity(JsonToken token, int sizeX, int sizeY, Brush image)
+        public Entity(JsonToken token, int sizeX, int sizeY)
             : this(sizeX, sizeY,
                 token.GetInt("/posX"),
                 token.GetInt("/posY"),
                 token.GetInt("/velX"),
-                token.GetInt("/velY"),
-                 image)
+                token.GetInt("/velY"))
         {
             lifeTime = token.GetInt("/life_time");
             id = token.GetInt("/id");
-
-            texture.Children.Clear();
         }
 
 
-        public Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, Brush image)
+        public Entity(int sizeX, int sizeY, int posX, int posY, int velX, int velY)
         {
             lifeTime = 0;
             id = idGenerator.Next(0, int.MaxValue);
@@ -441,15 +436,7 @@ namespace SeeloewenCraft.game.core.entities
             this.velX = velX;
             this.velY = velY;
 
-            texture = new Canvas();
-            texture.Margin = new Thickness(0, 0, 0, 0);
-            texture.Width = sizeX / 20;
-            texture.Height = sizeY / 20;
-            texture.Background = image;
-
             touchingStatus = new bool[TOUCHING_STATUS_COUNT];
-
-            texture.Children.Clear();
         }
 
         public static Entity LoadFromJson(JsonToken token)

@@ -36,14 +36,14 @@ namespace SeeloewenCraft.game.core.entities
         }
 
         public FallingBlockEntity(int blockX, int blockY, string blockType)
-            : base(1000, 1000, blockX * 1000, blockY * 1000, 0, 0, null)
+            : base(1000, 1000, blockX * 1000, blockY * 1000, 0, 0)
         {
             type = "FallingBlockEntity";
             this.blockType = blockType;
         }
 
         public FallingBlockEntity(JsonToken token)
-            : base(token, 1000, 1000, null)
+            : base(token, 1000, 1000)
         {
             blockType = token.GetString("/block_type");
         }

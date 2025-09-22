@@ -12,11 +12,6 @@ namespace SeeloewenCraft.game.core.entities
             ACC_SPRINTING = 45000;
         }
 
-        protected override void InitTexture()
-        {
-            texture.Background = new SolidColorBrush(Colors.White);
-        }
-
         public override void Die()
         {
             Drop("sc:bone_item");

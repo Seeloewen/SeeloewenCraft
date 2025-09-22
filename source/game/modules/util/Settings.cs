@@ -1,7 +1,11 @@
-﻿using SeeloewenCraft.game.core.events;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.core.events;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.util;
+using SeeloewenCraft.game.util.logging;
 using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace SeeloewenCraft.game.core.settings
 {
@@ -19,7 +23,6 @@ namespace SeeloewenCraft.game.core.settings
         public static int customResX = 1280;
         public static int customResY = 720;
         public static int autoSaveInterval = 10;
-        public static string texturepack;
         public static string nickname;
 
         //Log types
@@ -29,6 +32,8 @@ namespace SeeloewenCraft.game.core.settings
         public static bool logNetwork = true;
         public static bool logEntities = true;
         public static bool logRendering = true;
+
+        public static List<string> texturepacks = new List<string>();
 
         public static void Save(JsonWriter writer)
         {
@@ -70,10 +75,14 @@ namespace SeeloewenCraft.game.core.settings
 
             writer.WritePropertyName("auto_save_interval");
             writer.WriteValue(autoSaveInterval);
-            GameEventHandler.Register(new AutoSaveEvent(autoSaveInterval * 60000));
 
-            writer.WritePropertyName("texturepack");
-            writer.WriteValue(texturepack);
+            writer.WritePropertyName("texturepacks");
+            writer.WriteStartArray();
+            foreach (string tp in texturepacks)
+            {
+                writer.WriteValue(tp);
+            }
+            writer.WriteEndArray();
 
             writer.WritePropertyName("nickname");
             writer.WriteValue(nickname);
@@ -127,7 +136,6 @@ namespace SeeloewenCraft.game.core.settings
                 enableAutoSave = settingsToken.GetBool("/enable_auto_save");
                 showAutoSaveNotification = settingsToken.GetBool("/show_auto_save_notification");
                 showNotifications = settingsToken.GetBool("/show_notifications");
-                texturepack = settingsToken.GetString("/texturepack");
                 resolution = settingsToken.GetString("/resolution");
                 videoMode = settingsToken.GetString("/video_mode");
                 if (overwriteResolution)
@@ -145,6 +153,20 @@ namespace SeeloewenCraft.game.core.settings
                 logEntities = logTypesToken.GetBool("/entities");
                 logRendering = logTypesToken.GetBool("/rendering");
 
+                texturepacks.Clear();
+                JArray texturepackArray = settingsToken.GetToken("/texturepacks").value as JArray;
+                foreach(JToken tp in texturepackArray)
+                {
+                    string texturepackPath = tp.ToString();
+
+                    if (!Directory.Exists(texturepackPath)) //If the texturepack doesn't exist, remove it from the list
+                    {
+                        Log.Write($"Could not load texturepack {texturepackPath} as it doesn't seem to exist", LogType.RENDERING, LogLevel.ERROR);
+                        continue;
+                    }
+
+                    texturepacks.Add(texturepackPath);
+                }
 
                 KeyBinds.Load(fileToken);
 

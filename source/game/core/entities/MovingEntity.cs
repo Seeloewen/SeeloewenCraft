@@ -44,20 +44,16 @@ namespace SeeloewenCraft.game.core.entities
 
 
         public MovingEntity(int sizeX, int sizeY, int posX, int posY, int velX, int velY, Color hitboxColor)
-            : base(sizeX, sizeY, posX, posY, velX, velY, new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Green))
+            : base(sizeX, sizeY, posX, posY, velX, velY)
         {
             type = "MovingEntity";
             hp = MAX_HP;
             currentAcc = ACC_WALKING;
             this.hitboxColor = hitboxColor;
-
-            texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
-
-            InitTexture();
         }
 
         public MovingEntity(JsonToken token, int sizeX, int sizeY)
-            : base(token, sizeX, sizeY, new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Green))
+            : base(token, sizeX, sizeY)
         {
             type = "MovingEntity";
             hp = token.GetDouble("/hp");
@@ -65,16 +61,7 @@ namespace SeeloewenCraft.game.core.entities
             fallMaxHeight = token.GetInt("/fall_max_height");
             thrown = token.GetBool("/thrown");
             flying = token.GetBool("/flying");
-
-
-            texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
-
-            InitTexture();
         }
-
-
-
-        protected abstract void InitTexture();
 
         public void SendSyncData()
         {
@@ -106,17 +93,7 @@ namespace SeeloewenCraft.game.core.entities
         }
 
 
-        public MovingEntity(JsonToken token, int sizeX, int sizeY, System.Windows.Media.Brush image)
-            : base(token, sizeX, sizeY, image)
-        {
-            type = "MovingEntity";
-            hp = token.GetDouble("/hp");
-            currentAcc = token.GetInt("/current_acc");
-            fallMaxHeight = token.GetInt("/fall_max_height");
-            flying = token.GetBool("/flying");
 
-            texture.MouseLeftButtonDown += Texture_MouseLeftButtonDown;
-        }
 
 
         protected override void DoFallDamage()
@@ -335,8 +312,6 @@ namespace SeeloewenCraft.game.core.entities
                     sizeY = 1900;
                 }
             }
-
-            texture.Height = sizeY / 20;
 
             // -- change velocity depending on inputs --
             if (touchingStatus[TOUCHING_LADDER])

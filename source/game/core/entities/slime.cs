@@ -30,10 +30,6 @@ namespace SeeloewenCraft.game.core.entities
             ACC_SPRINTING = 0;
         }
 
-        protected override void InitTexture()
-        {
-        }
-
         public override void Die()
         {
             Drop("sc:crafting_table_item");

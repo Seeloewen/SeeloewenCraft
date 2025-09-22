@@ -1,6 +1,4 @@
-﻿
-
-using OpenTK.Graphics.OpenGL4;
+﻿using OpenTK.Graphics.OpenGL4;
 using SeeloewenCraft.game.core.world;
 
 namespace SeeloewenCraft.game.graphics
@@ -28,17 +26,9 @@ namespace SeeloewenCraft.game.graphics
             GL.ClearColor(skyColor.r, skyColor.g, skyColor.b, skyColor.a);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
 
-            /*
-            Rectangle r = new Rectangle(100, 200, 500, 400);
-            Color c = new Color(0.4f, 0.4f, 0.4f);
-            PrimitiveRenderer.Begin();
-            PrimitiveRenderer.DrawRectangle(r, c);
-            PrimitiveRenderer.End();
-            */
-;
             WorldRenderer.Render();
 
-            HitboxRenderer.Render();
+            //HitboxRenderer.Render();
             
             ItemEntityRenderer.Render();
             PlayerRenderer.Render();
@@ -59,6 +49,5 @@ namespace SeeloewenCraft.game.graphics
         {
             GL.PopDebugGroup();
         }
-        
     }
 }

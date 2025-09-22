@@ -11,8 +11,6 @@ namespace SeeloewenCraft.game.core.items
     {
         public static List<string> unstackableItems = new List<string>();
 
-        public Canvas cvsItem = new Canvas();
-        public ImageBrush image;
         public string name;
         public string id;
         public string blockId;
@@ -20,15 +18,6 @@ namespace SeeloewenCraft.game.core.items
         public bool isPlacable = false;
         public bool hasRightClickAction = false;
 
-
-        //-- Constructor --//
-
-        public Item()
-        {
-            //Setup the item canvas
-            cvsItem.Width = 67;
-            cvsItem.Height = 67;
-        }
 
         //-- Custom Methods --//
         public virtual void Init(string name, string id, string? blockId, bool isPlacable)

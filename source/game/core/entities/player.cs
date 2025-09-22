@@ -58,17 +58,12 @@ namespace SeeloewenCraft.game.core.entities
             InitPlayer();
         }
 
-        public Player(JsonToken token) : base(token, PLAYER_WIDTH, PLAYER_HEIGHT, new SolidColorBrush(Colors.Red))
+        public Player(JsonToken token) : base(token, PLAYER_WIDTH, PLAYER_HEIGHT)
         {
             InitPlayer();
         }
 
         public static Player Get() => World.Get().player;
-
-        protected override void InitTexture()
-        {
-            texture.Background = new SolidColorBrush(Colors.Red);
-        }
 
         private void HandleThrow()
         {
