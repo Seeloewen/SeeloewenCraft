@@ -1,4 +1,8 @@
-﻿Alpha 1.2.2 - 01.01.2025
+﻿Alpha 1.2.2_01 - 05.01.2025
+* Removed debug items from inventory
+* Fixed several critical multiplayer crashes
+
+Alpha 1.2.2 - 01.01.2025
 + Added farmland, pumpkins and wool
 + Added crops that can grow and be harvested
 + Added player id and nickname
