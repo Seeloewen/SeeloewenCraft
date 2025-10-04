@@ -13,8 +13,9 @@ namespace SeeloewenCraft.game.graphics
         public static bool showIngameMenu = false;
         public static bool showEscapeMenu = false;
         public static bool showHotbar = true;
+        public static bool showChat = false;
 
-        public static bool allowIngameInputs { get => !(showEscapeMenu || showIngameMenu || showGui); }
+        public static bool allowIngameInputs { get => !(showEscapeMenu || showIngameMenu || showGui || showChat); }
 
         internal static GuiHandler guiHandler = new GuiHandler();
 
@@ -22,6 +23,7 @@ namespace SeeloewenCraft.game.graphics
         internal static UIRoot escapeMenuUIRoot;
         internal static UIRoot hotbarUIRoot;
         internal static UIRoot gameOverlayUIRoot;
+        internal static UIRoot chatRoot;
 
         public static void Init()
         {
@@ -29,8 +31,10 @@ namespace SeeloewenCraft.game.graphics
             escapeMenuUIRoot = new UIRoot(() => new EscapeMenu());
             gameOverlayUIRoot = new UIRoot(() => new GameOverlay());
             hotbarUIRoot = new UIRoot(() => new CHotbar(Player.Get().inventory));
+            chatRoot = new UIRoot(() => new ChatScreen());
             gameOverlayUIRoot.Show();
             hotbarUIRoot.Show();
+            chatRoot.Show();
         }
 
         public static void OnResize()
@@ -54,6 +58,11 @@ namespace SeeloewenCraft.game.graphics
                 gameOverlayUIRoot.Hide();
                 gameOverlayUIRoot.Show();
             }
+            if (chatRoot.visible)
+            {
+                chatRoot.Hide();
+                chatRoot.Show();
+            }
         }
 
         public static void Update(double dt)
@@ -65,7 +74,7 @@ namespace SeeloewenCraft.game.graphics
                 gameOverlayUIRoot.Update(dt);
                 GameScreen.Update(dt);
             }
-            if(showHotbar)
+            if (showHotbar)
             {
                 hotbarUIRoot.Update(dt);
             }
@@ -77,6 +86,10 @@ namespace SeeloewenCraft.game.graphics
             {
                 guiRoot.Update(dt);
             }
+            if (showChat)
+            {
+                chatRoot.Update(dt);
+            }
         }
 
         static void HandleInputs()
@@ -84,7 +97,7 @@ namespace SeeloewenCraft.game.graphics
             if (KeyBinds.checkPressedFirst(KeyBinds.OPEN_MENU))
             {
                 //If any guis are visible, hide them
-                if(showGui)
+                if (showGui)
                 {
                     guiHandler.HideGuis();
                     return;
@@ -105,22 +118,26 @@ namespace SeeloewenCraft.game.graphics
             {
                 showDebugMenu = !showDebugMenu;
             }
-            else if(KeyBinds.checkPressedFirst(KeyBinds.CREATIVE_MENU))
+            else if (KeyBinds.checkPressedFirst(KeyBinds.CREATIVE_MENU))
             {
                 if (showGui)
                 {
                     guiHandler.HideGuis();
                 }
-                else if(World.Get().gamemode == Gamemode.Creative)
+                else if (World.Get().gamemode == Gamemode.Creative)
                 {
                     Player.Get().creativeInventory.ShowGui();
                     Player.Get().inventory.ShowGui();
                 }
 
             }
+            else if (KeyBinds.checkPressedFirst(KeyBinds.CHAT))
+            {
+                showChat = !showChat;
+            }
             else if (KeyBinds.checkPressedFirst(KeyBinds.SHOW_INV))
             {
-                if(showGui) //If currently visible, hide all guis
+                if (showGui) //If currently visible, hide all guis
                 {
                     guiHandler.HideGuis();
                 }
@@ -134,14 +151,15 @@ namespace SeeloewenCraft.game.graphics
         internal static void Render()
         {
             Renderer.PushDebugGroup("screen rendering");
-            
+
             if (showGame && allowIngameInputs) GameScreen.Render();
             if (showHotbar) hotbarUIRoot.Render();
             if (showDebugMenu) DebugMenu.Render();
             if (showGui) guiRoot.Render();
             if (showEscapeMenu) escapeMenuUIRoot.Render();
             if (showGameOverlay) gameOverlayUIRoot.Render();
-            
+            if (showChat) chatRoot.Render();
+
             Renderer.PopDebugGroup();
         }
     }

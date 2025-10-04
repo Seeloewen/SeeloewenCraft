@@ -4,7 +4,7 @@ using System;
 
 namespace SeeloewenCraft.game.core.commands
 {
-    partial class CommandHandler
+    partial class ChatHandler
     {
         public static void HandlePingCommand(string[] args)
         {
@@ -14,12 +14,12 @@ namespace SeeloewenCraft.game.core.commands
 
                 if (NetworkHandler.IsServer())
                 {
-                    NotificationHandler.Notify("sc:snowball_item", "You can see the ping to your clients in the log.");
+                    HandleSystemMessage("You can see the ping to your clients in the log.");
                 }
             }
             else
             {
-                NotificationHandler.Notify("sc:bedrock_item", "This command only works in Multiplayer!");
+                HandleSystemMessage("This command only works in Multiplayer!");
             }
         }
     }

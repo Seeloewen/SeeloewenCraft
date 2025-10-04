@@ -19,13 +19,6 @@ namespace SeeloewenCraft.game.graphics
 
         protected override void OnClickEvent(ClickEvent mouseClickEvent) => cTextField.editMode = true;
 
-        internal void SetText(string text) => cTextField.SetText(text);
-
-        internal string GetText() => cTextField.GetText();
-
-        internal void EnableEditMode() => cTextField.editMode = true;
-
-        internal void DisableEditMode() => cTextField.editMode = false;
-
+        internal CTextField GetField() => cTextField;
     }
 }
