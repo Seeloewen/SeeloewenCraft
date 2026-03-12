@@ -35,10 +35,10 @@ namespace SeeloewenCraft.launcher
             tblVersion.Text = string.Format("Version {0}", Game.GAME_VERSION);
 
             //set splashtext
-            splashTextHandler = new SplashTextHandler(this);
+            splashTextHandler = new SplashTextHandler();
             tblSplashText.Text = splashTextHandler.GetText(); ;
 
-            wndSettings = new wndSettings(this, true);
+            wndSettings = new wndSettings(true);
         }
 
         //-- Event Handlers --//
@@ -59,7 +59,7 @@ namespace SeeloewenCraft.launcher
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             //Show the settings window
-            wndSettings = new wndSettings(this, false);
+            wndSettings = new wndSettings(false);
             wndSettings.ShowDialog();
         }
 

@@ -1,6 +1,7 @@
 ﻿using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
+using SeeloewenCraft.game.core.world;
 
 namespace SeeloewenCraft.game.core.items
 {
@@ -609,7 +610,7 @@ namespace SeeloewenCraft.game.core.items
             {
                 Player.Get().inventory.Remove(id, 1);
                 Player.Get().inventory.Add("sc:bucket_water_item", 1);
-                block.SetBlock(BlockRegister.Get("sc:air_block"));
+                World.Get().SetBlock(block.GetPosData(), BlockRegister.Get("sc:air_block"));
             }
             else if (block is Rice_Top rice && rice.IsReady())
             {
@@ -632,7 +633,7 @@ namespace SeeloewenCraft.game.core.items
             {
                 Player.Get().inventory.Remove(id, 1);
                 Player.Get().inventory.Add("sc:bucket_empty_item", 1);
-                block.SetBlock(BlockRegister.Get("sc:water_6_block"));
+                World.Get().SetBlock(block.GetPosData(), BlockRegister.Get("sc:water_6_block"));
             }
         }
     }

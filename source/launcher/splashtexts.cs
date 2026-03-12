@@ -7,17 +7,11 @@ namespace SeeloewenCraft.launcher
 {
     internal class SplashTextHandler
     {
-        wndMenu wndMenu;
         string[] texts;
 
-        public SplashTextHandler(wndMenu wndMenu)
+        public SplashTextHandler()
         {
-            this.wndMenu = wndMenu;
-
-            //Read all texts from file
-
-            string resourceName = "YourNamespace.Images.MyBitmap.bmp";
-
+            //Read all texts from file TODO: Replace with file io util method
             using Stream stream = Assembly.GetExecutingAssembly()
                 .GetManifestResourceStream("SeeloewenCraft.Resources.splash_texts.txt");
             using StreamReader reader = new(stream);

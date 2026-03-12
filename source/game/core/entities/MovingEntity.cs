@@ -5,6 +5,7 @@ using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using System;
 using SeeloewenCraft.game.graphics;
+using Newtonsoft.Json.Linq;
 
 namespace SeeloewenCraft.game.core.entities
 {
@@ -39,7 +40,7 @@ namespace SeeloewenCraft.game.core.entities
         public bool flying;
 
         public bool breathing;
-        
+
         public Color hitboxColor { private init; get; }
 
 
@@ -52,15 +53,15 @@ namespace SeeloewenCraft.game.core.entities
             this.hitboxColor = hitboxColor;
         }
 
-        public MovingEntity(JsonToken token, int sizeX, int sizeY)
-            : base(token, sizeX, sizeY)
+        public MovingEntity(JObject obj, int sizeX, int sizeY)
+            : base(obj, sizeX, sizeY)
         {
             type = "MovingEntity";
-            hp = token.GetDouble("/hp");
-            currentAcc = token.GetInt("/current_acc");
-            fallMaxHeight = token.GetInt("/fall_max_height");
-            thrown = token.GetBool("/thrown");
-            flying = token.GetBool("/flying");
+            hp = obj.Get<double>("hp");
+            currentAcc = obj.Get<int>("current_acc");
+            fallMaxHeight = obj.Get<int>("fall_max_height");
+            thrown = obj.Get<bool>("thrown");
+            flying = obj.Get<bool>("flying");
         }
 
         public void SendSyncData()
@@ -233,18 +234,13 @@ namespace SeeloewenCraft.game.core.entities
             SetHP(hp - damage);
         }
 
-        protected override void SaveSpecialInfo(JsonWriter writer)
+        protected override void SaveSpecialInfo(JObject obj)
         {
-            writer.WritePropertyName("hp");
-            writer.WriteValue(hp);
-            writer.WritePropertyName("current_acc");
-            writer.WriteValue(currentAcc);
-            writer.WritePropertyName("fall_max_height");
-            writer.WriteValue(fallMaxHeight);
-            writer.WritePropertyName("thrown");
-            writer.WriteValue(thrown);
-            writer.WritePropertyName("flying");
-            writer.WriteValue(flying);
+            obj.Add("hp", hp);
+            obj.Add("current_acc", currentAcc);
+            obj.Add("fall_max_height", fallMaxHeight);
+            obj.Add("thrown", thrown);
+            obj.Add("flying", flying);
         }
 
         protected override void OnUpdateStart(int tps)

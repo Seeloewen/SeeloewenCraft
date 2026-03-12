@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
@@ -11,8 +12,6 @@ using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using SeeloewenCraft.launcher;
 using System;
-using System.Collections.Generic;
-using JsonWriter = SeeloewenCraft.game.util.JsonWriter;
 
 namespace SeeloewenCraft.game
 {
@@ -73,13 +72,8 @@ namespace SeeloewenCraft.game
                 //If the setting to save worlds on closing is enabled
                 if (Settings.saveWorldOnClose) world.Save();
 
-                //Save the user settings
-                using (JsonWriter writer = JsonWriter.Create())
-                {
-                    writer.Formatting = Formatting.Indented;
-                    Settings.Save(writer);
-                    writer.WriteToFile($"{FolderUtil.gameFolder}\\clientSettings.json");
-                }
+                JObject obj = Settings.Save();
+                obj.ToFile($"{FolderUtil.gameFolder}\\clientSettings.json");
             }
         }
 

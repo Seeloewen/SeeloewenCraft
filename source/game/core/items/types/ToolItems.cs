@@ -1,5 +1,6 @@
 ﻿using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.entities.inventory;
+using SeeloewenCraft.game.core.world;
 
 namespace SeeloewenCraft.game.core.items
 {
@@ -30,7 +31,7 @@ namespace SeeloewenCraft.game.core.items
             {
                 Block newBlock = BlockRegister.Get("sc:farmland_block");
                 if (block.isBackground) newBlock.MoveToBackground();
-                block.SetBlock(newBlock);
+                World.Get().SetBlock(block.GetPosData(), newBlock);
                 invSlot.RemoveDurablity();
             }
         }

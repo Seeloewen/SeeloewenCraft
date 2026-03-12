@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.networking;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.util;
 using System.Collections.Generic;
 
@@ -106,25 +107,25 @@ namespace SeeloewenCraft.game.core.entities
             return null;
         }
 
-        //stores every entity into json array with key "entities"
-        public void SaveToJson(JsonWriter writer)
+        //stores every entity into json array
+        public JArray ToJson()
         {
-            writer.WritePropertyName("entities");
-            writer.WriteStartArray();
+            JArray entityArr = new JArray();
             foreach (Entity entity in entities)
             {
-                entity.SaveToJson(writer);
+                entityArr.Add(entity.ToJson());
             }
-            writer.WriteEndArray();
+
+            return entityArr;
         }
 
         //load constructor
-        public EntityManager(JsonToken token) : this()
+        public EntityManager(JObject obj) : this()
         {
-            JsonToken list = token.GetToken("/entities");
-            for (int i = 0; i < list.GetArrayLength(); i++)
+            JArray list = obj.Get<JArray>("entities");
+            for (int i = 0; i < list.Count; i++)
             {
-                var entity = Entity.LoadFromJson(list.GetToken($"/{i}"));
+                var entity = Entity.FromJson(list.Get<JObject>($"/{i}"));
                 if (entity is not Player)
                 {
                     Add(entity);
@@ -183,13 +184,12 @@ namespace SeeloewenCraft.game.core.entities
 
         public void SendInitLoadData(int clientID)
         {
+            JArray entityArr = new JArray();
+
             foreach (Entity entity in entities)
             {
-                using (JsonWriter writer = JsonWriter.Create())
-                {
-                    entity.SaveToJson(writer);
-                    NetworkHandler.server.SendDataSingleClient(NetworkHandler.CreatePacket(MultiplayerPacketType.CREATE_ENTITY, writer.ToString()), clientID);
-                }
+                entityArr.Add(entity.ToJson()); //TODO: Networking Rework
+                //NetworkHandler.server.SendDataSingleClient(NetworkHandler.CreatePacket(MultiplayerPacketType.CREATE_ENTITY, writer.ToString()), clientID);
             }
         }
     }

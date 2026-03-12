@@ -10,6 +10,7 @@ namespace SeeloewenCraft.game.core.blocks
 
         public static void Init()
         {
+
             //Get all block types (spoiler: magic)
             var blockTypes = typeof(Block).Assembly.GetTypes()
             .Where(t => !t.IsAbstract && typeof(Block).IsAssignableFrom(t));

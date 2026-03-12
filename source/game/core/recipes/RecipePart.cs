@@ -1,16 +1,17 @@
-﻿using SeeloewenCraft.game.util;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.util;
 
 namespace SeeloewenCraft.game.core.crafting
 {
     public struct RecipePart
     {
-        public string item;
-        public int amount;
+        public readonly string item;
+        public readonly int amount;
 
-        public RecipePart(JsonToken token)
+        public RecipePart(JObject token)
         {
-            item = token.GetString("/item_id");
-            amount = token.GetInt("/amount");
+            item = token.Get<string>("item_id");
+            amount = token.Get<int>("amount");
         }
 
     }

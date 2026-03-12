@@ -4,11 +4,13 @@ namespace SeeloewenCraft.game.core.events
 {
     public static class GameEventHandler
     {
+        public static bool isInitialized { get; private set; }
         private static List<GameEvent> registeredEvents;
 
         public static void Init()
         {
             registeredEvents = new List<GameEvent> ();
+            isInitialized = true;
         }
 
         public static void Register(GameEvent e)

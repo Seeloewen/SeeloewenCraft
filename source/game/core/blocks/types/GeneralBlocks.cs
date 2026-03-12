@@ -1,7 +1,9 @@
-﻿using SeeloewenCraft.game.core.crafting;
+﻿using SeeloewenCraft.game.core.blocks.components;
+using SeeloewenCraft.game.core.crafting;
 using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.core.items;
+using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.core.world.generation;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.util;
@@ -50,7 +52,7 @@ namespace SeeloewenCraft.game.core.blocks
                     //Confirms that the candidate is actually a dirt block that has either nothing above (top world border), or a non-solid block above (except water)
                     if (candidate != null && candidate is DirtBlock dirt && (candidate.GetBlockAbove == null || (!candidate.GetBlockAbove().isSolid) && !candidate.GetBlockAbove().HasTag(BlockTags.LIQUIDS_WATER)))
                     {
-                        candidate.SetBlock(BlockRegister.Get("sc:grass_block"));
+                        World.Get().SetBlock(candidate.GetPosData(), BlockRegister.Get("sc:grass_block"));
                     }
                 }
             }
@@ -78,7 +80,7 @@ namespace SeeloewenCraft.game.core.blocks
 
                     Block newBlock = BlockRegister.Get(cropId);
                     newBlock.needsGround = (true, BlockTags.GROUNDS_DIRT);
-                    blockAbove.SetBlock(newBlock);
+                    World.Get().SetBlock(blockAbove.GetPosData(), newBlock);
                 }
             }
         }
@@ -119,7 +121,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class BedrockBlock : Block
     {
-        internal BedrockBlock() : base("Bedrock", "sc:bedrock_block", 150, "sc:bedrock_item" )
+        internal BedrockBlock() : base("Bedrock", "sc:bedrock_block", 150, "sc:bedrock_item")
         {
             WriteTag(BlockTags.UNBREAKABLE);
             WriteTag(BlockTags.CANT_BE_BACKGROUND);
@@ -137,19 +139,17 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class DiamondOreBlock : Block
     {
-        internal DiamondOreBlock() : base("Diamond Ore", "sc:diamond_ore_block", 1750, "sc:diamond_ore_item", Tool.Pickaxe)
+        internal DiamondOreBlock() : base("Diamond Ore", "sc:diamond_ore_block", 1750, "sc:diamond_ore_item", Tool.Pickaxe, Material.Iron)
         {
             drops.Add(("sc:diamond_item", 1, 1));
-            effectiveMaterial = Material.Iron;
             WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
     public class IronOreBlock : Block
     {
-        internal IronOreBlock() : base("Iron Ore", "sc:iron_ore_block", 1750, "sc:iron_ore_item", Tool.Pickaxe)
+        internal IronOreBlock() : base("Iron Ore", "sc:iron_ore_block", 1750, "sc:iron_ore_item", Tool.Pickaxe, Material.Stone)
         {
-            effectiveMaterial = Material.Stone;
             WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
@@ -164,7 +164,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class OakLeavesBlock : LeavesBlock
     {
-        internal OakLeavesBlock() : base("Oak Leaves", "sc:oak_leaves_block", "sc:oak_leaves_item" )
+        internal OakLeavesBlock() : base("Oak Leaves", "sc:oak_leaves_block", "sc:oak_leaves_item")
         {
             lootTable = (LootTables.oakTreeLootTable, 1, 1);
         }
@@ -180,7 +180,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class SpruceLeavesBlock : LeavesBlock
     {
-        internal SpruceLeavesBlock() : base("Spruce Leaves", "sc:spruce_leaves_block", "sc:spruce_leaves_item" )
+        internal SpruceLeavesBlock() : base("Spruce Leaves", "sc:spruce_leaves_block", "sc:spruce_leaves_item")
         {
             lootTable = (LootTables.spruceTreeLootTable, 1, 1);
         }
@@ -191,8 +191,8 @@ namespace SeeloewenCraft.game.core.blocks
         internal ChestBlock() : base("Chest", "sc:chest_block", 500, "sc:chest_item", Tool.Axe)
         {
             WriteTag(BlockTags.HAS_INVENTORY);
-            inventory = new Inventory(9, 4, "Chest");
             WriteTag(BlockTags.RIGHTCLICKABLE);
+            components.Add(new BlockInventory(9, 4, "Chest"));
         }
 
         public override void RightClickAction()
@@ -200,7 +200,7 @@ namespace SeeloewenCraft.game.core.blocks
             if (IsInRange() && isSolid)
             {
                 Player.Get().inventory.ShowGui();
-                inventory.ShowGui();
+                GetInventory().ShowGui();
             }
         }
     }
@@ -224,7 +224,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class TorchBlock : Block
     {
-        internal TorchBlock() : base("Torch", "sc:torch_block", 0, "sc:torch_item" )
+        internal TorchBlock() : base("Torch", "sc:torch_block", 0, "sc:torch_item")
         {
             isSolid = false;
             WriteTag(BlockTags.CANT_BE_BACKGROUND);
@@ -235,7 +235,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class PottedCactus_Base : Block
     {
-        internal PottedCactus_Base() : base("Potted Cactus Base", "sc:potted_cactus_base", 0, "sc:potted_cactus_item" )
+        internal PottedCactus_Base() : base("Potted Cactus Base", "sc:potted_cactus_base", 0, "sc:potted_cactus_item")
         {
             isBase = true;
             connectedBlocks.Add((0, -1, "sc:potted_cactus_top"));
@@ -247,11 +247,11 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class PottedCactus_Top : Block
     {
-        internal PottedCactus_Top() : base("Potted Cactus Top", "sc:potted_cactus_top", 0 )
+        internal PottedCactus_Top() : base("Potted Cactus Top", "sc:potted_cactus_top", 0)
         {
             collision = new RectangleCollision(251, 749, 188, 999);
             WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
-            baseBlock = (0, 1);
+            baseBlockOffset = (0, 1);
         }
     }
 
@@ -262,30 +262,23 @@ namespace SeeloewenCraft.game.core.blocks
             WriteTag(BlockTags.WORKSTATION);
             WriteTag(BlockTags.RIGHTCLICKABLE);
 
-            craftingHandler = new CraftingHandler(this, "Crafting_Table", "Crafting Table");
+            components.Add(new WorkstationComponent(this, "Crafting_Table", "Crafting Table"));
         }
 
         public override void RightClickAction()
         {
             if (IsInRange())
             {
-                ((IGuiData)craftingHandler).Show();
+                CraftingHandler handler = GetComponent<WorkstationComponent>().craftingHandler;
+
+                ((IGuiData)handler).Show();
             }
         }
 
         public override void AddDebugMenu()
         {
             base.AddDebugMenu();
-
-            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeClaimable={craftingHandler.recipeClaimable}");
-            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeRunning={craftingHandler.recipeRunning}");
-
-            if (craftingHandler.recipeRunning)
-            {
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"selectedRecipe={craftingHandler.currentRecipe}");
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeProgress={craftingHandler.recipeProgress}");
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"amount={craftingHandler.recipeAmount}");
-            }
+            GetComponent(BlockComponentType.Workstation).AddDebugMenu();
         }
     }
 
@@ -296,43 +289,35 @@ namespace SeeloewenCraft.game.core.blocks
             WriteTag(BlockTags.WORKSTATION);
             WriteTag(BlockTags.RIGHTCLICKABLE);
 
-            craftingHandler = new CraftingHandler(this, "Chiseler", "Chiseler");
+            components.Add(new WorkstationComponent(this, "Crafting_Table", "Crafting Table"));
         }
 
         public override void RightClickAction()
         {
             if (IsInRange())
             {
-                ((IGuiData)craftingHandler).Show();
+                CraftingHandler handler = GetComponent<WorkstationComponent>().craftingHandler;
+
+                ((IGuiData)handler).Show();
             }
         }
 
         public override void AddDebugMenu()
         {
             base.AddDebugMenu();
-            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeClaimable={craftingHandler.recipeClaimable}");
-            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeRunning={craftingHandler.recipeRunning}");
-
-            if (craftingHandler.recipeRunning)
-            {
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"selectedRecipe={craftingHandler.currentRecipe}");
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeProgress={craftingHandler.recipeProgress}");
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"amount={craftingHandler.recipeAmount}");
-            }
+            GetComponent(BlockComponentType.Workstation).AddDebugMenu();
         }
     }
 
     public class UnchiselerBlock : Block
     {
-        private UnchiselHandler unchiselHandler;
 
         internal UnchiselerBlock() : base("Unchiseler", "sc:unchiseler_block", 500, "sc:unchiseler_item", Tool.Axe)
         {
             WriteTag(BlockTags.WORKSTATION);
             WriteTag(BlockTags.RIGHTCLICKABLE);
             WriteTag(BlockTags.HAS_INVENTORY);
-            unchiselHandler = new UnchiselHandler();
-            inventory = unchiselHandler.inv;
+            components.Add(new UnchiselComponent());
             collision = new RectangleCollision(0, 1000, 565, 1000);
         }
 
@@ -340,8 +325,9 @@ namespace SeeloewenCraft.game.core.blocks
         {
             if (IsInRange())
             {
+                UnchiselComponent handler = GetComponent<UnchiselComponent>();
                 Player.Get().inventory.ShowGui();
-                ((IGuiData)unchiselHandler).Show();
+                ((IGuiData)handler).Show();
             }
         }
     }
@@ -373,7 +359,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             WriteTag(BlockTags.RIGHTCLICKABLE);
             collision = new RectangleCollision(720, 1000, 0, 1000);
-            baseBlock = (0, 1);
+            baseBlockOffset = (0, 1);
         }
 
         public override void RightClickAction()
@@ -554,7 +540,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             WriteTag(BlockTags.RIGHTCLICKABLE);
             collision = new RectangleCollision(720, 1000, 0, 1000);
-            baseBlock = (0, 1);
+            baseBlockOffset = (0, 1);
         }
 
         public override void RightClickAction()
@@ -601,29 +587,22 @@ namespace SeeloewenCraft.game.core.blocks
             WriteTag(BlockTags.RIGHTCLICKABLE);
             WriteTag(BlockTags.TOOL_SPECIFIC);
 
-            craftingHandler = new CraftingHandler(this, "Furnace", "Furnace");
+            components.Add(new WorkstationComponent(this, "Furnace", "furnace"));
         }
 
         public override void RightClickAction()
         {
             if (IsInRange())
             {
-                ((IGuiData)craftingHandler).Show();
+                CraftingHandler handler = GetComponent<WorkstationComponent>().craftingHandler;
+                ((IGuiData)handler).Show();
             }
         }
 
         public override void AddDebugMenu()
         {
             base.AddDebugMenu();
-            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeClaimable={craftingHandler.recipeClaimable}");
-            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeRunning={craftingHandler.recipeRunning}");
-
-            if (craftingHandler.recipeRunning)
-            {
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"selectedRecipe={craftingHandler.currentRecipe}");
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeProgress={craftingHandler.recipeProgress}");
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"amount={craftingHandler.recipeAmount}");
-            }
+            GetComponent(BlockComponentType.Unchiseler).AddDebugMenu();
         }
     }
 
@@ -675,7 +654,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             isBase = true;
             isSolid = false;
-            inventory = new Inventory(1, 1);
+            components.Add(new BlockInventory(1, 1, "Archeology Pot"));
             WriteTag(BlockTags.HAS_INVENTORY);
             WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
 
@@ -689,16 +668,15 @@ namespace SeeloewenCraft.game.core.blocks
         {
             isSolid = false;
             WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
-            baseBlock = (0, 1);
+            baseBlockOffset = (0, 1);
         }
     }
 
     public class AmethystOreBlock : Block
     {
-        internal AmethystOreBlock() : base("Amethyst Ore", "sc:amethyst_ore_block", 1750, "sc:amethyst_ore_item", Tool.Pickaxe)
+        internal AmethystOreBlock() : base("Amethyst Ore", "sc:amethyst_ore_block", 1750, "sc:amethyst_ore_item", Tool.Pickaxe, Material.Diamond)
         {
             drops.Add(("sc:amethyst_item", 1, 1));
-            effectiveMaterial = Material.Diamond;
             WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
@@ -712,7 +690,7 @@ namespace SeeloewenCraft.game.core.blocks
             WriteTag(BlockTags.TOOL_SPECIFIC);
             WriteTag(BlockTags.CAN_FALL);
 
-            craftingHandler = new CraftingHandler(this, "Anvil", "Anvil");
+            components.Add(new WorkstationComponent(this, "Anvil", "Anvil"));
             collision = new RectangleCollision(0, 1000, 190, 1000);
         }
 
@@ -720,22 +698,15 @@ namespace SeeloewenCraft.game.core.blocks
         {
             if (IsInRange())
             {
-                ((IGuiData)craftingHandler).Show();
+                CraftingHandler handler = GetComponent<WorkstationComponent>().craftingHandler;
+                ((IGuiData)handler).Show();
             }
         }
 
         public override void AddDebugMenu()
         {
             base.AddDebugMenu();
-            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeClaimable={craftingHandler.recipeClaimable}");
-            DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeRunning={craftingHandler.recipeRunning}");
-
-            if (craftingHandler.recipeRunning)
-            {
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"selectedRecipe={craftingHandler.currentRecipe}");
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"recipeProgress={craftingHandler.recipeProgress}");
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"amount={craftingHandler.recipeAmount}");
-            }
+            GetComponent(BlockComponentType.Workstation).AddDebugMenu();
         }
     }
 
@@ -744,7 +715,7 @@ namespace SeeloewenCraft.game.core.blocks
         internal BarrelBlock() : base("Barrel", "sc:barrel_block", 500, "sc:barrel_item", Tool.Axe)
         {
             WriteTag(BlockTags.HAS_INVENTORY);
-            inventory = new Inventory(7, 2, "Barrel");
+            components.Add(new BlockInventory(7, 2, "Barrel"));
             WriteTag(BlockTags.RIGHTCLICKABLE);
         }
 
@@ -753,14 +724,14 @@ namespace SeeloewenCraft.game.core.blocks
             if (IsInRange() && isSolid)
             {
                 Player.Get().inventory.ShowGui();
-                inventory.ShowGui();
+                GetInventory().ShowGui();
             }
         }
     }
 
     public class BlueFlowerBlock : Block
     {
-        internal BlueFlowerBlock() : base("Blue Flower", "sc:blue_flower_block", 0, "sc:blue_flower_item" )
+        internal BlueFlowerBlock() : base("Blue Flower", "sc:blue_flower_block", 0, "sc:blue_flower_item")
         {
             isSolid = false;
             needsGround = (true, BlockTags.GROUNDS_DIRT);
@@ -771,14 +742,14 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class BoneBlock : Block
     {
-        internal BoneBlock() : base("Bone Block", "sc:bone_block", 750, "sc:bone_block_item" )
+        internal BoneBlock() : base("Bone Block", "sc:bone_block", 750, "sc:bone_block_item")
         {
         }
     }
 
     public class CactusFruitBlock : CropBlock
     {
-        internal CactusFruitBlock() : base("Cactus Fruit", "sc:cactus_fruit_block", 300000, 500000, 2,"sc:cactus_fruit_item" )
+        internal CactusFruitBlock() : base("Cactus Fruit", "sc:cactus_fruit_block", 300000, 500000, 2, "sc:cactus_fruit_item")
         {
             needsGround = (true, BlockTags.GROUNDS_SAND);
         }
@@ -791,10 +762,10 @@ namespace SeeloewenCraft.game.core.blocks
             {
                 if (HasSpaceAbove(-1, 0, 3, 6))
                 {
-                    Structure cactus = new CactusStructure(xPos, yPos, chunk.index, true, null, true);
+                    Structure cactus = new CactusStructure(posX, posY, chunk.index, true, null, true);
                     foreach (StructureComponent structComp in cactus.structureComponents)
                     {
-                        chunk.SetBlock(structComp.block, xPos + structComp.xOffset - 1, yPos - structComp.yOffset);
+                        chunk.SetBlock(structComp.block, posX + structComp.xOffset - 1, posY - structComp.yOffset);
                     }
                 }
                 else
@@ -807,7 +778,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class CandleBlock : Block
     {
-        internal CandleBlock() : base("Candle", "sc:candle_block", 0, "sc:candle_item" )
+        internal CandleBlock() : base("Candle", "sc:candle_block", 0, "sc:candle_item")
         {
             WriteTag(BlockTags.LIGHTSOURCE);
             isSolid = false;
@@ -818,16 +789,15 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class CopperOreBlock : Block
     {
-        internal CopperOreBlock() : base("Copper Ore", "sc:copper_ore_block", 1750, "sc:copper_ore_block", Tool.Pickaxe)
+        internal CopperOreBlock() : base("Copper Ore", "sc:copper_ore_block", 1750, "sc:copper_ore_block", Tool.Pickaxe, Material.Tin)
         {
-            effectiveMaterial = Material.Tin;
             WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
     public class DeadBushBlock : Block
     {
-        internal DeadBushBlock() : base("Dead Bush", "sc:dead_bush_block", 0, "sc:dead_bush_item" )
+        internal DeadBushBlock() : base("Dead Bush", "sc:dead_bush_block", 0, "sc:dead_bush_item")
         {
             isSolid = false;
             needsGround = (true, BlockTags.GROUNDS_SAND);
@@ -837,10 +807,9 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class EmeraldOreBlock : Block
     {
-        internal EmeraldOreBlock() : base("Emerald Ore", "sc:emerald_ore_block", 1750, "sc:emerald_ore_item", Tool.Pickaxe)
+        internal EmeraldOreBlock() : base("Emerald Ore", "sc:emerald_ore_block", 1750, "sc:emerald_ore_item", Tool.Pickaxe, Material.Diamond)
         {
             drops.Add(("sc:emerald_item", 1, 1));
-            effectiveMaterial = Material.Diamond;
             WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
@@ -856,16 +825,15 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class GoldOreBlock : Block
     {
-        internal GoldOreBlock() : base("Gold Ore", "sc:gold_ore_block", 1750, "sc:gold_ore_item", Tool.Pickaxe)
+        internal GoldOreBlock() : base("Gold Ore", "sc:gold_ore_block", 1750, "sc:gold_ore_item", Tool.Pickaxe, Material.Tin)
         {
-            effectiveMaterial = Material.Tin;
             WriteTag(BlockTags.TOOL_SPECIFIC);
         }
     }
 
     public class Grass : Block
     {
-        internal Grass() : base("Grass", "sc:grass", 0, "sc:grass_item" )
+        internal Grass() : base("Grass", "sc:grass", 0, "sc:grass_item")
         {
             lootTable = (LootTables.grassLootTable, 1, 1);
             isSolid = false;
@@ -877,9 +845,8 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class IronGatesBlock : Block
     {
-        internal IronGatesBlock() : base("Iron Gates", "sc:iron_gates_block", 2000, "sc:iron_gates_item", Tool.Pickaxe)
+        internal IronGatesBlock() : base("Iron Gates", "sc:iron_gates_block", 2000, "sc:iron_gates_item", Tool.Pickaxe, Material.Stone)
         {
-            effectiveMaterial = Material.Stone;
             WriteTag(BlockTags.TOOL_SPECIFIC);
             WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
         }
@@ -911,7 +878,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class OakSaplingBlock : CropBlock
     {
-        internal OakSaplingBlock() : base("Oak Sapling", "sc:oak_sapling_block", 600000, 1200000, 2, "sc:oak_sapling_item" )
+        internal OakSaplingBlock() : base("Oak Sapling", "sc:oak_sapling_block", 600000, 1200000, 2, "sc:oak_sapling_item")
         {
             needsGround = (true, BlockTags.GROUNDS_DIRT);
         }
@@ -924,11 +891,11 @@ namespace SeeloewenCraft.game.core.blocks
             {
                 if (HasSpaceAbove(-2, 0, 5, 5))
                 {
-                    Structure tree = new OakTreeStructure(xPos, yPos, chunk.index, true, chunk, true);
+                    Structure tree = new OakTreeStructure(posX, posY, chunk.index, true, chunk, true);
 
                     foreach (StructureComponent structComp in tree.structureComponents)
                     {
-                        chunk.SetBlock(structComp.block, xPos + structComp.xOffset - 2, yPos - structComp.yOffset);
+                        chunk.SetBlock(structComp.block, posX + structComp.xOffset - 2, posY - structComp.yOffset);
                     }
                 }
                 else
@@ -941,7 +908,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class SpruceSaplingBlock : CropBlock
     {
-        internal SpruceSaplingBlock() : base("Spruce Sapling", "sc:spruce_sapling_block", 600000, 1200000, 2, "sc:tree_sapling_item" )
+        internal SpruceSaplingBlock() : base("Spruce Sapling", "sc:spruce_sapling_block", 600000, 1200000, 2, "sc:tree_sapling_item")
         {
             needsGround = (true, "ground/plant");
         }
@@ -955,11 +922,11 @@ namespace SeeloewenCraft.game.core.blocks
                 if (HasSpaceAbove(-2, 0, 5, 7))
                 {
 
-                    Structure tree = new SpruceTreeStructure(xPos, yPos, chunk.index, true, chunk, true);
+                    Structure tree = new SpruceTreeStructure(posX, posY, chunk.index, true, chunk, true);
 
                     foreach (StructureComponent structComp in tree.structureComponents)
                     {
-                        chunk.SetBlock(structComp.block, xPos + structComp.xOffset - 2, yPos - structComp.yOffset);
+                        chunk.SetBlock(structComp.block, posX + structComp.xOffset - 2, posY - structComp.yOffset);
                     }
                 }
                 else
@@ -1033,7 +1000,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class YellowFlowerBlock : Block
     {
-        internal YellowFlowerBlock() : base("Yellow Flower", "sc:yellow_flower_block", 0, "sc:yellow_flower_item" )
+        internal YellowFlowerBlock() : base("Yellow Flower", "sc:yellow_flower_block", 0, "sc:yellow_flower_item")
         {
             isSolid = false;
             needsGround = (true, BlockTags.GROUNDS_DIRT);
@@ -1044,7 +1011,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class GlassBlock : Block
     {
-        internal GlassBlock() : base("Glass", "sc:glass_block", 250, "sc:glass_item" )
+        internal GlassBlock() : base("Glass", "sc:glass_block", 250, "sc:glass_item")
         {
             WriteTag(BlockTags.TOOL_SPECIFIC);
             WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
@@ -1067,7 +1034,7 @@ namespace SeeloewenCraft.game.core.blocks
             {
                 if (Game.rnd.Next(0, 9) == 0)
                 {
-                    SetBlock(BlockRegister.Get("sc:dirt_block"));
+                    World.Get().SetBlock(GetPosData(), BlockRegister.Get("sc:dirt_block"));
                 }
             }
         }
@@ -1077,8 +1044,8 @@ namespace SeeloewenCraft.game.core.blocks
             //Checks 4 blocks to the left and right on the same y level whether they are a water block
             for (int i = 1; i < 5; i++)
             {
-                Block blockRight = chunk.GetBlock(xPos + i, yPos);
-                Block blockLeft = chunk.GetBlock(xPos - i, yPos);
+                Block blockRight = GetBlockRight();
+                Block blockLeft = GetBlockLeft();
 
                 if (blockRight != null && blockRight.HasTag(BlockTags.LIQUIDS_WATER) //Blocks to the right
                     || blockLeft != null && blockLeft.HasTag(BlockTags.LIQUIDS_WATER)) //Blocks to the left
@@ -1093,7 +1060,7 @@ namespace SeeloewenCraft.game.core.blocks
 
     public class WoolBlock : Block
     {
-        internal WoolBlock() : base("Wool", "sc:wool_block", 150, "sc:wool_item" )
+        internal WoolBlock() : base("Wool", "sc:wool_block", 150, "sc:wool_item")
         {
         }
     }

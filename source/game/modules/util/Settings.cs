@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using SeeloewenCraft.game.core.events;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
@@ -18,10 +17,6 @@ namespace SeeloewenCraft.game.core.settings
         public static bool enableMobs = false;
         public static bool enableAutoSave = true;
         public static bool showAutoSaveNotification = true;
-        public static string resolution = "1280x720";
-        public static string videoMode = "Windowed";
-        public static int customResX = 1280;
-        public static int customResY = 720;
         public static int autoSaveInterval = 10;
         public static string nickname;
 
@@ -35,127 +30,81 @@ namespace SeeloewenCraft.game.core.settings
 
         public static List<string> texturepacks = new List<string>();
 
-        public static void Save(JsonWriter writer)
+        public static JObject Save()
         {
-            writer.WriteStartObject();
-            writer.WritePropertyName("settings");
+            //Construct settings object from different setting types and sources
+            JArray texturepackArr = new JArray();
+            texturepacks.ForEach(t => texturepackArr.Add(t));
 
-            //Save all the settings 
-            writer.WriteStartObject();
-
-            writer.WritePropertyName("save_log_on_exit");
-            writer.WriteValue(saveLogOnExit);
-
-            writer.WritePropertyName("save_world_on_close");
-            writer.WriteValue(saveWorldOnClose);
-
-            writer.WritePropertyName("show_notifications");
-            writer.WriteValue(showNotifications);
-
-            writer.WritePropertyName("enable_mobs");
-            writer.WriteValue(enableMobs);
-
-            writer.WritePropertyName("enable_auto_save");
-            writer.WriteValue(enableAutoSave);
-
-            writer.WritePropertyName("show_auto_save_notification");
-            writer.WriteValue(showAutoSaveNotification);
-
-            writer.WritePropertyName("resolution");
-            writer.WriteValue(resolution);
-
-            writer.WritePropertyName("video_mode");
-            writer.WriteValue(videoMode);
-
-            writer.WritePropertyName("custom_res_x");
-            writer.WriteValue(customResX);
-
-            writer.WritePropertyName("custom_res_y");
-            writer.WriteValue(customResY);
-
-            writer.WritePropertyName("auto_save_interval");
-            writer.WriteValue(autoSaveInterval);
-
-            writer.WritePropertyName("texturepacks");
-            writer.WriteStartArray();
-            foreach (string tp in texturepacks)
+            JObject settingsObj = new JObject()
             {
-                writer.WriteValue(tp);
-            }
-            writer.WriteEndArray();
+                {"save_log_on_exit", saveLogOnExit },
+                {"save_world_on_close", saveWorldOnClose },
+                {"show_notifications", showNotifications },
+                {"enable_mobs", enableMobs },
+                {"enable_auto_save", enableAutoSave },
+                {"show_auto_save_notification", showAutoSaveNotification },
+                {"auto_save_interval", autoSaveInterval },
+                {"nickname", nickname },
+            };
 
-            writer.WritePropertyName("nickname");
-            writer.WriteValue(nickname);
+            JObject logSettingsObj = new JObject()
+            {
+                { "general", logGeneral},
+                { "world_generation", logWorldGeneration },
+                { "structure_generation", logStructureGeneration },
+                { "network", logNetwork},
+                { "entities", logEntities },
+                { "rendering", logRendering }
+            };
 
-            writer.WriteEndObject();
+            JObject keybindsObj = KeyBinds.ToJson();
 
-            //Save all the keybinds
-            KeyBinds.Save(writer);
+            JObject globalSettingsObj = new JObject()
+            {
+                {"general_settings", settingsObj },
+                {"log_settings", logSettingsObj },
+                {"keybinds", keybindsObj },
+                {"texturepacks", texturepackArr }
+            };
 
-            //Save all the keybinds
-            writer.WritePropertyName("log_types");
-
-            writer.WriteStartObject();
-
-            writer.WritePropertyName("general");
-            writer.WriteValue(logGeneral);
-
-            writer.WritePropertyName("world_generation");
-            writer.WriteValue(logWorldGeneration);
-
-            writer.WritePropertyName("structure_generation");
-            writer.WriteValue(logStructureGeneration);
-
-            writer.WritePropertyName("network");
-            writer.WriteValue(logNetwork);
-
-            writer.WritePropertyName("entities");
-            writer.WriteValue(logEntities);
-
-            writer.WritePropertyName("rendering");
-            writer.WriteValue(logRendering);
-
-            writer.WriteEndObject();
-
-            writer.WriteEndObject();
+            return globalSettingsObj;
         }
 
-        public static void Load(JsonToken fileToken, bool overwriteResolution)
+        public static void Load(JObject obj)
         {
-            nickname = Game.playerId.ToString(); //Default value, will be overwritten if a name is saved
+            JObject settingsObj = obj.Get<JObject>("general_settings");
+            JObject logSettingsObj = obj.Get<JObject>("log_settings");
+            JArray texturepacksArray = obj.Get<JArray>("texturepacks");
+            JObject keybindsObj = obj.Get<JObject>("keybinds");
 
             //Get the settings from the JSON file
             try
             {
-                JsonToken settingsToken = fileToken.GetToken("/settings");
-                JsonToken logTypesToken = fileToken.GetToken("/log_types");
+                //General settings
+                saveLogOnExit = settingsObj.Get<bool>("save_log_on_exit");
+                saveWorldOnClose = settingsObj.Get<bool>("save_world_on_close");
+                showNotifications = settingsObj.Get<bool>("show_notifications");
+                enableMobs = settingsObj.Get<bool>("enable_mobs");
+                enableAutoSave = settingsObj.Get<bool>("enable_auto_save");
+                showAutoSaveNotification = settingsObj.Get<bool>("show_auto_save_notification");
+                autoSaveInterval = settingsObj.Get<int>("auto_save_interval");
+                nickname = settingsObj.Get<string>("nickname");
 
-                saveLogOnExit = settingsToken.GetBool("/save_log_on_exit");
-                saveWorldOnClose = settingsToken.GetBool("/save_world_on_close");
-                enableMobs = settingsToken.GetBool("/enable_mobs");
-                enableAutoSave = settingsToken.GetBool("/enable_auto_save");
-                showAutoSaveNotification = settingsToken.GetBool("/show_auto_save_notification");
-                showNotifications = settingsToken.GetBool("/show_notifications");
-                resolution = settingsToken.GetString("/resolution");
-                videoMode = settingsToken.GetString("/video_mode");
-                if (overwriteResolution)
-                {
-                    customResX = settingsToken.GetInt("/custom_res_x");
-                    customResY = settingsToken.GetInt("/custom_res_y");
-                }
-                autoSaveInterval = settingsToken.GetInt("/auto_save_interval");
-                nickname = settingsToken.GetString("/nickname");
+                //Log settings
+                logGeneral = logSettingsObj.Get<bool>("general");
+                logWorldGeneration = logSettingsObj.Get<bool>("world_generation");
+                logStructureGeneration = logSettingsObj.Get<bool>("structure_generation");
+                logNetwork = logSettingsObj.Get<bool>("network");
+                logEntities = logSettingsObj.Get<bool>("entities");
+                logRendering = logSettingsObj.Get<bool>("rendering");
 
-                logGeneral = logTypesToken.GetBool("/general");
-                logWorldGeneration = logTypesToken.GetBool("/world_generation");
-                logStructureGeneration = logTypesToken.GetBool("/structure_generation");
-                logNetwork = logTypesToken.GetBool("/network");
-                logEntities = logTypesToken.GetBool("/entities");
-                logRendering = logTypesToken.GetBool("/rendering");
+                //Keybinds
+                KeyBinds.FromJson(keybindsObj);
 
+                //Texture packs
                 texturepacks.Clear();
-                JArray texturepackArray = settingsToken.GetToken("/texturepacks").value as JArray;
-                foreach(JToken tp in texturepackArray)
+                foreach (JToken tp in texturepacksArray)
                 {
                     string texturepackPath = tp.ToString();
 
@@ -167,14 +116,13 @@ namespace SeeloewenCraft.game.core.settings
 
                     texturepacks.Add(texturepackPath);
                 }
-
-                KeyBinds.Load(fileToken);
-
             }
             catch (Exception ex)
             {
                 Console.Write($"Error loading settings from json: {ex.Message}");
             }
+
+            nickname ??= Game.playerId.ToString();
         }
     }
 }

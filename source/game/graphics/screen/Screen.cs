@@ -81,7 +81,7 @@ namespace SeeloewenCraft.game.graphics
 
         static void HandleInputs()
         {
-            if (KeyBinds.checkPressedFirst(KeyBinds.OPEN_MENU))
+            if (KeyBinds.CheckPressedFirst(KeyBinds.OPEN_MENU))
             {
                 //If any guis are visible, hide them
                 if(showGui)
@@ -101,11 +101,11 @@ namespace SeeloewenCraft.game.graphics
                     escapeMenuUIRoot.Hide();
                 }
             }
-            else if (KeyBinds.checkPressedFirst(KeyBinds.TOGGLE_DEBUG))
+            else if (KeyBinds.CheckPressedFirst(KeyBinds.TOGGLE_DEBUG))
             {
                 showDebugMenu = !showDebugMenu;
             }
-            else if(KeyBinds.checkPressedFirst(KeyBinds.CREATIVE_MENU))
+            else if(KeyBinds.CheckPressedFirst(KeyBinds.CREATIVE_MENU))
             {
                 if (showGui)
                 {
@@ -118,7 +118,7 @@ namespace SeeloewenCraft.game.graphics
                 }
 
             }
-            else if (KeyBinds.checkPressedFirst(KeyBinds.SHOW_INV))
+            else if (KeyBinds.CheckPressedFirst(KeyBinds.SHOW_INV))
             {
                 if(showGui) //If currently visible, hide all guis
                 {

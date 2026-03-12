@@ -12,7 +12,7 @@ namespace SeeloewenCraft.game.util
             int i2 = -1;
             foreach (T item in list)
             {
-                if(item.Equals(entry1)) i1 = list.IndexOf(item);
+                if (item.Equals(entry1)) i1 = list.IndexOf(item);
                 if (item.Equals(entry2)) i2 = list.IndexOf(item);
             }
 

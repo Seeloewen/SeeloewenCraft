@@ -1,4 +1,6 @@
-﻿using SeeloewenCraft.game.core.settings;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using System;
@@ -7,6 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Windows.ApplicationModel.Core;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -22,8 +25,6 @@ namespace SeeloewenCraft.game.graphics
         public static Dictionary<string, TextureMap> textureMaps;
 
         private static Dictionary<string, Dictionary<string, TexturePath>> texturePaths;
-
-        static string internalTexturePackPath = "SeeloewenCraft.Resources.assets.";
 
 
 
@@ -49,67 +50,54 @@ namespace SeeloewenCraft.game.graphics
         {
             texturePaths = new Dictionary<string, Dictionary<string, TexturePath>>();
 
-            JsonToken fileToken = JsonUtil.ReadResource("assets.content.json");
+            JObject baseObj = JObject.Parse(FileUtil.StrFromResource("assets.content.json"));
+            JArray sectionsArr = baseObj.Get<JArray>("sections");
 
-            JsonToken sectionsToken = fileToken.GetToken("/sections");
-
-            for (int i = 0; i < sectionsToken.GetArrayLength(); i++)
+            foreach (JObject sectionObj in sectionsArr)
             {
-                var sectionToken = sectionsToken.GetToken($"/{i}");
-
-                string sectionName = sectionToken.GetString("/section_name");
+                string sectionName = sectionObj.Get<string>("section_name");
                 texturePaths[sectionName] = new Dictionary<string, TexturePath>();
 
-                var textureArrayToken = sectionToken.GetToken("/textures");
-                for (int j = 0; j < textureArrayToken.GetArrayLength(); j++)
+                JArray textureArr = sectionObj.Get<JArray>("textures");
+
+                foreach(JObject textureObj in textureArr)
                 {
-                    JsonToken textureToken = textureArrayToken.GetToken($"/{j}");
-                    string id = textureToken.GetString("/id");
-                    string file = textureToken.GetString("/file");
-                    texturePaths[sectionName][id] = new TexturePath(false, $"SeeloewenCraft.Resources.assets.{file}");
+                    string id = textureObj.Get<string>("id");
+                    string file = textureObj.Get<string>("file");
+                    texturePaths[sectionName][id] = new TexturePath(false, $"assets.{file}");
                 }
             }
         }
 
         static void LoadExternalTexturePaths(string path)
         {
-            JsonToken fileToken;
+            JObject fileObj;
             try
             {
-                fileToken = JsonUtil.ReadFile($"{path}\\content.json");
+                fileObj = JsonUtil.ObjectFromFile($"{path}\\content.json");
             }
-            catch (Exception e)
+            catch
             {
                 throw new TexturePackException("Error reading content.json in the texture pack folder");
             }
 
-            JsonToken sectionsToken;
+            JArray sectionsArr;
             try
             {
-                sectionsToken = fileToken.GetToken("/sections");
+                sectionsArr = fileObj.Get<JArray>("sections");
             }
             catch
             {
-                throw new TexturePackException("Error finding /sections array in content.json");
+                throw new TexturePackException("Error finding sections array in content.json");
             }
 
-            int sectionsLength;
-            try
+            int s = 0;
+            foreach(JObject sectionObj in sectionsArr)
             {
-                sectionsLength = sectionsToken.GetArrayLength();
-            }
-            catch
-            {
-                throw new TexturePackException("Error: /sections must be an array");
-            }
-
-            for (int s = 0; s < sectionsLength; s++)
-            {
-                var sectionToken = sectionsToken.GetToken($"/{s}");
                 Dictionary<string, TexturePath> texturePathsSection;
                 try
                 {
-                    string sectionName = sectionToken.GetString("/section_name");
+                    string sectionName = sectionObj.Get<string>("section_name");
                     if (!texturePaths.TryGetValue(sectionName, out texturePathsSection))
                     {
                         throw new Exception();
@@ -117,42 +105,40 @@ namespace SeeloewenCraft.game.graphics
                 }
                 catch
                 {
-                    throw new TexturePackException($"Error: invalid /section_name in section ${s}");
+                    throw new TexturePackException($"Error: invalid section_name in section ${s}");
                 }
 
-                JsonToken texturesToken;
-                int texturesCount;
+                JArray texturesArr;
                 try
                 {
-                    texturesToken = sectionToken.GetToken("/textures");
-                    texturesCount = texturesToken.GetArrayLength();
+                    texturesArr = sectionObj.Get<JArray>("textures");
                 }
                 catch
                 {
-                    throw new TexturePackException($"Error: /textures in section {sectionToken.GetString("/section_name")} must be an array");
+                    throw new TexturePackException($"Error: textures array in section {sectionObj.Get<string>("section_name")} must be an array");
                 }
 
-                for (int t = 0; t < texturesCount; t++)
+                int t = 0;
+                foreach(JObject textureObj in texturesArr)
                 {
                     string id;
                     string filePath;
                     try
                     {
-                        JsonToken textureToken = texturesToken.GetToken($"/{t}");
-                        id = textureToken.GetString("/id");
-                        filePath = textureToken.GetString("/file");
+                        id = textureObj.Get<string>("id");
+                        filePath = textureObj.Get<string>("file");
                         texturePathsSection[id] = new TexturePath(true, $"{path}\\{filePath}");
                     }
                     catch
                     {
-                        throw new TexturePackException($"Error: invalid texture object {t} in section {sectionToken.GetString("/section_name")}");
+                        throw new TexturePackException($"Error: invalid texture object {t} in section {sectionObj.Get<string>("section_name")}");
                     }
+
+                    t++;
                 }
 
+                s++;
             }
-
-
-
         }
 
 
@@ -175,16 +161,12 @@ namespace SeeloewenCraft.game.graphics
 
             CreateTextureMaps();
 
-
             //TODO seperate Font stuff
-            JsonToken fileToken = JsonUtil.ReadResource("assets.content.json");
-            JsonToken fontToken = fileToken.GetToken("/font");
+            JObject fileObj = JObject.Parse(FileUtil.StrFromResource("assets.content.json"));
+            JObject fontObj = fileObj.Get<JObject>("font");
 
-            fontMap = $"SeeloewenCraft.Resources.assets.{fontToken.GetString("/font_map")}";
-            fontMappings = $"assets.{fontToken.GetString("/mappings")}";
-
-
-
+            fontMap = $"assets.{fontObj.Get<string>("font_map")}";
+            fontMappings = $"assets.{fontObj.Get<string>("mappings")}";
         }
 
 
@@ -201,7 +183,7 @@ namespace SeeloewenCraft.game.graphics
                 }
                 else
                 {
-                    using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path.path);
+                    using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"SeeloewenCraft.Resources.{path.path}");
                     bitmap = new Bitmap(stream);
                 }
                 texture = new TextureImage(bitmap);

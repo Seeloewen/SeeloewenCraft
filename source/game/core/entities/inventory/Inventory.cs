@@ -1,6 +1,8 @@
-﻿using SeeloewenCraft.game.core.blocks;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.items;
 using SeeloewenCraft.game.core.world;
+using SeeloewenCraft.game.core.world.generation;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.util;
 using System;
@@ -269,85 +271,77 @@ namespace SeeloewenCraft.game.core.entities.inventory
             }
         }
 
-        public void SaveToJson(JsonWriter writer)
+        public void RollLootTable(LootTable lootTable, int rolls)
         {
-            //Write all properties to json
-            writer.WriteStartObject();
-
-            writer.WritePropertyName("size_x");
-            writer.WriteValue(slotsX);
-
-            writer.WritePropertyName("size_y");
-            writer.WriteValue(slotsY);
-
-            writer.WritePropertyName("has_hotbar");
-            writer.WriteValue(hasHotbar);
-
-            writer.WritePropertyName("slots");
-            writer.WriteStartArray();
-
-            foreach (InventorySlot slot in slots)
+            //Might not even work, needs rework anyways
+            for(int i = 0; i < rolls; i++)
             {
-                writer.WriteStartObject();
-                writer.WritePropertyName("item");
-
-                writer.WriteStartObject();
-
-                writer.WritePropertyName("id");
-                writer.WriteValue(slot.id);
-
-                writer.WritePropertyName("amount");
-                writer.WriteValue(slot.amount);
-
-                writer.WritePropertyName("tag");
-                writer.WriteValue(slot.tag);
-
-                writer.WriteEndObject();
-                writer.WriteEndObject();
+                List<Item> items = lootTable.RollEntry().RollItems();
+                foreach(Item item in items)
+                {
+                    Add(item.id, 1, item.tag);
+                }
             }
-            writer.WriteEndArray();
-
-            writer.WriteEndObject();
         }
 
-        public static Inventory LoadFromJson(JsonToken token, bool isPlayer)
+        public JObject ToJson()
+        {
+            JArray itemsArr = new JArray();
+            foreach (InventorySlot slot in slots)
+            {
+                JObject slotObj = new JObject()
+                {
+                    { "id", slot.id },
+                    { "amount", slot.amount  },
+                    { "tag", slot.tag }
+                };
+            }
+
+            JObject obj = new JObject()
+            {
+                { "size_x", slotsX},
+                { "size_y", slotsY},
+                { "has_hotbar", hasHotbar},
+                { "slots", itemsArr }
+            };
+
+            return obj;
+        }
+
+        public static Inventory FromJson(JObject json, bool isPlayer)
         {
             //Get the inventory size
-            int slotsX = token.GetInt("/size_x");
-            int slotsY = token.GetInt("/size_y");
+            int slotsX = json.Get<int>("size_x");
+            int slotsY = json.Get<int>("size_y");
 
             Inventory inventory = new Inventory(slotsX, slotsY);
 
             //Get a possible hotbar
-            bool hasHotbar = token.GetBool("/has_hotbar");
-            if (hasHotbar)
+            bool hasHotbar = json.Get<bool>("has_hotbar");
+            if (hasHotbar) inventory.InitHotbar();
+
+            //Go through all the items in the array and add them to the inventory      
+            JArray slotArrayToken = json.Get<JArray>("slots");
+            for (int i = 0; i < slotsX * slotsY; i++)
             {
-                inventory.InitHotbar();
-            }
+                JObject itemObj = (JObject)slotArrayToken[i];
+                InventorySlot slot = inventory.slots[0];
 
-            JsonToken slotArrayToken = token.GetToken("/slots");
-            int slotNum = 0;
-
-            foreach (InventorySlot slot in inventory.slots)
-            {
-                //Go trough each slot and load the item and amount
-                JsonToken slotToken = token.GetToken($"/slots/{slotNum}/item");
-
-                string id = slotToken.GetString("/id");
-                int amount = slotToken.GetInt("/amount");
-                string tag = slotToken.GetString("/tag");
+                string id = itemObj.Get<string>("id");
+                int amount = itemObj.Get<int>("amount");
+                string tag = itemObj.Get<string>("tag");
 
                 if (!string.IsNullOrEmpty(id))
                 {
                     slot.Add(id, amount, tag);
                 }
-
-                slotNum++;
             }
 
             globalInventories.Add(inventory);
 
             return inventory;
         }
+
+
     }
 }

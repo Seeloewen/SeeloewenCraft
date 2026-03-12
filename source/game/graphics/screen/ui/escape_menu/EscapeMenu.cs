@@ -72,7 +72,7 @@ namespace SeeloewenCraft.game.graphics
                   },
             () => {
                     Screen.showEscapeMenu = false;
-                    Game.wndMenu.wndSettings = new wndSettings(Game.wndMenu, false);
+                    Game.wndMenu.wndSettings = new wndSettings(false);
                     Game.wndMenu.wndSettings.ShowDialog();
                   },
             () => {

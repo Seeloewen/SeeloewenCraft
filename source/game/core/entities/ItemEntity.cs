@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.core.items;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.core.items;
 using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.util;
 using System.Windows.Media;
@@ -15,13 +16,10 @@ namespace SeeloewenCraft.game.core.entities
 
         public string itemID { get { return item.id; } }
 
-        protected override void SaveSpecialInfo(JsonWriter writer)
+        protected override void SaveSpecialInfo(JObject obj)
         {
-            writer.WritePropertyName("item_id");
-            writer.WriteValue(item.id);
-
-            writer.WritePropertyName("item_tag");
-            writer.WriteValue(item.tag);
+            obj.Add("item_id", item.id);
+            obj.Add("item_tag", item.tag);
         }
 
         private void Init(Item item, string tag)
@@ -50,9 +48,9 @@ namespace SeeloewenCraft.game.core.entities
             Init(item, tag);
         }
 
-        public ItemEntity(JsonToken token) : base(token, itemSizeX, itemSizeY)
+        public ItemEntity(JObject token) : base(token, itemSizeX, itemSizeY)
         {
-            Init(ItemRegister.Get(token.GetString("/item_id")), token.GetString("/item_id"));
+            Init(ItemRegister.Get(token.Get<string>("item_id")), token.Get<string>("item_tag"));
         }
     }
 }

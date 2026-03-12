@@ -113,7 +113,7 @@ namespace SeeloewenCraft.game.core.world.generation
             //Insert the loot table in the block
             if (block.HasTag(BlockTags.HAS_INVENTORY))
             {
-                block.InsertLootTable(lootTable, insertAmount, structRnd);
+                block.GetInventory().RollLootTable(lootTable, insertAmount);
             }
 
             //Create the structure component
@@ -138,11 +138,11 @@ namespace SeeloewenCraft.game.core.world.generation
             //Either add the loot table to the foreground block or the background block
             if (foregroundBlock != null && foregroundBlock.HasTag(BlockTags.HAS_INVENTORY))
             {
-                foregroundBlock.InsertLootTable(lootTable, insertAmount, structRnd);
+                foregroundBlock.GetInventory().RollLootTable(lootTable, insertAmount);
             }
             else if (block.HasTag(BlockTags.HAS_INVENTORY))
             {
-                block.InsertLootTable(lootTable, insertAmount, structRnd);
+                block.GetInventory().RollLootTable(lootTable, insertAmount);
             }
 
             //Set the block to background, add the foregroundblock and create the structure component
@@ -160,25 +160,25 @@ namespace SeeloewenCraft.game.core.world.generation
             //Add all blocks from the structure to the blocklist
             foreach (Block block in blockList.blocks)
             {
-                if (block != null && block.xPos >= 0 && block.xPos <= 7 && block.yPos >= 0 && block.yPos <= 74)
+                if (block != null && block.posX >= 0 && block.posX <= 7 && block.posY >= 0 && block.posY <= 74)
                 {
                     //Compare each block in the structure list to the block that's already at that position; if it has a fixed solid state, don't replace it
                     if (canReplaceSolidBlocks)
                     {
-                        chunk.SetBlock(block, block.xPos, block.yPos);
+                        chunk.SetBlock(block, block.posX, block.posY);
 
-                        if (canFloat == false && block.yPos == yBase)
+                        if (canFloat == false && block.posY == yBase)
                         {
                             MakeBaseSolid(block);
                         }
                     }
                     else
                     {
-                        if (!chunk.blockList.Get(block.xPos, block.yPos).HasTag(BlockTags.UNBREAKABLE))
+                        if (!chunk.blockList.Get(block.posX, block.posY).HasTag(BlockTags.UNBREAKABLE))
                         {
-                            chunk.SetBlock(block, block.xPos, block.yPos);
+                            chunk.SetBlock(block, block.posX, block.posY);
 
-                            if (canFloat == false && block.yPos == yBase)
+                            if (canFloat == false && block.posY == yBase)
                             {
                                 MakeBaseSolid(block);
                             }
@@ -193,22 +193,22 @@ namespace SeeloewenCraft.game.core.world.generation
         public void MakeBaseSolid(Block block)
         {
             //Check if the block is solid and on structure ground level and the block below is not solid
-            if (chunk.GetBlock(block.xPos, block.yPos + 1).isSolid == false && block.isSolid == true)
+            if (chunk.GetBlock(block.posX, block.posY + 1).isSolid == false && block.isSolid == true)
             {
                 //Create a new block of the same type and place it below the original block
                 Block newBlock = BlockRegister.Get(block.id);
                 newBlock.isBackground = block.isBackground;
-                chunk.SetBlock(newBlock, block.xPos, block.yPos + 1);
+                chunk.SetBlock(newBlock, block.posX, block.posY + 1);
                 //Repeat until floor is reached
-                MakeBaseSolid(chunk.GetBlock(block.xPos, block.yPos + 1));
+                MakeBaseSolid(chunk.GetBlock(block.posX, block.posY + 1));
             }
         }
 
         public void AddBlock(int xBase, int yBase, int xOffset, int yOffset, Block block)
         {
-            block.xPos = xBase + (direction.IsRight() ? xOffset : -xOffset);
-            block.yPos = yBase - yOffset;
-            blockList.Add(block, block.xPos, block.yPos);
+            block.posX = xBase + (direction.IsRight() ? xOffset : -xOffset);
+            block.posY = yBase - yOffset;
+            blockList.Add(block, block.posX, block.posY);
         }
 
         public void BeginGeneration(int x, int y, int index, bool isNew)

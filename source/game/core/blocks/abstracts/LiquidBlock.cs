@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.graphics;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.util;
 
 namespace SeeloewenCraft.game.core.blocks
@@ -34,6 +35,25 @@ namespace SeeloewenCraft.game.core.blocks
             liquidSource = new LiquidSource(-1, -1, -1);
         }
 
+        protected override void AppendJson(JObject obj)
+        {
+            obj.Add("liquid_level", liquidLevel);
+            obj.Add("liquid_source_x", liquidSource.x);
+            obj.Add("liquid_source_y", liquidSource.y);
+            obj.Add("liquid_source_c", liquidSource.cIndex);
+        }
+
+        protected override void LoadAdditionalData(JObject obj)
+        {
+            liquidLevel = obj.Get<int>("liquid_level");
+
+            int x = obj.Get<int>("liquid_source_x");
+            int y = obj.Get<int>("liquid_source_y");
+            int c = obj.Get<int>("liquid_source_c");
+
+            liquidSource = new LiquidSource(x,y,c);
+        }
+
         protected override void DoSpecificUpdate(double dt)
         {
             LiquidHandler.DoUpdate(this);
@@ -52,7 +72,7 @@ namespace SeeloewenCraft.game.core.blocks
 
             if(liquidSource.y == -1) //If no source block is set, use this as source
             {
-                liquidSource = new LiquidSource(xPos, yPos, chunk.index);
+                liquidSource = new LiquidSource(posX, posY, chunk.index);
             }
         }
 

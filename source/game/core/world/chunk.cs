@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.world.generation;
 using SeeloewenCraft.game.util;
@@ -7,8 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Controls;
-using JsonToken = SeeloewenCraft.game.util.JsonToken;
-using JsonWriter = SeeloewenCraft.game.util.JsonWriter;
+
 
 namespace SeeloewenCraft.game.core.world
 {
@@ -17,7 +17,6 @@ namespace SeeloewenCraft.game.core.world
         public BlockList blockList;
         public List<Structure> structureList = new List<Structure>();
         public List<Structure> continuedStructureList = new List<Structure>();
-        public Grid grdChunk = new Grid();
         public Random seededRnd;
 
         public int index;
@@ -58,93 +57,45 @@ namespace SeeloewenCraft.game.core.world
             }
 
             //save blocks in blocks.json
-            using (JsonWriter writer = JsonWriter.Create())
-            {
-                writer.Formatting = Formatting.Indented;
-                blockList.SaveToJson(writer);
-                writer.WriteToFile($"{World.Get().worldDirectory}/chunk{index}/blocks.json");
-            }
+            JObject blockListObj = new JObject()
+            { { "blocks", blockList.ToJson() } };
+            blockListObj.ToFile($"{World.Get().worldDirectory}/chunk{index}/blocks.json");
 
             //save settings in settings.json
-            using (JsonWriter writer = JsonWriter.Create())
+            JObject settingsObj = new JObject()
             {
-                writer.Formatting = Formatting.Indented;
-                SaveSettingsToJson(writer);
-                writer.WriteToFile($"{World.Get().worldDirectory}/chunk{index}/settings.json");
-            }
-
+                {"index", index},
+                {"floor_height_left", floorHeightLeft},
+                {"floor_height_right", floorHeightRight }
+            };
+            settingsObj.ToFile($"{World.Get().worldDirectory}/chunk{index}/settings.json");
         }
 
-        private void SaveSettingsToJson(JsonWriter writer)
+        internal void SetBlock(Block block, int x, int y)
         {
-            writer.WriteStartObject();
+            //Check if the specified coordinates are indeed in this chunk
+            if (x > 7 || x < 0)
+            {
+                throw new IndexOutOfRangeException("Specified coordinates are not in range of possible chunk coordinates");
+            }
 
-            writer.WritePropertyName("index");
-            writer.WriteValue(index);
+            //Drop the current block if it gets replaced
+            Block curBlock = GetBlock(x, y);
 
-            writer.WritePropertyName("floor_height_left");
-            writer.WriteValue(floorHeightLeft);
+            if (block.isBackground) block.MoveToBackground();
 
-            writer.WritePropertyName("floor_height_right");
-            writer.WriteValue(floorHeightRight);
+            //Add the block to the block list
+            block.posX = x;
+            block.posY = y;
+            block.chunk = this;
+            blockList.Add(block, block.posX, block.posY);
 
-            writer.WriteEndObject();
+            block.OnSetBlock();
         }
-
-        public void SetBlock(Block block, int x, int y)
-        {
-            //Check if the coordinate has a container and place the block into that container if possible
-            if (x > 7)
-            {
-                Chunk chunk = World.Get().GetLoadedChunk(index + 1);
-
-                if (chunk != null)
-                {
-                    chunk.SetBlock(block, x - 8, y);
-                }
-            }
-            else if (x < 0)
-            {
-                Chunk chunk = World.Get().GetLoadedChunk(index - 1);
-
-                if (chunk != null)
-                {
-                    chunk.SetBlock(block, x + 8, y);
-                }
-            }
-            else
-            {
-                //Add the block to the block list
-                block.xPos = x;
-                block.yPos = y;
-                block.chunk = this;               
-                blockList.Add(block, block.xPos, block.yPos);
-                block.OnSetBlock();
-            }
-        }
-
 
         public void Init()
         {
             Log.Write($"Initializing chunk {index}...", LogType.WORLD_GENERATION, LogLevel.INFO);
-
-            //Clear the chunk
-            grdChunk.Children.Clear();
-
-            //Setup the chunk
-            grdChunk.Width = 400;
-            grdChunk.Height = 3750;
-
-            for (int i = 0; i < 8; i++)
-            {
-                grdChunk.ColumnDefinitions.Add(new ColumnDefinition());
-            }
-
-            for (int i = 0; i < 75; i++)
-            {
-                grdChunk.RowDefinitions.Add(new RowDefinition());
-            }
-
 
             //Check if the chunk doesn't already exist
             if (Directory.Exists($"{World.Get().worldDirectory}/chunk{index}"))
@@ -171,15 +122,14 @@ namespace SeeloewenCraft.game.core.world
             Log.Write($"Loading chunk {index} from file...", LogType.WORLD_GENERATION, LogLevel.INFO);
 
             //load blocklist
-            JsonToken documentToken = JsonUtil.ReadFile($"{World.Get().worldDirectory}/chunk{index}/blocks.json");
-            blockList = BlockList.LoadFromJson(documentToken, this);
+            JArray blockListArray = JsonUtil.ArrayFromFile($"{World.Get().worldDirectory}/chunk{index}/blocks.json");
+            blockList = BlockList.FromJson(blockListArray, this);
 
             //load settings
-            documentToken = JsonUtil.ReadFile($"{World.Get().worldDirectory}/chunk{index}/settings.json");
-
-            index = documentToken.GetInt("/index");
-            floorHeightLeft = documentToken.GetInt("/floor_height_left");
-            floorHeightRight = documentToken.GetInt("/floor_height_right");
+            JObject settingsObj = JsonUtil.ObjectFromFile($"{World.Get().worldDirectory}/chunk{index}/settings.json");
+            index = settingsObj.Get<int>("index");
+            floorHeightLeft = settingsObj.Get<int>("floor_height_left");
+            floorHeightRight = settingsObj.Get<int>("floor_height_right");
         }
 
 
@@ -190,12 +140,12 @@ namespace SeeloewenCraft.game.core.world
                 //Render normal blocks
                 if (!block.isForeground && !block.isBackground)
                 {
-                    SetBlock(block, block.xPos, block.yPos);
+                    SetBlock(block, block.posX, block.posY);
                 }
                 //Render background blocks
                 else if (!block.isForeground && block.isBackground)
                 {
-                    SetBlock(block, block.xPos, block.yPos);
+                    SetBlock(block, block.posX, block.posY);
                     block.MoveToBackground();
                 }
 
@@ -209,32 +159,13 @@ namespace SeeloewenCraft.game.core.world
 
         public Block GetBlock(int x, int y)
         {
-            if (x > 7)
+            //Check if the specified coordinates are indeed in this chunk
+            if (x > 7 || x < 0)
             {
-                if (World.Get().GetLoadedChunk(index + 1) != null)
-                {
-                    return World.Get().GetLoadedChunk(index + 1).GetBlock(x - 8, y);
-                }
-                else
-                {
-                    return null;
-                }
+                throw new IndexOutOfRangeException("Specified coordinates are not in range of possible chunk coordinates");
             }
-            else if (x < 0)
-            {
-                if (World.Get().GetLoadedChunk(index - 1) != null)
-                {
-                    return World.Get().GetLoadedChunk(index - 1).GetBlock(x + 8, y);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                return blockList.Get(x, y);
-            }
+
+            return blockList.Get(x, y);
         }
     }
 }

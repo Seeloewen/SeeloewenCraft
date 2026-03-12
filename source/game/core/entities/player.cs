@@ -1,4 +1,6 @@
-﻿using SeeloewenCraft.game.core.entities.inventory;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.core.items;
 using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
@@ -7,9 +9,8 @@ using SeeloewenCraft.game.notifications;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using System;
-using System.Windows.Media;
+using System.IO;
 using Color = SeeloewenCraft.game.graphics.Color;
-using JsonWriter = SeeloewenCraft.game.util.JsonWriter;
 
 namespace SeeloewenCraft.game.core.entities
 {
@@ -58,7 +59,7 @@ namespace SeeloewenCraft.game.core.entities
             InitPlayer();
         }
 
-        public Player(JsonToken token) : base(token, PLAYER_WIDTH, PLAYER_HEIGHT)
+        public Player(JObject obj) : base(obj, PLAYER_WIDTH, PLAYER_HEIGHT)
         {
             InitPlayer();
         }
@@ -82,19 +83,19 @@ namespace SeeloewenCraft.game.core.entities
                     if (item != null)
                     {
                         //TODO calculate direction with mouseoffset
-            
+
                         float mouseX = InputHandler.mouseXScreen;
                         float mouseY = InputHandler.mouseYScreen;
-                        
+
                         float mousePosX = 1000 * (mouseX - GameCamera.blockXAnchor) / GameCamera.blockLength;
                         float mousePosY = 1000 * -(mouseY - GameCamera.blockYAnchor) / (GameCamera.blockLength * Resolution.RATIO);
-                        double xOffset = mousePosX - posX - sizeX/2;
+                        double xOffset = mousePosX - posX - sizeX / 2;
                         double yOffset = mousePosY - posY;
                         double n = Math.Sqrt(xOffset * xOffset + yOffset * yOffset);
                         double xDir = xOffset / n;
                         double yDir = yOffset / n;
 
-                        ItemEntity itemEntity = new ItemEntity(item, item.tag, posX + sizeX/2 - ItemEntity.itemSizeX / 2, posY, (int)(15000 * xDir) + velX, (int)(20000 * yDir) + velY);
+                        ItemEntity itemEntity = new ItemEntity(item, item.tag, posX + sizeX / 2 - ItemEntity.itemSizeX / 2, posY, (int)(15000 * xDir) + velX, (int)(20000 * yDir) + velY);
                         World.Get().AddEntity(itemEntity);
                         thrown = true;
                         selectedSlot.Remove(1);
@@ -112,6 +113,11 @@ namespace SeeloewenCraft.game.core.entities
             if (this != Player.Get()) return;
 
             bool changed = false;
+
+            if (changed == true)
+            {
+                Console.WriteLine("");
+            }
 
             changed = changed || pressedLeft != KeyBinds.pressed[KeyBinds.MOVE_LEFT] && Screen.allowIngameInputs;
             changed = changed || pressedRight != KeyBinds.pressed[KeyBinds.MOVE_RIGHT] && Screen.allowIngameInputs;
@@ -252,33 +258,21 @@ namespace SeeloewenCraft.game.core.entities
 
         public void SavePosition(string path)
         {
-            Log.Write($"Saved player position to {path}.", LogType.ENTITIES, LogLevel.INFO);
-
-            using (JsonWriter writer = JsonWriter.Create())
+            JObject posObj = new JObject()
             {
-                writer.Formatting = Newtonsoft.Json.Formatting.Indented;
-                writer.WriteStartObject();
+                { "pos_x", posX },
+                { "pos_y", posY }
+            };
 
-                writer.WritePropertyName("pos_x");
-                writer.WriteValue(posX);
+            posObj.ToFile($"{path}/player_position.json");
 
-                writer.WritePropertyName("pos_y");
-                writer.WriteValue(posY);
-
-                writer.WriteEndObject();
-
-                writer.WriteToFile($"{path}/player_position.json");
-            }
+            Log.Write($"Saved player position to {path}.", LogType.ENTITIES, LogLevel.INFO);
         }
 
         public void SaveInventory(string path)
         {
-            using (JsonWriter writer = JsonWriter.Create())
-            {
-                writer.Formatting = Newtonsoft.Json.Formatting.Indented;
-                inventory.SaveToJson(writer);
-                writer.WriteToFile($"{path}/player_inventory.json");
-            }
+            JObject invData = inventory.ToJson();
+            invData.ToFile($"{path}/player_inventory.json");
         }
 
         public void DisplayDebugInformation()

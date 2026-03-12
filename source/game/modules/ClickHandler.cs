@@ -2,6 +2,7 @@
 using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.core.items;
+using SeeloewenCraft.game.core.world;
 
 namespace SeeloewenCraft.game.core
 {
@@ -82,14 +83,14 @@ namespace SeeloewenCraft.game.core
                         }
                     }
                     //Check if the block isn't in background and can be replaced
-                    else if (block.IsInRange() && block.HasTag(BlockTags.REPLACEABLE) && !Block.IsCollidingWithPlayer(block.xPos, block.yPos, block.chunk.index, newBlock.isSolid) && !block.isBackground)
+                    else if (block.IsInRange() && block.HasTag(BlockTags.REPLACEABLE) && !Block.IsCollidingWithPlayer(block.posX, block.posY, block.chunk.index, newBlock.isSolid) && !block.isBackground)
                     {
                         if (newBlock != null)
                         {
                             //If it`s part of a construct, check if it has enough space
                             if (newBlock.isBase && block.ConBlocksHaveSpace(newBlock, false))
                             {
-                                block.SetBlock(newBlock);
+                                World.Get().SetBlock(block.GetPosData(), newBlock);
                                 block.PlaceConnectedBlocks(newBlock);
 
                                 //Remove the item from the inventory
@@ -97,7 +98,7 @@ namespace SeeloewenCraft.game.core
                             }
                             else if (!newBlock.isBase)
                             {
-                                block.SetBlock(newBlock);
+                                World.Get().SetBlock(block.GetPosData(), newBlock);
 
                                 //Remove the item from the inventory
                                 selectedSlot.Remove(1);
@@ -111,7 +112,7 @@ namespace SeeloewenCraft.game.core
                 }
             }
 
-            block.chunk.GetBlock(block.xPos, block.yPos).AddDebugMenu();
+            block.chunk.GetBlock(block.posX, block.posY).AddDebugMenu();
             if (ItemRegister.Get(selectedSlot.id) is FoodItem foodItem)
             {
                 foodItem.RightClickAction(block, selectedSlot);
@@ -120,8 +121,8 @@ namespace SeeloewenCraft.game.core
 
         public static void DoLeftClick(Block block)
         {
-            int oldXPos = block.xPos;
-            int oldYPos = block.yPos;
+            int oldXPos = block.posX;
+            int oldYPos = block.posY;
 
             //If the block is in range
             if (block.IsInRange())
@@ -156,7 +157,7 @@ namespace SeeloewenCraft.game.core
                     else if (block.GetForegroundBlock().GetBaseBlock() != null)
                     {
                         Block baseBlock = block.GetForegroundBlock().GetBaseBlock();
-                        BreakForegroundConstruct(baseBlock.chunk.GetBlock(baseBlock.xPos, baseBlock.yPos));
+                        BreakForegroundConstruct(baseBlock.chunk.GetBlock(baseBlock.posX, baseBlock.posY));
                     }
                     else
                     {

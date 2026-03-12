@@ -83,8 +83,8 @@ namespace SeeloewenCraft.game.graphics
             PrimitiveRenderer.Begin();
             if (targetedBlock != null && targetedBlock.IsInRange())
             {
-                float x1 = GameCamera.blockXAnchor + GameCamera.blockLength * (targetedBlock.xPos + targetedBlock.chunk.index * 8);
-                float y1 = GameCamera.blockYAnchor - GameCamera.blockLength * targetedBlock.yPos * Resolution.RATIO;
+                float x1 = GameCamera.blockXAnchor + GameCamera.blockLength * (targetedBlock.posX + targetedBlock.chunk.index * 8);
+                float y1 = GameCamera.blockYAnchor - GameCamera.blockLength * targetedBlock.posY * Resolution.RATIO;
                 float x2 = x1 + GameCamera.blockLength;
                 float y2 = y1 - GameCamera.blockLength * Resolution.RATIO;
                 float lx = GameCamera.blockLength / 18;

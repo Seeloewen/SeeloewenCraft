@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.crafting;
 using SeeloewenCraft.game.core.entities;
@@ -14,12 +15,10 @@ using SeeloewenCraft.game.util.logging;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
-
-using JsonToken = SeeloewenCraft.game.util.JsonToken;
-using JsonWriter = SeeloewenCraft.game.util.JsonWriter;
 
 namespace SeeloewenCraft.game.core.world
 {
@@ -91,6 +90,8 @@ namespace SeeloewenCraft.game.core.world
 
             InitEntityManager(loaded);
 
+            if(!loaded) CreateStartChunks(); //Create the start chunks if the world was never loaded before
+
             (int x, int y) playerStartPos = FindPlayerStartPos(loaded);
 
             //this isnt exactly true as posX=-1000 should be chunk -1 but is loaded as chunk 0,
@@ -138,8 +139,8 @@ namespace SeeloewenCraft.game.core.world
             int worldVersion;
             if (File.Exists($"{w.worldDirectory}/world_settings.json"))
             {
-                JsonToken documentToken = JsonUtil.ReadFile($"{w.worldDirectory}/world_settings.json");
-                worldVersion = documentToken.GetInt("/world_version");
+                JObject settingsObj = JsonUtil.ObjectFromFile($"{w.worldDirectory}/world_settings.json");
+                worldVersion = settingsObj.Get<int>("world_version");
             }
             else if (File.Exists($"{w.worldDirectory}/settings.txt"))
             {
@@ -176,13 +177,7 @@ namespace SeeloewenCraft.game.core.world
 
         public void SaveEntities()
         {
-            using (JsonWriter writer = JsonWriter.Create())
-            {
-                writer.WriteStartObject();
-                entityManager.SaveToJson(writer);
-                writer.WriteEndObject();
-                writer.WriteToFile($"{worldDirectory}/entities.json");
-            }
+            entityManager.ToJson().ToFile($"{worldDirectory}/entities.json");
         }
 
         public void Save()
@@ -205,10 +200,10 @@ namespace SeeloewenCraft.game.core.world
             //Check if the world settings file exists and retrieve the value
             if (File.Exists($"{worldDirectory}/world_settings.json"))
             {
-                JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/world_settings.json");
-                if (documentToken.ContainsKey(settingName))
+                JObject settingsObj = JsonUtil.ObjectFromFile($"{worldDirectory}/world_settings.json");
+                if (settingsObj.ContainsKey(settingName))
                 {
-                    return documentToken.GetString($"/{settingName}");
+                    return settingsObj.Get<string>($"{settingName}");
                 }
             }
 
@@ -223,48 +218,14 @@ namespace SeeloewenCraft.game.core.world
             entityManager.Add(entity);
 
             if (networkCall) return;
-            using (JsonWriter writer = JsonWriter.Create())
-            {
-                entity.SaveToJson(writer);
-                NetworkHandler.SendData(MultiplayerPacketType.CREATE_ENTITY, $"{writer.ToString()}");
-            }
+            NetworkHandler.SendData(MultiplayerPacketType.CREATE_ENTITY, $"{entity.ToJson()}");
         }
 
         public void RemoveEntity(int id) => entityManager.Remove(id);
 
-        public void SetBlock(Block block, int cPosX, int posY) => GetBlock(cPosX, posY).SetBlock(block);
-
-        public void SetBlock(Block block, int posX, int posY, int cIndex) => GetBlock(posX + 8 * cIndex, posY).SetBlock(block);
-
-        public Chunk CreateChunk(int index)
-        {
-            Chunk newChunk = new Chunk(index);
-            totalChunkList.Add(newChunk);
-            return newChunk;
-        }
-
-        public void UnloadChunk(Chunk chunk)
-        {
-            loadedChunkList.Remove(chunk);
-        }
-
-        public void LoadChunk(Chunk chunk)
-        {
-            loadedChunkList.Add(chunk);
-        }
-
-        public Chunk GetChunk(int index)
-        {
-            //Searches the total chunk list for the chunk with the specified index. If not found, create a new one
-            foreach (Chunk chunk in totalChunkList)
-            {
-                if (chunk.index == index)
-                {
-                    return chunk;
-                }
-            }
-            return CreateChunk(index);
-        }
+        public void SetBlock(int posX, int posY, Block b) => SetBlock((posX % 8 + 8) % 8, posY, posX >= 0 ? posX / 8 : (posX - 7) / 8, b);
+        public void SetBlock(int cPosX, int posY, int cIndex, Block b) => GetChunk(cIndex).SetBlock(b, cPosX, posY);
+        public void SetBlock(PositionData posData, Block b) => SetBlock(posData.x, posData.y, posData.ci, b);
 
         public Block GetBlock(int posX, int posY)
         {
@@ -273,7 +234,8 @@ namespace SeeloewenCraft.game.core.world
                 : (posX - 7) / 8;
             int x = (posX % 8 + 8) % 8;
             Chunk c = GetChunk(chunkIndex);
-            Block b = c.GetBlock(x, posY);
+            if(c == null) return null;
+            Block b =  c.GetBlock(x, posY);
 
             return b;
         }
@@ -286,25 +248,31 @@ namespace SeeloewenCraft.game.core.world
             return b;
         }
 
+        public Chunk CreateChunk(int index)
+        {
+            Chunk newChunk = new Chunk(index);
+            totalChunkList.Add(newChunk);
+            return newChunk;
+        }
+
+        //Searches the total chunk list for the chunk with the specified index. If not found, create a new one
+        public Chunk GetChunk(int index) => totalChunkList.Find(c => c.index == index);
+
+        private Chunk GetLoadedChunk(int index) => loadedChunkList.Find(c => c.index == index); //Only used internally 
+
+        internal void LoadChunk(Chunk chunk) => loadedChunkList.Add(chunk);
+
+        internal void UnloadChunk(Chunk chunk) => loadedChunkList.Remove(chunk);
+
         private void SaveWorldSettings()
         {
             //write world version to settings.json
-            using (JsonWriter writer = JsonWriter.Create())
+            JObject obj = new JObject()
             {
-                writer.Formatting = Formatting.Indented;
-
-                writer.WriteStartObject();
-
-                writer.WritePropertyName("world_version");
-                writer.WriteValue(Game.WORLD_VERSION);
-
-                writer.WritePropertyName("seed");
-                writer.WriteValue(seed);
-
-                writer.WriteEndObject();
-
-                writer.WriteToFile($"{worldDirectory}/world_settings.json");
-            }
+                { "world_version", Game.WORLD_VERSION},
+                { "seed", seed}
+            };
+            obj.ToFile($"{worldDirectory}/world_settings.json");
         }
 
         private void InitWorldDirectory()
@@ -337,7 +305,7 @@ namespace SeeloewenCraft.game.core.world
         private void InitEntityManager(bool loaded)
         {
             entityManager = loaded
-                    ? new EntityManager(JsonUtil.ReadFile($"{worldDirectory}/entities.json"))
+                    ? new EntityManager(JsonUtil.ObjectFromFile($"{worldDirectory}/entities.json"))
                     : new EntityManager();
         }
 
@@ -345,8 +313,8 @@ namespace SeeloewenCraft.game.core.world
         {
             if (loaded)
             {
-                JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_inventory.json");
-                player.inventory = Inventory.LoadFromJson(documentToken, true);
+                JObject inventoryToken = JsonUtil.ObjectFromFile($"{worldDirectory}/player_inventory.json");
+                player.inventory = Inventory.FromJson(inventoryToken, true);
             }
             else
             {
@@ -369,9 +337,9 @@ namespace SeeloewenCraft.game.core.world
             //Load the player position if possible
             if (loaded)
             {
-                JsonToken documentToken = JsonUtil.ReadFile($"{worldDirectory}/player_position.json");
-                int x = documentToken.GetInt("/pos_x");
-                int y = documentToken.GetInt("/pos_y");
+                JObject playerPosObj = JsonUtil.ObjectFromFile($"{worldDirectory}/player_position.json");
+                int x = playerPosObj.Get<int>("pos_x");
+                int y = playerPosObj.Get<int>("pos_y");
                 Log.Write($"Loaded player start position at x{x} y{y}", LogType.GENERAL, LogLevel.INFO);
                 return (x, y);
             }
@@ -379,11 +347,12 @@ namespace SeeloewenCraft.game.core.world
             {
                 //Calculate y position where the player starts
                 int yPos = 0;
+
                 foreach (Block block in GetChunk(3).blockList.blocks)
                 {
-                    if (block.xPos == 4 && block.isSolid)
+                    if (block.posX == 4 && block.isSolid)
                     {
-                        yPos = block.yPos;
+                        yPos = block.posY;
                         break;
                     }
                 }
@@ -406,19 +375,29 @@ namespace SeeloewenCraft.game.core.world
             }
         }
 
+        private void CreateStartChunks()
+        {
+            for (int i = 0; i <= 7; i++)
+            {
+                Chunk c = CreateChunk(i);
+            }
+        }
+
         public void MoveLoadedChunks(Direction dir)
         {
             if (dir.IsRight())
             {
                 player.currentChunk++;
 
-                Chunk chunk = Game.world.GetLoadedChunk(Game.world.loadedChunkList[0].index);
-                Game.world.UnloadChunk(chunk);
-                Chunk newChunk = Game.world.GetChunk(Game.world.loadedChunkList[5].index + 1);
-                Game.world.LoadChunk(newChunk);
+                Chunk chunk = GetLoadedChunk(loadedChunkList[0].index);
+                UnloadChunk(chunk);
+
+                int newIndex = loadedChunkList[5].index + 1;
+                Chunk newChunk = GetChunk(newIndex) ?? CreateChunk(newIndex);
+                LoadChunk(newChunk);
 
                 //Sort the chunklist again
-                Game.world.loadedChunkList = Game.world.loadedChunkList.OrderBy(obj => obj.index).ToList();
+                loadedChunkList = loadedChunkList.OrderBy(obj =>  obj.index).ToList();
 
                 //Send the chunk on the network
                 NetworkHandler.SendData(MultiplayerPacketType.CREATE_CHUNK, $"{newChunk.index}");
@@ -428,20 +407,23 @@ namespace SeeloewenCraft.game.core.world
                 {
                     foreach (Block block in newChunk.blockList.blocks)
                     {
-                        NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, block.id.ToString(), newChunk.index.ToString(), block.xPos.ToString(), block.yPos.ToString());
+                        NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, block.id.ToString(), newChunk.index.ToString(), block.posX.ToString(), block.posY.ToString());
                     }
                 }
             }
             else if (dir.IsLeft())
             {
                 player.currentChunk--;
-                Chunk chunk = Game.world.GetLoadedChunk(Game.world.loadedChunkList[6].index);
-                Game.world.UnloadChunk(chunk);
-                Chunk newChunk = Game.world.GetChunk(Game.world.loadedChunkList[0].index - 1);
-                Game.world.LoadChunk(newChunk);
+
+                Chunk chunk = GetLoadedChunk(loadedChunkList[6].index);
+                UnloadChunk(chunk);
+
+                int newIndex = loadedChunkList[0].index - 1;
+                Chunk newChunk = GetChunk(newIndex) ?? CreateChunk(newIndex);
+                LoadChunk(newChunk);
 
                 //Sort the list again
-                Game.world.loadedChunkList = Game.world.loadedChunkList.OrderBy(obj => obj.index).ToList();
+                loadedChunkList = loadedChunkList.OrderBy(obj => obj.index).ToList();
 
                 //Send the chunk on the network
                 NetworkHandler.SendData(MultiplayerPacketType.CREATE_CHUNK, $"{newChunk.index}");
@@ -451,23 +433,10 @@ namespace SeeloewenCraft.game.core.world
                 {
                     foreach (Block block in newChunk.blockList.blocks)
                     {
-                        NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, block.id.ToString(), newChunk.index.ToString(), block.xPos.ToString(), block.yPos.ToString());
+                        NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, block.id.ToString(), newChunk.index.ToString(), block.posX.ToString(), block.posY.ToString());
                     }
                 }
             }
-        }
-
-        public Chunk GetLoadedChunk(int index)
-        {
-            //Returns a chunk from the list based on the given index
-            foreach (Chunk chunk in loadedChunkList)
-            {
-                if (chunk.index == index)
-                {
-                    return chunk;
-                }
-            }
-            return null;
         }
 
         public void DisplayDebugInformation()

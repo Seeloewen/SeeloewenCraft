@@ -1,4 +1,5 @@
 ﻿using SeeloewenCraft.game.core.entities;
+using SeeloewenCraft.game.core.world;
 
 namespace SeeloewenCraft.game.core.blocks
 {
@@ -113,7 +114,7 @@ namespace SeeloewenCraft.game.core.blocks
                 SugarCaneBlock newBlockAbove = (SugarCaneBlock)BlockRegister.Get(id);
                 newBlockAbove.needsGround = (true, BlockTags.CROPS_SUGAR_CANE);
                 newBlockAbove.canGrow = false;
-                blockAbove.SetBlock(newBlockAbove);
+                World.Get().SetBlock(blockAbove.GetPosData(), newBlockAbove);
             }
             else if (blockAbove.id == id)
             {
@@ -129,7 +130,7 @@ namespace SeeloewenCraft.game.core.blocks
 
             if (IsReady() && canGrow)
             {
-                PlaceBlockAbove(yPos, yPos - maxHeight);
+                PlaceBlockAbove(posY, posY - maxHeight);
                 progress = 0;
                 growthTime = Game.rnd.Next(timeMin, timeMax) / 1000;
             }
@@ -165,7 +166,7 @@ namespace SeeloewenCraft.game.core.blocks
                 TomatoCropBlock newBlockAbove = (TomatoCropBlock)BlockRegister.Get(id);
                 newBlockAbove.needsGround = (true, BlockTags.CROPS_TOMATO);
                 newBlockAbove.canGrow = false;
-                blockAbove.SetBlock(newBlockAbove);
+                World.Get().SetBlock(blockAbove.GetPosData(), newBlockAbove);
             }
             else if (blockAbove.id == id)
             {
@@ -180,7 +181,7 @@ namespace SeeloewenCraft.game.core.blocks
 
             if (IsReady() && canGrow)
             {
-                PlaceBlockAbove(yPos, yPos - maxHeight);
+                PlaceBlockAbove(posY, posY - maxHeight);
                 growthTime = Game.rnd.Next(timeMin, timeMax) / 1000;
                 progress = 0;
             }
@@ -219,7 +220,7 @@ namespace SeeloewenCraft.game.core.blocks
         internal Rice_Top() : base("Rice Top", "sc:rice_top_crop_block", 1000000, 2000000, 2, "sc:bucket_rice_item")
         {
             WriteTag(BlockTags.DOESNT_DROP);
-            baseBlock = (0, 1);
+            baseBlockOffset = (0, 1);
         }
 
         public override void RightClickAction()

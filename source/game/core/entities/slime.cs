@@ -1,6 +1,7 @@
 ﻿using SeeloewenCraft.game.util;
 using System;
 using SeeloewenCraft.game.graphics;
+using Newtonsoft.Json.Linq;
 
 namespace SeeloewenCraft.game.core.entities
 {
@@ -21,7 +22,7 @@ namespace SeeloewenCraft.game.core.entities
             ACC_SPRINTING = 0;
         }
 
-        public Slime(JsonToken token) : base(token, animalSizeX, animalSizeY)
+        public Slime(JObject obj) : base(obj, animalSizeX, animalSizeY)
         {
             type = "Slime";
 

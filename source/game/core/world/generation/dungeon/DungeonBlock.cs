@@ -34,7 +34,7 @@ namespace SeeloewenCraft.game.core.world.generation
             block.SetForegroundBlock(door.bottom);
             if (doorDir == Direction.LEFT || doorDir == Direction.RIGHT)
             {
-                door.top.baseBlock = (0, 1);
+                door.top.baseBlockOffset = (0, 1);
                 blockAbove.block.SetForegroundBlock(door.top);
             }
         }

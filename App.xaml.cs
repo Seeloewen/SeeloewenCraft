@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game;
 using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.util;
@@ -93,8 +94,9 @@ namespace SeeloewenCraft
                 try
                 {
                     //Read the ID from the file
-                    JsonToken playerInfoToken = JsonUtil.ReadFile(FolderUtil.playerInfoFile);
-                    playerId = playerInfoToken.GetInt("/player_id");
+                    JObject playerInfo = JObject.Parse(File.ReadAllText(FolderUtil.playerInfoFile));
+
+                    playerId = playerInfo.Get<int>("player_id");
 
                     Log.Write($"Read player id from file: {playerId}", LogType.GENERAL, LogLevel.INFO);
                 }
@@ -102,7 +104,7 @@ namespace SeeloewenCraft
                 {
                     //If reading from the json fails, delete the file and generate a new id. If the player had a previous ID that he wants back, he will need to
                     //Contact players he played with as his ID is saved in their worlds to match inventories
-                    Log.Write("Could not get player id from file, generating new one...", LogType.GENERAL, LogLevel.WARNING);
+                    Log.Write($"Could not get player id from file, generating new one... ({ex.Message})", LogType.GENERAL, LogLevel.WARNING);
                     File.Delete(FolderUtil.playerInfoFile);
                     playerId = GetPlayerId();
                 }
@@ -114,16 +116,13 @@ namespace SeeloewenCraft
                 //doesn't really matter right now
                 playerId = Game.rnd.Next();
 
-                JsonWriter writer = JsonWriter.Create();
-                writer.WriteStartObject();
-                writer.WritePropertyName("_comment");
-                writer.WriteValue("This ID is used to identify you in multiplayer sessions. DO NOT CHANGE IT UNLESS YOU KNOW WHAT YOU ARE DOING.");
-                writer.WritePropertyName("player_id");
-                writer.WriteValue(playerId);
-                writer.WriteEndObject();
+                JObject playerObj = new JObject()
+                {
+                    { "_comment", "This ID is used to identify you in multiplayer sessions. DO NOT CHANGE IT UNLESS YOU KNOW WHAT YOU ARE DOING."},
+                    {"player_id",  playerId}
+                };
 
-                File.WriteAllText(FolderUtil.playerInfoFile, writer.ToString());
-
+                File.WriteAllText(FolderUtil.playerInfoFile, playerObj.ToString());
                 Log.Write($"Generated player id {playerId}", LogType.GENERAL, LogLevel.INFO);
             }
 

@@ -1,9 +1,8 @@
-﻿using OpenTK.Windowing.GraphicsLibraryFramework;
-using SeeloewenCraft.game.util;
+﻿using Newtonsoft.Json.Linq;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+using System.Windows.Input;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -28,7 +27,7 @@ namespace SeeloewenCraft.game.graphics
 
         public static bool[] pressedFirst = new bool[KEYBINDS_COUNT];
 
-        public static bool checkPressedFirst(int keybind)
+        public static bool CheckPressedFirst(int keybind)
         {
             if (pressed[keybind])
             {
@@ -54,80 +53,61 @@ namespace SeeloewenCraft.game.graphics
             {Keys.C, CREATIVE_MENU}
         };
 
-        public static void Save(JsonWriter writer)
+        public static void Bind(Keys k, int action)
         {
-            writer.WritePropertyName("keybinds");
-            writer.WriteStartObject();
+            //Make sure no other keybind is connected to the specified action
+            foreach (var keybind in bindings)
+            {
+                if (keybind.Value == action)
+                {
+                    bindings.Remove(keybind.Key);
+                    break; //If everything goes right, there should ever only be one key per action
+                }
+            }
 
-            Keys moveRight = bindings.FirstOrDefault(x => x.Value == 0).Key;
-            Keys moveLeft = bindings.FirstOrDefault(x => x.Value == 1).Key;
-            Keys showInv = bindings.FirstOrDefault(x => x.Value == 2).Key;
-            Keys toggleDebug = bindings.FirstOrDefault(x => x.Value == 3).Key;
-            Keys jump = bindings.FirstOrDefault(x => x.Value == 4).Key;
-            Keys notifications = bindings.FirstOrDefault(x => x.Value == 5).Key;
-            Keys throwItem = bindings.FirstOrDefault(x => x.Value == 6).Key;
-            Keys sneak = bindings.FirstOrDefault(x => x.Value == 7).Key;
-            Keys sprint = bindings.FirstOrDefault(x => x.Value == 8).Key;
-
-            writer.WritePropertyName("move_right");
-            writer.WriteValue(moveRight);
-
-            writer.WritePropertyName("move_left");
-            writer.WriteValue(moveLeft);
-
-            writer.WritePropertyName("show_inventory");
-            writer.WriteValue(showInv);
-
-            writer.WritePropertyName("toggle_debug");
-            writer.WriteValue(toggleDebug);
-
-            writer.WritePropertyName("jump");
-            writer.WriteValue(jump);
-
-            writer.WritePropertyName("show_notification_list");
-            writer.WriteValue(notifications);
-
-            writer.WritePropertyName("throw_item");
-            writer.WriteValue(throwItem);
-
-            writer.WritePropertyName("sneak");
-            writer.WriteValue(sneak);
-
-            writer.WritePropertyName("sprint");
-            writer.WriteValue(sprint);
-
-            writer.WriteEndObject();
+            bindings[k] = action;
         }
 
-        public static void Load(JsonToken fileToken)
+        public static JObject ToJson()
         {
-            JsonToken token = fileToken.GetToken("/keybinds");
+            JObject obj = new JObject();
+            foreach (var binding in bindings)
+            {
+                obj.Add(binding.Value.ToString(), binding.Key.ToString());
+            }
 
-            Enum.TryParse(token.GetString("/move_right"), out Keys moveRight);
-            Enum.TryParse(token.GetString("/move_left"), out Keys moveLeft);
-            Enum.TryParse(token.GetString("/show_inventory"), out Keys showInv);
-            Enum.TryParse(token.GetString("/toggle_debug"), out Keys toggleDebug);
-            Enum.TryParse(token.GetString("/jump"), out Keys jump);
-            Enum.TryParse(token.GetString("/show_notification_list"), out Keys showNotificationList);
-            Enum.TryParse(token.GetString("/throw_item"), out Keys throwItem);
-            Enum.TryParse(token.GetString("/sneak"), out Keys sneak);
-            Enum.TryParse(token.GetString("/sprint"), out Keys sprint);
+            return obj;
+        }
 
+        public static void FromJson(JObject obj)
+        {
             bindings = new Dictionary<Keys, int>();
-            bindings[moveRight] = MOVE_RIGHT;
-            bindings[moveLeft] = MOVE_LEFT;
-            bindings[showInv] = SHOW_INV;
-            bindings[toggleDebug] = TOGGLE_DEBUG;
-            bindings[jump] = JUMP;
-            bindings[showNotificationList] = NOTIFICATIONS;
-            bindings[throwItem] = THROW_ITEM;
-            bindings[sneak] = SNEAK;
-            bindings[sprint] = SPRINT;
-            bindings[Keys.Escape] = OPEN_MENU;
-            bindings[Keys.C] = CREATIVE_MENU;
+            foreach (JProperty property in obj.Properties())
+            {
+                Enum.TryParse(property.Value.ToString(), out Keys key);
+                int id = int.Parse(property.Name);
+                bindings[key] = id;
+            }
         }
 
+        public static Keys ToGLFWKey(Key wpfKey)
+        {
+            return wpfKey switch
+            {
+                Key.LeftCtrl => Keys.LeftControl,
+                Key.RightCtrl => Keys.RightControl,
+                _ => Keys.Unknown
+            };
+        }
 
+        public static Keys ToGLFWKey(string s)
+        {
+            if (Enum.TryParse(s, out Keys key))
+            {
+                return key;
+            }
 
+            return default;
+        }
     }
 }

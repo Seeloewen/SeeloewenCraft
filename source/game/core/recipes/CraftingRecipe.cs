@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.util;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.util;
 using System.Collections.Generic;
 
 namespace SeeloewenCraft.game.core.crafting
@@ -13,25 +14,24 @@ namespace SeeloewenCraft.game.core.crafting
         public string displayName;
         public int requiredTime;
 
-        public CraftingRecipe(JsonToken token)
+        public CraftingRecipe(JObject token)
         {
             //Get general constants
-            id = token.GetString("/id");
-            workstationId = token.GetString("/workstation");
-            displayName = token.GetString("/display_name");
-            requiredTime = token.GetInt("/required_time");
+            id = token.Get<string>("id");
+            workstationId = token.Get<string>("workstation");
+            displayName = token.Get<string>("display_name");
+            requiredTime = token.Get<int>("required_time");
 
             //Get Ingredients
-            JsonToken ingredientListToken = token.GetToken("/ingredients");
-            for (int i = 0; i < ingredientListToken.GetArrayLength(); i++)
+            JArray ingredientListToken = token.Get<JArray>("ingredients");
+            foreach (JObject ingObj in ingredientListToken)
             {
-                JsonToken ingredientToken = ingredientListToken.GetToken($"/{i}");
-                ingredients.Add(new RecipePart(ingredientToken));
+                ingredients.Add(new RecipePart(ingObj));
             }
 
             //Get Outgredient
-            JsonToken outgredientToken = token.GetToken("/outgredient");
-            outgredient = new RecipePart(outgredientToken);   
+            JObject outgredientToken = token.Get<JObject>("outgredient");
+            outgredient = new RecipePart(outgredientToken);
         }
     }
 }

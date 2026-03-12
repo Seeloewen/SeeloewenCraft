@@ -1,192 +1,44 @@
-﻿using Microsoft.Json.Pointer;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.util.logging;
 using System;
 using System.IO;
-using System.Reflection;
-using System.Text;
+using System.Windows.Navigation;
+using Windows.Perception.Spatial;
 
 namespace SeeloewenCraft.game.util
 {
-    public class JsonWriter : Newtonsoft.Json.JsonTextWriter
+    public static class JsonUtil
     {
-        StringBuilder sb;
-
-        private JsonWriter(StringBuilder sb, StringWriter sw) : base(sw)
+        public static T Get<T>(this JToken obj, string key)
         {
-            this.sb = sb;
-            Formatting = Newtonsoft.Json.Formatting.Indented;
+            try
+            {
+                JToken valueToken = obj[key];
+                if (valueToken == null) throw new Exception($"Could not find key {key} in JObject");
+
+                return valueToken.ToObject<T>();
+            }
+            catch (Exception e)
+            {
+                Log.Write($"Error while handling JToken: {e.Message}\n{e.StackTrace}", LogType.GENERAL, LogLevel.ERROR);
+            }
+
+            return default;
         }
 
-        public void Write<T>(string key, T value)
+        public static void ToFile(this JToken obj, string path)
         {
-            WritePropertyName(key);
-            WriteValue(value);
+            File.WriteAllText(path, obj.ToString());
         }
 
-        public string ToString()
+        public static JObject ObjectFromFile(string path)
         {
-            return sb.ToString();
+            return new JObject(File.ReadAllText(path));
         }
 
-        public void WriteToFile(string path)
+        public static JArray ArrayFromFile(string path)
         {
-            File.WriteAllText(path, sb.ToString());
-        }
-
-        public static JsonWriter Create()
-        {
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            return new JsonWriter(sb, sw);
-        }
-
-        public override void Flush()
-        {
-            base.Flush();
+            return new JArray(File.ReadAllText(path));
         }
     }
-
-
-    public class JsonUtil
-    {
-        public static JsonToken ReadFile(string path)
-        {
-            try
-            {
-                string text = File.ReadAllText(path);
-                JToken token = JToken.Parse(text);
-                return new JsonToken(token);
-            }
-            catch (Exception ex)
-            {
-                throw new JsonUtilException("reading file to json token failed", ex);
-            }
-        }
-
-        public static JsonToken ReadString(string content)
-        {
-            try
-            {
-                JToken token = JToken.Parse(content);
-                return new JsonToken(token);
-            }
-            catch (Exception ex)
-            {
-                throw new JsonUtilException("reading string to json token failed", ex);
-            }
-        }
-
-        public static JsonToken ReadResource(string name)
-        {
-            try
-            {
-                using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"SeeloewenCraft.Resources.{name}");
-                using StreamReader reader = new(stream);
-                return new JsonToken(JToken.Parse(reader.ReadToEnd()));
-            }
-            catch (Exception ex)
-            {
-                throw new JsonUtilException("reading resource file to json token failed", ex);
-            }
-        }
-
-    }
-
-    public class JsonToken
-    {
-        public JToken value;
-
-        public JsonToken(JToken value)
-        {
-            this.value = value;
-        }
-
-        public int GetArrayLength()
-        {
-            try
-            {
-                return ((JArray)value).Count;
-            }
-            catch (Exception e)
-            {
-                throw new JsonUtilException("failed getting array length of token", e);
-            }
-        }
-
-        public bool ContainsKey(string address)
-        {
-            try
-            {
-                JObject objectToken = (JObject)value;
-                return objectToken.ContainsKey(address);
-            }
-            catch (Exception e)
-            {
-                throw new JsonUtilException("failed checking if key exists", e);
-            }
-        }
-
-
-        public JsonToken GetToken(string address)
-        {
-            try
-            {
-                return new JsonToken(new JsonPointer(address).Evaluate(value));
-            }
-            catch (Exception e)
-            {
-                throw new JsonUtilException("failed getting json token from json token", e);
-            }
-        }
-
-        public int GetInt(string address)
-        {
-            try
-            {
-                return (int)new JsonPointer(address).Evaluate(value);
-            }
-            catch (Exception e)
-            {
-                throw new JsonUtilException("failed getting int from json token", e);
-            }
-        }
-
-        public bool GetBool(string address)
-        {
-            try
-            {
-                return (bool)new JsonPointer(address).Evaluate(value);
-            }
-            catch (Exception e)
-            {
-                throw new JsonUtilException("failed getting bool from json token", e);
-            }
-        }
-
-        public string GetString(string address)
-        {
-            try
-            {
-                return (string)new JsonPointer(address).Evaluate(value);
-            }
-            catch (Exception e)
-            {
-                throw new JsonUtilException("failed getting string from json token", e);
-            }
-        }
-
-        public double GetDouble(string address)
-        {
-            try
-            {
-                return (double)new JsonPointer(address).Evaluate(value);
-            }
-            catch (Exception e)
-            {
-                throw new JsonUtilException("failed getting double from json token", e);
-            }
-        }
-
-    }
-
 }

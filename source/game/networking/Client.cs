@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.core.entities;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
@@ -57,11 +58,9 @@ namespace SeeloewenCraft.game.networking
             await SendData(NetworkHandler.CreatePacket(MultiplayerPacketType.INITIAL_LOAD, ""));
 
             //Send this clients player to the server
-            using (JsonWriter writer = JsonWriter.Create())
-            {
-                Player.Get().SaveToJson(writer);
-                await SendData(NetworkHandler.CreatePacket(MultiplayerPacketType.CREATE_ENTITY, writer.ToString()));
-            }
+
+            JObject playerObj = Player.Get().ToJson();
+            await SendData(NetworkHandler.CreatePacket(MultiplayerPacketType.CREATE_ENTITY, playerObj.ToString()));
 
             //Start receiving data from the server
             await ReceiveData();
@@ -175,9 +174,8 @@ namespace SeeloewenCraft.game.networking
         public void SendPlayerInformation()
         {
             //Get the inventory and send it to the server to save it
-            JsonWriter writer = JsonWriter.Create();
-            Player.Get().inventory.SaveToJson(writer);
-            NetworkHandler.SendData(MultiplayerPacketType.PLAYER_INFORMATION, writer.ToString());
+            JObject invObj = Player.Get().inventory.ToJson();
+            NetworkHandler.SendData(MultiplayerPacketType.PLAYER_INFORMATION, invObj.ToString());
         }
     }
 }

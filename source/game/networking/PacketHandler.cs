@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.core.blocks;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.core.world;
@@ -26,10 +27,10 @@ namespace SeeloewenCraft.game.networking
 
             //Get the block which has the inventory and try to add the item to the slot
             Block invBlock = World.Get().GetChunk(blockChunk).GetBlock(blockX, blockY);
-            if (invBlock != null && invBlock.inventory != null)
+            if (invBlock != null && invBlock.GetInventory() != null)
             {
                 //invBlock.inventory.GetSlot(slotX, slotY).Add_Multiplayer(itemId, tag, amount);
-                invBlock.inventory.GetSlot(slotX, slotY).Unselect();
+                invBlock.GetInventory().GetSlot(slotX, slotY).Unselect();
             }
 
             //If the server receives the packet, send it to all other clients to make sure the inventory gets updated on all of them
@@ -51,10 +52,10 @@ namespace SeeloewenCraft.game.networking
 
             //Get the block which has the inventory and try to add the item to the slot
             Block invBlock = World.Get().GetChunk(blockChunk).GetBlock(blockX, blockY);
-            if (invBlock != null && invBlock.inventory != null)
+            if (invBlock != null && invBlock.GetInventory() != null)
             {
                 //invBlock.inventory.GetSlot(slotX, slotY).Remove_Multiplayer(amount);
-                invBlock.inventory.GetSlot(slotX, slotY).Unselect();
+                invBlock.GetInventory().GetSlot(slotX, slotY).Unselect();
             }
 
             //If the server receives the packet, send it to all other clients to make sure the inventory gets updated on all of them
@@ -127,7 +128,7 @@ namespace SeeloewenCraft.game.networking
         public async static void HandleCreateEntity(IdTcpClient client, NetworkPacket packet)
         {
             //Add the entity
-            Entity newEntity = Entity.LoadFromJson(JsonUtil.ReadString(packet.content[0]));
+            Entity newEntity = Entity.FromJson(JObject.Parse(packet.content[0]));
             //World.Get().AddEntity_Multiplayer(newEntity);
 
             //If the server receives the packet, send it to all clients except the one it came from to ensure the entity gets created on all clients
@@ -159,7 +160,7 @@ namespace SeeloewenCraft.game.networking
                 {
                     foreach (Block block in chunk.blockList.blocks)
                     {
-                        await server.SendDataSingleClient(CreatePacket(MultiplayerPacketType.SET_BLOCK, block.id, chunk.index.ToString(), block.xPos.ToString(), block.yPos.ToString()), client.id);
+                        await server.SendDataSingleClient(CreatePacket(MultiplayerPacketType.SET_BLOCK, block.id, chunk.index.ToString(), block.posX.ToString(), block.posY.ToString()), client.id);
                     }
                 }
 
@@ -200,7 +201,7 @@ namespace SeeloewenCraft.game.networking
             {
                 foreach (Block block in World.Get().GetChunk(index).blockList.blocks)
                 {
-                    server.SendDataToAll(CreatePacket(MultiplayerPacketType.SET_BLOCK, block.id, index.ToString(), block.xPos.ToString(), block.yPos.ToString()));
+                    server.SendDataToAll(CreatePacket(MultiplayerPacketType.SET_BLOCK, block.id, index.ToString(), block.posX.ToString(), block.posY.ToString()));
                 }
             }
         }
@@ -264,8 +265,8 @@ namespace SeeloewenCraft.game.networking
             if (IsClient())
             {
                 //If client receives the packet, load the inventory
-                JsonToken invToken = JsonUtil.ReadString(packet.content[0]);
-                Player.Get().inventory = Inventory.LoadFromJson(invToken, true);
+                JObject invToken = JObject.Parse(packet.content[0]);
+                Player.Get().inventory = Inventory.FromJson(invToken, true);
             }
             else if (IsServer())
             {

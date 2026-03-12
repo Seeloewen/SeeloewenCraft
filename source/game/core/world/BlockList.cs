@@ -1,4 +1,4 @@
-﻿
+﻿using Newtonsoft.Json.Linq;
 using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.util;
 
@@ -20,33 +20,27 @@ namespace SeeloewenCraft.game.core.world
 
         //-- Custom Methods --//
 
-        public void SaveToJson(JsonWriter writer)
+        public JArray ToJson()
         {
-            writer.WriteStartObject();
-            writer.WritePropertyName("blocks");
-            writer.WriteStartArray();
+            JArray blocksArr = new JArray();
 
             foreach (Block block in blocks)
             {
-                block.SaveToJson(writer);
+                JObject blockObj = block.ToJson();
+                blocksArr.Add(blockObj);
             }
 
-            writer.WriteEndArray();
-            writer.WriteEndObject();
+            return blocksArr;
         }
 
-        static public BlockList LoadFromJson(JsonToken documentToken, Chunk chunk)
+        static public BlockList FromJson(JArray blockListArray, Chunk chunk)
         {
             BlockList blockList = new BlockList(chunk);
 
-            JsonToken blockArrayToken = documentToken.GetToken("/blocks");
-
-            for (int i = 0; i < 600; i++)
+            foreach (JObject blockObj in blockListArray)
             {
-                JsonToken blockToken = blockArrayToken.GetToken($"/{i}");
-
-                Block loadedBlock = Block.LoadFromJson(blockToken, chunk);
-                blockList.Add(loadedBlock, loadedBlock.xPos, loadedBlock.yPos);
+                Block loadedBlock = Block.FromJson(blockObj);
+                blockList.Add(loadedBlock, loadedBlock.posX, loadedBlock.posY);
             }
             return blockList;
         }
@@ -58,8 +52,8 @@ namespace SeeloewenCraft.game.core.world
             int i = CalcIndex(x, y);
             if ((x <= 7 && x >= 0) && (y >= 0 && y <= 74))
             {
-                block.xPos = x;
-                block.yPos = y;
+                block.posX = x;
+                block.posY = y;
                 block.chunk = chunk;
                 blocks[i] = block;
             }
@@ -79,10 +73,10 @@ namespace SeeloewenCraft.game.core.world
         public Block Get(Block block)
         {
             //Get the block at the index based on x and y pos
-            if ((block.xPos <= 7 && block.xPos >= 0) && (block.yPos >= 0 && block.yPos <= 74))
+            if ((block.posX <= 7 && block.posX >= 0) && (block.posY >= 0 && block.posY <= 74))
 
             {
-                int i = CalcIndex(block.xPos, block.yPos);
+                int i = CalcIndex(block.posX, block.posY);
                 return blocks[i];
             }
             return null;
@@ -102,9 +96,9 @@ namespace SeeloewenCraft.game.core.world
         public void Remove(Block block)
         {
             //Remove the block at the index based the actual block
-            if ((block.xPos <= 7 && block.xPos >= 0) && (block.yPos >= 0 && block.yPos <= 74))
+            if ((block.posX <= 7 && block.posX >= 0) && (block.posY >= 0 && block.posY <= 74))
             {
-                int i = CalcIndex(block.xPos, block.yPos);
+                int i = CalcIndex(block.posX, block.posY);
                 blocks[i] = null;
             }
         }

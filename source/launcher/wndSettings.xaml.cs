@@ -14,8 +14,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using JsonToken = SeeloewenCraft.game.util.JsonToken;
-using JsonWriter = SeeloewenCraft.game.util.JsonWriter;
 
 namespace SeeloewenCraft.launcher
 {
@@ -56,7 +54,6 @@ namespace SeeloewenCraft.launcher
 
     public partial class wndSettings : Window
     {
-        private wndMenu wndMenu;
         private ListBox focusedList;
 
         private ObservableCollection<TexturepackDisplay> disabledTexturepacks = new();
@@ -64,52 +61,28 @@ namespace SeeloewenCraft.launcher
 
         private bool texturepackChanged; //Used to determine whether to reload texture at the end 
 
-        public wndSettings(wndMenu wndMenu, bool firstStart)
+        public wndSettings(bool firstStart)
         {
-            this.wndMenu = wndMenu;
             InitializeComponent();
 
             lbDisabled.ItemsSource = disabledTexturepacks;
             lbEnabled.ItemsSource = enabledTexturepacks;
 
-            //Add items to comboboxes
-            cbxMode.Items.Add("Fullscreen");
-            cbxMode.Items.Add("Windowed");
-            cbxMode.Items.Add("Borderless");
-            cbxMode.SelectedItem = "Fullscreen";
-
-            cbxResolution.Items.Add("320x180"); //Warning: WILL lead to problems
-            cbxResolution.Items.Add("640x360"); //Warning: Can lead to problems
-            cbxResolution.Items.Add("1280x720");
-            cbxResolution.Items.Add("1920x1080");
-            cbxResolution.Items.Add("2560x1440");
-            cbxResolution.Items.Add("3840x2160");
-            cbxResolution.Items.Add("Custom");
-            cbxResolution.SelectedItem = "1280x720";
-
             //If the settings file exists, load it
             if (File.Exists($"{FolderUtil.gameFolder}\\clientSettings.json"))
             {
-                JsonToken documentToken = JsonUtil.ReadFile($"{FolderUtil.gameFolder}\\clientSettings.json");
-
-                LoadSettings(documentToken, firstStart);
+                JObject settingsObj = JObject.Parse(File.ReadAllText($"{FolderUtil.gameFolder}\\clientSettings.json"));
+                LoadSettings(settingsObj);
             }
             else
             {
                 Log.Write("No settings file was found, creating a new one!", LogType.GENERAL, LogLevel.INFO);
-
-                //If not, create a new one
-                using (JsonWriter writer = JsonWriter.Create())
-                {
-                    writer.Formatting = Formatting.Indented;
-                    SaveSettings(writer, true);
-                    writer.WriteToFile($"{FolderUtil.gameFolder}\\clientSettings.json");
-                }
+                SaveSettings(true);
             }
         }
 
         //-- Custom Methods --//
-        private void SaveSettings(JsonWriter writer, bool suppressConfirmation)
+        private void SaveSettings(bool suppressConfirmation)
         {
             //Save the normal settings
             Settings.saveLogOnExit = Convert.ToBoolean(cbSaveLogOnExit.IsChecked);
@@ -118,10 +91,6 @@ namespace SeeloewenCraft.launcher
             Settings.enableMobs = Convert.ToBoolean(cbEnableMobs.IsChecked);
             Settings.enableAutoSave = Convert.ToBoolean(cbAutoSave.IsChecked);
             Settings.showAutoSaveNotification = Convert.ToBoolean(cbAutoSaveNotification.IsChecked);
-            Settings.resolution = Convert.ToString(cbxResolution.SelectedItem);
-            Settings.videoMode = Convert.ToString(cbxMode.SelectedItem);
-            Settings.customResX = Convert.ToInt32(tbWidth.Text);
-            Settings.customResY = Convert.ToInt32(tbHeight.Text);
             Settings.autoSaveInterval = Convert.ToInt32(tbAutosave.Text);
             Settings.nickname = tbNickname.Text;
 
@@ -133,24 +102,33 @@ namespace SeeloewenCraft.launcher
             Settings.logStructureGeneration = Convert.ToBoolean(cbLogStructureGeneration.IsChecked);
             Settings.logWorldGeneration = Convert.ToBoolean(cbLogWorldGeneration.IsChecked);
 
+            //Save keybinds
+            KeyBinds.Bind(KeyBinds.ToGLFWKey(tbMoveRight.Text), KeyBinds.MOVE_RIGHT);
+            KeyBinds.Bind(KeyBinds.ToGLFWKey(tbMoveLeft.Text), KeyBinds.MOVE_LEFT);
+            KeyBinds.Bind(KeyBinds.ToGLFWKey(tbOpenInventory.Text), KeyBinds.SHOW_INV);
+            KeyBinds.Bind(KeyBinds.ToGLFWKey(tbToggleDebugMenu.Text), KeyBinds.TOGGLE_DEBUG);
+            KeyBinds.Bind(KeyBinds.ToGLFWKey(tbJump.Text), KeyBinds.JUMP);
+            KeyBinds.Bind(KeyBinds.ToGLFWKey(tbShowNotificationList.Text), KeyBinds.NOTIFICATIONS);
+            KeyBinds.Bind(KeyBinds.ToGLFWKey(tbThrowItem.Text), KeyBinds.THROW_ITEM);
+            KeyBinds.Bind(KeyBinds.ToGLFWKey(tbSneak.Text), KeyBinds.SNEAK);
+            KeyBinds.Bind(KeyBinds.ToGLFWKey(tbSprint.Text), KeyBinds.SPRINT);
+
             Log.Write($"Successfully saved settings", LogType.GENERAL, LogLevel.INFO);
 
             //Save the settings to file
-            Settings.Save(writer);
+            JObject settingsObj = Settings.Save();
+            File.WriteAllText($"{FolderUtil.gameFolder}\\clientSettings.json", settingsObj.ToString());
 
             //Apply settings
             if (texturepackChanged) TextureManager.Load();
-            GameEventHandler.Register(new AutoSaveEvent(Settings.autoSaveInterval * 60000));
+            if (GameEventHandler.isInitialized) GameEventHandler.Register(new AutoSaveEvent(Settings.autoSaveInterval * 60000));
 
-            if (!suppressConfirmation)
-            {
-                MessageBox.Show("The settings have been saved successfully!", "Saved settings", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            if (!suppressConfirmation) MessageBox.Show("The settings have been saved successfully!", "Saved settings", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void LoadSettings(JsonToken fileToken, bool overwriteResolution)
+        private void LoadSettings(JObject obj)
         {
-            Settings.Load(fileToken, overwriteResolution);
+            Settings.Load(obj);
 
             //Change the checkboxes and textboxes to the loaded values
             cbSaveLogOnExit.IsChecked = Settings.saveLogOnExit;
@@ -159,10 +137,6 @@ namespace SeeloewenCraft.launcher
             cbAutoSave.IsChecked = Settings.enableAutoSave;
             cbShowNotifications.IsChecked = Settings.showNotifications;
             cbAutoSaveNotification.IsChecked = Settings.showAutoSaveNotification;
-            cbxMode.Text = Settings.videoMode;
-            cbxResolution.Text = Settings.resolution;
-            tbHeight.Text = Settings.customResY.ToString();
-            tbWidth.Text = Settings.customResX.ToString();
             tbAutosave.Text = Settings.autoSaveInterval.ToString();
             tbAutosave.IsEnabled = Settings.enableAutoSave;
             tbNickname.Text = Settings.nickname;
@@ -255,20 +229,14 @@ namespace SeeloewenCraft.launcher
         private void btnSaveClose_Click(object sender, RoutedEventArgs e)
         {
             //Save the settings
-            using (JsonWriter writer = JsonWriter.Create())
-            {
-                writer.Formatting = Formatting.Indented;
-                SaveSettings(writer, false);
-                writer.WriteToFile($"{FolderUtil.gameFolder}\\clientSettings.json");
-            }
-
+            SaveSettings(false);
             Close();
         }
 
         private void btnAbout_Click(object sender, RoutedEventArgs e)
         {
             //Show the about window
-            wndAbout wndAbout = new wndAbout(wndMenu);
+            wndAbout wndAbout = new wndAbout();
             wndAbout.ShowDialog();
         }
 
@@ -278,115 +246,11 @@ namespace SeeloewenCraft.launcher
             Log.Show();
         }
 
-        private void tbMoveRight_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void HandleKeyDown(object sender, KeyEventArgs e)
         {
-            //Display key in textbox
             e.Handled = true;
             string keyText = e.Key.ToString();
-            if (keyText.Equals("LeftCtrl")) keyText = "LeftControl";
-            tbMoveRight.Text = e.Key.ToString();
-        }
-
-        private void tbMoveLeft_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            //Display key in textbox
-            e.Handled = true;
-            string keyText = e.Key.ToString();
-            if (keyText.Equals("LeftCtrl")) keyText = "LeftControl";
-            tbMoveLeft.Text = keyText;
-        }
-
-        private void tbJump_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            //Display key in textbox
-            e.Handled = true;
-            string keyText = e.Key.ToString();
-            if (keyText.Equals("LeftCtrl")) keyText = "LeftControl";
-            tbJump.Text = keyText;
-        }
-
-        private void tbOpenInventory_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            //Display key in textbox
-            e.Handled = true;
-            string keyText = e.Key.ToString();
-            if (keyText.Equals("LeftCtrl")) keyText = "LeftControl";
-            tbOpenInventory.Text = keyText;
-        }
-
-        private void tbToggleDebugMenu_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            //Display key in textbox
-            e.Handled = true;
-            string keyText = e.Key.ToString();
-            if (keyText.Equals("LeftCtrl")) keyText = "LeftControl";
-            tbToggleDebugMenu.Text = keyText;
-        }
-
-        private void tbShowNotificationList_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            //Display key in textbox
-            e.Handled = true;
-            string keyText = e.Key.ToString();
-            if (keyText.Equals("LeftCtrl")) keyText = "LeftControl";
-            tbShowNotificationList.Text = keyText;
-        }
-
-        private void tbThrowItem_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            //Display key in textbox
-            e.Handled = true;
-            string keyText = e.Key.ToString();
-            if (keyText.Equals("LeftCtrl")) keyText = "LeftControl";
-            tbThrowItem.Text = keyText;
-        }
-
-        private void tbSneak_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            //Display key in textbox
-            e.Handled = true;
-            string keyText = e.Key.ToString();
-            if (keyText.Equals("LeftCtrl")) keyText = "LeftControl";
-            tbSneak.Text = keyText;
-        }
-
-        private void tbSprint_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            //Display key in textbox
-            e.Handled = true;
-            string keyText = e.Key.ToString();
-            if (keyText.Equals("LeftCtrl")) keyText = "LeftControl";
-            tbSprint.Text = keyText;
-        }
-
-        private void tbHeight_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
-
-        private void tbWidth_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
-
-        private void cbxResolution_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Contains("Custom"))
-            {
-                tbWidth.Visibility = Visibility.Visible;
-                tbHeight.Visibility = Visibility.Visible;
-                tblWidth.Visibility = Visibility.Visible;
-                tblHeight.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                tbWidth.Visibility = Visibility.Hidden;
-                tbHeight.Visibility = Visibility.Hidden;
-                tblWidth.Visibility = Visibility.Hidden;
-                tblHeight.Visibility = Visibility.Hidden;
-            }
+            ((TextBox)sender).Text = KeyBinds.ToGLFWKey(e.Key).ToString();
         }
 
         private void tbAutosave_PreviewTextInput(object sender, TextCompositionEventArgs e)

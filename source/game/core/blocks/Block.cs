@@ -1,62 +1,71 @@
-﻿using SeeloewenCraft.game.core.crafting;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.core.blocks.components;
+using SeeloewenCraft.game.core.crafting;
 using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.core.items;
 using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
+using SeeloewenCraft.game.graphics.ui_lib;
 using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.util;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Text;
+using System.Windows.Documents;
 
 namespace SeeloewenCraft.game.core.blocks
 {
     public abstract partial class Block : IDebugMenuTargetable
     {
-        private List<string> tags = new List<string>();
-        public Chunk chunk;
-        public Inventory inventory;
-        private Block foregroundBlock;
-        public List<(int xOffset, int yOffset, string blockId)> connectedBlocks = new List<(int, int, string)>();
-        public (int? xOffset, int? yOffset) baseBlock;
-        public (LootTable lootTable, int minRolls, int maxRolls) lootTable;
-        public CraftingHandler craftingHandler;
-
-        //block type info
-        public string name;
+        //Constant block type info
+        public readonly string name;
         public readonly string id;
-        public string itemId;
-        public int breakTime = 150; //Milliseconds
-        public int breakTimeTicks { get => breakTime * 12 / 100; } //TODO: 12 is legacy code from old timer, might need adaption
-        public List<(string id, int min, int max)> drops = new List<(string, int, int)>(); //Can be empty, means that item id will drop x1
-        public Collision collision = new EntireBlockCollision();
-        public Tool effectiveTool;
-        public Material? effectiveMaterial;
-        public (bool doesNeed, string tag) needsGround = (false, "");
+        public readonly string itemId;
+        public readonly int breakTime = 150; //Milliseconds
+        public readonly Tool effectiveTool;
+        public readonly Material? effectiveMaterial;
 
-        //variables
-        public int xPos;
-        public int yPos;
+        //Semi-const attributes, should be only set once at best
+        public int posX; //X-pos in chunk (0-7)
+        public int posY;
+        public Chunk chunk;
+        public Collision collision = new EntireBlockCollision();
+        public (LootTable lootTable, int minRolls, int maxRolls) lootTable; //TODO: Rework
+
+        //Variable attributes
+        private readonly HashSet<string> tags = new HashSet<string>();
         public bool isBase = false;
         public bool isSolid = true;
         public bool isBackground = false;
         public int lightLevel = 7;
         public bool isAirLightSource;
         public bool isForeground = false;
-        public (int x, int y) baseBlockOffset;
         public BlockState blockState { protected get; set; }
         public bool breaking;
         public double breakProgress;
         public bool hammering;
         public int hammerProgress;
-
         protected double sinceLastSpecificUpdate = 0;
+
+        //Other block data
+        internal readonly List<BlockComponent> components = new List<BlockComponent>();
+        private Block foregroundBlock;
+        public List<(int xOffset, int yOffset, string blockId)> connectedBlocks = new List<(int, int, string)>();
+        public (int x, int y) baseBlockOffset;
+
+        public List<(string id, int min, int max)> drops = new List<(string, int, int)>(); //Can be empty, means that item id will drop x1
+        public (bool doesNeed, string tag) needsGround = (false, "");
+
 
         //Temporary, only important during generation
         public bool isSurface = false;
+        public int breakTimeTicks => breakTime * 12 / 100;  //TODO: 12 is legacy code from old timer, might need adaption
 
-        protected Block(string name, string id, int breakTime, string itemId = null, Tool tool = Tool.None)
+
+        protected Block(string name, string id, int breakTime, string itemId = null, Tool tool = Tool.None, Material material = Material.None)
         {
             this.name = name;
             this.id = id;
@@ -115,6 +124,26 @@ namespace SeeloewenCraft.game.core.blocks
 
         public virtual BlockState GetBlockState() => blockState; //Can be overriden when a block uses some other logic to determine blockstate
 
+        internal T GetComponent<T>()
+        {
+            foreach (var component in components)
+            {
+                if (component is T t) return t;
+            }
+
+            return default;
+        }
+
+        internal BlockComponent GetComponent(BlockComponentType type)
+        {
+            foreach (var component in components)
+            {
+                if (component.GetType() == type) return component;
+            }
+
+            return default;
+        }
+
         public bool IsLightSource() => HasTag(BlockTags.LIGHTSOURCE) || isAirLightSource;
 
         public void DoUpdate(double dt) //Warning: does NOT run every gameloop tick - dt is correct regardless
@@ -146,7 +175,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             Block b = GetForegroundBlock() ?? this; //Animation is depending on the block that gets 
             int animation = (int)(b.breaking || b.hammering ? (6 * b.breakProgress) / b.breakTimeTicks : 0);
-            var info = new BlockRenderInfo(xPos + chunk.index * 8, yPos, id, GetBlockState(), isBackground, animation, hammering, lightLevel);
+            var info = new BlockRenderInfo(posX + chunk.index * 8, posY, id, GetBlockState(), isBackground, animation, hammering, lightLevel);
             if (foregroundBlock != null) info.AddForegroundBlock(foregroundBlock.id, foregroundBlock.GetBlockState());
             return info;
         }
@@ -164,10 +193,10 @@ namespace SeeloewenCraft.game.core.blocks
 
         public virtual (bool, int) CheckCollision(Direction direction, int startX, int endX, int startY, int endY)
         {
-            startX -= (xPos + chunk.index * 8) * 1000;
-            endX -= (xPos + chunk.index * 8) * 1000;
-            startY -= yPos * 1000;
-            endY -= yPos * 1000;
+            startX -= (posX + chunk.index * 8) * 1000;
+            endX -= (posX + chunk.index * 8) * 1000;
+            startY -= posY * 1000;
+            endY -= posY * 1000;
 
             if (!isSolid || isBackground)
             {
@@ -186,240 +215,120 @@ namespace SeeloewenCraft.game.core.blocks
             }
         }
 
-
-        public virtual void SaveToJson(JsonWriter writer)
+        public virtual JObject ToJson()
         {
-            writer.WriteStartObject();
-
-            writer.WritePropertyName("id");
-            writer.WriteValue(id);
-
-            writer.WritePropertyName("pos_x");
-            writer.WriteValue(xPos);
-
-            writer.WritePropertyName("pos_y");
-            writer.WriteValue(yPos);
-
-            writer.WritePropertyName("is_in_background");
-            writer.WriteValue(isBackground);
-
-            if (HasTag(BlockTags.HAS_INVENTORY))
+            //Basic attributes
+            JObject root = new JObject
             {
-                writer.WritePropertyName("inventory");
-                inventory.SaveToJson(writer);
-            }
+                { "id", id },
+                { "pos_x", posX },
+                { "pos_y", posY },
+                { "is_background", isBackground }
+            };
 
-            if (foregroundBlock != null)
-            {
-                writer.WritePropertyName("foreground_block");
-                foregroundBlock.SaveToJson(writer);
-            }
+            //Tags
+            JArray tags = [.. this.tags];
+            root.Add("tags", tags);
 
+            //Connected blocks
             if (connectedBlocks.Count > 0)
             {
-                writer.WritePropertyName("connected_blocks");
-                writer.WriteStartArray();
-
+                JArray blocksArray = new JArray();
                 foreach (var block in connectedBlocks)
                 {
-                    writer.WriteStartObject();
-                    writer.WritePropertyName("x_offset");
-                    writer.WriteValue(block.xOffset);
-                    writer.WritePropertyName("y_offset");
-                    writer.WriteValue(block.yOffset);
-                    writer.WritePropertyName("block_id");
-                    writer.WriteValue(block.blockId);
-                    writer.WriteEndObject();
+                    JObject blockObject = new JObject
+                    {
+                        { "block_id", block.blockId },
+                        { "x_offset", block.xOffset },
+                        { "y_offset", block.yOffset }
+                    };
+                    blocksArray.Add(blockObject);
                 }
 
-                writer.WriteEndArray();
+                root.Add("connected_blocks", blocksArray);
             }
 
-            if (baseBlock.xOffset != null && baseBlock.yOffset != null)
+            //Base block
+            if (baseBlockOffset.x != 0 || baseBlockOffset.y != 0)
             {
-                writer.WritePropertyName("baseblock_x_offset");
-                writer.WriteValue(baseBlock.xOffset);
-                writer.WritePropertyName("baseblock_y_offset");
-                writer.WriteValue(baseBlock.yOffset);
+                root.Add("baseblock_x_offset", baseBlockOffset.x);
+                root.Add("baseblock_y_offset", baseBlockOffset.y);
             }
 
-            /*if (tags.Contains("liquids/water"))
+            if (GetForegroundBlock() != null)
             {
-                writer.WritePropertyName("water_is_source");
-                writer.WriteValue(isWaterSource);
-                writer.WritePropertyName("water_source_pos_x");
-                writer.WriteValue(waterSourceXPos);
-                writer.WritePropertyName("water_source_pos_y");
-                writer.WriteValue(waterSourceYPos);
-                writer.WritePropertyName("water_source_chunk_index");
-                writer.WriteValue(waterSourceChunkIndex);
-                writer.WritePropertyName("water_has_source");
-                writer.WriteValue(hasWaterSource); //TODO: Water Rework
-            }*/
-            if (tags.Contains("workstation"))
-            {
-                writer.WritePropertyName("recipe_running");
-                if (craftingHandler.recipeRunning)
-                {
-                    writer.WriteValue(true);
-                    writer.WritePropertyName("recipe_id");
-                    writer.WriteValue(craftingHandler.currentRecipe.id);
-                    writer.WritePropertyName("recipe_progress");
-                    writer.WriteValue(craftingHandler.recipeProgress);
-                    writer.WritePropertyName("recipe_amount");
-                    writer.WriteValue(craftingHandler.recipeAmount);
-                }
-                else if (craftingHandler.recipeClaimable)
-                {
-                    writer.WriteValue(true);
-                    writer.WritePropertyName("recipe_id");
-                    writer.WriteValue(craftingHandler.currentRecipe.id);
-                    writer.WritePropertyName("recipe_progress");
-                    writer.WriteValue(craftingHandler.currentRecipe.requiredTime - 100);
-                    writer.WritePropertyName("recipe_amount");
-                    writer.WriteValue(craftingHandler.recipeAmount);
-                }
-                else
-                {
-                    writer.WriteValue(false);
-                }
+                root.Add("foreground_block", GetForegroundBlock().ToJson());
             }
 
-            if (tags.Count > 0)
-            {
-                //Get all tags into a singular string so it can be saved as one attribute
-                StringBuilder tagString = new StringBuilder();
-                foreach (string tag in tags)
-                {
-                    tagString.Append(tag);
-                    tagString.Append(';');
-                }
-                tagString.Remove(tagString.Length - 1, 1); //Remove the last char (seperator) as it would be misread
+            //Save components
+            JArray componentArray = new JArray();
+            root.Add("components", componentArray);
+            components.ForEach(e => componentArray.Add(e.ToJson()));
 
-                writer.WritePropertyName("tags");
-                writer.WriteValue(tagString.ToString());
-            }
-
-            if (this is CropBlock cBlock)
-            {
-                writer.WritePropertyName("growth_time");
-                writer.WriteValue(cBlock.growthTime);
-                writer.WritePropertyName("progress");
-                writer.WriteValue(cBlock.progress);
-            }
-
-            writer.WriteEndObject();
+            return root;
         }
 
-        static public Block LoadFromJson(JsonToken blockToken, Chunk chunk)
+        static public Block FromJson(JObject obj)
         {
-            int posX = blockToken.GetInt("/pos_x");
-            int posY = blockToken.GetInt("/pos_y");
-            bool isInBackground = blockToken.GetBool("/is_in_background");
-            string id = blockToken.GetString("/id");
+            string id = obj.Get<string>("id");
+            Block block = BlockRegister.Get(id) ?? new AirBlock(); //Default to air if the id is invalid
 
+            //Load basic attributes
+            block.posX = obj.Get<int>("/pos_x");
+            block.posY = obj.Get<int>("/pos_y");
+            if (obj.Get<bool>("/is_in_background")) block.MoveToBackground();
 
-            Block block = BlockRegister.Get(id);
-
-            if (block == null)
+            //Get blocktags
+            foreach (JToken tokenTag in obj.Get<JArray>("tags"))
             {
-                block = new AirBlock();
-            }
-            else
-            {
-                block.isBackground = isInBackground;
+                block.WriteTag(tokenTag.ToString());
             }
 
-            if (block.HasTag(BlockTags.HAS_INVENTORY))
-            {
-                JsonToken invToken = blockToken.GetToken("/inventory");
-                Inventory inventory = Inventory.LoadFromJson(invToken, false);
+            //Load foreground block
+            JObject blockToken = obj.Get<JObject>("foreground_block");
+            block.foregroundBlock = blockToken != null ? FromJson(blockToken) : null;
 
-                block.inventory = inventory;
+            //Components
+            JArray componentArray = obj.Get<JArray>("components");
+            foreach (JObject comObj in componentArray)
+            {
+                var type = comObj.Get<BlockComponentType>("type");
+                BlockComponent com = block.GetComponent(type);
+                if (com == null) continue;
+
+                com.FromJson(comObj.Get<JObject>("content"));
             }
 
-            if (block.tags.Contains("liquids/water"))
+            //Connected blocks
+            if (obj.ContainsKey("connected_blocks"))
             {
-                /*block.waterSourceXPos = blockToken.GetInt("/water_source_pos_x");
-                block.waterSourceYPos = blockToken.GetInt("/water_source_pos_y");
-                block.isWaterSource = blockToken.GetBool("/water_is_source");
-                block.waterSourceChunkIndex = blockToken.GetInt("/water_source_chunk_index");
-                block.hasWaterSource = blockToken.GetBool("/water_has_source");*/ //TODO: Water Rework
-            }
-
-            if (block.tags.Contains("workstation"))
-            {
-                bool recipeRunning = blockToken.GetBool("/recipe_running");
-
-                if (recipeRunning)
+                JArray connectedBlocks = obj.Get<JArray>("connected_blocks");
+                foreach (JObject blockObj in connectedBlocks)
                 {
-                    CraftingRecipe recipe = CraftingHandler.GetRecipe(blockToken.GetString("/recipe_id"));
-                    int progress = blockToken.GetInt("/recipe_progress");
-                    int amount = blockToken.GetInt("/recipe_amount");
-                    block.craftingHandler.currentRecipe = recipe;
-                    block.craftingHandler.recipeAmount = amount;
-                    block.craftingHandler.BeginCrafting(recipe, amount, false);
-                    block.craftingHandler.recipeProgress = progress;
-                }
-
-            }
-
-            if (blockToken.ContainsKey("foreground_block"))
-            {
-                block.foregroundBlock = Block.LoadFromJson(blockToken.GetToken("/foreground_block"), chunk);
-            }
-
-            if (blockToken.ContainsKey("connected_blocks"))
-            {
-                JsonToken conArrayToken = blockToken.GetToken("/connected_blocks");
-
-                for (int i = 0; i < conArrayToken.GetArrayLength(); i++)
-                {
-                    JsonToken conBlockToken = conArrayToken.GetToken($"/{i}");
-
-                    int xOffset = conBlockToken.GetInt("/x_offset");
-                    int yOffset = conBlockToken.GetInt("/y_offset");
-                    string blockId = conBlockToken.GetString("/block_id");
+                    string blockId = blockObj.Get<string>("block_id");
+                    int xOffset = blockObj.Get<int>("x_offset");
+                    int yOffset = blockObj.Get<int>("y_offset");
 
                     block.connectedBlocks.Add((xOffset, yOffset, blockId));
                 }
             }
 
-            if (blockToken.ContainsKey("baseblock_x_offset") && blockToken.ContainsKey("baseblock_y_offset"))
+            if (obj.ContainsKey("baseblock_x_offset") && obj.ContainsKey("baseblock_y_offset"))
             {
-                block.baseBlock = (blockToken.GetInt("/baseblock_x_offset"), blockToken.GetInt("/baseblock_y_offset"));
+                block.baseBlockOffset = (obj.Get<int>("baseblock_x_offset"), obj.Get<int>("baseblock_y_offset"));
             }
-
-            if (blockToken.ContainsKey("tags"))
-            {
-                //Remove tags that were added automatically on creation
-                block.tags.Clear();
-
-                string[] tagSplit = blockToken.GetString("/tags").Split(';');
-                foreach (string tag in tagSplit)
-                {
-                    block.tags.Add(tag);
-                }
-            }
-
-            if (blockToken.ContainsKey("growth_time") && blockToken.ContainsKey("progress"))
-            {
-                if (block is CropBlock cBlock)
-                {
-                    cBlock.progress = blockToken.GetInt("/progress");
-                    cBlock.growthTime = blockToken.GetDouble("/growth_time");
-                }
-            }
-
-            //Set block stats
-            block.xPos = posX;
-            block.yPos = posY;
-            block.chunk = chunk;
 
             return block;
         }
 
-        public static bool IsCollidingWithPlayer(int x, int y, int c, bool isSolid) //TODO: Make work again
+        protected virtual void AppendJson(JObject obj) { }
+        protected virtual void LoadAdditionalData(JObject obj) { }
+
+        public PositionData GetPosData() => new PositionData(posX, posY, chunk.index);
+
+        public int GetAbsoluteX() => chunk.index * 8 + posX;
+
+        public static bool IsCollidingWithPlayer(int x, int y, int c, bool isSolid)
         {
             if (!isSolid) return false;
 
@@ -445,7 +354,7 @@ namespace SeeloewenCraft.game.core.blocks
             if (blockAbove != null && blockAbove.HasTag(BlockTags.CAN_FALL))
             {
                 blockAbove.BreakBlock(true, true, false);
-                World.Get().AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos - 1, blockAbove.id));
+                World.Get().AddEntity(new FallingBlockEntity(posX + 8 * chunk.index, posY - 1, blockAbove.id));
             }
 
             return this;
@@ -515,9 +424,9 @@ namespace SeeloewenCraft.game.core.blocks
             //Show the debug information for the block in debug menu
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, "id", $"{id}");
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, "name", $"{name}");
-            DebugMenu.AddLine(DebugMenu.Section.TARGETED, "x", $"{xPos + chunk.index * 8}");
-            DebugMenu.AddLine(DebugMenu.Section.TARGETED, "y", $"{yPos}");
-            DebugMenu.AddLine(DebugMenu.Section.TARGETED, "x;chunk", $"{xPos};{chunk.index}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, "x", $"{posX + chunk.index * 8}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, "y", $"{posY}");
+            DebugMenu.AddLine(DebugMenu.Section.TARGETED, "x;chunk", $"{posX};{chunk.index}");
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, "isSolid");
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, "isBackground");
             DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"lightLevel");
@@ -531,16 +440,14 @@ namespace SeeloewenCraft.game.core.blocks
             }
             if (GetBaseBlock() != null)
             {
-                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"baseBlock", $"{GetBaseBlock().id} [{xPos + baseBlock.xOffset}|y{yPos + baseBlock.yOffset}]");
+                DebugMenu.AddLine(DebugMenu.Section.TARGETED, $"baseBlock", $"{GetBaseBlock().id} [{posX + baseBlockOffset.x}|y{posY + baseBlockOffset.y}]");
             }
 
             if (tags.Count > 0)
             {
-                string s = tags.Count != 0 ? $"{tags[0]}" : "None";
-                for (int i = 1; i < tags.Count; i++)
-                {
-                    s += ";" + tags[i];
-                }
+                string s = tags.Count != 0 ? $"{tags.First()}" : "None";
+                foreach (string tag in tags) s += ";" + tag;
+
                 DebugMenu.AddLine(DebugMenu.Section.TARGETED, "Tags", s);
 
             }
@@ -587,19 +494,19 @@ namespace SeeloewenCraft.game.core.blocks
             //Get the new block based from the offset from this block
 
             //If total y is above 74 or below 0, there isn't any available block
-            if (yOffset + block.yPos < 0 || yOffset + block.yPos > 74)
+            if (yOffset + block.posY < 0 || yOffset + block.posY > 74)
             {
                 return null;
             }
 
             //If total x is below 0, get the chunk to the left
-            if (block.xPos + xOffset < 0)
+            if (block.posX + xOffset < 0)
             {
-                Chunk chunk = World.Get().GetLoadedChunk(block.chunk.index - 1);
+                Chunk chunk = World.Get().GetChunk(block.chunk.index - 1);
 
                 if (chunk != null)
                 {
-                    return chunk.blockList.Get(block.xPos + xOffset + 8, block.yPos + yOffset);
+                    return chunk.blockList.Get(block.posX + xOffset + 8, block.posY + yOffset);
                 }
                 else
                 {
@@ -607,13 +514,13 @@ namespace SeeloewenCraft.game.core.blocks
                 }
             }
             //If total x is above 7, get the chunk to the right
-            else if (block.xPos + xOffset > 7)
+            else if (block.posX + xOffset > 7)
             {
-                Chunk chunk = World.Get().GetLoadedChunk(block.chunk.index + 1);
+                Chunk chunk = World.Get().GetChunk(block.chunk.index + 1);
 
                 if (chunk != null)
                 {
-                    return chunk.blockList.Get(block.xPos + xOffset - 8, block.yPos + yOffset);
+                    return chunk.blockList.Get(block.posX + xOffset - 8, block.posY + yOffset);
                 }
                 else
                 {
@@ -623,29 +530,29 @@ namespace SeeloewenCraft.game.core.blocks
             else
             {
                 //Else just get the block from the current chunk
-                return block.chunk.blockList.Get(block.xPos + xOffset, block.yPos + yOffset);
+                return block.chunk.blockList.Get(block.posX + xOffset, block.posY + yOffset);
             }
         }
 
         public int GetRangeToBlock(Block block)
         {
-            int xDiff = block.xPos + block.chunk.index * 8 - xPos - chunk.index * 8;
-            return Math.Abs(xDiff) + Math.Abs(block.yPos - yPos);
+            int xDiff = block.posX + block.chunk.index * 8 - posX - chunk.index * 8;
+            return Math.Abs(xDiff) + Math.Abs(block.posY - posY);
         }
 
         public int GetXRangeToBlock(Block block)
         {
-            int xDiff = block.xPos + block.chunk.index * 8 - xPos - chunk.index * 8;
+            int xDiff = block.posX + block.chunk.index * 8 - posX - chunk.index * 8;
             return Math.Abs(xDiff);
         }
 
         public int GetYRangeToBlock(Block block)
         {
-            int yDiff = block.yPos - yPos;
+            int yDiff = block.posY - posY;
             return Math.Abs(yDiff);
         }
 
-        protected virtual void Drop()
+        public virtual void Drop()
         {
             //Get the block that should drop
             if (HasTag(BlockTags.DOESNT_DROP)) return;
@@ -695,8 +602,8 @@ namespace SeeloewenCraft.game.core.blocks
             {
                 //Spawn the item entity in the world
                 World.Get().AddEntity(new ItemEntity(item, item.tag, //item type
-                    (xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
-                    yPos * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
+                    (posX + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, //posX
+                    posY * 1000 + 500 - ItemEntity.itemSizeY / 2, //posY
                 Game.rnd.Next(-6000, 6000), Game.rnd.Next(-15000, -10000))); //velX and velY 
             }
         }
@@ -711,7 +618,7 @@ namespace SeeloewenCraft.game.core.blocks
             {
                 //Remove the block from the chunks blocklist and add an airblock
                 Block block = new AirBlock();
-                SetBlock(block);
+                World.Get().SetBlock(GetPosData(), block);
 
                 if (dropItems)
                 {
@@ -719,7 +626,8 @@ namespace SeeloewenCraft.game.core.blocks
 
                     if (HasTag(BlockTags.HAS_INVENTORY))
                     {
-                        inventory.DropAll((xPos + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, yPos * 1000 + 500 - ItemEntity.itemSizeY / 2);
+                        BlockInventory invComponent = (BlockInventory)GetComponent(BlockComponentType.Inventory);
+                        invComponent.inventory.DropAll((posX + 8 * chunk.index) * 1000 + 500 - ItemEntity.itemSizeX / 2, posY * 1000 + 500 - ItemEntity.itemSizeY / 2);
                     }
                 }
 
@@ -727,73 +635,57 @@ namespace SeeloewenCraft.game.core.blocks
                 if (blockAbove.HasTag(BlockTags.CAN_FALL))
                 {
                     blockAbove.BreakBlock(true, true, false);
-                    World.Get().AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos - 1, blockAbove.id));
+                    World.Get().AddEntity(new FallingBlockEntity(posX + 8 * chunk.index, posY - 1, blockAbove.id));
                 }
             }
-        }
-
-
-        public void SetBlock(Block block)
-        {
-            if (HasTag(BlockTags.REPLACEABLE)) Drop();
-
-            //Add the block to the chunk
-            chunk.SetBlock(block, xPos, yPos);
-
-            if (block.isBackground)
-            {
-                block.MoveToBackground();
-            }
-            else
-            {
-                block.MoveToNormal();
-            }
-
-            Block blockBelow = GetBlockBelow();
-            if (block.HasTag(BlockTags.CAN_FALL)
-                && (blockBelow.HasTag(BlockTags.REPLACEABLE) || blockBelow.isBackground))
-            {
-                block.BreakBlock(true, true, false);
-                World.Get().AddEntity(new FallingBlockEntity(xPos + 8 * chunk.index, yPos, block.id));
-            }
-
-            if (this == DebugMenu.target) chunk.GetBlock(xPos, yPos).AddDebugMenu();
-
-            //Send the data on the network if it's multiplayer
-            NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, block.id, chunk.index.ToString(), block.xPos.ToString(), block.yPos.ToString());
         }
 
         public virtual void OnSetBlock() //Gets called when this block is placed somewhere
         {
             if (foregroundBlock != null) SetForegroundBlock(foregroundBlock); //Replace the foreground block to update the coords
+
+            //Make the block fall if it has nothing below and can fall
+            Block blockBelow = GetBlockBelow();
+            if (HasTag(BlockTags.CAN_FALL)
+                && blockBelow != null && (blockBelow.HasTag(BlockTags.REPLACEABLE) || blockBelow.isBackground))
+            {
+                BreakBlock(true, true, false);
+                World.Get().AddEntity(new FallingBlockEntity(posX + 8 * chunk.index, posY, id));
+            }
+
+            if (this == DebugMenu.target) chunk.GetBlock(posX, posY).AddDebugMenu();
+
+            //Send the data on the network if it's multiplayer
+            NetworkHandler.SendData(MultiplayerPacketType.SET_BLOCK, id, chunk.index.ToString(), posX.ToString(), posY.ToString());
         }
 
         public Block GetBlockBelow()
         {
             if (chunk == null) return null;
 
-            return chunk.GetBlock(xPos, yPos + 1);
+            return World.Get().GetBlock(GetAbsoluteX(), posY + 1);
         }
 
         public Block GetBlockAbove()
         {
             if (chunk == null) return null;
 
-            return chunk.GetBlock(xPos, yPos - 1);
+            return World.Get().GetBlock(GetAbsoluteX(), posY - 1);
         }
 
         public Block GetBlockRight()
         {
             if (chunk == null) return null;
 
-            return chunk.GetBlock(xPos + 1, yPos);
+            PositionData posData = GetPosData();
+            return World.Get().GetBlock(GetAbsoluteX() + 1, posY);
         }
 
         public Block GetBlockLeft()
         {
             if (chunk == null) return null;
 
-            return chunk.GetBlock(xPos - 1, yPos);
+            return World.Get().GetBlock(GetAbsoluteX() - 1, posY);
         }
 
         public void SetForegroundBlock(Block block)
@@ -805,42 +697,9 @@ namespace SeeloewenCraft.game.core.blocks
 
             foregroundBlock = block;
             block.isForeground = true;
-            block.xPos = xPos;
-            block.yPos = yPos;
+            block.posX = posX;
+            block.posY = posY;
             block.chunk = chunk;
-        }
-
-
-        public void InsertLootTable(LootTable lootTable, int amount)
-        {
-            //Get all loot into a list
-            List<Item> loot = new List<Item>();
-            for (int i = 0; i < amount; i++)
-            {
-                loot.AddRange(lootTable.RollEntry().RollItems());
-            }
-
-            //Put the loot into the inventory
-            foreach (Item item in loot)
-            {
-                inventory.Add(item.id, 1, item.tag);
-            }
-        }
-
-        public void InsertLootTable(LootTable lootTable, int amount, Random rnd)
-        {
-            //Get all loot into a list
-            List<Item> loot = new List<Item>();
-            for (int i = 0; i < amount; i++)
-            {
-                loot.AddRange(lootTable.RollEntry(rnd).RollItems(rnd));
-            }
-
-            //Put the loot into the inventory
-            foreach (Item item in loot)
-            {
-                inventory.Add(item.id, 1, item.tag);
-            }
         }
 
         public bool ConBlocksHaveSpace(Block baseBlock, bool isForeground)
@@ -850,7 +709,7 @@ namespace SeeloewenCraft.game.core.blocks
                 foreach (var conBlockInfo in baseBlock.connectedBlocks)
                 {
                     //Goes through all connected blocks and checks whether the block at the location, that they should be placed, at is solid
-                    Block block = World.Get().GetBlock(xPos + 8 * chunk.index + conBlockInfo.xOffset, yPos + conBlockInfo.yOffset);
+                    Block block = World.Get().GetBlock(posX + 8 * chunk.index + conBlockInfo.xOffset, posY + conBlockInfo.yOffset);
                     if (block != null && (block.isSolid || block.isBackground))
                     {
                         return false;
@@ -863,7 +722,7 @@ namespace SeeloewenCraft.game.core.blocks
                 foreach (var conBlockInfo in baseBlock.connectedBlocks)
                 {
                     //Goes through all connected blocks and checks whether the block at the location, that they should be placed, has a foreground block
-                    Block block = World.Get().GetBlock(xPos + 8 * chunk.index + conBlockInfo.xOffset, yPos + conBlockInfo.yOffset);
+                    Block block = World.Get().GetBlock(posX + 8 * chunk.index + conBlockInfo.xOffset, posY + conBlockInfo.yOffset);
                     if (block != null && (block.foregroundBlock != null || !block.isBackground))
                     {
                         return false;
@@ -881,8 +740,8 @@ namespace SeeloewenCraft.game.core.blocks
         {
             //Warning: Only sets coords inside blocks, not inside chunk/blocklist
             this.chunk = chunk;
-            this.xPos = xPos;
-            this.yPos = yPos;
+            this.posX = xPos;
+            this.posY = yPos;
         }
 
         public List<Block> GetConnectedBlocks(bool inForeground) //Assumes this is a base block
@@ -893,11 +752,11 @@ namespace SeeloewenCraft.game.core.blocks
             {
                 if (!inForeground)
                 {
-                    connectedBlocks.Add(World.Get().GetBlock(xPos + 8 * chunk.index + entry.xOffset, yPos + entry.yOffset));
+                    connectedBlocks.Add(World.Get().GetBlock(posX + 8 * chunk.index + entry.xOffset, posY + entry.yOffset));
                 }
                 else
                 {
-                    connectedBlocks.Add(World.Get().GetBlock(xPos + 8 * chunk.index + entry.xOffset, yPos + entry.yOffset).foregroundBlock);
+                    connectedBlocks.Add(World.Get().GetBlock(posX + 8 * chunk.index + entry.xOffset, posY + entry.yOffset).foregroundBlock);
                 }
             }
 
@@ -906,9 +765,9 @@ namespace SeeloewenCraft.game.core.blocks
 
         public Block GetBaseBlock()
         {
-            if (baseBlock.xOffset != null && baseBlock.yOffset != null)
+            if (baseBlockOffset.x != 0 && baseBlockOffset.y != 0)
             {
-                return World.Get().GetBlock(xPos + chunk.index * 8 + (int)baseBlock.xOffset, yPos + (int)baseBlock.yOffset);
+                return World.Get().GetBlock(posX + chunk.index * 8 + (int)baseBlockOffset.x, posY + (int)baseBlockOffset.y);
             }
             return null;
         }
@@ -918,9 +777,9 @@ namespace SeeloewenCraft.game.core.blocks
             foreach (var conBlock in baseBlock.connectedBlocks)
             {
                 //Place the connected block
-                Block oldBlock = World.Get().GetBlock(xPos + 8 * chunk.index + conBlock.xOffset, yPos + conBlock.yOffset);
+                Block oldBlock = World.Get().GetBlock(posX + 8 * chunk.index + conBlock.xOffset, posY + conBlock.yOffset);
                 Block newBlock = BlockRegister.Get(conBlock.blockId);
-                newBlock.baseBlock = (-conBlock.xOffset, -conBlock.yOffset);
+                newBlock.baseBlockOffset = (-conBlock.xOffset, -conBlock.yOffset);
 
                 oldBlock.SetForegroundBlock(newBlock);
             }
@@ -931,11 +790,11 @@ namespace SeeloewenCraft.game.core.blocks
             foreach (var conBlock in baseBlock.connectedBlocks)
             {
                 //Place the connected block
-                Block oldBlock = World.Get().GetBlock(xPos + 8 * chunk.index + conBlock.xOffset, yPos + conBlock.yOffset);
+                Block oldBlock = World.Get().GetBlock(posX + 8 * chunk.index + conBlock.xOffset, posY + conBlock.yOffset);
                 Block newBlock = BlockRegister.Get(conBlock.blockId);
-                newBlock.baseBlock = (-conBlock.xOffset, -conBlock.yOffset);
+                newBlock.baseBlockOffset = (-conBlock.xOffset, -conBlock.yOffset);
 
-                oldBlock.SetBlock(newBlock);
+                World.Get().SetBlock(oldBlock.GetPosData(), newBlock);
             }
         }
 
@@ -1005,6 +864,13 @@ namespace SeeloewenCraft.game.core.blocks
             {
                 return true;
             }
+        }
+
+        //Normally you'd need to access this over the component, however since it's used a lot I opted for a shortcut
+        public Inventory GetInventory()
+        {
+            BlockInventory invComp = GetComponent<BlockInventory>();
+            return invComp.inventory;
         }
 
         //-- Event Handlers --//
@@ -1118,6 +984,7 @@ namespace SeeloewenCraft.game.core.blocks
         Stone,
         Tin,
         Iron,
-        Diamond
+        Diamond,
+        None
     }
 }

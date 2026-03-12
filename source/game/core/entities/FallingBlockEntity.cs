@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.core.blocks;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.util;
 
@@ -19,7 +20,7 @@ namespace SeeloewenCraft.game.core.entities
                 int blockY = (posY + 500) / 1000;
                 if (World.Get().GetBlock(blockX, blockY) is AirBlock || World.Get().GetBlock(blockX, blockY) is WaterBlock)
                 {
-                    World.Get().SetBlock(block, blockX, blockY);
+                    World.Get().SetBlock(blockX, blockY, block);
                 }
                 else
                 {
@@ -29,10 +30,9 @@ namespace SeeloewenCraft.game.core.entities
             }
         }
 
-        protected override void SaveSpecialInfo(JsonWriter writer)
+        protected override void SaveSpecialInfo(JObject obj)
         {
-            writer.WritePropertyName("block_type");
-            writer.WriteValue(blockType);
+            obj.Add("block_type", blockType);
         }
 
         public FallingBlockEntity(int blockX, int blockY, string blockType)
@@ -42,10 +42,10 @@ namespace SeeloewenCraft.game.core.entities
             this.blockType = blockType;
         }
 
-        public FallingBlockEntity(JsonToken token)
-            : base(token, 1000, 1000)
+        public FallingBlockEntity(JObject obj)
+            : base(obj, 1000, 1000)
         {
-            blockType = token.GetString("/block_type");
+            blockType = obj.Get<string>("block_type");
         }
     }
 

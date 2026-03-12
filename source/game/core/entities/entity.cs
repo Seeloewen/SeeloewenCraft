@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.core.blocks;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.util;
 using System;
@@ -412,15 +413,15 @@ namespace SeeloewenCraft.game.core.entities
             return (false, 0);
         }
 
-        public Entity(JsonToken token, int sizeX, int sizeY)
+        public Entity(JObject obj, int sizeX, int sizeY)
             : this(sizeX, sizeY,
-                token.GetInt("/posX"),
-                token.GetInt("/posY"),
-                token.GetInt("/velX"),
-                token.GetInt("/velY"))
+                obj.Get<int>("posX"),
+                obj.Get<int>("posY"),
+                obj.Get<int>("velX"),
+                obj.Get<int>("velY"))
         {
-            lifeTime = token.GetInt("/life_time");
-            id = token.GetInt("/id");
+            lifeTime = obj.Get<int>("life_time");
+            id = obj.Get<int>("id");
         }
 
 
@@ -439,27 +440,17 @@ namespace SeeloewenCraft.game.core.entities
             touchingStatus = new bool[TOUCHING_STATUS_COUNT];
         }
 
-        public static Entity LoadFromJson(JsonToken token)
+        public static Entity FromJson(JObject obj)
         {
-            Entity entity;
-            string type = token.GetString("/type");
-            switch (type)
+            string type = obj.Get<string>("type");
+            Entity entity = type switch
             {
-                case "FallingBlockEntity":
-                    entity = new FallingBlockEntity(token);
-                    break;
-                case "ItemEntity":
-                    entity = new ItemEntity(token);
-                    break;
-                case "Slime":
-                    entity = new Slime(token);
-                    break;
-                case "Player":
-                    entity = new Player(token);
-                    break;
-                default:
-                    throw new Exception($"Loading Error: entity type {type} not found");
-            }
+                "FallingBlockEntity" => new FallingBlockEntity(obj),
+                "ItemEntity" => new ItemEntity(obj),
+                "Slime" => new Slime(obj),
+                "Player" => new Player(obj),
+                _ => throw new Exception($"Loading Error: entity type {type} not found"),
+            };
             entity.type = type;
 
             return entity;
@@ -467,33 +458,25 @@ namespace SeeloewenCraft.game.core.entities
 
         //save all attributes of entity base class; override SaveSpecialInfo()
         //to save custom values
-        internal void SaveToJson(JsonWriter writer)
+        internal JObject ToJson()
         {
-            writer.WriteStartObject();
-            writer.WritePropertyName("type");
-            writer.WriteValue(type);
-            writer.WritePropertyName("id");
-            writer.WriteValue(id);
-            writer.WritePropertyName("posX");
-            writer.WriteValue(posX);
-            writer.WritePropertyName("posY");
-            writer.WriteValue(posY);
-            writer.WritePropertyName("velX");
-            writer.WriteValue(velX);
-            writer.WritePropertyName("velY");
-            writer.WriteValue(velY);
-            writer.WritePropertyName("life_time");
-            writer.WriteValue(lifeTime);
+            JObject obj = new JObject
+            {
+                { "type", type },
+                { "id", id },
+                { "posX", posX },
+                { "posY", posY },
+                { "velX", velX },
+                { "velY", velY },
+                { "life_time", lifeTime }
+            };
 
-            SaveSpecialInfo(writer);
-            writer.WriteEndObject();
+            SaveSpecialInfo(obj);
+
+            return obj;
         }
 
-        protected virtual void SaveSpecialInfo(JsonWriter writer)
-        {
-
-        }
-
+        protected virtual void SaveSpecialInfo(JObject writer) { }
 
         public override bool Equals(object obj)
         {

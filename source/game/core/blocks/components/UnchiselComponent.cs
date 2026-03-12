@@ -1,21 +1,30 @@
-﻿using SeeloewenCraft.game.core.entities;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.core.crafting;
+using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.core.items;
 using SeeloewenCraft.game.graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 
-namespace SeeloewenCraft.game.core.crafting
+namespace SeeloewenCraft.game.core.blocks.components
 {
-    public class UnchiselHandler : IGuiData
+    internal class UnchiselComponent : BlockComponent, IGuiData
     {
         public string guiId { get; set; } = "unchisel_handler";
         public string tags { get; set; }
 
         public Inventory inv;
 
-        public UnchiselHandler()
+        public override BlockComponentType GetType() => BlockComponentType.Unchiseler;
+
+        public UnchiselComponent()
         {
-            inv = new Inventory(1, 1);
+            inv = new Inventory(1, 1, "Unchiseler");
         }
 
         public void Unchisel()

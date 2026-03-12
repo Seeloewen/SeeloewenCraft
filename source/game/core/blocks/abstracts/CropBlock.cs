@@ -1,4 +1,6 @@
-﻿using SeeloewenCraft.game.graphics;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.graphics;
+using SeeloewenCraft.game.util;
 using System;
 using System.Windows.Media.Animation;
 using Windows.Graphics.Display;
@@ -31,6 +33,21 @@ namespace SeeloewenCraft.game.core.blocks
 
             WriteTag(BlockTags.CANT_BE_BACKGROUND);
             WriteTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE);
+        }
+
+
+        protected override void AppendJson(JObject obj)
+        {
+            obj.Add("growth_time", growthTime);
+            obj.Add("growth_stage", growthStage);
+            obj.Add("progress", progress);
+        }
+
+        protected override void LoadAdditionalData(JObject obj)
+        {
+            growthStage = obj.Get<int>("growth_stage");
+            progress = obj.Get<double>("progress");
+            growthTime = obj.Get<double>("growth_time");
         }
 
         public override BlockState GetBlockState()
@@ -77,7 +94,7 @@ namespace SeeloewenCraft.game.core.blocks
             {
                 for (int j = yOffset; j < height + yOffset; j++)
                 {
-                    Block block = chunk.GetBlock(xPos + i, yPos - 1 - j);
+                    Block block = chunk.GetBlock(posX + i, posY - 1 - j);
 
                     if (block != null && block.isSolid) return false;
                 }
@@ -87,7 +104,7 @@ namespace SeeloewenCraft.game.core.blocks
         }
 
         //Hahn war hier
-        protected override void Drop()
+        public override void Drop()
         {
             //drops already contains some base drops. This adds the finished drops as well.
             //If the item is ready, also add the product as a drop

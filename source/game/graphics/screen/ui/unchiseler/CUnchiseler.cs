@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.core.crafting;
+﻿using SeeloewenCraft.game.core.blocks.components;
+using SeeloewenCraft.game.core.crafting;
 using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.graphics.ui_lib;
 
@@ -28,7 +29,7 @@ namespace SeeloewenCraft.game.graphics
             AddChild(cButton);
 
             //Data
-            invData = ((UnchiselHandler)data).inv;
+            invData = ((UnchiselComponent)data).inv;
         }
 
         protected override void OnUpdate(double dt)
@@ -41,7 +42,7 @@ namespace SeeloewenCraft.game.graphics
 
         private void cButton_OnClick()
         {
-            ((UnchiselHandler)data).Unchisel();
+            ((UnchiselComponent)data).Unchisel();
         }
     }
 }

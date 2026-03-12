@@ -1,4 +1,4 @@
-﻿
+﻿using Newtonsoft.Json.Linq;
 using SeeloewenCraft.game.util;
 using System.Collections.Generic;
 using System.Drawing;
@@ -22,10 +22,9 @@ namespace SeeloewenCraft.game.graphics
 
             textureMap.mappings = new Dictionary<char, (float, float, float, float)>();
 
-            JsonToken token = JsonUtil.ReadResource(TextureManager.fontMappings).GetToken("/characters");
+            JArray charactersArr = JObject.Parse(FileUtil.StrFromResource((TextureManager.fontMappings))).Get<JArray>("characters");
 
-
-            using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(TextureManager.fontMap);
+            using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"SeeloewenCraft.Resources.{TextureManager.fontMap}");
             Bitmap bitmap = new Bitmap(stream);
             TextureImage texImage = new TextureImage(bitmap);
 
@@ -34,14 +33,12 @@ namespace SeeloewenCraft.game.graphics
 
             TextureImage map = new TextureImage(WIDTH, HEIGHT);
 
-            for (int i = 0; i < token.GetArrayLength(); i++)
+            foreach(JObject charObj in charactersArr)
             {
-                JsonToken charToken = token.GetToken($"/{i}");
-
-                char c = char.Parse(charToken.GetString("/character"));
-                int x = charToken.GetInt("/offsetX");
-                int y = charToken.GetInt("/offsetY");
-                int w = charToken.GetInt("/width");
+                char c = char.Parse(charObj.Get<string>("character"));
+                int x = charObj.Get<int>("offsetX");
+                int y = charObj.Get<int>("offsetY");
+                int w = charObj.Get<int>("width");
 
                 float s1 = x / width;
                 float t1 = y / height;

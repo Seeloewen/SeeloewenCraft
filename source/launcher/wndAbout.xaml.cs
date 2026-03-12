@@ -10,15 +10,11 @@ namespace SeeloewenCraft.launcher
 {
     public partial class wndAbout : Window
     {
-        wndMenu wndMenu;
-
         //-- Constructor --//
 
-        public wndAbout(wndMenu wndMenu)
+        public wndAbout()
         {
             InitializeComponent();
-
-            this.wndMenu = wndMenu;
 
             //Display the game version and release date
             tblVersion.Text = $"Version {Game.GAME_VERSION} ({Game.VERSION_DATE})";

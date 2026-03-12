@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.core.blocks;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.items;
 using SeeloewenCraft.game.graphics;
@@ -38,13 +39,12 @@ namespace SeeloewenCraft.game.core.crafting
         {
             recipeList = new List<CraftingRecipe>();
 
-            //Setup all recipes
-            JsonToken recipeListToken = JsonUtil.ReadResource("recipes.json").GetToken("/recipes");
+            JObject baseObj = JObject.Parse(FileUtil.StrFromResource("recipes.json"));
+            JArray recipeArray = baseObj.Get<JArray>("recipes");
 
-            for (int i = 0; i < recipeListToken.GetArrayLength(); i++)
+            foreach (JObject recipeObj in recipeArray)
             {
-                JsonToken recipeToken = recipeListToken.GetToken($"/{i}");
-                recipeList.Add(new CraftingRecipe(recipeToken));
+                recipeList.Add(new CraftingRecipe(recipeObj));
             }
         }
 
@@ -112,19 +112,24 @@ namespace SeeloewenCraft.game.core.crafting
             return true;
         }
 
-        public void BeginCrafting(CraftingRecipe recipe, int recipeAmount, bool isNew = true)
+        public void BeginCrafting(CraftingRecipe recipe, int recipeAmount)
         {
             this.recipeAmount = recipeAmount;
 
-            if (isNew) //Only remove items when the recipe is new, not when it's loaded in from save for example
+            //Remove the required materials based on the amount from the players inventory
+            foreach (RecipePart ingredient in recipe.ingredients)
             {
-                //Remove the required materials based on the amount from the players inventory
-                foreach (RecipePart ingredient in recipe.ingredients)
-                {
-                    Player.Get().inventory.Remove(ingredient.item, ingredient.amount * recipeAmount);
-                }
+                Player.Get().inventory.Remove(ingredient.item, ingredient.amount * recipeAmount);
             }
 
+            recipeRunning = true;
+            currentRecipe = recipe;
+            if (block != null) block.blockState = BlockState.RECIPE_RUNNING;
+        }
+
+        public void ContinueCrafting(CraftingRecipe recipe, int recipeAmount, double progress)
+        {
+            this.recipeAmount = recipeAmount;
             recipeRunning = true;
             currentRecipe = recipe;
             if (block != null) block.blockState = BlockState.RECIPE_RUNNING;
@@ -140,7 +145,7 @@ namespace SeeloewenCraft.game.core.crafting
             if (block != null) displayItem = ItemRegister.Get(block.itemId);
 
             NotificationHandler.Notify(displayItem != null ? displayItem.id : "sc:crafting_table_item", $"Crafting for {recipeAmount}x {currentRecipe.displayName} completed!");
-            if (block != null) Log.Write($"Completed crafting for {recipeAmount}x {currentRecipe.id} at workstation {workstationId} (x{block.xPos} y{block.yPos}, Chunk {block.chunk.index})", LogType.GENERAL, LogLevel.INFO);
+            if (block != null) Log.Write($"Completed crafting for {recipeAmount}x {currentRecipe.id} at workstation {workstationId} (x{block.posX} y{block.posY}, Chunk {block.chunk.index})", LogType.GENERAL, LogLevel.INFO);
         }
 
         private void OnUpdate(double dt)

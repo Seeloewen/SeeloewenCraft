@@ -20,14 +20,14 @@ namespace SeeloewenCraft.game.core.blocks
             //If not, replace it with air
             if (!SourceExists(block))
             {
-                block.SetBlock(BlockRegister.Get("sc:air_block"));
+                World.Get().SetBlock(block.GetPosData(), BlockRegister.Get("sc:air_block"));
                 return;
             }
 
             //Try expanding the liquid
             foreach (var n in TryExpand(block))
             {
-                if(n.b != null) World.Get().SetBlock(n.b, n.x, n.y, n.c);
+                if(n.b != null) World.Get().SetBlock(n.x, n.y, n.c, n.b);
             }
         }
 
@@ -49,7 +49,7 @@ namespace SeeloewenCraft.game.core.blocks
 
             if (canExpandDown) //Prioritize downwards flow
             {
-                newBlocks[0] = (block.GetLiquid(6, Direction.DOWN, new LiquidSource(block.xPos, block.yPos, block.chunk.index)), block.xPos, block.yPos + 1, block.chunk.index);
+                newBlocks[0] = (block.GetLiquid(6, Direction.DOWN, new LiquidSource(block.posX, block.posY, block.chunk.index)), block.posX, block.posY + 1, block.chunk.index);
             }
             else if(!canExpandDown && !block.GetBlockBelow().HasTag(block.liquidTag)) //If not expansion downwards was possible, try to expand to the sides
             {
@@ -57,13 +57,13 @@ namespace SeeloewenCraft.game.core.blocks
 
                 if (CanExpandTowards(block, Direction.RIGHT))
                 {
-                    newBlocks[0] = (block.GetLiquid(block.liquidLevel - 1, Direction.RIGHT, new LiquidSource(block.xPos, block.yPos, block.chunk.index)), block.xPos + 1, block.yPos, block.chunk.index);
+                    newBlocks[0] = (block.GetLiquid(block.liquidLevel - 1, Direction.RIGHT, new LiquidSource(block.posX, block.posY, block.chunk.index)), block.posX + 1, block.posY, block.chunk.index);
                 }
 
                 if (CanExpandTowards(block, Direction.LEFT))
                 {
                     int i = newBlocks[0].b == null ? 0 : 1; //Index may be different, depending on whether extension to the right worked
-                    newBlocks[i] = (block.GetLiquid(block.liquidLevel - 1, Direction.LEFT, new LiquidSource(block.xPos, block.yPos, block.chunk.index)), block.xPos - 1, block.yPos, block.chunk.index);
+                    newBlocks[i] = (block.GetLiquid(block.liquidLevel - 1, Direction.LEFT, new LiquidSource(block.posX, block.posY, block.chunk.index)), block.posX - 1, block.posY, block.chunk.index);
                 }
             }
 

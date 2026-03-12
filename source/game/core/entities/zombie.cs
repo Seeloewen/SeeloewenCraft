@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.graphics;
+﻿using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.util;
 using System;
 
@@ -18,7 +19,7 @@ namespace SeeloewenCraft.game.core.entities
             ACC_SPRINTING = 35000;
         }
 
-        internal Zombie(JsonToken token) : base(token, 900, 1800)
+        internal Zombie(JObject token) : base(token, 900, 1800)
         {
             ACC_WALKING = 20000;
             ACC_SPRINTING = 35000;

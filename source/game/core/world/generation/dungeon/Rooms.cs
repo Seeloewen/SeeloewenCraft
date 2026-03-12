@@ -92,23 +92,23 @@ namespace SeeloewenCraft.game.core.world.generation
             GetBlock(6, 10).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_block"));
 
             BarrelBlock barrel = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
-            barrel.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
+            barrel.GetInventory().RollLootTable(LootTables.plainsDungeonBarrel, 3);
             GetBlock(6, 1).block.SetForegroundBlock(barrel);
 
             BarrelBlock barrel2 = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
-            barrel2.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
+            barrel2.GetInventory().RollLootTable(LootTables.plainsDungeonBarrel, 3);
             GetBlock(7, 1).block.SetForegroundBlock(barrel2);
 
             BarrelBlock barrel3 = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
-            barrel3.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
+            barrel3.GetInventory().RollLootTable(LootTables.plainsDungeonBarrel, 3);
             GetBlock(7, 2).block.SetForegroundBlock(barrel3);
 
             BarrelBlock barrel4 = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
-            barrel4.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
+            barrel4.GetInventory().RollLootTable(LootTables.plainsDungeonBarrel, 3);
             GetBlock(8, 1).block.SetForegroundBlock(barrel4);
 
             ChestBlock chest = (ChestBlock)BlockRegister.Get("sc:chest_block");
-            chest.InsertLootTable(LootTables.plainsDungeonChest, 6, rnd);
+            chest.GetInventory().RollLootTable(LootTables.plainsDungeonChest, 6);
             GetBlock(2, 7).block.SetForegroundBlock(chest);
 
             GetBlock(10, 3).block.SetForegroundBlock(BlockRegister.Get("sc:cobblestone_stairtopright"));
@@ -148,7 +148,7 @@ namespace SeeloewenCraft.game.core.world.generation
             GetBlock(7, 6).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
 
             ChestBlock chest = (ChestBlock)BlockRegister.Get("sc:chest_block");
-            chest.InsertLootTable(LootTables.plainsDungeonChest, 6, rnd);
+            chest.GetInventory().RollLootTable(LootTables.plainsDungeonChest, 6);
             GetBlock(1, 6).block.SetForegroundBlock(chest);
 
             SetDoor(10, 1, Direction.RIGHT);
@@ -200,7 +200,7 @@ namespace SeeloewenCraft.game.core.world.generation
             GetBlock(4, 2).block.SetForegroundBlock(BlockRegister.Get("sc:spruce_log_block"));
 
             ChestBlock chest = (ChestBlock)BlockRegister.Get("sc:chest_block");
-            chest.InsertLootTable(LootTables.plainsDungeonChest, 6, rnd);
+            chest.GetInventory().RollLootTable(LootTables.plainsDungeonChest, 6);
             GetBlock(3, 3).block.SetForegroundBlock(chest);
 
             GetBlock(3, 5).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
@@ -223,15 +223,15 @@ namespace SeeloewenCraft.game.core.world.generation
             GetBlock(7, 2).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
 
             BarrelBlock barrel = (BarrelBlock)BlockRegister.Get("sc:barrel_block").MoveToBackground();
-            barrel.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
+            barrel.GetInventory().RollLootTable(LootTables.plainsDungeonBarrel, 3);
             GetBlock(2, 1).block = barrel;
 
             BarrelBlock barrel2 = (BarrelBlock)BlockRegister.Get("sc:barrel_block").MoveToBackground();
-            barrel2.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
+            barrel2.GetInventory().RollLootTable(LootTables.plainsDungeonBarrel, 3);
             GetBlock(2, 2).block = barrel2;
 
             BarrelBlock barrel3 = (BarrelBlock)BlockRegister.Get("sc:barrel_block").MoveToBackground();
-            barrel3.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
+            barrel3.GetInventory().RollLootTable(LootTables.plainsDungeonBarrel, 3);
             GetBlock(3, 1).block = barrel3;
 
             SetDoor(0, 1, Direction.LEFT);
@@ -263,15 +263,15 @@ namespace SeeloewenCraft.game.core.world.generation
             GetBlock(2, 4).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
 
             BarrelBlock barrel = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
-            barrel.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
+            barrel.GetInventory().RollLootTable(LootTables.plainsDungeonBarrel, 3);
             GetBlock(5, 1).block.SetForegroundBlock(barrel);
 
             BarrelBlock barrel2 = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
-            barrel2.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
+            barrel2.GetInventory().RollLootTable(LootTables.plainsDungeonBarrel, 3);
             GetBlock(6, 1).block.SetForegroundBlock(barrel2);
 
             BarrelBlock barrel3 = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
-            barrel3.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
+            barrel3.GetInventory().RollLootTable(LootTables.plainsDungeonBarrel, 3);
             GetBlock(6, 2).block.SetForegroundBlock(barrel3);
 
             SetDoor(0, 1, Direction.LEFT);
@@ -310,19 +310,19 @@ namespace SeeloewenCraft.game.core.world.generation
             GetBlock(5, 5).block.SetForegroundBlock(BlockRegister.Get("sc:torch_block"));
 
             BarrelBlock barrel = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
-            barrel.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
+            barrel.GetInventory().RollLootTable(LootTables.plainsDungeonBarrel, 3);
             GetBlock(5, 1).block.SetForegroundBlock(barrel);
 
             BarrelBlock barrel2 = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
-            barrel2.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
+            barrel2.GetInventory().RollLootTable(LootTables.plainsDungeonBarrel, 3);
             GetBlock(5, 2).block.SetForegroundBlock(barrel2);
 
             BarrelBlock barrel3 = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
-            barrel3.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
+            barrel3.GetInventory().RollLootTable(LootTables.plainsDungeonBarrel, 3);
             GetBlock(4, 1).block.SetForegroundBlock(barrel3);
 
             BarrelBlock barrel4 = (BarrelBlock)BlockRegister.Get("sc:barrel_block");
-            barrel4.InsertLootTable(LootTables.plainsDungeonBarrel, 3, rnd);
+            barrel4.GetInventory().RollLootTable(LootTables.plainsDungeonBarrel, 3);
             GetBlock(6, 1).block.SetForegroundBlock(barrel4);
 
             SetDoor(0, 1, Direction.LEFT);
