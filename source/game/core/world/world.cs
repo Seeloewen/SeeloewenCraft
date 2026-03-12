@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SeeloewenCraft.game.core.blocks;
+using SeeloewenCraft.game.core.commands;
 using SeeloewenCraft.game.core.crafting;
 using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
@@ -57,6 +58,7 @@ namespace SeeloewenCraft.game.core.world
             ItemRegister.Init();
             DungeonRoomRegister.Init();
             GameEventHandler.Init();
+            ChatHandler.Init();
             CraftingHandler.LoadRecipes();
 
             InitWorldDirectory();

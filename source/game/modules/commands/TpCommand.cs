@@ -1,24 +1,23 @@
 ﻿using SeeloewenCraft.game.core.entities;
-using SeeloewenCraft.game.notifications;
 
 namespace SeeloewenCraft.game.core.commands
 {
-    partial class CommandHandler
+    partial class ChatHandler
     {
         private static void HandleTPCommand(string[] args)
         {
             try
             {
-                int posX = int.Parse(args[1]);
-                int posY = int.Parse(args[2]);
+                int posX = int.Parse(args[0]);
+                int posY = int.Parse(args[1]);
 
                 Player.Get().posX = posX;
                 Player.Get().posY = posY;
-                NotificationHandler.Notify("sc:dirt_item", $"Succesfully teleported player to position x={posX}, y={posY}");
+                HandleSystemMessage($"Succesfully teleported player to position x={posX}, y={posY}");
             }
             catch
             {
-                NotificationHandler.Notify("sc:bedrock_item", "Invalid command syntax: can't parse coordinates to int");
+                HandleSystemMessage("Invalid command syntax: can't parse coordinates to int");
                 return;
             }
         }

@@ -39,6 +39,11 @@ public class CScrollPane : CRectangle
         UpdateChildrenHovered();
     }
 
+    internal void SetScrollOffset(int offset)
+    {
+        OnScrollEvent(new ScrollEvent((offset - i) / -15));        
+    }
+
     protected override void OnRender()
     {
         GL.StencilFunc(StencilFunction.Always, 1, 0xff);
@@ -58,4 +63,10 @@ public class CScrollPane : CRectangle
         GL.StencilMask(0x00);
     }
 
+    internal void ClearScrollables()
+    {
+        scrollableChildren.ForEach(RemoveChild);
+        scrollableChildren.Clear();
+        SetScrollOffset(0);
+    }
 }

@@ -75,8 +75,8 @@ namespace SeeloewenCraft.game.graphics
                     textReceiver.HandleChar(Char.ConvertFromUtf32((int)ch));
                 }
             });
-            
-            GLFW.SetKeyCallback(window, (_, k, _, a, _) =>
+
+            GLFW.SetKeyCallback(window, (GLFWCallbacks.KeyCallback)((_, k, _, a, _) =>
             {
                 if (textMode)
                 {
@@ -87,10 +87,10 @@ namespace SeeloewenCraft.game.graphics
                             case Keys.Escape:
                                 textReceiver.HandleEscape();
                                 break;
-                            case Keys.Enter: 
+                            case Keys.Enter:
                                 textReceiver.HandleEnter();
                                 break;
-                            case Keys.Backspace: 
+                            case Keys.Backspace:
                                 textReceiver.HandleBackspace();
                                 break;
                         }
@@ -113,7 +113,7 @@ namespace SeeloewenCraft.game.graphics
                         }
                     }
                 }
-            });
+            }));
         }
 
         static public void Reset()

@@ -3,31 +3,31 @@ using SeeloewenCraft.game.notifications;
 
 namespace SeeloewenCraft.game.core.commands
 {
-    partial class CommandHandler
+    partial class ChatHandler
     {
         private static void HandleGamemodeCommand(string[] args)
         {
-            if (args.Length != 2)
+            if (args.Length != 1)
             {
-                NotificationHandler.Notify("sc:bedrock_item", "Invalid command syntax: incorrect number of arguments");
+                HandleSystemMessage("Invalid command syntax: incorrect number of arguments");
                 return;
             }
-            string gamemode = args[1];
+            string gamemode = args[0];
 
             //Set gamemode based on given input
             if (gamemode == "0" || gamemode == "survival")
             {
                 World.Get().SetGamemode(Gamemode.Survival);
-                NotificationHandler.Notify("sc:grass_item", "Gamemode was changed to survival mode");
+                HandleSystemMessage("Gamemode was changed to survival mode");
             }
             else if (gamemode == "1" || gamemode == "creative")
             {
                 World.Get().SetGamemode(Gamemode.Creative);
-                NotificationHandler.Notify("sc:diamond_item", "Gamemode was changed to creative mode");
+                HandleSystemMessage("Gamemode was changed to creative mode");
             }
             else
             {
-                NotificationHandler.Notify("sc:bedrock_item", "Invalid command syntax: gamemode type not found");
+                HandleSystemMessage("Invalid command syntax: gamemode type not found");
             }
         }
     }

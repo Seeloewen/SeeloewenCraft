@@ -1,46 +1,45 @@
 ﻿using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.core.world;
-using SeeloewenCraft.game.notifications;
 
 namespace SeeloewenCraft.game.core.commands
 {
-    partial class CommandHandler
+    partial class ChatHandler
     {
         private static void HandleSpawnCommand(string[] args)
         {
             if (Settings.enableMobs)
             {
-                if (args.Length != 4)
+                if (args.Length != 3)
                 {
-                    NotificationHandler.Notify("sc:bedrock_item", "Invalid command syntax: incorrect number of arguments");
+                    HandleSystemMessage("Invalid command syntax: incorrect number of arguments");
                     return;
                 }
 
-                Entity entity = EntityRegister.GenerateEntity(args[1]);
+                Entity entity = EntityRegister.GenerateEntity(args[0]);
                 if (entity == null)
                 {
-                    NotificationHandler.Notify("sc:bedrock_item", $"Invalid command syntax: entity id was not found ({args[1]})");
+                    HandleSystemMessage($"Invalid command syntax: entity id was not found ({args[0]})");
                     return;
                 }
 
                 try
                 {
-                    entity.posX = int.Parse(args[2]);
-                    entity.posY = int.Parse(args[3]);
+                    entity.posX = int.Parse(args[1]);
+                    entity.posY = int.Parse(args[2]);
                 }
                 catch
                 {
-                    NotificationHandler.Notify("sc:bedrock_item", "Invalid command syntax: couldn't parse coordinates to int");
+                    HandleSystemMessage("Invalid command syntax: couldn't parse coordinates to int");
                     return;
                 }
 
                 World.Get().AddEntity(entity);
-                NotificationHandler.Notify("sc:diamond_sword_item", $"Successfully spawned entity {entity.id} at x{entity.posX} y{entity.posY}");
+                HandleSystemMessage($"Successfully spawned entity {entity.id} at x{entity.posX} y{entity.posY}");
             }
             else
             {
-                NotificationHandler.Notify("sc:bedrock_item", $"Cannot spawn mobs because it's disabled in the settings.");
+                HandleSystemMessage($"Cannot spawn mobs because it's disabled in the settings.");
             }
         }
     }

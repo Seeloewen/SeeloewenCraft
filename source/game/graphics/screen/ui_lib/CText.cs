@@ -88,7 +88,7 @@ namespace SeeloewenCraft.game.graphics.ui_lib
     /// </summary>
     public class CText : Component
     {
-
+        public Color fontColor = new Color(0f);
         protected string text;
         int size;
 
@@ -108,12 +108,37 @@ namespace SeeloewenCraft.game.graphics.ui_lib
         }
 
         /// <summary>
+        /// Creates a basic text component with a specific font color
+        /// </summary>
+        /// <param name="text">Text to be drawn</param>
+        /// <param name="size">Size of drawn text</param>
+        /// <param name="layout">TextLayout of the text</param>
+        /// <param name="fontColor">TextLayout of the text</param>
+        public CText(string text, int size, TextLayout layout, Color fontColor) : base(layout.CalcBounds(text, size))
+        {
+            this.text = text;
+            this.size = size;
+            this.layout = layout;
+            this.fontColor = fontColor;
+        }
+
+        /// <summary>
         /// Changes the drawn text
         /// </summary>
         /// <param name="text">New text to be drawn</param>
         public void SetText(string text)
         {
             this.text = text;
+            bounds = layout.CalcBounds(text, size);
+        }
+
+        /// <summary>
+        /// Changes the drawn text
+        /// </summary>
+        /// <param name="fontColor">New text to be drawn</param>
+        public void SetColor(Color fontColor)
+        {
+            this.fontColor = fontColor;
             bounds = layout.CalcBounds(text, size);
         }
 
@@ -139,7 +164,7 @@ namespace SeeloewenCraft.game.graphics.ui_lib
             int startX = centerX - width / 2;
             int startY = centerY - height / 2;
 
-            TextRenderer.Draw(text, startX, startY, size);
+            TextRenderer.Draw(text, startX, startY, size, fontColor);
 
         }
 

@@ -50,7 +50,7 @@ namespace SeeloewenCraft.game.graphics
 
             cAmountHeader = new CText("Amount:", 2, new TextLayout(bounds.x1P + 22, TextHAlignment.LEFT, bounds.y2P - 48, TextVAlignment.TOP));
             cAmount = new CTextBox(bounds.x1P + 110, bounds.y2P - 60, 75, 40, new Color(0.69f));
-            cAmount.SetText("1");
+            cAmount.GetField().SetText("1");
 
             AddChild(cBorder);
             AddChild(cHeader);
@@ -92,10 +92,10 @@ namespace SeeloewenCraft.game.graphics
             CraftingRecipe recipe = GetSelectedRecipe();
             int amount = 1;
 
-            cAmount.DisableEditMode();
+            cAmount.GetField().editMode = true;
 
             //Check if the amount is valid before crafting
-            if (!int.TryParse(cAmount.GetText(), out amount))
+            if (!int.TryParse(cAmount.GetField().GetText(), out amount))
             {
                 MessageBox.Show("Please enter a valid amount for crafting", "Invalid amount", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;

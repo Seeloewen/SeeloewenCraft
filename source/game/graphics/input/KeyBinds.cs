@@ -20,7 +20,8 @@ namespace SeeloewenCraft.game.graphics
         public const int SPRINT = 8;
         public const int OPEN_MENU = 9;
         public const int CREATIVE_MENU = 10;
-        const int KEYBINDS_COUNT = 11;
+        public const int CHAT = 11;
+        const int KEYBINDS_COUNT = 12;
 
 
         public static bool[] pressed = new bool[KEYBINDS_COUNT];
@@ -50,7 +51,8 @@ namespace SeeloewenCraft.game.graphics
             {Keys.LeftShift, SNEAK },
             {Keys.LeftControl, SPRINT },
             {Keys.Escape, OPEN_MENU },
-            {Keys.C, CREATIVE_MENU}
+            {Keys.C, CREATIVE_MENU},
+            {Keys.T, CHAT}
         };
 
         public static void Bind(Keys k, int action)
