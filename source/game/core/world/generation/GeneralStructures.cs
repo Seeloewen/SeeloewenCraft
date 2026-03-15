@@ -59,7 +59,7 @@ namespace SeeloewenCraft.game.core.world.generation
             canReplaceSolidBlocks = true;
 
             Dungeon dung = new Dungeon();
-            dung.CreateDungeon(chunk.seededRnd, 100, 50, DungeonType.Plains);
+            dung.CreateDungeon(chunk.chunkRnd, 100, 50, DungeonType.Plains);
             structureComponents.AddRange(dung.GenerateDungeon(0, 0));
 
             //Begin generation

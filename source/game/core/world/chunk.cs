@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using LibNoise;
+using LibNoise.Primitive;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.world.generation;
@@ -17,12 +19,9 @@ namespace SeeloewenCraft.game.core.world
         public BlockList blockList;
         public List<Structure> structureList = new List<Structure>();
         public List<Structure> continuedStructureList = new List<Structure>();
-        public Random seededRnd;
+        public Random chunkRnd;
 
         public int index;
-        private int floorHeight; //Only used while generating
-        public int floorHeightRight;
-        public int floorHeightLeft;
         public int structureNum = 0;
         public string chunkDirectory;
         public Biome biome;
@@ -38,7 +37,7 @@ namespace SeeloewenCraft.game.core.world
             //Seed magic
             Random rnd = new Random(World.Get().seed);
             chunkSeed = rnd.Next() * index;
-            seededRnd = new Random(chunkSeed);
+            chunkRnd = new Random(chunkSeed);
 
             //Begin loading the chunk
             chunkDirectory = string.Format("{0}/chunk{1}", World.Get().worldDirectory, index);
@@ -65,8 +64,7 @@ namespace SeeloewenCraft.game.core.world
             JObject settingsObj = new JObject()
             {
                 {"index", index},
-                {"floor_height_left", floorHeightLeft},
-                {"floor_height_right", floorHeightRight }
+                {"chunkSeed", chunkSeed},
             };
             settingsObj.ToFile($"{World.Get().worldDirectory}/chunk{index}/settings.json");
         }
@@ -128,8 +126,6 @@ namespace SeeloewenCraft.game.core.world
             //load settings
             JObject settingsObj = JsonUtil.ObjectFromFile($"{World.Get().worldDirectory}/chunk{index}/settings.json");
             index = settingsObj.Get<int>("index");
-            floorHeightLeft = settingsObj.Get<int>("floor_height_left");
-            floorHeightRight = settingsObj.Get<int>("floor_height_right");
         }
 
 

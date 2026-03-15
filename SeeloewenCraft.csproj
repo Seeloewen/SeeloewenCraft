@@ -35,6 +35,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\**\*.*" />
     <Resource Include="Resources\launcher\Background.png" />
+    <PackageReference Include="LibNoise" Version="0.2.0" />
     
 	<PackageReference Include="OpenTK" Version="4.9.4" />
 	<PackageReference Include="OpenTK.GLWpfControl" Version="4.3.3" />

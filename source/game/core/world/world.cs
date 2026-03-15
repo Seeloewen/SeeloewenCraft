@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using LibNoise.Primitive;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.commands;
@@ -29,6 +30,10 @@ namespace SeeloewenCraft.game.core.world
         public List<Chunk> totalChunkList = new List<Chunk>(); //All chunks that were ever loaded
         public List<IGuiData> guiData = new List<IGuiData>(); //Currently displayed guis
 
+        public readonly SimplexPerlin heightNoise;
+        public readonly SimplexPerlin humidityNoise;
+        public readonly SimplexPerlin temperatureNoise;
+
         public Player player { get => entityManager.player; }
         public EntityManager entityManager;
 
@@ -52,6 +57,13 @@ namespace SeeloewenCraft.game.core.world
 
             //Load the seed
             this.seed = seed != 0 ? seed : new Random(DateTime.Now.Millisecond).Next();
+            heightNoise = new SimplexPerlin();
+            humidityNoise = new SimplexPerlin();
+            temperatureNoise = new SimplexPerlin();
+
+            heightNoise.Seed = seed;
+            humidityNoise.Seed = seed + 1;
+            temperatureNoise.Seed = seed - 1;
 
             CraftingHandler.Init();
             BlockRegister.Init();
