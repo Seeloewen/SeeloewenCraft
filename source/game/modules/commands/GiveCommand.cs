@@ -28,7 +28,7 @@ namespace SeeloewenCraft.game.core.commands
                 }
             }
 
-            if (ItemRegister.Get(id) == null)
+            if (!ItemRegister.Exists(id))
             {
                 HandleSystemMessage("Invalid command syntax: item id was not found");
                 return;

@@ -39,9 +39,14 @@ namespace SeeloewenCraft.game.core.items
             }
         }
 
+        public static bool Exists(string id)
+        {
+            return itemMappings.ContainsKey(id);
+        }
+
         public static Item Get(string id)
         {
-            if(string.IsNullOrEmpty(id)) return null;
+            if (string.IsNullOrEmpty(id)) return null;
 
             //Retrieve the type from the mappings and create a new instance
             if (!itemMappings.ContainsKey(id)) throw new Exception($"ItemRegister has received an invalid block id: {id}"); //debug code, replace with exception safe behaviour
