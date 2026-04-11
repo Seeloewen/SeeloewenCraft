@@ -6,7 +6,7 @@ namespace SeeloewenCraft.game.graphics
 {
     internal class CIngredient : CRectangle
     {
-        internal static int WIDTH = 525;
+        internal static int WIDTH = 520;
         internal static int HEIGHT = 30;
 
         private CText cText;
