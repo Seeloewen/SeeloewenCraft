@@ -736,12 +736,12 @@ namespace SeeloewenCraft.game.core.blocks
             }
         }
 
-        public void SetCoords(int xPos, int yPos, Chunk chunk) //TODO: This seems sketchy, rework it
+        public void SetCoords(int posX, int posY, Chunk chunk) //TODO: This seems sketchy, rework it
         {
             //Warning: Only sets coords inside blocks, not inside chunk/blocklist
             this.chunk = chunk;
-            this.posX = xPos;
-            this.posY = yPos;
+            this.posX = posX;
+            this.posY = posY;
         }
 
         public List<Block> GetConnectedBlocks(bool inForeground) //Assumes this is a base block

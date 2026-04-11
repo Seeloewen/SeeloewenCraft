@@ -303,58 +303,58 @@ namespace SeeloewenCraft.game.core.world.generation
             canReplaceSolidBlocks = true;
 
             //Add all structure components
-            int xPos = 0;
-            int yPos = 0;
+            int posX = 0;
+            int posY = 0;
 
             bool goDown = true;
-            yPos = floorHeight;
+            posY = floorHeight;
 
             do
             {
                 //Generate from bottom to floorheight
                 for (int i = 0; i < floorHeight; i++)
                 {
-                    //Add dirt when below the currently observed ypos, else add water
-                    if (i < yPos && i >= yPos - 2)
+                    //Add dirt when below the currently observed posY, else add water
+                    if (i < posY && i >= posY - 2)
                     {
-                        AddBlock(BlockRegister.Get("sc:dirt_block"), xPos, i);
+                        AddBlock(BlockRegister.Get("sc:dirt_block"), posX, i);
                     }
-                    else if (i >= yPos)
+                    else if (i >= posY)
                     {
-                        AddBlock(BlockRegister.Get("sc:water_6_block"), xPos, i);
+                        AddBlock(BlockRegister.Get("sc:water_6_block"), posX, i);
                     }
                 }
 
                 //Generate a mirror of the lake above, but with air to clear potential blocks above
-                for (int i = floorHeight; i <= floorHeight + floorHeight - yPos + 2; i++)
+                for (int i = floorHeight; i <= floorHeight + floorHeight - posY + 2; i++)
                 {
-                    AddBlock(BlockRegister.Get("sc:air_block"), xPos, i);
+                    AddBlock(BlockRegister.Get("sc:air_block"), posX, i);
                 }
 
                 //Determine whether to go down or up
-                if (yPos == 1)
+                if (posY == 1)
                 {
                     goDown = false;
                 }
 
                 //Roll for a 50% chance to go down/up or stay on the height
-                if (xPos == 0)
+                if (posX == 0)
                 {
-                    yPos--;
+                    posY--;
                 }
                 else if (goDown)
                 {
-                    yPos = (structRnd.Next(0, 2) == 0) ? yPos - 1 : yPos;
+                    posY = (structRnd.Next(0, 2) == 0) ? posY - 1 : posY;
                 }
                 else
                 {
-                    yPos = (structRnd.Next(0, 2) == 0) ? yPos + 1 : yPos;
+                    posY = (structRnd.Next(0, 2) == 0) ? posY + 1 : posY;
                 }
 
-                xPos++;
+                posX++;
             }
 
-            while (yPos <= floorHeight);
+            while (posY <= floorHeight);
 
 
             if (structRnd.Next(0, 4) == 0) //Chance to generate sugar cane
@@ -362,7 +362,7 @@ namespace SeeloewenCraft.game.core.world.generation
                 CropBlock sugarCane = (CropBlock)BlockRegister.Get("sc:sugar_cane_crop_block");
                 sugarCane.progress = int.MaxValue;
                 if (structRnd.Next(0, 2) == 0) AddBlock(sugarCane, 0, floorHeight);
-                else AddBlock(sugarCane, xPos, floorHeight);
+                else AddBlock(sugarCane, posX, floorHeight);
             }
             else if (structRnd.Next(0, 7) == 0) //Chance to generate rice
             {
@@ -375,8 +375,8 @@ namespace SeeloewenCraft.game.core.world.generation
                 }
                 else
                 {
-                    AddBlock(BlockRegister.Get("sc:rice_base_block"), xPos, floorHeight);
-                    AddBlock(riceTop, xPos, floorHeight + 1);
+                    AddBlock(BlockRegister.Get("sc:rice_base_block"), posX, floorHeight);
+                    AddBlock(riceTop, posX, floorHeight + 1);
                 }
             }
 

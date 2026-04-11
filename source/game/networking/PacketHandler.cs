@@ -177,11 +177,11 @@ namespace SeeloewenCraft.game.networking
         {
             Block block = BlockRegister.Get(packet.content[0]);
             int cIndex = int.Parse(packet.content[1]);
-            int xPos = int.Parse(packet.content[2]);
-            int yPos = int.Parse(packet.content[3]);
+            int posX = int.Parse(packet.content[2]);
+            int posY = int.Parse(packet.content[3]);
 
             //Set the block using the multiplayer method (more info in method)
-            //World.Get().SetBlock_Multiplayer(block, cIndex, xPos, yPos);
+            //World.Get().SetBlock_Multiplayer(block, cIndex, posX, posY);
 
             //If the server receives the call, redirect it to the other clients
             if (IsServer())

@@ -121,8 +121,8 @@ namespace SeeloewenCraft.game.core
 
         public static void DoLeftClick(Block block)
         {
-            int oldXPos = block.posX;
-            int oldYPos = block.posY;
+            int oldPosX = block.posX;
+            int oldPosY = block.posY;
 
             //If the block is in range
             if (block.IsInRange())
@@ -171,7 +171,7 @@ namespace SeeloewenCraft.game.core
             }
 
 
-            block.chunk.GetBlock(oldXPos, oldYPos).AddDebugMenu();
+            block.chunk.GetBlock(oldPosX, oldPosY).AddDebugMenu();
         }
 
         private static void BreakConstruct(Block baseBlock)

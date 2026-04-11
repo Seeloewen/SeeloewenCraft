@@ -61,7 +61,7 @@ namespace SeeloewenCraft.game.graphics
                 if (i == newIndex && scrollOffset != 0)
                 {
                     slot.SelectInHotbar();
-                    (int x1, int y1) = (startPos + edgeSize * slot.xPos + slotSize * slot.xPos, startPos);
+                    (int x1, int y1) = (startPos + edgeSize * slot.posX + slotSize * slot.posX, startPos);
                     (int x2, int y2) = (x1 + slotSize + edgeSize * 2, y1 + slotSize + edgeSize * 2);
 
                     slotBorder.SetBounds(new Rectangle(x1, y1, x2, y2));

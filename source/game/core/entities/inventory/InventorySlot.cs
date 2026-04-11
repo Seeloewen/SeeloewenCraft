@@ -11,8 +11,8 @@ namespace SeeloewenCraft.game.core.entities.inventory
         internal const int MAX_AMOUNT = 64;
 
         private Inventory parentInv;
-        public readonly int xPos;
-        public readonly int yPos;
+        public readonly int posX;
+        public readonly int posY;
 
         public string id = "";
         public string tag = "";
@@ -23,11 +23,11 @@ namespace SeeloewenCraft.game.core.entities.inventory
         internal bool isHotbar;
         internal bool isHotbarSelected { get; private set; }
 
-        public InventorySlot(Inventory parentInv, int xPos, int yPos)
+        public InventorySlot(Inventory parentInv, int posX, int posY)
         {
             this.parentInv = parentInv;
-            this.xPos = xPos;
-            this.yPos = yPos;
+            this.posX = posX;
+            this.posY = posY;
         }
 
         public int Add(string id, int amount, string tag = "") //Returns the amount of items that weren't added
@@ -50,7 +50,7 @@ namespace SeeloewenCraft.game.core.entities.inventory
                 //TODO: Networking Rework
                 /*if (inventory.block != null && inventory.block.chunk != null)
                 {
-                    NetworkHandler.SendData(MultiplayerPacketType.ADD_TO_INV, inventory.block.xPos.ToString(), inventory.block.yPos.ToString(), inventory.block.chunk.index.ToString(), id, amount.ToString(), xPos.ToString(), yPos.ToString(), tag ??= "");
+                    NetworkHandler.SendData(MultiplayerPacketType.ADD_TO_INV, inventory.block.posX.ToString(), inventory.block.posY.ToString(), inventory.block.chunk.index.ToString(), id, amount.ToString(), posX.ToString(), posY.ToString(), tag ??= "");
                 }*/
             }
 
@@ -83,7 +83,7 @@ namespace SeeloewenCraft.game.core.entities.inventory
             //TODO: Multiplayer rewrite
             /*if (inventory.block != null && inventory.block.chunk != null)
             {
-                NetworkHandler.SendData(MultiplayerPacketType.REMOVE_FROM_INV, inventory.block.xPos.ToString(), inventory.block.yPos.ToString(), inventory.block.chunk.index.ToString(), amount.ToString(), xPos.ToString(), yPos.ToString());
+                NetworkHandler.SendData(MultiplayerPacketType.REMOVE_FROM_INV, inventory.block.posX.ToString(), inventory.block.posY.ToString(), inventory.block.chunk.index.ToString(), amount.ToString(), posX.ToString(), posY.ToString());
             }*/
         }
 

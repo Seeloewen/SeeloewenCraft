@@ -360,23 +360,23 @@ namespace SeeloewenCraft.game.core.world
             else
             {
                 //Calculate y position where the player starts
-                int yPos = 0;
+                int posY = 0;
 
                 foreach (Block block in GetChunk(3).blockList.blocks)
                 {
                     if (block.posX == 4 && block.isSolid)
                     {
-                        yPos = block.posY;
+                        posY = block.posY;
                         break;
                     }
                 }
 
-                yPos = Math.Max((yPos * 1000) - 1900, 2000);
+                posY = Math.Max((posY * 1000) - 1900, 2000);
 
-                Log.Write($"Found player spawn point at position x{28050} y{yPos}", LogType.GENERAL, LogLevel.INFO);
+                Log.Write($"Found player spawn point at position x{28050} y{posY}", LogType.GENERAL, LogLevel.INFO);
                 worldSpawnX = 28050;
-                worldSpawnY = yPos;
-                return (28050, yPos);
+                worldSpawnY = posY;
+                return (28050, posY);
             }
         }
 
