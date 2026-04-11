@@ -61,9 +61,9 @@ namespace SeeloewenCraft.game.core.world
             humidityNoise = new SimplexPerlin();
             temperatureNoise = new SimplexPerlin();
 
-            heightNoise.Seed = seed;
-            humidityNoise.Seed = seed + 1;
-            temperatureNoise.Seed = seed - 1;
+            heightNoise.Seed = this.seed;
+            humidityNoise.Seed = this.seed + 1;
+            temperatureNoise.Seed = this.seed - 1;
 
             CraftingHandler.Init();
             BlockRegister.Init();

@@ -36,7 +36,7 @@ namespace SeeloewenCraft.game.core.world
 
             //Seed magic
             Random rnd = new Random(World.Get().seed);
-            chunkSeed = rnd.Next() * index;
+            chunkSeed = rnd.Next() + index;
             chunkRnd = new Random(chunkSeed);
 
             //Begin loading the chunk
