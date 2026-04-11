@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Documents;
 
 namespace SeeloewenCraft.game.core.blocks
@@ -167,6 +168,8 @@ namespace SeeloewenCraft.game.core.blocks
                 DoSpecificUpdate(1);
                 sinceLastSpecificUpdate = 0;
             }
+
+            if(foregroundBlock != null) foregroundBlock.DoUpdate(dt);
         }
 
         protected virtual void DoSpecificUpdate(double dt) { } //Can be overriden in blocks, for block-specific updates - run every 1s
@@ -678,6 +681,7 @@ namespace SeeloewenCraft.game.core.blocks
             if (chunk == null) return null;
 
             PositionData posData = GetPosData();
+
             return World.Get().GetBlock(GetAbsoluteX() + 1, posY);
         }
 
