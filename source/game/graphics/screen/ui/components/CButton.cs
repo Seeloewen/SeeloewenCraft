@@ -18,7 +18,7 @@ namespace SeeloewenCraft.game.graphics
         CText cText;
         string text;
 
-        internal CButton(Action onPress, string text, string texId, string texMap, Rectangle bounds) : base(new Color(0, 0, 0), bounds)
+        internal CButton(Action onPress, string text, int textSize, string texId, string texMap,  Rectangle bounds) : base(new Color(0, 0, 0), bounds)
         {
             this.onPress = onPress;
             this.texId = texId;
@@ -27,10 +27,10 @@ namespace SeeloewenCraft.game.graphics
             cTexture = new CTexture(texMap, texId, bounds);
             AddChild(cTexture);
 
-            Init();
+            Init(textSize);
         }
 
-        internal CButton(Action onPress, string text, Color colorNormal, Color colorHovered, Color colorPressed, Rectangle bounds) : base(new Color(0, 0, 0), bounds)
+        internal CButton(Action onPress, string text, int textSize, Color colorNormal, Color colorHovered, Color colorPressed, Rectangle bounds) : base(new Color(0, 0, 0), bounds)
         {
             this.onPress = onPress;
             this.text = text;
@@ -38,15 +38,15 @@ namespace SeeloewenCraft.game.graphics
             this.colorHovered = colorHovered;
             this.colorPressed = colorPressed;
 
-            Init();
+            Init(textSize);
         }
 
-        public void Init()
+        public void Init(int textSize)
         {
             AddChild(new CBorder(3, new Color(0.2f)));
             (int centerX, int centerY) = bounds.GetCenter();
             TextLayout layout = new TextLayout(centerX, TextHAlignment.CENTER, centerY, TextVAlignment.CENTER);
-            cText = new CText(text, 3, layout);
+            cText = new CText(text, textSize, layout);
             AddChild(cText);
         }
 

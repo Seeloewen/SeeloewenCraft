@@ -28,7 +28,7 @@ namespace SeeloewenCraft.game.graphics
             cIcon = new CTexture("items", "", new Rectangle(0, yAnchor + 8, 24, yAnchor + 32));
             AddChild(cIcon);
 
-            cCloseButton = new CButton(cCloseButton_OnClick, "X", "sc:stone_block", "blocks", new Rectangle(0, yAnchor, 40, yAnchor + 40));
+            cCloseButton = new CButton(cCloseButton_OnClick, "X", 3, "sc:stone_block", "blocks", new Rectangle(0, yAnchor, 40, yAnchor + 40));
             AddChild(cCloseButton);
         }
 

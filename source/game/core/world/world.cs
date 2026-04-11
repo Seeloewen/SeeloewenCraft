@@ -332,7 +332,7 @@ namespace SeeloewenCraft.game.core.world
             }
             else
             {
-                player.inventory = new Inventory(9, 4);
+                player.inventory = new Inventory(9, 4, isPlayerInv: true);
                 player.inventory.InitHotbar();
             }
         }

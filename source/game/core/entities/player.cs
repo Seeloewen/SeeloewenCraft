@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SeeloewenCraft.game.core.crafting;
 using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.core.items;
 using SeeloewenCraft.game.core.world;
@@ -18,6 +19,7 @@ namespace SeeloewenCraft.game.core.entities
     {
         public CreativeInventory creativeInventory;
         public Inventory inventory;
+        public CraftingHandler handCrafting;
 
         public Gamemode gamemode = Gamemode.Survival;
 
@@ -210,6 +212,8 @@ namespace SeeloewenCraft.game.core.entities
             DebugMenu.AddLine(DebugMenu.Section.PLAYER, "breathing");
 
             creativeInventory = new CreativeInventory();
+
+            handCrafting = new CraftingHandler("Hand_Crafting", "Hand Crafting");
         }
 
         public override void Die()

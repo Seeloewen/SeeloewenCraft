@@ -54,7 +54,7 @@ namespace SeeloewenCraft.game.graphics
 
                 Action onPress = actions[i];
 
-                AddChild(new CButton(onPress, texts[i],
+                AddChild(new CButton(onPress, texts[i], 3,
                 "sc:button_1",
                 "general",
                 bounds)

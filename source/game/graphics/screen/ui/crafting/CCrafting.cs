@@ -41,8 +41,8 @@ namespace SeeloewenCraft.game.graphics
             cRecipePane = new CScrollPane(new Color(0.88f), new Rectangle(bounds.x1P + 20, bounds.y1P + 60, bounds.x1P + 240, bounds.y2P - 80), 0);
             cIngredients = new CRectangle(new Color(0.88f), new Rectangle(bounds.x1P + 255, bounds.y1P + 60, bounds.x2P - 20, bounds.y2P - 80));
 
-            cCraftButton = new CButton(CCraftButton_Click, "Craft", "sc:button_1", "general", new Rectangle(GuiSizes.mx - 50, bounds.y2P - 65, GuiSizes.mx + 50, bounds.y2P - 20));
-            cClaimButton = new CButton(CClaimButton_Click, "Claim", "sc:button_1", "general", new Rectangle(GuiSizes.mx - 50, bounds.y2P - 65, GuiSizes.mx + 50, bounds.y2P - 20));
+            cCraftButton = new CButton(CCraftButton_Click, "Craft", 3, "sc:button_1", "general", new Rectangle(GuiSizes.mx - 50, bounds.y2P - 65, GuiSizes.mx + 50, bounds.y2P - 20));
+            cClaimButton = new CButton(CClaimButton_Click, "Claim", 3,"sc:button_1", "general", new Rectangle(GuiSizes.mx - 50, bounds.y2P - 65, GuiSizes.mx + 50, bounds.y2P - 20));
             cClaimButton.visible = false;
 
             cCraftingProgress = new CProgressBar(new Color(0.7f), new Color(0.3f, 0.58f, 0.82f), new Rectangle(bounds.x1P + 20, bounds.y2P - 55, bounds.x2P - 20, bounds.y2P - 30));

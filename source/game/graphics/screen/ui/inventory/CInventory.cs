@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.core.entities.inventory;
+﻿using SeeloewenCraft.game.core.entities;
+using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.graphics.ui_lib;
 using System.Collections.Generic;
 
@@ -11,6 +12,7 @@ namespace SeeloewenCraft.game.graphics
 
         internal CBorder cBorder;
         internal CText cHeader;
+        internal CButton cCraftingButton;
 
         internal readonly int slotsX;
         internal readonly int slotsY;
@@ -35,6 +37,12 @@ namespace SeeloewenCraft.game.graphics
 
             cBorder = new CBorder(5, new Color(0.5f));
             AddChild(cBorder);
+
+            if (invData.isPlayerInv)
+            {
+                cCraftingButton = new CButton(cCraftingButton_Click, "Hand Crafting", 2, "sc:button_1", "general", new Rectangle(bounds.x2P - 185, bounds.y1P + 10, bounds.x2P - 15, bounds.y1P + 40));
+                AddChild(cCraftingButton);
+            }
 
             //Add all the slots
             for (int y = 0; y < slotsY; y++)
@@ -61,6 +69,12 @@ namespace SeeloewenCraft.game.graphics
                 cSlot.Update(slot.id, slot.GetItemName(), slot.amount, slot.GetRelativeDurability(), slot.isSelected);
             }
 
+        }
+
+        private void cCraftingButton_Click()
+        {
+            invData.HideGui();
+            ((IGuiData)Player.Get().handCrafting).Show();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace SeeloewenCraft.game.graphics
             cTextboxInput.GetField().onEnter = cButtonSend_Click;
             cTextboxInput.GetField().onEscape = cTextboxInput_OnEscape;
             cMessageArea = new CScrollPane(new Color(0.8f, 0.8f, 0.8f, 0.4f), new Rectangle(10, 120, 800, Resolution.HEIGHT - 70), 0);
-            cButtonSend = new CButton(cButtonSend_Click, "Send", "sc:button_1", "general", new Rectangle(Resolution.WIDTH - 110, Resolution.HEIGHT - 60, Resolution.WIDTH - 10, Resolution.HEIGHT - 10));
+            cButtonSend = new CButton(cButtonSend_Click, "Send", 3, "sc:button_1", "general", new Rectangle(Resolution.WIDTH - 110, Resolution.HEIGHT - 60, Resolution.WIDTH - 10, Resolution.HEIGHT - 10));
 
             AddChild(cTextboxInput);
             AddChild(cMessageArea);

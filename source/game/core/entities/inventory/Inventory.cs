@@ -22,13 +22,16 @@ namespace SeeloewenCraft.game.core.entities.inventory
         public InventorySlot[] slots;
 
         private bool hasHotbar = false;
+        internal bool isPlayerInv;
         internal int slotsX;
         internal int slotsY;
+        
 
-        public Inventory(int slotsX, int slotsY, string name = "Inventory")
+        public Inventory(int slotsX, int slotsY, string name = "Inventory", bool isPlayerInv = false)
         {
             this.slotsX = slotsX;
             this.slotsY = slotsY;
+            this.isPlayerInv = isPlayerInv;
 
             ((IGuiData)this).AddTag("header", name);
             ((IGuiData)this).AddTag("slotsX", slotsX);
@@ -57,7 +60,7 @@ namespace SeeloewenCraft.game.core.entities.inventory
 
         public void HideGui()
         {
-            ((IGuiData)this).Show();
+            ((IGuiData)this).Hide();
             isOpen = false;
         }
 
@@ -314,7 +317,7 @@ namespace SeeloewenCraft.game.core.entities.inventory
             int slotsX = json.Get<int>("size_x");
             int slotsY = json.Get<int>("size_y");
 
-            Inventory inventory = new Inventory(slotsX, slotsY);
+            Inventory inventory = new Inventory(slotsX, slotsY, isPlayerInv: isPlayer);
 
             //Get a possible hotbar
             bool hasHotbar = json.Get<bool>("has_hotbar");

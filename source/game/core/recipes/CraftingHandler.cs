@@ -62,6 +62,16 @@ namespace SeeloewenCraft.game.core.crafting
             craftingHandlers.Add(this);
         }
 
+        public CraftingHandler(string workstationId, string workstationName)
+        {
+            this.workstationId = workstationId;
+            this.workstationName = workstationName;
+
+            ((IGuiData)this).AddTag("header", workstationName);
+
+            craftingHandlers.Add(this);
+        }
+
         public static CraftingRecipe GetRecipe(string id)
         {
             //Go through the recipe list and find the recipe with the specified id
@@ -137,15 +147,18 @@ namespace SeeloewenCraft.game.core.crafting
 
         private void FinishCrafting()
         {
-            block.blockState = BlockState.RECIPE_IDLE;
             recipeClaimable = true;
 
             //Get the item that belongs to this workstation to display in the notification
             Item displayItem = null;
-            if (block != null) displayItem = ItemRegister.Get(block.itemId);
+            if (block != null)
+            {
+                block.blockState = BlockState.RECIPE_IDLE;
+                displayItem = ItemRegister.Get(block.itemId);
+                Log.Write($"Completed crafting for {recipeAmount}x {currentRecipe.id} at workstation {workstationId} (x{block.posX} y{block.posY}, Chunk {block.chunk.index})", LogType.GENERAL, LogLevel.INFO);
+            }
 
             NotificationHandler.Notify(displayItem != null ? displayItem.id : "sc:crafting_table_item", $"Crafting for {recipeAmount}x {currentRecipe.displayName} completed!");
-            if (block != null) Log.Write($"Completed crafting for {recipeAmount}x {currentRecipe.id} at workstation {workstationId} (x{block.posX} y{block.posY}, Chunk {block.chunk.index})", LogType.GENERAL, LogLevel.INFO);
         }
 
         private void OnUpdate(double dt)
