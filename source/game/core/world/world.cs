@@ -241,7 +241,7 @@ namespace SeeloewenCraft.game.core.world
         public void SetBlock(int cPosX, int posY, int cIndex, Block b) => GetChunk(cIndex).SetBlock(b, cPosX, posY);
         public void SetBlock(PositionData posData, Block b) => SetBlock(posData.x, posData.y, posData.ci, b);
 
-        public Block GetBlock(int posX, int posY)
+        public Block GetBlock(int posX, int posY) //global x
         {
             int chunkIndex = posX >= 0
                 ? posX / 8
