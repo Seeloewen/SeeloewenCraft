@@ -54,18 +54,18 @@ public class CTextField : CText, TextReceiver
 
     private void OnBackspace()
     {
-        if (text.Length > 0) text = text.Remove(text.Length - 1, 1);
+        if (text.Length > 0) SetText(text.Remove(text.Length - 1, 1));
     }
 
     private void OnEnter()
     {
-        text = "";
+        SetText("");
         editMode = false;
     }
 
     private void OnEscape()
     {
-        text = "";
+        SetText("");
         editMode = false;
     }
 
@@ -73,7 +73,7 @@ public class CTextField : CText, TextReceiver
     {
         if (c.Length + text.Length <= maxSize)
         {
-            text += c;
+            SetText(text + c);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace SeeloewenCraft.game.graphics
 
         internal CTextBox(int x, int y, int width, int height, Color c) : base(c, new Rectangle(x, y, x + width, y + height))
         {
-            cTextField = new CTextField(2, new TextLayout(x + width / 2 - 10, TextHAlignment.LEFT, y + (height / 2) - 8, TextVAlignment.TOP), Math.Max(width / 8 - 20, 3));
+            cTextField = new CTextField(2, new TextLayout(x + 10, TextHAlignment.LEFT, y + (height / 2) - 8, TextVAlignment.TOP), Math.Max(width / 8 - 20, 3));
             AddChild(cTextField);
 
             cBorder = new CBorder(3, new Color(0.23f));
