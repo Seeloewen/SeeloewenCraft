@@ -1,19 +1,22 @@
-﻿using Newtonsoft.Json;
+using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.Media;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SeeloewenCraft.game;
 using SeeloewenCraft.game.core.events;
 using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.graphics;
+using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
 
 namespace SeeloewenCraft.launcher
 {
@@ -21,7 +24,7 @@ namespace SeeloewenCraft.launcher
     {
         internal readonly string id;
 
-        private readonly TextBlock tblName = new TextBlock() { FontSize = 18, FontWeight = FontWeights.DemiBold };
+        private readonly TextBlock tblName = new TextBlock() { FontSize = 18, FontWeight = FontWeight.DemiBold };
         private readonly TextBlock tblDescription = new TextBlock() { FontSize = 16 };
 
         internal TexturepackDisplay(string name, string desc, string id)
@@ -69,9 +72,9 @@ namespace SeeloewenCraft.launcher
             lbEnabled.ItemsSource = enabledTexturepacks;
 
             //If the settings file exists, load it
-            if (File.Exists($"{FolderUtil.gameFolder}\\clientSettings.json"))
+            if (File.Exists(Path.Combine(FolderUtil.gameFolder, "clientSettings.json")))
             {
-                JObject settingsObj = JObject.Parse(File.ReadAllText($"{FolderUtil.gameFolder}\\clientSettings.json"));
+                JObject settingsObj = JObject.Parse(File.ReadAllText(Path.Combine(FolderUtil.gameFolder, "clientSettings.json")));
                 LoadSettings(settingsObj);
             }
             else
@@ -117,13 +120,17 @@ namespace SeeloewenCraft.launcher
 
             //Save the settings to file
             JObject settingsObj = Settings.Save();
-            File.WriteAllText($"{FolderUtil.gameFolder}\\clientSettings.json", settingsObj.ToString());
+            File.WriteAllText(Path.Combine(FolderUtil.gameFolder, "clientSettings.json"), settingsObj.ToString());
 
             //Apply settings
             if (texturepackChanged) TextureManager.Load();
             if (GameEventHandler.isInitialized) GameEventHandler.Register(new AutoSaveEvent(Settings.autoSaveInterval * 60000));
 
-            if (!suppressConfirmation) MessageBox.Show("The settings have been saved successfully!", "Saved settings", MessageBoxButton.OK, MessageBoxImage.Information);
+            if (!suppressConfirmation)
+            {
+                var box = MessageBoxManager.GetMessageBoxStandard("Saved settings", "The settings have been saved successfully!", ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Info);
+                box.ShowAsync();
+            }
         }
 
         private void LoadSettings(JObject obj)
@@ -171,7 +178,7 @@ namespace SeeloewenCraft.launcher
             string[] directories = Directory.GetDirectories(FolderUtil.texturepacksFolder);
             foreach (string directory in directories)
             {
-                string packFile = $"{directory}\\pack.json";
+                string packFile = Path.Combine(directory, "pack.json");
                 if (File.Exists(packFile))
                 {
                     //Load the texture pack properties and add it to the list, disabled by default
@@ -237,7 +244,7 @@ namespace SeeloewenCraft.launcher
         {
             //Show the about window
             wndAbout wndAbout = new wndAbout();
-            wndAbout.ShowDialog();
+            wndAbout.ShowDialog(this);
         }
 
         private void btnOpenLog_Click(object sender, RoutedEventArgs e)
@@ -253,7 +260,7 @@ namespace SeeloewenCraft.launcher
             ((TextBox)sender).Text = KeyBinds.ToGLFWKey(e.Key).ToString();
         }
 
-        private void tbAutosave_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void tbAutosave_PreviewTextInput(object sender, TextInputEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
@@ -328,6 +335,6 @@ namespace SeeloewenCraft.launcher
             }
         }
 
-        private void lb_GotFocus(object sender, RoutedEventArgs e) => focusedList = sender as ListBox;
+        private void lb_GotFocus(object sender, FocusChangedEventArgs e) => focusedList = sender as ListBox;
     }
 }

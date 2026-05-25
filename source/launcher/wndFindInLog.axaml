@@ -1,11 +1,10 @@
-﻿<Window x:Class="SeeloewenCraft.launcher.wndFindInLog"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SeeloewenCraft.launcher"
-        mc:Ignorable="d"
-        Title="Find in log" Height="108" Width="332" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closing="Window_Closing">
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SeeloewenCraft.launcher.wndFindInLog"
+        Title="Find in log" Height="108" Width="332" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <Canvas>
         <TextBlock x:Name="tblFind" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Find..." VerticalAlignment="Top" FontSize="16" Canvas.Left="10" Canvas.Top="5"/>
         <TextBox x:Name="tbSearch" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="297" FontSize="16" Canvas.Left="10" Canvas.Top="31" TextChanged="tbSearch_TextChanged"/>

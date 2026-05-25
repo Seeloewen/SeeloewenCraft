@@ -1,21 +1,20 @@
-﻿<Window x:Name="wndMenu1" x:Class="SeeloewenCraft.launcher.wndMenu"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SeeloewenCraft.launcher"
-        mc:Ignorable="d"
-        Title="SeeloewenCraft" Height="452" Width="770" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Closing="wndMenu1_Closing">
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SeeloewenCraft.launcher.wndMenu"
+        Title="SeeloewenCraft" Height="452" Width="770" WindowStartupLocation="CenterScreen" Closing="wndMenu_Closing">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/Resources/launcher/Background.png" TileMode="Tile" Stretch="None"/>
+            <ImageBrush Source="/Resources/launcher/Background.png" TileMode="Tile" Stretch="None"/>
         </Grid.Background>
         <TextBlock x:Name="tblHeader" HorizontalAlignment="Center" Margin="0,14,0,0" TextWrapping="Wrap" Text="SeeloewenCraft" VerticalAlignment="Top" FontSize="60" FontWeight="DemiBold" Foreground="White"/>
         <Button x:Name="btnSingleplayer" Content="Singleplayer" HorizontalAlignment="Center" Margin="0,139,0,0" VerticalAlignment="Top" Height="40" Width="206" Click="btnPlay_Click" FontSize="20"/>
         <Button x:Name="btnExit" Content="Exit" HorizontalAlignment="Center" Margin="0,295,0,0" VerticalAlignment="Top" Height="40" Width="206" FontSize="20" Click="btnExit_Click"/>
-        <TextBlock x:Name="tblAbout" HorizontalAlignment="Left" Margin="16,379,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Foreground="White" Width="567"><Run Text="2023 - "/><Run Language="de-de" Text="2025"/><Run Text=" by Seeloewen and CDLemmi - Private project, inspired by Minecraft"/></TextBlock>
+        <TextBlock x:Name="tblAbout" HorizontalAlignment="Left" Margin="16,379,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Foreground="White" Width="567"><Run Text="2023 - "/>Text="2026"<Run Text=" by Seeloewen and CDLemmi - Private project, inspired by Minecraft"/></TextBlock>
         <Button x:Name="btnSettings" Content="Settings" HorizontalAlignment="Center" Margin="0,242,0,0" VerticalAlignment="Top" Height="40" Width="206" FontSize="20" Click="btnSettings_Click"/>
-        <TextBlock x:Name="tblVersion" HorizontalAlignment="Left" Margin="16,353,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Foreground="White"><Run Language="de-de" Text="Version {0}"/></TextBlock>
+        <TextBlock x:Name="tblVersion" HorizontalAlignment="Left" Margin="16,353,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Foreground="White">Text="Version {0}"</TextBlock>
         <TextBlock x:Name="tblSplashText" HorizontalAlignment="Left" Margin="519,73,0,0" TextWrapping="NoWrap" Text="SplashtextNotFound!" VerticalAlignment="Top" FontSize="20" RenderTransformOrigin="0.343,0.459" Foreground="White">
             <TextBlock.RenderTransform>
                 <TransformGroup>

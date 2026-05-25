@@ -1,5 +1,10 @@
-﻿using System;
+﻿using Avalonia.Controls;
+using Avalonia.Platform.Storage;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SeeloewenCraft.game.util
 {
@@ -32,6 +37,29 @@ namespace SeeloewenCraft.game.util
             }
 
             return default;
+        }
+
+        public static async Task<string?> OpenFolderAsync(this IStorageProvider storageProvider)
+        {
+            var result = await storageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+            {
+                Title = "Choose a folder...",
+                AllowMultiple = false
+            });
+
+            return result.FirstOrDefault()?.Path.LocalPath;
+        }
+
+        public static async Task<IStorageFile> SaveFileAsync(this IStorageProvider storageProvider, string fileName = "", IReadOnlyList<FilePickerFileType> types = null)
+        {
+            FilePickerSaveOptions opt = new FilePickerSaveOptions()
+            {
+                Title = "Choose a location to save the file...",
+                SuggestedFileName = fileName,
+                FileTypeChoices = types
+            };
+
+            return await storageProvider.SaveFilePickerAsync(opt);
         }
     }
 }

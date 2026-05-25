@@ -12,6 +12,10 @@ using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using SeeloewenCraft.launcher;
 using System;
+using System.IO;
+using System.Threading.Tasks;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 
 namespace SeeloewenCraft.game
 {
@@ -22,7 +26,7 @@ namespace SeeloewenCraft.game
 
         public const int WORLD_VERSION = 6; //Up to date as of Alpha 1.2.1 (Recent changes: Seeding)
         public const string GAME_VERSION = "Beta 1.0.0-dev";
-        public const string VERSION_DATE = "21.08.2025";
+        public const string VERSION_DATE = "25.05.2026";
         public const int TEXTUREPACK_VERSION = 3; //Up to date as of Beta 1.0.0 (Recent changes: Rendering Rewrite)
 
         public static string selectedTexturepack; //Subject to rewrite
@@ -73,11 +77,11 @@ namespace SeeloewenCraft.game
                 if (Settings.saveWorldOnClose) world.Save();
 
                 JObject obj = Settings.Save();
-                obj.ToFile($"{FolderUtil.gameFolder}\\clientSettings.json");
+                obj.ToFile(Path.Combine(FolderUtil.gameFolder, "clientSettings.json"));
             }
         }
 
-        public unsafe static void Create(string worldName, int seed, bool isNew, MultiplayerType multiplayerType, wndMenu wndMenu)
+        public static unsafe void Create(string worldName, int seed, bool isNew, MultiplayerType multiplayerType, wndMenu wndMenu)
         {
             Game.wndMenu = wndMenu;
 
@@ -164,7 +168,8 @@ namespace SeeloewenCraft.game
 
         public static void ShowException(Exception ex)
         {
-            System.Windows.MessageBox.Show($"Oh no! The game has encountered an exception: {ex.Message} \n\n{ex.StackTrace}", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            var box = MessageBoxManager.GetMessageBoxStandard("Error", $"Oh no! The game has encountered an exception: {ex.Message} \n\n{ex.StackTrace}", ButtonEnum.Ok, Icon.Error);
+            box.ShowAsync();
         }
         #endregion
 

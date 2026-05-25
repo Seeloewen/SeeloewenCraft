@@ -1,10 +1,13 @@
-﻿using SeeloewenCraft.game;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.OpenGL;
+using Avalonia.Threading;
+using SeeloewenCraft.game;
 using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using System;
-using System.Windows;
 
 namespace SeeloewenCraft.launcher
 {
@@ -12,7 +15,7 @@ namespace SeeloewenCraft.launcher
     {
 
         //References
-        private System.Windows.Forms.Timer tmrSplashText = new System.Windows.Forms.Timer();
+        private DispatcherTimer tmrSplashText = new DispatcherTimer();
         private wndLoadWorld wndLoadWorld;
         public wndSettings wndSettings;
         private SplashTextHandler splashTextHandler;
@@ -28,7 +31,7 @@ namespace SeeloewenCraft.launcher
 
             //Setup the splash text timer
             tmrSplashText.Tick += tmrSplashText_Tick;
-            tmrSplashText.Interval = 50;
+            tmrSplashText.Interval = new TimeSpan(0, 0, 0, 0, 50);
             tmrSplashText.Start();
 
             //Display version
@@ -47,7 +50,7 @@ namespace SeeloewenCraft.launcher
         {
             //Show the world selection window
             wndLoadWorld = new wndLoadWorld(this, MultiplayerType.OFFLINE);
-            wndLoadWorld.ShowDialog();
+            wndLoadWorld.ShowDialog(this);
         }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
@@ -60,7 +63,7 @@ namespace SeeloewenCraft.launcher
         {
             //Show the settings window
             wndSettings = new wndSettings(false);
-            wndSettings.ShowDialog();
+            wndSettings.ShowDialog(this);
         }
 
         private void tmrSplashText_Tick(object sender, EventArgs e)
@@ -82,7 +85,7 @@ namespace SeeloewenCraft.launcher
             }
         }
 
-        private void wndMenu1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void wndMenu_Closing(object sender, WindowClosingEventArgs e)
         {
             //Save the log, if enabled
             if (Settings.saveLogOnExit)
@@ -91,13 +94,13 @@ namespace SeeloewenCraft.launcher
             }
 
             //Close the app
-            Application.Current.Shutdown();
+            App.Exit();
         }
 
         private void btnMultiplayer_Click(object sender, RoutedEventArgs e)
         {
             wndMultiplayer wndMultiplayer = new wndMultiplayer(this);
-            wndMultiplayer.ShowDialog();
+            wndMultiplayer.ShowDialog(this);
         }
     }
 }

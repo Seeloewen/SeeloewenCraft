@@ -9,8 +9,6 @@ using SeeloewenCraft.game.util.logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Controls;
-
 
 namespace SeeloewenCraft.game.core.world
 {
@@ -40,7 +38,7 @@ namespace SeeloewenCraft.game.core.world
             chunkRnd = new Random(chunkSeed);
 
             //Begin loading the chunk
-            chunkDirectory = string.Format("{0}/chunk{1}", World.Get().worldDirectory, index);
+            chunkDirectory = Path.Combine(World.Get().worldDirectory, $"chunk{index}");
             Init();
         }
 
@@ -58,7 +56,7 @@ namespace SeeloewenCraft.game.core.world
             //save blocks in blocks.json
             JObject blockListObj = new JObject()
             { { "blocks", blockList.ToJson() } };
-            blockListObj.ToFile($"{World.Get().worldDirectory}/chunk{index}/blocks.json");
+            blockListObj.ToFile( Path.Combine(World.Get().worldDirectory, $"chunk{index}", "blocks.json"));
 
             //save settings in settings.json
             JObject settingsObj = new JObject()
@@ -66,7 +64,7 @@ namespace SeeloewenCraft.game.core.world
                 {"index", index},
                 {"chunkSeed", chunkSeed},
             };
-            settingsObj.ToFile($"{World.Get().worldDirectory}/chunk{index}/settings.json");
+            settingsObj.ToFile( Path.Combine(World.Get().worldDirectory, $"chunk{index}", "settings.json"));
         }
 
         internal void SetBlock(Block block, int x, int y)
@@ -96,7 +94,7 @@ namespace SeeloewenCraft.game.core.world
             Log.Write($"Initializing chunk {index}...", LogType.WORLD_GENERATION, LogLevel.INFO);
 
             //Check if the chunk doesn't already exist
-            if (Directory.Exists($"{World.Get().worldDirectory}/chunk{index}"))
+            if (Directory.Exists( Path.Combine(World.Get().worldDirectory, $"chunk{index}")))
             {
                 Load();
             }
@@ -120,11 +118,11 @@ namespace SeeloewenCraft.game.core.world
             Log.Write($"Loading chunk {index} from file...", LogType.WORLD_GENERATION, LogLevel.INFO);
 
             //load blocklist
-            JArray blockListArray = JsonUtil.ArrayFromFile($"{World.Get().worldDirectory}/chunk{index}/blocks.json");
+            JArray blockListArray = JsonUtil.ArrayFromFile(Path.Combine(World.Get().worldDirectory, $"chunk{index}", "blocks.json"));
             blockList = BlockList.FromJson(blockListArray, this);
 
             //load settings
-            JObject settingsObj = JsonUtil.ObjectFromFile($"{World.Get().worldDirectory}/chunk{index}/settings.json");
+            JObject settingsObj = JsonUtil.ObjectFromFile(Path.Combine(World.Get().worldDirectory, $"chunk{index}", "settings.json"));
             index = settingsObj.Get<int>("index");
         }
 

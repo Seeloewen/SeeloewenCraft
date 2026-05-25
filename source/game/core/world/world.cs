@@ -20,7 +20,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 
 namespace SeeloewenCraft.game.core.world
 {
@@ -151,12 +155,12 @@ namespace SeeloewenCraft.game.core.world
         {
             //Try loading the world version
             int worldVersion;
-            if (File.Exists($"{w.worldDirectory}/world_settings.json"))
+            if (File.Exists(Path.Combine(w.worldDirectory, "world_settings.json")))
             {
-                JObject settingsObj = JsonUtil.ObjectFromFile($"{w.worldDirectory}/world_settings.json");
+                JObject settingsObj = JsonUtil.ObjectFromFile(Path.Combine(w.worldDirectory, "world_settings.json"));
                 worldVersion = settingsObj.Get<int>("world_version");
             }
-            else if (File.Exists($"{w.worldDirectory}/settings.txt"))
+            else if (File.Exists(Path.Combine(w.worldDirectory, "settings.txt")))
             {
                 Log.Write("Detected old saving system, can't load the world. Please use an older version of the game", LogType.GENERAL, LogLevel.ERROR);
                 return false;
@@ -170,11 +174,11 @@ namespace SeeloewenCraft.game.core.world
             //If the world version is outdated, show are warning as it may cause corruption
             if (worldVersion < currentVersion)
             {
-                MessageBoxResult result = MessageBox.Show("You are trying to load an outdated world. This may lead to corruption or other issues. You have been warned! Do you wish to continue?", "Load outdated world", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                var result = ShowOutdatedDialog().GetAwaiter().GetResult();
 
                 switch (result)
                 {
-                    case MessageBoxResult.Yes:
+                    case ButtonResult.Yes:
                         Log.Write("You are loading an outdated world, this may cause issues or corruption", LogType.GENERAL, LogLevel.WARNING);
                         return true;
                 }
@@ -183,6 +187,15 @@ namespace SeeloewenCraft.game.core.world
             return false;
         }
 
+        private static async Task<ButtonResult> ShowOutdatedDialog()
+        {
+            var box = MessageBoxManager.GetMessageBoxStandard("Load outdated world",
+                "You are trying to load an outdated world. This may lead to corruption or other issues. You have been warned! Do you wish to continue?",
+                ButtonEnum.YesNo, Icon.Warning);
+            
+            return await box.ShowAsync();
+        }
+        
         public void SetGamemode(Gamemode gamemode)
         {
             this.gamemode = gamemode;
@@ -191,7 +204,7 @@ namespace SeeloewenCraft.game.core.world
 
         public void SaveEntities()
         {
-            entityManager.ToJson().ToFile($"{worldDirectory}/entities.json");
+            entityManager.ToJson().ToFile(Path.Combine(worldDirectory, "entities.json"));
         }
 
         public void Save()
@@ -212,9 +225,9 @@ namespace SeeloewenCraft.game.core.world
         public string LoadWorldSetting(string settingName)
         {
             //Check if the world settings file exists and retrieve the value
-            if (File.Exists($"{worldDirectory}/world_settings.json"))
+            if (File.Exists(Path.Combine(worldDirectory, "world_settings.json")))
             {
-                JObject settingsObj = JsonUtil.ObjectFromFile($"{worldDirectory}/world_settings.json");
+                JObject settingsObj = JsonUtil.ObjectFromFile(Path.Combine(worldDirectory, "world_settings.json"));
                 if (settingsObj.ContainsKey(settingName))
                 {
                     return settingsObj.Get<string>($"{settingName}");
@@ -286,7 +299,7 @@ namespace SeeloewenCraft.game.core.world
                 { "world_version", Game.WORLD_VERSION},
                 { "seed", seed}
             };
-            obj.ToFile($"{worldDirectory}/world_settings.json");
+            obj.ToFile(Path.Combine(worldDirectory, "world_settings.json"));
         }
 
         private void InitWorldDirectory()
@@ -294,24 +307,24 @@ namespace SeeloewenCraft.game.core.world
             //Check if the world directory exists and create it otherwise
             if (multiplayerType != MultiplayerType.CLIENT)
             {
-                if (!Directory.Exists($"{FolderUtil.worldsFolder}\\{name}"))
+                if (!Directory.Exists(Path.Combine(FolderUtil.worldsFolder, name)))
                 {
-                    Directory.CreateDirectory($"{FolderUtil.worldsFolder}\\{name}");
-                    Log.Write($"Created directory for world {name} ({FolderUtil.worldsFolder}\\{name})", LogType.GENERAL, LogLevel.INFO);
+                    Directory.CreateDirectory(Path.Combine(FolderUtil.worldsFolder, name));
+                    Log.Write($"Created directory for world {name} ({FolderUtil.worldsFolder}/{name})", LogType.GENERAL, LogLevel.INFO);
                 }
-                worldDirectory = $"{FolderUtil.worldsFolder}\\{name}";
+                worldDirectory = Path.Combine(FolderUtil.worldsFolder, name);
                 Log.Write($"Set directory for world {name} to {worldDirectory}", LogType.GENERAL, LogLevel.INFO);
             }
 
             //Check if the world's multiplayer directory exists and create it otherwise
             if (multiplayerType == MultiplayerType.SERVER)
             {
-                if (!Directory.Exists($"{worldDirectory}\\multiplayer"))
+                if (!Directory.Exists(Path.Combine(FolderUtil.worldsFolder, "multiplayer")))
                 {
-                    Directory.CreateDirectory($"{worldDirectory}\\multiplayer");
-                    Log.Write($"Created multiplayer directory for world {name} ({worldDirectory}\\multiplayer)", LogType.NETWORK, LogLevel.INFO);
+                    Directory.CreateDirectory(Path.Combine(FolderUtil.worldsFolder, "multiplayer"));
+                    Log.Write($"Created multiplayer directory for world {name} ({worldDirectory}/multiplayer)", LogType.NETWORK, LogLevel.INFO);
                 }
-                multiplayerDirectory = $"{worldDirectory}\\multiplayer";
+                multiplayerDirectory = Path.Combine(FolderUtil.worldsFolder, "multiplayer");
                 Log.Write($"Set multiplayer directory for world {name} to {multiplayerDirectory}", LogType.GENERAL, LogLevel.INFO);
             }
         }
@@ -319,7 +332,7 @@ namespace SeeloewenCraft.game.core.world
         private void InitEntityManager(bool loaded)
         {
             entityManager = loaded
-                    ? new EntityManager(JsonUtil.ObjectFromFile($"{worldDirectory}/entities.json"))
+                    ? new EntityManager(JsonUtil.ObjectFromFile(Path.Combine(worldDirectory, "entities.json")))
                     : new EntityManager();
         }
 
@@ -327,7 +340,7 @@ namespace SeeloewenCraft.game.core.world
         {
             if (loaded)
             {
-                JObject inventoryToken = JsonUtil.ObjectFromFile($"{worldDirectory}/player_inventory.json");
+                JObject inventoryToken = JsonUtil.ObjectFromFile(Path.Combine(worldDirectory, "player_inventory.json"));
                 player.inventory = Inventory.FromJson(inventoryToken, true);
             }
             else
@@ -351,7 +364,7 @@ namespace SeeloewenCraft.game.core.world
             //Load the player position if possible
             if (loaded)
             {
-                JObject playerPosObj = JsonUtil.ObjectFromFile($"{worldDirectory}/player_position.json");
+                JObject playerPosObj = JsonUtil.ObjectFromFile(Path.Combine(worldDirectory, "player_position.json"));
                 int x = playerPosObj.Get<int>("pos_x");
                 int y = playerPosObj.Get<int>("pos_y");
                 Log.Write($"Loaded player start position at x{x} y{y}", LogType.GENERAL, LogLevel.INFO);

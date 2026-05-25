@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using Avalonia.Media.Imaging;
 
 namespace SeeloewenCraft.game.graphics
 {

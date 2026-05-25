@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 
 namespace SeeloewenCraft.game.core.blocks.components
 {
@@ -48,7 +50,8 @@ namespace SeeloewenCraft.game.core.blocks.components
                             if (remaining > 0)
                             {
                                 inv.slots[0].Remove(successItems);
-                                MessageBox.Show("This item cannot be unchiseled!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                var box = MessageBoxManager.GetMessageBoxStandard("Error", "This item cannot be unchiseled!", ButtonEnum.Ok, Icon.Error);
+                                box.ShowAsync();
                                 return;
                             }
                         }
@@ -60,16 +63,17 @@ namespace SeeloewenCraft.game.core.blocks.components
                 }
                 else
                 {
-                    MessageBox.Show("This item cannot be unchiseled!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    var box = MessageBoxManager.GetMessageBoxStandard("Error", "This item cannot be unchiseled!", ButtonEnum.Ok, Icon.Error);
+                    box.ShowAsync();
                 }
 
                 //If an item was unchiseled, clear the slot
                 if (unchiselSuccess) inv.slots[0].Remove(inv.slots[0].amount);
-
             }
             else
             {
-                MessageBox.Show("Please select an item to unchisel!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                var box = MessageBoxManager.GetMessageBoxStandard("Error", "Please select an item to unchisel!", ButtonEnum.Ok, Icon.Error);
+                box.ShowAsync();
             }
         }
     }

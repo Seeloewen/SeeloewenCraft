@@ -1,6 +1,8 @@
 ﻿
 using System;
 using System.Windows;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 
 namespace SeeloewenCraft.game.core.entities
 {
@@ -24,8 +26,10 @@ namespace SeeloewenCraft.game.core.entities
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                var box = MessageBoxManager.GetMessageBoxStandard("Error", e.Message, ButtonEnum.Ok, Icon.Error);
+                box.ShowAsync();
             }
+            
             return null;
         }
 

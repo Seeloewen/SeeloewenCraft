@@ -1,9 +1,11 @@
-﻿using SeeloewenCraft.game;
-using SeeloewenCraft.game.core.world;
+using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using SeeloewenCraft.game.networking;
 using System;
 using System.Text.RegularExpressions;
-using System.Windows;
 
 namespace SeeloewenCraft.launcher
 {
@@ -23,7 +25,8 @@ namespace SeeloewenCraft.launcher
         {
             if (string.IsNullOrEmpty(tbIp.Text) || string.IsNullOrEmpty(tbPort.Text))
             {
-                MessageBox.Show("Please specify an IP and a port!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                var box = MessageBoxManager.GetMessageBoxStandard("Error", "Please specify an IP and a port!", ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error);
+                await box.ShowAsync();
                 return;
             }
 
@@ -40,14 +43,16 @@ namespace SeeloewenCraft.launcher
             {
                 //If the connection was successful, initialize the world
                 wndMenu.Hide();
-                MessageBox.Show("This feature is temporarily unavailable.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                var box = MessageBoxManager.GetMessageBoxStandard("Error", "This feature is temporarily unavailable.", ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error);
+                await box.ShowAsync();
                 //Game.Create(DateTime.Now.Microsecond.ToString(), 0, true, MultiplayerType.CLIENT, wndMenu);
                 //NetworkHandler.client.Initialize();
                 Close();
             }
             else
             {
-                MessageBox.Show($"Failed to connect to the server: {NetworkHandler.client.connectionException.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                var box = MessageBoxManager.GetMessageBoxStandard("Error", $"Failed to connect to the server: {NetworkHandler.client.connectionException.Message}", ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error);
+                await box.ShowAsync();
             }
 
             btnConnect.Content = "Connect";
@@ -60,7 +65,7 @@ namespace SeeloewenCraft.launcher
             Close();
         }
 
-        private void tbPort_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        private void tbPort_PreviewTextInput(object sender, TextInputEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);

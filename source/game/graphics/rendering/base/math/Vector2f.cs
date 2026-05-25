@@ -39,13 +39,6 @@ namespace SeeloewenCraft.game.graphics
             return new Vector2f(x + v.x, y + v.y);
         }
 
-        public static void Test()
-        {
-            var v = new Vector2f(1.0, 1.0);
-            v = v.Rotate((float)Math.PI / 4);
-            MessageBox.Show(v.ToString());
-        }
-
         public override string ToString()
         {
             return $"({x};{y})";

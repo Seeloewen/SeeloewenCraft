@@ -2,8 +2,6 @@
 using SeeloewenCraft.game.core.entities.inventory;
 using System;
 using System.Collections.Generic;
-using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace SeeloewenCraft.game.core.items
 {

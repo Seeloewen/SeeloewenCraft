@@ -268,7 +268,7 @@ namespace SeeloewenCraft.game.core.entities
                 { "pos_y", posY }
             };
 
-            posObj.ToFile($"{path}/player_position.json");
+            posObj.ToFile(Path.Combine(path, "player_position.json"));
 
             Log.Write($"Saved player position to {path}.", LogType.ENTITIES, LogLevel.INFO);
         }
@@ -276,7 +276,7 @@ namespace SeeloewenCraft.game.core.entities
         public void SaveInventory(string path)
         {
             JObject invData = inventory.ToJson();
-            invData.ToFile($"{path}/player_inventory.json");
+            invData.ToFile(Path.Combine(path, "player_inventory.json"));
         }
 
         public void DisplayDebugInformation()

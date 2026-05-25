@@ -1,5 +1,4 @@
-﻿using System.Windows.Media;
-using Color = SeeloewenCraft.game.graphics.Color;
+﻿using Color = SeeloewenCraft.game.graphics.Color;
 
 namespace SeeloewenCraft.game.core.entities
 {

@@ -1,5 +1,6 @@
-﻿using System.Drawing;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
+using Avalonia;
+using Avalonia.Media.Imaging;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -27,24 +28,35 @@ namespace SeeloewenCraft.game.graphics
             this.width = width;
             this.height = height;
         }
-
-        internal TextureImage(Bitmap bitmap)
+        
+        internal unsafe TextureImage(Bitmap bitmap)
         {
-            width = bitmap.Width;
-            height = bitmap.Height;
+            width = bitmap.PixelSize.Width;
+            height = bitmap.PixelSize.Height;
 
-            rawData = new byte[4 * width * height];
-            for (int x = 0; x < width; x++)
+            int stride = width * 4;
+            int bufferSize = stride * height;
+
+            byte[] bgra = new byte[bufferSize];
+            rawData = new byte[bufferSize];
+
+            fixed (byte* ptr = bgra)
             {
-                for (int y = 0; y < height; y++)
-                {
-                    System.Drawing.Color c = bitmap.GetPixel(x, y);
-                    int index = (x + y * width) * 4;
-                    rawData[index] = c.R;
-                    rawData[index + 1] = c.G;
-                    rawData[index + 2] = c.B;
-                    rawData[index + 3] = c.A;
-                }
+                var rect = new PixelRect(0, 0, width, height);
+                bitmap.CopyPixels(rect, (nint)ptr, bufferSize, stride);
+            }
+
+            for (int i = 0; i < bufferSize; i += 4)
+            {
+                byte b = bgra[i + 0];
+                byte g = bgra[i + 1];
+                byte r = bgra[i + 2];
+                byte a = bgra[i + 3];
+
+                rawData[i + 0] = r;
+                rawData[i + 1] = g;
+                rawData[i + 2] = b;
+                rawData[i + 3] = a;
             }
         }
     }

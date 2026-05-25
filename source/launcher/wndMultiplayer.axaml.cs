@@ -1,5 +1,6 @@
-﻿using SeeloewenCraft.game.networking;
-using System.Windows;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using SeeloewenCraft.game.networking;
 
 namespace SeeloewenCraft.launcher
 {
@@ -17,7 +18,7 @@ namespace SeeloewenCraft.launcher
         {
             //Show the server connection screen
             wndServer wndServer = new wndServer(wndMenu);
-            wndServer.ShowDialog();
+            wndServer.ShowDialog(wndMenu);
 
             Close();
         }
@@ -26,7 +27,7 @@ namespace SeeloewenCraft.launcher
         {
             //Show the world selection window
             wndLoadWorld wndLoadWorld = new wndLoadWorld(wndMenu, MultiplayerType.SERVER);
-            wndLoadWorld.ShowDialog();
+            wndLoadWorld.ShowDialog(wndMenu);
 
             Close();
         }

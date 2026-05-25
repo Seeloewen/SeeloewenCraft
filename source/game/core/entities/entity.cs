@@ -3,9 +3,6 @@ using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.util;
 using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace SeeloewenCraft.game.core.entities
 {

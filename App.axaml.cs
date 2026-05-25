@@ -1,83 +1,103 @@
-﻿using Newtonsoft.Json.Linq;
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Markup.Xaml;
+using Newtonsoft.Json.Linq;
 using SeeloewenCraft.game;
 using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using SeeloewenCraft.launcher;
-
-
 using System;
 using System.IO;
-using System.Windows;
 
 namespace SeeloewenCraft
 {
     public partial class App : Application
     {
-        //entry point of program
-        private void Application_Startup(object sender, StartupEventArgs e)
+        public override void Initialize()
         {
-            //add custom dipatcher method for unhandled exceptions to save them to the log
-            Dispatcher.UnhandledException += OnDispatcherUnhandledException;
+            AvaloniaXamlLoader.Load(this);
+        }
 
-            //Show the version in log
-            Log.Write($"SeeloewenCraft Version {Game.GAME_VERSION} ({Game.VERSION_DATE})", LogType.GENERAL, LogLevel.INFO);
+        public static void Exit()
+        {
+            var lifetime = Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+            lifetime?.Shutdown();
+        }
 
-            //parse command line arguments to start option variables
-            StartOptions.Parse(e.Args);
+        public override void OnFrameworkInitializationCompleted()
+        {
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 
-            //Initialize folders
+            Log.Write(
+                $"SeeloewenCraft Version {Game.GAME_VERSION} ({Game.VERSION_DATE})",
+                LogType.GENERAL,
+                LogLevel.INFO);
+
             FolderUtil.InitializeDirectories();
 
             Game.playerId = GetPlayerId();
 
-            wndMenu wndMenu = new wndMenu();
-
-            // if start option "-skipmenu" is disabled, proceed like normal
-            if (!StartOptions.skipMenu)
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                wndMenu.Show();
-            }
-            else // if start option "-skipmenu" is enabled
-            {
-                //delete world "debug" if it exists
-                if (Directory.Exists($"{FolderUtil.worldsFolder}/debug"))
+                wndMenu wndMenu = new wndMenu();
+
+                if (!StartOptions.skipMenu)
                 {
-                    Directory.Delete($"{FolderUtil.worldsFolder}/debug", true);
-                }
+                    desktop.MainWindow = wndMenu;
 
-                //show start log on start of program if enabled through start options
-                if (StartOptions.showLog)
+                    wndMenu.Show();
+                }
+                else
                 {
-                    Log.Show();
-                }
+                    if (Directory.Exists(Path.Combine(FolderUtil.worldsFolder, "Debug")))
+                    {
+                        Directory.Delete(Path.Combine(FolderUtil.worldsFolder, "Debug"), true);
+                    }
 
-                //create new world with name "debug"
-                //World world = new World(wndMenu, "Debug", StartOptions.seed, true, World.Get()_VERSION, Game.GAME_VERSION, MultiplayerType.OFFLINE);
-                Game.Create("Debug", StartOptions.seed, true, MultiplayerType.OFFLINE, wndMenu);
+                    if (StartOptions.showLog)
+                    {
+                        Log.Show();
+                    }
+
+                    Game.Create(
+                        "Debug",
+                        StartOptions.seed,
+                        true,
+                        MultiplayerType.OFFLINE,
+                        wndMenu);
+                }
             }
 
-            //show start log on start of program if enabled through start options
             if (StartOptions.showLog)
             {
                 Log.Show();
             }
 
+            base.OnFrameworkInitializationCompleted();
         }
-        void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
-        {
-            //Create crash dump
-            Log.Write("An unhandled exception has occured. Creating crash dump...", LogType.GENERAL, LogLevel.ERROR);
-            Log.CreateCrashDump(e.Exception);
-            Game.ShowException(e.Exception);
 
-            //Save log before the game exits if enabled
-            if (Settings.saveLogOnExit)
+        private void OnUnhandledException(object? sender, UnhandledExceptionEventArgs e)
+        {
+            if (e.ExceptionObject is Exception ex)
             {
-                Log.Save(FolderUtil.logsFolder, false);
+                Log.Write(
+                    "An unhandled exception has occured. Creating crash dump...",
+                    LogType.GENERAL,
+                    LogLevel.ERROR);
+
+                Log.CreateCrashDump(ex);
+
+                Game.ShowException(ex);
+
+                if (Settings.saveLogOnExit)
+                {
+                    Log.Save(FolderUtil.logsFolder, false);
+                }
             }
         }
+
 
         private int GetPlayerId()
         {
@@ -130,7 +150,7 @@ namespace SeeloewenCraft
         }
     }
 
-    class StartOptions
+    public class StartOptions
     {
         public static bool skipMenu;
         public static bool showLog;
@@ -173,5 +193,4 @@ namespace SeeloewenCraft
             }
         }
     }
-
 }

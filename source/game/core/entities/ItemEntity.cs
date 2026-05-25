@@ -2,7 +2,6 @@
 using SeeloewenCraft.game.core.items;
 using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.util;
-using System.Windows.Media;
 
 namespace SeeloewenCraft.game.core.entities
 {

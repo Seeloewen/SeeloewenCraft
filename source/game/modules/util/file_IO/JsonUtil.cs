@@ -2,8 +2,6 @@
 using SeeloewenCraft.game.util.logging;
 using System;
 using System.IO;
-using System.Windows.Navigation;
-using Windows.Perception.Spatial;
 
 namespace SeeloewenCraft.game.util
 {

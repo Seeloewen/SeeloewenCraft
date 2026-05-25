@@ -1,8 +1,6 @@
 ﻿using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.graphics.ui_lib;
 using System;
-using System.Windows.Shapes;
-using static System.Windows.Forms.LinkLabel;
 
 namespace SeeloewenCraft.game.graphics
 {

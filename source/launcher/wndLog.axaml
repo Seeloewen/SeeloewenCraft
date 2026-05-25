@@ -1,19 +1,19 @@
-﻿<Window x:Class="SeeloewenCraft.launcher.wndLog"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:avrtb="clr-namespace:AvRichTextBox;assembly=AvRichTextBox"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SeeloewenCraft.launcher"
-        mc:Ignorable="d"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SeeloewenCraft.launcher.wndLog"
         Title="Debug-Log" Height="573" Width="973" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <Window.Background>
-        <ImageBrush ImageSource="/Resources/launcher/Background.png"/>
+        <ImageBrush Source="/Resources/launcher/Background.png"/>
     </Window.Background>
     <Grid>
-        <RichTextBox x:Name="rtbLog" Canvas.Left="10" Canvas.Top="47" FontSize="16" Margin="11,56,11,10" IsReadOnly="True" VerticalScrollBarVisibility="Auto">
-            <FlowDocument/>
-        </RichTextBox>
-        <TextBlock x:Name="tblHeader" Canvas.Left="16" TextWrapping="Wrap" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="26" FontWeight="DemiBold" Margin="11,11,0,0" Foreground="White"><Run Language="de-de" Text="Debug-Log"/></TextBlock>
+        <avrtb:RichTextBox x:Name="rtbLog" Canvas.Left="10" Canvas.Top="47" FontSize="16" Margin="11,56,11,10" IsReadOnly="True">
+            <avrtb:RichTextBox.FlowDocument/>
+        </avrtb:RichTextBox>
+        <TextBlock x:Name="tblHeader" Canvas.Left="16" TextWrapping="Wrap" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="26" FontWeight="DemiBold" Margin="11,11,0,0" Foreground="White">Text="Debug-Log"</TextBlock>
         <Button x:Name="btnSave" Content="Save" Canvas.Left="687" Canvas.Top="8" Height="32" VerticalAlignment="Top" FontSize="18" Margin="0,12,401,0" HorizontalAlignment="Right" Width="116" Click="btnSave_Click"/>
         <Button x:Name="btnClear" Content="Clear" Canvas.Left="573" Canvas.Top="8" FontSize="18" Margin="0,12,142,0" Height="32" VerticalAlignment="Top" HorizontalAlignment="Right" Width="116" Click="btnClear_Click"/>
         <Button x:Name="btnClose" Content="Close" Canvas.Left="458" Canvas.Top="8" FontSize="18" Margin="0,12,12,0" Height="32" VerticalAlignment="Top" HorizontalAlignment="Right" Width="116" Click="btnClose_Click"/>

@@ -148,7 +148,7 @@ namespace SeeloewenCraft.game.core.entities
         }
 
         //hit by player
-        private void Texture_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        /*private void Texture_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (this is not Player)
             {
@@ -163,7 +163,7 @@ namespace SeeloewenCraft.game.core.entities
                     Damage(Player.HIT_DAMAGE);
                 }
             }
-        }
+        }*/
 
 
         public override void OnUpdate(int tps) //temporary because player death is not handled properly

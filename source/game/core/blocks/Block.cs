@@ -1,21 +1,15 @@
 ﻿using Newtonsoft.Json.Linq;
 using SeeloewenCraft.game.core.blocks.components;
-using SeeloewenCraft.game.core.crafting;
 using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
 using SeeloewenCraft.game.core.items;
 using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
-using SeeloewenCraft.game.graphics.ui_lib;
 using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.util;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Documents;
 
 namespace SeeloewenCraft.game.core.blocks
 {

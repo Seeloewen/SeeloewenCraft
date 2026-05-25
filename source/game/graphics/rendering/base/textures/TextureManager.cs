@@ -9,7 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Windows.ApplicationModel.Core;
+using Avalonia.Media.Imaging;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -74,7 +74,7 @@ namespace SeeloewenCraft.game.graphics
             JObject fileObj;
             try
             {
-                fileObj = JsonUtil.ObjectFromFile($"{path}\\content.json");
+                fileObj = JsonUtil.ObjectFromFile(Path.Combine(path, "content.json"));
             }
             catch
             {
@@ -127,7 +127,7 @@ namespace SeeloewenCraft.game.graphics
                     {
                         id = textureObj.Get<string>("id");
                         filePath = textureObj.Get<string>("file");
-                        texturePathsSection[id] = new TexturePath(true, $"{path}\\{filePath}");
+                        texturePathsSection[id] = new TexturePath(true, Path.Combine(path, filePath));
                     }
                     catch
                     {

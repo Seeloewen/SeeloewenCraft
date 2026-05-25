@@ -167,9 +167,9 @@ namespace SeeloewenCraft.game.networking
                 //Send all moving entities to the connecting client
                 World.Get().entityManager.SendInitLoadData(client.id);
 
-                if (File.Exists($"{World.Get().multiplayerDirectory}\\inventory_{client.id}.json"))
+                if (File.Exists(Path.Combine(World.Get().multiplayerDirectory, $"inventory_{client.id}.json")))
                 {
-                    await server.SendDataSingleClient(CreatePacket(MultiplayerPacketType.PLAYER_INFORMATION, File.ReadAllText($"{World.Get().multiplayerDirectory}\\inventory_{client.id}.json")), client.id);
+                    await server.SendDataSingleClient(CreatePacket(MultiplayerPacketType.PLAYER_INFORMATION, File.ReadAllText(Path.Combine(World.Get().multiplayerDirectory, $"inventory_{client.id}.json"))), client.id);
                 }
             }
         }
@@ -282,7 +282,7 @@ namespace SeeloewenCraft.game.networking
 
                 if (!string.IsNullOrEmpty(packet.content[2])) //Player Inventory
                 {
-                    File.WriteAllText($"{World.Get().multiplayerDirectory}\\inventory_{client.id}.json", packet.content[0]);
+                    File.WriteAllText(Path.Combine(World.Get().multiplayerDirectory, $"inventory_{client.id}.json"), packet.content[0]);
                 }
             }
         }

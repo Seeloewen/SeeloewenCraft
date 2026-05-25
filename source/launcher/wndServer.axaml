@@ -1,21 +1,19 @@
-﻿<Window x:Class="SeeloewenCraft.launcher.wndServer"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SeeloewenCraft.launcher"
-        mc:Ignorable="d"
-        Title="Connect to Server..." Height="222" Width="477" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SeeloewenCraft.launcher.wndServer"
+        Title="Connect to Server..." Height="222" Width="477" WindowStartupLocation="CenterScreen">
     <Window.Background>
-        <ImageBrush ImageSource="/Resources/launcher/Background.png" Stretch="None"/>
+        <ImageBrush Source="/Resources/launcher/Background.png" Stretch="None"/>
     </Window.Background>
     <Grid>
         <TextBox x:Name="tbIp" HorizontalAlignment="Left" Margin="17,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="297" FontSize="16"/>
         <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="17,12,0,0" TextWrapping="Wrap" Text="Connect to server..." VerticalAlignment="Top" FontSize="28" FontWeight="DemiBold" Foreground="White"/>
-        <TextBox x:Name="tbPort" HorizontalAlignment="Left" Margin="325,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118" FontSize="16" Text="5000" PreviewTextInput="tbPort_PreviewTextInput"/>
-        <TextBlock x:Name="tblIpHeader" HorizontalAlignment="Left" Margin="18,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Width="390" Foreground="White"><Run Text="IP Address                          "/><Run Text="  "/><Run Text="     "/><Run Language="de-de" Text=" "/><Run Text="   "/><Run Text="       "/><Run Text=" "/><Run Text=" "/><Run Text="Port"/></TextBlock>
+        <TextBox x:Name="tbPort" HorizontalAlignment="Left" Margin="325,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118" FontSize="16" Text="5000" TextInput="tbPort_PreviewTextInput"/>
+        <TextBlock x:Name="tblIpHeader" HorizontalAlignment="Left" Margin="18,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Width="390" Foreground="White">Text="IP Address                                              Port</TextBlock>
         <Button x:Name="btnConnect" Content="Connect" HorizontalAlignment="Left" Margin="241,132,0,0" VerticalAlignment="Top" Height="32" Width="202" FontSize="20" Click="btnConnect_Click"/>
         <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Left" Margin="18,132,0,0" VerticalAlignment="Top" Height="32" Width="211" FontSize="20" Click="btnClose_Click"/>
-
     </Grid>
 </Window>

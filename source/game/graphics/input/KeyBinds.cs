@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Avalonia.Input;
+using Newtonsoft.Json.Linq;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Collections.Generic;
-using System.Windows.Input;
 
 namespace SeeloewenCraft.game.graphics
 {

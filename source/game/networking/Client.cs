@@ -9,6 +9,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 
 namespace SeeloewenCraft.game.networking
 {
@@ -154,7 +156,8 @@ namespace SeeloewenCraft.game.networking
                     if (isConnected)
                     {
                         Log.Write($"Could not receive packet from server: {ex.Message}\n{ex.StackTrace}", LogType.NETWORK, LogLevel.ERROR);
-                        MessageBox.Show($"Lost connection to the server: {ex.Message}\n{ex.StackTrace}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        var box = MessageBoxManager.GetMessageBoxStandard("Error", $"Lost connection to the server: {ex.Message}\n{ex.StackTrace}", ButtonEnum.Ok, Icon.Error);
+                        box.ShowAsync();
                     }
 
                     break;

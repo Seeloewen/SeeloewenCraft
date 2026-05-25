@@ -2,8 +2,6 @@
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.util;
 using System;
-using System.Windows.Media.Animation;
-using Windows.Graphics.Display;
 
 namespace SeeloewenCraft.game.core.blocks
 {

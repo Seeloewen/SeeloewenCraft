@@ -2,6 +2,8 @@
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -22,7 +24,8 @@ namespace SeeloewenCraft.game.graphics
             if (success == 0)
             {
                 string log = GL.GetProgramInfoLog(programID);
-                MessageBox.Show($"Program link error: {log}", "Error");
+                var box = MessageBoxManager.GetMessageBoxStandard("Error", $"Program link error: {log}", ButtonEnum.Ok, Icon.Error);
+                box.ShowAsync();
             }
 
             GL.DetachShader(programID, vert);
@@ -58,7 +61,8 @@ namespace SeeloewenCraft.game.graphics
             if (success == 0)
             {
                 string log = GL.GetShaderInfoLog(shaderID);
-                MessageBox.Show($"Shader (type={type}) compile error: {log}", "Error");
+                var box = MessageBoxManager.GetMessageBoxStandard("Error", $"Shader (type={type}) compile error: {log}",  ButtonEnum.Ok, Icon.Error);
+                box.ShowAsync();
             }
             return shaderID;
         }

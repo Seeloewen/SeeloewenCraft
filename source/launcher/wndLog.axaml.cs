@@ -1,19 +1,16 @@
-﻿using SeeloewenCraft.game.util.logging;
-using System.Windows;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using SeeloewenCraft.game.util.logging;
 
 namespace SeeloewenCraft.launcher
 {
 
     public partial class wndLog : Window
     {
-        //-- Constructor --//
-
         public wndLog()
         {
             InitializeComponent();
         }
-
-        //-- Event Handlers --//
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
@@ -40,7 +37,7 @@ namespace SeeloewenCraft.launcher
             wndFindinLog.Show();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, WindowClosingEventArgs e)
         {
             Log.isOpen = false;
         }

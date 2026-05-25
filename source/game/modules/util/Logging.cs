@@ -1,13 +1,14 @@
-﻿using SeeloewenCraft.game.core.settings;
+﻿using Avalonia.Media;
+using Avalonia.Platform.Storage;
+using AvRichTextBox;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
+using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.launcher;
-using SeeloewenLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Media;
+using System.Threading.Tasks;
 
 namespace SeeloewenCraft.game.util.logging
 {
@@ -50,11 +51,11 @@ namespace SeeloewenCraft.game.util.logging
 
                 foreach (var message in messages)
                 {
-                    paragraph.Inlines.Add(new Run($"{message.text}\n") { Foreground = GetColor(message.level) });
+                    paragraph.Inlines.Add(new EditableRun($"{message.text}\n") { Foreground = GetColor(message.level) });
                 }
 
-                wndLog.rtbLog.Document.Blocks.Clear();
-                wndLog.rtbLog.Document.Blocks.Add(paragraph);
+                wndLog.rtbLog.FlowDocument.Blocks.Clear();
+                wndLog.rtbLog.FlowDocument.Blocks.Add(paragraph);
 
                 //Show the log
                 wndLog.Show();
@@ -62,17 +63,14 @@ namespace SeeloewenCraft.game.util.logging
             }
         }
 
-        public static void Save(bool showMessageBoxes)
+        public async static void Save(bool showMessageBoxes)
         {
             //Setup the save file dialog
-            SaveFileDialog sfdLog = new SaveFileDialog();
-            sfdLog.Filter = "Text (*.txt)|*.txt|All (*.*)|*.*";
-            sfdLog.FileName = $"SeeloewenCraft_Log_{DateTime.Now.ToString().Replace(":", "-").Replace(".", "-").Replace(" ", "-")}.txt";
+            List<FilePickerFileType> types = new List<FilePickerFileType>() { FilePickerFileTypes.TextPlain };
+            string fileName = $"SeeloewenCraft_Log_{DateTime.Now.ToString().Replace(":", "-").Replace(".", "-").Replace(" ", "-")}.txt";
+            var file = await wndLog.StorageProvider.SaveFileAsync(fileName, types);
 
-            if (sfdLog.ShowDialog() == DialogResult.Cancel)
-            {
-                return;
-            }
+            if (file == null) return;
 
             //Save the log content to the selected file
             try
@@ -83,20 +81,22 @@ namespace SeeloewenCraft.game.util.logging
                 {
                     onlyMessages.Add(message.text);
                 }
-                File.WriteAllLines(sfdLog.FileName, onlyMessages);
+                File.WriteAllLines(file.Name, onlyMessages);
 
                 if (showMessageBoxes)
                 {
-                    System.Windows.MessageBox.Show($"Successfully saved the log to {sfdLog.FileName}!", "Saved log", MessageBoxButton.OK, MessageBoxImage.Information);
+                    var box = MessageBoxManager.GetMessageBoxStandard("Saved log", $"Successfully saved the log to {file.Name}!", ButtonEnum.Ok, Icon.Info);
+                    await box.ShowAsync();
                 }
             }
             catch (Exception ex)
             {
                 if (showMessageBoxes)
                 {
-                    System.Windows.MessageBox.Show($"Error while saving log to {sfdLog.FileName}: {ex}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    var box = MessageBoxManager.GetMessageBoxStandard("Error", $"Error while saving log to {file.Name}: {ex}", ButtonEnum.Ok, Icon.Error);
+                    await box.ShowAsync();
                 }
-                Write($"Error while saving log to {sfdLog.FileName}: {ex}\n{ex.StackTrace}", LogType.GENERAL, LogLevel.ERROR);
+                Write($"Error while saving log to {file.Name}: {ex}\n{ex.StackTrace}", LogType.GENERAL, LogLevel.ERROR);
             }
         }
 
@@ -117,30 +117,39 @@ namespace SeeloewenCraft.game.util.logging
                 {
                     onlyMessages.Add(message.text);
                 }
-                File.WriteAllLines($"{location}/SeeloewenCraft_Log_{DateTime.Now.ToString().Replace(":", "-").Replace(".", "-").Replace(" ", "-")}.txt", onlyMessages);
+                File.WriteAllLines(Path.Combine(location, $"SeeloewenCraft_Log_{DateTime.Now.ToString().Replace(":", "-").Replace(".", "-").Replace(" ", "-")}.txt"), onlyMessages);
 
                 if (showMessageBoxes)
                 {
-                    System.Windows.MessageBox.Show($"Successfully saved the log to {location}!", "Saved log", MessageBoxButton.OK, MessageBoxImage.Information);
+                    var box = MessageBoxManager.GetMessageBoxStandard("Saved log", $"Successfully saved the log to {location}!", ButtonEnum.Ok, Icon.Info);
+                    box.ShowAsync();
                 }
             }
             catch (Exception ex)
             {
                 if (showMessageBoxes)
                 {
-                    System.Windows.MessageBox.Show($"Error while saving log to {location}: {ex.Message}\n{ex.StackTrace}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    var box = MessageBoxManager.GetMessageBoxStandard("Error", $"Error while saving log to {location}: {ex.Message}\n{ex.StackTrace}", ButtonEnum.Ok, Icon.Error);
+                    box.ShowAsync();
                 }
                 Write($"Could not save log to {location}: {ex}\n{ex.StackTrace}", LogType.GENERAL, LogLevel.ERROR);
             }
         }
 
-        public static void Clear()
+        private async static Task<ButtonResult> ShowClearConfirmation()
+        {
+            var box = MessageBoxManager.GetMessageBoxStandard("Clear log", "Are you sure that you want to clear your current log? You will not be able to recover it!", ButtonEnum.YesNo, Icon.Question);
+            return await box.ShowAsync();
+        }
+
+        public async static void Clear()
         {
             //Ask the user whether they want to clear the log
-            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure that you want to clear your current log? You will not be able to recover it!", "Clear Log", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            var result = await ShowClearConfirmation();
+
 
             //Clear the log
-            if (result == MessageBoxResult.Yes)
+            if (result == ButtonResult.Yes)
             {
                 messages.Clear();
                 paragraph.Inlines.Clear();
@@ -202,12 +211,11 @@ namespace SeeloewenCraft.game.util.logging
 
                 foreach (var mes in messages)
                 {
-                    paragraph.Inlines.Add(new Run($"{mes.text}\n") { Foreground = GetColor(mes.level) });
+                    paragraph.Inlines.Add(new EditableRun($"{mes.text}\n") { Foreground = GetColor(mes.level) });
                 }
 
-                wndLog.rtbLog.Document.Blocks.Clear();
-                wndLog.rtbLog.Document.Blocks.Add(paragraph);
-                wndLog.rtbLog.ScrollToEnd();
+                wndLog.rtbLog.FlowDocument.Blocks.Clear();
+                wndLog.rtbLog.FlowDocument.Blocks.Add(paragraph);
             }
         }
 

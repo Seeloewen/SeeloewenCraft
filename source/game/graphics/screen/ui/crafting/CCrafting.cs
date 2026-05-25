@@ -3,6 +3,8 @@ using SeeloewenCraft.game.graphics.ui_lib;
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -97,7 +99,9 @@ namespace SeeloewenCraft.game.graphics
             //Check if the amount is valid before crafting
             if (!int.TryParse(cAmount.GetField().GetText(), out amount))
             {
-                MessageBox.Show("Please enter a valid amount for crafting", "Invalid amount", MessageBoxButton.OK, MessageBoxImage.Error);
+                var box = MessageBoxManager.GetMessageBoxStandard("Invalid amount",
+                    "Please enter a valid amount for crafting", ButtonEnum.Ok, Icon.Error);
+                box.ShowAsync();
                 return;
             }
 
@@ -109,7 +113,9 @@ namespace SeeloewenCraft.game.graphics
             }
             else
             {
-                MessageBox.Show("You do not have enough resources to craft this!", "Not enough resources", MessageBoxButton.OK, MessageBoxImage.Error);
+                var box = MessageBoxManager.GetMessageBoxStandard("Not enough resources",
+                    "You do not have enough resources to craft this!", ButtonEnum.Ok, Icon.Error);
+                box.ShowAsync();
             }
         }
 

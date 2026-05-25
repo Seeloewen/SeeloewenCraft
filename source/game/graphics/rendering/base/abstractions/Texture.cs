@@ -1,6 +1,7 @@
 ﻿
 using OpenTK.Graphics.OpenGL4;
 using System.Drawing;
+using Avalonia.Media.Imaging;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -33,13 +34,12 @@ namespace SeeloewenCraft.game.graphics
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba8, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
         }
 
-        internal Texture(Bitmap bitmap, bool antiAlias)
+        /*internal Texture(Bitmap bitmap, bool antiAlias)
         {
 
 
-            int width = bitmap.Width;
-            int height = bitmap.Height;
-
+            int width = (int)(bitmap.Size.Width + 0.5);
+            int height = (int)(bitmap.Size.Height + 0.5);
 
 
             byte[] data = new byte[width * height * 4];
@@ -67,7 +67,7 @@ namespace SeeloewenCraft.game.graphics
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, antiAlias ? (int)TextureMagFilter.Linear : (int)TextureMagFilter.Nearest);
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba8, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
-        }
+        }*/
 
 
         ~Texture()

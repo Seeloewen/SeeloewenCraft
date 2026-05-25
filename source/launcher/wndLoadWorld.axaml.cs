@@ -1,12 +1,15 @@
-﻿using SeeloewenCraft.game;
-using SeeloewenCraft.game.core.world;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
+using SeeloewenCraft.game;
 using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows;
+using System.Threading.Tasks;
 
 namespace SeeloewenCraft.launcher
 {
@@ -18,7 +21,6 @@ namespace SeeloewenCraft.launcher
         public wndCreateWorld wndCreateWorld;
         private MultiplayerType multiplayerType;
 
-        //-- Constructor --//
         public wndLoadWorld(wndMenu wndMenu, MultiplayerType multiplayerType)
         {
             InitializeComponent();
@@ -31,8 +33,6 @@ namespace SeeloewenCraft.launcher
             LoadWorlds();
         }
 
-        //-- Custom Methods --//
-
         private void LoadWorlds()
         {
             //Get all worlds
@@ -41,13 +41,11 @@ namespace SeeloewenCraft.launcher
             //List the worlds in the combobox
             foreach (string world in worlds)
             {
-                cbxWorld.Items.Add(world.Replace(FolderUtil.worldsFolder + "\\", ""));
+                cbxWorld.Items.Add(world.Replace(FolderUtil.worldsFolder, ""));
             }
         }
 
-        //-- Event Handlers --//
-
-        private void btnLoad_Click(object sender, RoutedEventArgs e)
+        private async void btnLoad_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(cbxWorld.Text) == false)
             {
@@ -57,7 +55,8 @@ namespace SeeloewenCraft.launcher
             }
             else
             {
-                MessageBox.Show("Please select a world you want to play or create a new one", "Error");
+                var box = MessageBoxManager.GetMessageBoxStandard("Error", "Please select a world you want to play or create a new one");
+                await box.ShowAsync();
             }
         }
 
@@ -66,22 +65,30 @@ namespace SeeloewenCraft.launcher
             //Show the window for creating a new world
             wndCreateWorld = new wndCreateWorld(wndMenu, multiplayerType);
             Close();
-            wndCreateWorld.ShowDialog();
+            wndCreateWorld.ShowDialog(wndMenu);
         }
 
-        private void btnClose_Click(object sender, RoutedEventArgs e)
+        private async Task<ButtonResult> ShowDeleteConfirmation()
+        {
+            var box = MessageBoxManager.GetMessageBoxStandard("Delete world", "You will not be able to recover deleted worlds. Are you sure you want to delete this world?", ButtonEnum.YesNo, MsBox.Avalonia.Enums.Icon.Warning);
+            return await box.ShowAsync();
+        }
+
+        private async void btnClose_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(cbxWorld.Text))
             {
                 //Ask the user if they want to delete the world
-                MessageBoxResult result = MessageBox.Show("You will not be able to recover deleted worlds. Are you sure you want to delete this world?", "Delete world", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                var result = await ShowDeleteConfirmation();
+
                 switch (result)
                 {
-                    case MessageBoxResult.Yes:
+                    case ButtonResult.Yes:
                         try
                         {
-                            Directory.Delete($"{FolderUtil.worldsFolder}\\{cbxWorld.Text}", true);
-                            MessageBox.Show($"Successfully deleted world {cbxWorld.Text}!", "Delete world", MessageBoxButton.OK, MessageBoxImage.Information);
+                            Directory.Delete(Path.Combine(FolderUtil.worldsFolder, cbxWorld.Text), true);
+                            var box = MessageBoxManager.GetMessageBoxStandard("Delete world", $"Successfully deleted world {cbxWorld.Text}!", ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Success);
+                            await box.ShowAsync();
                             cbxWorld.Items.Remove(cbxWorld.Text);
                         }
                         catch (Exception ex)
@@ -94,9 +101,8 @@ namespace SeeloewenCraft.launcher
             }
             else
             {
-                MessageBox.Show("Please select the world that you want to delete!", "Delete world", MessageBoxButton.OK, MessageBoxImage.Error);
+                var box = MessageBoxManager.GetMessageBoxStandard("Delete world", "Please select the world that you want to delete!", ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error);
             }
-
         }
     }
 }

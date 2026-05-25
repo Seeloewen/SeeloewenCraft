@@ -1,17 +1,13 @@
-﻿using SeeloewenCraft.game;
-using System;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using SeeloewenCraft.game;
 using System.IO;
 using System.Reflection;
-using System.Windows;
-using System.Windows.Resources;
-using Windows.Storage;
 
 namespace SeeloewenCraft.launcher
 {
     public partial class wndAbout : Window
     {
-        //-- Constructor --//
-
         public wndAbout()
         {
             InitializeComponent();
@@ -23,8 +19,6 @@ namespace SeeloewenCraft.launcher
             LoadChangelog();
         }
 
-        //-- Custom Methods --/
-
         private void LoadChangelog()
         {
             using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"SeeloewenCraft.Resources.changelog.txt");
@@ -32,10 +26,7 @@ namespace SeeloewenCraft.launcher
             {
                 tbChangelog.Text = reader.ReadToEnd();
             }
-        
         }
-
-        //-- Event Handlers --//
 
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {

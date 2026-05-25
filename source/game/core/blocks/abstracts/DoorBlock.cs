@@ -1,6 +1,4 @@
-﻿using System.Windows.Media;
-
-namespace SeeloewenCraft.game.core.blocks
+﻿namespace SeeloewenCraft.game.core.blocks
 {
     public abstract class DoorBlock : Block
     {

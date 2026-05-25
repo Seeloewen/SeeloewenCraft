@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.core.blocks;
+﻿using System.IO;
+using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.core.world.generation;
 using SeeloewenCraft.game.util.logging;
 
@@ -9,7 +10,7 @@ namespace SeeloewenCraft.game.core.world
         private void Generate()
         {
             blockList = new BlockList(this);
-            chunkDirectory = string.Format("{0}/chunk{1}", World.Get().worldDirectory, index);
+            chunkDirectory = Path.Combine(World.Get().worldDirectory, $"chunk{index}");
 
             //Determine the biome
             switch (index)
