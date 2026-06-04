@@ -128,8 +128,8 @@ namespace SeeloewenCraft.launcher
 
             if (!suppressConfirmation)
             {
-                var box = MessageBoxManager.GetMessageBoxStandard("Saved settings", "The settings have been saved successfully!", ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Info);
-                box.ShowAsync();
+                var box = MessageBoxManager.GetMessageBoxStandard("Saved settings", "The settings have been saved successfully!", ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Success);
+                box.ShowWindowAsync();
             }
         }
 
@@ -236,8 +236,8 @@ namespace SeeloewenCraft.launcher
         private void btnSaveClose_Click(object sender, RoutedEventArgs e)
         {
             //Save the settings
-            SaveSettings(false);
             Close();
+            SaveSettings(false);
         }
 
         private void btnAbout_Click(object sender, RoutedEventArgs e)

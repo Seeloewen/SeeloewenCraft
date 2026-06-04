@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Avalonia.Threading;
 using Newtonsoft.Json.Linq;
 using SeeloewenCraft.game;
 using SeeloewenCraft.game.core.settings;
@@ -28,7 +29,7 @@ namespace SeeloewenCraft
 
         public override void OnFrameworkInitializationCompleted()
         {
-            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+            Dispatcher.UIThread.UnhandledException += OnUnhandledException;
 
             Log.Write(
                 $"SeeloewenCraft Version {Game.GAME_VERSION} ({Game.VERSION_DATE})",
@@ -78,23 +79,20 @@ namespace SeeloewenCraft
             base.OnFrameworkInitializationCompleted();
         }
 
-        private void OnUnhandledException(object? sender, UnhandledExceptionEventArgs e)
+        public static void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            if (e.ExceptionObject is Exception ex)
+            Log.Write(
+                "An unhandled exception has occured. Creating crash dump...",
+                LogType.GENERAL,
+                LogLevel.ERROR);
+
+            Log.CreateCrashDump(e.Exception);
+
+            Game.ShowException(e.Exception);
+
+            if (Settings.saveLogOnExit)
             {
-                Log.Write(
-                    "An unhandled exception has occured. Creating crash dump...",
-                    LogType.GENERAL,
-                    LogLevel.ERROR);
-
-                Log.CreateCrashDump(ex);
-
-                Game.ShowException(ex);
-
-                if (Settings.saveLogOnExit)
-                {
-                    Log.Save(FolderUtil.logsFolder, false);
-                }
+                Log.Save(FolderUtil.logsFolder, false);
             }
         }
 

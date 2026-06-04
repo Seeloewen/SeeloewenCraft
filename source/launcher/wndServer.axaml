@@ -4,9 +4,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SeeloewenCraft.launcher.wndServer"
-        Title="Connect to Server..." Height="222" Width="477" WindowStartupLocation="CenterScreen">
+        Title="Connect to Server..." Height="222" Width="477" WindowStartupLocation="CenterScreen" CanResize="False">
     <Window.Background>
-        <ImageBrush Source="/Resources/launcher/Background.png" Stretch="None"/>
+        <ImageBrush Source="/Resources/launcher/Background.png" Stretch="None" TileMode="Tile"/>
     </Window.Background>
     <Grid>
         <TextBox x:Name="tbIp" HorizontalAlignment="Left" Margin="17,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="297" FontSize="16"/>

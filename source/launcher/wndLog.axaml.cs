@@ -30,13 +30,6 @@ namespace SeeloewenCraft.launcher
             Close();
         }
 
-        private void btnFind_Click(object sender, RoutedEventArgs e)
-        {
-            //Open the window for finding something in the log
-            wndFindInLog wndFindinLog = new wndFindInLog();
-            wndFindinLog.Show();
-        }
-
         private void Window_Closing(object sender, WindowClosingEventArgs e)
         {
             Log.isOpen = false;

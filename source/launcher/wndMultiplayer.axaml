@@ -4,14 +4,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SeeloewenCraft.launcher.wndMultiplayer"
-        Title="Multiplayer" Height="480" Width="720" WindowStartupLocation="CenterScreen">
+        Title="Multiplayer" Height="470" Width="700" WindowStartupLocation="CenterScreen" CanResize="False">
     <Grid>
         <Grid.Background>
             <ImageBrush Source="/Resources/launcher/Background.png" TileMode="Tile" Stretch="None"/>
         </Grid.Background>
-        <TextBlock x:Name="tblMultiplayer" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="26" FontWeight="DemiBold" Margin="11,11,0,0" Foreground="White">Text="Multiplayer"</TextBlock>
-        <TextBlock x:Name="tblWarning" HorizontalAlignment="Left" Margin="11,51,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FFFFEC17" FontSize="18" Width="669">Text="Warning: Multiplayer is in a very early alpha state and very unstable. Desync issues, data loss and connection problems can occur and the network security is basically non-existant. There are currently no safety mechanisms and your computer is pretty much vulnerable while opening a server/connecting to one. The creators are not liable for any problems occuring. Use at your own risk!"</TextBlock>
-        <CheckBox x:Name="cbAgreeWarning" Content="I agree that by using Multiplayer I take full responsibility for any security problems &#xD;&#xA;or other issues occuring" HorizontalAlignment="Left" Margin="11,190,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" Padding="4,-7,0,0" Width="696" Click="cbAgreeWarning_Click"/>
+        <TextBlock x:Name="tblMultiplayer" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="26" FontWeight="DemiBold" Margin="11,11,0,0" Foreground="White" Text="Multiplayer"/>
+        <TextBlock x:Name="tblWarning" HorizontalAlignment="Left" Margin="11,51,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FFFFEC17" FontSize="18" Width="669" Text="Warning: Multiplayer is in a very early alpha state and very unstable. Desync issues, data loss and connection problems can occur and the network security is basically non-existant. There are currently no safety mechanisms and your computer is pretty much vulnerable while opening a server/connecting to one. The creators are not liable for any problems occuring. Use at your own risk!"/>
+        <CheckBox x:Name="cbAgreeWarning" Content="I agree that by using Multiplayer I take full responsibility for any security problems or other issues occuring" HorizontalAlignment="Left" Margin="11,190,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18" Width="696" Click="cbAgreeWarning_Click"/>
         <Button x:Name="btnHostServer" Content="Host Server" HorizontalAlignment="Left" Margin="189,256,0,0" VerticalAlignment="Top" Height="40" Width="344" FontSize="20" Click="btnHostServer_Click" IsEnabled="False"/>
         <Button x:Name="btnConnectToServer" Content="Connect to Server" HorizontalAlignment="Left" Margin="189,309,0,0" VerticalAlignment="Top" Height="39" Width="344" FontSize="20" Click="btnConnectToServer_Click" IsEnabled="False"/>
         <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Left" Margin="189,362,0,0" VerticalAlignment="Top" Height="39" Width="344" FontSize="20" Click="btnClose_Click"/>

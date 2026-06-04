@@ -1,0 +1,5 @@
+﻿Special thanks to CDLemmi for being an active contributer and helping with many features of the game, most notably the movement physics, collisions (after Alpha 1.1.4), entities and the graphics (since Beta 1.0.0).
+
+Special thanks to Finni for helping me find many issues by testing development versions and also for giving a lot of ideas.
+
+Special thanks to Axogurkel for helping me create the crafting recipes.

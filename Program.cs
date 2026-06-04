@@ -1,6 +1,9 @@
 ﻿using Avalonia;
+using Avalonia.Threading;
 using SeeloewenCraft;
+using SeeloewenCraft.game;
 using System;
+using System.Linq.Expressions;
 
 namespace SeeloewenCraft
 {
@@ -14,8 +17,15 @@ namespace SeeloewenCraft
         {
             StartOptions.Parse(args);
 
-            BuildAvaloniaApp()
-                        .StartWithClassicDesktopLifetime(args);
+            try
+            {
+                BuildAvaloniaApp()
+                                .StartWithClassicDesktopLifetime(args);
+            }
+            catch (Exception e)
+            {
+                //Error Handling here
+            }
         }
 
         // Avalonia configuration, don't remove; also used by visual designer.

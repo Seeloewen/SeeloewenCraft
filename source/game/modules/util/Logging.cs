@@ -85,7 +85,7 @@ namespace SeeloewenCraft.game.util.logging
 
                 if (showMessageBoxes)
                 {
-                    var box = MessageBoxManager.GetMessageBoxStandard("Saved log", $"Successfully saved the log to {file.Name}!", ButtonEnum.Ok, Icon.Info);
+                    var box = MessageBoxManager.GetMessageBoxStandard("Saved log", $"Successfully saved the log to {file.Name}!", ButtonEnum.Ok, Icon.Success);
                     await box.ShowAsync();
                 }
             }
@@ -147,12 +147,13 @@ namespace SeeloewenCraft.game.util.logging
             //Ask the user whether they want to clear the log
             var result = await ShowClearConfirmation();
 
-
             //Clear the log
             if (result == ButtonResult.Yes)
             {
                 messages.Clear();
-                paragraph.Inlines.Clear();
+                paragraph = new Paragraph();
+                wndLog.rtbLog.FlowDocument.Blocks.Clear();
+                wndLog.rtbLog.FlowDocument.Blocks.Add(paragraph);
             }
         }
 

@@ -4,81 +4,81 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SeeloewenCraft.launcher.wndSettings"
-        Title="Settings" Height="518" Width="552" WindowStartupLocation="CenterScreen">
+        Title="Settings" Height="488" Width="652" WindowStartupLocation="CenterScreen" CanResize="False">
     <Grid>
         <Grid.Background>
             <ImageBrush Source="/Resources/launcher/Background.png" TileMode="Tile" Stretch="None"/>
         </Grid.Background>
         <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="11,10,0,0" TextWrapping="Wrap" Text="Settings" VerticalAlignment="Top" FontSize="28" FontWeight="DemiBold" Foreground="White"/>
-        <Button x:Name="btnSaveClose" Content="Save" HorizontalAlignment="Left" Margin="371,438,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.337,0.169" Height="29" Width="149" FontSize="16" Click="btnSaveClose_Click"/>
-        <Button x:Name="btnAbout" Content="About" HorizontalAlignment="Left" Margin="13,438,0,0" VerticalAlignment="Top" Height="29" Width="159" FontSize="16" Click="btnAbout_Click"/>
-        <Button x:Name="btnOpenLog" Content="Open Log" HorizontalAlignment="Left" Margin="187,438,0,0" VerticalAlignment="Top" Width="168" FontSize="16" Height="29" Click="btnOpenLog_Click"/>
-        <TabControl x:Name="tcSettings" Margin="10,60,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="364" Width="510">
-            <TabItem x:Name="tiGeneral" Header="General">
-                <Canvas x:Name="cvsGeneral" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <CheckBox x:Name="cbSaveWorldWhenClosing" Content="Save world when closing the game" RenderTransformOrigin="0.364,0.246" IsChecked="True" FontSize="18" Padding="4,-5,0,0" Canvas.Left="20" Canvas.Top="44" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="cbShowNotifications" Content="Show Notifications" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" Canvas.Left="20" Canvas.Top="67" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="tblGeneral" TextWrapping="Wrap" Text="General:" RenderTransformOrigin="0.069,-0.042" FontSize="18" Canvas.Left="20" Canvas.Top="10" FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <CheckBox x:Name="cbAutoSave" Content="Auto-Save the game every               minutes" RenderTransformOrigin="0.364,0.246" IsChecked="True" FontSize="18" Padding="4,-5,0,0" Canvas.Left="20" Canvas.Top="91" HorizontalAlignment="Center" VerticalAlignment="Top" Click="cbAutoSave_Click"/>
-                    <TextBox x:Name="tbAutosave" TextWrapping="Wrap" Width="59" Canvas.Left="257" Canvas.Top="89" HorizontalAlignment="Center" VerticalAlignment="Top" Text="1" FontSize="14" TextInput="tbAutosave_PreviewTextInput" TextChanged="tbAutosave_TextChanged"/>
-                    <CheckBox x:Name="cbAutoSaveNotification" Content="Show notification on Auto-Save" RenderTransformOrigin="0.364,0.246" IsChecked="True" FontSize="18" Padding="4,-5,0,0" Click="cbAutoSave_Click" Canvas.Left="20" Canvas.Top="115" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Button x:Name="btnSaveClose" Content="Save" HorizontalAlignment="Left" Margin="440,438,0,0" VerticalAlignment="Top" Height="35" Width="180" FontSize="16" Click="btnSaveClose_Click"/>
+        <Button x:Name="btnAbout" Content="About" HorizontalAlignment="Left" Margin="20,438,0,0" VerticalAlignment="Top" Height="35" Width="180" FontSize="16" Click="btnAbout_Click"/>
+        <Button x:Name="btnOpenLog" Content="Open Log" HorizontalAlignment="Left" Margin="230,438,0,0" VerticalAlignment="Top" Width="180" FontSize="16" Height="35" Click="btnOpenLog_Click"/>
+        <TabControl x:Name="tcSettings" Margin="10,60,0,0" TabStripPlacement="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Height="364" Width="700">
+            <TabItem x:Name="tiGeneral" Header="General" Margin="-5" FontSize="18" FontWeight="DemiBold">
+                <Canvas x:Name="cvsGeneral" VerticalAlignment="Top" HorizontalAlignment="Left" Height="364" Width="700">
+                    <CheckBox x:Name="cbSaveWorldWhenClosing" Content="Save world when closing the game" IsChecked="True" FontSize="18" Canvas.Left="20" Canvas.Top="44" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbShowNotifications" Content="Show Notifications" FontSize="18"  IsChecked="True" Canvas.Left="20" Canvas.Top="74" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tblGeneral" TextWrapping="Wrap" Text="General:" FontSize="18" Canvas.Left="20" Canvas.Top="10" FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <CheckBox x:Name="cbAutoSave" Content="Auto-Save the game every               minutes" IsChecked="True" FontSize="18" Canvas.Left="20" Canvas.Top="105" HorizontalAlignment="Center" VerticalAlignment="Top" Click="cbAutoSave_Click"/>
+                    <TextBox x:Name="tbAutosave" TextWrapping="Wrap" Width="59" Canvas.Left="280" Canvas.Top="107" HorizontalAlignment="Center" VerticalAlignment="Top" Text="1" FontSize="14" TextInput="tbAutosave_PreviewTextInput" TextChanged="tbAutosave_TextChanged"/>
+                    <CheckBox x:Name="cbAutoSaveNotification" Content="Show notification on Auto-Save" IsChecked="True" FontSize="18" Click="cbAutoSave_Click" Canvas.Left="20" Canvas.Top="136" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                 </Canvas>
             </TabItem>
-            <TabItem Header="Texturepack">
-                <Canvas>
-                    <ListBox x:Name="lbEnabled" Height="293" Width="209" HorizontalAlignment="Center" Canvas.Left="295" VerticalAlignment="Top" Canvas.Top="44" Background="#FFECECEC" GotFocus="lb_GotFocus" Tag="enabled"/>
-                    <ListBox x:Name="lbDisabled" Height="293" Width="209" Canvas.Top="43" Background="#FFECECEC" HorizontalAlignment="Center" VerticalAlignment="Top" GotFocus="lb_GotFocus"/>
-                    <Button x:Name="btnEnable" Content="&gt;" Canvas.Left="232" Canvas.Top="62" HorizontalAlignment="Center" Height="36" VerticalAlignment="Top" Width="40" FontSize="20" Click="btnEnable_Click"/>
-                    <Button x:Name="btnDisable" Content="&lt;" Canvas.Left="232" Canvas.Top="109" Height="36" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="20" Width="41" Click="btnDisable_Click"/>
-                    <TextBlock x:Name="tblDisabled" TextWrapping="Wrap" RenderTransformOrigin="0.069,-0.042" FontSize="18" Canvas.Left="10" Canvas.Top="14" FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Top">Text="Disabled Texturepacks"/></TextBlock>
-                    <TextBlock x:Name="tblEnabled" TextWrapping="Wrap" RenderTransformOrigin="0.069,-0.042" FontSize="18" Canvas.Left="312" Canvas.Top="15" FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Center">Text="Enabled Texturepacks"</TextBlock>
-                    <Button x:Name="btnDown" Content="v" Canvas.Left="232" Canvas.Top="262" Height="36" FontSize="20" Width="40" HorizontalAlignment="Center" VerticalAlignment="Top" Click="btnDown_Click"/>
-                    <Button x:Name="btnUp" Content="^" Canvas.Left="232" Canvas.Top="215" Height="36" FontSize="20" Width="41" HorizontalAlignment="Center" VerticalAlignment="Top" Click="btnUp_Click"/>
+            <TabItem x:Name="tiTexturepack" Header="Texturepack" Margin="-5" FontSize="18" FontWeight="DemiBold">
+                <Canvas x:Name="cvsTexturepack" Height="364" Width="700">
+                    <ListBox x:Name="lbEnabled" Height="293" Width="209" HorizontalAlignment="Center" Canvas.Left="350" VerticalAlignment="Top" Canvas.Top="44" Background="#BA402708" GotFocus="lb_GotFocus" Tag="enabled"/>
+                    <ListBox x:Name="lbDisabled" Height="293" Width="209" Canvas.Left="80" Canvas.Top="43" Background="#BA402708" HorizontalAlignment="Center" VerticalAlignment="Top" GotFocus="lb_GotFocus"/>
+                    <Button x:Name="btnEnable" Content="&gt;" Canvas.Left="300" Canvas.Top="62" HorizontalAlignment="Center" Height="36" VerticalAlignment="Top" Width="40" FontSize="20" Click="btnEnable_Click"/>
+                    <Button x:Name="btnDisable" Content="&lt;" Canvas.Left="300" Canvas.Top="109" Height="36" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="20" Width="41" Click="btnDisable_Click"/>
+                    <TextBlock x:Name="tblDisabled" TextWrapping="Wrap" FontSize="18" Canvas.Left="80" Canvas.Top="14" FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Top" Text="Disabled Texturepacks"/>
+                    <TextBlock x:Name="tblEnabled" TextWrapping="Wrap" FontSize="18" Canvas.Left="350" Canvas.Top="15" FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Enabled Texturepacks"/>
+                    <Button x:Name="btnDown" Content="v" Canvas.Left="300" Canvas.Top="262" Height="36" FontSize="20" Width="40" HorizontalAlignment="Center" VerticalAlignment="Top" Click="btnDown_Click"/>
+                    <Button x:Name="btnUp" Content="^" Canvas.Left="300" Canvas.Top="215" Height="36" FontSize="20" Width="41" HorizontalAlignment="Center" VerticalAlignment="Top" Click="btnUp_Click"/>
                 </Canvas>
             </TabItem>
-            <TabItem Header="Log">
-                <Canvas x:Name="cvsLog">
-                    <TextBlock x:Name="tblLog" TextWrapping="Wrap" RenderTransformOrigin="0.069,-0.042" FontSize="18" Canvas.Left="20" Canvas.Top="10" FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"> Text="Log:"</TextBlock>
-                    <CheckBox x:Name="cbSaveLogOnExit" Content="Save log when exiting the game" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" Canvas.Left="20" Canvas.Top="44" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="cbLogNetwork" Content="Network" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" Canvas.Left="20" Canvas.Top="176" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="cbLogStructureGeneration" Content="Structure Generation" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" Canvas.Left="20" Canvas.Top="155" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="cbLogWorldGeneration" Content="World Generation" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" Canvas.Left="20" Canvas.Top="133" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="cbLogGeneral" Content="General" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" Canvas.Left="20" Canvas.Top="111" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="cbLogRendering" Content="Rendering" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" Canvas.Left="20" Canvas.Top="219" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="cbLogEntities" Content="Entities" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="True" Canvas.Left="20" Canvas.Top="198" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="tblLog_Kopieren" TextWrapping="Wrap" RenderTransformOrigin="0.069,-0.042" FontSize="18" Canvas.Left="20" Canvas.Top="81" FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Center" Width="232">Text="Toggle Specific Log Types:"</TextBlock>
+            <TabItem x:Name="tiLog" Header="Log" Margin="-5" FontSize="18" FontWeight="DemiBold">
+                <Canvas x:Name="cvsLog" Height="364" Width="700" Margin="180,0,0,0">
+                    <TextBlock x:Name="tblLog" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="10" FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Log:"/>
+                    <CheckBox x:Name="cbSaveLogOnExit" Content="Save log when exiting the game"  FontSize="18"  IsChecked="True" Canvas.Left="20" Canvas.Top="44" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbLogNetwork" Content="Network" FontSize="18"  IsChecked="True" Canvas.Left="20" Canvas.Top="211" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbLogStructureGeneration" Content="Structure Generation"  FontSize="18" IsChecked="True" Canvas.Left="20" Canvas.Top="183" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbLogWorldGeneration" Content="World Generation"  FontSize="18" IsChecked="True" Canvas.Left="20" Canvas.Top="154" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbLogGeneral" Content="General" FontSize="18"  IsChecked="True" Canvas.Left="20" Canvas.Top="125" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbLogRendering" Content="Rendering"  FontSize="18"  IsChecked="True" Canvas.Left="20" Canvas.Top="268" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbLogEntities" Content="Entities"  FontSize="18"  IsChecked="True" Canvas.Left="20" Canvas.Top="240" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tblLogTypes" TextWrapping="Wrap"  FontSize="18" Canvas.Left="20" Canvas.Top="90" FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Toggle Specific Log Types:"/>
                 </Canvas>
             </TabItem>
-            <TabItem x:Name="tiKeybinds" Header="Keybinds">
-                <Canvas x:Name="cvsKeybinds">
-                    <TextBlock x:Name="tblKeybinds" TextWrapping="Wrap" FontSize="18" FontWeight="DemiBold" Canvas.Left="20" Canvas.Top="17" HorizontalAlignment="Center" VerticalAlignment="Center">Text="Keybinds:"/></TextBlock>
-                    <TextBlock x:Name="tblMoveRight" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="55" HorizontalAlignment="Center" VerticalAlignment="Top">Text="Move Right"/></TextBlock>
-                    <TextBlock x:Name="tblMoveLeft" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="84" HorizontalAlignment="Center" VerticalAlignment="Top">Text="Move Left"/></TextBlock>
-                    <TextBlock x:Name="tblOpenInventory" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="146" HorizontalAlignment="Center" VerticalAlignment="Top">Text="Open Inventory"/></TextBlock>
-                    <TextBlock x:Name="tblToggleDebugMenu" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="177" HorizontalAlignment="Center" VerticalAlignment="Top">Text="Toggle Debug Menu"/></TextBlock>
-                    <TextBox x:Name="tbMoveRight" Canvas.Left="339" TextWrapping="Wrap" Text="D" Canvas.Top="53" Width="144" Height="24" HorizontalAlignment="Left" VerticalAlignment="Top" KeyDown="HandleKeyDown"/>
-                    <TextBox x:Name="tbMoveLeft" Canvas.Left="339" TextWrapping="Wrap" Text="A" Canvas.Top="82" Width="144" Height="24" HorizontalAlignment="Left" VerticalAlignment="Top" KeyDown="HandleKeyDown"/>
-                    <TextBox x:Name="tbOpenInventory" Canvas.Left="339" TextWrapping="Wrap" Text="E" Canvas.Top="144" Width="144" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" KeyDown="HandleKeyDown"/>
-                    <TextBox x:Name="tbToggleDebugMenu" Canvas.Left="339" TextWrapping="Wrap" Text="F3" Canvas.Top="175" Width="144" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" KeyDown="HandleKeyDown"/>
-                    <TextBlock x:Name="tblJump" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="115" HorizontalAlignment="Center" VerticalAlignment="Top">Text="Jump"/></TextBlock>
-                    <TextBox x:Name="tbJump" Canvas.Left="339" TextWrapping="Wrap" Text="Space" Canvas.Top="113" Width="144" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" KeyDown="HandleKeyDown"/>
-                    <TextBlock x:Name="tblShowNotificationList" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="208" HorizontalAlignment="Center" VerticalAlignment="Top">Text="Show Notification List"/></TextBlock>
-                    <TextBox x:Name="tbShowNotificationList" Canvas.Left="339" TextWrapping="Wrap" Text="N" Canvas.Top="206" Width="144" Height="24" KeyDown="HandleKeyDown" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="tblThrowItem" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="237" HorizontalAlignment="Center" VerticalAlignment="Top">Text="Throw Item"/></TextBlock>
-                    <TextBlock x:Name="tblSneak" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="266" HorizontalAlignment="Center" VerticalAlignment="Top">Text="Sneak"/></TextBlock>
-                    <TextBlock x:Name="tblSprint" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="295" HorizontalAlignment="Center" VerticalAlignment="Top">Text="Sprint"/></TextBlock>
-                    <TextBox x:Name="tbThrowItem" Canvas.Left="339" TextWrapping="Wrap" Text="Q" Canvas.Top="237" Width="144" Height="24" KeyDown="HandleKeyDown" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <TextBox x:Name="tbSneak" Canvas.Left="339" TextWrapping="Wrap" Text="LeftShift" Canvas.Top="266" Width="144" Height="24" KeyDown="HandleKeyDown" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <TextBox x:Name="tbSprint" Canvas.Left="339" TextWrapping="Wrap" Text="LeftControl" Canvas.Top="295" Width="144" Height="24" KeyDown="HandleKeyDown" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <TabItem x:Name="tiKeybinds" Header="Keybinds" Margin="-5" FontSize="18" FontWeight="DemiBold">
+                <Canvas x:Name="cvsKeybinds" Height="364" Width="700" Margin="180,0,0,0">
+                    <TextBlock x:Name="tblKeybinds" TextWrapping="Wrap" FontSize="18" FontWeight="DemiBold" Canvas.Left="20" Canvas.Top="17" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Keybinds:"/>
+                    <TextBlock x:Name="tblMoveRight" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="55" HorizontalAlignment="Center" VerticalAlignment="Top" Text="Move Right"/>
+                    <TextBlock x:Name="tblMoveLeft" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="84" HorizontalAlignment="Center" VerticalAlignment="Top" Text="Move Left"/>
+                    <TextBlock x:Name="tblOpenInventory" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="146" HorizontalAlignment="Center" VerticalAlignment="Top" Text="Open Inventory"/>
+                    <TextBlock x:Name="tblToggleDebugMenu" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="177" HorizontalAlignment="Center" VerticalAlignment="Top" Text="Toggle Debug Menu"/>
+                    <TextBox x:Name="tbMoveRight" Canvas.Left="300" TextWrapping="Wrap" Text="D" Canvas.Top="53" Width="144" Height="24" HorizontalAlignment="Left" VerticalAlignment="Top" KeyDown="HandleKeyDown"/>
+                    <TextBox x:Name="tbMoveLeft" Canvas.Left="300" TextWrapping="Wrap" Text="A" Canvas.Top="82" Width="144" Height="24" HorizontalAlignment="Left" VerticalAlignment="Top" KeyDown="HandleKeyDown"/>
+                    <TextBox x:Name="tbOpenInventory" Canvas.Left="300" TextWrapping="Wrap" Text="E" Canvas.Top="144" Width="144" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" KeyDown="HandleKeyDown"/>
+                    <TextBox x:Name="tbToggleDebugMenu" Canvas.Left="300" TextWrapping="Wrap" Text="F3" Canvas.Top="175" Width="144" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" KeyDown="HandleKeyDown"/>
+                    <TextBlock x:Name="tblJump" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="115" HorizontalAlignment="Center" VerticalAlignment="Top" Text="Jump"/>
+                    <TextBox x:Name="tbJump" Canvas.Left="300" TextWrapping="Wrap" Text="Space" Canvas.Top="113" Width="144" Height="24" HorizontalAlignment="Center" VerticalAlignment="Top" KeyDown="HandleKeyDown"/>
+                    <TextBlock x:Name="tblShowNotificationList" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="208" HorizontalAlignment="Center" VerticalAlignment="Top" Text="Show Notification List"/>
+                    <TextBox x:Name="tbShowNotificationList" Canvas.Left="300" TextWrapping="Wrap" Text="N" Canvas.Top="206" Width="144" Height="24" KeyDown="HandleKeyDown" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tblThrowItem" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="237" HorizontalAlignment="Center" VerticalAlignment="Top" Text="Throw Item"/>
+                    <TextBlock x:Name="tblSneak" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="266" HorizontalAlignment="Center" VerticalAlignment="Top" Text="Sneak"/>
+                    <TextBlock x:Name="tblSprint" TextWrapping="Wrap" FontSize="18" Canvas.Left="20" Canvas.Top="295" HorizontalAlignment="Center" VerticalAlignment="Top" Text="Sprint"/>
+                    <TextBox x:Name="tbThrowItem" Canvas.Left="300" TextWrapping="Wrap" Text="Q" Canvas.Top="237" Width="144" Height="24" KeyDown="HandleKeyDown" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBox x:Name="tbSneak" Canvas.Left="300" TextWrapping="Wrap" Text="LeftShift" Canvas.Top="266" Width="144" Height="24" KeyDown="HandleKeyDown" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBox x:Name="tbSprint" Canvas.Left="300" TextWrapping="Wrap" Text="LeftControl" Canvas.Top="295" Width="144" Height="24" KeyDown="HandleKeyDown" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                 </Canvas>
             </TabItem>
-            <TabItem x:Name="tiExperimental" Header="Experimental">
-                <Canvas x:Name="cvsExperimental">
+            <TabItem x:Name="tiExperimental" Header="Experimental" Margin="-5" FontSize="18" FontWeight="DemiBold">
+                <Canvas x:Name="cvsExperimental" Height="364" Width="700" Margin="180,0,0,0">
                     <TextBlock x:Name="tblExperimentalFeatures" TextWrapping="Wrap" Text="Experimental Features:" FontSize="18" FontWeight="DemiBold" HorizontalAlignment="Left" Canvas.Left="20" Canvas.Top="17" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="cbEnableMobs" Content="Enable Mobs" RenderTransformOrigin="0.364,0.246" FontSize="18" Padding="4,-5,0,0" IsChecked="False" Canvas.Left="20" Canvas.Top="49" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="tblMultiplayer" TextWrapping="Wrap" RenderTransformOrigin="0.285,0.455" FontSize="18" Width="127" Height="27" FontWeight="DemiBold" Canvas.Left="20" Canvas.Top="88" Text="Multiplayer:&#xA;" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="tblNickname" TextWrapping="Wrap" RenderTransformOrigin="0.285,0.455" FontSize="18" Width="127" Height="27" Canvas.Left="20" Canvas.Top="116" Text="Nickname:&#xA;" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <TextBox x:Name="tbNickname" TextWrapping="Wrap" Width="213" Canvas.Left="112" Canvas.Top="120" FontSize="14"  HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="cbEnableMobs" Content="Enable Mobs" FontSize="18" IsChecked="False" Canvas.Left="20" Canvas.Top="49" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tblMultiplayer" TextWrapping="Wrap" FontSize="18" Width="127" Height="27" FontWeight="DemiBold" Canvas.Left="20" Canvas.Top="95" Text="Multiplayer:&#xA;" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tblNickname" TextWrapping="Wrap" FontSize="18" Width="127" Height="27" Canvas.Left="20" Canvas.Top="130" Text="Nickname:&#xA;" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBox x:Name="tbNickname" TextWrapping="Wrap" Width="213" Canvas.Left="115" Canvas.Top="125" FontSize="14"  HorizontalAlignment="Center" VerticalAlignment="Top"/>
                 </Canvas>
             </TabItem>
         </TabControl>

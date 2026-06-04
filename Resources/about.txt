@@ -1,0 +1,5 @@
+﻿SeeloewenCraft is a 2D Sandbox game, inspired by sandbox games like Minecraft. Please contact Seeloewen on Discord for any questions or issues. You may also visit our GitHub page if you're interested in the code, development progress or anything related.
+
+The game is currently in beta, so it may contain a lot of issues. Please use with caution and report any problems you encounter.
+
+Please note that development of this game may not be consistant and might stop entirely at some point. Afterall, it's just a fun test project that I'm using to improve my coding skills. If you have any ideas for the game, feel free to share them with me!

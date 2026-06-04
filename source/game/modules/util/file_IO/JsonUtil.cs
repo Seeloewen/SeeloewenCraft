@@ -31,12 +31,12 @@ namespace SeeloewenCraft.game.util
 
         public static JObject ObjectFromFile(string path)
         {
-            return new JObject(File.ReadAllText(path));
+            return JObject.Parse(File.ReadAllText(path));
         }
 
         public static JArray ArrayFromFile(string path)
         {
-            return new JArray(File.ReadAllText(path));
+            return JArray.Parse(File.ReadAllText(path));
         }
     }
 }

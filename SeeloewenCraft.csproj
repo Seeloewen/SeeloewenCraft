@@ -31,7 +31,6 @@
   <ItemGroup>
   <EmbeddedResource Include="Resources\**\*.*" />
   <AvaloniaResource Include="Resources\launcher\*.*" />
-
   <PackageReference Include="LibNoise" Version="0.2.0" />
   <PackageReference Include="MessageBox.Avalonia" Version="12.0.0" />   
 	<PackageReference Include="OpenTK" Version="4.9.4" />

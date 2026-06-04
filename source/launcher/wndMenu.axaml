@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SeeloewenCraft.launcher.wndMenu"
-        Title="SeeloewenCraft" Height="452" Width="770" WindowStartupLocation="CenterScreen" Closing="wndMenu_Closing">
+        Title="SeeloewenCraft" Height="440" Width="770" WindowStartupLocation="CenterScreen" Closed="wndMenu_Closing" CanResize="False">
     <Grid>
         <Grid.Background>
             <ImageBrush Source="/Resources/launcher/Background.png" TileMode="Tile" Stretch="None"/>
@@ -12,9 +12,9 @@
         <TextBlock x:Name="tblHeader" HorizontalAlignment="Center" Margin="0,14,0,0" TextWrapping="Wrap" Text="SeeloewenCraft" VerticalAlignment="Top" FontSize="60" FontWeight="DemiBold" Foreground="White"/>
         <Button x:Name="btnSingleplayer" Content="Singleplayer" HorizontalAlignment="Center" Margin="0,139,0,0" VerticalAlignment="Top" Height="40" Width="206" Click="btnPlay_Click" FontSize="20"/>
         <Button x:Name="btnExit" Content="Exit" HorizontalAlignment="Center" Margin="0,295,0,0" VerticalAlignment="Top" Height="40" Width="206" FontSize="20" Click="btnExit_Click"/>
-        <TextBlock x:Name="tblAbout" HorizontalAlignment="Left" Margin="16,379,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Foreground="White" Width="567"><Run Text="2023 - "/>Text="2026"<Run Text=" by Seeloewen and CDLemmi - Private project, inspired by Minecraft"/></TextBlock>
+        <TextBlock x:Name="tblAbout" HorizontalAlignment="Left" Margin="16,409,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Foreground="White" Text="2023 - 2026 by Seeloewen and CDLemmi"/>
         <Button x:Name="btnSettings" Content="Settings" HorizontalAlignment="Center" Margin="0,242,0,0" VerticalAlignment="Top" Height="40" Width="206" FontSize="20" Click="btnSettings_Click"/>
-        <TextBlock x:Name="tblVersion" HorizontalAlignment="Left" Margin="16,353,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Foreground="White">Text="Version {0}"</TextBlock>
+        <TextBlock x:Name="tblVersion" HorizontalAlignment="Left" Margin="16,383,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Foreground="White" Text="Version {0}"/>
         <TextBlock x:Name="tblSplashText" HorizontalAlignment="Left" Margin="519,73,0,0" TextWrapping="NoWrap" Text="SplashtextNotFound!" VerticalAlignment="Top" FontSize="20" RenderTransformOrigin="0.343,0.459" Foreground="White">
             <TextBlock.RenderTransform>
                 <TransformGroup>

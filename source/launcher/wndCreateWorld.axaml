@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SeeloewenCraft.launcher.wndCreateWorld"
-        Title="Create World" Height="294" Width="416" WindowStartupLocation="CenterScreen">
+        Title="Create World" Height="270" Width="390" WindowStartupLocation="CenterScreen" CanResize="False">
     <Grid>
         <Grid.Background>
             <ImageBrush Source="/Resources/launcher/Background.png" TileMode="Tile" Stretch="None"/>
@@ -12,8 +12,8 @@
         <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Create World" VerticalAlignment="Top" FontSize="28" FontWeight="DemiBold" Foreground="White"/>
         <TextBlock x:Name="tblWorldName" Margin="14,61,173,0" TextWrapping="Wrap" Text="World name:" VerticalAlignment="Top" RenderTransformOrigin="0.37,0.394" FontSize="18" Foreground="White"/>
         <TextBox x:Name="tbWorldName" HorizontalAlignment="Left" Margin="14,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="358" FontSize="16"/>
-        <Button x:Name="btrnCreateWorld" Content="Create world" HorizontalAlignment="Left" Margin="247,204,0,0" VerticalAlignment="Top" Height="32" Width="125" FontSize="16" Click="btnCreateWorld_Click"/>
-        <CheckBox x:Name="cbSeed" Content="Use a custom seed:" HorizontalAlignment="Left" Margin="14,135,0,0" VerticalAlignment="Top" FontSize="16" Padding="4,-4,0,0" Foreground="White" Click="cbSeed_Click"/>
-        <TextBox x:Name="tbSeed" HorizontalAlignment="Left" Margin="14,159,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="358" FontSize="16" Background="White" IsEnabled="False" TextInput="tbSeed_PreviewTextInput"/>
+        <Button x:Name="btnCreateWorld" Content="Create world" HorizontalAlignment="Left" Margin="247,215,0,0" VerticalAlignment="Top" Height="32" Width="125" FontSize="16" Click="btnCreateWorld_Click"/>
+        <CheckBox x:Name="cbSeed" Content="Use a custom seed:" HorizontalAlignment="Left" Margin="14,133,0,0" VerticalAlignment="Top" FontSize="16" Foreground="White" Click="cbSeed_Click"/>
+        <TextBox x:Name="tbSeed" HorizontalAlignment="Left" Margin="14,170,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="358" FontSize="16" IsEnabled="False" TextInput="tbSeed_PreviewTextInput"/>
     </Grid>
 </Window>

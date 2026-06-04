@@ -4,17 +4,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SeeloewenCraft.launcher.wndLoadWorld"
-        Title="Load World" Height="218" Width="418" WindowStartupLocation="CenterScreen">
+        Title="Load World" Height="190" Width="390" WindowStartupLocation="CenterScreen" CanResize="False">
     <Grid>
         <Grid.Background>
             <ImageBrush Source="/Resources/launcher/Background.png" Stretch="None" TileMode="Tile"/>
         </Grid.Background>
         <TextBlock x:Name="tblHeader" HorizontalAlignment="Left" Margin="20,18,0,0" TextWrapping="Wrap" Text="Load World" VerticalAlignment="Top" FontSize="28" FontWeight="DemiBold" Foreground="White"/>
-        <Button x:Name="btnLoad" Content="Load" HorizontalAlignment="Left" Margin="194,121,0,0" VerticalAlignment="Top" Width="170" FontSize="16" Height="28" Click="btnLoad_Click"/>
+        <Button x:Name="btnLoad" Content="Load" HorizontalAlignment="Left" Margin="194,121,0,0" VerticalAlignment="Top" Width="170" FontSize="16" Height="32" Click="btnLoad_Click"/>
         <ComboBox x:Name="cbxWorld" HorizontalAlignment="Left" Margin="20,70,0,0" VerticalAlignment="Top" Width="304" FontSize="16"/>
-        <Button x:Name="btnCreateNewWorld" Content="Create new world
-" HorizontalAlignment="Left" Margin="20,121,0,0" VerticalAlignment="Top" Width="158" FontSize="16" Height="28" Click="btnCreateNewWorld_Click"/>
-        <Button x:Name="btnDelete" Content="X" HorizontalAlignment="Left" Margin="329,70,0,0" VerticalAlignment="Top" Height="27" Width="35" FontSize="16" Click="btnClose_Click"/>
+        <Button x:Name="btnCreateNewWorld" Content="Create new world" HorizontalAlignment="Left" Margin="20,121,0,0" VerticalAlignment="Top" Width="158" FontSize="16" Height="32" Click="btnCreateNewWorld_Click"/>
+        <Button x:Name="btnDelete" Content="X" HorizontalAlignment="Left" Margin="329,70,0,0" VerticalAlignment="Top" Height="32" Width="35" FontSize="16" Click="btnClose_Click"/>
 
     </Grid>
 </Window>

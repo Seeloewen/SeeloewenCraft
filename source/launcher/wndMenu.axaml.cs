@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.OpenGL;
@@ -85,7 +86,7 @@ namespace SeeloewenCraft.launcher
             }
         }
 
-        private void wndMenu_Closing(object sender, WindowClosingEventArgs e)
+        private void wndMenu_Closing(object sender, EventArgs e)
         {
             //Save the log, if enabled
             if (Settings.saveLogOnExit)
