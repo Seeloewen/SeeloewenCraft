@@ -47,7 +47,7 @@ namespace SeeloewenCraft.game.util.logging
                 wndLog = new wndLog();
 
                 //Add all messages to the log richtextbox in the respective color
-                paragraph = new Paragraph();
+                paragraph = new Paragraph(wndLog.rtbLog.FlowDocument);
 
                 foreach (var message in messages)
                 {
@@ -151,7 +151,7 @@ namespace SeeloewenCraft.game.util.logging
             if (result == ButtonResult.Yes)
             {
                 messages.Clear();
-                paragraph = new Paragraph();
+                paragraph = new Paragraph(wndLog.rtbLog.FlowDocument);
                 wndLog.rtbLog.FlowDocument.Blocks.Clear();
                 wndLog.rtbLog.FlowDocument.Blocks.Add(paragraph);
             }
@@ -208,7 +208,7 @@ namespace SeeloewenCraft.game.util.logging
             if (wndLog != null)
             {
                 //Add all messages to the log richtextbox in the respective color
-                paragraph = new Paragraph();
+                paragraph = new Paragraph(wndLog.rtbLog.FlowDocument);
 
                 foreach (var mes in messages)
                 {
