@@ -83,7 +83,7 @@ namespace SeeloewenCraft.game.core
                         }
                     }
                     //Check if the block isn't in background and can be replaced
-                    else if (block.IsInRange() && block.HasTag(BlockTags.REPLACEABLE) && !Block.IsCollidingWithPlayer(block.posX, block.posY, block.chunk.index, newBlock.isSolid) && !block.isBackground)
+                    else if (block.IsInRange() && block.HasTag(BlockTags.REPLACEABLE) && !Block.IsCollidingWithPlayer(block.posX, block.posY, block.chunk.index, block.isSolid) && !block.isBackground)
                     {
                         if (newBlock != null)
                         {
