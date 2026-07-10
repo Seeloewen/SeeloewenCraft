@@ -49,6 +49,10 @@
 	<PackageReference Include="Microsoft.NET.ILLink.Tasks" Version="10.0.9" />
 
 	  <Content Include="SeeloewenCraft.ico" />
+
+	  <EmbeddedResource Include="SealCrashHandler.exe">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
     <EmbeddedResource Update="Resources\assets\Missing_Texture.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>

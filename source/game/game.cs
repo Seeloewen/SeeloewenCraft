@@ -16,6 +16,7 @@ using System.IO;
 using System.Threading.Tasks;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
+using System.Diagnostics;
 
 namespace SeeloewenCraft.game
 {
@@ -168,8 +169,13 @@ namespace SeeloewenCraft.game
 
         public static void ShowException(Exception ex)
         {
-            var box = MessageBoxManager.GetMessageBoxStandard("Error", $"Oh no! The game has encountered an exception: {ex.Message} \n\n{ex.StackTrace}", ButtonEnum.Ok, Icon.Error);
-            box.ShowAsync();
+            //Display SealCrashHandler with the current exception
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "SealCrashHandler.exe",
+                UseShellExecute = true,
+                Arguments = $"\"SeeloewenCraft\" \"{GAME_VERSION}\" \"{ex.Message}\" \"{ex.StackTrace}\" \"\""
+            });
         }
         #endregion
 
