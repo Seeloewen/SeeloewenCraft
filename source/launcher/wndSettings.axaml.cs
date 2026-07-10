@@ -123,7 +123,7 @@ namespace SeeloewenCraft.launcher
             File.WriteAllText(Path.Combine(FolderUtil.gameFolder, "clientSettings.json"), settingsObj.ToString());
 
             //Apply settings
-            if (texturepackChanged) TextureManager.Load();
+            if (texturepackChanged && Game.glInitialized) TextureManager.Load();
             if (GameEventHandler.isInitialized) GameEventHandler.Register(new AutoSaveEvent(Settings.autoSaveInterval * 60000));
 
             if (!suppressConfirmation)

@@ -30,9 +30,9 @@ namespace SeeloewenCraft.game
         public const string VERSION_DATE = "25.05.2026";
         public const int TEXTUREPACK_VERSION = 3; //Up to date as of Beta 1.0.0 (Recent changes: Rendering Rewrite)
 
-        public static string selectedTexturepack; //Subject to rewrite
         public static Random rnd = new Random(DateTime.Now.Millisecond * DateTime.Now.Microsecond);
         public static int playerId;
+        public static bool glInitialized = false;
 
         static unsafe void GameLoop(Window* window)
         {
@@ -141,6 +141,7 @@ namespace SeeloewenCraft.game
 
             GLFW.SwapInterval(0);
 
+            glInitialized = true;
 
             return window;
         }
