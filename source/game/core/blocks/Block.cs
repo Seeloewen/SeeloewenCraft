@@ -756,9 +756,10 @@ namespace SeeloewenCraft.game.core.blocks
 
         public Block GetBaseBlock()
         {
-            if (baseBlockOffset.x != 0 && baseBlockOffset.y != 0)
+            if (baseBlockOffset.x != 0 || baseBlockOffset.y != 0)
             {
-                return World.Get().GetBlock(GetPosData().Offset(baseBlockOffset.x, baseBlockOffset.y));
+                PositionData pos = GetPosData().Offset(baseBlockOffset.x, baseBlockOffset.y);
+                return World.Get().GetBlock(pos);
             }
             return null;
         }
