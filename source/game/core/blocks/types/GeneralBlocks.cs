@@ -602,7 +602,7 @@ namespace SeeloewenCraft.game.core.blocks
         public override void AddDebugMenu()
         {
             base.AddDebugMenu();
-            GetComponent(BlockComponentType.Unchiseler).AddDebugMenu();
+            GetComponent(BlockComponentType.Workstation).AddDebugMenu();
         }
     }
 
