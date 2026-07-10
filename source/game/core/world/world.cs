@@ -1,4 +1,7 @@
-﻿using LibNoise.Primitive;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using LibNoise.Primitive;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SeeloewenCraft.game.core.blocks;
@@ -14,17 +17,14 @@ using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.networking;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
-using DocumentFormat.OpenXml.Drawing.Charts;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
 
 namespace SeeloewenCraft.game.core.world
 {
@@ -108,7 +108,7 @@ namespace SeeloewenCraft.game.core.world
 
             InitEntityManager(loaded);
 
-            if(!loaded) CreateStartChunks(); //Create the start chunks if the world was never loaded before
+            if (!loaded) CreateStartChunks(); //Create the start chunks if the world was never loaded before
 
             (int x, int y) playerStartPos = FindPlayerStartPos(loaded);
 
@@ -192,10 +192,10 @@ namespace SeeloewenCraft.game.core.world
             var box = MessageBoxManager.GetMessageBoxStandard("Load outdated world",
                 "You are trying to load an outdated world. This may lead to corruption or other issues. You have been warned! Do you wish to continue?",
                 ButtonEnum.YesNo, Icon.Warning);
-            
+
             return await box.ShowAsync();
         }
-        
+
         public void SetGamemode(Gamemode gamemode)
         {
             this.gamemode = gamemode;
@@ -250,35 +250,20 @@ namespace SeeloewenCraft.game.core.world
 
         public void RemoveEntity(int id) => entityManager.Remove(id);
 
-        public void SetBlock(int posX, int posY, Block b) => SetBlock((posX % 8 + 8) % 8, posY, posX >= 0 ? posX / 8 : (posX - 7) / 8, b);
-        public void SetBlock(int cPosX, int posY, int cIndex, Block b) => GetChunk(cIndex).SetBlock(b, cPosX, posY);
-        public void SetBlock(PositionData posData, Block b) => SetBlock(posData.x, posData.y, posData.ci, b);
+        public void SetBlock(PositionData posData, Block b) => GetChunk(posData.ci).SetBlock(b, posData.x, posData.y);
 
-        public Block GetBlock(int posX, int posY) //global x
+        public Block GetBlock(PositionData pos)
         {
-            int chunkIndex = posX >= 0
-                ? posX / 8
-                : (posX - 7) / 8;
-            int x = (posX % 8 + 8) % 8;
-            Chunk c = GetChunk(chunkIndex);
-            if(c == null) return null;
-            Block b =  c.GetBlock(x, posY);
+            Chunk c = GetChunk(pos.ci);
+            if (c == null) return null;
 
-            return b;
-        }
-
-        public Block GetBlock(int posX, int posY, int cIndex)
-        {
-            Chunk c = GetChunk(cIndex);
-            Block b = c.GetBlock(posX, posY);
-
+            Block b = c.GetBlock(pos.x, pos.y);
             return b;
         }
 
         public Chunk CreateChunk(int index)
         {
             Chunk newChunk = new Chunk(index);
-            totalChunkList.Add(newChunk);
             return newChunk;
         }
 
@@ -424,7 +409,7 @@ namespace SeeloewenCraft.game.core.world
                 LoadChunk(newChunk);
 
                 //Sort the chunklist again
-                loadedChunkList = loadedChunkList.OrderBy(obj =>  obj.index).ToList();
+                loadedChunkList = loadedChunkList.OrderBy(obj => obj.index).ToList();
 
                 //Send the chunk on the network
                 NetworkHandler.SendData(MultiplayerPacketType.CREATE_CHUNK, $"{newChunk.index}");

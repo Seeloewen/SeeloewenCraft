@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.core.world;
+﻿using SeeloewenCraft.game.core.blocks;
+using SeeloewenCraft.game.core.world;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace SeeloewenCraft.game.util
 {
     internal static class Raycast
     {
-        private static bool IsSolid(int x, int y) => World.Get().GetBlock(x, y).isSolid;
+        private static bool IsSolid(int x, int y) => World.Get().GetBlock(PositionData.FromGlobalX(x, y)).isSolid;
 
         public static List<Point> Cast(int x1, int y1, int x2, int y2)
         {

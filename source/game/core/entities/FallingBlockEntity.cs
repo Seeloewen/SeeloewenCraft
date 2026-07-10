@@ -18,9 +18,11 @@ namespace SeeloewenCraft.game.core.entities
                 Block block = BlockRegister.Get(blockType);
                 int blockX = (posX + 500) / 1000; // +500 is for rounding
                 int blockY = (posY + 500) / 1000;
-                if (World.Get().GetBlock(blockX, blockY) is AirBlock || World.Get().GetBlock(blockX, blockY) is WaterBlock)
+                PositionData pos = PositionData.FromGlobalX(blockX, blockY);
+
+                if (World.Get().GetBlock(pos) is AirBlock || World.Get().GetBlock(pos) is WaterBlock)
                 {
-                    World.Get().SetBlock(blockX, blockY, block);
+                    World.Get().SetBlock(pos, block);
                 }
                 else
                 {

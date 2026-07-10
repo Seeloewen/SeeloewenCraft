@@ -28,7 +28,7 @@ namespace SeeloewenCraft.game.core.commands
                     return;
                 }
 
-                World.Get().SetBlock(posX + 8 * chunkID, posY, block);
+                World.Get().SetBlock(new PositionData(posX, posY, chunkID), block);
                 HandleSystemMessage($"Successfully placed block {id} at x{posX} and y{posY} in chunk {chunkID}");
             }
             catch

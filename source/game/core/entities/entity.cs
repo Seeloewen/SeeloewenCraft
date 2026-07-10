@@ -40,7 +40,7 @@ namespace SeeloewenCraft.game.core.entities
         public int sizeX;
         public int sizeY;
 
-        public int posX;
+        public int posX; //Global
         public int posY;
 
         public int velX;
@@ -294,7 +294,7 @@ namespace SeeloewenCraft.game.core.entities
                     int endX = posX + sizeX - 1 - x * 1000;
                     int startY = posY - y * 1000;
                     int endY = posY + sizeY - 1 - y * 1000;
-                    bool[] blockTouching = World.Get().GetBlock(x, y).CheckTouch(startX, startY, endX, endY);
+                    bool[] blockTouching = World.Get().GetBlock(PositionData.FromGlobalX(x, y)).CheckTouch(startX, startY, endX, endY);
                     for (int i = 0; i < blockTouching.Length; i++)
                     {
                         touchingStatus[i] = touchingStatus[i] || blockTouching[i];
@@ -316,7 +316,7 @@ namespace SeeloewenCraft.game.core.entities
 
                     for (int y = startY / 1000; y <= endY / 1000; y++)
                     {
-                        Block b = World.Get().GetBlock(x, y);
+                        Block b = World.Get().GetBlock(PositionData.FromGlobalX(x, y));
                         (bool newCollision, int newMaxMovement) = b.CheckCollision(Direction.RIGHT, startX, endX, startY, endY);
                         if (newCollision)
                         {
@@ -341,7 +341,7 @@ namespace SeeloewenCraft.game.core.entities
 
                     for (int y = startY / 1000; y <= endY / 1000; y++)
                     {
-                        (bool newCollision, int newMaxMovement) = World.Get().GetBlock(x, y).CheckCollision(Direction.LEFT, startX, endX, startY, endY);
+                        (bool newCollision, int newMaxMovement) = World.Get().GetBlock(PositionData.FromGlobalX(x, y)).CheckCollision(Direction.LEFT, startX, endX, startY, endY);
                         if (newCollision)
                         {
                             collision = true;
@@ -367,7 +367,7 @@ namespace SeeloewenCraft.game.core.entities
 
                     for (int x = ConvertToBlockX(startX); x <= ConvertToBlockX(endX); x++)
                     {
-                        (bool newCollision, int newMaxMovement) = World.Get().GetBlock(x, y).CheckCollision(Direction.DOWN, startX, endX, startY, endY);
+                        (bool newCollision, int newMaxMovement) = World.Get().GetBlock(PositionData.FromGlobalX(x, y)).CheckCollision(Direction.DOWN, startX, endX, startY, endY);
                         if (newCollision)
                         {
                             collision = true;
@@ -392,7 +392,7 @@ namespace SeeloewenCraft.game.core.entities
 
                     for (int x = ConvertToBlockX(startX); x <= ConvertToBlockX(endX); x++)
                     {
-                        (bool newCollision, int newMaxMovement) = World.Get().GetBlock(x, y).CheckCollision(Direction.UP, startX, endX, startY, endY);
+                        (bool newCollision, int newMaxMovement) = World.Get().GetBlock(PositionData.FromGlobalX(x, y)).CheckCollision(Direction.UP, startX, endX, startY, endY);
                         if (newCollision)
                         {
                             collision = true;

@@ -33,7 +33,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             if (block.liquidSource.x == -1 || block.liquidSource.y == -1) return true;
 
-            Block source = World.Get().GetBlock(block.liquidSource.x, block.liquidSource.y, block.liquidSource.ci);
+            Block source = World.Get().GetBlock(block.liquidSource);
             Block sourceForeground = source.GetForegroundBlock();
 
             //Check that the block at the specified location is still a liquid of the same type
@@ -50,7 +50,7 @@ namespace SeeloewenCraft.game.core.blocks
             if (canExpandDown) //Prioritize downwards flow
             {
                 PositionData source = block.GetPosData();
-                PositionData newBlock = source.Move(0, 1);
+                PositionData newBlock = source.Offset(0, 1);
                 newBlocks[0] = (block.GetLiquid(6, Direction.DOWN, block.GetPosData()), newBlock);
             }
             else if (!canExpandDown && !block.GetBlockBelow().HasTag(block.liquidTag)) //If no expansion downwards was possible, try to expand to the sides
@@ -60,14 +60,14 @@ namespace SeeloewenCraft.game.core.blocks
                 if (CanExpandTowards(block, Direction.RIGHT))
                 {
                     PositionData source = block.GetPosData();
-                    PositionData newBlock = source.Move(1, 0);
+                    PositionData newBlock = source.Offset(1, 0);
                     newBlocks[0] = (block.GetLiquid(block.liquidLevel - 1, Direction.RIGHT, source), newBlock);
                 }
 
                 if (CanExpandTowards(block, Direction.LEFT))
                 {
                     PositionData source = block.GetPosData();
-                    PositionData newBlock = source.Move(-1, 0);
+                    PositionData newBlock = source.Offset(-1, 0);
                     int i = newBlocks[0].b == null ? 0 : 1; //Index in array may be different, depending on whether extension to the right worked
                     newBlocks[i] = (block.GetLiquid(block.liquidLevel - 1, Direction.LEFT, source), newBlock);
                 }

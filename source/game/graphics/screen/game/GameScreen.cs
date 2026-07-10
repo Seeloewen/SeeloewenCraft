@@ -24,7 +24,11 @@ namespace SeeloewenCraft.game.graphics
             int newBlockX = (int)Math.Floor((mouseX - GameCamera.blockXAnchor) / GameCamera.blockLength);
             int newBlockY = (int)-((mouseY - GameCamera.blockYAnchor) / (GameCamera.blockLength * Resolution.RATIO));
 
-            var block = World.Get().GetBlock(newBlockX, newBlockY);
+            PositionData pos = PositionData.FromGlobalX(newBlockX, newBlockY);
+
+            if (!pos.ChunkExists()) return;
+
+            var block = World.Get().GetBlock(pos);
             if (targetedBlock != block)
             {
 

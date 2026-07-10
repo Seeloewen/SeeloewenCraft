@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using DocumentFormat.OpenXml.Vml.Office;
+using Newtonsoft.Json.Linq;
 using SeeloewenCraft.game.core.blocks.components;
 using SeeloewenCraft.game.core.entities;
 using SeeloewenCraft.game.core.entities.inventory;
@@ -163,7 +164,7 @@ namespace SeeloewenCraft.game.core.blocks
                 sinceLastSpecificUpdate = 0;
             }
 
-            if(foregroundBlock != null) foregroundBlock.DoUpdate(dt);
+            if (foregroundBlock != null) foregroundBlock.DoUpdate(dt);
         }
 
         protected virtual void DoSpecificUpdate(double dt) { } //Can be overriden in blocks, for block-specific updates - run every 1s
@@ -364,7 +365,7 @@ namespace SeeloewenCraft.game.core.blocks
 
         public bool IsInRange()
         {
-            Block playerBlock = World.Get().GetBlock(Player.Get().posX / 1000, (Player.Get().posY / 1000) + 1);
+            Block playerBlock = World.Get().GetBlock(PositionData.FromGlobalX(Player.Get().posX / 1000, (Player.Get().posY / 1000) + 1));
             if (playerBlock != null)
             {
                 return (GetXRangeToBlock(playerBlock) < 5 && GetYRangeToBlock(playerBlock) < 5);
@@ -660,14 +661,14 @@ namespace SeeloewenCraft.game.core.blocks
         {
             if (chunk == null) return null;
 
-            return World.Get().GetBlock(GetAbsoluteX(), posY + 1);
+            return World.Get().GetBlock(GetPosData().Offset(0, 1));
         }
 
         public Block GetBlockAbove()
         {
             if (chunk == null) return null;
 
-            return World.Get().GetBlock(GetAbsoluteX(), posY - 1);
+            return World.Get().GetBlock(GetPosData().Offset(0, -1));
         }
 
         public Block GetBlockRight()
@@ -676,14 +677,14 @@ namespace SeeloewenCraft.game.core.blocks
 
             PositionData posData = GetPosData();
 
-            return World.Get().GetBlock(GetAbsoluteX() + 1, posY);
+            return World.Get().GetBlock(GetPosData().Offset(1, 0));
         }
 
         public Block GetBlockLeft()
         {
             if (chunk == null) return null;
 
-            return World.Get().GetBlock(GetAbsoluteX() - 1, posY);
+            return World.Get().GetBlock(GetPosData().Offset(-1, 0));
         }
 
         public void SetForegroundBlock(Block block)
@@ -707,7 +708,7 @@ namespace SeeloewenCraft.game.core.blocks
                 foreach (var conBlockInfo in baseBlock.connectedBlocks)
                 {
                     //Goes through all connected blocks and checks whether the block at the location, that they should be placed, at is solid
-                    Block block = World.Get().GetBlock(posX + 8 * chunk.index + conBlockInfo.xOffset, posY + conBlockInfo.yOffset);
+                    Block block = World.Get().GetBlock(GetPosData().Offset(conBlockInfo.xOffset, conBlockInfo.yOffset));
                     if (block != null && (block.isSolid || block.isBackground))
                     {
                         return false;
@@ -720,7 +721,7 @@ namespace SeeloewenCraft.game.core.blocks
                 foreach (var conBlockInfo in baseBlock.connectedBlocks)
                 {
                     //Goes through all connected blocks and checks whether the block at the location, that they should be placed, has a foreground block
-                    Block block = World.Get().GetBlock(posX + 8 * chunk.index + conBlockInfo.xOffset, posY + conBlockInfo.yOffset);
+                    Block block = World.Get().GetBlock(GetPosData().Offset(conBlockInfo.xOffset, conBlockInfo.yOffset));
                     if (block != null && (block.foregroundBlock != null || !block.isBackground))
                     {
                         return false;
@@ -734,14 +735,6 @@ namespace SeeloewenCraft.game.core.blocks
             }
         }
 
-        public void SetCoords(int posX, int posY, Chunk chunk) //TODO: This seems sketchy, rework it
-        {
-            //Warning: Only sets coords inside blocks, not inside chunk/blocklist
-            this.chunk = chunk;
-            this.posX = posX;
-            this.posY = posY;
-        }
-
         public List<Block> GetConnectedBlocks(bool inForeground) //Assumes this is a base block
         {
             //Get all connected blocks from the given coordinates
@@ -750,11 +743,11 @@ namespace SeeloewenCraft.game.core.blocks
             {
                 if (!inForeground)
                 {
-                    connectedBlocks.Add(World.Get().GetBlock(posX + 8 * chunk.index + entry.xOffset, posY + entry.yOffset));
+                    connectedBlocks.Add(World.Get().GetBlock(GetPosData().Offset(entry.xOffset, entry.yOffset)));
                 }
                 else
                 {
-                    connectedBlocks.Add(World.Get().GetBlock(posX + 8 * chunk.index + entry.xOffset, posY + entry.yOffset).foregroundBlock);
+                    connectedBlocks.Add(World.Get().GetBlock(GetPosData().Offset(entry.xOffset, entry.yOffset)).foregroundBlock);
                 }
             }
 
@@ -765,7 +758,7 @@ namespace SeeloewenCraft.game.core.blocks
         {
             if (baseBlockOffset.x != 0 && baseBlockOffset.y != 0)
             {
-                return World.Get().GetBlock(posX + chunk.index * 8 + (int)baseBlockOffset.x, posY + (int)baseBlockOffset.y);
+                return World.Get().GetBlock(GetPosData().Offset(baseBlockOffset.x, baseBlockOffset.y));
             }
             return null;
         }
@@ -775,7 +768,7 @@ namespace SeeloewenCraft.game.core.blocks
             foreach (var conBlock in baseBlock.connectedBlocks)
             {
                 //Place the connected block
-                Block oldBlock = World.Get().GetBlock(posX + 8 * chunk.index + conBlock.xOffset, posY + conBlock.yOffset);
+                Block oldBlock = World.Get().GetBlock(GetPosData().Offset(conBlock.xOffset, conBlock.yOffset));
                 Block newBlock = BlockRegister.Get(conBlock.blockId);
                 newBlock.baseBlockOffset = (-conBlock.xOffset, -conBlock.yOffset);
 
@@ -788,7 +781,7 @@ namespace SeeloewenCraft.game.core.blocks
             foreach (var conBlock in baseBlock.connectedBlocks)
             {
                 //Place the connected block
-                Block oldBlock = World.Get().GetBlock(posX + 8 * chunk.index + conBlock.xOffset, posY + conBlock.yOffset);
+                Block oldBlock = World.Get().GetBlock(GetPosData().Offset(conBlock.xOffset, conBlock.yOffset));
                 Block newBlock = BlockRegister.Get(conBlock.blockId);
                 newBlock.baseBlockOffset = (-conBlock.xOffset, -conBlock.yOffset);
 

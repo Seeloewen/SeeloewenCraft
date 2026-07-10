@@ -1,4 +1,6 @@
-﻿namespace SeeloewenCraft.game.core.blocks
+﻿using SeeloewenCraft.game.core.world;
+
+namespace SeeloewenCraft.game.core.blocks
 {
     public struct PositionData
     {
@@ -34,9 +36,15 @@
             ci = -1;
         }
 
-        public PositionData Move(int xo, int yo)
+        public bool ChunkExists() => World.Get().GetChunk(ci) != null;
+
+        public PositionData Offset(int xo, int yo)
         {
             return new PositionData(x + xo, y + yo, ci);
         }
+        public static PositionData FromGlobalX(int globalX, int y)
+        {
+            return new PositionData(globalX, y, 0);
+        } 
     }
 }

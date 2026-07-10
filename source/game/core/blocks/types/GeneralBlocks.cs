@@ -1044,8 +1044,8 @@ namespace SeeloewenCraft.game.core.blocks
             //Checks 4 blocks to the left and right on the same y level whether they are a water block
             for (int i = 1; i < 5; i++)
             {
-                Block blockRight = World.Get().GetBlock(GetAbsoluteX() + i, posY);
-                Block blockLeft = World.Get().GetBlock(GetAbsoluteX() - i, posY);
+                Block blockRight = World.Get().GetBlock(GetPosData().Offset(i, 0));
+                Block blockLeft = World.Get().GetBlock(GetPosData().Offset(-i, 0));
 
                 if (blockRight != null && blockRight.HasTag(BlockTags.LIQUIDS_WATER) //Blocks to the right
                     || blockLeft != null && blockLeft.HasTag(BlockTags.LIQUIDS_WATER)) //Blocks to the left

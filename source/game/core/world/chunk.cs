@@ -39,6 +39,8 @@ namespace SeeloewenCraft.game.core.world
 
             //Begin loading the chunk
             chunkDirectory = Path.Combine(World.Get().worldDirectory, $"chunk{index}");
+            World.Get().totalChunkList.Add(this);
+
             Init();
         }
 
