@@ -1,6 +1,6 @@
 # SeeloewenCraft
 
-SeeloewenCraft is a small 2D sandbox game inspired by Minecraft. You can create and save worlds, break and place blocks to build whatever you like, gather resources to craft new items and much more. There's also a lot more planned!\
+SeeloewenCraft is a simple 2D sandbox/survival game. You can create and save worlds, break and place blocks to build whatever you like, gather resources to craft new items and much more. There's also a lot more planned!\
 This game is developped as a fun/learning project and is not meant to be publicly available. It was just made for me to learn C# and WPF a little bit better. This also means that it might not be actively maintained and development may stop at some point.
 This repository is not used to distribute it, but rather for collaboration and to have it stored in a save place.
 
@@ -24,10 +24,9 @@ That's right! Using TCP you can play with your friends! One person has to host t
 Please note that Multiplayer is currently very unstable and insecure. Using it, especially with the wrong people, may put your computer at a risk. The creators of the game are not liable for any damage caused by Multiplayer or the game in general. Use at your own risk.
 
 ## Credits
-The base concept of the game is inspired by Minecraft. All credits go to Mojang Studios.\
 The game has been created by Seeloewen and CDLemmi.
 
-Special thanks to Finni for helping me find many issues by testing developmen versions and also for giving a lot of ideas.\
+Special thanks to Finni for helping me find many issues by testing development versions and also for giving a lot of ideas.\
 Special thanks to Axogurkel for helping me create some crafting recipes.
 
 Third-party libraries used are https://github.com/mzboray/HighPrecisionTimer and https://github.com/JamesNK/Newtonsoft.Json.
