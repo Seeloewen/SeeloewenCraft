@@ -630,7 +630,7 @@ namespace SeeloewenCraft.game.core.blocks
                 }
 
                 Block blockAbove = GetBlockAbove();
-                if (blockAbove.HasTag(BlockTags.CAN_FALL))
+                if (blockAbove != null && blockAbove.HasTag(BlockTags.CAN_FALL))
                 {
                     blockAbove.BreakBlock(true, true, false);
                     World.Get().AddEntity(new FallingBlockEntity(posX + 8 * chunk.index, posY - 1, blockAbove.id));
@@ -709,7 +709,7 @@ namespace SeeloewenCraft.game.core.blocks
                 {
                     //Goes through all connected blocks and checks whether the block at the location, that they should be placed, at is solid
                     Block block = World.Get().GetBlock(GetPosData().Offset(conBlockInfo.xOffset, conBlockInfo.yOffset));
-                    if (block != null && (block.isSolid || block.isBackground))
+                    if (block == null || block.isSolid || block.isBackground)
                     {
                         return false;
                     }

@@ -29,6 +29,8 @@ namespace SeeloewenCraft.game.graphics
             if (!pos.ChunkExists()) return;
 
             var block = World.Get().GetBlock(pos);
+            if (block == null) return;
+
             if (targetedBlock != block)
             {
 
