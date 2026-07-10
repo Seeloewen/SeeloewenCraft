@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SeeloewenCraft.game.core.blocks
+﻿namespace SeeloewenCraft.game.core.blocks
 {
     public struct PositionData
     {
@@ -14,9 +8,35 @@ namespace SeeloewenCraft.game.core.blocks
 
         public PositionData(int x, int y, int ci)
         {
+            //Try to normalize pos data by calculating chunk offset from x pos
+            while (x < 0)
+            {
+                ci--;
+                x += 8;
+            }
+
+            while (x > 7)
+            {
+                ci++;
+                x -= 8;
+            }
+
             this.x = x;
             this.y = y;
             this.ci = ci;
+        }
+
+        public PositionData()
+        {
+            //Returns invalid values
+            x = -1;
+            y = -1;
+            ci = -1;
+        }
+
+        public PositionData Move(int xo, int yo)
+        {
+            return new PositionData(x + xo, y + yo, ci);
         }
     }
 }

@@ -3,26 +3,12 @@ using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.util;
 
 namespace SeeloewenCraft.game.core.blocks
-{
-    internal struct LiquidSource
-    {
-        internal int x;
-        internal int y;
-        internal int cIndex;
-
-        internal LiquidSource(int x, int y, int cIndex)
-        {
-            this.x = x;
-            this.y = y;
-            this.cIndex = cIndex;
-        }
-    }
-
+{ 
     public abstract class LiquidBlock : Block
     {
         public int liquidLevel;
         public string liquidTag; //Used for identification in LiquidHandler
-        internal LiquidSource liquidSource { private set; get; }
+        internal PositionData liquidSource { private set; get; }
 
         protected LiquidBlock(string name, string id) : base(name, id, 0, null, Tool.None)
         {
@@ -32,7 +18,7 @@ namespace SeeloewenCraft.game.core.blocks
             WriteTag(BlockTags.CANT_BE_BACKGROUND);
             WriteTag(BlockTags.LIQUID_SOURCE);
 
-            liquidSource = new LiquidSource(-1, -1, -1);
+            liquidSource = new PositionData();
         }
 
         protected override void AppendJson(JObject obj)
@@ -40,7 +26,7 @@ namespace SeeloewenCraft.game.core.blocks
             obj.Add("liquid_level", liquidLevel);
             obj.Add("liquid_source_x", liquidSource.x);
             obj.Add("liquid_source_y", liquidSource.y);
-            obj.Add("liquid_source_c", liquidSource.cIndex);
+            obj.Add("liquid_source_c", liquidSource.ci);
         }
 
         protected override void LoadAdditionalData(JObject obj)
@@ -51,7 +37,7 @@ namespace SeeloewenCraft.game.core.blocks
             int y = obj.Get<int>("liquid_source_y");
             int c = obj.Get<int>("liquid_source_c");
 
-            liquidSource = new LiquidSource(x,y,c);
+            liquidSource = new PositionData(x,y,c);
         }
 
         protected override void DoSpecificUpdate(double dt)
@@ -59,9 +45,9 @@ namespace SeeloewenCraft.game.core.blocks
             LiquidHandler.DoUpdate(this);
         }
 
-        internal abstract LiquidBlock GetLiquid(int level, Direction dir, LiquidSource source);
+        internal abstract LiquidBlock GetLiquid(int level, Direction dir, PositionData source);
 
-        internal static void SetSource(LiquidBlock target, LiquidSource source)
+        internal static void SetSource(LiquidBlock target, PositionData source)
         {
             target.liquidSource = source;
         }
@@ -72,7 +58,7 @@ namespace SeeloewenCraft.game.core.blocks
 
             if(liquidSource.y == -1) //If no source block is set, use this as source
             {
-                liquidSource = new LiquidSource(posX, posY, chunk.index);
+                liquidSource = new PositionData(posX, posY, chunk.index);
             }
         }
 
@@ -90,7 +76,7 @@ namespace SeeloewenCraft.game.core.blocks
             base.UpdateDebugMenu();
             DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, $"sourceX", $"{liquidSource.x}");
             DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, $"sourceY", $"{liquidSource.y}");
-            DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, $"sourceC", $"{liquidSource.cIndex}");
+            DebugMenu.UpdateLine(DebugMenu.Section.TARGETED, $"sourceC", $"{liquidSource.ci}");
         }
     }
 }

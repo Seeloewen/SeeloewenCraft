@@ -1,6 +1,4 @@
 ﻿using SeeloewenCraft.game.util;
-using SeeloewenCraft.game.core;
-using System;
 using SeeloewenCraft.game.core.world;
 
 namespace SeeloewenCraft.game.core.blocks
@@ -27,13 +25,15 @@ namespace SeeloewenCraft.game.core.blocks
             //Try expanding the liquid
             foreach (var n in TryExpand(block))
             {
-                if(n.b != null) World.Get().SetBlock(n.x, n.y, n.c, n.b);
+                if (n.b != null) World.Get().SetBlock(n.pos, n.b);
             }
         }
 
         private static bool SourceExists(LiquidBlock block)
         {
-            Block source = World.Get().GetBlock(block.liquidSource.x, block.liquidSource.y, block.liquidSource.cIndex);
+            if (block.liquidSource.x == -1 || block.liquidSource.y == -1) return true;
+
+            Block source = World.Get().GetBlock(block.liquidSource.x, block.liquidSource.y, block.liquidSource.ci);
             Block sourceForeground = source.GetForegroundBlock();
 
             //Check that the block at the specified location is still a liquid of the same type
@@ -41,29 +41,35 @@ namespace SeeloewenCraft.game.core.blocks
                 || sourceForeground != null && sourceForeground is LiquidBlock lf && lf.liquidTag == block.liquidTag); //Source foreground
         }
 
-        private static (LiquidBlock b, int x, int y, int c)[] TryExpand(LiquidBlock block)
+        private static (LiquidBlock b, PositionData pos)[] TryExpand(LiquidBlock block)
         {
-            var newBlocks = new (LiquidBlock b, int x, int y, int c)[2];
+            var newBlocks = new (LiquidBlock b, PositionData pos)[2];
 
             bool canExpandDown = CanExpandTowards(block, Direction.DOWN);
 
             if (canExpandDown) //Prioritize downwards flow
             {
-                newBlocks[0] = (block.GetLiquid(6, Direction.DOWN, new LiquidSource(block.posX, block.posY, block.chunk.index)), block.posX, block.posY + 1, block.chunk.index);
+                PositionData source = block.GetPosData();
+                PositionData newBlock = source.Move(0, 1);
+                newBlocks[0] = (block.GetLiquid(6, Direction.DOWN, block.GetPosData()), newBlock);
             }
-            else if(!canExpandDown && !block.GetBlockBelow().HasTag(block.liquidTag)) //If not expansion downwards was possible, try to expand to the sides
+            else if (!canExpandDown && !block.GetBlockBelow().HasTag(block.liquidTag)) //If no expansion downwards was possible, try to expand to the sides
             {
                 if (block.liquidLevel == 1 || block.chunk == null) return newBlocks; //Only expand if the water hasn't reached the end of the stream
 
                 if (CanExpandTowards(block, Direction.RIGHT))
                 {
-                    newBlocks[0] = (block.GetLiquid(block.liquidLevel - 1, Direction.RIGHT, new LiquidSource(block.posX, block.posY, block.chunk.index)), block.posX + 1, block.posY, block.chunk.index);
+                    PositionData source = block.GetPosData();
+                    PositionData newBlock = source.Move(1, 0);
+                    newBlocks[0] = (block.GetLiquid(block.liquidLevel - 1, Direction.RIGHT, source), newBlock);
                 }
 
                 if (CanExpandTowards(block, Direction.LEFT))
                 {
-                    int i = newBlocks[0].b == null ? 0 : 1; //Index may be different, depending on whether extension to the right worked
-                    newBlocks[i] = (block.GetLiquid(block.liquidLevel - 1, Direction.LEFT, new LiquidSource(block.posX, block.posY, block.chunk.index)), block.posX - 1, block.posY, block.chunk.index);
+                    PositionData source = block.GetPosData();
+                    PositionData newBlock = source.Move(-1, 0);
+                    int i = newBlocks[0].b == null ? 0 : 1; //Index in array may be different, depending on whether extension to the right worked
+                    newBlocks[i] = (block.GetLiquid(block.liquidLevel - 1, Direction.LEFT, source), newBlock);
                 }
             }
 

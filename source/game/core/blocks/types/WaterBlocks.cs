@@ -14,7 +14,7 @@ namespace SeeloewenCraft.game.core.blocks
             WriteTag(liquidTag);
         }
 
-        internal override LiquidBlock GetLiquid(int level, Direction dir, LiquidSource source)
+        internal override LiquidBlock GetLiquid(int level, Direction dir, PositionData source)
         {
             string dirS = dir == Direction.RIGHT ? "right" : "left";
 
