@@ -169,12 +169,22 @@ namespace SeeloewenCraft.game
 
         public static void ShowException(Exception ex)
         {
+            string args = "";
+            if (ex.InnerException != null)
+            {
+                args = $"\"SeeloewenCraft\" \"{GAME_VERSION}\" \"{ex.InnerException.Message}\" \"{ex.InnerException.StackTrace}\" \"\"";
+            }
+            else
+            {
+                args = $"\"SeeloewenCraft\" \"{GAME_VERSION}\" \"{ex.Message}\" \"{ex.StackTrace}\" \"\"";
+            }
+
             //Display SealCrashHandler with the current exception
             Process.Start(new ProcessStartInfo
             {
                 FileName = "SealCrashHandler.exe",
                 UseShellExecute = true,
-                Arguments = $"\"SeeloewenCraft\" \"{GAME_VERSION}\" \"{ex.Message}\" \"{ex.StackTrace}\" \"\""
+                Arguments = args
             });
         }
         #endregion
