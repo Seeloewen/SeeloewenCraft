@@ -237,7 +237,7 @@ namespace SeeloewenCraft.game.core.entities
                 //Set the hp back to 10
                 base.SetHP(10);
 
-                NotificationHandler.Notify("sc:bone_item", "You died and were moved back to the world spawn.");
+                NotificationManager.Get().Notify("sc:bone_item", "You died and were moved back to the world spawn.");
             }
         }
 

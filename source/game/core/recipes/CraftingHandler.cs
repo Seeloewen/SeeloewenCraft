@@ -158,7 +158,7 @@ namespace SeeloewenCraft.game.core.crafting
                 Log.Write($"Completed crafting for {recipeAmount}x {currentRecipe.id} at workstation {workstationId} (x{block.posX} y{block.posY}, Chunk {block.chunk.index})", LogType.GENERAL, LogLevel.INFO);
             }
 
-            NotificationHandler.Notify(displayItem != null ? displayItem.id : "sc:crafting_table_item", $"Crafting for {recipeAmount}x {currentRecipe.displayName} completed!");
+            NotificationManager.Get().Notify(displayItem != null ? displayItem.id : "sc:crafting_table_item", $"Crafting for {recipeAmount}x {currentRecipe.displayName} completed!");
         }
 
         private void OnUpdate(double dt)

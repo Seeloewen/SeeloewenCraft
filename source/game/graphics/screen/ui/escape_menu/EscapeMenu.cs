@@ -68,7 +68,7 @@ namespace SeeloewenCraft.game.graphics
             () => Screen.showEscapeMenu = false,
             () => {
                     Screen.showEscapeMenu = false;
-                    Log.WriteD("Missing notification menu");
+                    ((IGuiData)NotificationManager.Get()).Show();
                   },
             () => {
                     Screen.showEscapeMenu = false;
@@ -78,7 +78,7 @@ namespace SeeloewenCraft.game.graphics
             () => {
                     Screen.showEscapeMenu = false;
                     World.Get().Save();
-                    NotificationHandler.Notify("sc:save", "Successfully saved the world!", "general");
+                    NotificationManager.Get().Notify("sc:save", "Successfully saved the world!", "general");
                   },
             () => Game.shouldClose = true,
 

@@ -15,6 +15,7 @@ using SeeloewenCraft.game.core.settings;
 using SeeloewenCraft.game.core.world.generation;
 using SeeloewenCraft.game.graphics;
 using SeeloewenCraft.game.networking;
+using SeeloewenCraft.game.notifications;
 using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using System;
@@ -40,6 +41,7 @@ namespace SeeloewenCraft.game.core.world
 
         public Player player { get => entityManager.player; }
         public EntityManager entityManager;
+        public NotificationManager notificationManager;
 
         private readonly string name;
         public string gameVersion;
@@ -76,6 +78,7 @@ namespace SeeloewenCraft.game.core.world
             GameEventHandler.Init();
             ChatHandler.Init();
             CraftingHandler.LoadRecipes();
+            notificationManager = new NotificationManager();
 
             InitWorldDirectory();
         }
@@ -485,6 +488,7 @@ namespace SeeloewenCraft.game.core.world
         {
             GameEventHandler.Update(dt);
             CraftingHandler.Update(dt);
+            notificationManager.Update(dt);
 
             if (blockUpdate)
             {

@@ -239,7 +239,7 @@ namespace SeeloewenCraft.game.networking
             }
             else
             {
-                NotificationHandler.Notify("sc:snowball_item", $"Your ping to the server is {Math.Round(double.Parse(packet.content[0]))}ms.");
+                NotificationManager.Get().Notify("sc:snowball_item", $"Your ping to the server is {Math.Round(double.Parse(packet.content[0]))}ms.");
                 Log.Write($"Your ping to the server is {Math.Round(double.Parse(packet.content[0]))}ms.", LogType.NETWORK, LogLevel.INFO);
             }
         }

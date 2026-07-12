@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Reflection.Metadata;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -47,6 +46,7 @@ namespace SeeloewenCraft.game.graphics
             "crafting_handler" => new CCrafting(data),
             "unchisel_handler" => new CUnchiseler(data),
             "creative_inventory" => new CCreativeInventory(data),
+            "notification_handler" => new CNotificationGui(),
             _ => null
         };
 

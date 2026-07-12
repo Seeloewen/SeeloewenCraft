@@ -25,7 +25,7 @@ namespace SeeloewenCraft.game.graphics
 
         protected override void OnUpdate(double dt)
         {
-            List<Notification> notifications = NotificationHandler.GetNotifications();
+            List<Notification> notifications = NotificationManager.Get().GetActiveNotifications();
 
             for(int i = 0; i < 9; i++)
             {

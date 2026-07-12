@@ -14,7 +14,7 @@ namespace SeeloewenCraft.game.core.events
 
             if (Settings.showAutoSaveNotification)
             {
-                NotificationHandler.Notify("sc:save", "Successfully Auto-Saved the world!", "general");
+                NotificationManager.Get().Notify("sc:save", "Successfully Auto-Saved the world!", "general");
             }
         }
     }

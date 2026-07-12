@@ -14,6 +14,7 @@ namespace SeeloewenCraft.game.graphics
         public static bool showEscapeMenu = false;
         public static bool showHotbar = true;
         public static bool showChat = false;
+        public static bool showNotifications = false;
 
         public static bool allowIngameInputs { get => !(showEscapeMenu || showIngameMenu || showGui || showChat); }
 
@@ -118,7 +119,7 @@ namespace SeeloewenCraft.game.graphics
             {
                 showDebugMenu = !showDebugMenu;
             }
-            else if(KeyBinds.CheckPressedFirst(KeyBinds.CREATIVE_MENU))
+            else if (KeyBinds.CheckPressedFirst(KeyBinds.CREATIVE_MENU))
             {
                 if (showGui)
                 {
