@@ -1,5 +1,6 @@
 ﻿using SeeloewenCraft.game.graphics.ui_lib;
 using SeeloewenCraft.game.notifications;
+using SeeloewenCraft.game.util.logging;
 
 namespace SeeloewenCraft.game.graphics
 {
@@ -49,7 +50,7 @@ namespace SeeloewenCraft.game.graphics
             cIcon = new CTexture("items", "", new Rectangle(x + 10, y + 8, x + 34, y + 32));
             AddChild(cIcon);
 
-            cCloseButton = new CButton(cCloseButton2_OnClick, "X", 3, "sc:stone_block", "blocks", new Rectangle(x + width - 40, y, x+width, y + 40));
+            cCloseButton = new CButton(cCloseButton2_OnClick, "X", 3, "sc:stone_block", "blocks", new Rectangle(x + width - 40, y, x + width, y + 40));
             AddChild(cCloseButton);
         }
 

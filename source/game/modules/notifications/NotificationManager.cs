@@ -1,4 +1,5 @@
-﻿using SeeloewenCraft.game.core.world;
+﻿using HtmlAgilityPack;
+using SeeloewenCraft.game.core.world;
 using SeeloewenCraft.game.graphics;
 using System.Collections.Generic;
 
@@ -40,5 +41,7 @@ namespace SeeloewenCraft.game.notifications
         }
 
         public static NotificationManager Get() => World.Get().notificationManager;
+
+        public int GetNotificationAmount() => notifications.Count;
     }
 }
