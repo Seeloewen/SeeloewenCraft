@@ -117,10 +117,14 @@ namespace SeeloewenCraft.game.graphics
             }
             else if (KeyBinds.CheckPressedFirst(KeyBinds.TOGGLE_DEBUG))
             {
+                if (showEscapeMenu) return;
+
                 showDebugMenu = !showDebugMenu;
             }
             else if (KeyBinds.CheckPressedFirst(KeyBinds.CREATIVE_MENU))
             {
+                if (showEscapeMenu) return;
+
                 if (showGui)
                 {
                     guiHandler.HideGuis();
@@ -134,10 +138,14 @@ namespace SeeloewenCraft.game.graphics
             }
             else if (KeyBinds.CheckPressedFirst(KeyBinds.CHAT))
             {
+                if (showEscapeMenu) return;
+
                 showChat = !showChat;
             }
             else if (KeyBinds.CheckPressedFirst(KeyBinds.SHOW_INV))
             {
+                if (showEscapeMenu) return;
+
                 if (showGui) //If currently visible, hide all guis
                 {
                     guiHandler.HideGuis();
