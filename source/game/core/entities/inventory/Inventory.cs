@@ -298,6 +298,7 @@ namespace SeeloewenCraft.game.core.entities.inventory
                     { "amount", slot.amount  },
                     { "tag", slot.tag }
                 };
+                itemsArr.Add(slotObj);
             }
 
             JObject obj = new JObject()
@@ -328,7 +329,7 @@ namespace SeeloewenCraft.game.core.entities.inventory
             for (int i = 0; i < slotArrayToken.Count; i++)
             {
                 JObject itemObj = (JObject)slotArrayToken[i];
-                InventorySlot slot = inventory.slots[0];
+                InventorySlot slot = inventory.slots[i];
 
                 string id = itemObj.Get<string>("id");
                 int amount = itemObj.Get<int>("amount");

@@ -11,6 +11,7 @@ using SeeloewenCraft.game.util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 
 namespace SeeloewenCraft.game.core.blocks
 {
@@ -294,7 +295,8 @@ namespace SeeloewenCraft.game.core.blocks
             JArray componentArray = obj.Get<JArray>("components");
             foreach (var comObj in componentArray)
             {
-                var type = comObj.Get<BlockComponentType>("type");
+                string typeString = comObj.Get<string>("type");
+                BlockComponentType type = (BlockComponentType)Enum.Parse(typeof(BlockComponentType), typeString);
                 BlockComponent com = block.GetComponent(type);
                 if (com == null) continue;
 

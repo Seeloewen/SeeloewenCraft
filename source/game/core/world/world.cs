@@ -465,7 +465,7 @@ namespace SeeloewenCraft.game.core.world
         public void DisplayDebugInformation()
         {
             //Show the debug information for the world in the debug menu
-            DebugMenu.AddLine(DebugMenu.Section.WORLD, "Version", $"{Game.GAME_VERSION} ({Game.VERSION_DATE})");
+            DebugMenu.AddLine(DebugMenu.Section.WORLD, "version", $"{Game.GAME_VERSION} ({Game.VERSION_DATE})");
             DebugMenu.AddLine(DebugMenu.Section.WORLD, "worldName", $"{name}");
             DebugMenu.AddLine(DebugMenu.Section.WORLD, "worldVersion", $"{Game.WORLD_VERSION}");
             DebugMenu.AddLine(DebugMenu.Section.WORLD, "seed", $"{seed}");
@@ -519,12 +519,10 @@ namespace SeeloewenCraft.game.core.world
                 if (chunk > player.currentChunk)
                 {
                     MoveLoadedChunks(Direction.RIGHT);
-                    Log.Write($"move chunks right {chunk} {player.currentChunk}", LogType.GENERAL, LogLevel.WARNING);
                 }
                 else
                 {
                     MoveLoadedChunks(Direction.LEFT);
-                    Log.Write($"move chunks left {chunk} {player.currentChunk}", LogType.GENERAL, LogLevel.WARNING);
                 }
             }
         }
