@@ -325,7 +325,7 @@ namespace SeeloewenCraft.game.core.entities.inventory
 
             //Go through all the items in the array and add them to the inventory      
             JArray slotArrayToken = json.Get<JArray>("slots");
-            for (int i = 0; i < slotsX * slotsY; i++)
+            for (int i = 0; i < slotArrayToken.Count; i++)
             {
                 JObject itemObj = (JObject)slotArrayToken[i];
                 InventorySlot slot = inventory.slots[0];

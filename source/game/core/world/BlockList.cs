@@ -1,6 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using Newtonsoft.Json.Linq;
 using SeeloewenCraft.game.core.blocks;
 using SeeloewenCraft.game.util;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SeeloewenCraft.game.core.world
 {
@@ -38,8 +41,9 @@ namespace SeeloewenCraft.game.core.world
             BlockList blockList = new BlockList(chunk);
 
             foreach (JObject blockObj in blockListArray)
-            {
+            {   
                 Block loadedBlock = Block.FromJson(blockObj);
+                loadedBlock.GetForegroundBlock()?.chunk = chunk; 
                 blockList.Add(loadedBlock, loadedBlock.posX, loadedBlock.posY);
             }
             return blockList;

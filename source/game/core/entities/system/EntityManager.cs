@@ -108,24 +108,27 @@ namespace SeeloewenCraft.game.core.entities
         }
 
         //stores every entity into json array
-        public JArray ToJson()
+        public JObject ToJson()
         {
+            JObject obj = new JObject();
+
             JArray entityArr = new JArray();
             foreach (Entity entity in entities)
             {
                 entityArr.Add(entity.ToJson());
             }
+            obj.Add("entities", entityArr);
 
-            return entityArr;
+            return obj;
         }
 
         //load constructor
         public EntityManager(JObject obj) : this()
         {
-            JArray list = obj.Get<JArray>("entities");
-            for (int i = 0; i < list.Count; i++)
+            JArray arr = JsonUtil.Get<JArray>(obj, "entities");
+            foreach (JObject e in arr)
             {
-                var entity = Entity.FromJson(list.Get<JObject>($"/{i}"));
+                var entity = Entity.FromJson(e);
                 if (entity is not Player)
                 {
                     Add(entity);

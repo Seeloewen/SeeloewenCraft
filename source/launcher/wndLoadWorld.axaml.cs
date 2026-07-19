@@ -40,8 +40,8 @@ namespace SeeloewenCraft.launcher
 
             //List the worlds in the combobox
             foreach (string world in worlds)
-            {
-                cbxWorld.Items.Add(world.Replace(FolderUtil.worldsFolder, ""));
+            {   
+                cbxWorld.Items.Add(new DirectoryInfo(world).Name);
             }
         }
 

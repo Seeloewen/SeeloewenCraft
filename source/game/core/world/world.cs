@@ -96,7 +96,7 @@ namespace SeeloewenCraft.game.core.world
         {
             World w = new World(name, 0, multiplayerType);
 
-            if (!CheckWorldVersion(w, Game.WORLD_VERSION)) throw new Exception(); //Check if the world version is compatible
+            if (!CheckWorldVersion(w, Game.WORLD_VERSION)) throw new Exception($"Incompatible world version."); //Check if the world version is compatible
             if (int.TryParse(w.LoadWorldSetting("seed"), out int s)) w.seed = s;
 
             w.Start(true);
@@ -111,9 +111,18 @@ namespace SeeloewenCraft.game.core.world
 
             InitEntityManager(loaded);
 
-            if (!loaded) CreateStartChunks(); //Create the start chunks if the world was never loaded before
+            (int x, int y) playerStartPos;
 
-            (int x, int y) playerStartPos = FindPlayerStartPos(loaded);
+            if (!loaded)
+            {
+                CreateSpawnChunks(3);
+                playerStartPos = CalcPlayerStartPos();
+            }
+            else
+            { 
+                playerStartPos = LoadPlayerStartPos();
+                CreateSpawnChunks(playerStartPos.x / 8000);
+            }
 
             //this isnt exactly true as posX=-1000 should be chunk -1 but is loaded as chunk 0,
             //however in first rendering tick it should get fixed automatically
@@ -187,7 +196,7 @@ namespace SeeloewenCraft.game.core.world
                 }
             }
 
-            return false;
+            return true;
         }
 
         private static async Task<ButtonResult> ShowOutdatedDialog()
@@ -347,38 +356,37 @@ namespace SeeloewenCraft.game.core.world
             Log.Write($"Created player at position x{playerPosX} y{playerPosY}", LogType.GENERAL, LogLevel.INFO);
         }
 
-        private (int x, int y) FindPlayerStartPos(bool loaded)
+        //When creating a world
+        private (int x, int y) CalcPlayerStartPos()
         {
-            //Load the player position if possible
-            if (loaded)
-            {
-                JObject playerPosObj = JsonUtil.ObjectFromFile(Path.Combine(worldDirectory, "player_position.json"));
-                int x = playerPosObj.Get<int>("pos_x");
-                int y = playerPosObj.Get<int>("pos_y");
-                Log.Write($"Loaded player start position at x{x} y{y}", LogType.GENERAL, LogLevel.INFO);
-                return (x, y);
-            }
-            else
-            {
-                //Calculate y position where the player starts
-                int posY = 0;
+            //Calculate y position where the player starts
+            int posY = 0;
 
-                foreach (Block block in GetChunk(3).blockList.blocks)
+            foreach (Block block in GetChunk(3).blockList.blocks)
+            {
+                if (block.posX == 4 && block.isSolid)
                 {
-                    if (block.posX == 4 && block.isSolid)
-                    {
-                        posY = block.posY;
-                        break;
-                    }
+                    posY = block.posY;
+                    break;
                 }
-
-                posY = Math.Max((posY * 1000) - 1900, 2000);
-
-                Log.Write($"Found player spawn point at position x{28050} y{posY}", LogType.GENERAL, LogLevel.INFO);
-                worldSpawnX = 28050;
-                worldSpawnY = posY;
-                return (28050, posY);
             }
+
+            posY = Math.Max((posY * 1000) - 1900, 2000);
+
+            Log.Write($"Found player spawn point at position x{28050} y{posY}", LogType.GENERAL, LogLevel.INFO);
+            worldSpawnX = 28050;
+            worldSpawnY = posY;
+            return (28050, posY);
+        }
+
+        //When loading a world
+        private (int x, int y) LoadPlayerStartPos()
+        {
+            JObject playerPosObj = JsonUtil.ObjectFromFile(Path.Combine(worldDirectory, "player_position.json"));
+            int x = playerPosObj.Get<int>("pos_x");
+            int y = playerPosObj.Get<int>("pos_y");
+            Log.Write($"Loaded player start position at x{x} y{y}", LogType.GENERAL, LogLevel.INFO);
+            return (x, y);
         }
 
         private void LoadStartChunks(int midChunk)
@@ -390,11 +398,11 @@ namespace SeeloewenCraft.game.core.world
             }
         }
 
-        private void CreateStartChunks()
+        private void CreateSpawnChunks(int midChunk)
         {
-            for (int i = 0; i <= 7; i++)
+            for (int i = midChunk - 3; i <= midChunk + 3; i++)
             {
-                Chunk c = CreateChunk(i);
+                CreateChunk(i);
             }
         }
 

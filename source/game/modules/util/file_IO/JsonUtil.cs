@@ -14,7 +14,15 @@ namespace SeeloewenCraft.game.util
                 JToken valueToken = obj[key];
                 if (valueToken == null) throw new Exception($"Could not find key {key} in JObject");
 
-                return valueToken.ToObject<T>();
+                if (typeof(T) == typeof(JObject) || typeof(T) == typeof(JArray))
+                {
+                    return valueToken.ToObject<T>();
+                }
+                else
+                {
+                    return valueToken.Value<T>();
+                }
+
             }
             catch (Exception e)
             {

@@ -1,4 +1,5 @@
-﻿using LibNoise;
+﻿using DocumentFormat.OpenXml.Presentation;
+using LibNoise;
 using LibNoise.Primitive;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -8,6 +9,7 @@ using SeeloewenCraft.game.util;
 using SeeloewenCraft.game.util.logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace SeeloewenCraft.game.core.world
@@ -96,7 +98,7 @@ namespace SeeloewenCraft.game.core.world
             Log.Write($"Initializing chunk {index}...", LogType.WORLD_GENERATION, LogLevel.INFO);
 
             //Check if the chunk doesn't already exist
-            if (Directory.Exists( Path.Combine(World.Get().worldDirectory, $"chunk{index}")))
+            if (Directory.Exists(Path.Combine(World.Get().worldDirectory, $"chunk{index}")))
             {
                 Load();
             }
@@ -120,8 +122,14 @@ namespace SeeloewenCraft.game.core.world
             Log.Write($"Loading chunk {index} from file...", LogType.WORLD_GENERATION, LogLevel.INFO);
 
             //load blocklist
-            JArray blockListArray = JsonUtil.ArrayFromFile(Path.Combine(World.Get().worldDirectory, $"chunk{index}", "blocks.json"));
+
+            JObject obj = JsonUtil.ObjectFromFile(Path.Combine(World.Get().worldDirectory, $"chunk{index}", "blocks.json"));
+            JArray blockListArray = JsonUtil.Get<JArray>(obj, "blocks");
+
+            var sw = Stopwatch.StartNew();
             blockList = BlockList.FromJson(blockListArray, this);
+            long i = sw.ElapsedMilliseconds;
+            Log.WriteD($"{i}");
 
             //load settings
             JObject settingsObj = JsonUtil.ObjectFromFile(Path.Combine(World.Get().worldDirectory, $"chunk{index}", "settings.json"));

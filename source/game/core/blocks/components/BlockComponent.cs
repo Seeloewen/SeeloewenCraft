@@ -13,7 +13,7 @@ namespace SeeloewenCraft.game.core.blocks.components
 
     public abstract class BlockComponent
     {
-        public string ToJson()
+        public JObject ToJson()
         {
             //Default construct for the block component
             JObject obj = new JObject
@@ -22,7 +22,7 @@ namespace SeeloewenCraft.game.core.blocks.components
                 { "content", GetContentJson() }
             };
 
-            return obj.ToString();
+            return obj;
         }
 
         protected virtual JToken GetContentJson() => new JValue("");

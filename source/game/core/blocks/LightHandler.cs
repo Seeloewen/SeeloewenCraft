@@ -10,10 +10,13 @@ namespace SeeloewenCraft.game.core.blocks
         internal static void UpdateLighting(Block block)
         {
             //Set light level based on range and it being a light source
-            int rangeTS = GetRangeToLS(block);
-            block.lightLevel = Math.Abs(Math.Max(0, Math.Min(lightRange, rangeTS)) -lightRange);
+            if (!block.isForeground)
+            {
+                int rangeTS = GetRangeToLS(block);
+                block.lightLevel = Math.Abs(Math.Max(0, Math.Min(lightRange, rangeTS)) - lightRange);
+            }
 
-            if(block.HasTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE)) block.isAirLightSource = IsAirLightSource(block);
+            if (block.HasTag(BlockTags.CAN_BE_AIR_LIGHTSOURCE)) block.isAirLightSource = IsAirLightSource(block);
         }
 
         private static int GetRangeToLS(Block block)
@@ -48,7 +51,7 @@ namespace SeeloewenCraft.game.core.blocks
 
             if (blockAbove == null) return true;
 
-            if(blockAbove != null && blockAbove.isAirLightSource) return true;
+            if (blockAbove != null && blockAbove.isAirLightSource) return true;
 
             return false;
         }

@@ -221,7 +221,7 @@ namespace SeeloewenCraft.game.core.blocks
                 { "id", id },
                 { "pos_x", posX },
                 { "pos_y", posY },
-                { "is_background", isBackground }
+                { "is_in_background", isBackground }
             };
 
             //Tags
@@ -272,9 +272,9 @@ namespace SeeloewenCraft.game.core.blocks
             Block block = BlockRegister.Get(id) ?? new AirBlock(); //Default to air if the id is invalid
 
             //Load basic attributes
-            block.posX = obj.Get<int>("/pos_x");
-            block.posY = obj.Get<int>("/pos_y");
-            if (obj.Get<bool>("/is_in_background")) block.MoveToBackground();
+            block.posX = obj.Get<int>("pos_x");
+            block.posY = obj.Get<int>("pos_y");
+            if (obj.Get<bool>("is_in_background")) block.MoveToBackground();
 
             //Get blocktags
             foreach (JToken tokenTag in obj.Get<JArray>("tags"))
@@ -283,12 +283,16 @@ namespace SeeloewenCraft.game.core.blocks
             }
 
             //Load foreground block
-            JObject blockToken = obj.Get<JObject>("foreground_block");
-            block.foregroundBlock = blockToken != null ? FromJson(blockToken) : null;
+            if (obj.ContainsKey("foreground_block"))
+            {
+                JObject blockToken = obj.Get<JObject>("foreground_block");
+                block.foregroundBlock = FromJson(blockToken);
+                block.foregroundBlock.isForeground = true;
+            }
 
             //Components
             JArray componentArray = obj.Get<JArray>("components");
-            foreach (JObject comObj in componentArray)
+            foreach (var comObj in componentArray)
             {
                 var type = comObj.Get<BlockComponentType>("type");
                 BlockComponent com = block.GetComponent(type);
@@ -527,6 +531,8 @@ namespace SeeloewenCraft.game.core.blocks
             }
             else
             {
+                List<Chunk> c = World.Get().totalChunkList;
+
                 //Else just get the block from the current chunk
                 return block.chunk.blockList.Get(block.posX + xOffset, block.posY + yOffset);
             }

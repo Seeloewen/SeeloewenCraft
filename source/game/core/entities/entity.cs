@@ -281,6 +281,9 @@ namespace SeeloewenCraft.game.core.entities
 
         protected void DoTouchCheck()
         {
+            if (World.Get().GetChunk(GetChunkIndex()) == null) return; //Temporary fix that stops entities in non-existant chunks from being tried for physics 
+            //TODO: actual load/unloading for entities
+
             touchingStatus = new bool[TOUCHING_STATUS_COUNT];
             if (posY < 0 || posY > 75000) return;
 
@@ -305,6 +308,9 @@ namespace SeeloewenCraft.game.core.entities
 
         protected (bool, int) DoCollisionCheck(Direction direction, int startX, int startY, int endX, int endY)
         {
+            if (World.Get().GetChunk(GetChunkIndex()) == null) return (false, 0); //Temporary fix that stops entities in non-existant chunks from being tried for physics 
+            //TODO: actual load/unloading for entities
+
             if (endY < 0 || endY > 75000 || posY < 0 || posY > 75000) return (false, 0);
 
             if (direction.IsRight())
